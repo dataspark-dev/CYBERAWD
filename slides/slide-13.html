@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Supply Chain &amp; Third-Party Risk — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+    .reveal-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .slide-main.reveal-stagger { gap: 14px; }
+
+    .slide .section-lead {
+      max-width: 100%;
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+
+    .reveal-click-zone.chain { max-width: 100% !important; }
+
+    .chain-left { width: 68px; }
+    .chain-icon {
+      width: 54px;
+      height: 54px;
+      font-size: 21px;
+      border-width: 3px;
+    }
+    .chain-line {
+      width: 4px;
+      min-height: 30px;
+    }
+    .chain-content {
+      padding: 18px 24px;
+      margin-bottom: 20px;
+      border-left-width: 5px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 54px;
+      background: #fff;
+      border-radius: 0 4px 4px 0;
+      box-shadow: var(--shadow-sm);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .chain-content h4 {
+      font-size: 20px;
+      margin-bottom: 6px;
+      letter-spacing: 0.2px;
+    }
+    .chain-content p {
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .chain-node.reveal-point {
+      /* max-height (not just opacity) so un-revealed stages don't reserve
+         their full layout space — otherwise the slide shows one node and a
+         large dead gap below it until every stage has been clicked through. */
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transform: translateY(12px);
+      transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+    }
+    .chain-node.reveal-point.shown {
+      max-height: 260px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .interact-hint {
+      font-size: 14px;
+      letter-spacing: 1.3px;
+    }
+    .interact-hint i { font-size: 14px; }
+    .reveal-btn {
+      font-size: 14px;
+      padding: 11px 26px;
+      border-radius: 22px;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .reveal-btn i { font-size: 13px; }
+
+    .slide .fact-box {
+      padding: 20px 26px;
+      margin: 14px 0;
+    }
+    .slide .fact-label {
+      font-size: 13px;
+      letter-spacing: 1.8px;
+      margin-bottom: 3px;
+    }
+    .slide .fact-text {
+      font-size: 19px;
+      line-height: 1.55;
+    }
+    .slide .callout-bar {
+      padding: 18px 28px;
+      margin: 10px 0;
+      gap: 16px;
+    }
+    .slide .callout-text {
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    .info-expand-btn {
+      font-size: 12.5px;
+      padding: 5px 12px;
+    }
+    .info-expand-panel {
+      font-size: 15.5px;
+      line-height: 1.65;
+    }
+    .glossary-popup {
+      font-size: 15px;
+    }
+    .slide-bridge {
+      font-size: 14px;
+      padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">2026 Threat Landscape</div>
+      <h1>THE THREAT YOU DON'T <span>CONTROL</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">You can secure your own devices, but you can't control a vendor's security. See how one compromised update can affect us.</p>
+
+      <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click "Reveal Next Stage" to build the chain</div>
+
+      <div class="reveal-click-zone chain" id="scZone">
+        <div class="chain-node reveal-point shown" style="--node-color:#06b6d4;">
+          <div class="chain-left"><div class="chain-icon"><i class="fas fa-box-open"></i></div><div class="chain-line"></div></div>
+          <div class="chain-content"><h4>1 · Vendor Software Update</h4><p>A software vendor we trust — fleet management, payroll, or ship management systems — sends out a routine update to thousands of customers, including us.</p></div>
+        </div>
+        <div class="chain-node reveal-point" style="--node-color:#f59e0b;">
+          <div class="chain-left"><div class="chain-icon"><i class="fas fa-bug"></i></div><div class="chain-line"></div></div>
+          <div class="chain-content"><h4>2 · Malicious Code Inserted</h4><p>Attackers have already broken into the vendor's <span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button" aria-label="Define build pipeline">build pipeline<span class="glossary-popup wide">The internal process a company uses to build and ship its software updates.</span></span> and hidden malicious code inside that update.</p></div>
+        </div>
+        <div class="chain-node reveal-point" style="--node-color:#ef4444;">
+          <div class="chain-left"><div class="chain-icon"><i class="fas fa-download"></i></div><div class="chain-line"></div></div>
+          <div class="chain-content"><h4>3 · Installed Automatically</h4><p>The tampered update installs through our usual update process – no phishing email required.</p></div>
+        </div>
+        <div class="chain-node reveal-point" style="--node-color:#991b1b;">
+          <div class="chain-left"><div class="chain-icon"><i class="fas fa-door-open"></i></div></div>
+          <div class="chain-content" style="margin-bottom:0;"><h4>4 · Backdoor Inside Our Network</h4><p>Attackers now have a way into our network, all through a vendor we already trusted.</p></div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:center;">
+        <button class="reveal-btn" data-zone="scZone"
+                data-label-more='<i class="fas fa-forward-step"></i> Reveal Next Stage'
+                data-label-done='<i class="fas fa-rotate-right"></i> Replay Simulation'
+                onclick="advanceRevealChain(this)"
+                aria-label="Reveal next stage or replay simulation">
+          <i class="fas fa-forward-step"></i> Reveal Next Stage
+        </button>
+      </div>
+
+      <div class="fact-box">
+        <i class="fas fa-lightbulb fact-icon"></i>
+        <div>
+          <div class="fact-label">Did You Know?</div>
+          <div class="fact-text">Most supply‑chain breaches are discovered <strong>months</strong> after the update first went out – that's why they cause so much damage.</div>
+        </div>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:#06b6d4;">[REPORT]</strong> <strong>GOLDEN RULE:</strong> You can't check every vendor's code, but if something behaves oddly right after an update, treat it as suspicious and report it.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
+        <div class="info-expand-panel">You can't inspect a vendor's internal code or process. But odd behaviour right after an update is still a visible, reportable signal – and reporting early limits the damage.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Workplace Security Behavior <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

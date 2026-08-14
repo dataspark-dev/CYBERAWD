@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Do's &amp; Don'ts — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 10px; }
+
+    .slide .section-lead {
+      font-size: 23px;
+      margin-bottom: 6px;
+    }
+    .interact-hint.center {
+      font-size: 14px;
+      letter-spacing: 1.3px;
+    }
+    .interact-hint.center i { font-size: 14px; }
+
+    .visual-compare {
+      max-width: 100% !important;
+      gap: 34px;
+      width: 100%;
+      margin: 0 auto;
+    }
+    .visual-col {
+      padding: 28px;
+      border-radius: var(--r-lg);
+    }
+    .visual-col.do-col {
+      background: rgba(16, 185, 129, 0.08);
+      border: 1.5px solid rgba(16, 185, 129, 0.3);
+    }
+    .visual-col.dont-col {
+      background: rgba(239, 68, 68, 0.06);
+      border: 1.5px solid rgba(239, 68, 68, 0.25);
+    }
+    .visual-col-head {
+      margin-bottom: 20px;
+      gap: 14px;
+    }
+    .visual-col-head i { font-size: 30px; }
+    .visual-col-head span {
+      font-size: 25px;
+      letter-spacing: 0.5px;
+    }
+    .visual-col.do-col .visual-col-head i { color: var(--green-dark); }
+    .visual-col.do-col .visual-col-head span { color: var(--green-dark); }
+    .visual-col.dont-col .visual-col-head i { color: var(--red-dark); }
+    .visual-col.dont-col .visual-col-head span { color: var(--red-dark); }
+
+    .visual-grid { gap: 16px; }
+    .visual-tile {
+      padding: 22px 16px;
+      gap: 10px;
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: box-shadow 0.15s, transform 0.1s;
+    }
+    .visual-tile:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .visual-tile i:not(.tile-caret) { font-size: 32px; }
+    .visual-tile span { font-size: 16.5px; line-height: 1.35; }
+    .visual-tile .tile-caret {
+      font-size: 11px;
+      color: var(--faint);
+      margin-top: 2px;
+      transition: transform 0.15s ease;
+    }
+    .visual-tile.open .tile-caret {
+      transform: rotate(180deg);
+    }
+    .tile-detail {
+      display: none;
+      margin-top: 8px;
+      font-size: 13.5px;
+      line-height: 1.5;
+      font-weight: 600;
+      animation: fadeIn 0.25s ease;
+    }
+    .visual-tile.open .tile-detail {
+      display: block;
+    }
+    .visual-col.do-col .tile-detail { color: #166534; }
+    .visual-col.dont-col .tile-detail { color: #7f1d1d; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .visual-tile:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    .slide-bridge {
+      font-size: 14px;
+      padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Quick Reference</div>
+      <h1>DO'S &amp; <span>DON'TS</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger" style="justify-content:center;">
+      <p class="section-lead">No long lists. Just the habits that stop nearly every attack.</p>
+      <p class="section-lead">Every habit here traces back to one simple rule: STOP → VERIFY → REPORT.</p>
+      <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click a tile to learn why it matters</div>
+
+      <div class="visual-compare">
+        <div class="visual-col do-col">
+          <div class="visual-col-head"><i class="fas fa-circle-check"></i><span>DO</span></div>
+          <div class="visual-grid reveal-stagger">
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-lock"></i><span>Lock Your Screen</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">Lock it the second you step away, even for a minute.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-shield-halved"></i><span>Verify Requests</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">Call back on a number you already have, not one they just gave you.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-key"></i><span>Use MFA</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">With MFA on, a stolen password alone can't get in.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-bullhorn"></i><span>Report Fast</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">Reporting something that turns out to be nothing is still the right call.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-plug"></i><span>Use Approved USB Drives</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">Unknown drives can install malware the moment they're plugged in.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-database"></i><span>Keep Data in Approved Systems</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">Approved tools have been checked for exactly this kind of risk.</div>
+            </div>
+          </div>
+        </div>
+        <div class="visual-col dont-col">
+          <div class="visual-col-head"><i class="fas fa-circle-xmark"></i><span>DON'T</span></div>
+          <div class="visual-grid reveal-stagger">
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-user-secret"></i><span>Reuse Passwords</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">One leaked site can unlock every other account that uses that password.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-link-slash"></i><span>Click Unknown Links</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">Go directly to the app or use a saved bookmark instead.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-triangle-exclamation"></i><span>Plug In Unknown USB</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">Treat any USB drive you didn't buy or verify as unsafe.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-robot"></i><span>Paste Into Public AI</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">That text can leave your control the moment you hit send.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-door-open"></i><span>Leave Desk Unlocked</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">An unlocked screen is an open door, even if you're gone for a minute.</div>
+            </div>
+            <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
+              <i class="fas fa-comment-slash"></i><span>Stay Silent</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">Silence is exactly what the attacker is counting on.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Closing <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      window.toggleTileDetail = function(el) {
+        const wasOpen = el.classList.contains('open');
+        el.classList.toggle('open');
+        el.setAttribute('aria-expanded', !wasOpen);
+      };
+
+      // Keyboard activation is handled globally in main.js via [role="button"] —
+      // no local keydown listener needed (one was here previously; it double-fired
+      // alongside the global handler and cancelled out the toggle on every keypress).
+
+      const resetTiles = () => {
+        document.querySelectorAll('.visual-tile.open').forEach(tile => {
+          tile.classList.remove('open');
+          tile.setAttribute('aria-expanded', 'false');
+        });
+      };
+      document.addEventListener('DOMContentLoaded', resetTiles);
+      if (window.SynergyUI) SynergyUI.onEntranceReset(resetTiles);
+    })();
+  </script>
+</body>
+</html>

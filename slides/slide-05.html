@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepfakes Beyond the Boardroom — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 24px; }
+
+    .section-lead {
+      max-width: 1600px;
+      font-size: 25px;
+      line-height: 1.6;
+    }
+
+    .interact-hint { font-size: 13px; }
+
+    .sc-icon {
+      width: 50px;
+      height: 50px;
+      font-size: 21px;
+      border-radius: 12px;
+    }
+    .sc-content h4 { font-size: 19px; }
+    .reveal-btn { font-size: 12.5px; padding: 8px 16px; }
+    .verdict-badge { font-size: 15px; }
+    .verdict i { font-size: 18px; }
+    .verdict p { font-size: 15.5px !important; }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 0;
+    }
+
+    .glossary-term .glossary-popup {
+      left: auto;
+      right: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Identity &amp; Trust</div>
+      <h1>DEEPFAKES BEYOND THE <span>BOARDROOM</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">The US$25M call wasn't a one‑off — it just made headlines. Click each card to see who else attackers are cloning, and why it works.</p>
+
+      <div class="interact-hint" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click "Reveal" on each card</div>
+
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon"><i class="fas fa-user-tie"></i></div>
+            <div class="sc-content">
+              <h4>Fake Recruiter Interview</h4>
+              <p>A candidate is interviewed by a polished "hiring manager" who later asks for a deposit or bank details to "process relocation."</p>
+            </div>
+          </div>
+          <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for hiring manager scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
+          <div class="verdict verdict-no">
+            <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
+            <p>AI‑generated recruiters have been used to steal personal and banking data. HR should always verify any recruiter or candidate call through official channels — never via a link in the interview invite.</p>
+          </div>
+        </div>
+
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon"><i class="fas fa-truck-field"></i></div>
+            <div class="sc-content">
+              <h4>Vendor Bank‑Change Call</h4>
+              <p>A long‑standing supplier calls — voice matches perfectly — to confirm a new bank account before the next invoice payment.</p>
+            </div>
+          </div>
+          <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for supplier scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
+          <div class="verdict verdict-no">
+            <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
+            <p>One recorded call is enough to clone a vendor's voice. Finance and Accounts should always confirm bank‑detail changes through a second channel — the number already on file, not the one they just gave you.</p>
+          </div>
+        </div>
+
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon"><i class="fas fa-ship"></i></div>
+            <div class="sc-content">
+              <h4>Crew Allotment Change Call</h4>
+              <p>Someone sounding exactly like a seafarer (or a family member) calls crewing or payroll asking to urgently change the bank details for a monthly wage allotment.</p>
+            </div>
+          </div>
+          <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for crew allotment scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
+          <div class="verdict verdict-no">
+            <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
+            <p>Allotment fraud is a known route for stealing seafarer wages. Never action a bank-detail change from one call alone — verify directly with the seafarer through a second, known-good channel.</p>
+          </div>
+        </div>
+
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon"><i class="fas fa-headset"></i></div>
+            <div class="sc-content">
+              <h4>IT Support "Callback"</h4>
+              <p>Someone who sounds exactly like your usual IT contact calls and asks you to read back a one‑time <span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button">MFA<span class="glossary-popup">A second proof of identity beyond your password — a code, app approval, or key.</span></span> code to "fix a login issue."</p>
+            </div>
+          </div>
+          <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for IT support scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
+          <div class="verdict verdict-no">
+            <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
+            <p>Real IT support never needs your MFA code. This trick is growing because it bypasses the login screen entirely.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Whoever you are, hold the line:</span>
+        <span class="impact-chip"><i class="fas fa-building-user" style="color:var(--cyan);"></i> HR: verify recruiters through official channels</span>
+        <span class="impact-chip"><i class="fas fa-university" style="color:var(--cyan);"></i> Finance/Accounts: confirm bank changes on file, not by phone</span>
+        <span class="impact-chip"><i class="fas fa-ship" style="color:var(--cyan);"></i> Crewing: verify allotment changes with the seafarer directly</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Never read back an MFA code</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong>GOLDEN RULE, RECAPPED:</strong> Money, credentials, or a process change — verify through a second, independent channel first. Onshore or offshore, it's not just a finance problem.</div>
+        <div class="key-principle"><div class="kp-val">4</div><div class="kp-label">Roles Just Like Yours</div></div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
+        <div class="info-expand-panel">The same manipulation works on any role — HR, Finance, Accounts, crewing, or shipboard teams — because it targets urgency and trust, not technology.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Phishing Evolution <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

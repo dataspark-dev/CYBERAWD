@@ -1,0 +1,1224 @@
+{
+  "generated_at": "2026-08-10T22:28:07",
+  "root": "C:\\Users\\SRIDHAR\\Documents\\TRININGPPT\\AWRCNTCS",
+  "total_slides_in_deckjs": 18,
+  "slide_files_on_disk": [
+    "slide-01.html",
+    "slide-02.html",
+    "slide-03.html",
+    "slide-04.html",
+    "slide-05.html",
+    "slide-06.html",
+    "slide-07.html",
+    "slide-08.html",
+    "slide-09.html",
+    "slide-10.html",
+    "slide-11.html",
+    "slide-12.html",
+    "slide-13.html",
+    "slide-14.html",
+    "slide-15.html",
+    "slide-16.html",
+    "slide-17.html",
+    "slide-18.html"
+  ],
+  "missing_files": [],
+  "orphan_files": [],
+  "flow_map": [
+    {
+      "group": "Welcome",
+      "slide_indexes": [
+        1,
+        2
+      ],
+      "files": [
+        "slide-01.html",
+        "slide-02.html"
+      ],
+      "titles": [
+        "Opening",
+        "Why Cybersecurity Matters"
+      ]
+    },
+    {
+      "group": "Deepfake Attacks",
+      "slide_indexes": [
+        3,
+        4,
+        5
+      ],
+      "files": [
+        "slide-03.html",
+        "slide-04.html",
+        "slide-05.html"
+      ],
+      "titles": [
+        "Deepfakes \u2014 The Concept",
+        "Deepfakes \u2014 Real vs Fake Simulation",
+        "Deepfakes Beyond the Boardroom"
+      ]
+    },
+    {
+      "group": "Phishing Evolution",
+      "slide_indexes": [
+        6,
+        7,
+        8
+      ],
+      "files": [
+        "slide-06.html",
+        "slide-07.html",
+        "slide-08.html"
+      ],
+      "titles": [
+        "Phishing Evolution",
+        "Beyond Email \u2014 Smishing & Vishing",
+        "Spot the Phish"
+      ]
+    },
+    {
+      "group": "AI & Chatbot Risks",
+      "slide_indexes": [
+        9,
+        10,
+        11
+      ],
+      "files": [
+        "slide-09.html",
+        "slide-10.html",
+        "slide-11.html"
+      ],
+      "titles": [
+        "AI & Chatbot Risks",
+        "Shadow AI \u2014 Unapproved Tools",
+        "When Attackers Use AI Too"
+      ]
+    },
+    {
+      "group": "Threat Landscape",
+      "slide_indexes": [
+        12,
+        13
+      ],
+      "files": [
+        "slide-12.html",
+        "slide-13.html"
+      ],
+      "titles": [
+        "Modern Threat Landscape",
+        "Supply Chain & Third-Party Risk"
+      ]
+    },
+    {
+      "group": "Workplace Security",
+      "slide_indexes": [
+        14,
+        15
+      ],
+      "files": [
+        "slide-14.html",
+        "slide-15.html"
+      ],
+      "titles": [
+        "Workplace Security Behavior",
+        "Passwords, MFA & Access Hygiene"
+      ]
+    },
+    {
+      "group": "Do's & Don'ts",
+      "slide_indexes": [
+        16,
+        17
+      ],
+      "files": [
+        "slide-16.html",
+        "slide-17.html"
+      ],
+      "titles": [
+        "See Something, Say Something",
+        "Do's & Don'ts"
+      ]
+    },
+    {
+      "group": "Closing",
+      "slide_indexes": [
+        18
+      ],
+      "files": [
+        "slide-18.html"
+      ],
+      "titles": [
+        "Closing"
+      ]
+    }
+  ],
+  "static_slides_no_components": [
+    "slide-01.html",
+    "slide-17.html",
+    "slide-18.html"
+  ],
+  "theme_root_vars": {
+    "--navy": "#001a4d",
+    "--navy-2": "#002a6e",
+    "--navy-3": "#000d26",
+    "--cyan": "#06b6d4",
+    "--cyan-light": "#67e8f9",
+    "--cyan-pale": "#a5f3fc",
+    "--blue": "#0062ff",
+    "--sky": "#0ea5e9",
+    "--amber": "#f59e0b",
+    "--amber-2": "#f0a500",
+    "--orange": "#f97316",
+    "--red": "#ef4444",
+    "--red-dark": "#991b1b",
+    "--red-2": "#dc2626",
+    "--green": "#10b981",
+    "--green-dark": "#16a34a",
+    "--purple": "#7c3aed",
+    "--ink": "#1e293b",
+    "--body-text": "#374151",
+    "--muted": "#64748b",
+    "--faint": "#94a3b8",
+    "--line": "#e2e8f0",
+    "--paper": "#f8fafc",
+    "--paper-2": "#f1f5f9",
+    "--white": "#ffffff"
+  },
+  "theme_usage": {
+    "dark": [
+      "slide-01.html",
+      "slide-18.html"
+    ],
+    "light": [
+      "slide-02.html",
+      "slide-03.html",
+      "slide-04.html",
+      "slide-05.html",
+      "slide-06.html",
+      "slide-07.html",
+      "slide-08.html",
+      "slide-09.html",
+      "slide-10.html",
+      "slide-11.html",
+      "slide-12.html",
+      "slide-13.html",
+      "slide-14.html",
+      "slide-15.html",
+      "slide-16.html",
+      "slide-17.html"
+    ]
+  },
+  "off_palette_colors": {
+    "#fff": [
+      "slide-01.html",
+      "slide-04.html",
+      "slide-06.html",
+      "slide-07.html",
+      "slide-18.html"
+    ],
+    "#052e16": [
+      "slide-04.html"
+    ],
+    "#0f2a1a": [
+      "slide-04.html"
+    ],
+    "#1a0505": [
+      "slide-04.html",
+      "slide-07.html"
+    ],
+    "#3a0b0b": [
+      "slide-04.html",
+      "slide-07.html"
+    ],
+    "#86efac": [
+      "slide-04.html"
+    ],
+    "#fca5a5": [
+      "slide-04.html",
+      "slide-06.html",
+      "slide-07.html"
+    ],
+    "#075985": [
+      "slide-06.html"
+    ],
+    "#b91c1c": [
+      "slide-06.html"
+    ],
+    "#bae6fd": [
+      "slide-06.html"
+    ],
+    "#e0f2fe": [
+      "slide-06.html"
+    ],
+    "#f0f9ff": [
+      "slide-06.html"
+    ],
+    "#fecaca": [
+      "slide-06.html"
+    ],
+    "#fee2e2": [
+      "slide-06.html"
+    ],
+    "#fef2f2": [
+      "slide-06.html"
+    ],
+    "#0b1c3e": [
+      "slide-07.html"
+    ],
+    "#111827": [
+      "slide-07.html"
+    ],
+    "#e5e7eb": [
+      "slide-07.html"
+    ],
+    "#475569": [
+      "slide-14.html"
+    ],
+    "#eab308": [
+      "slide-14.html",
+      "slide-15.html"
+    ],
+    "#0891b2": [
+      "slide-16.html"
+    ],
+    "#0a1e45": [
+      "slide-18.html"
+    ]
+  },
+  "slides": [
+    {
+      "index": 1,
+      "file": "slide-01.html",
+      "deck_title": "Opening",
+      "group": "Welcome",
+      "slide_tag": "CAMPAIGN LIVE // AWARENESS MONTH 2026",
+      "eyebrow": null,
+      "h1": "SYNERGY CYBER SECURITY AWARENESS MONTH",
+      "section_lead": [],
+      "cards": [],
+      "components": [],
+      "theme": "dark",
+      "hex_colors": [
+        "#0062ff",
+        "#06b6d4",
+        "#0ea5e9",
+        "#67e8f9",
+        "#fff"
+      ],
+      "off_palette_colors": [
+        "#fff"
+      ],
+      "var_colors": [
+        "--cyan"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN3.png",
+        "../assets/AFT3.png"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "file": "slide-02.html",
+      "deck_title": "Why Cybersecurity Matters",
+      "group": "Welcome",
+      "slide_tag": "INTRODUCTION // SLIDE 2 OF 18",
+      "eyebrow": "The State of Play",
+      "h1": "WHY CYBERSECURITY MATTERS NOW",
+      "section_lead": [
+        "Attacks aren't slowing down, and they no longer look like the obvious scams of a decade ago. The numbers tell the story."
+      ],
+      "cards": [],
+      "components": [
+        "count-up"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#06b6d4",
+        "#0ea5e9",
+        "#ef4444",
+        "#f59e0b"
+      ],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--muted",
+        "--orange",
+        "--paper-2",
+        "--red-2",
+        "--w",
+        "--white"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 3,
+      "file": "slide-03.html",
+      "deck_title": "Deepfakes \u2014 The Concept",
+      "group": "Deepfake Attacks",
+      "slide_tag": "DEEPFAKE ATTACKS \u00b7 SLIDE 1 OF 3 \u00b7 HIGH PRIORITY",
+      "eyebrow": "Identity & Trust",
+      "h1": "DEEPFAKE ATTACKS: THE CONCEPT",
+      "section_lead": [
+        "AI can clone a colleague's voice from a 10-second clip and generate a live \"video call\" of your CFO in real time. Watch how a real person becomes a weaponized clone."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "Voice Cloning",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Video / Face Swap",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Synthetic Documents",
+          "body": null
+        }
+      ],
+      "components": [
+        "flip-card"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#0062ff",
+        "#7c3aed",
+        "#ef4444"
+      ],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--cyan",
+        "--faint",
+        "--line"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 4,
+      "file": "slide-04.html",
+      "deck_title": "Deepfakes \u2014 Real vs Fake Simulation",
+      "group": "Deepfake Attacks",
+      "slide_tag": "DEEPFAKE ATTACKS \u00b7 SLIDE 2 OF 3 \u00b7 SIMULATION",
+      "eyebrow": "Try It Yourself",
+      "h1": "REAL VS FAKE \u2014 TOGGLE TO COMPARE",
+      "section_lead": [
+        "Flip the switch below. Then click the glowing markers on the deepfake call to see exactly what gives it away."
+      ],
+      "cards": [],
+      "components": [
+        "hotspot",
+        "toggle-switch"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#052e16",
+        "#0f2a1a",
+        "#1a0505",
+        "#3a0b0b",
+        "#86efac",
+        "#fca5a5",
+        "#fff"
+      ],
+      "off_palette_colors": [
+        "#052e16",
+        "#0f2a1a",
+        "#1a0505",
+        "#3a0b0b",
+        "#86efac",
+        "#fca5a5",
+        "#fff"
+      ],
+      "var_colors": [
+        "--body-text",
+        "--line",
+        "--purple"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 5,
+      "file": "slide-05.html",
+      "deck_title": "Deepfakes Beyond the Boardroom",
+      "group": "Deepfake Attacks",
+      "slide_tag": "DEEPFAKE ATTACKS \u00b7 SLIDE 3 OF 3 \u00b7 WIDER TARGETS",
+      "eyebrow": "Identity & Trust",
+      "h1": "DEEPFAKES BEYOND THE BOARDROOM",
+      "section_lead": [
+        "The $25M call wasn't a one-off \u2014 it just made headlines. Click each scenario to see who else attackers are cloning, and why it works."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "The \"Hiring Manager\" Interview",
+          "body": "A candidate is interviewed over video by a polished \"hiring manager\" who later asks for a security deposit or bank details to \"process relocation.\""
+        },
+        {
+          "tag": "h4",
+          "heading": "The \"Supplier\" Bank Update",
+          "body": "A long-standing vendor's accounts contact calls \u2014 voice matches perfectly \u2014 to confirm a bank account change ahead of the next invoice payment."
+        },
+        {
+          "tag": "h4",
+          "heading": "The \"IT Support\" Callback",
+          "body": "Someone sounding exactly like your usual IT contact calls asking you to read back a one-time MFA code to \"fix a login issue.\""
+        }
+      ],
+      "components": [
+        "scenario-card"
+      ],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 6,
+      "file": "slide-06.html",
+      "deck_title": "Phishing Evolution",
+      "group": "Phishing Evolution",
+      "slide_tag": "PHISHING EVOLUTION \u00b7 OLD VS MODERN",
+      "eyebrow": "Email, SMS & Voice",
+      "h1": "PHISHING HAS EVOLVED",
+      "section_lead": [
+        "Phishing no longer looks like the crude emails from 2015 \u2014 drag to compare, then click the flags below."
+      ],
+      "cards": [],
+      "components": [
+        "compare-slider",
+        "hotspot"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#075985",
+        "#991b1b",
+        "#b91c1c",
+        "#bae6fd",
+        "#dc2626",
+        "#e0f2fe",
+        "#f0f9ff",
+        "#fca5a5",
+        "#fecaca",
+        "#fee2e2",
+        "#fef2f2",
+        "#fff"
+      ],
+      "off_palette_colors": [
+        "#075985",
+        "#b91c1c",
+        "#bae6fd",
+        "#e0f2fe",
+        "#f0f9ff",
+        "#fca5a5",
+        "#fecaca",
+        "#fee2e2",
+        "#fef2f2",
+        "#fff"
+      ],
+      "var_colors": [
+        "--body-text",
+        "--line",
+        "--navy"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 7,
+      "file": "slide-07.html",
+      "deck_title": "Beyond Email \u2014 Smishing & Vishing",
+      "group": "Phishing Evolution",
+      "slide_tag": "PHISHING EVOLUTION \u00b7 SMISHING & VISHING",
+      "eyebrow": "Email, SMS & Voice",
+      "h1": "PHISHING GOES MULTI-CHANNEL",
+      "section_lead": [
+        "Email isn't the only door in. Toggle between a text scam and a phone scam, then click the flags on each."
+      ],
+      "cards": [],
+      "components": [
+        "hotspot",
+        "toggle-switch"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#001a4d",
+        "#0b1c3e",
+        "#111827",
+        "#1a0505",
+        "#3a0b0b",
+        "#e5e7eb",
+        "#fca5a5",
+        "#fff"
+      ],
+      "off_palette_colors": [
+        "#0b1c3e",
+        "#111827",
+        "#1a0505",
+        "#3a0b0b",
+        "#e5e7eb",
+        "#fca5a5",
+        "#fff"
+      ],
+      "var_colors": [
+        "--body-text",
+        "--line"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'Beyond Email \u2014 Smishing & Vishing' shares no significant words with this slide's <h1> 'PHISHING GOES MULTI-CHANNEL'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "file": "slide-08.html",
+      "deck_title": "Spot the Phish",
+      "group": "Phishing Evolution",
+      "slide_tag": "PHISHING EVOLUTION \u00b7 INTERACTIVE CHALLENGE",
+      "eyebrow": "Put It Into Practice",
+      "h1": "SPOT THE PHISH",
+      "section_lead": [
+        "Two IT emails, one of them fake. Click the one you think is the phishing attempt."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "IT Service Desk \u2014 Password Expiry Notice",
+          "body": "From: it.support@synergymarinegroup.com \u2014 \"Your password expires in 7 days. Reset it anytime from the Fleet Portal app.\""
+        },
+        {
+          "tag": "h4",
+          "heading": "IT Service Desk \u2014 Urgent: Access Suspended",
+          "body": "From: it-support@synergymarinegr0up.com \u2014 \"Your Fleet Portal access has been suspended. Click below within 2 hours to restore it.\""
+        }
+      ],
+      "components": [
+        "spot-grid"
+      ],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--line"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 9,
+      "file": "slide-09.html",
+      "deck_title": "AI & Chatbot Risks",
+      "group": "AI & Chatbot Risks",
+      "slide_tag": "AI & CHATBOT RISKS \u00b7 DATA FLOW SIMULATION",
+      "eyebrow": "Artificial Intelligence",
+      "h1": "WHAT HAPPENS WHEN YOU PASTE DATA?",
+      "section_lead": [
+        "Paste a message into a public AI chatbot, and your text leaves your control instantly."
+      ],
+      "cards": [],
+      "components": [
+        "flow-scene"
+      ],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'AI & Chatbot Risks' shares no significant words with this slide's <h1> 'WHAT HAPPENS WHEN YOU PASTE DATA?'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "file": "slide-10.html",
+      "deck_title": "Shadow AI \u2014 Unapproved Tools",
+      "group": "AI & Chatbot Risks",
+      "slide_tag": "AI & CHATBOT RISKS \u00b7 SHADOW AI CHECK",
+      "eyebrow": "Artificial Intelligence",
+      "h1": "SHADOW AI: THE UNAPPROVED TOOLS",
+      "section_lead": [
+        "Not every AI risk looks like a chatbot window. Click each tool below if you've seen it used on your team \u2014 then make sure it's actually on the approved list."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "Browser AI Extensions",
+          "body": "Free \"AI assistant\" add-ons that read and summarize every page you visit \u2014 including internal systems."
+        },
+        {
+          "tag": "h4",
+          "heading": "Personal AI Accounts",
+          "body": "Signing into a personal chatbot account instead of the company-approved one to get work done faster."
+        },
+        {
+          "tag": "h4",
+          "heading": "AI Meeting Note-Takers",
+          "body": "Bots that join calls to auto-transcribe and summarize \u2014 sending your meeting content to a third-party server."
+        },
+        {
+          "tag": "h4",
+          "heading": "AI Resume / Interview Tools",
+          "body": "AI writing helpers used on CVs or interview prep that ask for personal or company details."
+        },
+        {
+          "tag": "h4",
+          "heading": "Unauthorized Coding Copilots",
+          "body": "Code-completion plugins that send your code snippets off-network for suggestions."
+        },
+        {
+          "tag": "h4",
+          "heading": "Translation & Summarizer Plugins",
+          "body": "Free \"summarize this doc\" or translation tools layered onto email or file-sharing apps."
+        }
+      ],
+      "components": [
+        "checklist-grid"
+      ],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 11,
+      "file": "slide-11.html",
+      "deck_title": "When Attackers Use AI Too",
+      "group": "AI & Chatbot Risks",
+      "slide_tag": "AI & CHATBOT RISKS \u00b7 ATTACKER'S TOOLKIT",
+      "eyebrow": "Artificial Intelligence",
+      "h1": "WHEN ATTACKERS USE AI TOO",
+      "section_lead": [
+        "Every AI capability that helps you can help an attacker just as easily. Toggle to see the difference."
+      ],
+      "cards": [
+        {
+          "tag": "h3",
+          "heading": "Generic Lures",
+          "body": "Mass emails with awkward phrasing, blasted to thousands of addresses hoping a few click."
+        },
+        {
+          "tag": "h3",
+          "heading": "One Voice, One Script",
+          "body": "A vishing caller stuck with their own accent and a rehearsed script that doesn't adapt."
+        },
+        {
+          "tag": "h3",
+          "heading": "Hand-Written Malware",
+          "body": "Code built manually \u2014 slower to produce and easier for security tools to recognize."
+        },
+        {
+          "tag": "h3",
+          "heading": "Personalized at Scale",
+          "body": "Perfectly-written, tailored lures generated instantly for every target, referencing real names and real projects."
+        },
+        {
+          "tag": "h3",
+          "heading": "Any Voice, Any Accent",
+          "body": "A cloned voice \u2014 including yours or a colleague's \u2014 generated on demand for a live call."
+        },
+        {
+          "tag": "h3",
+          "heading": "Self-Mutating Malware",
+          "body": "AI rewrites malicious code automatically so each copy looks different to detection tools."
+        }
+      ],
+      "components": [
+        "toggle-switch"
+      ],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 12,
+      "file": "slide-12.html",
+      "deck_title": "Modern Threat Landscape",
+      "group": "Threat Landscape",
+      "slide_tag": "MODERN THREAT LANDSCAPE \u00b7 2026",
+      "eyebrow": "2026 Threat Landscape",
+      "h1": "FOUR THREATS SHAPING 2026",
+      "section_lead": [
+        "Click each card to see how attackers are operating differently this year."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "Ransomware",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Social Engineering",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Insider Threats",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Cloud Risks",
+          "body": null
+        }
+      ],
+      "components": [
+        "flip-card"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#0062ff",
+        "#7c3aed",
+        "#ef4444",
+        "#f59e0b"
+      ],
+      "off_palette_colors": [],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'Modern Threat Landscape' shares no significant words with this slide's <h1> 'FOUR THREATS SHAPING 2026'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    },
+    {
+      "index": 13,
+      "file": "slide-13.html",
+      "deck_title": "Supply Chain & Third-Party Risk",
+      "group": "Threat Landscape",
+      "slide_tag": "MODERN THREAT LANDSCAPE \u00b7 SUPPLY CHAIN",
+      "eyebrow": "2026 Threat Landscape",
+      "h1": "THE THREAT YOU DON'T CONTROL",
+      "section_lead": [
+        "You can lock your own laptop. You can't lock a vendor's. Click through to see how one compromised update becomes our problem."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "1 \u00b7 Vendor Software Update",
+          "body": "A trusted software vendor pushes a routine update to thousands of customers \u2014 including us."
+        },
+        {
+          "tag": "h4",
+          "heading": "2 \u00b7 Malicious Code Inserted",
+          "body": "Attackers already compromised the vendor's build pipeline and slipped malicious code into that same update."
+        },
+        {
+          "tag": "h4",
+          "heading": "3 \u00b7 Installed Automatically",
+          "body": "The tampered update installs through our normal, trusted update process \u2014 no phishing email required."
+        },
+        {
+          "tag": "h4",
+          "heading": "4 \u00b7 Backdoor Inside Our Network",
+          "body": "Attackers now have a foothold inside our systems, entirely through a vendor we already trusted."
+        }
+      ],
+      "components": [
+        "reveal-click-zone"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#06b6d4",
+        "#991b1b",
+        "#ef4444",
+        "#f59e0b"
+      ],
+      "off_palette_colors": [],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'Supply Chain & Third-Party Risk' shares no significant words with this slide's <h1> 'THE THREAT YOU DON'T CONTROL'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    },
+    {
+      "index": 14,
+      "file": "slide-14.html",
+      "deck_title": "Workplace Security Behavior",
+      "group": "Workplace Security",
+      "slide_tag": "WORKPLACE SECURITY \u00b7 EVERYDAY BEHAVIOR",
+      "eyebrow": "Everyday Defense",
+      "h1": "YOUR DESK IS PART OF THE PERIMETER",
+      "section_lead": [
+        "Click the markers to spot the risk. Then watch what should happen the moment you step away."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "Simulate an Idle Desk",
+          "body": "Watch what should happen the moment you walk away \u2014 a screen with sensitive data open is an open door."
+        }
+      ],
+      "components": [
+        "hotspot",
+        "lock-demo"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#0062ff",
+        "#1e293b",
+        "#475569",
+        "#64748b",
+        "#e2e8f0",
+        "#eab308",
+        "#f1f5f9"
+      ],
+      "off_palette_colors": [
+        "#475569",
+        "#eab308"
+      ],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'Workplace Security Behavior' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    },
+    {
+      "index": 15,
+      "file": "slide-15.html",
+      "deck_title": "Passwords, MFA & Access Hygiene",
+      "group": "Workplace Security",
+      "slide_tag": "WORKPLACE SECURITY \u00b7 ACCESS HYGIENE",
+      "eyebrow": "Everyday Defense",
+      "h1": "YOUR LOGIN IS PART OF THE PERIMETER",
+      "section_lead": [
+        "Click the markers to see what a well-defended account looks like \u2014 and what an attacker hopes you never fix."
+      ],
+      "cards": [],
+      "components": [
+        "hotspot"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#16a34a",
+        "#dc2626",
+        "#e2e8f0",
+        "#eab308",
+        "#f1f5f9"
+      ],
+      "off_palette_colors": [
+        "#eab308"
+      ],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'Passwords, MFA & Access Hygiene' shares no significant words with this slide's <h1> 'YOUR LOGIN IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    },
+    {
+      "index": 16,
+      "file": "slide-16.html",
+      "deck_title": "See Something, Say Something",
+      "group": "Do's & Don'ts",
+      "slide_tag": "DO'S & DON'TS \u00b7 REPORTING CHANNELS",
+      "eyebrow": "Speak Up",
+      "h1": "SEE SOMETHING, SAY SOMETHING",
+      "section_lead": [
+        "Every red flag we've covered ends the same way: report it. Click each card to see exactly where."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "IT Service Desk",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Report-Phish Button",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Security Hotline",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Your Line Manager",
+          "body": null
+        }
+      ],
+      "components": [
+        "flip-card"
+      ],
+      "theme": "light",
+      "hex_colors": [
+        "#0062ff",
+        "#0891b2",
+        "#7c3aed",
+        "#ef4444"
+      ],
+      "off_palette_colors": [
+        "#0891b2"
+      ],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 17,
+      "file": "slide-17.html",
+      "deck_title": "Do's & Don'ts",
+      "group": "Do's & Don'ts",
+      "slide_tag": "6 DO'S, 6 DON'TS",
+      "eyebrow": "Quick Reference \u2014 Visual Only",
+      "h1": "DO'S & DON'TS",
+      "section_lead": [
+        "No long lists. Just the habits that stop almost every attack."
+      ],
+      "cards": [],
+      "components": [],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN.png",
+        "../assets/AFT.png"
+      ],
+      "flags": []
+    },
+    {
+      "index": 18,
+      "file": "slide-18.html",
+      "deck_title": "Closing",
+      "group": "Closing",
+      "slide_tag": "CAMPAIGN COMPLETE // AWARENESS MONTH 2026",
+      "eyebrow": null,
+      "h1": "THANK YOU",
+      "section_lead": [],
+      "cards": [],
+      "components": [],
+      "theme": "dark",
+      "hex_colors": [
+        "#0062ff",
+        "#06b6d4",
+        "#0a1e45",
+        "#0ea5e9",
+        "#10b981",
+        "#67e8f9",
+        "#fff"
+      ],
+      "off_palette_colors": [
+        "#0a1e45",
+        "#fff"
+      ],
+      "var_colors": [
+        "--cyan"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/SYN3.png",
+        "../assets/AFT3.png"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    }
+  ],
+  "all_flags": [
+    {
+      "file": "slide-01.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    },
+    {
+      "file": "slide-07.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'Beyond Email \u2014 Smishing & Vishing' shares no significant words with this slide's <h1> 'PHISHING GOES MULTI-CHANNEL'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    },
+    {
+      "file": "slide-09.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'AI & Chatbot Risks' shares no significant words with this slide's <h1> 'WHAT HAPPENS WHEN YOU PASTE DATA?'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    },
+    {
+      "file": "slide-12.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'Modern Threat Landscape' shares no significant words with this slide's <h1> 'FOUR THREATS SHAPING 2026'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    },
+    {
+      "file": "slide-13.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'Supply Chain & Third-Party Risk' shares no significant words with this slide's <h1> 'THE THREAT YOU DON'T CONTROL'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    },
+    {
+      "file": "slide-14.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'Workplace Security Behavior' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    },
+    {
+      "file": "slide-15.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'Passwords, MFA & Access Hygiene' shares no significant words with this slide's <h1> 'YOUR LOGIN IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    },
+    {
+      "file": "slide-18.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    }
+  ]
+}

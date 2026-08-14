@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Workplace Security Behavior — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 16px; }
+
+    .slide .section-lead {
+      max-width: 100%;
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+    .interact-hint {
+      font-size: 14px;
+      letter-spacing: 1.3px;
+    }
+    .interact-hint i { font-size: 14px; }
+
+    .two-col {
+      gap: 24px;
+      align-items: stretch;
+    }
+    .two-col > div {
+      display: flex;
+      flex-direction: column;
+    }
+    .two-col > div:last-child {
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .scene { flex: 1; display: flex; }
+    .scene-media {
+      flex: 1;
+      min-height: 460px !important;
+      position: relative;
+    }
+    .scene-media i.fa-desktop { font-size: 130px !important; }
+    .scene-media i.fa-keyboard { font-size: 48px !important; }
+    .scene-media i.fa-note-sticky { font-size: 54px !important; }
+    .scene-media i.fa-hard-drive { font-size: 44px !important; }
+    .scene-media i.fa-id-badge { font-size: 52px !important; }
+
+    .hotspot {
+      width: 42px;
+      height: 42px;
+    }
+    .hotspot-tip {
+      width: 300px;
+      font-size: 16px;
+      padding: 13px 16px;
+    }
+
+    .lock-demo {
+      padding: 26px 30px;
+      gap: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--r-lg);
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+    .lock-ring {
+      width: 120px;
+      height: 120px;
+    }
+    .lock-ring-num { font-size: 36px; }
+    .lock-overlay i { font-size: 36px; }
+    .lock-overlay .lo-label { font-size: 20px; }
+    .lock-demo-body h4 {
+      font-size: 19px;
+      margin-bottom: 6px;
+    }
+    .lock-demo-body p {
+      font-size: 16px;
+      line-height: 1.55;
+      margin-bottom: 14px;
+    }
+    .lock-demo-body button {
+      font-size: 13px;
+      padding: 11px 24px;
+    }
+    .lock-ring.locked .lock-ring-bar {
+      stroke: var(--green);
+    }
+    @keyframes lockPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+      50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+    }
+    .lock-overlay.show {
+      animation: lockPulse 1.6s ease-in-out 2;
+    }
+
+    .slide .info-box {
+      padding: 18px 22px;
+    }
+    .slide .info-box i { font-size: 19px; }
+    .slide .info-box p,
+    .slide .info-box div {
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .action-row {
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .mono-tag {
+      font-size: 13px;
+      letter-spacing: 1.8px;
+    }
+    .impact-chip {
+      font-size: 14.5px;
+      padding: 8px 16px;
+      gap: 8px;
+    }
+
+    .slide .callout-bar {
+      padding: 18px 28px;
+      margin: 10px 0;
+      gap: 16px;
+    }
+    .slide .callout-text {
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    .info-expand-btn {
+      font-size: 12.5px;
+      padding: 5px 12px;
+    }
+    .info-expand-panel {
+      font-size: 15.5px;
+      line-height: 1.65;
+    }
+    .slide-bridge {
+      font-size: 14px;
+      padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Everyday Defense</div>
+      <h1>YOUR DESK IS PART OF THE <span>PERIMETER</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Click the markers to see the risks. Then watch what should happen when you step away from your desk.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click to reveal</div>
+          <div class="scene">
+            <div class="scene-media" style="background:linear-gradient(160deg,#f1f5f9,#e2e8f0);">
+              <div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:linear-gradient(180deg,rgba(15,23,42,0.05),rgba(15,23,42,0.15));"></div>
+
+              <i class="fas fa-keyboard" style="position:absolute;top:64%;left:48%;transform:translate(-50%,-50%);color:#64748b;pointer-events:none;"></i>
+
+              <div class="perimeter-marker" style="top:18%;left:20%;">
+                <i class="fas fa-note-sticky" style="color:#eab308;"></i>
+                <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Password on sticky note marker">
+                  <span class="hotspot-dot"></span>
+                  <div class="hotspot-tip"><strong>Password on a Sticky Note</strong><br>Never leave passwords written where others can see them. Use a password manager instead.</div>
+                </div>
+              </div>
+
+              <div class="perimeter-marker" style="top:36%;left:48%;">
+                <i class="fas fa-desktop" style="color:#1e293b;"></i>
+                <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Locked screen marker">
+                  <span class="hotspot-dot"></span>
+                  <div class="hotspot-tip"><strong>Locked Screen</strong><br>Lock your screen (Win+L / Cmd+Ctrl+Q) every time you leave, even for a moment.</div>
+                </div>
+              </div>
+
+              <div class="perimeter-marker" style="top:74%;left:30%;">
+                <i class="fas fa-hard-drive" style="color:#475569;"></i>
+                <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unknown USB drive marker">
+                  <span class="hotspot-dot"></span>
+                  <div class="hotspot-tip tip-above"><strong>Unknown USB Drive</strong><br>Never plug in a USB drive you don't own or haven't verified. It can install malware silently.</div>
+                </div>
+              </div>
+
+              <div class="perimeter-marker" style="top:80%;left:76%;">
+                <i class="fas fa-id-badge" style="color:#0062ff;"></i>
+                <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Badge visible marker">
+                  <span class="hotspot-dot"></span>
+                  <div class="hotspot-tip tip-above"><strong>Badge Worn Visibly</strong><br>Keep your badge visible, and don't let anyone follow you through a secure door.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="lock-demo" data-seconds="6">
+            <div class="lock-ring">
+              <svg viewBox="0 0 120 120"><circle class="lock-ring-track" cx="60" cy="60" r="52"></circle><circle class="lock-ring-bar" cx="60" cy="60" r="52"></circle></svg>
+              <span class="lock-ring-num">6</span>
+            </div>
+            <div class="lock-overlay"><i class="fas fa-lock"></i><div class="lo-label">LOCKED</div></div>
+            <div class="lock-demo-body">
+              <h4>Simulate an Idle Desk</h4>
+              <p>Watch what should happen when you walk away – an unlocked screen is an open door.</p>
+              <button onclick="startLockDemo(this)" aria-label="Start idle desk simulation">Simulate Idle Desk</button>
+            </div>
+          </div>
+
+          <div class="info-box warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>Locking your screen takes 2 seconds. Leaving it unlocked is an open invitation.</div>
+          </div>
+
+          <div class="info-box info">
+            <i class="fas fa-anchor"></i>
+            <div><strong>Same rule onboard:</strong> bridge, ECDIS, and engine-control workstations are just as exposed as an office desk — lock them during a watch handover or whenever you step away.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Before you step away — office or onboard:</span>
+        <span class="impact-chip"><i class="fas fa-lock" style="color:var(--cyan);"></i> Lock your screen (Win+L / Cmd+Ctrl+Q)</span>
+        <span class="impact-chip"><i class="fas fa-note-sticky" style="color:var(--cyan);"></i> Put away sticky notes &amp; USB drives</span>
+        <span class="impact-chip"><i class="fas fa-id-badge" style="color:var(--cyan);"></i> Wear your badge, don't tailgate others</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:#06b6d4;">[LOCK IT]</strong> <strong>GOLDEN RULE:</strong> If you can see it, so can anyone walking past – lock your screen, secure loose items, and never plug in an unknown drive.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
+        <div class="info-expand-panel">Physical access bypasses almost every technical control. A locked screen and a secured desk close that gap in seconds – and it costs nothing.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Passwords, MFA &amp; Access Hygiene <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

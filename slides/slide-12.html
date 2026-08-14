@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Threat Landscape — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 28px; }
+
+    .section-lead {
+      max-width: 1600px;
+      font-size: 25px;
+      line-height: 1.6;
+    }
+
+    .mono-tag { font-size: 13px; }
+    .action-row .impact-chip {
+      font-size: 14.5px;
+      padding: 7px 15px;
+    }
+
+    .interact-hint { font-size: 12.5px; }
+    .flip-card-back p {
+      font-size: 15.5px;
+      line-height: 1.55;
+    }
+    .flip-card-back i { font-size: 22px; }
+
+    .fact-box {
+      overflow: visible;
+    }
+    .fact-box::before {
+      border-radius: var(--r);
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">2026 Threat Landscape</div>
+      <h1>FOUR THREATS <span>SHAPING 2026</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Click each card to see how attackers are operating differently this year.</p>
+
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-file-export" data-title="Ransomware"
+             data-body="Attackers now steal your data AND encrypt it — threatening to leak it publicly even if you don't pay.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(239,68,68,0.1);color:#ef4444;"><i class="fas fa-lock"></i></div>
+            <h4>Ransomware</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-user-secret" data-title="Social Engineering"
+             data-body="AI‑cloned voices and personalised messages make manipulation much harder to spot than before.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:#7c3aed;"><i class="fas fa-masks-theater"></i></div>
+            <h4>Social Engineering</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-triangle-exclamation" data-title="Insider Threats"
+             data-body="Not always on purpose — a misaddressed payroll email or a reused password from a genuine employee or crew member can do just as much damage.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:#0062ff;"><i class="fas fa-user-group"></i></div>
+            <h4>Insider Threats</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-lock-open" data-title="Cloud Risks"
+             data-body="Most cloud data exposure isn't a sophisticated hack — it's a storage bucket of crew records or vessel performance data left open by mistake, with a share link nobody remembered to lock down.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b;"><i class="fas fa-cloud"></i></div>
+            <h4>Cloud Risks</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">What this means for you:</span>
+        <span class="impact-chip"><i class="fas fa-database" style="color:var(--cyan);"></i> Back up critical data, test the restore</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify unusual requests via a 2nd channel</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report mistakes immediately — no blame</span>
+        <span class="impact-chip"><i class="fas fa-lock" style="color:var(--cyan);"></i> Double‑check sharing and storage permissions</span>
+      </div>
+
+      <div class="fact-box">
+        <i class="fas fa-lightbulb fact-icon"></i>
+        <div>
+          <div class="fact-label">Did You Know?</div>
+          <div class="fact-text">Ransomware today is a <span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button">subscription business<span class="glossary-popup">Ransomware‑as‑a‑Service — gangs rent their malware to others for a cut of the profit.</span></span> — gangs rent their malware to others for a share of the profit. That's why attacks keep growing even when individual hackers are arrested.</div>
+        </div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Supply Chain &amp; Third‑Party Risk <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

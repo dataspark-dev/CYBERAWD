@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Spot the Phish: Interactive Challenge — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 18px; }
+
+    .section-lead {
+      font-size: 22px;
+      line-height: 1.5;
+      max-width: 1600px;
+    }
+    .interact-hint { font-size: 13px; }
+
+    .spot-outcome {
+      display: none;
+      margin-top: 6px;
+      padding: 6px 15px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 12px;
+      text-align: center;
+    }
+    .spot-outcome.show { display: block; }
+
+    .spot-media {
+      padding: 13px 15px;
+      min-height: 65px;
+      gap: 4px;
+    }
+    .spot-media i { font-size: 24px; }
+    .spot-media .spot-label { font-size: 11px; }
+    .spot-body { padding: 8px 13px; }
+    .slide .spot-body h4 {
+      font-size: 14.5px;
+      margin-bottom: 2px;
+    }
+    .slide .spot-body p {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .spot-result {
+      padding: 5px 13px;
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .spot-card {
+      transition: transform 0.1s ease, box-shadow 0.15s ease;
+    }
+    .spot-card:active {
+      transform: scale(0.97);
+    }
+    .spot-card.picked-correct {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+    .spot-card.picked-wrong {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Put It Into Practice</div>
+      <h1>KNOWLEDGE CHECK — <span>SPOT THE REAL THREAT</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Three quick pairs – email, MFA prompt, and work chat. In each pair, one is fake. Click the one you think is the threat.</p>
+
+      <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click a card to choose</div>
+
+      <!-- Pair 1: Email -->
+      <div style="max-width:1300px;margin:0 auto;width:100%;">
+        <div class="spot-grid reveal-stagger" data-answered="false">
+          <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
+            <div class="spot-verdict-tag">GENUINE</div>
+            <div class="spot-media">
+              <i class="fas fa-envelope-open-text"></i>
+              <div class="spot-label">Email A</div>
+            </div>
+            <div class="spot-body">
+              <h4>IT Service Desk — Password Expiry Notice</h4>
+              <p>From: it.support@synergymarinegroup.com — "Your password expires in 7 days. Reset it anytime from the Fleet Portal app.", signed with a standard footer.</p>
+            </div>
+            <div class="spot-result">Genuine — correct domain, no urgency, directs to the app, standard footer.</div>
+          </div>
+          <div class="spot-card" data-fake="true" onclick="spotPick(this)" tabindex="0" role="button">
+            <div class="spot-verdict-tag">FAKE</div>
+            <div class="spot-media">
+              <i class="fas fa-envelope-open-text"></i>
+              <div class="spot-label">Email B</div>
+            </div>
+            <div class="spot-body">
+              <h4>IT Service Desk — Urgent: Access Suspended</h4>
+              <p>From: it.support@synergymarinegr<strong style="color:#ef4444;">0</strong>up.com — "Your Fleet Portal access has been suspended. Click below within 2 hours to restore it."</p>
+            </div>
+            <div class="spot-result">Fake — lookalike domain (gr0up, not group), urgency, direct link.</div>
+          </div>
+        </div>
+        <div class="spot-outcome"></div>
+      </div>
+
+      <!-- Pair 2: MFA Prompt -->
+      <div style="max-width:1100px;margin:0 auto;width:100%;">
+        <div class="spot-grid compact reveal-stagger" data-answered="false">
+          <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
+            <div class="spot-verdict-tag">GENUINE</div>
+            <div class="spot-media">
+              <i class="fas fa-mobile-screen-button"></i>
+              <div class="spot-label">MFA A</div>
+            </div>
+            <div class="spot-body">
+              <h4>Sign-In Approval — Fleet Portal</h4>
+              <p>Push from Chrome, Singapore — matches your current location and device.</p>
+            </div>
+            <div class="spot-result">Genuine — matches your sign‑in attempt, location, and device.</div>
+          </div>
+          <div class="spot-card" data-fake="true" onclick="spotPick(this)" tabindex="0" role="button">
+            <div class="spot-verdict-tag">FAKE</div>
+            <div class="spot-media">
+              <i class="fas fa-mobile-screen-button"></i>
+              <div class="spot-label">MFA B</div>
+            </div>
+            <div class="spot-body">
+              <h4>Sign-In Approval — Unknown Device</h4>
+              <p>Push from Lagos, unrecognized device: "Approve now or your account locks."</p>
+            </div>
+            <div class="spot-result">Fake — unfamiliar location, threat to force approval, no sign‑in attempt.</div>
+          </div>
+        </div>
+        <div class="spot-outcome"></div>
+      </div>
+
+      <!-- Pair 3: Work Chat -->
+      <div style="max-width:1100px;margin:0 auto;width:100%;">
+        <div class="spot-grid compact reveal-stagger" data-answered="false">
+          <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
+            <div class="spot-verdict-tag">GENUINE</div>
+            <div class="spot-media">
+              <i class="fas fa-comments"></i>
+              <div class="spot-label">Chat A</div>
+            </div>
+            <div class="spot-body">
+              <h4>Teams — Priya Sharma (Finance)</h4>
+              <p>"Can you re-send last month's invoice PDF? I'll log it in the Finance channel."</p>
+            </div>
+            <div class="spot-result">Genuine — routine ask, visible channel, no link or secrecy.</div>
+          </div>
+          <div class="spot-card" data-fake="true" onclick="spotPick(this)" tabindex="0" role="button">
+            <div class="spot-verdict-tag">FAKE</div>
+            <div class="spot-media">
+              <i class="fas fa-comments"></i>
+              <div class="spot-label">Chat B</div>
+            </div>
+            <div class="spot-body">
+              <h4>Teams — "Priya Sharma" (Finance)</h4>
+              <p>"Approve this payment via the new link before the call — don't mention it in the group chat yet."</p>
+            </div>
+            <div class="spot-result">Fake — private DM, payment link, request to stay quiet.</div>
+          </div>
+        </div>
+        <div class="spot-outcome"></div>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong>GOLDEN RULE:</strong> If you have to check a domain name closely to see if it's real, that's already a red flag. When in doubt, don't click – go directly to the app or bookmark.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
+        <div class="info-expand-panel">Attackers know you might check the domain. Skipping the check entirely – going direct – removes the risk.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> AI &amp; Chatbot Risks <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Why Cybersecurity Matters — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .risk-bars { display: flex; flex-direction: column; gap: 16px; }
+    .risk-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .risk-bar-label {
+      width: 270px;
+      font-family: 'Space Mono', monospace;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--muted);
+      text-align: right;
+      flex-shrink: 0;
+    }
+    .risk-bar-track {
+      flex: 1;
+      height: 32px;
+      background: var(--paper-2);
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    .risk-bar-fill {
+      height: 100%;
+      min-width: 64px;
+      border-radius: 16px;
+      width: 0;
+      animation: barGrow 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation-delay: 0.35s;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 14px;
+    }
+    @keyframes barGrow {
+      to { width: var(--w); }
+    }
+    .risk-bar-fill span {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--white);
+      white-space: nowrap;
+    }
+
+    .figure-note .info-expand-btn:hover { background: rgba(148, 163, 184, 0.12); }
+    .figure-note { font-size: 12px; }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    .two-col {
+      gap: 36px;
+      align-items: stretch;
+    }
+    .two-col .risk-col,
+    .two-col .fact-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .two-col .fact-col { justify-content: center; }
+    .two-col .fact-col .fact-box { width: 100%; }
+    .two-col .fact-text { font-size: 18px; }
+
+    .mono-tag { font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">The State of Play</div>
+      <h1>WHY CYBERSECURITY <span>MATTERS NOW</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Attacks are rising and no longer look like the obvious scams of a decade ago. These numbers show why.</p>
+
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="stat-tile"><div class="st-val accent"><span class="count-up" data-target="828" data-duration="1400">0</span></div><div class="st-lbl">Reported Cyber Incidents Across the Industry, 2025</div></div>
+        <div class="stat-tile"><div class="st-val accent"><span class="count-up" data-target="103" data-prefix="+" data-suffix="%" data-duration="1400">0</span></div><div class="st-lbl">Year-on-Year Rise in Attack Attempts</div></div>
+        <div class="stat-tile"><div class="st-val accent"><span class="count-up" data-target="85" data-suffix="%" data-duration="1400">0</span></div><div class="st-lbl">Of Breaches Start With a Human Action</div></div>
+        <div class="stat-tile"><div class="st-val accent"><span class="count-up" data-target="25" data-prefix="US$" data-suffix="M" data-duration="1400">0</span></div><div class="st-lbl">Lost to a Single Deepfake Video-Call Scam (2024)</div></div>
+      </div>
+
+      <div class="figure-note" style="font-family:'Space Mono',monospace;color:var(--faint);display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+        <span>Figures based on published industry reports from 2025.</span>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Show figure sources" style="border:1px solid var(--faint);color:var(--faint);margin-left:6px;">
+          <i class="fas fa-circle-info"></i>
+        </button>
+        <div class="info-expand-panel" style="border-top-color:var(--line);color:var(--muted);font-size:12.5px;">828 incidents — industry-wide reported figure, not company-specific. +103% — year-on-year attempted-attack volume. 85% — breach share that involves a human action, consistent with industry benchmarks. US$25M — a single reported 2024 case, not an average loss.</div>
+      </div>
+
+      <div class="two-col">
+        <div class="risk-col">
+          <div class="mono-tag" style="margin-bottom:12px;display:block;">Business Risk, Visualized</div>
+          <div class="risk-bars">
+            <div class="risk-bar-row">
+              <div class="risk-bar-label">Cost of Awareness Training</div>
+              <div class="risk-bar-track"><div class="risk-bar-fill" style="--w:6%;background:linear-gradient(90deg,#10b981,#06b6d4);"><span>Low</span></div></div>
+            </div>
+            <div class="risk-bar-row">
+              <div class="risk-bar-label">Cost of a Missed Red Flag</div>
+              <div class="risk-bar-track"><div class="risk-bar-fill" style="--w:38%;background:linear-gradient(90deg,#f59e0b,#f97316);"><span>Moderate</span></div></div>
+            </div>
+            <div class="risk-bar-row">
+              <div class="risk-bar-label">Cost of a Full Breach</div>
+              <div class="risk-bar-track"><div class="risk-bar-fill" style="--w:100%;background:linear-gradient(90deg,#ef4444,#991b1b);"><span>Severe</span></div></div>
+            </div>
+          </div>
+          <div style="font-family:'Space Mono',monospace;font-size:11.5px;font-weight:800;color:var(--faint);text-transform:uppercase;letter-spacing:2px;margin-top:12px;">Relative comparison, not measured cost data.</div>
+        </div>
+        <div class="fact-col">
+          <div class="mono-tag" style="margin-bottom:12px;display:block;">Common thread: PANIC &amp; URGENCY</div>
+          <div class="fact-box" style="margin:0;flex-wrap:wrap;">
+            <i class="fas fa-lightbulb fact-icon"></i>
+            <div style="flex:1;min-width:0;">
+              <div class="fact-label">Did You Know?</div>
+              <div class="fact-text">Generative AI has made deepfake voice and video attacks <strong>cheap and fast</strong> — a convincing 30-second voice clone can now be made from just a few seconds of audio scraped from a public video or social post. Nearly every tactic in this deck relies on the same trigger — panic or urgency that pushes you to act before you think.</div>
+              <button class="info-expand-btn" onclick="toggleInfoExpand(this)" style="margin:10px 0 0;">Why this matters &#9660;</button>
+              <div class="info-expand-panel">Verifying an unexpected or urgent request through a second, known-good channel — calling the person back on a saved number, not one they just gave you — quietly defeats nearly every scenario in this deck, from deepfakes to phishing to shadow AI.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting now:</span>
+        <span class="impact-chip"><i class="fas fa-hand" style="color:var(--cyan);"></i> Pause on urgency</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify via a 2nd channel</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report anything odd</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-route"></i>
+        <div class="callout-text"><strong>WHAT'S AHEAD:</strong> Deepfakes &rarr; Phishing Evolution &rarr; AI &amp; Chatbot Risk &rarr; Threat Landscape &rarr; Workplace Security &rarr; Do's &amp; Don'ts.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Deepfakes — The Concept <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+  <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      function replayRiskBars() {
+        document.querySelectorAll('.risk-bar-fill').forEach(bar => {
+          bar.style.animation = 'none';
+          void bar.offsetWidth;
+          bar.style.animation = '';
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', replayRiskBars);
+      if (window.SynergyUI) SynergyUI.onEntranceReset(replayRiskBars);
+    })();
+  </script>
+</body>
+</html>

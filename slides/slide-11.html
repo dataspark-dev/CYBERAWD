@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>When Attackers Use AI Too — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 16px; }
+
+    .section-lead {
+      max-width: 1600px;
+      font-size: 25px;
+      line-height: 1.6;
+    }
+
+    .mono-tag { font-size: 14px; }
+    .interact-hint { font-size: 13px; }
+
+    .spot-outcome {
+      display: none;
+      margin-top: 12px;
+      padding: 12px 18px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      font-size: 15px;
+      text-align: center;
+      background: var(--paper);
+    }
+    .spot-outcome.show { display: block; }
+
+    .spot-card.revealed.is-correct .spot-verdict-tag {
+      background: var(--green);
+      color: #fff;
+    }
+    .spot-card.revealed.is-wrong .spot-verdict-tag {
+      background: var(--red);
+      color: #fff;
+    }
+    .spot-verdict-tag { font-size: 11px; padding: 4px 10px; }
+
+    .toggle-opt {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 15px;
+    }
+
+    .toggle-pane .card-grid .pillar-card {
+      box-shadow: var(--shadow-md);
+      transition: transform 0.15s ease;
+    }
+    .toggle-pane .card-grid .pillar-card:hover {
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Artificial Intelligence</div>
+      <h1>WHEN ATTACKERS USE <span>AI TOO</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Every AI tool that helps you can also help an attacker. Toggle to see the difference.</p>
+
+      <div class="toggle-group">
+        <div style="display:flex;justify-content:center;">
+          <div class="toggle-switch" data-active="0">
+            <div class="toggle-indicator"></div>
+            <button class="toggle-opt active" onclick="toggleSwitch(this,0)" aria-label="Attacker without AI"><i class="fas fa-user-ninja"></i> Attacker, Before AI</button>
+            <button class="toggle-opt" onclick="toggleSwitch(this,1)" aria-label="Attacker with AI"><i class="fas fa-robot"></i> Attacker, With AI</button>
+          </div>
+        </div>
+
+        <div class="interact-hint center" style="margin:14px 0 4px;"><i class="fas fa-hand-pointer"></i> Click to compare</div>
+
+        <!-- Before AI -->
+        <div class="toggle-pane active" data-pane="0">
+          <div class="card-grid cols-3">
+            <div class="pillar-card">
+              <div class="icon-wrap"><i class="fas fa-spell-check"></i></div>
+              <h3>Generic Lures</h3>
+              <p>Mass emails with poor writing, sent to thousands of addresses, hoping a few will click.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="icon-wrap"><i class="fas fa-microphone"></i></div>
+              <h3>One Voice, One Script</h3>
+              <p>A caller stuck with their own accent and a fixed script that doesn't adapt.</p>
+            </div>
+            <div class="pillar-card">
+              <div class="icon-wrap"><i class="fas fa-bug"></i></div>
+              <h3>Hand-Written Malware</h3>
+              <p>Code written manually — slower to make and easier for security tools to detect.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- With AI -->
+        <div class="toggle-pane" data-pane="1"><template>
+          <div class="card-grid cols-3">
+            <div class="pillar-card v-red">
+              <div class="icon-wrap"><i class="fas fa-wand-magic-sparkles"></i></div>
+              <h3>Personalised at Scale</h3>
+              <p>Flawless, tailored messages generated instantly for each target, using real names and projects.</p>
+            </div>
+            <div class="pillar-card v-red">
+              <div class="icon-wrap"><i class="fas fa-user-secret"></i></div>
+              <h3>Any Voice, Any Accent</h3>
+              <p>A cloned voice — including yours or a colleague's — generated on demand for a live call.</p>
+            </div>
+            <div class="pillar-card v-red">
+              <div class="icon-wrap"><i class="fas fa-virus"></i></div>
+              <h3>Self‑Mutating Malware</h3>
+              <p>AI rewrites malicious code automatically so each copy looks different to detection tools.</p>
+            </div>
+          </div>
+        </template></div>
+      </div>
+
+      <div class="mono-tag" style="margin:8px 0 6px;display:block;text-align:center;">Quick Check</div>
+      <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click a card to choose</div>
+
+      <div style="max-width:1300px;margin:0 auto;width:100%;">
+        <div class="spot-grid compact" data-answered="false">
+          <div class="spot-card" data-correct="true" onclick="microScenarioPick(this)" tabindex="0" role="button">
+            <div class="spot-verdict-tag">RIGHT CALL</div>
+            <div class="spot-media">
+              <i class="fas fa-envelope-open-text"></i>
+              <div class="spot-label">Option A</div>
+            </div>
+            <div class="spot-body">
+              <h4>Verify Through a Second Channel</h4>
+              <p>A "vendor" message — perfectly written, mentioning your real project — asks you to approve a payment. You call the vendor back on the number you already have on file before doing anything.</p>
+            </div>
+            <div class="spot-result">Right call — AI‑written messages can be flawless now. A second, independent channel still catches it.</div>
+          </div>
+          <div class="spot-card" data-correct="false" onclick="microScenarioPick(this)" tabindex="0" role="button">
+            <div class="spot-verdict-tag">RISKY CALL</div>
+            <div class="spot-media">
+              <i class="fas fa-envelope-open-text"></i>
+              <div class="spot-label">Option B</div>
+            </div>
+            <div class="spot-body">
+              <h4>Trust It – the Writing Is Perfect</h4>
+              <p>The message has no errors, mentions your real project, and sounds just like the vendor. You approve the payment because it seems legitimate.</p>
+            </div>
+            <div class="spot-result">Risky — perfect writing is no longer proof of anything. AI can generate flawless, personalised lures instantly.</div>
+          </div>
+        </div>
+        <div class="spot-outcome"></div>
+      </div>
+
+      <div class="callout-bar" style="border-left-color:var(--red);">
+        <i class="fas fa-triangle-exclamation" style="color:#fca5a5;"></i>
+        <div class="callout-text"><strong>WHY IT MATTERS:</strong> The old mistakes you were taught to spot are disappearing. Verifying, pausing, and reporting matter more than ever — and a second channel is still the best defence.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Modern Threat Landscape <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      window.microScenarioPick = function(el) {
+        const group = el.closest('.spot-grid');
+        if (group.dataset.answered === 'true') return;
+        group.dataset.answered = 'true';
+
+        const pickedCorrect = el.dataset.correct === 'true';
+        const cards = group.querySelectorAll('.spot-card');
+        cards.forEach(c => {
+          const cIsCorrect = c.dataset.correct === 'true';
+          c.classList.add('revealed', cIsCorrect ? 'is-correct' : 'is-wrong');
+          c.style.cursor = 'default';
+          const result = c.querySelector('.spot-result');
+          if (result) result.classList.add('show');
+        });
+        el.classList.add(pickedCorrect ? 'picked-correct' : 'picked-wrong');
+
+        const msg = group.parentElement?.querySelector('.spot-outcome');
+        if (msg) {
+          msg.classList.add('show');
+          msg.textContent = pickedCorrect
+            ? '✓ Correct — verifying through a second channel still works, even against perfect AI‑written lures.'
+            : '✗ Not quite — perfect wording is exactly what AI now makes easy to fake. A second channel would have caught it.';
+          msg.style.color = pickedCorrect ? '#166534' : '#991b1b';
+          msg.style.background = pickedCorrect ? '#f0fdf4' : '#fef2f2';
+          msg.style.borderColor = pickedCorrect ? '#bbf7d0' : '#fecaca';
+        }
+      };
+    })();
+  </script>
+</body>
+</html>

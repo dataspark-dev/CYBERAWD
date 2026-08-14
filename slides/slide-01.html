@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Opening — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .open-shell {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .open-header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 40px 64px 0;
+    }
+    .open-header img {
+      height: 70px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+      opacity: 0.95;
+    }
+    .open-stack {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      padding: 0 80px;
+      text-align: center;
+    }
+
+    .op-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 17px;
+      letter-spacing: 3.5px;
+      color: var(--cyan-light);
+      text-transform: uppercase;
+    }
+    .op-title h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 900;
+      font-size: 92px;
+      line-height: 1.06;
+      letter-spacing: -1.5px;
+      color: #fff;
+      margin-top: 14px;
+    }
+    .op-title h1 span { color: var(--cyan); }
+    .op-rule {
+      width: 130px;
+      height: 3px;
+      background: var(--grad-cyan);
+      margin: 18px auto;
+    }
+    .op-lead {
+      font-size: 21px;
+      color: rgba(255, 255, 255, 0.68);
+      line-height: 1.6;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .stat-row-open {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .stat-open {
+      position: relative;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 20px 34px;
+      text-align: center;
+      min-width: 180px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+    .stat-open:hover {
+      background: rgba(6, 182, 212, 0.12);
+      border-color: rgba(6, 182, 212, 0.45);
+      transform: translateY(-2px);
+    }
+    .stat-open .so-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 38px;
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .stat-open .so-lbl {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.52);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .stat-open .so-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--navy);
+      border: 1.5px solid var(--cyan);
+      color: var(--cyan-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      opacity: 0;
+      transform: scale(0.65);
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .stat-open:hover .so-badge {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .so-tip {
+      position: absolute;
+      left: 50%;
+      bottom: calc(100% + 8px);
+      transform: translateX(-50%) translateY(4px);
+      width: 230px;
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.85);
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 10px 13px;
+      border-radius: 7px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s, transform 0.15s;
+      z-index: 9;
+    }
+    .so-tip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--navy);
+    }
+    .stat-open:hover .so-tip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .op-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Space Mono', monospace;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+    .op-hint i { color: var(--cyan-light); font-size: 13px; }
+
+    .journey {
+      width: 100%;
+      max-width: 1792px;
+    }
+    .journey-track {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+    }
+    .journey-track::before {
+      content: '';
+      position: absolute;
+      top: 37px;
+      left: 37px;
+      right: 37px;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(6, 182, 212, 0.05), rgba(6, 182, 212, 0.35) 10%, rgba(6, 182, 212, 0.35) 90%, rgba(6, 182, 212, 0.05));
+      z-index: 0;
+    }
+    .j-node {
+      position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      z-index: 1;
+    }
+    .j-icon {
+      width: 74px;
+      height: 74px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--cyan-light);
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
+    }
+    .j-node:hover .j-icon {
+      background: rgba(6, 182, 212, 0.20);
+      border-color: var(--cyan);
+      transform: translateY(-3px) scale(1.08) rotate(-3deg);
+    }
+    .j-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.8px;
+    }
+    .j-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.32;
+      max-width: 155px;
+    }
+    .j-tip {
+      position: absolute;
+      bottom: calc(100% + 12px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      width: 215px;
+      background: var(--navy);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 13.5px;
+      line-height: 1.5;
+      padding: 10px 13px;
+      border-radius: 7px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s, transform 0.15s;
+      z-index: 9;
+    }
+    .j-tip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--navy);
+    }
+    .j-node:hover .j-tip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    .j-node.active .j-icon {
+      background: rgba(6, 182, 212, 0.25);
+      border-color: var(--cyan);
+    }
+
+    .op-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 13, 38, 0.70);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s;
+      z-index: 40;
+    }
+    .op-modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .op-modal {
+      width: 620px;
+      background: linear-gradient(160deg, #0b1c3e, #001a4d);
+      border: 1px solid rgba(6, 182, 212, 0.32);
+      border-radius: 14px;
+      padding: 32px 36px;
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.48);
+      transform: translateY(12px) scale(0.96);
+      transition: transform 0.2s;
+      position: relative;
+    }
+    .op-modal-backdrop.open .op-modal {
+      transform: translateY(0) scale(1);
+    }
+    .op-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.15s;
+    }
+    .op-modal-close:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+    .op-modal-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .op-modal-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(6, 182, 212, 0.16);
+      color: var(--cyan-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      flex-shrink: 0;
+    }
+    .op-modal-head h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .op-modal-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 11.5px;
+      color: var(--cyan-light);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 3px;
+    }
+    .op-modal-body {
+      font-size: 15.5px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.80);
+    }
+    .op-modal-body strong { color: #fff; }
+    .op-modal-list {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .op-modal-list li {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.5;
+    }
+    .op-modal-list li i {
+      color: var(--cyan-light);
+      font-size: 12px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide slide-dark">
+    <img src="../assets/1S.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.9;z-index:0;"/>
+    <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(10,30,69,0.45) 0%,rgba(0,26,77,0.5) 55%,rgba(0,13,38,0.65) 100%);z-index:0;"></div>
+    <div class="opening-grid"></div>
+    <div class="orbit-ring"><span class="orbit-dot"></span></div>
+    <div class="orbit-ring r2"><span class="orbit-dot"></span></div>
+
+    <div class="open-shell">
+      <div class="open-header">
+        <img src="../assets/SYN3.png" alt="Synergy Marine Group"/>
+        <img src="../assets/AFT3.png" alt="AFT"/>
+      </div>
+
+      <div class="open-stack reveal-stagger">
+        <div class="op-title">
+          <div class="op-eyebrow">Synergy Marine Group &times; AFT</div>
+          <h1>SYNERGY CYBER SECURITY<br><span>AWARENESS MONTH</span></h1>
+        </div>
+
+        <div>
+          <div class="op-rule"></div>
+          <p class="op-lead">A short, practical walk through today's most important cyber threats — see them, spot them, and stop them. No exams — just simple lessons you can try right away.</p>
+        </div>
+
+        <div class="stat-row-open">
+          <div class="stat-open" data-popup="stat-sims" tabindex="0" role="button" aria-label="15 Live Simulations">
+            <div class="so-badge"><i class="fa-solid fa-plus"></i></div>
+            <div class="so-tip">Tap to see the full list of simulations in each module.</div>
+            <div class="so-val">15</div>
+            <div class="so-lbl">Live Simulations</div>
+          </div>
+          <div class="stat-open" data-popup="stat-time" tabindex="0" role="button" aria-label="About 20 minutes total time">
+            <div class="so-badge"><i class="fa-solid fa-plus"></i></div>
+            <div class="so-tip">Tap to see the time breakdown module by module.</div>
+            <div class="so-val">~20m</div>
+            <div class="so-lbl">Total Time</div>
+          </div>
+          <div class="stat-open" data-popup="stat-exams" tabindex="0" role="button" aria-label="Zero graded exams">
+            <div class="so-badge"><i class="fa-solid fa-plus"></i></div>
+            <div class="so-tip">Tap to see how this awareness month actually works.</div>
+            <div class="so-val">0</div>
+            <div class="so-lbl">Graded Exams</div>
+          </div>
+          <div class="stat-open" data-popup="stat-global" tabindex="0" role="button" aria-label="All staff, global">
+            <div class="so-badge"><i class="fa-solid fa-plus"></i></div>
+            <div class="so-tip">Tap to see who this applies to — on ship and on shore.</div>
+            <div class="so-val">ALL</div>
+            <div class="so-lbl">Staff, Global</div>
+          </div>
+        </div>
+
+        <div class="op-hint"><i class="fa-solid fa-hand-pointer"></i> Hover or tap any card or icon for more detail</div>
+
+        <div class="journey">
+          <div class="journey-track">
+            <div class="j-node" data-popup="j-welcome" tabindex="0" role="button" aria-label="Welcome module">
+              <div class="j-tip">Why this month exists and what's at stake.</div>
+              <div class="j-icon"><i class="fa-solid fa-house-signal"></i></div>
+              <div class="j-num">01</div>
+              <div class="j-label">Welcome</div>
+            </div>
+            <div class="j-node" data-popup="j-deepfake" tabindex="0" role="button" aria-label="Deepfake Attacks module">
+              <div class="j-tip">Spot a cloned voice or video before it fools you.</div>
+              <div class="j-icon"><i class="fa-solid fa-user-secret"></i></div>
+              <div class="j-num">02</div>
+              <div class="j-label">Deepfake Attacks</div>
+            </div>
+            <div class="j-node" data-popup="j-phishing" tabindex="0" role="button" aria-label="Phishing Evolution module">
+              <div class="j-tip">Email, SMS and voice scams — evolved beyond the classics.</div>
+              <div class="j-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+              <div class="j-num">03</div>
+              <div class="j-label">Phishing Evolution</div>
+            </div>
+            <div class="j-node" data-popup="j-ai" tabindex="0" role="button" aria-label="AI and Chatbot Risks module">
+              <div class="j-tip">Chatbots, unapproved tools, and attackers using AI too.</div>
+              <div class="j-icon"><i class="fa-solid fa-robot"></i></div>
+              <div class="j-num">04</div>
+              <div class="j-label">AI &amp; Chatbot Risks</div>
+            </div>
+            <div class="j-node" data-popup="j-threat" tabindex="0" role="button" aria-label="Threat Landscape module">
+              <div class="j-tip">Where today's real attacks are coming from.</div>
+              <div class="j-icon"><i class="fa-solid fa-globe"></i></div>
+              <div class="j-num">05</div>
+              <div class="j-label">Threat Landscape</div>
+            </div>
+            <div class="j-node" data-popup="j-workplace" tabindex="0" role="button" aria-label="Workplace Security module">
+              <div class="j-tip">Everyday habits — passwords, MFA, and locking your screen.</div>
+              <div class="j-icon"><i class="fa-solid fa-building-shield"></i></div>
+              <div class="j-num">06</div>
+              <div class="j-label">Workplace Security</div>
+            </div>
+            <div class="j-node" data-popup="j-dos" tabindex="0" role="button" aria-label="Do's and Don'ts module">
+              <div class="j-tip">The short list of do's, don'ts, and who to tell.</div>
+              <div class="j-icon"><i class="fa-solid fa-check-double"></i></div>
+              <div class="j-num">07</div>
+              <div class="j-label">Do's &amp; Don'ts</div>
+            </div>
+            <div class="j-node" data-popup="j-closing" tabindex="0" role="button" aria-label="Closing module">
+              <div class="j-tip">Wrap-up and what to carry forward.</div>
+              <div class="j-icon"><i class="fa-solid fa-flag-checkered"></i></div>
+              <div class="j-num">08</div>
+              <div class="j-label">Closing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.25);border-top:1px solid rgba(255,255,255,0.12);padding:16px 64px;display:flex;align-items:center;justify-content:center;gap:24px;z-index:2;font-family:'Space Mono',monospace;font-size:16px;color:rgba(255,255,255,0.45);letter-spacing:1px;">
+      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">DEEPFAKES</span><span style="color:rgba(6,182,212,0.4);">·</span>
+      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">PHISHING</span><span style="color:rgba(6,182,212,0.4);">·</span>
+      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">AI &amp; CHATBOTS</span><span style="color:rgba(6,182,212,0.4);">·</span>
+      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">THREAT LANDSCAPE</span><span style="color:rgba(6,182,212,0.4);">·</span>
+      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">WORKPLACE SECURITY</span><span style="color:rgba(6,182,212,0.4);">·</span>
+      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">DO'S &amp; DON'TS</span>
+    </div>
+
+    <div class="op-modal-backdrop" id="opModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="opModalTitle">
+      <div class="op-modal">
+        <button class="op-modal-close" id="opModalClose" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="op-modal-head">
+          <div class="op-modal-icon" id="opModalIcon"><i class="fa-solid fa-circle-info"></i></div>
+          <div>
+            <div class="op-modal-eyebrow" id="opModalEyebrow">Detail</div>
+            <h3 id="opModalTitle">Title</h3>
+          </div>
+        </div>
+        <div class="op-modal-body" id="opModalBody"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      const POPUPS = {
+        'stat-sims': {
+          icon: 'fa-solid fa-clapperboard',
+          eyebrow: 'By the numbers',
+          title: '15 Live Simulations',
+          body: "Every module includes something to click, drag, or watch — not just slides to read.",
+          list: [
+            'Deepfake spot-the-fake voice and video clips',
+            'Phishing / smishing / vishing message sorter',
+            'Live AI chatbot data-leak walkthrough',
+            'Password strength and MFA hands-on check',
+            'Screen-lock countdown simulation',
+            'Do\'s and Don\'ts visual matching'
+          ]
+        },
+        'stat-time': {
+          icon: 'fa-solid fa-stopwatch',
+          eyebrow: 'By the numbers',
+          title: '~20 Minutes Total',
+          body: 'Spread across 18 short slides in 8 modules — built to fit a coffee break, not a full training day.',
+          list: [
+            'Welcome — under 2 min',
+            'Deepfake Attacks — ~4 min',
+            'Phishing Evolution — ~4 min',
+            'AI & Chatbot Risks — ~4 min',
+            'Threat Landscape & Workplace Security — ~5 min',
+            'Do\'s & Don\'ts + Closing — ~2 min'
+          ]
+        },
+        'stat-exams': {
+          icon: 'fa-solid fa-circle-check',
+          eyebrow: 'By the numbers',
+          title: 'Zero Graded Exams',
+          body: "This is about awareness, not testing. There's no pass or fail — just explore at your own pace.",
+          list: [
+            'Nothing is recorded against your name',
+            'Replay any simulation as many times as you like',
+            'The goal is recognition, not recall'
+          ]
+        },
+        'stat-global': {
+          icon: 'fa-solid fa-earth-americas',
+          eyebrow: 'By the numbers',
+          title: 'All Staff, Everywhere',
+          body: 'Built for every device and every connection speed — on ship or on shore, in the office or offshore.',
+          list: [
+            'Works on desktop, tablet, and mobile',
+            'Loads slide-by-slide, so it\'s light on bandwidth',
+            'Same content for every rank and department'
+          ]
+        },
+        'j-welcome': {
+          icon: 'fa-solid fa-house-signal',
+          eyebrow: 'Module 01',
+          title: 'Welcome',
+          body: 'Sets the scene for why this matters right now, and what you can expect in the next 20 minutes.',
+          list: ['Opening', 'Why Cybersecurity Matters']
+        },
+        'j-deepfake': {
+          icon: 'fa-solid fa-user-secret',
+          eyebrow: 'Module 02',
+          title: 'Deepfake Attacks',
+          body: 'AI-cloned voices and faces are now cheap and convincing enough to impersonate leadership.',
+          list: ['Deepfakes — The Concept', 'Real vs Fake Simulation', 'Deepfakes Beyond the Boardroom']
+        },
+        'j-phishing': {
+          icon: 'fa-solid fa-envelope-open-text',
+          eyebrow: 'Module 03',
+          title: 'Phishing Evolution',
+          body: 'Phishing has moved well beyond the old typo-riddled emails — into texts, calls, and near-perfect fakes.',
+          list: ['Phishing Evolution', 'Beyond Email — Smishing & Vishing', 'Spot the Phish']
+        },
+        'j-ai': {
+          icon: 'fa-solid fa-robot',
+          eyebrow: 'Module 04',
+          title: 'AI & Chatbot Risks',
+          body: 'Public AI tools are powerful — and easy to misuse without meaning to, on both sides of an attack.',
+          list: ['AI & Chatbot Risks', 'Shadow AI — Unapproved Tools', 'When Attackers Use AI Too']
+        },
+        'j-threat': {
+          icon: 'fa-solid fa-globe',
+          eyebrow: 'Module 05',
+          title: 'Threat Landscape',
+          body: 'A quick look at where real incidents are coming from today, including through your vendors.',
+          list: ['Modern Threat Landscape', 'Supply Chain & Third-Party Risk']
+        },
+        'j-workplace': {
+          icon: 'fa-solid fa-building-shield',
+          eyebrow: 'Module 06',
+          title: 'Workplace Security',
+          body: 'The unglamorous habits — passwords, MFA, locking your screen — that stop most attacks.',
+          list: ['Workplace Security Behavior', 'Passwords, MFA & Access Hygiene']
+        },
+        'j-dos': {
+          icon: 'fa-solid fa-check-double',
+          eyebrow: 'Module 07',
+          title: 'Do\'s & Don\'ts',
+          body: 'Who to tell, when to escalate, and the short list of rules that cover almost every situation.',
+          list: ['See Something, Say Something', 'Do\'s & Don\'ts']
+        },
+        'j-closing': {
+          icon: 'fa-solid fa-flag-checkered',
+          eyebrow: 'Module 08',
+          title: 'Closing',
+          body: 'A short recap of what to carry forward after this month ends.',
+          list: ['Closing']
+        }
+      };
+
+      const modalBackdrop = document.getElementById('opModalBackdrop');
+      const modalClose = document.getElementById('opModalClose');
+      const modalIcon = document.getElementById('opModalIcon');
+      const modalEyebrow = document.getElementById('opModalEyebrow');
+      const modalTitle = document.getElementById('opModalTitle');
+      const modalBody = document.getElementById('opModalBody');
+
+      function buildList(items) {
+        if (!items || !items.length) return '';
+        return '<ul class="op-modal-list">' + items.map(t =>
+          '<li><i class="fa-solid fa-chevron-right"></i><span>' + t + '</span></li>'
+        ).join('') + '</ul>';
+      }
+
+      function openPopup(id) {
+        const data = POPUPS[id];
+        if (!data) return;
+        modalIcon.innerHTML = '<i class="' + data.icon + '"></i>';
+        modalEyebrow.textContent = data.eyebrow;
+        modalTitle.textContent = data.title;
+        modalBody.innerHTML = '<p>' + data.body + '</p>' + buildList(data.list);
+        modalBackdrop.classList.add('open');
+        document.querySelectorAll('.j-node').forEach(n =>
+          n.classList.toggle('active', n.dataset.popup === id)
+        );
+      }
+
+      function closePopup() {
+        modalBackdrop.classList.remove('open');
+        document.querySelectorAll('.j-node').forEach(n => n.classList.remove('active'));
+      }
+
+      document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('[data-popup]');
+        if (trigger) {
+          e.preventDefault();
+          openPopup(trigger.dataset.popup);
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        const trigger = e.target.closest('[data-popup]');
+        if (trigger && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          openPopup(trigger.dataset.popup);
+        }
+        if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) {
+          closePopup();
+        }
+      });
+
+      modalClose.addEventListener('click', closePopup);
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closePopup();
+      });
+
+      if (window.SynergyUI) SynergyUI.onEntranceReset(closePopup);
+    })();
+  </script>
+</body>
+</html>

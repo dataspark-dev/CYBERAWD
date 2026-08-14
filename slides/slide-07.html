@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Beyond Email: Smishing &amp; Vishing — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 18px; }
+
+    .section-lead {
+      max-width: 1600px;
+      font-size: 25px;
+      line-height: 1.6;
+    }
+
+    .interact-hint { font-size: 13px; }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .action-row .impact-chip {
+      font-size: 14.5px;
+      padding: 7px 15px;
+    }
+
+    .phone-frame {
+      background: linear-gradient(160deg, var(--navy-4), var(--navy));
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+    }
+    .sms-sender {
+      font-family: 'Space Mono', monospace;
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 14px;
+    }
+    .sms-bubble {
+      background: #e5e7eb;
+      color: #111827;
+      padding: 14px 18px;
+      border-radius: 14px 14px 14px 4px;
+      font-size: 16px;
+      line-height: 1.55;
+      max-width: 420px;
+    }
+
+    .call-frame {
+      background: linear-gradient(160deg, var(--scene-red-dark-2), var(--scene-red-dark-1));
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 28px;
+    }
+    .call-avatar-sm {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .call-avatar-sm i { font-size: 44px !important; }
+    .call-id {
+      font-family: 'Space Mono', monospace;
+      color: #fff;
+      font-size: 18px;
+      letter-spacing: .4px;
+    }
+    .call-sub {
+      font-family: 'Space Mono', monospace;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 12.5px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    .call-caption2 {
+      padding: 14px 20px;
+      background: #fff;
+      font-size: 15.5px;
+      color: var(--body-text);
+      border-top: 1px solid var(--line);
+      line-height: 1.5;
+    }
+
+    .toggle-opt {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 15px;
+    }
+
+    .toggle-pane .scene { max-width: 660px !important; margin: 0 auto; }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Email, SMS &amp; Voice</div>
+      <h1>PHISHING GOES <span>MULTI-CHANNEL</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Email isn't the only way in. Try the examples below — click the flags to see the warning signs.</p>
+
+      <div class="toggle-group">
+        <div style="display:flex;justify-content:center;">
+          <div class="toggle-switch" data-active="0" data-count="3">
+            <div class="toggle-indicator"></div>
+            <button class="toggle-opt active" onclick="toggleSwitch(this,0)" aria-label="Show smishing example"><i class="fas fa-comment-sms"></i> Smishing (SMS)</button>
+            <button class="toggle-opt" onclick="toggleSwitch(this,1)" aria-label="Show vishing example"><i class="fas fa-phone"></i> Vishing (Voice)</button>
+            <button class="toggle-opt" onclick="toggleSwitch(this,2)" aria-label="Show work chat example"><i class="fas fa-comments"></i> Work Chat (Teams/WhatsApp)</button>
+          </div>
+        </div>
+
+        <div class="interact-hint center" style="margin:14px 0 4px;"><i class="fas fa-hand-pointer"></i> Click to compare</div>
+
+        <!-- Smishing pane -->
+        <div class="toggle-pane active" data-pane="0">
+          <div class="scene">
+            <div class="scene-media phone-frame">
+              <div class="sms-sender">Text Message &middot; +44 7700 900123</div>
+              <div class="sms-bubble">Your parcel could not be delivered. Pay a &pound;1.99 fee within 24 hours or it will be returned: gov-redelivery-uk.info</div>
+              <div class="hotspot flag" style="top:18%;left:78%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Random mobile number marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip"><strong>Unexpected sender number</strong><br>Real carriers use short codes, not personal-looking mobile numbers.</div>
+              </div>
+              <div class="hotspot flag" style="top:58%;left:62%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lookalike link marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip tip-above"><strong>Fake link</strong><br>Looks like a real government site but isn't. Never tap links in unexpected texts.</div>
+              </div>
+              <div class="hotspot flag" style="top:82%;left:38%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Small fee deadline marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip tip-above"><strong>Small amount, short deadline</strong><br>Designed to make you act without thinking.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vishing pane -->
+        <div class="toggle-pane" data-pane="1"><template>
+          <div class="scene">
+            <div class="scene-media">
+              <div class="call-frame">
+                <div class="call-avatar-sm"><i class="fas fa-shield-halved" style="font-size:40px;color:var(--scene-red-accent);"></i></div>
+                <div class="call-id">"Bank Security"</div>
+                <div class="call-sub">Incoming Call</div>
+              </div>
+              <div class="hotspot flag" style="top:16%;left:50%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Caller ID spoof marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip"><strong>Caller ID can be faked</strong><br>The name and number shown can be fake — never trust caller ID alone.</div>
+              </div>
+              <div class="hotspot flag" style="top:60%;left:26%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Money transfer request marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip tip-above"><strong>Asking you to move money</strong><br>Real banks never ask you to transfer funds to "protect" them.</div>
+              </div>
+              <div class="hotspot flag" style="top:60%;left:74%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Pressure to stay on line marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip tip-above"><strong>They want you to stay on the line</strong><br>So you can't hang up and call a number you already know is real.</div>
+              </div>
+            </div>
+            <div class="call-caption2">"We've flagged unusual activity — to secure your account, transfer your balance to this safe holding account now."</div>
+          </div>
+        </template></div>
+
+        <!-- Work Chat pane -->
+        <div class="toggle-pane" data-pane="2"><template>
+          <div class="scene">
+            <div class="scene-media phone-frame">
+              <div class="sms-sender">Teams Chat &middot; "Priya Sharma" (Finance)</div>
+              <div class="sms-bubble">Hi, this is Priya from Finance — can you approve this payment via the new link before the call? Don't mention it in the group chat yet.</div>
+              <div class="hotspot flag" style="top:20%;left:80%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Bypass marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip"><strong>Private message bypasses the team channel</strong><br>Everyone else would see a request like this in the shared channel.</div>
+              </div>
+              <div class="hotspot flag" style="top:78%;left:34%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Urgency + secrecy marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip tip-above"><strong>Urgency and secrecy together</strong><br>A classic pressure tactic — legitimate requests don't need silence.</div>
+              </div>
+            </div>
+          </div>
+        </template></div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Across every channel:</span>
+        <span class="impact-chip"><i class="fas fa-link-slash" style="color:var(--cyan);"></i> Don't tap links in unexpected texts</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Hang up, call a number you already have saved</span>
+        <span class="impact-chip"><i class="fas fa-users" style="color:var(--cyan);"></i> Use the visible team channel, not a DM</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:#06b6d4;">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Same warning signs across every channel – urgency, faked identity, and pressure to act. Hang up, close the chat, and use the number you already have.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
+        <div class="info-expand-panel">Attackers switch channels to lower your guard – but the warning signs are always the same.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Spot the Phish — Interactive Challenge <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

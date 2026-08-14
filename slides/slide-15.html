@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Passwords, MFA &amp; Access Hygiene — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 16px; }
+
+    .slide .section-lead {
+      max-width: 100%;
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+    .interact-hint {
+      font-size: 14px;
+      letter-spacing: 1.3px;
+    }
+    .interact-hint i { font-size: 14px; }
+
+    .two-col {
+      gap: 24px;
+      align-items: stretch;
+    }
+    .two-col > div {
+      display: flex;
+      flex-direction: column;
+    }
+    .two-col > div:last-child {
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .scene { flex: 1; display: flex; }
+    .scene-media {
+      flex: 1;
+      min-height: 460px !important;
+      position: relative;
+    }
+    .scene-media i { font-size: 80px !important; }
+
+    .hotspot {
+      width: 42px;
+      height: 42px;
+    }
+    .hotspot-tip {
+      width: 300px;
+      font-size: 16px;
+      padding: 13px 16px;
+    }
+
+    .slide .fact-box {
+      padding: 20px 24px;
+    }
+    .slide .fact-label {
+      font-size: 13px;
+      letter-spacing: 1.8px;
+      margin-bottom: 3px;
+    }
+    .slide .fact-text {
+      font-size: 19px;
+      line-height: 1.55;
+    }
+
+    .slide .info-box {
+      padding: 18px 22px;
+    }
+    .slide .info-box i { font-size: 19px; }
+    .slide .info-box p,
+    .slide .info-box div {
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    .info-box.danger {
+      border-left-color: var(--red);
+      background: rgba(239, 68, 68, 0.06);
+    }
+    .info-box.danger i { color: var(--red); }
+
+    .action-row {
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .mono-tag {
+      font-size: 13px;
+      letter-spacing: 1.8px;
+    }
+    .impact-chip {
+      font-size: 14.5px;
+      padding: 8px 16px;
+      gap: 8px;
+    }
+
+    .slide .callout-bar {
+      padding: 18px 28px;
+      margin: 10px 0;
+      gap: 16px;
+    }
+    .slide .callout-text {
+      font-size: 18px;
+      line-height: 1.55;
+    }
+    .info-expand-btn {
+      font-size: 12.5px;
+      padding: 5px 12px;
+    }
+    .info-expand-panel {
+      font-size: 15.5px;
+      line-height: 1.65;
+    }
+    .slide-bridge {
+      font-size: 14px;
+      padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Everyday Defense</div>
+      <h1>YOUR LOGIN IS PART OF THE <span>PERIMETER</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Click the markers to see a well‑protected account – and what attackers hope you never fix.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click to reveal</div>
+          <div class="scene">
+            <div class="scene-media" style="background:linear-gradient(160deg,#f1f5f9,#e2e8f0);">
+              <div class="perimeter-marker" style="top:24%;left:22%;">
+                <i class="fas fa-key" style="color:#eab308;"></i>
+                <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Reused password marker">
+                  <span class="hotspot-dot"></span>
+                  <div class="hotspot-tip"><strong>Same password, reused</strong><br>Using the same password on multiple sites means one leak unlocks all your accounts.</div>
+                </div>
+              </div>
+
+              <div class="perimeter-marker" style="top:24%;left:72%;">
+                <i class="fas fa-mobile-screen-button" style="color:#16a34a;"></i>
+                <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="MFA turned on marker">
+                  <span class="hotspot-dot"></span>
+                  <div class="hotspot-tip"><strong>MFA turned on</strong><br>MFA stops a stolen password from getting in – the second factor blocks it.</div>
+                </div>
+              </div>
+
+              <div class="perimeter-marker" style="top:74%;left:22%;">
+                <i class="fas fa-clock-rotate-left" style="color:#dc2626;"></i>
+                <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unrecognized sign-in ignored marker">
+                  <span class="hotspot-dot"></span>
+                  <div class="hotspot-tip tip-above"><strong>Unrecognized sign‑in ignored</strong><br>Dismissing a login alert from an unknown device or location is a mistake. Report it.</div>
+                </div>
+              </div>
+
+              <div class="perimeter-marker" style="top:74%;left:72%;">
+                <i class="fas fa-shield-halved" style="color:#16a34a;"></i>
+                <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Password manager in use marker">
+                  <span class="hotspot-dot"></span>
+                  <div class="hotspot-tip tip-above"><strong>Password manager in use</strong><br>A password manager creates and stores unique, strong passwords for every account.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="fact-box">
+            <i class="fas fa-lightbulb fact-icon"></i>
+            <div>
+              <div class="fact-label">Did You Know?</div>
+              <div class="fact-text">A password manager plus MFA stops most account takeovers – even when your password is leaked in a breach not related to work.</div>
+            </div>
+          </div>
+
+          <div class="info-box danger">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div><strong>MFA fatigue:</strong> A flood of approval requests you didn't trigger. Never tap Approve just to make them stop. Deny and report it immediately.</div>
+          </div>
+
+          <div class="info-box warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>Got a sign‑in alert you don't recognise? Change that password and report it – don't just dismiss it.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Use a password manager for every account</span>
+        <span class="impact-chip"><i class="fas fa-mobile-screen-button" style="color:var(--cyan);"></i> Turn on MFA everywhere it's offered</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report sign‑in alerts you don't recognise</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:#06b6d4;">[SECURE IT]</strong> <strong>GOLDEN RULE:</strong> A unique password for each account plus MFA blocks almost every account takeover attempt – even one that started with someone else's breach.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
+        <div class="info-expand-panel">Attackers don't need to guess your password if they already have it from an unrelated leak. A unique password and MFA break that chain even when a breach elsewhere exposes it.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> See Something, Say Something <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

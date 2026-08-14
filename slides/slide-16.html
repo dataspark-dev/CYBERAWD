@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>See Something, Say Something — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 16px; }
+
+    .slide .section-lead {
+      max-width: 100%;
+      font-size: 24px;
+      margin-bottom: 14px;
+    }
+
+    .callout-bar.stop-verify-report {
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      padding: 18px 28px;
+      margin: 14px 0;
+      background: var(--navy);
+      border-left-color: var(--cyan);
+      border-radius: var(--r);
+    }
+    .callout-bar.stop-verify-report .mono-tag {
+      font-size: 20px;
+      letter-spacing: 3px;
+      font-weight: 800;
+    }
+    .callout-bar.stop-verify-report i {
+      font-size: 18px;
+      color: var(--cyan-light);
+    }
+    .callout-bar.stop-verify-report .stop-tag { color: #fca5a5; }
+    .callout-bar.stop-verify-report .verify-tag { color: #fcd34d; }
+    .callout-bar.stop-verify-report .report-tag { color: #86efac; }
+
+    .flip-card-front h4 {
+      line-height: 1.35;
+    }
+    .flip-card-front .interact-hint {
+      font-size: 13px;
+      margin-top: 14px;
+    }
+    .flip-card-front .interact-hint i { font-size: 13px; }
+    .flip-card-front,
+    .flip-card-back { padding: 28px 24px; }
+    .flip-card-back i {
+      font-size: 26px;
+      margin-bottom: 14px;
+    }
+    .flip-card-back p {
+      font-size: 17px;
+      line-height: 1.55;
+    }
+
+    .slide .info-box {
+      padding: 18px 22px;
+      margin: 14px 0;
+    }
+    .slide .info-box i { font-size: 19px; }
+    .slide .info-box p,
+    .slide .info-box div {
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .slide-bridge {
+      font-size: 14px;
+      padding-top: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Speak Up</div>
+      <h1>SEE SOMETHING, <span>SAY SOMETHING</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Every warning sign we've covered comes down to three simple steps: STOP, VERIFY, REPORT. Click each card below to see where you can report.</p>
+
+      <div class="callout-bar stop-verify-report">
+        <span class="mono-tag stop-tag">STOP</span>
+        <i class="fas fa-arrow-right"></i>
+        <span class="mono-tag verify-tag">VERIFY</span>
+        <i class="fas fa-arrow-right"></i>
+        <span class="mono-tag report-tag">REPORT</span>
+      </div>
+
+      <div class="reveal-stagger card-grid cols-4 gap-lg">
+        <div class="flip-card flip-lg" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="IT Service Desk reporting option"
+             data-icon="fas fa-desktop" data-title="IT Service Desk"
+             data-body="For anything technical – suspicious emails, locked accounts, unknown devices. Available 24/7 through the portal or by phone.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(6,182,212,0.1);color:#0891b2;"><i class="fas fa-headset"></i></div>
+            <h4>IT Service Desk</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+        <div class="flip-card flip-lg" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Report-Phish button option"
+             data-icon="fas fa-bolt" data-title="Report-Phish Button"
+             data-body="The quickest option – the &quot;Report Phish&quot; button in your email flags the message for review instantly.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:#0062ff;"><i class="fas fa-flag"></i></div>
+            <h4>Report-Phish Button</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+        <div class="flip-card flip-lg" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Security Hotline option"
+             data-icon="fas fa-triangle-exclamation" data-title="Security Hotline"
+             data-body="For urgent or sensitive issues – a suspected breach, a lost device, or a call you're unsure about. No question is too small.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(239,68,68,0.1);color:#ef4444;"><i class="fas fa-shield-halved"></i></div>
+            <h4>Security Hotline</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+        <div class="flip-card flip-lg" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Your Line Manager option"
+             data-icon="fas fa-route" data-title="Your Line Manager"
+             data-body="Not sure who to contact? Tell your manager – they'll get it to the right team. Onboard, that's your Master or the Company's DPA. Reporting late is still better than not reporting at all.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:#7c3aed;"><i class="fas fa-user-group"></i></div>
+            <h4>Your Line Manager</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <i class="fas fa-circle-check"></i>
+        <div>Reporting quickly – even if it turns out to be nothing – is always the right thing to do. No blame, ever.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Do's &amp; Don'ts <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

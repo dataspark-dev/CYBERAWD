@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phishing Evolution: Old vs Modern — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 10px; }
+
+    .section-lead {
+      max-width: 1600px;
+      font-size: 25px;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .interact-hint { font-size: 13px; }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .action-row .impact-chip {
+      font-size: 14.5px;
+      padding: 7px 15px;
+    }
+
+    .mail-stage {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .mail-stage.legacy-bg { background: linear-gradient(160deg, var(--scene-red-tint-1), var(--scene-red-tint-2)); }
+    .mail-stage.modern-bg { background: linear-gradient(160deg, var(--scene-sky-tint-1), var(--scene-sky-tint-2)); }
+
+    .mail-mock {
+      width: 720px;
+      max-width: 88%;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+    }
+    .mail-mock.legacy { border: 2px dashed var(--scene-red-accent); }
+    .mail-mock.modern { border: 1px solid var(--line); }
+
+    .mail-mock .mm-bar {
+      padding: 11px 23px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 2px solid;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mail-mock.legacy .mm-bar {
+      background: var(--scene-red-tint-1);
+      color: var(--red-dark);
+      border-color: var(--scene-red-tint-border);
+    }
+    .mail-mock.modern .mm-bar {
+      background: var(--scene-sky-tint-1);
+      color: var(--scene-sky-tint-text);
+      border-color: var(--scene-sky-tint-border);
+    }
+
+    .mail-mock .mm-fields { padding: 12px 23px 0; }
+    .mail-mock .mm-subj {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    .mail-mock.legacy .mm-subj {
+      color: var(--scene-red-tint-text);
+      text-transform: uppercase;
+      font-family: Arial, sans-serif;
+      letter-spacing: .3px;
+    }
+
+    .mail-mock .mm-body {
+      padding: 9px 23px 18px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      color: var(--body-text);
+    }
+    .mail-mock .mm-body strong { color: var(--navy); }
+    .mail-mock.legacy .mm-body { font-family: Arial, sans-serif; }
+
+    .mail-mock .mm-greet { display: block; margin-bottom: 5px; }
+
+    .mail-mock .mm-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 12px;
+      padding: 9px 20px;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 12.5px;
+      color: #fff;
+      border: none;
+      cursor: default;
+    }
+    .mail-mock.modern .mm-btn {
+      background: var(--navy);
+      letter-spacing: .2px;
+      font-family: 'Barlow', sans-serif;
+    }
+    .mail-mock.legacy .mm-btn {
+      background: #dc2626;
+      text-transform: uppercase;
+      font-family: Arial, sans-serif;
+      letter-spacing: 0.8px;
+      border-radius: 2px;
+    }
+
+    .mail-mock.compact {
+      width: 600px;
+    }
+    .mail-mock.compact .mm-bar {
+      padding: 8px 20px;
+      font-size: 11px;
+    }
+    .mail-mock.compact .mm-fields { padding: 9px 20px 0; }
+    .mail-mock.compact .mm-subj { font-size: 14.5px; }
+    .mail-mock.compact .mm-body {
+      padding: 7px 20px 12px;
+      font-size: 12.5px;
+    }
+    .mail-mock.compact .mm-btn {
+      margin-top: 9px;
+      padding: 8px 16px;
+      font-size: 11.5px;
+    }
+
+    .mail-annotate-scene { max-width: 1780px; margin: 0 auto; }
+
+    .mail-annotate-scene .scene-media {
+      position: relative;
+      min-height: 220px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Email, SMS &amp; Voice</div>
+      <h1>PHISHING HAS <span>EVOLVED</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Phishing today looks very different from the old scams. Drag to compare, then click the flags.</p>
+
+      <!-- Drag‑compare slider -->
+      <div>
+        <div class="compare-slider" style="height:220px;max-width:1780px;margin:0 auto;">
+          <div class="compare-after mail-stage modern-bg">
+            <div class="mail-mock modern">
+              <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: Priya Nair — IT Service Desk &lt;it.support@synergymarinegr0up.com&gt;</div>
+              <div class="mm-fields"><div class="mm-subj">Project Poseidon — Fleet Portal Access Confirmation</div></div>
+              <div class="mm-body">
+                <span class="mm-greet">Hi Alex,</span>
+                As part of the Project Poseidon rollout, please confirm your Fleet Portal credentials before <strong>5:00&nbsp;PM today</strong> — access closes once tomorrow's audit window opens.
+                <div><button class="mm-btn" type="button">Confirm My Access&nbsp;<i class="fas fa-arrow-right"></i></button></div>
+              </div>
+            </div>
+          </div>
+          <div class="compare-before mail-stage legacy-bg" style="clip-path:inset(0 50% 0 0);">
+            <div class="mail-mock legacy">
+              <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: security@paypa1-verify.net</div>
+              <div class="mm-fields"><div class="mm-subj pulse-highlight">URGENT!!! Your Account Has Been LIMITED</div></div>
+              <div class="mm-body">
+                <span class="mm-greet">Dear Customer,</span>
+                Your Account Has Been Limited, Click Now To Restore Access Immediate Before Suspend Permanent!!!
+                <div><button class="mm-btn" type="button">!! CLICK HERE NOW !!</button></div>
+              </div>
+            </div>
+          </div>
+          <div class="compare-handle" onpointerdown="startDrag(event,this)" role="slider" aria-label="Drag to compare old and new phishing emails"></div>
+          <span class="compare-label left">2015</span>
+          <span class="compare-label right">2026</span>
+        </div>
+        <div class="interact-hint center" style="margin-top:8px;"><i class="fas fa-arrows-left-right"></i> Drag the handle to compare</div>
+      </div>
+
+      <!-- Annotated modern email scene -->
+      <div class="interact-hint" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click the flags to reveal the tells</div>
+      <div class="scene mail-annotate-scene">
+        <div class="scene-media mail-stage modern-bg">
+          <div class="mail-mock modern compact" style="margin:0 auto;">
+            <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: Priya Nair — IT Service Desk &lt;it.support@synergymarinegr<strong style="color:#ef4444;">0</strong>up.com&gt;</div>
+            <div class="mm-fields"><div class="mm-subj">Project Poseidon — Fleet Portal Access Confirmation</div></div>
+            <div class="mm-body">
+              <span class="mm-greet">Hi Alex,</span>
+              Please confirm your Fleet Portal credentials before <strong>5:00&nbsp;PM today</strong> — access closes once tomorrow's audit opens.
+              <div><button class="mm-btn" type="button">Confirm My Access&nbsp;<i class="fas fa-arrow-right"></i></button></div>
+            </div>
+          </div>
+          <!-- Hotspots -->
+          <div class="hotspot flag" style="top:16%;left:58%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lookalike domain marker">
+            <span class="hotspot-dot"></span>
+            <div class="hotspot-tip"><strong>Fake sender address</strong><br>it.support@synergymarinegr<strong style="color:#ef4444;">0</strong>up.com — one character different from the real address. Always check the full address, not just the name.</div>
+          </div>
+          <div class="hotspot flag" style="top:56%;left:46%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Urgency marker">
+            <span class="hotspot-dot"></span>
+            <div class="hotspot-tip tip-above"><strong>Artificial deadline</strong><br>Short, urgent time limits are designed to make you act without thinking.</div>
+          </div>
+          <div class="hotspot flag" style="top:80%;left:74%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Call-to-action marker">
+            <span class="hotspot-dot"></span>
+            <div class="hotspot-tip tip-above"><strong>The link you're asked to click</strong><br>Never click links in emails like this. Instead, go directly to the portal using a saved bookmark or the official app.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Before you click:</span>
+        <span class="impact-chip"><i class="fas fa-magnifying-glass" style="color:var(--cyan);"></i> Check the full sender address</span>
+        <span class="impact-chip"><i class="fas fa-bookmark" style="color:var(--cyan);"></i> Use a saved bookmark or app, not the link</span>
+        <span class="impact-chip"><i class="fas fa-stopwatch" style="color:var(--cyan);"></i> Treat urgency itself as a warning sign</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:#06b6d4;">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Good grammar is no longer a reliable sign of safety. Always go directly to the official website or app instead of clicking any link.</div>
+        <div class="key-principle"><div class="kp-val" style="font-weight:900;">0</div><div class="kp-label">Clicks From Email</div></div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
+        <div class="info-expand-panel">Fake addresses are often hard to spot, even for careful readers. Going to the app directly removes the risk of clicking a bad link.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Beyond Email — Smishing &amp; Vishing <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

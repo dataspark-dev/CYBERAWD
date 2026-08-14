@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepfake Attacks: The Concept — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 18px; }
+    .section-lead {
+      max-width: 1600px;
+      font-size: 25px;
+      line-height: 1.6;
+    }
+
+    .morph-diagram-wrap {
+      max-width: 1600px;
+      margin: 0 auto;
+      position: relative;
+      padding: 8px 0 30px;
+    }
+    .morph-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      width: 100%;
+    }
+    .morph-node {
+      width: 96px;
+      height: 96px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .morph-node.person { background: rgba(0, 98, 255, 0.1); color: #0062ff; }
+    .morph-node.ai { background: rgba(124, 58, 237, 0.1); color: #7c3aed; }
+    .morph-node.clone { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+    .morph-track {
+      flex: 1 1 auto;
+      min-width: 120px;
+      height: 4px;
+      background: linear-gradient(90deg, rgba(6, 182, 212, 0.55), rgba(6, 182, 212, 0.15));
+      position: relative;
+      margin: 0 -1px;
+      border-radius: 2px;
+      overflow: visible;
+      box-shadow: 0 0 8px rgba(6, 182, 212, 0.25);
+    }
+    .morph-track.t2 {
+      background: linear-gradient(90deg, rgba(239, 68, 68, 0.55), rgba(239, 68, 68, 0.15));
+      box-shadow: 0 0 8px rgba(239, 68, 68, 0.22);
+    }
+    .morph-dot {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cyan);
+      transform: translateY(-50%);
+      box-shadow: 0 0 9px var(--cyan);
+      animation: flowMove 2s linear infinite;
+    }
+    .morph-track.t2 .morph-dot {
+      animation-delay: 1s;
+      background: #ef4444;
+      box-shadow: 0 0 9px #ef4444;
+    }
+    .morph-label {
+      position: absolute;
+      top: 106px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--faint);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      white-space: nowrap;
+    }
+    .info-box .info-expand-btn:hover { background: rgba(0, 26, 77, 0.05); }
+
+    .morph-node:hover {
+      transform: translateY(-3px);
+    }
+    .morph-node {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+    .morph-node:hover i {
+      transform: scale(1.1);
+    }
+    .morph-node i {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .interact-hint { font-size: 12.5px; }
+
+    .info-box { font-size: 17px; line-height: 1.6; }
+    .info-box p,
+    .info-box div {
+      font-size: 17px;
+      line-height: 1.6;
+    }
+    .mono-tag { font-size: 13.5px; }
+    .info-box .info-expand-btn { font-size: 13px; }
+    .info-box .info-expand-panel {
+      font-size: 15px !important;
+      line-height: 1.6;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .action-row .impact-chip {
+      font-size: 15px;
+      padding: 7px 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Identity &amp; Trust</div>
+      <h1>DEEPFAKE ATTACKS: <span>THE CONCEPT</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">AI can clone a colleague's voice from a 10-second clip and generate a live "video call" of your CFO in real time. This is CEO impersonation and live social engineering in action. Watch how a real person becomes a live clone ready to use on a call.</p>
+
+      <div class="morph-diagram-wrap">
+        <div class="morph-row">
+          <div class="morph-node person" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Real Person — details"
+               data-icon="fas fa-user" data-title="Real Person"
+               data-body="A colleague's genuine voice or face, captured from a call, meeting recording, or public video.">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="morph-track"><div class="morph-dot"></div><div class="morph-label">10s of audio/video</div></div>
+          <div class="morph-node ai" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="AI Generation — details"
+               data-icon="fas fa-robot" data-title="AI Generation"
+               data-body="A short sample is enough to train a model that reproduces the voice or face convincingly.">
+            <i class="fas fa-robot"></i>
+          </div>
+          <div class="morph-track t2"><div class="morph-dot"></div><div class="morph-label">AI generation</div></div>
+          <div class="morph-node clone pulse-highlight" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Live Clone — details"
+               data-icon="fas fa-user-secret" data-title="Live Clone"
+               data-body="Usable on a call or video to authorize payments, share data, or issue instructions.">
+            <i class="fas fa-user-secret"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal-stagger card-grid cols-3">
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-phone-volume" data-title="Voice Cloning"
+             data-body="A short audio sample — a voicemail, a call recording, a public video — is enough to generate a synthetic voice that can be used live on a phone call.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:#7c3aed;"><i class="fas fa-microphone-lines"></i></div>
+            <h4>Voice Cloning</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-user-secret" data-title="Video / Face Swap"
+             data-body="Real-time face-swap tools can impersonate an executive on a live video call, with lip movements synced to a cloned voice.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:#0062ff;"><i class="fas fa-video"></i></div>
+            <h4>Video / Face Swap</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-file-circle-exclamation" data-title="Synthetic Documents"
+             data-body="AI-generated ID photos and forged screenshots used to bypass verification checks or support fraudulent claims.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b;"><i class="fas fa-id-card-clip"></i></div>
+            <h4>Synthetic Documents</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-box danger">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div>
+          <span class="mono-tag" style="margin-right:8px;">CXO IMPERSONATION &middot; LIVE SOCIAL ENGINEERING</span><strong>Widely reported case, 2024:</strong> A finance employee at a multinational firm's Hong Kong office joined what looked like a normal video call with the CFO and colleagues — and authorised a transfer of <strong style="font-size:1.2em;">US$25M</strong>. Every person on that call, except the employee, was an AI‑generated deepfake.
+          <button class="info-expand-btn" onclick="toggleInfoExpand(this)" style="display:inline-block;margin:10px 0 0;border:1px solid var(--navy);color:var(--navy);">Read more &#9660;</button>
+          <div class="info-expand-panel" style="border-top-color:var(--line);">The call included what appeared to be the CFO and several colleagues — all AI-generated. The employee only grew suspicious after the transfer had already gone through. This is why verification must happen before acting, not after.</div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">If a call feels off:</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify via a 2nd channel</span>
+        <span class="impact-chip"><i class="fas fa-hourglass-half" style="color:var(--cyan);"></i> Pause before authorising</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report suspicious calls</span>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Deepfakes — Real vs Fake Simulation <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

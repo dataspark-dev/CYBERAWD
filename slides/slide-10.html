@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shadow AI: Unapproved Tools &amp; Extensions — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 26px; }
+
+    .section-lead {
+      max-width: 1600px;
+      font-size: 25px;
+      line-height: 1.6;
+    }
+
+    .mono-tag { font-size: 12.5px; }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    .action-row .impact-chip {
+      font-size: 14.5px;
+      padding: 7px 15px;
+    }
+    .interact-hint { font-size: 13px; }
+
+    .cl-item .cl-icon {
+      width: 44px;
+      height: 44px;
+      font-size: 18px;
+      flex-shrink: 0;
+      position: relative;
+      cursor: pointer;
+      border-radius: 8px;
+      background: rgba(6, 182, 212, 0.08);
+      transition: background 0.15s;
+    }
+    .cl-item .cl-icon:hover {
+      background: rgba(6, 182, 212, 0.18);
+    }
+    .cl-item .cl-check { font-size: 19px; }
+
+    .cl-icon:hover i,
+    .cl-icon:focus-visible i {
+      transform: scale(1.15);
+    }
+    .cl-icon i {
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .cl-icon:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
+
+    .progress-meta { font-size: 11px; }
+    .progress-track { height: 8px; }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Artificial Intelligence</div>
+      <h1><span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button" style="color:inherit;">SHADOW AI<span class="glossary-popup" style="color:#fff;">Any AI tool used for work that IT hasn't reviewed or approved.</span></span>: THE <span>UNAPPROVED</span> TOOLS</h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Not every AI risk is a chatbot. Click any tool you've seen used on your team – and check if it's actually approved for work.</p>
+
+      <div class="section-block" style="margin-bottom:0;">
+        <div class="progress-meta"><span>Checklist Progress</span><span class="progress-pct">0%</span></div>
+        <div class="progress-track"><div class="progress-fill" style="width:0%;"></div></div>
+
+        <div class="interact-hint" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click each item you've seen used — click an icon for why it matters</div>
+
+        <div class="checklist-grid reveal-stagger">
+          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
+                 data-icon="fas fa-puzzle-piece" data-title="Browser AI Extensions"
+                 data-body="These extensions can read everything on internal pages too, including restricted content.">
+              <i class="fas fa-puzzle-piece"></i>
+            </div>
+            <div><h4>Browser AI Extensions</h4><p>Free "AI assistant" add-ons that read and summarise every page you visit – including internal systems.</p></div>
+            <i class="fas fa-circle cl-check"></i>
+          </div>
+          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
+                 data-icon="fas fa-user-secret" data-title="Personal AI Accounts"
+                 data-body="Data in a personal account is not covered by any company agreement.">
+              <i class="fas fa-user-secret"></i>
+            </div>
+            <div><h4>Personal AI Accounts</h4><p>Using a personal chatbot account instead of the company-approved one to get work done faster.</p></div>
+            <i class="fas fa-circle cl-check"></i>
+          </div>
+          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
+                 data-icon="fas fa-microphone-lines" data-title="AI Meeting Note-Takers"
+                 data-body="Meeting content gets stored on a vendor's servers you didn't choose.">
+              <i class="fas fa-microphone-lines"></i>
+            </div>
+            <div><h4>AI Meeting Note-Takers</h4><p>Bots that join calls to auto-transcribe and summarise – sending your meeting content to a third-party server.</p></div>
+            <i class="fas fa-circle cl-check"></i>
+          </div>
+          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
+                 data-icon="fas fa-file-pen" data-title="AI Resume / Interview Tools"
+                 data-body="These tools often store personal and company details for their own training.">
+              <i class="fas fa-file-pen"></i>
+            </div>
+            <div><h4>AI Resume / Interview Tools</h4><p>AI writing helpers used on CVs or interview prep that ask for personal or company details.</p></div>
+            <i class="fas fa-circle cl-check"></i>
+          </div>
+          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
+                 data-icon="fas fa-route" data-title="Unapproved Voyage-Planning AI"
+                 data-body="Route, cargo, and position data sent to a tool outside the approved voyage system is outside our control too.">
+              <i class="fas fa-route"></i>
+            </div>
+            <div><h4>Unapproved Voyage-Planning AI</h4><p>Free weather-routing or passage-planning tools used instead of the company-approved system, feeding vessel position and cargo details to a third party.</p></div>
+            <i class="fas fa-circle cl-check"></i>
+          </div>
+          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
+                 data-icon="fas fa-language" data-title="Translation &amp; Summariser Plugins"
+                 data-body="Whole documents get uploaded to a third party just to get a summary back.">
+              <i class="fas fa-language"></i>
+            </div>
+            <div><h4>Translation &amp; Summariser Plugins</h4><p>Free "summarise this doc" or translation tools layered onto email or file-sharing apps.</p></div>
+            <i class="fas fa-circle cl-check"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Spotted one you use?</span>
+        <span class="impact-chip"><i class="fas fa-list-check" style="color:var(--cyan);"></i> Ask IT which tools are approved</span>
+        <span class="impact-chip"><i class="fas fa-pause" style="color:var(--cyan);"></i> Stop using it on company data until confirmed</span>
+        <span class="impact-chip"><i class="fas fa-comment-dots" style="color:var(--cyan);"></i> Asking isn't a mistake — using it unchecked is</span>
+      </div>
+
+      <div class="info-box warning">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div>Not sure if a tool is approved? Ask IT before using it for anything with company or customer data.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> When Attackers Use AI Too <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

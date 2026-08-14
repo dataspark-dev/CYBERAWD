@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepfakes: Real vs Fake Simulation — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .slide-main.reveal-stagger { gap: 14px; }
+
+    .section-lead {
+      max-width: 1600px;
+      font-size: 25px;
+      line-height: 1.6;
+    }
+
+    .call-avatar {
+      width: 132px;
+      height: 132px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .call-avatar i { font-size: 64px !important; }
+
+    .call-caption {
+      padding: 14px 20px;
+      background: #fff;
+      font-size: 15.5px;
+      color: var(--body-text);
+      border-top: 1px solid var(--line);
+      line-height: 1.5;
+    }
+
+    .toggle-opt {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 15px;
+    }
+
+    .think-prompt {
+      text-align: center;
+      font-family: 'Barlow', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--navy);
+      background: rgba(0, 98, 255, 0.05);
+      border: 1px solid rgba(0, 98, 255, 0.15);
+      border-radius: 6px;
+      padding: 10px 22px;
+      margin: 0 auto 8px;
+      max-width: 720px;
+    }
+    .think-prompt i { color: #0062ff; margin-right: 8px; }
+
+    .hotspot-dot.unrevealed { opacity: 0.3; }
+    .toggle-pane .scene { max-width: 720px !important; margin: 0 auto; }
+    .toggle-pane .hotspot-tip { width: 250px; font-size: 15px; }
+  </style>
+</head>
+<body>
+  <div class="slide">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Try It Yourself</div>
+      <h1>REAL VS <span>FAKE</span> — TOGGLE TO COMPARE</h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Switch between a real call and a deepfake. Then click the markers to see what gives the fake away.</p>
+
+      <div class="toggle-group">
+        <div class="think-prompt"><i class="fas fa-circle-question"></i>First — what would you check before trusting this call?</div>
+
+        <div style="display:flex;justify-content:center;">
+          <div class="toggle-switch" data-active="0">
+            <div class="toggle-indicator"></div>
+            <button class="toggle-opt active" onclick="toggleSwitchAndReveal(this,0)" aria-label="Show real call"><i class="fas fa-circle-check"></i> Real Call</button>
+            <button class="toggle-opt" onclick="toggleSwitchAndReveal(this,1)" aria-label="Show deepfake call"><i class="fas fa-user-secret"></i> Deepfake Call</button>
+          </div>
+        </div>
+
+        <div class="interact-hint center" style="margin:14px 0 4px;"><i class="fas fa-hand-pointer"></i> Click to compare</div>
+
+        <!-- Real Call Pane -->
+        <div class="toggle-pane active" data-pane="0">
+          <div class="scene">
+            <div class="scene-media" style="background:linear-gradient(160deg,var(--scene-green-dark-2),var(--scene-green-dark-1));min-height:300px;display:flex;align-items:center;justify-content:center;">
+              <div class="call-avatar"><i class="fas fa-user-tie" style="font-size:58px;color:var(--scene-green-accent);"></i></div>
+              <div class="hotspot safe" style="top:26%;left:44%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Natural blinking marker">
+                <span class="hotspot-dot unrevealed"></span>
+                <div class="hotspot-tip"><strong>Natural blinking &amp; movement</strong><br>The person blinks and moves their head in a normal, human way.</div>
+              </div>
+              <div class="hotspot safe" style="top:60%;left:52%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lip-sync marker">
+                <span class="hotspot-dot unrevealed"></span>
+                <div class="hotspot-tip tip-above"><strong>Perfect lip‑sync</strong><br>Mouth movements match the audio exactly, even with fast speech.</div>
+              </div>
+              <div class="hotspot safe" style="top:18%;left:78%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lighting marker">
+                <span class="hotspot-dot unrevealed"></span>
+                <div class="hotspot-tip"><strong>Consistent lighting</strong><br>Lighting changes naturally as the person moves and the background shifts.</div>
+              </div>
+            </div>
+            <div class="call-caption">"Can you route this through the usual PO process? I know it's tight, but let's not skip steps."</div>
+          </div>
+        </div>
+
+        <!-- Deepfake Call Pane -->
+        <div class="toggle-pane" data-pane="1"><template>
+          <div class="scene">
+            <div class="scene-media" style="background:linear-gradient(160deg,var(--scene-red-dark-2),var(--scene-red-dark-1));min-height:300px;display:flex;align-items:center;justify-content:center;">
+              <div class="call-avatar"><i class="fas fa-user-secret" style="font-size:58px;color:var(--scene-red-accent);"></i></div>
+              <div class="hotspot flag" style="top:26%;left:44%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unnatural blinking marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip"><strong>Unnatural blinking</strong><br>Very long gaps without blinking — a common sign of a deepfake.</div>
+              </div>
+              <div class="hotspot flag" style="top:60%;left:52%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lip-sync mismatch marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip tip-above"><strong>Lip‑sync mismatch</strong><br>Mouth shapes lag behind the audio, especially with hard consonant sounds.</div>
+              </div>
+              <div class="hotspot flag" style="top:18%;left:78%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Flat lighting marker">
+                <span class="hotspot-dot"></span>
+                <div class="hotspot-tip"><strong>Flat, even lighting</strong><br>The face lighting barely changes, even when the background moves.</div>
+              </div>
+            </div>
+            <div class="call-caption">"Pay this invoice by 5pm, don't loop in finance yet — I'll explain later."</div>
+          </div>
+        </template></div>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:#06b6d4;">[VERIFY]</strong> <strong>GOLDEN RULE:</strong> If a call asks you to move money, share login details, or break a normal process — hang up and verify through a second, independent channel before you act.</div>
+        <div class="key-principle"><div class="kp-val">2nd</div><div class="kp-label">Channel to Verify</div></div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
+        <div class="info-expand-panel">Attackers count on you trusting a familiar face and voice. A quick check through another channel costs 30 seconds and can save everything.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Deepfakes Beyond the Boardroom <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      window.toggleSwitchAndReveal = function(el, index) {
+        toggleSwitch(el, index);
+        document.querySelectorAll('.hotspot-dot.unrevealed').forEach(dot => {
+          dot.classList.remove('unrevealed');
+        });
+        document.querySelectorAll('.hotspot.open').forEach(h => h.classList.remove('open'));
+      };
+
+      // Re-dim the "Real Call" markers on re-entry so the progressive reveal
+      // (dim until you pick a mode) replays each time the slide is shown.
+      function resetUnrevealed() {
+        document.querySelectorAll('.toggle-pane[data-pane="0"] .hotspot-dot').forEach(dot => {
+          dot.classList.add('unrevealed');
+        });
+      }
+      if (window.SynergyUI) SynergyUI.onEntranceReset(resetUnrevealed);
+    })();
+  </script>
+</body>
+</html>
