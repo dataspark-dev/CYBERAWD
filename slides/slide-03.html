@@ -154,19 +154,19 @@
         <div class="morph-row">
           <div class="morph-node person" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Real Person — details"
                data-icon="fas fa-user" data-title="Real Person"
-               data-body="A colleague's genuine voice or face, captured from a call, meeting recording, or public video.">
+               data-body="A colleague's genuine voice or face, captured from something ordinary — a video call, a meeting recording, a voicemail, or even a public social media clip. Attackers don't need studio-quality audio; a noisy phone recording is often enough to start with. This is the raw material every deepfake attack begins with, which is why what you post and record can matter more than you'd expect.">
             <i class="fas fa-user"></i>
           </div>
           <div class="morph-track"><div class="morph-dot"></div><div class="morph-label">10s of audio/video</div></div>
           <div class="morph-node ai" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="AI Generation — details"
                data-icon="fas fa-robot" data-title="AI Generation"
-               data-body="A short sample is enough to train a model that reproduces the voice or face convincingly.">
+               data-body="Modern voice-cloning tools need as little as 10–20 seconds of clear audio to build a convincing model of someone's voice, and free or low-cost tools can do this in minutes — no special skill or expensive equipment required. The same applies to face-swap video: a handful of photos or a short clip is often enough. This is why 'I recognised the voice' is no longer a safe test on its own.">
             <i class="fas fa-robot"></i>
           </div>
           <div class="morph-track t2"><div class="morph-dot"></div><div class="morph-label">AI generation</div></div>
           <div class="morph-node clone pulse-highlight" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Live Clone — details"
                data-icon="fas fa-user-secret" data-title="Live Clone"
-               data-body="Usable on a call or video to authorize payments, share data, or issue instructions.">
+               data-body="Once trained, the cloned voice or face can be used live — on a phone call, a video meeting, or even a voice message — to sound and look exactly like the person it copied. Attackers use this to authorise payments, request sensitive data, or give urgent instructions while impersonating someone you already trust. The only reliable defence is verifying through a second, independent channel before acting — never through the same call or chat.">
             <i class="fas fa-user-secret"></i>
           </div>
         </div>
@@ -175,7 +175,7 @@
       <div class="reveal-stagger card-grid cols-3">
         <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
              data-icon="fas fa-phone-volume" data-title="Voice Cloning"
-             data-body="A short audio sample — a voicemail, a call recording, a public video — is enough to generate a synthetic voice that can be used live on a phone call.">
+             data-body="A short audio sample — a voicemail, a recorded call, or even a public video — is enough to generate a synthetic voice good enough to use live on a phone call. The cloned voice can respond in real time, adapting tone and pacing to sound natural rather than playing back a fixed script. So 'they sounded stressed, just like them' is not proof a call is genuine — tone and emotion can be mimicked too.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:#7c3aed;"><i class="fas fa-microphone-lines"></i></div>
             <h4>Voice Cloning</h4>
@@ -184,7 +184,7 @@
         </div>
         <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
              data-icon="fas fa-user-secret" data-title="Video / Face Swap"
-             data-body="Real-time face-swap tools can impersonate an executive on a live video call, with lip movements synced to a cloned voice.">
+             data-body="Real-time face-swap tools can impersonate an executive on a live video call, with lip movements synced convincingly to a cloned voice — this is exactly how the widely reported US$25M Hong Kong video-call fraud worked. The attacker doesn't need to fool you for long; a few seconds of a normal-looking call is often enough to get an instruction through. Small tells — unnatural blinking, flat lighting, lip-sync lag — are useful clues, but a second-channel check is the only certain test.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:#0062ff;"><i class="fas fa-video"></i></div>
             <h4>Video / Face Swap</h4>
@@ -193,7 +193,7 @@
         </div>
         <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
              data-icon="fas fa-file-circle-exclamation" data-title="Synthetic Documents"
-             data-body="AI-generated ID photos and forged screenshots used to bypass verification checks or support fraudulent claims.">
+             data-body="AI tools can now generate convincing fake ID photos, doctored screenshots, and forged supporting documents — used to bypass identity checks, support fraudulent expense or insurance claims, or make a fake recruiter or vendor look legitimate. These are increasingly paired with a voice or video deepfake to build a more convincing overall story. Treat any document that arrives alongside an unusual or urgent request with the same suspicion as the request itself.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b;"><i class="fas fa-id-card-clip"></i></div>
             <h4>Synthetic Documents</h4>
