@@ -7,6 +7,8 @@
 const SLIDES = [
   { file: 'slide-01.html', title: 'Opening', group: 'Welcome' },
   { file: 'slide-02.html', title: 'Why Cybersecurity Matters', group: 'Welcome' },
+  { file: 'slide-12.html', title: 'Modern Threat Landscape', group: 'Threat Landscape' },
+  { file: 'slide-13.html', title: 'Supply Chain & Third-Party Risk', group: 'Threat Landscape' },
   { file: 'slide-03.html', title: 'Deepfakes — The Concept', group: 'Deepfake Attacks' },
   { file: 'slide-04.html', title: 'Deepfakes — Real vs Fake Simulation', group: 'Deepfake Attacks' },
   { file: 'slide-05.html', title: 'Deepfakes Beyond the Boardroom', group: 'Deepfake Attacks' },
@@ -16,8 +18,6 @@ const SLIDES = [
   { file: 'slide-09.html', title: 'AI & Chatbot Risks', group: 'AI & Chatbot Risks' },
   { file: 'slide-10.html', title: 'Shadow AI — Unapproved Tools', group: 'AI & Chatbot Risks' },
   { file: 'slide-11.html', title: 'When Attackers Use AI Too', group: 'AI & Chatbot Risks' },
-  { file: 'slide-12.html', title: 'Modern Threat Landscape', group: 'Threat Landscape' },
-  { file: 'slide-13.html', title: 'Supply Chain & Third-Party Risk', group: 'Threat Landscape' },
   { file: 'slide-14.html', title: 'Workplace Security Behavior', group: 'Workplace Security' },
   { file: 'slide-15.html', title: 'Passwords, MFA & Access Hygiene', group: 'Workplace Security' },
   { file: 'slide-16.html', title: 'See Something, Say Something', group: "Do's & Don'ts" },

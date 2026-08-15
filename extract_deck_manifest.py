@@ -89,7 +89,7 @@ STOPWORDS = {
 # ---------------------------------------------------------------- deck.js ----
 
 def parse_deck_js(text):
-    m = re.search(r"var\s+SLIDES\s*=\s*\[(.*?)\]\s*;", text, re.DOTALL)
+    m = re.search(r"(?:var|const|let)\s+SLIDES\s*=\s*\[(.*?)\]\s*;", text, re.DOTALL)
     if not m:
         raise SystemExit("Could not locate the SLIDES array in deck.js")
     entries = [

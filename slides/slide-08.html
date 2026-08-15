@@ -91,7 +91,7 @@
 
       <!-- Pair 1: Email -->
       <div style="max-width:1300px;margin:0 auto;width:100%;">
-        <div class="spot-grid reveal-stagger" data-answered="false">
+        <div class="spot-grid compact reveal-stagger" data-answered="false" data-threat-label="fake email">
           <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
             <div class="spot-verdict-tag">GENUINE</div>
             <div class="spot-media">
@@ -122,7 +122,7 @@
 
       <!-- Pair 2: MFA Prompt -->
       <div style="max-width:1100px;margin:0 auto;width:100%;">
-        <div class="spot-grid compact reveal-stagger" data-answered="false">
+        <div class="spot-grid compact reveal-stagger" data-answered="false" data-threat-label="fake MFA prompt">
           <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
             <div class="spot-verdict-tag">GENUINE</div>
             <div class="spot-media">
@@ -143,7 +143,7 @@
             </div>
             <div class="spot-body">
               <h4>Sign-In Approval — Unknown Device</h4>
-              <p>Push from Lagos, unrecognized device: "Approve now or your account locks."</p>
+              <p>Push from an unfamiliar country, unrecognised device: "Approve now or your account locks."</p>
             </div>
             <div class="spot-result">Fake — unfamiliar location, threat to force approval, no sign‑in attempt.</div>
           </div>
@@ -153,7 +153,7 @@
 
       <!-- Pair 3: Work Chat -->
       <div style="max-width:1100px;margin:0 auto;width:100%;">
-        <div class="spot-grid compact reveal-stagger" data-answered="false">
+        <div class="spot-grid compact reveal-stagger" data-answered="false" data-threat-label="fake chat message">
           <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
             <div class="spot-verdict-tag">GENUINE</div>
             <div class="spot-media">
@@ -184,7 +184,7 @@
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong>GOLDEN RULE:</strong> If you have to check a domain name closely to see if it's real, that's already a red flag. When in doubt, don't click – go directly to the app or bookmark.</div>
+        <div class="callout-text"><strong style="color:#06b6d4;">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> If you have to check a domain name closely to see if it's real, that's already a red flag. When in doubt, don't click – go directly to the app or bookmark.</div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
         <div class="info-expand-panel">Attackers know you might check the domain. Skipping the check entirely – going direct – removes the risk.</div>
       </div>

@@ -76,97 +76,6 @@
       margin: 0 auto;
     }
 
-    .stat-row-open {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .stat-open {
-      position: relative;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 12px;
-      padding: 20px 34px;
-      text-align: center;
-      min-width: 180px;
-      cursor: pointer;
-      transition: background 0.15s, border-color 0.15s, transform 0.15s;
-    }
-    .stat-open:hover {
-      background: rgba(6, 182, 212, 0.12);
-      border-color: rgba(6, 182, 212, 0.45);
-      transform: translateY(-2px);
-    }
-    .stat-open .so-val {
-      font-family: 'Orbitron', sans-serif;
-      font-size: 38px;
-      font-weight: 900;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .stat-open .so-lbl {
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.52);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    .stat-open .so-badge {
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--navy);
-      border: 1.5px solid var(--cyan);
-      color: var(--cyan-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      opacity: 0;
-      transform: scale(0.65);
-      transition: opacity 0.15s, transform 0.15s;
-    }
-    .stat-open:hover .so-badge {
-      opacity: 1;
-      transform: scale(1);
-    }
-    .so-tip {
-      position: absolute;
-      left: 50%;
-      bottom: calc(100% + 8px);
-      transform: translateX(-50%) translateY(4px);
-      width: 230px;
-      background: var(--navy);
-      color: rgba(255, 255, 255, 0.85);
-      font-family: 'Barlow', sans-serif;
-      font-size: 14px;
-      line-height: 1.5;
-      padding: 10px 13px;
-      border-radius: 7px;
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.32);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.15s, transform 0.15s;
-      z-index: 9;
-    }
-    .so-tip::after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      border: 5px solid transparent;
-      border-top-color: var(--navy);
-    }
-    .stat-open:hover .so-tip {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
     .op-hint {
       display: inline-flex;
       align-items: center;
@@ -415,34 +324,7 @@
           <p class="op-lead">A short, practical walk through today's most important cyber threats — see them, spot them, and stop them. No exams — just simple lessons you can try right away.</p>
         </div>
 
-        <div class="stat-row-open">
-          <div class="stat-open" data-popup="stat-sims" tabindex="0" role="button" aria-label="15 Live Simulations">
-            <div class="so-badge"><i class="fa-solid fa-plus"></i></div>
-            <div class="so-tip">Tap to see the full list of simulations in each module.</div>
-            <div class="so-val">15</div>
-            <div class="so-lbl">Live Simulations</div>
-          </div>
-          <div class="stat-open" data-popup="stat-time" tabindex="0" role="button" aria-label="About 20 minutes total time">
-            <div class="so-badge"><i class="fa-solid fa-plus"></i></div>
-            <div class="so-tip">Tap to see the time breakdown module by module.</div>
-            <div class="so-val">~20m</div>
-            <div class="so-lbl">Total Time</div>
-          </div>
-          <div class="stat-open" data-popup="stat-exams" tabindex="0" role="button" aria-label="Zero graded exams">
-            <div class="so-badge"><i class="fa-solid fa-plus"></i></div>
-            <div class="so-tip">Tap to see how this awareness month actually works.</div>
-            <div class="so-val">0</div>
-            <div class="so-lbl">Graded Exams</div>
-          </div>
-          <div class="stat-open" data-popup="stat-global" tabindex="0" role="button" aria-label="All staff, global">
-            <div class="so-badge"><i class="fa-solid fa-plus"></i></div>
-            <div class="so-tip">Tap to see who this applies to — on ship and on shore.</div>
-            <div class="so-val">ALL</div>
-            <div class="so-lbl">Staff, Global</div>
-          </div>
-        </div>
-
-        <div class="op-hint"><i class="fa-solid fa-hand-pointer"></i> Hover or tap any card or icon for more detail</div>
+        <div class="op-hint"><i class="fa-solid fa-hand-pointer"></i> Hover or tap any icon for more detail</div>
 
         <div class="journey">
           <div class="journey-track">
@@ -452,29 +334,29 @@
               <div class="j-num">01</div>
               <div class="j-label">Welcome</div>
             </div>
+            <div class="j-node" data-popup="j-threat" tabindex="0" role="button" aria-label="Threat Landscape module">
+              <div class="j-tip">Where today's real attacks are coming from.</div>
+              <div class="j-icon"><i class="fa-solid fa-globe"></i></div>
+              <div class="j-num">02</div>
+              <div class="j-label">Threat Landscape</div>
+            </div>
             <div class="j-node" data-popup="j-deepfake" tabindex="0" role="button" aria-label="Deepfake Attacks module">
               <div class="j-tip">Spot a cloned voice or video before it fools you.</div>
               <div class="j-icon"><i class="fa-solid fa-user-secret"></i></div>
-              <div class="j-num">02</div>
+              <div class="j-num">03</div>
               <div class="j-label">Deepfake Attacks</div>
             </div>
             <div class="j-node" data-popup="j-phishing" tabindex="0" role="button" aria-label="Phishing Evolution module">
               <div class="j-tip">Email, SMS and voice scams — evolved beyond the classics.</div>
               <div class="j-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
-              <div class="j-num">03</div>
+              <div class="j-num">04</div>
               <div class="j-label">Phishing Evolution</div>
             </div>
             <div class="j-node" data-popup="j-ai" tabindex="0" role="button" aria-label="AI and Chatbot Risks module">
               <div class="j-tip">Chatbots, unapproved tools, and attackers using AI too.</div>
               <div class="j-icon"><i class="fa-solid fa-robot"></i></div>
-              <div class="j-num">04</div>
-              <div class="j-label">AI &amp; Chatbot Risks</div>
-            </div>
-            <div class="j-node" data-popup="j-threat" tabindex="0" role="button" aria-label="Threat Landscape module">
-              <div class="j-tip">Where today's real attacks are coming from.</div>
-              <div class="j-icon"><i class="fa-solid fa-globe"></i></div>
               <div class="j-num">05</div>
-              <div class="j-label">Threat Landscape</div>
+              <div class="j-label">AI &amp; Chatbot Risks</div>
             </div>
             <div class="j-node" data-popup="j-workplace" tabindex="0" role="button" aria-label="Workplace Security module">
               <div class="j-tip">Everyday habits — passwords, MFA, and locking your screen.</div>
@@ -500,10 +382,10 @@
     </div>
 
     <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.25);border-top:1px solid rgba(255,255,255,0.12);padding:16px 64px;display:flex;align-items:center;justify-content:center;gap:24px;z-index:2;font-family:'Space Mono',monospace;font-size:16px;color:rgba(255,255,255,0.45);letter-spacing:1px;">
+      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">THREAT LANDSCAPE</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">DEEPFAKES</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">PHISHING</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">AI &amp; CHATBOTS</span><span style="color:rgba(6,182,212,0.4);">·</span>
-      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">THREAT LANDSCAPE</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">WORKPLACE SECURITY</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">DO'S &amp; DON'TS</span>
     </div>
@@ -527,56 +409,6 @@
   <script>
     (function() {
       const POPUPS = {
-        'stat-sims': {
-          icon: 'fa-solid fa-clapperboard',
-          eyebrow: 'By the numbers',
-          title: '15 Live Simulations',
-          body: "Every module includes something to click, drag, or watch — not just slides to read.",
-          list: [
-            'Deepfake spot-the-fake voice and video clips',
-            'Phishing / smishing / vishing message sorter',
-            'Live AI chatbot data-leak walkthrough',
-            'Password strength and MFA hands-on check',
-            'Screen-lock countdown simulation',
-            'Do\'s and Don\'ts visual matching'
-          ]
-        },
-        'stat-time': {
-          icon: 'fa-solid fa-stopwatch',
-          eyebrow: 'By the numbers',
-          title: '~20 Minutes Total',
-          body: 'Spread across 18 short slides in 8 modules — built to fit a coffee break, not a full training day.',
-          list: [
-            'Welcome — under 2 min',
-            'Deepfake Attacks — ~4 min',
-            'Phishing Evolution — ~4 min',
-            'AI & Chatbot Risks — ~4 min',
-            'Threat Landscape & Workplace Security — ~5 min',
-            'Do\'s & Don\'ts + Closing — ~2 min'
-          ]
-        },
-        'stat-exams': {
-          icon: 'fa-solid fa-circle-check',
-          eyebrow: 'By the numbers',
-          title: 'Zero Graded Exams',
-          body: "This is about awareness, not testing. There's no pass or fail — just explore at your own pace.",
-          list: [
-            'Nothing is recorded against your name',
-            'Replay any simulation as many times as you like',
-            'The goal is recognition, not recall'
-          ]
-        },
-        'stat-global': {
-          icon: 'fa-solid fa-earth-americas',
-          eyebrow: 'By the numbers',
-          title: 'All Staff, Everywhere',
-          body: 'Built for every device and every connection speed — on ship or on shore, in the office or offshore.',
-          list: [
-            'Works on desktop, tablet, and mobile',
-            'Loads slide-by-slide, so it\'s light on bandwidth',
-            'Same content for every rank and department'
-          ]
-        },
         'j-welcome': {
           icon: 'fa-solid fa-house-signal',
           eyebrow: 'Module 01',
@@ -586,28 +418,28 @@
         },
         'j-deepfake': {
           icon: 'fa-solid fa-user-secret',
-          eyebrow: 'Module 02',
+          eyebrow: 'Module 03',
           title: 'Deepfake Attacks',
           body: 'AI-cloned voices and faces are now cheap and convincing enough to impersonate leadership.',
           list: ['Deepfakes — The Concept', 'Real vs Fake Simulation', 'Deepfakes Beyond the Boardroom']
         },
         'j-phishing': {
           icon: 'fa-solid fa-envelope-open-text',
-          eyebrow: 'Module 03',
+          eyebrow: 'Module 04',
           title: 'Phishing Evolution',
           body: 'Phishing has moved well beyond the old typo-riddled emails — into texts, calls, and near-perfect fakes.',
           list: ['Phishing Evolution', 'Beyond Email — Smishing & Vishing', 'Spot the Phish']
         },
         'j-ai': {
           icon: 'fa-solid fa-robot',
-          eyebrow: 'Module 04',
+          eyebrow: 'Module 05',
           title: 'AI & Chatbot Risks',
           body: 'Public AI tools are powerful — and easy to misuse without meaning to, on both sides of an attack.',
           list: ['AI & Chatbot Risks', 'Shadow AI — Unapproved Tools', 'When Attackers Use AI Too']
         },
         'j-threat': {
           icon: 'fa-solid fa-globe',
-          eyebrow: 'Module 05',
+          eyebrow: 'Module 02',
           title: 'Threat Landscape',
           body: 'A quick look at where real incidents are coming from today, including through your vendors.',
           list: ['Modern Threat Landscape', 'Supply Chain & Third-Party Risk']
