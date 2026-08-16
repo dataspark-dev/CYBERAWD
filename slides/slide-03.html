@@ -74,10 +74,9 @@
       background: var(--cyan);
       transform: translateY(-50%);
       box-shadow: 0 0 9px var(--cyan);
-      animation: flowMove 2s linear infinite;
+      opacity: 0;
     }
     .morph-track.t2 .morph-dot {
-      animation-delay: 1s;
       background: #ef4444;
       box-shadow: 0 0 9px #ef4444;
     }
@@ -98,15 +97,10 @@
     .morph-node:hover {
       transform: translateY(-3px);
     }
-    .morph-node {
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
-    }
     .morph-node:hover i {
       transform: scale(1.1);
     }
-    .morph-node i {
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+    .morph-sim-btn { display: flex; justify-content: center; margin-top: 4px; }
 
     .interact-hint { font-size: 12.5px; }
 
@@ -152,23 +146,26 @@
 
       <div class="morph-diagram-wrap">
         <div class="morph-row">
-          <div class="morph-node person" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Real Person — details"
+          <div class="morph-node person" data-flow="node" style="--pulse-color:0,98,255;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Real Person — details"
                data-icon="fas fa-user" data-title="Real Person"
                data-body="A colleague's genuine voice or face, captured from something ordinary — a video call, a meeting recording, a voicemail, or even a public social media clip. Attackers don't need studio-quality audio; a noisy phone recording is often enough to start with. This is the raw material every deepfake attack begins with, which is why what you post and record can matter more than you'd expect.">
             <i class="fas fa-user"></i>
           </div>
-          <div class="morph-track"><div class="morph-dot"></div><div class="morph-label">10s of audio/video</div></div>
-          <div class="morph-node ai" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="AI Generation — details"
+          <div class="morph-track" data-flow="track" data-travel-ms="1100"><div class="morph-dot"></div><div class="morph-label">10s of audio/video</div></div>
+          <div class="morph-node ai" data-flow="node" style="--pulse-color:124,58,237;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="AI Generation — details"
                data-icon="fas fa-robot" data-title="AI Generation"
                data-body="Modern voice-cloning tools need as little as 10–20 seconds of clear audio to build a convincing model of someone's voice, and free or low-cost tools can do this in minutes — no special skill or expensive equipment required. The same applies to face-swap video: a handful of photos or a short clip is often enough. This is why 'I recognised the voice' is no longer a safe test on its own.">
             <i class="fas fa-robot"></i>
           </div>
-          <div class="morph-track t2"><div class="morph-dot"></div><div class="morph-label">AI generation</div></div>
-          <div class="morph-node clone pulse-highlight" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Live Clone — details"
+          <div class="morph-track t2" data-flow="track" data-travel-ms="1100"><div class="morph-dot"></div><div class="morph-label">AI generation</div></div>
+          <div class="morph-node clone" data-flow="node" style="--pulse-color:239,68,68;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Live Clone — details"
                data-icon="fas fa-user-secret" data-title="Live Clone"
                data-body="Once trained, the cloned voice or face can be used live — on a phone call, a video meeting, or even a voice message — to sound and look exactly like the person it copied. Attackers use this to authorise payments, request sensitive data, or give urgent instructions while impersonating someone you already trust. The only reliable defence is verifying through a second, independent channel before acting — never through the same call or chat.">
             <i class="fas fa-user-secret"></i>
           </div>
+        </div>
+        <div class="morph-sim-btn">
+          <button class="reveal-btn" id="morphSimBtn" onclick="runFlowSequence(this)" aria-label="Replay the deepfake creation simulation"><i class="fas fa-rotate-right"></i> Replay Simulation</button>
         </div>
       </div>
 
@@ -222,5 +219,14 @@
     </div>
   </div>
   <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      const btn = document.getElementById('morphSimBtn');
+      if (!btn) return;
+      const fire = () => window.runFlowSequence(btn);
+      document.addEventListener('DOMContentLoaded', fire);
+      if (window.SynergyUI) SynergyUI.onEntranceReset(fire);
+    })();
+  </script>
 </body>
 </html>

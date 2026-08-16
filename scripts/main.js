@@ -160,6 +160,56 @@ const SynergyUI = {
     });
   },
 
+  // ---- Attack-flow simulation sequencer ----
+  // Drives any "node -> track -> node" diagram (deepfake morph, AI data-paste
+  // flow) as a single run-once sequence instead of an ambient infinite loop:
+  // walks the row's children in DOM order, so a slide only needs to mark its
+  // existing track/node elements with data-flow="track"/"node" — no per-slide
+  // step list to hand-author. Any .flow-branch siblings reveal right after
+  // the final node arrives.
+  cancelFlowSequence(scene) {
+    (scene._flowTimers || []).forEach(id => clearTimeout(id));
+    scene._flowTimers = [];
+    scene.querySelectorAll('.flow-dot.running, .morph-dot.running').forEach(dot => {
+      dot.classList.remove('running');
+    });
+    scene.querySelectorAll('[data-flow="node"]').forEach(node => {
+      node.classList.remove('reached');
+      const icon = node.querySelector('.fn-icon');
+      if (icon) icon.classList.remove('reached');
+    });
+    scene.querySelectorAll('.flow-branch').forEach(b => b.classList.remove('visible'));
+  },
+
+  runFlowSequence(btn) {
+    const scene = btn.closest('.flow-scene, .morph-diagram-wrap');
+    const row = scene && scene.querySelector('.flow-row, .morph-row');
+    if (!scene || !row) return;
+    this.cancelFlowSequence(scene);
+
+    const timers = scene._flowTimers = [];
+    const schedule = (delay, fn) => timers.push(setTimeout(fn, delay));
+    let t = 0;
+
+    [...row.children].forEach(el => {
+      if (el.dataset.flow === 'track') {
+        const dot = el.querySelector('.flow-dot, .morph-dot');
+        const travelMs = parseInt(el.dataset.travelMs, 10) || 1100;
+        el.style.setProperty('--travel-ms', travelMs + 'ms');
+        schedule(t, () => { if (dot) dot.classList.add('running'); });
+        t += travelMs;
+      } else if (el.dataset.flow === 'node') {
+        const target = el.querySelector('.fn-icon') || el;
+        schedule(t, () => target.classList.add('reached'));
+        t += 300;
+      }
+    });
+
+    scene.querySelectorAll('.flow-branch').forEach((b, i) => {
+      schedule(t + i * 150, () => b.classList.add('visible'));
+    });
+  },
+
   // ---- Screen‑lock demo ----
   startLockDemo(btn) {
     const demo = btn.closest('.lock-demo');
@@ -429,6 +479,7 @@ window.toggleGlossary = el => SynergyUI.toggleGlossary(el);
 window.toggleInfoExpand = btn => SynergyUI.toggleInfoExpand(btn);
 window.startDrag = (evt, handle) => SynergyUI.startDrag(evt, handle);
 window.replayFlow = btn => SynergyUI.replayFlow(btn);
+window.runFlowSequence = btn => SynergyUI.runFlowSequence(btn);
 window.startLockDemo = btn => SynergyUI.startLockDemo(btn);
 window.flipCard = el => SynergyUI.flipCard(el);
 window.revealVerdict = btn => SynergyUI.revealVerdict(btn);

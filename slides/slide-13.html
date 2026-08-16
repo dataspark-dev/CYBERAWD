@@ -58,22 +58,6 @@
       line-height: 1.55;
     }
 
-    .chain-node.reveal-point {
-      /* max-height (not just opacity) so un-revealed stages don't reserve
-         their full layout space — otherwise the slide shows one node and a
-         large dead gap below it until every stage has been clicked through. */
-      max-height: 0;
-      opacity: 0;
-      overflow: hidden;
-      transform: translateY(12px);
-      transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
-    }
-    .chain-node.reveal-point.shown {
-      max-height: 260px;
-      opacity: 1;
-      transform: translateY(0);
-    }
-
     .interact-hint {
       font-size: 14px;
       letter-spacing: 1.3px;

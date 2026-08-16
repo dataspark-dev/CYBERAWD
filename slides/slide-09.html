@@ -86,12 +86,12 @@
 
       <div class="flow-scene">
         <div class="flow-row">
-          <div class="flow-node">
+          <div class="flow-node" data-flow="node" style="--pulse-color:0,98,255;">
             <div class="fn-icon"><i class="fas fa-user"></i></div>
             <div class="fn-label">You</div>
           </div>
-          <div class="flow-track"><div class="flow-dot"></div></div>
-          <div class="flow-node">
+          <div class="flow-track" data-flow="track" data-travel-ms="1100"><div class="flow-dot"></div></div>
+          <div class="flow-node" data-flow="node" style="--pulse-color:124,58,237;">
             <div class="fn-icon"><i class="fas fa-robot"></i></div>
             <div class="fn-label">Public AI Chatbot</div>
           </div>
@@ -124,7 +124,7 @@
         </div>
 
         <div style="text-align:center;">
-          <button class="flow-replay-btn" onclick="replayFlow(this)" aria-label="Replay data flow animation"><i class="fas fa-rotate-right"></i> Replay Simulation</button>
+          <button class="flow-replay-btn" id="flowSimBtn" onclick="runFlowSequence(this)" aria-label="Replay data flow animation"><i class="fas fa-rotate-right"></i> Replay Simulation</button>
         </div>
       </div>
 
@@ -159,5 +159,14 @@
   </div>
 
   <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      const btn = document.getElementById('flowSimBtn');
+      if (!btn) return;
+      const fire = () => window.runFlowSequence(btn);
+      document.addEventListener('DOMContentLoaded', fire);
+      if (window.SynergyUI) SynergyUI.onEntranceReset(fire);
+    })();
+  </script>
 </body>
 </html>
