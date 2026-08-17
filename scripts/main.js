@@ -56,6 +56,12 @@ const SynergyUI = {
 
   // Reads data-icon/data-title/data-body off the clicked element — lets any
   // card/icon trigger the popup from a plain onclick without inline JS objects.
+  // Tier selection rule for this deck's three reveal mechanisms — pick by
+  // content length/purpose, not by habit:
+  //   tier 1 (.hotspot)          — one short observational fact (~1-2 sentences)
+  //   tier 2 (.info-expand-btn)  — one sentence of "why it matters" rationale
+  //   tier 3 (this modal)        — a self-contained 3+ sentence mechanism
+  //                                explainer that still reads standalone
   openInfoModalFromEl(el) {
     this.openInfoModal({
       icon: el.dataset.icon,
@@ -92,6 +98,23 @@ const SynergyUI = {
       const isTarget = parseInt(p.dataset.pane, 10) === index;
       if (isTarget) this.expandTemplate(p);
       p.classList.toggle('active', isTarget);
+    });
+  },
+
+  // ---- Toggle switch + "dim until interacted" hotspot nudge ----
+  // A toggle-pane opted in via data-dim-until-interact starts with its hotspot
+  // dots at reduced opacity (.hotspot-dot.unrevealed in main.css) to nudge the
+  // viewer to pick a mode before exploring — undimmed the first time any option
+  // is chosen, and re-dimmed on slide re-entry so the nudge replays.
+  toggleSwitchAndReveal(el, index) {
+    this.toggleSwitch(el, index);
+    document.querySelectorAll('.hotspot-dot.unrevealed').forEach(dot => dot.classList.remove('unrevealed'));
+    document.querySelectorAll('.hotspot.open').forEach(h => h.classList.remove('open'));
+  },
+
+  resetUnrevealedHotspots() {
+    document.querySelectorAll('.toggle-pane[data-dim-until-interact] .hotspot-dot').forEach(dot => {
+      dot.classList.add('unrevealed');
     });
   },
 
@@ -224,8 +247,12 @@ const SynergyUI = {
     ring.style.setProperty('--dur', seconds + 's');
     let remaining = seconds;
     num.textContent = remaining;
+    // Remember each instance's own idle-state label the first time it runs, so
+    // resetLockDemos() can restore it correctly — otherwise a second .lock-demo
+    // on another slide (e.g. slide-15) would get reset to this button's copy.
+    if (!btn.dataset.labelIdle) btn.dataset.labelIdle = btn.textContent;
     btn.disabled = true;
-    btn.textContent = 'Watching for idle...';
+    btn.textContent = btn.dataset.labelRunning || 'Watching...';
     demo._lockTimer = setInterval(() => {
       remaining--;
       num.textContent = Math.max(remaining, 0);
@@ -235,7 +262,7 @@ const SynergyUI = {
         ring.classList.add('locked');
         overlay.classList.add('show');
         btn.disabled = false;
-        btn.textContent = 'Replay Simulation';
+        btn.textContent = btn.dataset.labelDone || 'Replay Simulation';
       }
     }, 1000);
   },
@@ -251,7 +278,7 @@ const SynergyUI = {
       if (ring) ring.classList.remove('running', 'locked');
       if (num) num.textContent = seconds;
       if (overlay) overlay.classList.remove('show');
-      if (btn) { btn.disabled = false; btn.textContent = 'Simulate Idle Desk'; }
+      if (btn) { btn.disabled = false; btn.textContent = btn.dataset.labelIdle || btn.textContent; }
     });
   },
 
@@ -406,6 +433,7 @@ const SynergyUI = {
     this.resetSpotGrids();
     this.resetRevealChains();
     this.resetLockDemos();
+    this.resetUnrevealedHotspots();
     this.initToggleSwitches();
 
     // Re‑run stagger animations (assigning --stagger-i lets any number of
@@ -474,6 +502,7 @@ const SynergyUI = {
 
 // ---- Expose functions to HTML onclick attributes ----
 window.toggleSwitch = (el, i) => SynergyUI.toggleSwitch(el, i);
+window.toggleSwitchAndReveal = (el, i) => SynergyUI.toggleSwitchAndReveal(el, i);
 window.revealHotspot = el => SynergyUI.revealHotspot(el);
 window.toggleGlossary = el => SynergyUI.toggleGlossary(el);
 window.toggleInfoExpand = btn => SynergyUI.toggleInfoExpand(btn);

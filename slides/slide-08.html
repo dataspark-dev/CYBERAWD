@@ -9,17 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .slide-main.reveal-stagger { gap: 18px; }
-
-    .section-lead {
-      font-size: 22px;
-      line-height: 1.5;
-      max-width: 1600px;
-    }
     .interact-hint { font-size: 13px; }
 
     .spot-outcome {
@@ -30,7 +24,7 @@
       border: 1px solid var(--line);
       font-family: 'Space Mono', monospace;
       font-weight: 700;
-      font-size: 12px;
+      font-size: 13px;
       text-align: center;
     }
     .spot-outcome.show { display: block; }
@@ -40,21 +34,21 @@
       min-height: 65px;
       gap: 4px;
     }
-    .spot-media i { font-size: 24px; }
-    .spot-media .spot-label { font-size: 11px; }
+    .spot-media i { font-size: 26px; }
+    .spot-media .spot-label { font-size: 12.5px; }
     .spot-body { padding: 8px 13px; }
     .slide .spot-body h4 {
-      font-size: 14.5px;
+      font-size: 16px;
       margin-bottom: 2px;
     }
     .slide .spot-body p {
-      font-size: 13px;
-      line-height: 1.35;
+      font-size: 14.5px;
+      line-height: 1.3;
     }
     .spot-result {
       padding: 5px 13px;
-      font-size: 12px;
-      line-height: 1.35;
+      font-size: 13px;
+      line-height: 1.3;
     }
 
     .spot-card {
@@ -74,7 +68,7 @@
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-threat">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -85,7 +79,7 @@
       <h1>KNOWLEDGE CHECK — <span>SPOT THE REAL THREAT</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
-      <p class="section-lead">Three quick pairs – email, MFA prompt, and work chat. In each pair, one is fake. Click the one you think is the threat.</p>
+      <p class="section-lead compact">Three quick pairs – email, MFA prompt, and work chat. In each pair, one is fake. Click the one you think is the threat.</p>
 
       <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click a card to choose</div>
 

@@ -9,19 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
-
-    .slide-main.reveal-stagger { gap: 26px; }
-
-    .section-lead {
-      max-width: 1600px;
-      font-size: 25px;
-      line-height: 1.6;
-    }
-
-    .mono-tag { font-size: 12.5px; }
 
     .action-row {
       display: flex;
@@ -37,13 +28,9 @@
     .interact-hint { font-size: 13px; }
 
     .cl-item .cl-icon {
-      width: 44px;
-      height: 44px;
-      font-size: 18px;
       flex-shrink: 0;
       position: relative;
       cursor: pointer;
-      border-radius: 8px;
       background: rgba(6, 182, 212, 0.08);
       transition: background 0.15s;
     }
@@ -69,7 +56,7 @@
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-threat">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -79,7 +66,7 @@
       <div class="slide-eyebrow">Artificial Intelligence</div>
       <h1><span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button" style="color:inherit;">SHADOW AI<span class="glossary-popup" style="color:#fff;">Any AI tool used for work that IT hasn't reviewed or approved.</span></span>: THE <span>UNAPPROVED</span> TOOLS</h1>
     </div>
-    <div class="slide-main reveal-stagger">
+    <div class="slide-main reveal-stagger relaxed">
       <p class="section-lead">Not every AI risk is a chatbot. Click any tool you've seen used on your team – and check if it's actually approved for work.</p>
 
       <div class="section-block" style="margin-bottom:0;">
@@ -89,7 +76,7 @@
         <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click each item you've seen used — click an icon for why it matters</div>
 
         <div class="checklist-grid reveal-stagger">
-          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
             <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
                  data-icon="fas fa-puzzle-piece" data-title="Browser AI Extensions"
                  data-body="These free 'AI assistant' add-ons run on every page you visit — including internal company systems, restricted portals, and confidential documents open in your browser — not just the public sites they're marketed for. Many free extensions monetise by logging or selling the data they read, and you often can't tell which ones do. If it's not on the approved list, uninstall it rather than assuming it's harmless.">
@@ -98,7 +85,7 @@
             <div><h4>Browser AI Extensions</h4><p>Free "AI assistant" add-ons that read and summarise every page you visit – including internal systems.</p></div>
             <i class="fas fa-circle cl-check"></i>
           </div>
-          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
             <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
                  data-icon="fas fa-user-secret" data-title="Personal AI Accounts"
                  data-body="A personal chatbot account isn't covered by any data-processing agreement the company has negotiated — no contractual protection, no guarantee about where the data is stored, and no company oversight if something goes wrong. It's an easy habit to fall into when a personal account is faster to set up than requesting access to an approved one, but it moves company and customer data outside every safeguard put in place for exactly this reason. Always use the company-approved account, even if it takes an extra step to set up.">
@@ -107,7 +94,7 @@
             <div><h4>Personal AI Accounts</h4><p>Using a personal chatbot account instead of the company-approved one to get work done faster.</p></div>
             <i class="fas fa-circle cl-check"></i>
           </div>
-          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
             <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
                  data-icon="fas fa-microphone-lines" data-title="AI Meeting Note-Takers"
                  data-body="Bots that join calls to auto-transcribe and summarise send everything said in the meeting — including anything confidential — to a third-party vendor's servers that nobody on your team chose or vetted. That transcript can include commercially sensitive discussions or crew and customer information, stored under a retention policy you have no visibility into. If a meeting needs a written record, use the company's approved transcription tool, or take manual notes instead.">
@@ -116,7 +103,7 @@
             <div><h4>AI Meeting Note-Takers</h4><p>Bots that join calls to auto-transcribe and summarise – sending your meeting content to a third-party server.</p></div>
             <i class="fas fa-circle cl-check"></i>
           </div>
-          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
             <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
                  data-icon="fas fa-file-pen" data-title="AI Résumé / Interview Tools"
                  data-body="AI writing helpers used on a CV, cover letter, or interview prep often store what you type — including personal details and, if you're not careful, internal project or company information — to improve their own models. This applies whether you're preparing for an external opportunity or an internal role, on shore or on board. Keep anything company-specific out of these tools entirely; there's no way to remove it once submitted.">
@@ -125,7 +112,7 @@
             <div><h4>AI Résumé / Interview Tools</h4><p>AI writing helpers used on a CV, cover letter, or interview prep — on shore or on board — that ask for personal or company details.</p></div>
             <i class="fas fa-circle cl-check"></i>
           </div>
-          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
             <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
                  data-icon="fas fa-route" data-title="Unapproved Voyage-Planning AI"
                  data-body="Free weather-routing or passage-planning tools can seem like a helpful shortcut, but feeding them vessel position, route, and cargo details sends operationally sensitive data to a third party outside the approved voyage-planning system — with no vetting of who can access it or how long it's kept. This kind of data can reveal a vessel's schedule and cargo to anyone who later gains access to that provider's systems. Stick to the company-approved voyage-planning tool, even when a free alternative looks quicker.">
@@ -134,7 +121,7 @@
             <div><h4>Unapproved Voyage-Planning AI</h4><p>Free weather-routing or passage-planning tools used instead of the company-approved system, feeding vessel position and cargo details to a third party.</p></div>
             <i class="fas fa-circle cl-check"></i>
           </div>
-          <div class="cl-item toggleable" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
+          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
             <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
                  data-icon="fas fa-language" data-title="Translation &amp; Summariser Plugins"
                  data-body="A free 'summarise this document' or translation plugin uploads the entire file to a third-party server just to hand back a short summary or translated version — meaning the whole document, not just the parts you needed, now sits outside company control. This is an easy trap because the tools are genuinely useful and often free, with no obvious warning about where the file goes. If you need a document summarised or translated, check for a company-approved option first.">

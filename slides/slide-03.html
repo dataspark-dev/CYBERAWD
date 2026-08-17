@@ -9,22 +9,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
-
-    .slide-main.reveal-stagger { gap: 18px; }
-    .section-lead {
-      max-width: 1600px;
-      font-size: 25px;
-      line-height: 1.6;
-    }
 
     .morph-diagram-wrap {
       max-width: 1600px;
       margin: 0 auto;
       position: relative;
-      padding: 8px 0 30px;
+      padding: 4px 0 16px;
     }
     .morph-row {
       display: flex;
@@ -94,27 +88,18 @@
     }
     .info-box .info-expand-btn:hover { background: rgba(0, 26, 77, 0.05); }
 
-    .morph-node:hover {
-      transform: translateY(-3px);
-    }
-    .morph-node:hover i {
-      transform: scale(1.1);
-    }
     .morph-sim-btn { display: flex; justify-content: center; margin-top: 4px; }
 
-    .interact-hint { font-size: 12.5px; }
-
-    .info-box { font-size: 17px; line-height: 1.6; }
+    .info-box { font-size: 18px; line-height: 1.5; }
     .info-box p,
     .info-box div {
-      font-size: 17px;
-      line-height: 1.6;
+      font-size: 18px;
+      line-height: 1.5;
     }
-    .mono-tag { font-size: 13.5px; }
     .info-box .info-expand-btn { font-size: 13px; }
     .info-box .info-expand-panel {
-      font-size: 15px !important;
-      line-height: 1.6;
+      font-size: 16px !important;
+      line-height: 1.55;
     }
 
     .action-row {
@@ -122,16 +107,16 @@
       align-items: center;
       gap: 12px;
       flex-wrap: wrap;
-      margin-top: 6px;
+      margin-top: 0;
     }
     .action-row .impact-chip {
-      font-size: 15px;
+      font-size: 16px;
       padding: 7px 16px;
     }
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-threat">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -141,7 +126,7 @@
       <div class="slide-eyebrow">Identity &amp; Trust</div>
       <h1>DEEPFAKE ATTACKS: <span>THE CONCEPT</span></h1>
     </div>
-    <div class="slide-main reveal-stagger">
+    <div class="slide-main reveal-stagger compact">
       <p class="section-lead">AI can clone a colleague's voice from a 10-second clip and generate a live "video call" of your CFO in real time. This is CXO impersonation — cloning a senior leader such as a CEO or CFO — and live social engineering in action. Watch how a real person becomes a live clone that's ready to use on a call.</p>
 
       <div class="morph-diagram-wrap">

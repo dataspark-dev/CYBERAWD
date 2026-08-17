@@ -9,26 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .slide-main.reveal-stagger { gap: 24px; }
-
-    .section-lead {
-      max-width: 1600px;
-      font-size: 25px;
-      line-height: 1.6;
-    }
-
     .interact-hint { font-size: 13px; }
 
-    .sc-icon {
-      width: 50px;
-      height: 50px;
-      font-size: 21px;
-      border-radius: 12px;
-    }
     .sc-content h4 { font-size: 19px; }
     .reveal-btn { font-size: 12.5px; padding: 8px 16px; }
     .verdict-badge { font-size: 15px; }
@@ -50,7 +37,7 @@
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-threat">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -60,7 +47,7 @@
       <div class="slide-eyebrow">Identity &amp; Trust</div>
       <h1>DEEPFAKES BEYOND THE <span>BOARDROOM</span></h1>
     </div>
-    <div class="slide-main reveal-stagger">
+    <div class="slide-main reveal-stagger relaxed">
       <p class="section-lead">The US$25M call wasn't a one‑off — it just made headlines. Click each card to see who else attackers are cloning, and why it works.</p>
 
       <div class="interact-hint" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click "Reveal" on each card</div>
@@ -68,7 +55,7 @@
       <div class="reveal-stagger card-grid cols-4">
         <div class="scenario-card">
           <div class="scenario-top">
-            <div class="sc-icon"><i class="fas fa-user-tie"></i></div>
+            <div class="sc-icon lg"><i class="fas fa-user-tie"></i></div>
             <div class="sc-content">
               <h4>Fake Recruiter Interview</h4>
               <p>A candidate is interviewed by a polished "hiring manager" who later asks for a deposit or bank details to "process relocation."</p>
@@ -83,7 +70,7 @@
 
         <div class="scenario-card">
           <div class="scenario-top">
-            <div class="sc-icon"><i class="fas fa-truck-field"></i></div>
+            <div class="sc-icon lg"><i class="fas fa-truck-field"></i></div>
             <div class="sc-content">
               <h4>Vendor Bank‑Change Call</h4>
               <p>A long‑standing supplier calls — voice matches perfectly — to confirm a new bank account before the next invoice payment.</p>
@@ -98,7 +85,7 @@
 
         <div class="scenario-card">
           <div class="scenario-top">
-            <div class="sc-icon"><i class="fas fa-ship"></i></div>
+            <div class="sc-icon lg"><i class="fas fa-ship"></i></div>
             <div class="sc-content">
               <h4>Crew Allotment Change Call</h4>
               <p>Someone sounding exactly like a seafarer (or a family member) calls crewing or payroll asking to urgently change the bank details for a monthly wage allotment.</p>
@@ -113,7 +100,7 @@
 
         <div class="scenario-card">
           <div class="scenario-top">
-            <div class="sc-icon"><i class="fas fa-headset"></i></div>
+            <div class="sc-icon lg"><i class="fas fa-headset"></i></div>
             <div class="sc-content">
               <h4>IT Support "Callback"</h4>
               <p>Someone who sounds exactly like your usual IT contact calls and asks you to read back a one‑time <span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button">MFA<span class="glossary-popup">A second proof of identity beyond your password — a code, app approval, or key.</span></span> code to "fix a login issue."</p>

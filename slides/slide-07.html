@@ -9,17 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
-
-    .slide-main.reveal-stagger { gap: 18px; }
-
-    .section-lead {
-      max-width: 1600px;
-      font-size: 25px;
-      line-height: 1.6;
-    }
 
     .interact-hint { font-size: 13px; }
 
@@ -117,7 +110,7 @@
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-threat">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -134,30 +127,30 @@
         <div style="display:flex;justify-content:center;">
           <div class="toggle-switch" data-active="0" data-count="3">
             <div class="toggle-indicator"></div>
-            <button class="toggle-opt active" onclick="toggleSwitch(this,0)" aria-label="Show smishing example"><i class="fas fa-comment-sms"></i> Smishing (SMS)</button>
-            <button class="toggle-opt" onclick="toggleSwitch(this,1)" aria-label="Show vishing example"><i class="fas fa-phone"></i> Vishing (Voice)</button>
-            <button class="toggle-opt" onclick="toggleSwitch(this,2)" aria-label="Show work chat example"><i class="fas fa-comments"></i> Work Chat (Teams/WhatsApp)</button>
+            <button class="toggle-opt active" onclick="toggleSwitchAndReveal(this,0)" aria-label="Show smishing example"><i class="fas fa-comment-sms"></i> Smishing (SMS)</button>
+            <button class="toggle-opt" onclick="toggleSwitchAndReveal(this,1)" aria-label="Show vishing example"><i class="fas fa-phone"></i> Vishing (Voice)</button>
+            <button class="toggle-opt" onclick="toggleSwitchAndReveal(this,2)" aria-label="Show work chat example"><i class="fas fa-comments"></i> Work Chat (Teams/WhatsApp)</button>
           </div>
         </div>
 
         <div class="interact-hint center" style="margin:14px 0 4px;"><i class="fas fa-hand-pointer"></i> Click to compare</div>
 
         <!-- Smishing pane -->
-        <div class="toggle-pane active" data-pane="0">
+        <div class="toggle-pane active" data-pane="0" data-dim-until-interact>
           <div class="scene">
             <div class="scene-media phone-frame">
               <div class="sms-sender">Text Message &middot; +44 7700 900123</div>
               <div class="sms-bubble">Your parcel could not be delivered. Pay a &pound;1.99 fee within 24 hours or it will be returned: gov-redelivery-uk.info</div>
               <div class="hotspot flag" style="top:18%;left:78%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unexpected sender number marker">
-                <span class="hotspot-dot"></span>
+                <span class="hotspot-dot unrevealed"></span>
                 <div class="hotspot-tip"><strong>Unexpected sender number</strong><br>Real carriers use short codes, not personal-looking mobile numbers.</div>
               </div>
               <div class="hotspot flag" style="top:58%;left:62%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Fake link marker">
-                <span class="hotspot-dot"></span>
+                <span class="hotspot-dot unrevealed"></span>
                 <div class="hotspot-tip tip-above"><strong>Fake link</strong><br>Looks like a real government site but isn't. Never tap links in unexpected texts.</div>
               </div>
               <div class="hotspot flag" style="top:82%;left:38%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Small amount, short deadline marker">
-                <span class="hotspot-dot"></span>
+                <span class="hotspot-dot unrevealed"></span>
                 <div class="hotspot-tip tip-above"><strong>Small amount, short deadline</strong><br>Designed to make you act without thinking.</div>
               </div>
             </div>

@@ -9,18 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
     .reveal-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .slide-main.reveal-stagger { gap: 14px; }
-
-    .slide .section-lead {
-      max-width: 100%;
-      font-size: 24px;
-      margin-bottom: 14px;
-    }
 
     .reveal-click-zone.chain { max-width: 100% !important; }
 
@@ -46,8 +39,10 @@
       background: #fff;
       border-radius: 0 4px 4px 0;
       box-shadow: var(--shadow-sm);
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
     }
+    .chain-content[onclick] { cursor: pointer; }
+    .chain-content[onclick]:hover { box-shadow: var(--shadow-md); }
     .chain-content h4 {
       font-size: 20px;
       margin-bottom: 6px;
@@ -112,7 +107,7 @@
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-threat">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -122,8 +117,8 @@
       <div class="slide-eyebrow">2026 Threat Landscape</div>
       <h1>THE THREAT YOU DON'T <span>CONTROL</span></h1>
     </div>
-    <div class="slide-main reveal-stagger">
-      <p class="section-lead">You can secure your own devices, but you can't control a vendor's security. See how one compromised update can affect us.</p>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead full-width">You can secure your own devices, but you can't control a vendor's security. See how one compromised update can affect us.</p>
 
       <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click "Reveal Next Stage" to build the chain</div>
 
@@ -134,7 +129,12 @@
         </div>
         <div class="chain-node reveal-point" style="--node-color:#f59e0b;">
           <div class="chain-left"><div class="chain-icon"><i class="fas fa-bug"></i></div><div class="chain-line"></div></div>
-          <div class="chain-content"><h4>2 · Malicious Code Inserted</h4><p>Attackers have already broken into the vendor's <span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button" aria-label="Define build pipeline">build pipeline<span class="glossary-popup wide">The internal process a company uses to build and ship its software updates.</span></span> and hidden malicious code inside that update.</p></div>
+          <div class="chain-content" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Malicious code inserted — details"
+               data-icon="fas fa-bug" data-title="Compromised Build Pipelines"
+               data-body="A build pipeline is the internal process a company uses to compile, test, and ship its software updates. When attackers break into that pipeline rather than the finished product, they can insert malicious code before the update is digitally signed — so the tampered version looks completely legitimate to every device that installs it. This is why a trusted vendor's own update can carry an attack: the vendor's signature is still genuine, only the process that produced it was compromised. Vendors defend this with code review and pipeline access controls, but from the customer side there's no way to inspect it — which is exactly why odd behaviour right after an update deserves a report, not a shrug.">
+            <h4>2 &middot; Malicious Code Inserted</h4>
+            <p>Attackers have already broken into the vendor's build pipeline and hidden malicious code inside that update. <span class="interact-hint" style="margin-top:4px;"><i class="fas fa-circle-info"></i> Click for details</span></p>
+          </div>
         </div>
         <div class="chain-node reveal-point" style="--node-color:#ef4444;">
           <div class="chain-left"><div class="chain-icon"><i class="fas fa-download"></i></div><div class="chain-line"></div></div>

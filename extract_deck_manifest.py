@@ -63,7 +63,15 @@ SLIDE_ARRAY_RE = re.compile(
 HEX_RE = re.compile(r"#[0-9a-fA-F]{6}\b|#[0-9a-fA-F]{3}\b")
 VAR_RE = re.compile(r"var\(\s*(--[a-zA-Z0-9-]+)\s*\)")
 SLIDE_OF_RE = re.compile(r"SLIDE\s+(\d+)\s+OF\s+(\d+)", re.IGNORECASE)
-ROOT_VAR_LINE_RE = re.compile(r"(--[a-zA-Z0-9-]+)\s*:\s*(#[0-9a-fA-F]{3,6})")
+# Hex-valued :root vars only — used to build the hex-color -> var-name reverse
+# lookup for the off-palette-color check.
+ROOT_VAR_HEX_RE = re.compile(r"(--[a-zA-Z0-9-]+)\s*:\s*(#[0-9a-fA-F]{3,6})")
+# Every :root custom property regardless of value type (gradient, box-shadow,
+# calc(), a var() reference, etc.) — used to check whether a var() reference
+# elsewhere in the deck is actually defined. Using the hex-only regex for this
+# previously false-flagged legitimately-defined non-color vars like
+# --grad-cyan/--shadow-sm/--shadow-md as "undefined".
+ROOT_VAR_DECL_RE = re.compile(r"(--[a-zA-Z0-9-]+)\s*:\s*([^;]+);")
 DECL_RE = re.compile(r"([\w-]+)\s*:\s*([^;{}]+)")
 
 
@@ -104,12 +112,23 @@ def parse_deck_js(text):
 # ---------------------------------------------------------------- main.css ----
 
 def parse_root_vars(css_text):
+    """Returns (all_vars, hex_vars):
+    - all_vars: every custom property defined in :root, name -> trimmed value
+      (any value type). Used to check whether a var() reference elsewhere in
+      the deck is actually defined.
+    - hex_vars: the subset whose value is a literal hex color, name -> hex
+      (lowercased). Used to build the hex-color -> var-name reverse lookup
+      for the off-palette-color check.
+    """
     m = re.search(r":root\s*\{(.*?)\}", css_text, re.DOTALL)
-    varmap = {}
+    all_vars, hex_vars = {}, {}
     if m:
-        for name, value in ROOT_VAR_LINE_RE.findall(m.group(1)):
-            varmap[name] = value.lower()
-    return varmap
+        block = m.group(1)
+        for name, value in ROOT_VAR_DECL_RE.findall(block):
+            all_vars[name] = value.strip()
+        for name, value in ROOT_VAR_HEX_RE.findall(block):
+            hex_vars[name] = value.lower()
+    return all_vars, hex_vars
 
 
 # ------------------------------------------------------------- helpers -------

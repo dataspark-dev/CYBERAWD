@@ -9,17 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .slide-main.reveal-stagger { gap: 16px; }
-
-    .slide .section-lead {
-      max-width: 100%;
-      font-size: 24px;
-      margin-bottom: 14px;
-    }
     .interact-hint {
       font-size: 14px;
       letter-spacing: 1.3px;
@@ -42,7 +36,7 @@
     .scene { flex: 1; display: flex; }
     .scene-media {
       flex: 1;
-      min-height: 460px !important;
+      min-height: 400px !important;
       position: relative;
     }
     .scene-media i.fa-desktop { font-size: 130px !important; }
@@ -64,10 +58,6 @@
     .lock-demo {
       padding: 26px 30px;
       gap: 28px;
-      border: 1px solid var(--line);
-      border-radius: var(--r-lg);
-      background: #fff;
-      box-shadow: var(--shadow-sm);
     }
     .lock-ring {
       width: 120px;
@@ -89,16 +79,6 @@
       font-size: 13px;
       padding: 11px 24px;
     }
-    .lock-ring.locked .lock-ring-bar {
-      stroke: var(--green);
-    }
-    @keyframes lockPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
-      50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-    }
-    .lock-overlay.show {
-      animation: lockPulse 1.6s ease-in-out 2;
-    }
 
     .slide .info-box {
       padding: 18px 22px;
@@ -115,7 +95,7 @@
       margin-top: 4px;
     }
     .mono-tag {
-      font-size: 13px;
+      font-size: 14.5px;
       letter-spacing: 1.8px;
     }
     .impact-chip {
@@ -148,7 +128,7 @@
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-defense">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -159,7 +139,7 @@
       <h1>YOUR DESK IS PART OF THE <span>PERIMETER</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
-      <p class="section-lead">Click the markers to see the risks. Then watch what should happen when you step away from your desk.</p>
+      <p class="section-lead full-width">Click the markers to see the risks. Then watch what should happen when you step away from your desk.</p>
 
       <div class="two-col">
         <div>
@@ -215,7 +195,7 @@
             <div class="lock-demo-body">
               <h4>Simulate an Idle Desk</h4>
               <p>Watch what should happen when you walk away – an unlocked screen is an open door.</p>
-              <button onclick="startLockDemo(this)" aria-label="Start idle desk simulation">Simulate Idle Desk</button>
+              <button onclick="startLockDemo(this)" data-label-running="Watching for idle..." data-label-done="Replay Simulation" aria-label="Start idle desk simulation">Simulate Idle Desk</button>
             </div>
           </div>
 

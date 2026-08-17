@@ -9,17 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .slide-main.reveal-stagger { gap: 16px; }
-
-    .slide .section-lead {
-      max-width: 100%;
-      font-size: 24px;
-      margin-bottom: 14px;
-    }
     .interact-hint {
       font-size: 14px;
       letter-spacing: 1.3px;
@@ -42,7 +36,7 @@
     .scene { flex: 1; display: flex; }
     .scene-media {
       flex: 1;
-      min-height: 460px !important;
+      min-height: 400px !important;
       position: relative;
     }
     .scene-media i { font-size: 80px !important; }
@@ -57,17 +51,29 @@
       padding: 13px 16px;
     }
 
-    .slide .fact-box {
-      padding: 20px 24px;
+    .lock-demo {
+      padding: 26px 30px;
+      gap: 28px;
     }
-    .slide .fact-label {
-      font-size: 13px;
-      letter-spacing: 1.8px;
-      margin-bottom: 3px;
+    .lock-ring {
+      width: 120px;
+      height: 120px;
     }
-    .slide .fact-text {
+    .lock-ring-num { font-size: 36px; }
+    .lock-overlay i { font-size: 36px; }
+    .lock-overlay .lo-label { font-size: 20px; }
+    .lock-demo-body h4 {
       font-size: 19px;
-      line-height: 1.55;
+      margin-bottom: 6px;
+    }
+    .lock-demo-body p {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    .lock-demo-body button {
+      font-size: 13px;
+      padding: 11px 24px;
     }
 
     .slide .info-box {
@@ -90,7 +96,7 @@
       margin-top: 4px;
     }
     .mono-tag {
-      font-size: 13px;
+      font-size: 14.5px;
       letter-spacing: 1.8px;
     }
     .impact-chip {
@@ -123,7 +129,7 @@
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-defense">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -134,7 +140,7 @@
       <h1>YOUR LOGIN IS PART OF THE <span>PERIMETER</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
-      <p class="section-lead">Click the markers to see a well‑protected account – and what attackers hope you never fix.</p>
+      <p class="section-lead full-width">Click the markers to see a well‑protected account – and what attackers hope you never fix.</p>
 
       <div class="two-col">
         <div>
@@ -177,11 +183,16 @@
         </div>
 
         <div>
-          <div class="fact-box">
-            <i class="fas fa-lightbulb fact-icon"></i>
-            <div>
-              <div class="fact-label">Did You Know?</div>
-              <div class="fact-text">A password manager plus MFA stops most account takeovers – even when your password is leaked in a breach not related to work.</div>
+          <div class="lock-demo danger" data-seconds="5">
+            <div class="lock-ring">
+              <svg viewBox="0 0 120 120"><circle class="lock-ring-track" cx="60" cy="60" r="52"></circle><circle class="lock-ring-bar" cx="60" cy="60" r="52"></circle></svg>
+              <span class="lock-ring-num">5</span>
+            </div>
+            <div class="lock-overlay"><i class="fas fa-ban"></i><div class="lo-label">DENY &amp; REPORT</div></div>
+            <div class="lock-demo-body">
+              <h4>Simulate an MFA Push-Bombing Attack</h4>
+              <p>Watch what a flood of approval requests you didn't trigger looks like – and what to do about it.</p>
+              <button onclick="startLockDemo(this)" data-label-running="Requests incoming..." data-label-done="Replay Simulation" aria-label="Start MFA push-bombing simulation">Simulate Approval Flood</button>
             </div>
           </div>
 

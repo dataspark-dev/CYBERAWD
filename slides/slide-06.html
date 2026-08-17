@@ -9,18 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
-
-    .slide-main.reveal-stagger { gap: 10px; }
-
-    .section-lead {
-      max-width: 1600px;
-      font-size: 25px;
-      line-height: 1.6;
-      margin-bottom: 8px;
-    }
 
     .interact-hint { font-size: 13px; }
 
@@ -154,13 +146,13 @@
 
     .mail-annotate-scene .scene-media {
       position: relative;
-      min-height: 220px;
+      min-height: 195px;
       padding: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-threat">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -170,12 +162,12 @@
       <div class="slide-eyebrow">Email, SMS &amp; Voice</div>
       <h1>PHISHING HAS <span>EVOLVED</span></h1>
     </div>
-    <div class="slide-main reveal-stagger">
-      <p class="section-lead">Phishing today looks very different from the old scams. Drag to compare, then click the flags.</p>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead tight">Phishing today looks very different from the old scams. Drag to compare, then click the flags.</p>
 
       <!-- Drag‑compare slider -->
       <div>
-        <div class="compare-slider" style="height:220px;max-width:1780px;margin:0 auto;">
+        <div class="compare-slider" style="height:182px;max-width:1780px;margin:0 auto;">
           <div class="compare-after mail-stage modern-bg">
             <div class="mail-mock modern">
               <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: Meera Iyer — IT Service Desk &lt;it.support@synergymarinegr0up.com&gt;</div>
@@ -219,9 +211,10 @@
             </div>
           </div>
           <!-- Hotspots -->
-          <div class="hotspot flag" style="top:16%;left:58%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lookalike domain marker">
+          <div class="hotspot flag" style="top:16%;left:58%;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Lookalike domain marker"
+               data-icon="fas fa-magnifying-glass" data-title="Look-Alike Domains"
+               data-body="Attackers register domains that differ from the real one by a single swapped character — here a &quot;0&quot; in place of an &quot;o&quot; in synergymarinegroup.com. At a glance, in a busy inbox, it reads exactly like the genuine address. Because it's a real, working domain rather than a link to a known-bad site, most spam filters won't flag it. The only reliable check is reading the full address character-by-character — or better, going to the app directly instead of trusting the sender field at all.">
             <span class="hotspot-dot"></span>
-            <div class="hotspot-tip"><strong>Fake sender address</strong><br>it.support@synergymarinegr<strong style="color:#ef4444;">0</strong>up.com — one character different from the real address. Always check the full address, not just the name.</div>
           </div>
           <div class="hotspot flag" style="top:56%;left:46%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Urgency marker">
             <span class="hotspot-dot"></span>

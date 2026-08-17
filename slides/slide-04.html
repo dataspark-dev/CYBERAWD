@@ -9,17 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
   <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
-
-    .slide-main.reveal-stagger { gap: 14px; }
-
-    .section-lead {
-      max-width: 1600px;
-      font-size: 25px;
-      line-height: 1.6;
-    }
 
     .call-avatar {
       width: 132px;
@@ -66,12 +59,16 @@
     .think-prompt i { color: #0062ff; margin-right: 8px; }
 
     .hotspot-dot.unrevealed { opacity: 0.3; }
+
+    /* Tightened so the slide still holds its full height with the callout's
+       detail panel open, instead of scrolling the golden rule out of view. */
+    .toggle-group { gap: 11px; }
     .toggle-pane .scene { max-width: 720px !important; margin: 0 auto; }
     .toggle-pane .hotspot-tip { width: 250px; font-size: 15px; }
   </style>
 </head>
 <body>
-  <div class="slide">
+  <div class="slide accent-threat">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
@@ -81,7 +78,7 @@
       <div class="slide-eyebrow">Try It Yourself</div>
       <h1>REAL VS <span>FAKE</span> — TOGGLE TO COMPARE</h1>
     </div>
-    <div class="slide-main reveal-stagger">
+    <div class="slide-main reveal-stagger compact">
       <p class="section-lead">Switch between a real call and a deepfake. Then click the markers to see what gives the fake away.</p>
 
       <div class="toggle-group">
@@ -98,9 +95,9 @@
         <div class="interact-hint center" style="margin:14px 0 4px;"><i class="fas fa-hand-pointer"></i> Click to compare</div>
 
         <!-- Real Call Pane -->
-        <div class="toggle-pane active" data-pane="0">
+        <div class="toggle-pane active" data-pane="0" data-dim-until-interact>
           <div class="scene">
-            <div class="scene-media" style="background:linear-gradient(160deg,var(--scene-green-dark-2),var(--scene-green-dark-1));min-height:300px;display:flex;align-items:center;justify-content:center;">
+            <div class="scene-media" style="background:linear-gradient(160deg,var(--scene-green-dark-2),var(--scene-green-dark-1));min-height:260px;display:flex;align-items:center;justify-content:center;">
               <div class="call-avatar"><i class="fas fa-user-tie" style="font-size:58px;color:var(--scene-green-accent);"></i></div>
               <div class="hotspot safe" style="top:26%;left:44%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Natural blinking marker">
                 <span class="hotspot-dot unrevealed"></span>
@@ -122,7 +119,7 @@
         <!-- Deepfake Call Pane -->
         <div class="toggle-pane" data-pane="1"><template>
           <div class="scene">
-            <div class="scene-media" style="background:linear-gradient(160deg,var(--scene-red-dark-2),var(--scene-red-dark-1));min-height:300px;display:flex;align-items:center;justify-content:center;">
+            <div class="scene-media" style="background:linear-gradient(160deg,var(--scene-red-dark-2),var(--scene-red-dark-1));min-height:260px;display:flex;align-items:center;justify-content:center;">
               <div class="call-avatar"><i class="fas fa-user-secret" style="font-size:58px;color:var(--scene-red-accent);"></i></div>
               <div class="hotspot flag" style="top:26%;left:44%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unnatural blinking marker">
                 <span class="hotspot-dot"></span>
@@ -155,25 +152,5 @@
   </div>
 
   <script src="../scripts/main.js"></script>
-  <script>
-    (function() {
-      window.toggleSwitchAndReveal = function(el, index) {
-        toggleSwitch(el, index);
-        document.querySelectorAll('.hotspot-dot.unrevealed').forEach(dot => {
-          dot.classList.remove('unrevealed');
-        });
-        document.querySelectorAll('.hotspot.open').forEach(h => h.classList.remove('open'));
-      };
-
-      // Re-dim the "Real Call" markers on re-entry so the progressive reveal
-      // (dim until you pick a mode) replays each time the slide is shown.
-      function resetUnrevealed() {
-        document.querySelectorAll('.toggle-pane[data-pane="0"] .hotspot-dot').forEach(dot => {
-          dot.classList.add('unrevealed');
-        });
-      }
-      if (window.SynergyUI) SynergyUI.onEntranceReset(resetUnrevealed);
-    })();
-  </script>
 </body>
 </html>
