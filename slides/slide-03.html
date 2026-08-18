@@ -40,9 +40,9 @@
       z-index: 2;
       cursor: pointer;
     }
-    .morph-node.person { background: rgba(0, 98, 255, 0.1); color: #0062ff; }
-    .morph-node.ai { background: rgba(124, 58, 237, 0.1); color: #7c3aed; }
-    .morph-node.clone { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+    .morph-node.person { background: rgba(0, 98, 255, 0.1); color: var(--blue); }
+    .morph-node.ai { background: rgba(124, 58, 237, 0.1); color: var(--purple); }
+    .morph-node.clone { background: rgba(239, 68, 68, 0.1); color: var(--red); }
     .morph-track {
       flex: 1 1 auto;
       min-width: 120px;
@@ -71,8 +71,8 @@
       opacity: 0;
     }
     .morph-track.t2 .morph-dot {
-      background: #ef4444;
-      box-shadow: 0 0 9px #ef4444;
+      background: var(--red);
+      box-shadow: 0 0 9px var(--red);
     }
     .morph-label {
       position: absolute;
@@ -159,7 +159,7 @@
              data-icon="fas fa-phone-volume" data-title="Voice Cloning"
              data-body="A short audio sample — a voicemail, a recorded call, or even a public video — is enough to generate a synthetic voice good enough to use live on a phone call. The cloned voice can respond in real time, adapting tone and pacing to sound natural rather than playing back a fixed script. So 'they sounded stressed, just like them' is not proof a call is genuine — tone and emotion can be mimicked too.">
           <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:#7c3aed;"><i class="fas fa-microphone-lines"></i></div>
+            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-microphone-lines"></i></div>
             <h4>Voice Cloning</h4>
             <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
           </div>
@@ -168,7 +168,7 @@
              data-icon="fas fa-user-secret" data-title="Video / Face Swap"
              data-body="Real-time face-swap tools can impersonate an executive on a live video call, with lip movements synced convincingly to a cloned voice — this is exactly how the widely reported US$25M Hong Kong video-call fraud worked. The attacker doesn't need to fool you for long; a few seconds of a normal-looking call is often enough to get an instruction through. Small tells — unnatural blinking, flat lighting, lip-sync lag — are useful clues, but a second-channel check is the only certain test.">
           <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:#0062ff;"><i class="fas fa-video"></i></div>
+            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-video"></i></div>
             <h4>Video / Face Swap</h4>
             <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
           </div>
@@ -177,7 +177,7 @@
              data-icon="fas fa-file-circle-exclamation" data-title="Synthetic Documents"
              data-body="AI tools can now generate convincing fake ID photos, doctored screenshots, and forged supporting documents — used to bypass identity checks, support fraudulent expense or insurance claims, or make a fake recruiter or vendor look legitimate. These are increasingly paired with a voice or video deepfake to build a more convincing overall story. Treat any document that arrives alongside an unusual or urgent request with the same suspicion as the request itself.">
           <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:#f59e0b;"><i class="fas fa-id-card-clip"></i></div>
+            <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:var(--amber);"><i class="fas fa-id-card-clip"></i></div>
             <h4>Synthetic Documents</h4>
             <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
           </div>

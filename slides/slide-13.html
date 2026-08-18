@@ -36,7 +36,7 @@
       flex-direction: column;
       justify-content: center;
       min-height: 54px;
-      background: #fff;
+      background: var(--white);
       border-radius: 0 4px 4px 0;
       box-shadow: var(--shadow-sm);
       transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
@@ -115,6 +115,7 @@
     </div>
     <div class="slide-titleblock">
       <div class="slide-eyebrow">2026 Threat Landscape</div>
+      <!-- Nav title stays topic-specific ("Supply Chain & Third-Party Risk") for wayfinding; on-slide uses a punchier rhetorical hook — matching them would make this nav item indistinguishable from its module sibling (slide-12). Intentional split, not drift. -->
       <h1>THE THREAT YOU DON'T <span>CONTROL</span></h1>
     </div>
     <div class="slide-main reveal-stagger compact">
@@ -123,11 +124,11 @@
       <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click "Reveal Next Stage" to build the chain</div>
 
       <div class="reveal-click-zone chain" id="scZone">
-        <div class="chain-node reveal-point shown" style="--node-color:#06b6d4;">
+        <div class="chain-node reveal-point shown" style="--node-color:var(--cyan);">
           <div class="chain-left"><div class="chain-icon"><i class="fas fa-box-open"></i></div><div class="chain-line"></div></div>
           <div class="chain-content"><h4>1 · Vendor Software Update</h4><p>A software vendor we trust — fleet management, payroll, or ship management systems — sends out a routine update to thousands of customers, including us.</p></div>
         </div>
-        <div class="chain-node reveal-point" style="--node-color:#f59e0b;">
+        <div class="chain-node reveal-point" style="--node-color:var(--amber);">
           <div class="chain-left"><div class="chain-icon"><i class="fas fa-bug"></i></div><div class="chain-line"></div></div>
           <div class="chain-content" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Malicious code inserted — details"
                data-icon="fas fa-bug" data-title="Compromised Build Pipelines"
@@ -136,11 +137,11 @@
             <p>Attackers have already broken into the vendor's build pipeline and hidden malicious code inside that update. <span class="interact-hint" style="margin-top:4px;"><i class="fas fa-circle-info"></i> Click for details</span></p>
           </div>
         </div>
-        <div class="chain-node reveal-point" style="--node-color:#ef4444;">
+        <div class="chain-node reveal-point" style="--node-color:var(--red);">
           <div class="chain-left"><div class="chain-icon"><i class="fas fa-download"></i></div><div class="chain-line"></div></div>
           <div class="chain-content"><h4>3 · Installed Automatically</h4><p>The tampered update installs through our usual update process – no phishing email required.</p></div>
         </div>
-        <div class="chain-node reveal-point" style="--node-color:#991b1b;">
+        <div class="chain-node reveal-point" style="--node-color:var(--red-dark);">
           <div class="chain-left"><div class="chain-icon"><i class="fas fa-door-open"></i></div></div>
           <div class="chain-content" style="margin-bottom:0;"><h4>4 · Backdoor Inside Our Network</h4><p>Attackers now have a way into our network, all through a vendor we already trusted.</p></div>
         </div>
@@ -166,7 +167,7 @@
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:#06b6d4;">[REPORT]</strong> <strong>GOLDEN RULE:</strong> You can't check every vendor's code — but if something behaves oddly right after an update, treat it as suspicious and report it.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[REPORT]</strong> <strong>GOLDEN RULE:</strong> You can't check every vendor's code — but if something behaves oddly right after an update, treat it as suspicious and report it.</div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
         <div class="info-expand-panel">You can't inspect a vendor's internal code or process. But odd behaviour right after an update is still a visible, reportable signal – and reporting early limits the damage.</div>
       </div>

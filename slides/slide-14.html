@@ -136,6 +136,7 @@
     </div>
     <div class="slide-titleblock">
       <div class="slide-eyebrow">Everyday Defence</div>
+      <!-- Nav title "Workplace Security Behavior" intentionally mirrors this module's group name ("Workplace Security") for wayfinding (module-opener pattern); on-slide keeps the punchier "perimeter" hook, echoed again on slide-15. -->
       <h1>YOUR DESK IS PART OF THE <span>PERIMETER</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
@@ -145,13 +146,13 @@
         <div>
           <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click to reveal</div>
           <div class="scene">
-            <div class="scene-media" style="background:linear-gradient(160deg,#f1f5f9,#e2e8f0);">
+            <div class="scene-media" style="background:linear-gradient(160deg,var(--paper-2),var(--line));">
               <div style="position:absolute;bottom:0;left:0;right:0;height:16px;background:linear-gradient(180deg,rgba(15,23,42,0.05),rgba(15,23,42,0.15));"></div>
 
-              <i class="fas fa-keyboard" style="position:absolute;top:64%;left:48%;transform:translate(-50%,-50%);color:#64748b;pointer-events:none;"></i>
+              <i class="fas fa-keyboard" style="position:absolute;top:64%;left:48%;transform:translate(-50%,-50%);color:var(--muted);pointer-events:none;"></i>
 
               <div class="perimeter-marker" style="top:18%;left:20%;">
-                <i class="fas fa-note-sticky" style="color:#eab308;"></i>
+                <i class="fas fa-note-sticky" style="color:var(--yellow);"></i>
                 <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Password on sticky note marker">
                   <span class="hotspot-dot"></span>
                   <div class="hotspot-tip"><strong>Password on a Sticky Note</strong><br>Never leave passwords written where others can see them. Use a password manager instead.</div>
@@ -159,7 +160,7 @@
               </div>
 
               <div class="perimeter-marker" style="top:36%;left:48%;">
-                <i class="fas fa-desktop" style="color:#1e293b;"></i>
+                <i class="fas fa-desktop" style="color:var(--ink);"></i>
                 <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Locked screen marker">
                   <span class="hotspot-dot"></span>
                   <div class="hotspot-tip"><strong>Locked Screen</strong><br>Lock your screen (Win+L / Cmd+Ctrl+Q) every time you leave, even for a moment.</div>
@@ -167,7 +168,7 @@
               </div>
 
               <div class="perimeter-marker" style="top:74%;left:30%;">
-                <i class="fas fa-hard-drive" style="color:#475569;"></i>
+                <i class="fas fa-hard-drive" style="color:var(--slate);"></i>
                 <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unknown USB drive marker">
                   <span class="hotspot-dot"></span>
                   <div class="hotspot-tip tip-above"><strong>Unknown USB Drive</strong><br>Never plug in a USB drive you don't own or haven't verified. It can install malware silently.</div>
@@ -175,7 +176,7 @@
               </div>
 
               <div class="perimeter-marker" style="top:80%;left:76%;">
-                <i class="fas fa-id-badge" style="color:#0062ff;"></i>
+                <i class="fas fa-id-badge" style="color:var(--blue);"></i>
                 <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Badge visible marker">
                   <span class="hotspot-dot"></span>
                   <div class="hotspot-tip tip-above"><strong>Badge Worn Visibly</strong><br>Keep your badge visible, and don't let anyone follow you through a secure door.</div>
@@ -220,7 +221,7 @@
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:#06b6d4;">[LOCK IT]</strong> <strong>GOLDEN RULE:</strong> If you can see it, so can anyone walking past – lock your screen, secure loose items, and never plug in an unknown drive.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[LOCK IT]</strong> <strong>GOLDEN RULE:</strong> If you can see it, so can anyone walking past – lock your screen, secure loose items, and never plug in an unknown drive.</div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
         <div class="info-expand-panel">Physical access bypasses almost every technical control. A locked screen and a secured desk close that gap in seconds – and it costs nothing.</div>
       </div>

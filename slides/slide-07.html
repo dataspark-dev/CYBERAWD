@@ -46,8 +46,8 @@
       margin-bottom: 14px;
     }
     .sms-bubble {
-      background: #e5e7eb;
-      color: #111827;
+      background: var(--msg-bubble-bg);
+      color: var(--msg-bubble-text);
       padding: 14px 18px;
       border-radius: 14px 14px 14px 4px;
       font-size: 16px;
@@ -78,7 +78,7 @@
     .call-avatar-sm i { font-size: 44px !important; }
     .call-id {
       font-family: 'Space Mono', monospace;
-      color: #fff;
+      color: var(--white);
       font-size: 18px;
       letter-spacing: .4px;
     }
@@ -91,7 +91,7 @@
     }
     .call-caption2 {
       padding: 14px 20px;
-      background: #fff;
+      background: var(--white);
       font-size: 15.5px;
       color: var(--body-text);
       border-top: 1px solid var(--line);
@@ -118,6 +118,7 @@
     </div>
     <div class="slide-titleblock">
       <div class="slide-eyebrow">Email, SMS &amp; Voice</div>
+      <!-- Nav title stays topic-specific ("Beyond Email — Smishing & Vishing") for wayfinding; on-slide keeps this punchier hook. Intentional split, not drift. -->
       <h1>PHISHING GOES <span>MULTI-CHANNEL</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
@@ -211,7 +212,7 @@
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:#06b6d4;">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Same warning signs across every channel – urgency, faked identity, and pressure to act. Hang up, close the chat, and use the number you already have.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Same warning signs across every channel – urgency, faked identity, and pressure to act. Hang up, close the chat, and use the number you already have.</div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
         <div class="info-expand-panel">Attackers switch channels to lower your guard – but the warning signs are always the same.</div>
       </div>

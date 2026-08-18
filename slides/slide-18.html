@@ -48,7 +48,7 @@
       align-items: center;
       justify-content: center;
       font-size: 30px;
-      color: #67e8f9;
+      color: var(--cyan-light);
       margin-bottom: 12px;
     }
     .cc-badge {
@@ -74,7 +74,7 @@
       font-weight: 700;
       font-size: 14.5px;
       letter-spacing: 1px;
-      color: #fff;
+      color: var(--white);
     }
 
     .cc-tip {
@@ -176,22 +176,22 @@
       font-size: 130px;
       line-height: 1.0;
       letter-spacing: -2px;
-      color: #fff;
+      color: var(--white);
       margin-bottom: 24px;
     }
-    .op-title h1 span { color: #06b6d4; }
+    .op-title h1 span { color: var(--cyan); }
     .op-title .subhead {
       font-family: 'Space Mono', monospace;
       font-size: 20px;
       letter-spacing: 6px;
-      color: #67e8f9;
+      color: var(--cyan-light);
       text-transform: uppercase;
       margin-bottom: 24px;
     }
     .op-title .rule {
       width: 160px;
       height: 4px;
-      background: linear-gradient(90deg, #06b6d4, #0ea5e9, #0062ff);
+      background: var(--grad-cyan);
       margin: 0 auto 28px;
     }
     .op-title .lead {
@@ -229,6 +229,7 @@
 
     <div class="op-title">
       <div class="subhead">Synergy Marine Group &times; AFT — Slide 18 of 18</div>
+      <!-- Nav title intentionally "Closing" — a short structural bookend label (mirrors slide-01's "Opening"); on-slide keeps the "Thank You" hook, not the nav wayfinding text. -->
       <h1>THANK<br><span>YOU</span></h1>
       <div class="rule"></div>
       <p class="lead">You've seen how deepfakes, phishing, AI risks, and everyday habits all connect. Security is a daily habit – not just a one‑month campaign.</p>

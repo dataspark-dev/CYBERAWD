@@ -33,11 +33,11 @@
 
     .spot-card.revealed.is-correct .spot-verdict-tag {
       background: var(--green);
-      color: #fff;
+      color: var(--white);
     }
     .spot-card.revealed.is-wrong .spot-verdict-tag {
       background: var(--red);
-      color: #fff;
+      color: var(--white);
     }
     .spot-verdict-tag { font-size: 11px; padding: 4px 10px; }
 
@@ -160,7 +160,7 @@
       </div>
 
       <div class="callout-bar" style="border-left-color:var(--red);">
-        <i class="fas fa-triangle-exclamation" style="color:#fca5a5;"></i>
+        <i class="fas fa-triangle-exclamation" style="color:var(--scene-red-accent);"></i>
         <div class="callout-text"><strong>WHY IT MATTERS:</strong> The old mistakes you were taught to spot are disappearing. Verifying, pausing, and reporting matter more than ever — and a second channel is still the best defence.</div>
       </div>
 
@@ -193,9 +193,9 @@
           msg.textContent = pickedCorrect
             ? '✓ Correct — verifying through a second channel still works, even against perfect AI-written lures.'
             : '✗ Not quite — perfect wording is exactly what AI now makes easy to fake. A second channel would have caught it.';
-          msg.style.color = pickedCorrect ? '#166534' : '#991b1b';
-          msg.style.background = pickedCorrect ? '#f0fdf4' : '#fef2f2';
-          msg.style.borderColor = pickedCorrect ? '#bbf7d0' : '#fecaca';
+          msg.style.color = pickedCorrect ? 'var(--green-darker)' : 'var(--red-dark)';
+          msg.style.background = pickedCorrect ? 'var(--scene-green-tint-1)' : 'var(--scene-red-tint-1)';
+          msg.style.borderColor = pickedCorrect ? 'var(--scene-green-tint-border)' : 'var(--scene-red-tint-border)';
         }
       };
     })();

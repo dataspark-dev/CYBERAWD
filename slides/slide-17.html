@@ -56,7 +56,7 @@
     .visual-tile {
       padding: 22px 16px;
       gap: 10px;
-      background: #fff;
+      background: var(--white);
       box-shadow: var(--shadow-sm);
       cursor: pointer;
       transition: box-shadow 0.15s, transform 0.1s;
@@ -87,8 +87,8 @@
     .visual-tile.open .tile-detail {
       display: block;
     }
-    .visual-col.do-col .tile-detail { color: #166534; }
-    .visual-col.dont-col .tile-detail { color: #7f1d1d; }
+    .visual-col.do-col .tile-detail { color: var(--green-darker); }
+    .visual-col.dont-col .tile-detail { color: var(--red-darker); }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(4px); }

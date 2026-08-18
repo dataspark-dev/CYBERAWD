@@ -320,9 +320,9 @@ def main():
         running[e["group"]] = running.get(e["group"], 0) + 1
         group_positions[e["file"]] = running[e["group"]]
 
-    root_vars = parse_root_vars(MAIN_CSS.read_text(encoding="utf-8"))
+    root_vars, hex_vars = parse_root_vars(MAIN_CSS.read_text(encoding="utf-8"))
     hex_to_var = {}
-    for name, value in root_vars.items():
+    for name, value in hex_vars.items():
         hex_to_var.setdefault(value, name)
 
     files_on_disk = sorted(p.name for p in SLIDES_DIR.glob("slide-*.html"))

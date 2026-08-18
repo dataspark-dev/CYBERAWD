@@ -20,7 +20,12 @@
   --red-2: #dc2626;
   --green: #10b981;
   --green-dark: #16a34a;
+  --green-darker: #166534;
   --purple: #7c3aed;
+  --cyan-dark: #0891b2;
+  --yellow: #eab308;
+  --slate: #475569;
+  --red-darker: #7f1d1d;
   --ink: #1e293b;
   --body-text: #374151;
   --muted: #64748b;
@@ -31,6 +36,12 @@
   --white: #ffffff;
   --navy-4: #0b1c3e;
 
+  /* Realistic phone-mockup message bubble (SMS/chat scenes) — a neutral gray
+     pairing deliberately outside the brand palette, kept as tokens since the
+     same look repeats wherever a text-message bubble is simulated. */
+  --msg-bubble-bg: #e5e7eb;
+  --msg-bubble-text: #111827;
+
   /* "Before vs after" simulation scene tones (deepfake avatar / phishing mail-mock
      backgrounds) — kept as tokens since the same pairs repeat across several slides. */
   --scene-red-dark-1: #1a0505;
@@ -39,10 +50,13 @@
   --scene-green-dark-1: #052e16;
   --scene-green-dark-2: #0f2a1a;
   --scene-green-accent: #86efac;
+  --scene-amber-accent: #fcd34d;
   --scene-red-tint-1: #fef2f2;
   --scene-red-tint-2: #fee2e2;
   --scene-red-tint-border: #fecaca;
   --scene-red-tint-text: #b91c1c;
+  --scene-green-tint-1: #f0fdf4;
+  --scene-green-tint-border: #bbf7d0;
   --scene-sky-tint-1: #f0f9ff;
   --scene-sky-tint-2: #e0f2fe;
   --scene-sky-tint-border: #bae6fd;
@@ -56,7 +70,7 @@
   --shadow-md: 0 6px 24px rgba(0, 26, 77, 0.10);
   --shadow-lg: 0 12px 40px rgba(0, 26, 77, 0.16);
   --shadow-xl: 0 20px 60px rgba(0, 26, 77, 0.22);
-  --grad-cyan: linear-gradient(90deg, #06b6d4, #0ea5e9, #0062ff);
+  --grad-cyan: linear-gradient(90deg, var(--cyan), var(--sky), var(--blue));
 
   /* --- Spacing scale --- */
   --space-1: 4px;
@@ -281,8 +295,8 @@ ul { list-style: none; }
 .progress-step i { font-size: 11px; }
 .progress-step.done {
   color: var(--green-dark);
-  border-color: #bbf7d0;
-  background: #f0fdf4;
+  border-color: var(--scene-green-tint-border);
+  background: var(--scene-green-tint-1);
 }
 .progress-step.current {
   color: var(--navy);
@@ -674,7 +688,7 @@ ul { list-style: none; }
 .badge-blue { background: rgba(0, 98, 255, 0.1); color: var(--blue); }
 .badge-amber { background: rgba(245, 158, 11, 0.1); color: #92400e; }
 .badge-green { background: rgba(16, 185, 129, 0.1); color: var(--green-dark); }
-.badge-cyan { background: rgba(6, 182, 212, 0.1); color: #0891b2; }
+.badge-cyan { background: rgba(6, 182, 212, 0.1); color: var(--cyan-dark); }
 .badge-purple { background: rgba(124, 58, 237, 0.1); color: var(--purple); }
 .impact-chip {
   display: inline-flex;

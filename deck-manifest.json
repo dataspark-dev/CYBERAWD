@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-15T19:14:15",
+  "generated_at": "2026-08-18T16:52:02",
   "root": "C:\\Users\\SRIDHAR\\Documents\\TRININGPPT\\AWRCNTCS",
   "total_slides_in_deckjs": 18,
   "slide_files_on_disk": [
@@ -174,7 +174,12 @@
     "--red-2": "#dc2626",
     "--green": "#10b981",
     "--green-dark": "#16a34a",
+    "--green-darker": "#166534",
     "--purple": "#7c3aed",
+    "--cyan-dark": "#0891b2",
+    "--yellow": "#eab308",
+    "--slate": "#475569",
+    "--red-darker": "#7f1d1d",
     "--ink": "#1e293b",
     "--body-text": "#374151",
     "--muted": "#64748b",
@@ -184,20 +189,51 @@
     "--paper-2": "#f1f5f9",
     "--white": "#ffffff",
     "--navy-4": "#0b1c3e",
+    "--msg-bubble-bg": "#e5e7eb",
+    "--msg-bubble-text": "#111827",
     "--scene-red-dark-1": "#1a0505",
     "--scene-red-dark-2": "#3a0b0b",
     "--scene-red-accent": "#fca5a5",
     "--scene-green-dark-1": "#052e16",
     "--scene-green-dark-2": "#0f2a1a",
     "--scene-green-accent": "#86efac",
+    "--scene-amber-accent": "#fcd34d",
     "--scene-red-tint-1": "#fef2f2",
     "--scene-red-tint-2": "#fee2e2",
     "--scene-red-tint-border": "#fecaca",
     "--scene-red-tint-text": "#b91c1c",
+    "--scene-green-tint-1": "#f0fdf4",
+    "--scene-green-tint-border": "#bbf7d0",
     "--scene-sky-tint-1": "#f0f9ff",
     "--scene-sky-tint-2": "#e0f2fe",
     "--scene-sky-tint-border": "#bae6fd",
-    "--scene-sky-tint-text": "#075985"
+    "--scene-sky-tint-text": "#075985",
+    "--r-sm": "4px",
+    "--r": "6px",
+    "--r-lg": "10px",
+    "--r-xl": "14px",
+    "--shadow-sm": "0 2px 8px rgba(0, 26, 77, 0.06)",
+    "--shadow-md": "0 6px 24px rgba(0, 26, 77, 0.10)",
+    "--shadow-lg": "0 12px 40px rgba(0, 26, 77, 0.16)",
+    "--shadow-xl": "0 20px 60px rgba(0, 26, 77, 0.22)",
+    "--grad-cyan": "linear-gradient(90deg, var(--cyan), var(--sky), var(--blue))",
+    "--space-1": "4px",
+    "--space-2": "8px",
+    "--space-3": "12px",
+    "--space-4": "16px",
+    "--space-5": "20px",
+    "--space-6": "24px",
+    "--space-7": "28px",
+    "--space-8": "32px",
+    "--glass-bg": "rgba(255, 255, 255, 0.72)",
+    "--glass-bg-strong": "rgba(255, 255, 255, 0.85)",
+    "--glass-border": "rgba(255, 255, 255, 0.55)",
+    "--glass-blur": "14px",
+    "--grad-navy-sheen": "linear-gradient(160deg, var(--navy-4), var(--navy) 60%, var(--navy-3))",
+    "--accent": "var(--cyan)",
+    "--accent-rgb": "6, 182, 212",
+    "--accent-soft": "rgba(6, 182, 212, 0.10)",
+    "--accent-border": "rgba(6, 182, 212, 0.35)"
   },
   "theme_usage": {
     "dark": [
@@ -223,45 +259,7 @@
       "slide-17.html"
     ]
   },
-  "off_palette_colors": {
-    "#fff": [
-      "slide-01.html",
-      "slide-13.html",
-      "slide-04.html",
-      "slide-06.html",
-      "slide-07.html",
-      "slide-10.html",
-      "slide-11.html",
-      "slide-14.html",
-      "slide-17.html",
-      "slide-18.html"
-    ],
-    "#111827": [
-      "slide-07.html"
-    ],
-    "#e5e7eb": [
-      "slide-07.html"
-    ],
-    "#475569": [
-      "slide-14.html"
-    ],
-    "#eab308": [
-      "slide-14.html",
-      "slide-15.html"
-    ],
-    "#0891b2": [
-      "slide-16.html"
-    ],
-    "#fcd34d": [
-      "slide-16.html"
-    ],
-    "#166534": [
-      "slide-17.html"
-    ],
-    "#7f1d1d": [
-      "slide-17.html"
-    ]
-  },
+  "off_palette_colors": {},
   "slides": [
     {
       "index": 1,
@@ -281,19 +279,15 @@
       ],
       "components": [],
       "theme": "dark",
-      "hex_colors": [
-        "#001a4d",
-        "#0b1c3e",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
         "--cyan",
         "--cyan-light",
         "--grad-cyan",
-        "--navy"
+        "--navy",
+        "--navy-4",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -301,6 +295,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/1S.jpg",
         "../assets/SYN3.png",
         "../assets/AFT3.png",
@@ -311,11 +306,6 @@
           "severity": "info",
           "check": "title-drift",
           "message": "deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
-        },
-        {
-          "severity": "error",
-          "check": "undefined-css-var",
-          "message": "References CSS variable(s) not defined in main.css :root: --grad-cyan"
         }
       ]
     },
@@ -335,21 +325,19 @@
         "count-up"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#06b6d4",
-        "#10b981",
-        "#991b1b",
-        "#ef4444",
-        "#f59e0b",
-        "#f97316"
-      ],
+      "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
+        "--amber",
         "--cyan",
         "--faint",
+        "--green",
         "--line",
         "--muted",
+        "--orange",
         "--paper-2",
+        "--red",
+        "--red-dark",
         "--w",
         "--white"
       ],
@@ -359,6 +347,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -402,16 +391,15 @@
         "flip-card"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#0062ff",
-        "#7c3aed",
-        "#ef4444",
-        "#f59e0b"
-      ],
+      "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
+        "--amber",
+        "--blue",
         "--cyan",
-        "--r"
+        "--purple",
+        "--r",
+        "--red"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -419,6 +407,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -451,7 +440,7 @@
         {
           "tag": "h4",
           "heading": "2 \u00b7 Malicious Code Inserted",
-          "body": "Attackers have already broken into the vendor's build pipeline The internal process a company uses to build and ship its software updates. and hidden malicious code inside that update."
+          "body": "Attackers have already broken into the vendor's build pipeline and hidden malicious code inside that update. Click for details"
         },
         {
           "tag": "h4",
@@ -468,18 +457,16 @@
         "reveal-click-zone"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#06b6d4",
-        "#991b1b",
-        "#ef4444",
-        "#f59e0b",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
-        "--shadow-sm"
+        "--amber",
+        "--cyan",
+        "--red",
+        "--red-dark",
+        "--shadow-md",
+        "--shadow-sm",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -487,6 +474,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -496,11 +484,6 @@
           "severity": "info",
           "check": "title-drift",
           "message": "deck.js title 'Supply Chain & Third-Party Risk' shares no significant words with this slide's <h1> 'THE THREAT YOU DON'T CONTROL'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
-        },
-        {
-          "severity": "error",
-          "check": "undefined-css-var",
-          "message": "References CSS variable(s) not defined in main.css :root: --shadow-sm"
         }
       ]
     },
@@ -536,18 +519,17 @@
         "flip-card"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#0062ff",
-        "#7c3aed",
-        "#ef4444",
-        "#f59e0b"
-      ],
+      "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
+        "--amber",
+        "--blue",
         "--cyan",
         "--faint",
         "--line",
-        "--navy"
+        "--navy",
+        "--purple",
+        "--red"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -555,6 +537,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -578,16 +561,12 @@
         "toggle-switch"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#0062ff",
-        "#06b6d4",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
+        "--blue",
         "--body-text",
+        "--cyan",
         "--line",
         "--navy",
         "--scene-green-accent",
@@ -595,7 +574,8 @@
         "--scene-green-dark-2",
         "--scene-red-accent",
         "--scene-red-dark-1",
-        "--scene-red-dark-2"
+        "--scene-red-dark-2",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -603,6 +583,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -646,9 +627,7 @@
         "scenario-card"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#06b6d4"
-      ],
+      "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
         "--cyan"
@@ -659,6 +638,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -682,20 +662,15 @@
         "hotspot"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#06b6d4",
-        "#dc2626",
-        "#ef4444",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
         "--body-text",
         "--cyan",
         "--line",
         "--navy",
+        "--red",
+        "--red-2",
         "--red-dark",
         "--scene-red-accent",
         "--scene-red-tint-1",
@@ -705,7 +680,8 @@
         "--scene-sky-tint-1",
         "--scene-sky-tint-2",
         "--scene-sky-tint-border",
-        "--scene-sky-tint-text"
+        "--scene-sky-tint-text",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -713,6 +689,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -736,26 +713,20 @@
         "toggle-switch"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#06b6d4",
-        "#111827",
-        "#e5e7eb",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#111827",
-        "#e5e7eb",
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
         "--body-text",
         "--cyan",
         "--line",
+        "--msg-bubble-bg",
+        "--msg-bubble-text",
         "--navy",
         "--navy-4",
         "--scene-red-accent",
         "--scene-red-dark-1",
-        "--scene-red-dark-2"
+        "--scene-red-dark-2",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -763,6 +734,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -822,12 +794,10 @@
         "spot-grid"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#06b6d4",
-        "#ef4444"
-      ],
+      "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
+        "--cyan",
         "--green",
         "--line",
         "--red"
@@ -838,6 +808,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -872,6 +843,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -931,14 +903,11 @@
         "checklist-grid"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
-        "--cyan"
+        "--cyan",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -946,6 +915,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -1010,19 +980,16 @@
         "toggle-switch"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#fca5a5",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
         "--green",
         "--line",
         "--paper",
         "--red",
-        "--shadow-md"
+        "--scene-red-accent",
+        "--shadow-md",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -1030,17 +997,12 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
       ],
-      "flags": [
-        {
-          "severity": "error",
-          "check": "undefined-css-var",
-          "message": "References CSS variable(s) not defined in main.css :root: --shadow-md"
-        }
-      ]
+      "flags": []
     },
     {
       "index": 14,
@@ -1065,28 +1027,17 @@
         "lock-demo"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#0062ff",
-        "#06b6d4",
-        "#1e293b",
-        "#475569",
-        "#64748b",
-        "#e2e8f0",
-        "#eab308",
-        "#f1f5f9",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#475569",
-        "#eab308",
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
+        "--blue",
         "--cyan",
-        "--green",
+        "--ink",
         "--line",
-        "--r-lg",
-        "--shadow-sm"
+        "--muted",
+        "--paper-2",
+        "--slate",
+        "--yellow"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -1094,6 +1045,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -1103,11 +1055,6 @@
           "severity": "info",
           "check": "title-drift",
           "message": "deck.js title 'Workplace Security Behavior' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
-        },
-        {
-          "severity": "error",
-          "check": "undefined-css-var",
-          "message": "References CSS variable(s) not defined in main.css :root: --shadow-sm"
         }
       ]
     },
@@ -1122,25 +1069,28 @@
       "section_lead": [
         "Click the markers to see a well\u2011protected account \u2013 and what attackers hope you never fix."
       ],
-      "cards": [],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "Simulate an MFA Push-Bombing Attack",
+          "body": "Watch what a flood of approval requests you didn't trigger looks like \u2013 and what to do about it."
+        }
+      ],
       "components": [
-        "hotspot"
+        "hotspot",
+        "lock-demo"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#06b6d4",
-        "#16a34a",
-        "#dc2626",
-        "#e2e8f0",
-        "#eab308",
-        "#f1f5f9"
-      ],
-      "off_palette_colors": [
-        "#eab308"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
         "--cyan",
-        "--red"
+        "--green-dark",
+        "--line",
+        "--paper-2",
+        "--red",
+        "--red-2",
+        "--yellow"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -1148,6 +1098,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -1197,24 +1148,20 @@
         "flip-card"
       ],
       "theme": "light",
-      "hex_colors": [
-        "#0062ff",
-        "#0891b2",
-        "#7c3aed",
-        "#86efac",
-        "#ef4444",
-        "#fca5a5",
-        "#fcd34d"
-      ],
-      "off_palette_colors": [
-        "#0891b2",
-        "#fcd34d"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
+        "--blue",
         "--cyan",
+        "--cyan-dark",
         "--cyan-light",
         "--navy",
-        "--r"
+        "--purple",
+        "--r",
+        "--red",
+        "--scene-amber-accent",
+        "--scene-green-accent",
+        "--scene-red-accent"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -1222,6 +1169,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
@@ -1243,24 +1191,19 @@
       "cards": [],
       "components": [],
       "theme": "light",
-      "hex_colors": [
-        "#166534",
-        "#7f1d1d",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#166534",
-        "#7f1d1d",
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
         "--cyan",
         "--faint",
         "--green-dark",
+        "--green-darker",
         "--r-lg",
         "--red-dark",
+        "--red-darker",
         "--shadow-md",
-        "--shadow-sm"
+        "--shadow-sm",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -1268,17 +1211,12 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN.png",
         "../assets/AFT.png",
         "../scripts/main.js"
       ],
-      "flags": [
-        {
-          "severity": "error",
-          "check": "undefined-css-var",
-          "message": "References CSS variable(s) not defined in main.css :root: --shadow-sm, --shadow-md"
-        }
-      ]
+      "flags": []
     },
     {
       "index": 18,
@@ -1292,20 +1230,15 @@
       "cards": [],
       "components": [],
       "theme": "dark",
-      "hex_colors": [
-        "#0062ff",
-        "#06b6d4",
-        "#0ea5e9",
-        "#67e8f9",
-        "#fff"
-      ],
-      "off_palette_colors": [
-        "#fff"
-      ],
+      "hex_colors": [],
+      "off_palette_colors": [],
       "var_colors": [
         "--cyan",
+        "--cyan-light",
+        "--grad-cyan",
         "--green",
-        "--navy"
+        "--navy",
+        "--white"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -1313,6 +1246,7 @@
         "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
+        "../assets/favicon.svg",
         "../assets/SYN3.png",
         "../assets/AFT3.png",
         "../scripts/main.js"
@@ -1334,12 +1268,6 @@
       "message": "deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
-      "file": "slide-01.html",
-      "severity": "error",
-      "check": "undefined-css-var",
-      "message": "References CSS variable(s) not defined in main.css :root: --grad-cyan"
-    },
-    {
       "file": "slide-12.html",
       "severity": "info",
       "check": "title-drift",
@@ -1350,12 +1278,6 @@
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Supply Chain & Third-Party Risk' shares no significant words with this slide's <h1> 'THE THREAT YOU DON'T CONTROL'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
-    },
-    {
-      "file": "slide-13.html",
-      "severity": "error",
-      "check": "undefined-css-var",
-      "message": "References CSS variable(s) not defined in main.css :root: --shadow-sm"
     },
     {
       "file": "slide-07.html",
@@ -1370,34 +1292,16 @@
       "message": "deck.js title 'AI & Chatbot Risks' shares no significant words with this slide's <h1> 'WHAT HAPPENS WHEN YOU PASTE DATA?'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
-      "file": "slide-11.html",
-      "severity": "error",
-      "check": "undefined-css-var",
-      "message": "References CSS variable(s) not defined in main.css :root: --shadow-md"
-    },
-    {
       "file": "slide-14.html",
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Workplace Security Behavior' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
-      "file": "slide-14.html",
-      "severity": "error",
-      "check": "undefined-css-var",
-      "message": "References CSS variable(s) not defined in main.css :root: --shadow-sm"
-    },
-    {
       "file": "slide-15.html",
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Passwords, MFA & Access Hygiene' shares no significant words with this slide's <h1> 'YOUR LOGIN IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
-    },
-    {
-      "file": "slide-17.html",
-      "severity": "error",
-      "check": "undefined-css-var",
-      "message": "References CSS variable(s) not defined in main.css :root: --shadow-sm, --shadow-md"
     },
     {
       "file": "slide-18.html",

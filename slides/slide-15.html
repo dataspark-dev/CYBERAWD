@@ -137,6 +137,7 @@
     </div>
     <div class="slide-titleblock">
       <div class="slide-eyebrow">Everyday Defence</div>
+      <!-- Nav title stays topic-specific ("Passwords, MFA & Access Hygiene") for wayfinding; on-slide continues slide-14's "part of the perimeter" rhetorical pairing rather than repeating a generic module label. Intentional split, not drift. -->
       <h1>YOUR LOGIN IS PART OF THE <span>PERIMETER</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
@@ -146,9 +147,9 @@
         <div>
           <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click to reveal</div>
           <div class="scene">
-            <div class="scene-media" style="background:linear-gradient(160deg,#f1f5f9,#e2e8f0);">
+            <div class="scene-media" style="background:linear-gradient(160deg,var(--paper-2),var(--line));">
               <div class="perimeter-marker" style="top:24%;left:22%;">
-                <i class="fas fa-key" style="color:#eab308;"></i>
+                <i class="fas fa-key" style="color:var(--yellow);"></i>
                 <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Reused password marker">
                   <span class="hotspot-dot"></span>
                   <div class="hotspot-tip"><strong>Same password, reused</strong><br>Using the same password on multiple sites means one leak unlocks all your accounts.</div>
@@ -156,7 +157,7 @@
               </div>
 
               <div class="perimeter-marker" style="top:24%;left:72%;">
-                <i class="fas fa-mobile-screen-button" style="color:#16a34a;"></i>
+                <i class="fas fa-mobile-screen-button" style="color:var(--green-dark);"></i>
                 <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="MFA turned on marker">
                   <span class="hotspot-dot"></span>
                   <div class="hotspot-tip"><strong>MFA turned on</strong><br>MFA stops a stolen password from getting in – the second factor blocks it.</div>
@@ -164,7 +165,7 @@
               </div>
 
               <div class="perimeter-marker" style="top:74%;left:22%;">
-                <i class="fas fa-clock-rotate-left" style="color:#dc2626;"></i>
+                <i class="fas fa-clock-rotate-left" style="color:var(--red-2);"></i>
                 <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unrecognised sign-in ignored marker">
                   <span class="hotspot-dot"></span>
                   <div class="hotspot-tip tip-above"><strong>Unrecognised sign‑in ignored</strong><br>Dismissing a login alert from an unknown device or location is a mistake. Report it.</div>
@@ -172,7 +173,7 @@
               </div>
 
               <div class="perimeter-marker" style="top:74%;left:72%;">
-                <i class="fas fa-shield-halved" style="color:#16a34a;"></i>
+                <i class="fas fa-shield-halved" style="color:var(--green-dark);"></i>
                 <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Password manager in use marker">
                   <span class="hotspot-dot"></span>
                   <div class="hotspot-tip tip-above"><strong>Password manager in use</strong><br>A password manager creates and stores unique, strong passwords for every account.</div>
@@ -217,7 +218,7 @@
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:#06b6d4;">[SECURE IT]</strong> <strong>GOLDEN RULE:</strong> Use a unique password for every account, plus MFA – together they block almost every account takeover attempt, even one that started with someone else's breach.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[SECURE IT]</strong> <strong>GOLDEN RULE:</strong> Use a unique password for every account, plus MFA – together they block almost every account takeover attempt, even one that started with someone else's breach.</div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
         <div class="info-expand-panel">Attackers don't need to guess your password if they already have it from an unrelated leak. A unique password and MFA break that chain even when a breach elsewhere exposes it.</div>
       </div>
