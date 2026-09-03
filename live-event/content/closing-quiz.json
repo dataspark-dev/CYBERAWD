@@ -1,0 +1,103 @@
+{
+  "title": "Rapid Fire",
+  "subtitle": "Keep up — fast calls, real situations, no time to overthink.",
+  "questions": [
+    {
+      "id": "q1-cfo-video-call",
+      "persona": "Finance / Accounts",
+      "question": "You're on a video call with someone who looks and sounds exactly like your CFO. Their picture freezes oddly for a second and the lighting looks a little off, but they're speaking with total confidence — and they ask you to approve an unusual payment right now, before the call ends. What do you check first?",
+      "choices": [
+        "Approve the payment — the face and voice matched, so it must really be them",
+        "Quietly stall by saying you'll do it after the call, hoping they forget",
+        "End the call and verify the request by contacting your CFO through a number or channel you already know is real",
+        "Ask a coworker in chat if they got the same request, then decide"
+      ],
+      "correctIndex": 2,
+      "explanation": "A convincing face and voice on a call is not proof of identity — both can be faked. An unusual, urgent payment request is exactly when to STOP and VERIFY through a channel you already trust — never one given to you in the same call — before REPORTing anything unusual."
+    },
+    {
+      "id": "q2-candidate-attachment",
+      "persona": "HR / Recruitment",
+      "question": "A message arrives that looks like it's from your usual recruitment portal, forwarding a promising candidate's CV as an attachment — but the sender's email address is spelled slightly differently than normal, and it says the candidate needs an answer \"within the hour\" or they'll take another offer. What should you do?",
+      "choices": [
+        "Open the attachment quickly so you don't lose a strong candidate",
+        "Reply to the sender asking for more information",
+        "STOP before opening anything, VERIFY the sender's exact email address and the platform directly, then REPORT if it doesn't check out",
+        "Forward it to a colleague and let them decide"
+      ],
+      "correctIndex": 2,
+      "explanation": "A slightly misspelled sender address plus manufactured urgency is a classic lure — attackers know HR inboxes routinely receive attachments from strangers. STOP → VERIFY → REPORT applies just as much to a \"candidate\" attachment as to any other email."
+    },
+    {
+      "id": "q3-teams-bypass-permit",
+      "persona": "Operations",
+      "question": "An internal Teams message from someone you don't recognize — no photo, no chat history — says the site supervisor is unreachable and asks you to skip the permit-to-work sign-off on a job \"just this once\" so the schedule doesn't slip. What's the red flag here?",
+      "choices": [
+        "It's fine — schedules matter, and you can sort out the paperwork later",
+        "Someone with no verified identity is pressuring you to skip a safety check, using urgency and unreachability as the excuse",
+        "It's a normal, routine reminder about the schedule",
+        "It's expected — supervisors often message from other accounts"
+      ],
+      "correctIndex": 1,
+      "explanation": "An unverified sender, time pressure, and a request to bypass a normal control are the same pattern as CXO-impersonation fraud — just aimed at a safety process instead of a wire transfer. Skipping a check because someone urgent and unreachable said so is exactly the red flag."
+    },
+    {
+      "id": "q4-tapped-crew-change-link",
+      "persona": "Offshore Crew",
+      "question": "You get a text about your crew-change schedule and tap the link before really looking at it — a second later, something feels off about the page that opened. What's the correct first move?",
+      "choices": [
+        "Ignore it and hope nothing happens",
+        "Report it right away through the proper channel — don't try to fix it yourself first",
+        "Delete the text so no one finds out",
+        "Wait until you're back onshore to mention it"
+      ],
+      "correctIndex": 1,
+      "explanation": "Fast reporting — not silence or self-fixing — gives IT/security the best chance to contain any damage, whether you're onshore or offshore with limited connectivity."
+    },
+    {
+      "id": "q5-report-even-if-unsure",
+      "persona": "HR / Recruitment",
+      "question": "Something about an email feels slightly off, but you're not sure enough to call it malicious. Why does flagging it anyway still matter?",
+      "choices": [
+        "Security teams would rather check a false alarm than miss a real one",
+        "Only IT is responsible for noticing anything unusual",
+        "Flagging things you're unsure about wastes everyone's time",
+        "It's better to just ask a coworker first instead of the official channel"
+      ],
+      "correctIndex": 0,
+      "explanation": "Under-reporting is far more costly than over-reporting. Every report — certain or not — is a chance to catch something early, no matter which team you're on."
+    }
+  ],
+  "stopVerifyReportPrompts": [
+    {
+      "id": "svr-2",
+      "persona": "Operations",
+      "scenario": "An unfamiliar person with no visible badge asks you to hold the server-room door open for them because their badge \"isn't scanning.\"",
+      "idealResponse": "STOP — don't hold the door. VERIFY their access with reception/security. REPORT the attempt."
+    },
+    {
+      "id": "svr-4",
+      "persona": "Finance / Accounts",
+      "scenario": "A \"vendor\" emails asking you to change the bank account for an upcoming payment, citing a routine update.",
+      "idealResponse": "STOP — don't update payment details from an email alone. VERIFY by phone using a number you already have on file. REPORT the request."
+    },
+    {
+      "id": "svr-1",
+      "persona": "HR / Recruitment",
+      "scenario": "A coworker gets a text \"from HR\" asking them to click a link and update their payroll details immediately.",
+      "idealResponse": "STOP — don't click. VERIFY through the official HR portal or a known contact. REPORT it to IT/security."
+    },
+    {
+      "id": "svr-3",
+      "persona": "Offshore Crew",
+      "scenario": "While working on a shared laptop, a pop-up says the computer is infected and tells you to call a number on screen right now to fix it.",
+      "idealResponse": "STOP — don't call the number. VERIFY with your real IT helpdesk through a known number. REPORT the pop-up."
+    },
+    {
+      "id": "svr-5",
+      "persona": "Finance / Accounts",
+      "scenario": "A voicemail that sounds exactly like your CEO asks for an urgent favor involving gift cards, right before an important meeting.",
+      "idealResponse": "STOP — don't purchase anything. VERIFY directly with the CEO through a separate, known channel. REPORT the voicemail."
+    }
+  ]
+}

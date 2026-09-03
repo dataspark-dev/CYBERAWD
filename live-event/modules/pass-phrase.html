@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pass-Phrase — Build a Strong Password — Live Event Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-key"></i> Pass-Phrase</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="le-item-counter" id="itemCounter">Round 1 of 5</div>
+
+      <div class="ff-title-bar">
+        <div class="pp-theme-eyebrow">Weak → Strong — Live Builder</div>
+      </div>
+
+      <div class="pp-stage">
+        <section class="pp-password-section" aria-labelledby="ppPasswordLabel">
+          <div class="pp-section-label" id="ppPasswordLabel"><i class="fa-solid fa-lock"></i> Your Password <span id="slotCount">0 / 12</span></div>
+          <div class="pp-tiles" id="tilesContainer" aria-label="Password build row"></div>
+        </section>
+
+        <section class="pp-deck-section" aria-labelledby="ppDeckLabel">
+          <div class="pp-section-label" id="ppDeckLabel"><i class="fa-solid fa-layer-group"></i> Deck</div>
+          <div class="pp-deck" id="deckContainer" aria-label="Deck tray"></div>
+        </section>
+
+        <div class="pp-builder-card">
+          <div class="pp-strength">
+            <div class="pp-strength-head">
+              <span class="pp-strength-label" id="strengthLabel">Strength: —</span>
+              <span class="pp-strength-score" id="strengthScore">0 / 100</span>
+            </div>
+            <div class="pp-meter" aria-hidden="true">
+              <div class="pp-meter-fill" id="meterFill" style="width:0%"></div>
+            </div>
+            <div class="pp-meter-labels">
+              <span>Weak</span><span>Fair</span><span>Strong</span><span>Very Strong</span>
+            </div>
+            <div class="pp-crack" id="crackTime">—</div>
+          </div>
+        </div>
+
+        <div class="le-timer" id="timer">
+          <div class="lt-digits">45</div>
+          <div class="lt-label">Seconds</div>
+        </div>
+
+        <div class="le-btn-row">
+          <button class="le-btn green lg" id="solvedBtn" type="button" disabled><i class="fa-solid fa-shield-halved"></i> Strong Password Reached</button>
+          <button class="le-btn primary lg" id="nextBtn" type="button"><i class="fa-solid fa-forward"></i> Next Round</button>
+        </div>
+
+        <div class="le-progress-dots" id="progressDots"></div>
+      </div>
+    </main>
+
+    <div class="le-keyhints">
+      <div class="le-keyhint"><kbd>SPACE</kbd> next round</div>
+      <div class="le-keyhint"><kbd>←</kbd> back</div>
+      <div class="le-keyhint"><kbd>ESC</kbd> home</div>
+      <div class="le-keyhint"><kbd>F</kbd> fullscreen</div>
+    </div>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="pass-phrase.js"></script>
+</body>
+</html>

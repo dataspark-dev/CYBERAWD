@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+
+  <!-- scaffold tower -->
+  <g stroke="#94a3b8" stroke-width="6" fill="none">
+    <line x1="560" y1="180" x2="560" y2="760"/>
+    <line x1="900" y1="180" x2="900" y2="760"/>
+    <line x1="560" y1="260" x2="900" y2="260"/>
+    <line x1="560" y1="440" x2="900" y2="440"/>
+    <line x1="560" y1="620" x2="900" y2="620"/>
+    <line x1="560" y1="260" x2="900" y2="440"/>
+    <line x1="900" y1="260" x2="560" y2="440"/>
+  </g>
+  <rect x="540" y="430" width="380" height="16" fill="#475569"/>
+
+  <!-- worker on platform, harness worn but lanyard dangling unclipped -->
+  <g transform="translate(720,300)">
+    <circle cx="0" cy="0" r="34" fill="#facc15"/>
+    <rect x="-30" y="34" width="60" height="110" rx="16" fill="#f97316"/>
+    <path d="M -22 44 L -22 120" stroke="#1f2937" stroke-width="8"/>
+    <path d="M 22 44 L 22 120" stroke="#1f2937" stroke-width="8"/>
+    <path d="M -10 60 C -40 90, -46 150, -30 210" stroke="#facc15" stroke-width="6" fill="none"/>
+    <circle cx="-30" cy="210" r="9" fill="#e11d48"/>
+  </g>
+
+  <path d="M 700 470 L 700 340" stroke="#f59e0b" stroke-width="4" stroke-dasharray="10,8"/>
+  <text x="700" y="500" font-family="Barlow, sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle">lanyard hook unclipped</text>
+
+  <text x="1180" y="330" font-family="Barlow, sans-serif" font-size="20" fill="#e2e8f0" text-anchor="middle">Open edge, no</text>
+  <text x="1180" y="356" font-family="Barlow, sans-serif" font-size="20" fill="#e2e8f0" text-anchor="middle">tie-off point in use</text>
+
+  <g transform="translate(340,700)">
+    <rect x="0" y="0" width="920" height="90" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="20" y="30" font-family="Orbitron, sans-serif" font-size="18" font-weight="700" fill="#991b1b">SPOT THE HAZARD:</text>
+    <text x="20" y="62" font-family="Barlow, sans-serif" font-size="18" fill="#7f1d1d">Worker is wearing a harness at height but the fall-arrest lanyard hook is left unclipped</text>
+  </g>
+
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="18" fill="#67e8f9" text-anchor="middle" letter-spacing="2">WORKING AT HEIGHT · ITEM 1 OF 8 · UNCLIPPED LANYARD</text>
+</svg>

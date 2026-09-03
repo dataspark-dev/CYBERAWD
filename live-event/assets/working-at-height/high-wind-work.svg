@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+
+  <!-- crane / mast silhouette with worker aloft, wind streaks -->
+  <line x1="800" y1="180" x2="800" y2="760" stroke="#94a3b8" stroke-width="12"/>
+  <line x1="800" y1="260" x2="1180" y2="220" stroke="#94a3b8" stroke-width="8"/>
+
+  <g stroke="#38bdf8" stroke-width="4" fill="none" opacity="0.7">
+    <path d="M 300 260 C 400 250, 460 280, 560 260"/>
+    <path d="M 280 340 C 400 330, 480 370, 600 340"/>
+    <path d="M 260 420 C 400 410, 500 450, 640 420"/>
+    <path d="M 1000 300 C 1100 290, 1160 320, 1260 300"/>
+    <path d="M 1020 380 C 1120 370, 1180 410, 1280 380"/>
+  </g>
+
+  <!-- flag / windsock blown horizontal -->
+  <line x1="1300" y1="200" x2="1300" y2="360" stroke="#94a3b8" stroke-width="6"/>
+  <path d="M 1300 210 L 1420 230 L 1300 250 Z" fill="#dc2626"/>
+
+  <g transform="translate(830,300)">
+    <circle cx="0" cy="0" r="28" fill="#facc15"/>
+    <rect x="-24" y="28" width="48" height="90" rx="12" fill="#f97316"/>
+  </g>
+
+  <path d="M 880 300 L 950 260" stroke="#f59e0b" stroke-width="4" stroke-dasharray="10,8"/>
+  <text x="1000" y="250" font-family="Barlow, sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle">work continues</text>
+  <text x="1000" y="276" font-family="Barlow, sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle">above wind limit</text>
+
+  <g transform="translate(340,700)">
+    <rect x="0" y="0" width="920" height="90" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="20" y="30" font-family="Orbitron, sans-serif" font-size="18" font-weight="700" fill="#991b1b">SPOT THE HAZARD:</text>
+    <text x="20" y="62" font-family="Barlow, sans-serif" font-size="18" fill="#7f1d1d">Wind speed is visibly above the safe working limit, but work at height continues instead of being stopped and reassessed</text>
+  </g>
+
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="18" fill="#67e8f9" text-anchor="middle" letter-spacing="2">WORKING AT HEIGHT · ITEM 8 OF 8 · HIGH WIND CONDITIONS</text>
+</svg>

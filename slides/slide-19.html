@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Awareness Games — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-awareness">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Take It Further</div>
+      <h1>PUT IT INTO <span>PRACTICE</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger relaxed">
+      <p class="section-lead">Everything in this training gets tested live at our awareness games. Click each station to see how it works.</p>
+
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-display" data-title="Digital Platform: Cybersecurity Game"
+             data-body="Hosted on InfosecIQ. Scan or click the shared link and a short (~30 second) animated video plays out a real workplace scenario. A quick follow-up question checks whether you caught the risk — answer it to complete the station.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(6,182,212,0.1);color:var(--cyan-dark);"><i class="fas fa-display"></i></div>
+            <h4>Cybersecurity Game</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-magnifying-glass" data-title="Digital Platform: Fault Finding"
+             data-body="A display screen cycles through real-world scenarios — a phishing email, a ransomware note, a suspicious text — and your team has to spot what's wrong and explain why. Points are awarded for both the right call and a clear explanation.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-magnifying-glass"></i></div>
+            <h4>Fault Finding</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-puzzle-piece" data-title="Cyber Clue Quest"
+             data-body="Split into small groups and solve a cybersecurity riddle. The answer is spelled out using letter stencils — you have 30 seconds on the clock. First team to lock in the correct word wins the round.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-puzzle-piece"></i></div>
+            <h4>Cyber Clue Quest</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-key" data-title="Pass-Phrase"
+             data-body="A cybersecurity term or phrase has been scrambled into individual letter stencils. Race the clock — 30 seconds — to rearrange them into the correct word before time runs out.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:var(--amber);"><i class="fas fa-key"></i></div>
+            <h4>Pass-Phrase</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">How it runs:</span>
+        <span class="impact-chip"><i class="fas fa-arrows-rotate" style="color:var(--cyan);"></i> 4 rotating stations</span>
+        <span class="impact-chip"><i class="fas fa-users" style="color:var(--cyan);"></i> Team-based scoring</span>
+        <span class="impact-chip"><i class="fas fa-stopwatch" style="color:var(--cyan);"></i> ~30-45 minutes total</span>
+        <span class="impact-chip"><i class="fas fa-trophy" style="color:var(--cyan);"></i> Prizes for the top team</span>
+      </div>
+
+      <div class="fact-box">
+        <i class="fas fa-lightbulb fact-icon"></i>
+        <div>
+          <div class="fact-label">Did You Know?</div>
+          <div class="fact-text">Practicing a skill under a little time pressure builds the habit far faster than reading about it — that's why these stations run on a 30-second clock instead of a quiz sheet.</div>
+        </div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Closing <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

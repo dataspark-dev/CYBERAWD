@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0b1c3e"/>
+
+  <rect x="200" y="140" width="1200" height="20" fill="#1e293b"/>
+  <rect x="200" y="160" width="1200" height="600" fill="#e2e8f0"/>
+
+  <rect x="450" y="260" width="700" height="360" rx="10" fill="#fff" stroke="#94a3b8" stroke-width="3"/>
+  <rect x="450" y="260" width="700" height="56" rx="10" fill="#1e293b"/>
+  <text x="480" y="298" font-family="Barlow, sans-serif" font-size="22" font-weight="700" fill="#fff">⚠ Windows Security Alert</text>
+
+  <path d="M 800 340 L 830 400 L 770 400 Z" fill="#f59e0b"/>
+  <text x="800" y="392" font-family="Barlow, sans-serif" font-size="26" font-weight="900" fill="#111827" text-anchor="middle">!</text>
+
+  <text x="800" y="440" font-family="Barlow, sans-serif" font-size="22" fill="#111827" text-anchor="middle">Your PC has a critical error.</text>
+  <text x="800" y="470" font-family="Barlow, sans-serif" font-size="22" fill="#111827" text-anchor="middle">Enter your password to allow IT to fix it remotely:</text>
+
+  <rect x="600" y="500" width="400" height="50" rx="6" fill="#f1f5f9" stroke="#94a3b8"/>
+  <text x="620" y="533" font-family="Space Mono, monospace" font-size="20" fill="#94a3b8">••••••••••</text>
+
+  <rect x="650" y="570" width="300" height="50" rx="6" fill="#ef4444"/>
+  <text x="800" y="603" font-family="Barlow, sans-serif" font-size="20" font-weight="700" fill="#fff" text-anchor="middle">SUBMIT PASSWORD</text>
+
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="18" fill="#67e8f9" text-anchor="middle" letter-spacing="2">FAULT FINDING · ITEM 5 OF 8 · FAKE IT SUPPORT POP-UP</text>
+</svg>

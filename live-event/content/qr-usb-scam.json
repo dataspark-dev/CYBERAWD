@@ -1,0 +1,25 @@
+{
+  "stations": [
+    {
+      "id": "qr-phishing",
+      "prop": "QR Code Poster — \"Scan for Free Wi-Fi Access\"",
+      "image": "../assets/qr-usb-scam/qr-wifi-poster.svg",
+      "threat": "QR PHISHING (Quishing)",
+      "explanation": "The QR code redirects to a credential harvester mimicking the corporate login portal. Users enter credentials → attacker captures them. Always verify QR destinations before scanning — use a QR scanner that shows the URL first, and never enter credentials on a page opened via QR."
+    },
+    {
+      "id": "usb-drop",
+      "prop": "USB Drive — Labeled \"Q3 Payroll Data — CONFIDENTIAL\"",
+      "image": "../assets/qr-usb-scam/usb-payroll.svg",
+      "threat": "MALICIOUS USB DROP",
+      "explanation": "A classic baiting attack. The USB may contain auto-run malware, HID keystroke injection (acts as keyboard), or a shortcut file that executes PowerShell. Never plug in found media. Hand to IT for forensic analysis in a sandboxed environment."
+    },
+    {
+      "id": "ai-voice-qr",
+      "prop": "QR Code + Card — \"Scan to Enroll Your Voice ID for New Security System\"",
+      "image": "../assets/qr-usb-scam/voice-enroll-qr.svg",
+      "threat": "AI VOICE ENROLLMENT HIJACK",
+      "explanation": "Scanning enrolls the attacker's voice clone as YOUR voice ID in the authentication system. The QR leads to a voice enrollment page controlled by the attacker. Legitimate voice enrollment is always done in-person with IT present, never via QR. Report any 'voice enrollment' requests immediately."
+    }
+  ]
+}

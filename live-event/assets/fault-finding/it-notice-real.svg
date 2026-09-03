@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect x="220" y="130" width="1160" height="640" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="220" y="130" width="1160" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="250" y="174" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: HR Recruitment &lt;hr@synergymarinegroup.com&gt;</text>
+  <text x="250" y="245" font-family="Barlow, sans-serif" font-size="19" fill="#374151">Subject: Offer Letter — 2nd Marine Engineer — MV Horizon | Crew Recruitment Drive 2025</text>
+  <text x="250" y="315" font-family="Barlow, sans-serif" font-size="19" fill="#1e293b">Dear Candidate,</text>
+  <text x="250" y="353" font-family="Barlow, sans-serif" font-size="19" fill="#374151">Congratulations — you have been selected for the 2nd Marine Engineer</text>
+  <text x="250" y="385" font-family="Barlow, sans-serif" font-size="19" fill="#374151">position for our upcoming crew rotation. Please find your provisional</text>
+  <text x="250" y="417" font-family="Barlow, sans-serif" font-size="19" fill="#374151">offer letter and onboarding checklist attached. Kindly review and</text>
+  <text x="250" y="449" font-family="Barlow, sans-serif" font-size="19" fill="#374151">confirm acceptance via the HR portal by 28 Nov.</text>
+  <text x="250" y="505" font-family="Barlow, sans-serif" font-size="19" fill="#374151">For queries, contact HR on the known crewing line.</text>
+  <text x="250" y="560" font-family="Barlow, sans-serif" font-size="19" fill="#374151">Warm regards,</text>
+  <text x="250" y="592" font-family="Barlow, sans-serif" font-size="19" font-weight="700" fill="#1e293b">HR Recruitment — Synergy Marine Group</text>
+  <g transform="translate(250,620)">
+    <rect x="0" y="0" width="120" height="42" rx="8" fill="#0ea5e9"/>
+    <text x="60" y="28" font-family="Barlow, sans-serif" font-size="18" font-weight="800" fill="#fff" text-anchor="middle">SYNERGY</text>
+  </g>
+  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">HR RECRUITMENT — REAL DOMAIN · OFFER LETTER</text>
+</svg>

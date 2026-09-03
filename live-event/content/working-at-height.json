@@ -1,0 +1,66 @@
+[
+  {
+    "id": "unclipped-lanyard",
+    "title": "Unclipped Fall-Arrest Lanyard",
+    "imagePath": "../assets/working-at-height/unclipped-lanyard.svg",
+    "placeholder": true,
+    "whatIsWrong": "A worker is wearing a full-body harness at height, but the fall-arrest lanyard hook is left dangling and unclipped from any anchor point.",
+    "whyItsSuspicious": "A harness only protects a worker if it's actually connected to a rated anchor at all times when working at height. An unclipped lanyard offers zero protection if a fall occurs."
+  },
+  {
+    "id": "damaged-ladder",
+    "title": "Damaged Ladder",
+    "imagePath": "../assets/working-at-height/damaged-ladder.svg",
+    "placeholder": true,
+    "whatIsWrong": "A worker climbs a ladder with a visibly cracked and missing rung that was never inspected or tagged before use.",
+    "whyItsSuspicious": "Every ladder needs a pre-use visual inspection and a current inspection tag. A damaged rung can give way mid-climb, and skipping the check removes the last line of defense before someone gets hurt."
+  },
+  {
+    "id": "missing-guardrails",
+    "title": "Missing Guardrails",
+    "imagePath": "../assets/working-at-height/missing-guardrails.svg",
+    "placeholder": true,
+    "whatIsWrong": "Guardrails are fitted on one side of the elevated platform, but a worker is standing right at the open, unprotected edge on the other side.",
+    "whyItsSuspicious": "Guardrails are a collective protection measure — they only work if they surround every open edge. A partial installation creates a false sense of security while the real fall hazard remains exposed."
+  },
+  {
+    "id": "overloaded-scaffold",
+    "title": "Overloaded Scaffold Platform",
+    "imagePath": "../assets/working-at-height/overloaded-scaffold.svg",
+    "placeholder": true,
+    "whatIsWrong": "Stacked materials, drums, and two workers crowd a scaffold deck well past its posted safe working load, with no load-rating signage visible.",
+    "whyItsSuspicious": "Scaffolds are engineered for a specific maximum load. Exceeding it risks structural failure or collapse — and without a visible load rating, crews have no way to self-check before adding more weight."
+  },
+  {
+    "id": "unprotected-edge",
+    "title": "Unprotected Opening",
+    "imagePath": "../assets/working-at-height/unprotected-edge.svg",
+    "placeholder": true,
+    "whatIsWrong": "An open deck hatch has no cover, barrier, or warning sign, and a distracted worker looking at a phone is walking straight toward it.",
+    "whyItsSuspicious": "Uncovered openings need a physical barrier or cover plus clear signage regardless of how experienced the workforce is. Distraction plus an unguarded opening is exactly the combination that leads to a fall-through incident."
+  },
+  {
+    "id": "bad-anchor-point",
+    "title": "Improvised Anchor Point",
+    "imagePath": "../assets/working-at-height/bad-anchor-point.svg",
+    "placeholder": true,
+    "whatIsWrong": "A worker's lanyard is clipped to a process pipe running along the wall instead of the rated anchor point located nearby.",
+    "whyItsSuspicious": "Only anchor points rated and certified for fall-arrest loads should ever be used. A pipe, handrail, or piece of equipment can fail under fall-arrest force even if it looks sturdy enough to lean on."
+  },
+  {
+    "id": "no-permit-rescue-plan",
+    "title": "No Permit or Rescue Plan",
+    "imagePath": "../assets/working-at-height/no-permit-rescue-plan.svg",
+    "placeholder": true,
+    "whatIsWrong": "The crew is already working at height, but the permit board shows no signed-off work-at-height permit and no rescue plan on file.",
+    "whyItsSuspicious": "A permit-to-work forces a documented check of hazards and controls before work starts, and a rescue plan is what gets a fallen, suspended worker down safely within minutes. Starting without either removes both the pre-check and the safety net."
+  },
+  {
+    "id": "high-wind-work",
+    "title": "Working at Height in High Wind",
+    "imagePath": "../assets/working-at-height/high-wind-work.svg",
+    "placeholder": true,
+    "whatIsWrong": "Wind speed is visibly above the safe working limit — flags and equipment are blown near-horizontal — but work at height continues instead of being stopped.",
+    "whyItsSuspicious": "Wind loading affects balance, swinging loads, and the stability of ladders and scaffolds. Crossing the site's wind-speed threshold should trigger an automatic stop-work and reassessment, not a judgment call to push on."
+  }
+]

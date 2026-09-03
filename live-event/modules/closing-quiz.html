@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rapid Fire — Live Event Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-bolt"></i> Rapid Fire</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="le-item-counter" id="itemCounter">Step 1 of 10</div>
+      <p class="qz-subtitle" id="quizSubtitle"></p>
+      <div class="ff-title-bar">
+        <div class="qz-persona-tag" id="stepPersona"></div>
+      </div>
+
+      <div class="cq-stage" id="stage">
+        <!-- Rendered by closing-quiz.js: persona-tagged scenario question, or the wrap-up screen -->
+      </div>
+    </main>
+
+    <div class="le-keyhints">
+      <div class="le-keyhint"><kbd>SPACE</kbd> next</div>
+      <div class="le-keyhint"><kbd>R</kbd> reveal</div>
+      <div class="le-keyhint"><kbd>←</kbd> back</div>
+      <div class="le-keyhint"><kbd>ESC</kbd> home</div>
+      <div class="le-keyhint"><kbd>F</kbd> fullscreen</div>
+    </div>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="closing-quiz.js"></script>
+</body>
+</html>

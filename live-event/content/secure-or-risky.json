@@ -1,0 +1,64 @@
+{
+  "items": [
+    {
+      "id": "sr-01",
+      "scenario": "Paste proprietary source code into ChatGPT to help debug a function.",
+      "answer": "RISKY",
+      "explanation": "Code sent to public AI leaves your environment. Use local models or sanctioned internal AI tools instead."
+    },
+    {
+      "id": "sr-02",
+      "scenario": "Receive a voice message from your CEO requesting an urgent wire transfer. Call back on their known mobile number to verify.",
+      "answer": "SECURE",
+      "explanation": "Out-of-band verification (calling a known number) defeats voice cloning. Always verify unusual requests through a second channel."
+    },
+    {
+      "id": "sr-03",
+      "scenario": "Upload a customer PII spreadsheet to an AI tool to 'anonymize the data automatically'.",
+      "answer": "RISKY",
+      "explanation": "Sending PII to external AI violates data protection. Anonymize locally with approved scripts before any AI processing."
+    },
+    {
+      "id": "sr-04",
+      "scenario": "An email from IT asks you to click a link to 'verify your MFA setup' — the address bar shows the correct company domain.",
+      "answer": "SECURE",
+      "explanation": "If the domain is verified (check root domain, not subdomain) and you initiated the action, it's likely legitimate. Still, navigate manually when possible."
+    },
+    {
+      "id": "sr-05",
+      "scenario": "Use an AI meeting assistant that joins calls, transcribes, and summarizes — without checking if it's on the approved vendor list.",
+      "answer": "RISKY",
+      "explanation": "Unapproved AI bots can record sensitive discussions. Only use vetted tools with data processing agreements in place."
+    },
+    {
+      "id": "sr-06",
+      "scenario": "A colleague sends a Teams message with a QR code: 'Scan to confirm your voice ID for the new security system.'",
+      "answer": "RISKY",
+      "explanation": "Voice enrollment QR codes are a social engineering trap — they enroll the attacker's voice as yours. IT never enrolls via QR."
+    },
+    {
+      "id": "sr-07",
+      "scenario": "Generate a password using an AI prompt: 'Create a strong 16-char password for my bank account.'",
+      "answer": "RISKY",
+      "explanation": "Never generate real passwords via AI — the model/logs may retain them. Use a local password manager's generator instead."
+    },
+    {
+      "id": "sr-08",
+      "scenario": "A video call shows your manager's face and voice asking you to bypass approval for a vendor payment. You hang up and call them on their desk phone.",
+      "answer": "SECURE",
+      "explanation": "Deepfake video+audio on calls is real. Hanging up and calling a known number is the correct verification protocol."
+    },
+    {
+      "id": "sr-09",
+      "scenario": "Use the company-approved internal LLM (hosted on-prem) to draft a public-facing blog post about your project.",
+      "answer": "SECURE",
+      "explanation": "Approved internal models with data residency guarantees are safe for non-sensitive content. Still avoid feeding secrets."
+    },
+    {
+      "id": "sr-10",
+      "scenario": "Find a USB drive labeled 'Q3 Payroll Data' in the parking lot. Plug it into your workstation to see who it belongs to.",
+      "answer": "RISKY",
+      "explanation": "USB drops are a classic attack vector — auto-run malware, HID keystroke injection. Never plug in found media. Hand to IT."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+
+  <rect x="240" y="150" width="1120" height="620" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="240" y="150" width="1120" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="270" y="192" font-family="Barlow, sans-serif" font-size="20" font-weight="800" fill="#111827">Inbox</text>
+
+  <g transform="translate(270,260)">
+    <rect x="0" y="0" width="1060" height="100" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+    <circle cx="50" cy="50" r="28" fill="#0ea5e9"/>
+    <text x="50" y="58" font-family="Barlow, sans-serif" font-size="20" font-weight="800" fill="#fff" text-anchor="middle">AC</text>
+    <text x="96" y="42" font-family="Barlow, sans-serif" font-size="21" font-weight="800" fill="#0f172a">Alex Chen (Finance)</text>
+    <text x="96" y="70" font-family="Space Mono, monospace" font-size="15" fill="#b91c1c">alexchen.finance@secure-mail-team.net</text>
+    <text x="96" y="94" font-family="Barlow, sans-serif" font-size="16" fill="#64748b">Re: Q3 budget review — a few quick questions</text>
+  </g>
+
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="18" fill="#67e8f9" text-anchor="middle" letter-spacing="2">INBOX — SENDER DETAIL</text>
+</svg>

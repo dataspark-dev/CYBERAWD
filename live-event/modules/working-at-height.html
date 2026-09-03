@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Working at Height — Live Event Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-person-falling-burst"></i> Working at Height</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="le-item-counter" id="itemCounter">Item 1 of 8</div>
+      <div class="ff-title-bar"><h2 id="itemTitle">—</h2></div>
+
+      <div class="ff-stage">
+        <div class="ff-image-frame" id="imageFrame">
+          <div class="ff-placeholder-flag le-hidden" id="placeholderFlag"><i class="fa-solid fa-triangle-exclamation"></i> PLACEHOLDER — SWAP IN REAL SITE PHOTO</div>
+          <div class="ff-loading-spin"><i class="fa-solid fa-circle-notch"></i> Loading scenario…</div>
+          <img id="itemImage" src="" alt="Working at height scenario"/>
+          <div class="ff-reveal-overlay" id="revealOverlay">
+            <div class="ff-r-row">
+              <i class="fa-solid fa-circle-exclamation"></i>
+              <div>
+                <div class="ff-r-label">What's Wrong</div>
+                <div class="ff-r-text" id="whatIsWrongText">—</div>
+              </div>
+            </div>
+            <div class="ff-r-row">
+              <i class="fa-solid fa-lightbulb"></i>
+              <div>
+                <div class="ff-r-label">Why It's Dangerous</div>
+                <div class="ff-r-text" id="whyItsSuspiciousText">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="le-progress-dots" id="progressDots"></div>
+
+        <div class="ff-award-row">
+          <button class="le-btn amber lg" id="revealBtn" type="button"><i class="fa-solid fa-eye"></i> Reveal (R)</button>
+          <button class="le-btn primary lg" id="nextBtn" type="button"><i class="fa-solid fa-forward"></i> Next Item</button>
+        </div>
+      </div>
+    </main>
+
+    <div class="le-keyhints">
+      <div class="le-keyhint"><kbd>SPACE</kbd> next image</div>
+      <div class="le-keyhint"><kbd>R</kbd> reveal what's wrong</div>
+      <div class="le-keyhint"><kbd>←</kbd><kbd>→</kbd> navigate</div>
+      <div class="le-keyhint"><kbd>ESC</kbd> home</div>
+      <div class="le-keyhint"><kbd>F</kbd> fullscreen</div>
+    </div>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="working-at-height.js"></script>
+</body>
+</html>

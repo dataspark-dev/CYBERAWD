@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+
+  <!-- ladder against wall -->
+  <g stroke="#94a3b8" stroke-width="10" fill="none">
+    <line x1="640" y1="760" x2="820" y2="200"/>
+    <line x1="740" y1="760" x2="920" y2="200"/>
+  </g>
+  <g stroke="#94a3b8" stroke-width="8">
+    <line x1="656" y1="700" x2="838" y2="678"/>
+    <line x1="666" y1="620" x2="848" y2="598"/>
+    <line x1="676" y1="540" x2="858" y2="518"/>
+    <line x1="686" y1="460" x2="868" y2="438"/>
+    <line x1="696" y1="380" x2="878" y2="358"/>
+    <!-- cracked / missing rung -->
+    <line x1="706" y1="300" x2="740" y2="292" stroke="#dc2626" stroke-width="10" stroke-dasharray="6,10"/>
+  </g>
+  <path d="M 706 300 L 725 260 L 745 300" stroke="#dc2626" stroke-width="5" fill="none"/>
+
+  <!-- worker climbing near the break -->
+  <g transform="translate(830,340)">
+    <circle cx="0" cy="0" r="30" fill="#facc15"/>
+    <rect x="-26" y="30" width="52" height="96" rx="14" fill="#0ea5e9"/>
+  </g>
+
+  <path d="M 780 320 L 720 300" stroke="#f59e0b" stroke-width="4" stroke-dasharray="10,8"/>
+  <text x="640" y="290" font-family="Barlow, sans-serif" font-size="18" fill="#f59e0b" text-anchor="middle">rung cracked / missing</text>
+
+  <text x="1180" y="500" font-family="Barlow, sans-serif" font-size="20" fill="#e2e8f0" text-anchor="middle">No pre-use inspection</text>
+  <text x="1180" y="526" font-family="Barlow, sans-serif" font-size="20" fill="#e2e8f0" text-anchor="middle">tag on the ladder</text>
+
+  <g transform="translate(340,700)">
+    <rect x="0" y="0" width="920" height="90" rx="8" fill="#fef2f2" stroke="#fecaca"/>
+    <text x="20" y="30" font-family="Orbitron, sans-serif" font-size="18" font-weight="700" fill="#991b1b">SPOT THE HAZARD:</text>
+    <text x="20" y="62" font-family="Barlow, sans-serif" font-size="18" fill="#7f1d1d">A worker climbs a ladder with a cracked/missing rung that was never inspected or tagged before use</text>
+  </g>
+
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="18" fill="#67e8f9" text-anchor="middle" letter-spacing="2">WORKING AT HEIGHT · ITEM 2 OF 8 · DAMAGED LADDER</text>
+</svg>

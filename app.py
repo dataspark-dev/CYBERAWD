@@ -20,6 +20,7 @@ SLIDES_DIR = ROOT / "slides"
 SCRIPTS_DIR = ROOT / "scripts"
 STYLES_DIR = ROOT / "styles"
 ASSETS_DIR = ROOT / "assets"
+LIVE_EVENT_DIR = ROOT / "live-event"
 INDEX_HTML = ROOT / "index.html"
 
 SLIDE_ENTRY_RE = re.compile(r"\{\s*file:\s*['\"](?P<file>[^'\"]+)['\"]")
@@ -76,6 +77,16 @@ def assets(filename):
 @app.route("/slides/<path:filename>")
 def slides(filename):
     return send_from_directory(SLIDES_DIR, filename)
+
+
+@app.route("/live-event/")
+def live_event_index():
+    return send_from_directory(LIVE_EVENT_DIR, "index.html")
+
+
+@app.route("/live-event/<path:filename>")
+def live_event(filename):
+    return send_from_directory(LIVE_EVENT_DIR, filename)
 
 
 if __name__ == "__main__":

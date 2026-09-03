@@ -1,0 +1,84 @@
+[
+  {
+    "id": "compare-domain-spoofing",
+    "type": "compare",
+    "category": "Domain Spoofing",
+    "persona": "HR / Recruitment",
+    "title": "Real vs Fake Offer Email — Domain Spoofing",
+    "realImage": "../assets/fault-finding/it-notice-real.svg",
+    "fakeImage": "../assets/fault-finding/it-notice-fake.svg",
+    "placeholder": true,
+    "whatIsWrong": "The fake HR email is from hr@synergymarine-group-careers.com — a lookalike with an extra hyphen and '-careers' added — instead of the real hr@synergymarinegroup.com. The subject (Offer Letter — 2nd Marine Engineer — Crew Recruitment Drive 2025) and body are near-identical; only the sender domain differs.",
+    "whyItsSuspicious": "HR/Recruitment inboxes routinely email external candidates, so a slightly-off internal domain is easy to miss. This red flag is about reading the sender address character-by-character, not the message content. A cloned offer letter with an extra word in the domain is a common spoofing trick — always verify the exact domain synergymarinegroup.com and confirm via the known HR crewing line before sharing onboarding documents."
+  },
+  {
+    "id": "compare-urgency-context",
+    "type": "compare",
+    "category": "Urgency & Context",
+    "persona": "Finance / Accounts",
+    "title": "Real vs Fake Finance Email — Urgency & Context",
+    "realImage": "../assets/fault-finding/urgency-email-real.svg",
+    "fakeImage": "../assets/fault-finding/urgency-email-fake.svg",
+    "placeholder": true,
+    "whatIsWrong": "The fake Finance email reuses the same payroll/vendor topic but manufactures urgency — 'URGENT — Bank Detail Change — Action Required TODAY', 'miss this month's payment run', and explicit instructions to NOT follow the standard approval chain and not to call back.",
+    "whyItsSuspicious": "The real Finance notice is calm ('scheduled for the regular payment run on 28 Nov', 'no immediate action required', 'call back on the known vendor/crewing number to verify any bank-detail change'). For Finance/Accounts, pressure to skip verification steps — deadline threats, fear of missed payroll, orders to bypass the ticket and callback process — is the tell. Urgency that pushes you to change bank details without a callback is the red flag here, not the domain."
+  },
+  {
+    "id": "compare-attachment-based",
+    "type": "compare",
+    "category": "Attachment-Based",
+    "persona": "HR / Payroll",
+    "title": "Real vs Fake Payslip Email — Attachment-Based",
+    "realImage": "../assets/fault-finding/attachment-email-real.svg",
+    "fakeImage": "../assets/fault-finding/attachment-email-fake.svg",
+    "placeholder": true,
+    "whatIsWrong": "The fake HR/Payroll email carries unexpected attachments — Payslip_March.pdf.exe (double extension ending in .exe) and a generic Documents.zip — and asks to 'Enable Content' or enter a password, whereas the real payslip email has expected, named PDF and XLS files (Payslip_Feb2025_RajKumar.pdf, Rotation_Roster_MV-Horizon_Feb-Apr.xlsx) with matching icons and sizes.",
+    "whyItsSuspicious": "HR/Payroll staff regularly send payslips and rosters, so attachment tricks blend in. Check: was the file expected, does the name/type match the context (PDF for payslip, XLS for roster, no macros needed), and does it have a suspicious extension? Double extensions (.pdf.exe), generic ZIPs, .docm with macros, and vague 'Updated Payslip — Please Review Immediately' bodies are classic lures. Verify with HR on a known channel before opening."
+  },
+  {
+    "id": "compare-link-url",
+    "type": "compare",
+    "category": "Link / External URL",
+    "persona": "Offshore Employee",
+    "title": "Real vs Fake Rotation Email — Link / URL",
+    "realImage": "../assets/fault-finding/link-url-email-real.svg",
+    "fakeImage": "../assets/fault-finding/link-url-email-fake.svg",
+    "placeholder": true,
+    "whatIsWrong": "Both rotation emails display the same link text 'portal.synergymarinegroup.com', but the fake's actual target is different — hover reveals https://portal-synergymarine-group-secure.net/crew/verify?id=42 and a shortened http://bit.ly/CrewRotation-Horizon — while the real offshore email's link truly goes to portal.synergymarinegroup.com. Both are addressed directly to the offshore employee (Rajesh Kumar, 3rd Officer, MV Horizon).",
+    "whyItsSuspicious": "For someone offshore with limited time and connectivity, a quick tap is tempting. This red flag is about the link destination versus displayed text, not the sender. Always long-press/hover to inspect the real URL, look for the exact domain portal.synergymarinegroup.com, and never trust a shortened or extra-hyphenated crew portal link — use a bookmarked portal or confirm with your vessel manager when back online."
+  },
+  {
+    "id": "compare-login-portal",
+    "type": "compare",
+    "title": "Real vs Fake Crew Self-Service Portal",
+    "realImage": "../assets/fault-finding/login-portal-real.svg",
+    "fakeImage": "../assets/fault-finding/login-portal-fake.svg",
+    "placeholder": true,
+    "whatIsWrong": "The fake crew self-service portal's address bar reads \"portal.synergymanne-group.com\" — a lookalike with an extra 'n' — instead of the real \"portal.synergymarinegroup.com\". The offshore employee's login screen is otherwise cloned pixel-for-pixel.",
+    "whyItsSuspicious": "Attackers can copy the crew portal's look exactly, but they can't fake the real domain. Offshore crew should always check the address bar before entering credentials in the self-service portal and, when possible, use a bookmarked portal link — the same habit taught in the Link/URL offshore scenario."
+  },
+  {
+    "id": "smishing-text",
+    "title": "Smishing Text",
+    "imagePath": "../assets/fault-finding/smishing-text.svg",
+    "placeholder": true,
+    "whatIsWrong": "A text message impersonates a delivery service and asks the recipient (onshore or offshore) to \"verify\" a package through an unfamiliar link.",
+    "whyItsSuspicious": "Legitimate carriers rarely text unsolicited verification links. The shortened, lookalike URL and pressure to act immediately are signs of smishing — whether targeting office staff at home or crew during rotation travel — phishing that has moved beyond email."
+  },
+  {
+    "id": "fake-it-popup",
+    "title": "Fake IT Support Pop-Up",
+    "imagePath": "../assets/fault-finding/fake-it-popup.svg",
+    "placeholder": true,
+    "whatIsWrong": "A pop-up claiming to be from IT support asks the user to type their password directly into the box to \"fix\" an error.",
+    "whyItsSuspicious": "Real IT support never asks for a password through a pop-up, for onshore or offshore accounts. This is a credential-harvesting technique dressed up as a routine system message — relevant to any role."
+  },
+  {
+    "id": "mfa-fatigue",
+    "title": "MFA-Fatigue Prompt Flood",
+    "imagePath": "../assets/fault-finding/mfa-fatigue.svg",
+    "placeholder": true,
+    "whatIsWrong": "A user receives a rapid flood of MFA approval push notifications they never requested, hoping one gets approved out of annoyance.",
+    "whyItsSuspicious": "A single unexpected MFA prompt is worth noticing; a flood within minutes means someone already has the password and is trying to 'fatigue' you into approving — whether you are onshore HR/Finance or offshore signing on — by accident."
+  }
+]

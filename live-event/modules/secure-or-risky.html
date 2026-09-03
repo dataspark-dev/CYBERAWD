@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Secure or Risky? — Live Event Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-shield-halved"></i> Secure or Risky? AI Edition</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="sr-stage" id="stage">
+        <div class="sr-intro" id="introScreen">
+          <div class="hh-eyebrow">Brief the room</div>
+          <h2>Secure or Risky? — AI Edition</h2>
+          <p class="sr-intro-text">10 rapid-fire scenarios. Read each aloud. Room votes: <strong>SECURE</strong> or <strong>RISKY</strong>. Reveal answer + one-line lesson. 10 seconds each.</p>
+          <div class="le-btn-row">
+            <button class="le-btn primary lg" id="startBtn" type="button"><i class="fa-solid fa-play"></i> Start (Space)</button>
+          </div>
+        </div>
+
+        <div class="sr-round le-hidden" id="roundScreen">
+          <div class="le-item-counter" id="itemCounter">Scenario 1 of 10</div>
+          <div class="sr-scenario-card" id="scenarioCard">
+            <div class="sr-scenario-text" id="scenarioText">—</div>
+          </div>
+
+          <div class="sr-vote-row">
+            <button class="le-btn green lg vote-btn" id="voteSecure" type="button" data-vote="SECURE"><i class="fa-solid fa-shield-check"></i> SECURE</button>
+            <button class="le-btn red lg vote-btn" id="voteRisky" type="button" data-vote="RISKY"><i class="fa-solid fa-shield-exclamation"></i> RISKY</button>
+          </div>
+
+          <div class="sr-reveal" id="revealPanel">
+            <div class="sr-result" id="resultText"></div>
+            <div class="sr-lesson" id="lessonText"></div>
+          </div>
+
+          <div class="le-progress-dots" id="progressDots"></div>
+
+          <div class="le-btn-row">
+            <button class="le-btn primary lg" id="nextBtn" type="button" disabled><i class="fa-solid fa-forward"></i> Next Scenario</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="secure-or-risky.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QR / USB / AI Scam Challenge — Live Event Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-qrcode"></i> QR / USB / AI Scam Challenge</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="qs-stage" id="stage">
+        <div class="qs-intro" id="introScreen">
+          <div class="hh-eyebrow">Brief the room</div>
+          <h2>QR / USB / AI Scam Challenge</h2>
+          <p class="sr-intro-text">3 physical threat stations. Facilitator shows prop → room identifies the threat → tap Reveal for explanation.</p>
+          <div class="le-btn-row">
+            <button class="le-btn primary lg" id="startBtn" type="button"><i class="fa-solid fa-play"></i> Start (Space)</button>
+          </div>
+        </div>
+
+        <div class="qs-round le-hidden" id="roundScreen">
+          <div class="qs-progress" id="progressDots"></div>
+
+          <div class="qs-station" id="stationCard">
+            <div class="qs-prop-display">
+              <img class="qs-prop-image" id="propImage" src="" alt="Threat prop" style="display:none;"/>
+              <div class="qs-prop-label" id="propLabel">—</div>
+            </div>
+
+            <div class="qs-vote-row">
+              <button class="le-btn red lg qs-vote-btn" id="voteThreat" type="button"><i class="fa-solid fa-triangle-exclamation"></i> Identify Threat</button>
+              <button class="le-btn ghost lg qs-vote-btn" id="voteSafe" type="button"><i class="fa-solid fa-shield-check"></i> Looks Safe</button>
+            </div>
+
+            <div class="qs-reveal" id="revealPanel">
+              <div class="qs-threat-type" id="threatType">—</div>
+              <div class="qs-explanation" id="explanationText">—</div>
+            </div>
+          </div>
+
+          <div class="le-btn-row">
+            <button class="le-btn primary lg" id="nextBtn" type="button" disabled><i class="fa-solid fa-forward"></i> Next Station</button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="qr-usb-scam.js"></script>
+</body>
+</html>

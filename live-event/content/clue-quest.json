@@ -1,0 +1,56 @@
+[
+  {
+    "id": "domain-spoofing",
+    "riddle": "I am a fake HR email. You see hr@synergymarine-group-careers.com, but the real one is hr@synergymarinegroup.com — I just added one extra word. What am I?",
+    "answer": "DOMAIN SPOOFING",
+    "options": ["DOMAIN SPOOFING", "FAKE LINK", "SMISHING"]
+  },
+  {
+    "id": "urgency-trap",
+    "riddle": "I say 'ACT NOW or you will lose your pay!' and 'Don't call your boss, just click here!' I want you to hurry and not think. What am I?",
+    "answer": "URGENCY TRAP",
+    "options": ["URGENCY TRAP", "FAKE PORTAL", "MFA FATIGUE"]
+  },
+  {
+    "id": "malicious-attachment",
+    "riddle": "You think I am a PDF payslip, but my name ends with .pdf.exe. I also say 'Enable Content' to open me. What am I?",
+    "answer": "MALICIOUS ATTACHMENT",
+    "options": ["MALICIOUS ATTACHMENT", "DOMAIN SPOOFING", "SMISHING"]
+  },
+  {
+    "id": "fake-link",
+    "riddle": "You see portal.synergymarinegroup.com in blue, but when you hover I really go to a site with '-secure' in the name. What am I?",
+    "answer": "FAKE LINK",
+    "options": ["FAKE LINK", "FAKE PORTAL", "DOMAIN SPOOFING"]
+  },
+  {
+    "id": "fake-portal",
+    "riddle": "I look just like the real crew login page, but my address has one extra letter 'n' — synergymanne. What am I?",
+    "answer": "FAKE PORTAL",
+    "options": ["FAKE PORTAL", "FAKE LINK", "SMISHING"]
+  },
+  {
+    "id": "smishing",
+    "riddle": "I am a fake text on your phone with a short link. SMS plus Phishing makes my name. What am I?",
+    "answer": "SMISHING",
+    "options": ["SMISHING", "FAKE LINK", "DOMAIN SPOOFING"]
+  },
+  {
+    "id": "fake-popup",
+    "riddle": "A box pops up and says 'Type your password here to fix the error.' Real IT never does this in a pop-up. What am I?",
+    "answer": "FAKE IT POP-UP",
+    "options": ["FAKE IT POP-UP", "FAKE PORTAL", "MFA FATIGUE"]
+  },
+  {
+    "id": "mfa-fatigue",
+    "riddle": "I send you many 'Approve?' messages again and again. I want to make you tired so you tap Approve by mistake. What am I?",
+    "answer": "MFA FATIGUE",
+    "options": ["MFA FATIGUE", "URGENCY TRAP", "FAKE LINK"]
+  },
+  {
+    "id": "stop-verify-report",
+    "riddle": "Remember 3 steps: 1 Stop, 2 Verify on a known number, 3 Report to IT. What is this rule called?",
+    "answer": "STOP VERIFY REPORT",
+    "options": ["STOP VERIFY REPORT", "MFA FATIGUE", "DOMAIN SPOOFING"]
+  }
+]

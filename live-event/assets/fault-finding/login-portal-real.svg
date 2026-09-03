@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+
+  <!-- browser chrome -->
+  <rect x="200" y="140" width="1200" height="620" rx="10" fill="#f8fafc"/>
+  <rect x="200" y="140" width="1200" height="56" rx="10" fill="#e2e8f0"/>
+  <circle cx="234" cy="168" r="7" fill="#ef4444"/>
+  <circle cx="258" cy="168" r="7" fill="#f59e0b"/>
+  <circle cx="282" cy="168" r="7" fill="#22c55e"/>
+  <rect x="330" y="152" width="960" height="32" rx="16" fill="#fff" stroke="#cbd5e1"/>
+  <text x="350" y="174" font-family="Space Mono, monospace" font-size="16" fill="#166534">🔒 https://portal.synergymarinegroup.com</text>
+
+  <!-- page content -->
+  <g transform="translate(800,340)" text-anchor="middle">
+    <rect x="-220" y="-60" width="440" height="330" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+    <rect x="-70" y="-30" width="140" height="44" rx="8" fill="#0ea5e9"/>
+    <text x="0" y="0" font-family="Barlow, sans-serif" font-size="20" font-weight="800" fill="#fff">SYNERGY</text>
+    <text x="0" y="60" font-family="Orbitron, sans-serif" font-size="19" font-weight="700" fill="#0f172a">Crew Self-Service Portal</text>
+    <text x="0" y="85" font-family="Barlow, sans-serif" font-size="13" fill="#64748b">Fleet &amp; Rotation Management</text>
+    <rect x="-160" y="100" width="320" height="40" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="-140" y="125" font-family="Barlow, sans-serif" font-size="16" fill="#94a3b8" text-anchor="start">Username</text>
+    <rect x="-160" y="150" width="320" height="40" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="-140" y="175" font-family="Barlow, sans-serif" font-size="16" fill="#94a3b8" text-anchor="start">Password</text>
+    <rect x="-160" y="210" width="320" height="46" rx="6" fill="#0062ff"/>
+    <text x="0" y="239" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#fff">SIGN IN</text>
+  </g>
+
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="18" fill="#67e8f9" text-anchor="middle" letter-spacing="2">CREW PORTAL LOGIN — REAL DOMAIN</text>
+</svg>

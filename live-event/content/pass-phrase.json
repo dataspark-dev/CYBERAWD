@@ -1,0 +1,7 @@
+[
+  { "id": "round-1", "label": "Round 1", "difficulty": "easy" },
+  { "id": "round-2", "label": "Round 2", "difficulty": "easy" },
+  { "id": "round-3", "label": "Round 3", "difficulty": "medium" },
+  { "id": "round-4", "label": "Round 4", "difficulty": "hard" },
+  { "id": "round-5", "label": "Round 5", "difficulty": "hard" }
+]

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cyber Clue Quest — Live Event Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-puzzle-piece"></i> Cyber Clue Quest</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="le-item-counter" id="itemCounter">Riddle 1 of 9</div>
+
+      <div class="cq-stage">
+        <div class="cq-riddle-card">
+          <div class="cq-riddle-text" id="riddleText">—</div>
+          <div class="cq-answer-reveal" id="answerReveal"></div>
+        </div>
+
+        <div class="cq-options" id="optionsContainer"></div>
+        <div class="cq-feedback" id="feedback"></div>
+
+        <div class="le-timer" id="timer">
+          <div class="lt-digits">30</div>
+          <div class="lt-label">Seconds</div>
+        </div>
+
+        <div class="le-btn-row">
+          <button class="le-btn amber lg" id="revealBtn" type="button"><i class="fa-solid fa-eye"></i> Reveal (R)</button>
+          <button class="le-btn primary lg" id="nextBtn" type="button"><i class="fa-solid fa-forward"></i> Next Riddle</button>
+        </div>
+
+        <div class="le-progress-dots" id="progressDots"></div>
+      </div>
+    </main>
+
+    <div class="le-keyhints">
+      <div class="le-keyhint"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> choose answer</div>
+      <div class="le-keyhint"><kbd>SPACE</kbd> next riddle</div>
+      <div class="le-keyhint"><kbd>R</kbd> reveal answer</div>
+      <div class="le-keyhint"><kbd>←</kbd> back</div>
+      <div class="le-keyhint"><kbd>ESC</kbd> home</div>
+      <div class="le-keyhint"><kbd>F</kbd> fullscreen</div>
+    </div>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="clue-quest.js"></script>
+</body>
+</html>

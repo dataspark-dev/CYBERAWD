@@ -1,0 +1,307 @@
+{
+  "title": "Live Social-Engineering Simulation — Virtual Environment",
+  "subtitle": "Follow the attacker’s full flow: OSINT → Email → Teams/SMS → Portal → Fraud",
+  "intro": {
+    "title": "You are watching the attacker’s screen",
+    "body": "This is a controlled, faciliator-driven walkthrough — no real data was harvested, no real email sent. We’ll step through 4 linked scenarios that show how a Synergy name, a LinkedIn search, and one predicted email become an attachment, an anonymous Teams ping, an SMS, and a CSO wire request. Use SPACE to advance, ← to step back, R to jump to lessons."
+  },
+  "scenarios": [
+    {
+      "id": "osint-linkedin",
+      "label": "01",
+      "title": "OSINT & Email Prediction",
+      "persona": "HR / Recruitment",
+      "vector": "LinkedIn Recon → Predictive Email",
+      "channelSummary": "LinkedIn • OSINT Tool • Email",
+      "description": "Attacker has no insider access — only public LinkedIn. They harvest crew/HR names and guess the Synergy email pattern.",
+      "sender": {
+        "name": "Synergy Marine Group",
+        "title": "Public LinkedIn",
+        "initials": "SM",
+        "address": "linkedin.com/company/synergy-marine-group"
+      },
+      "beats": [
+        {
+          "id": 1,
+          "label": "LinkedIn Search",
+          "channel": "linkedin",
+          "timestamp": "Day 1 — 09:14",
+          "sender": { "name": "Attacker OSINT Tab", "title": "linkedin.com/search", "initials": "LI", "address": "Search: “Synergy Marine Group” — 1,247 employees" },
+          "text": "Filter: Location=India, Title=Crew Manager / Fleet Ops / HR Recruiter — 18 profiles saved: ‘Rajesh Kumar · 3/O MV Horizon’, ‘Aisha Fernandes · Crewing Exec’, ‘Vikram Rao · Finance’ … Joined dates & vessel names visible on public profiles.",
+          "meta": "Public data only — no login needed. Profiles show role + vessel + city.",
+          "severity": "normal"
+        },
+        {
+          "id": 2,
+          "label": "Pattern Prediction",
+          "channel": "osint",
+          "timestamp": "Day 1 — 10:02",
+          "sender": { "name": "Email Permutator", "title": "OSINT Tool (Hunter-like)", "initials": "EP", "address": "firstname.lastname@synergymarinegroup.com" },
+          "text": "Pattern confirmed from 3 known Synergy addresses in breach data: firstname.lastname@synergymarinegroup.com. Predicted: rajesh.kumar@synergymarinegroup.com, aisha.fernandes@synergymarinegroup.com, vikram.rao@synergymarinegroup.com — 92% confidence. HR inboxes are ideal: they expect CVs from strangers.",
+          "meta": "Attacker now has a valid-looking target list without ever contacting Synergy.",
+          "severity": "normal"
+        },
+        {
+          "id": 3,
+          "label": "Spoofed HR Offer",
+          "channel": "email",
+          "timestamp": "Day 2 — 08:31",
+          "sender": { "name": "HR Recruitment", "title": "hr@synergymarine-group-careers.com — EXTERNAL", "initials": "HR", "address": "hr@synergymarine-group-careers.com via amazonses.com" },
+          "text": "Subject: Offer Letter — 2nd Marine Engineer — MV Horizon | Crew Recruitment Drive 2025 — Please review the provisional offer & onboarding checklist attached and confirm via the HR portal link by 28 Nov. Warm regards, HR Recruitment — Synergy Marine Group",
+          "meta": "Identical to real HR mail — only the domain differs: hr@synergymarine-group-careers.com (−careers added). Sent from external SES, SPF soft-fail.",
+          "severity": "critical"
+        },
+        {
+          "id": 4,
+          "label": "Candidate Interaction",
+          "channel": "email",
+          "timestamp": "Day 2 — 13:47",
+          "sender": { "name": "Candidate (External)", "title": "Re: Offer Letter — 2nd Marine Engineer", "initials": "CA", "address": "candidate.92@gmail.com → hr@synergymarine-group-careers.com" },
+          "text": "Thank you! I’ve attached my passport, bank details & signed offer as requested. Please let me know next steps. — 12 attachments queued for next lure.",
+          "meta": "One predicted email was enough. Attacker now holds ID docs that fuel the next 3 scenarios.",
+          "severity": "critical"
+        }
+      ],
+      "holdPrompt": {
+        "title": "Pause — What’s exposed before an email is even sent?",
+        "body": "Ask the room: what did LinkedIn already tell the attacker, and why is HR/recruitment the ideal first lure? (public crew lists → predicted internal email → trusted external CV flow)"
+      },
+      "reveal": {
+        "title": "SCENARIO 01 — LESSON",
+        "subtitle": "No hack needed — your public footprint is the weapon.",
+        "redFlags": [
+          { "icon": "fa-brands fa-linkedin", "label": "LinkedIn OSINT", "detail": "Synergy name + role + vessel is public. Filters make a focused crew list in 10 minutes — no breach required." },
+          { "icon": "fa-solid fa-at", "label": "Predictable Email", "detail": "firstname.lastname@synergymarinegroup.com is guessable. One valid format predicts hundreds of internal addresses, especially HR which expects stranger mail." },
+          { "icon": "fa-solid fa-mask", "label": "Lookalike Domain", "detail": "hr@synergymarine-group-careers.com adds ‘-careers’ — HR’s external-facing role makes the extra word plausible. Check the *exact* domain, not the display name." },
+          { "icon": "fa-solid fa-shield-halved", "label": "STOP — VERIFY", "detail": "For HR/recruitment: never accept onboarding docs via reply-to external domain. Confirm via known HR crewing line / portal." }
+        ],
+        "callToAction": "STOP: Is this profile public?  VERIFY: exact domain synergymarinegroup.com  REPORT: recruiting@synergymarinegroup.com"
+      }
+    },
+    {
+      "id": "attachment-vector",
+      "label": "02",
+      "title": "Attachment & Document Lure",
+      "persona": "HR / Payroll",
+      "vector": "Weaponized Attachment",
+      "channelSummary": "Email • Attachment (PDF/XLS → EXE/ZIP)",
+      "description": "Same HR/Payroll trust — now the payload is a document crew expects: payslip, roster, appraisal.",
+      "sender": {
+        "name": "HR Payroll",
+        "title": "HR / Payroll — Synergy (Spoofed)",
+        "initials": "HP",
+        "address": "hr-payroll@synergymarinegroup.com"
+      },
+      "beats": [
+        {
+          "id": 1,
+          "label": "Legitimate Baseline",
+          "channel": "email",
+          "timestamp": "Day 3 — 09:00",
+          "sender": { "name": "HR Payroll", "title": "hr-payroll@synergymarinegroup.com — INTERNAL", "initials": "HP", "address": "hr-payroll@synergymarinegroup.com (SPF pass, internal)" },
+          "text": "Subject: Payslip — Feb 2025 & Rotation Roster — MV Horizon | Hi Raj, attached: Payslip_Feb2025_RajKumar.pdf (480 KB) + Rotation_Roster_MV-Horizon_Feb-Apr.xlsx (210 KB) — both from HR system briefing. No macros needed. — HR Payroll",
+          "meta": "Expected files, matching icons (PDF red / XLS green), HR system tone. This is what crew *should* see.",
+          "severity": "normal"
+        },
+        {
+          "id": 2,
+          "label": "Lure With Same Subject",
+          "channel": "email",
+          "timestamp": "Day 4 — 14:12",
+          "sender": { "name": "HR Payroll", "title": "hr-payroll@synergymarinegroup.com — SPOOF DISPLAY", "initials": "HP", "address": "hr-payroll@synergymarine-group-secure.com (display masks as internal)" },
+          "text": "Subject: Updated Payslip — Please Review Immediately | Hi, Please find your updated payslip attached. Enable macros and click ‘Enable Content’ to view the appraisal section. — HR Payroll",
+          "meta": "Subject reused, body vague, display name identical — domain hidden behind display mask.",
+          "severity": "normal"
+        },
+        {
+          "id": 3,
+          "label": "Suspicious Payloads",
+          "channel": "attachment",
+          "timestamp": "Day 4 — 14:12",
+          "sender": { "name": "Attachments", "title": "2 files — password prompt", "initials": "AT", "address": "Payslip_March.pdf.exe (1.1 MB, Application) + Documents.zip (3.4 MB, pwd:1234)" },
+          "text": "Icon: EXE blue + ZIP purple. Banner: ‘Enable Content / Enter password to view files’. File names generic, sizes inconsistent with payslip, password supplied in mail body.",
+          "meta": "Double extension .pdf.exe, generic ZIP, macro request — all absent in the legitimate baseline.",
+          "severity": "critical"
+        },
+        {
+          "id": 4,
+          "label": "If Clicked",
+          "channel": "portal",
+          "timestamp": "Day 4 — 14:18",
+          "sender": { "name": "Endpoint", "title": "Macro-enabled Document", "initials": "⚙", "address": "WIN-HR-LT042 — PowerShell beacon" },
+          "text": "Macro runs → PowerShell → beacon to external C2. HR payroll lateral opportunity: crew PII + bank details from shared drive now reachable. No prompt shown to user beyond ‘Document ready’.",
+          "meta": "HR/Payroll hold the most sensitive offshore docs — one enabled macro = fleet-wide PII risk.",
+          "severity": "critical"
+        }
+      ],
+      "holdPrompt": {
+        "title": "Pause — Which file would you open?",
+        "body": "Show both inboxes side-by-side: expected PDF+XLS vs .pdf.exe+ZIP. Ask who handles payslips daily and what ‘expected’ means for them."
+      },
+      "reveal": {
+        "title": "SCENARIO 02 — LESSON",
+        "subtitle": "HR/Payroll are trusted document senders — attackers copy their stationery.",
+        "redFlags": [
+          { "icon": "fa-solid fa-paperclip", "label": "Unexpected Type", "detail": "Payslip never arrives as .exe / .zip with password. PDF (480 KB) vs Application (1.1 MB) is visible in the file list." },
+          { "icon": "fa-solid fa-file-code", "label": "Double Extension", "detail": "Payslip_March.pdf.exe — the final .exe is the real type. Windows hides known extensions by default." },
+          { "icon": "fa-solid fa-bolt", "label": "Enable Content Trap", "detail": "‘Enable macros / Enter password 1234’ is the payload trigger. Real Synergy payslips state ‘no macros needed’." },
+          { "icon": "fa-solid fa-shield-halved", "label": "STOP — VERIFY", "detail": "For HR/Payroll: was this file expected? Call HR on known line, never reply-to external with docs." }
+        ],
+        "callToAction": "STOP before enabling. VERIFY file type + expectation via portal. REPORT to IT — do not forward."
+      }
+    },
+    {
+      "id": "anon-teams-sms",
+      "label": "03",
+      "title": "Anonymous Teams & Smishing",
+      "persona": "Offshore Employee",
+      "vector": "External Chat / SMS",
+      "channelSummary": "SMS • Microsoft Teams (Anonymous) • Portal Link",
+      "description": "Offshore crew have intermittent connectivity and trust any fleet message. Attacker pivots to SMS + anonymous Teams from an ‘external’ entity.",
+      "sender": {
+        "name": "Crew Ops (External)",
+        "title": "Anonymous Teams — External User",
+        "initials": "CO",
+        "address": "Teams: Unknown user (external) — no history, generic avatar"
+      },
+      "beats": [
+        {
+          "id": 1,
+          "label": "SMS Smish",
+          "channel": "sms",
+          "timestamp": "Day 5 — 06:12 — SMS to +91 98xxx",
+          "sender": { "name": "SMS — Synergy Crew", "title": "From: SYNERGY (spoofed sender ID)", "initials": "💬", "address": "+91 80-xxxx (via spoofed SMS gateway, no reply)" },
+          "text": "Synergy Marine: Your rotation portal is locked. Verify via: bit.ly/CrewRotation-Horizon or your account will be delayed. — Fleet Ops",
+          "meta": "Shortened link, generic ‘Fleet Ops’, sent at 06:12 when crew check phones after watch.",
+          "severity": "critical"
+        },
+        {
+          "id": 2,
+          "label": "Anonymous Teams DM",
+          "channel": "teams",
+          "timestamp": "Day 5 — 09:41",
+          "sender": { "name": "Fleet Ops", "title": "Teams — External (No org tag)", "initials": "FO", "address": "fleet.ops.3268@outlook.com invited you — ‘External’ banner, no chat history" },
+          "text": "Hi Rajesh — quick one on MV Horizon rotation. Can you confirm your sign-off dates via the crew portal link below? When you have a moment. Thanks!",
+          "meta": "Anonymous Teams: no @synergymarinegroup.com tag, generic ‘FO’ avatar, external invite — easy to miss offshore.",
+          "severity": "critical"
+        },
+        {
+          "id": 3,
+          "label": "Link Mismatch",
+          "channel": "email",
+          "timestamp": "Day 5 — 09:41 — same Teams DM",
+          "sender": { "name": "Link Preview", "title": "portal.synergymarinegroup.com (display)", "initials": "🔗", "address": "Display: https://portal.synergymarinegroup.com/crew/rotation-confirm" },
+          "text": "Button shows: https://portal.synergymarinegroup.com/crew/rotation-confirm — Actual href on hover/long-press: https://portal-synergymarine-group-secure.net/crew/verify?id=42 + alt bit.ly/CrewRotation-Horizon",
+          "meta": "Offshore tap-trap: display text is the real portal, href is lookalike with extra ‘-secure.net’.",
+          "severity": "critical"
+        },
+        {
+          "id": 4,
+          "label": "Pressure Nudge",
+          "channel": "sms",
+          "timestamp": "Day 5 — 16:30",
+          "sender": { "name": "Follow-up SMS", "title": "Anonymous", "initials": "💬", "address": "Same +91 gateway — ‘Don’t call vessel manager, use link only’" },
+          "text": "Reminder: Use the link only — vessel manager is offshore and won’t respond today. Portal closes 18:00.",
+          "meta": "Second channel reinforces first (SMS + Teams). ‘Don’t verify’ is the attacker’s defense against your best control.",
+          "severity": "critical"
+        }
+      ],
+      "holdPrompt": {
+        "title": "Pause — How many of you would tap on a rolling ship?",
+        "body": "Anonymous Teams + SMS + shortened link — all while on limited connectivity. Ask offshore crew: what’s your check before tapping?"
+      },
+      "reveal": {
+        "title": "SCENARIO 03 — LESSON",
+        "subtitle": "Offshore = high trust + low bandwidth — attackers add a second channel to drown your check.",
+        "redFlags": [
+          { "icon": "fa-solid fa-mobile-screen", "label": "Smished Link", "detail": "bit.ly/CrewRotation-Horizon — Synergy never sends crew portal via shortened SMS at 06:12. Short link hides lookalike." },
+          { "icon": "fa-brands fa-microsoft", "label": "Anonymous Teams", "detail": "‘External’ banner + @outlook.com + no history + generic FO avatar = not Fleet Ops. Internal Teams always shows @synergymarinegroup.com + org tag." },
+          { "icon": "fa-solid fa-link", "label": "Display ≠ Href", "detail": "Display text can be faked. Long-press/hover to see https://portal-synergymarine-group-secure.net — extra ‘-secure.net’." },
+          { "icon": "fa-solid fa-shield-halved", "label": "STOP — VERIFY", "detail": "For offshore: use bookmarked portal, or SMS your vessel manager on known number — never ‘link only’." }
+        ],
+        "callToAction": "STOP before tapping. VERIFY link destination + Teams org tag. REPORT Teams ‘External’ + SMS sender."
+      }
+    },
+    {
+      "id": "cso-fraud-wire",
+      "label": "04",
+      "title": "CSO Impersonation & Anomalous Wire",
+      "persona": "Finance / Accounts + Offshore Crew",
+      "vector": "Authority → External Vendor → Fraud",
+      "channelSummary": "Teams • Email (External Vendor) • Portal",
+      "description": "Final payload: after OSINT + attachment + chat trust, the attacker uses a senior identity to request a bypass.",
+      "sender": {
+        "name": "Capt. Mehta",
+        "title": "Chief Security Officer (Spoofed CSO)",
+        "initials": "CM",
+        "address": "cso@synergymarinegroup.com — actually cso-synergy@protonmail.ch via display-name spoof"
+      },
+      "beats": [
+        {
+          "id": 1,
+          "label": "CSO Urgent DM",
+          "channel": "teams",
+          "timestamp": "Day 6 — 08:47 — Teams",
+          "sender": { "name": "Capt. Mehta", "title": "Chief Security Officer — Synergy (Display spoof)", "initials": "CM", "address": "Capt. Mehta <cso-synergy@protonmail.ch> — display shows ‘Capt. Mehta — CSO’" },
+          "text": "Hey — sorry for the early ping. Confidential crew transfer — need your help before my 09:00 board call. Keep strictly between us for now.",
+          "meta": "Display-name spoof: name + title look internal, header reveals external ProtonMail. Sent before business hours.",
+          "severity": "normal"
+        },
+        {
+          "id": 2,
+          "label": "Authority + Secrecy",
+          "channel": "teams",
+          "timestamp": "Day 6 — 08:48",
+          "sender": { "name": "Capt. Mehta (CSO)", "title": "CSO — Synergy (spoofed)", "initials": "CM", "address": "Same ProtonMail — ‘This comes directly from me. Keep between us — I’ll explain once done.’" },
+          "text": "This comes directly from me as CSO. Please keep it strictly between us for now — I’ll explain everything once it’s done. Don’t loop in Finance until confirmed.",
+          "meta": "Authority + secrecy: two classic social-engineering levers, especially effective on junior crew/Finance.",
+          "severity": "normal"
+        },
+        {
+          "id": 3,
+          "label": "External Vendor Invoice",
+          "channel": "email",
+          "timestamp": "Day 6 — 08:49 — Email (external entity)",
+          "sender": { "name": "Vendor — Horizon Provisions", "title": "accounts@horizon-provisions.sg — EXTERNAL", "initials": "VP", "address": "accounts@horizon-provisions.sg (external vendor) — CC: Capt. Mehta" },
+          "text": "Subject: UPDATED Bank Details — MV Horizon Provisions — INV-84271 | Hi, our bank details have changed for this month’s settlement (USD 48,500). Please remit to A/C 987654 — ACME Bank SG by 15:00 today, or provisions will be delayed. — Horizon Provisions",
+          "meta": "External entity pivots here: vendor email supplies the fraudulent bank details, CSO provides the authority to use them.",
+          "severity": "critical"
+        },
+        {
+          "id": 4,
+          "label": "The Wire Ask",
+          "channel": "teams",
+          "timestamp": "Day 6 — 08:49",
+          "sender": { "name": "Capt. Mehta (CSO)", "title": "CSO — Urgent", "initials": "CM", "address": "Same spoof — ‘Wrap in next 10 min — board call then unreachable. Process wire $48,500 now — don’t loop Finance until confirmed.’" },
+          "text": "Please process a wire transfer of $48,500 to the account in the vendor mail right now — and don’t loop in Finance until it’s confirmed done. I’m about to go into a board call and won’t be reachable after that.",
+          "meta": "Time pressure + off-channel financial ask + bypass verification — completes the chain started on Day 1 LinkedIn.",
+          "severity": "critical"
+        }
+      ],
+      "holdPrompt": {
+        "title": "Pause — What actually stops a CSO order?",
+        "body": "A ‘CSO’ display name + external vendor invoice + 10-minute deadline. Ask Finance/Accounts: what breaks this chain?"
+      },
+      "reveal": {
+        "title": "SCENARIO 04 — LESSON",
+        "subtitle": "No real CSO bypasses Finance. The chain is the point.",
+        "redFlags": [
+          { "icon": "fa-solid fa-crown", "label": "Display-Name Spoof", "detail": "‘Capt. Mehta — CSO’ is display text; header is cso-synergy@protonmail.ch — external, not @synergymarinegroup.com. CSO never uses ProtonMail." },
+          { "icon": "fa-solid fa-bolt", "label": "Urgency + Unreachability", "detail": "‘Next 10 min, then board call — unreachable.’ Manufactured deadline to prevent callback verification." },
+          { "icon": "fa-solid fa-building-columns", "label": "Anomalous External Bank Change", "detail": "Vendor bank change via CC’d vendor mail (external) — real changes follow portal + callback on known number, never email+Teams alone." },
+          { "icon": "fa-solid fa-shield-halved", "label": "STOP → VERIFY → REPORT", "detail": "STOP: confidential + off-channel. VERIFY: call CSO + vendor on known numbers. REPORT: Finance + IT — do not process." }
+        ],
+        "callToAction": "STOP: external + secrecy. VERIFY via known CSO/vendor numbers. REPORT — this is exactly why Finance has a separate approval chain."
+      }
+    }
+  ],
+  "globalReveal": {
+    "title": "FULL FLOW — How 4 scenarios become one fraud",
+    "subtitle": "OSINT (Day 1) → Attachment (Day 4) → Teams/SMS (Day 5) → Wire (Day 6) — same attacker, same predicted email",
+    "redFlags": [
+      { "icon": "fa-solid fa-diagram-project", "label": "Chain, Not One-Off", "detail": "Each lure fuels the next: LinkedIn names → predicted email → HR docs → crew trust → CSO authority + vendor bank change." },
+      { "icon": "fa-solid fa-shield-halved", "label": "Your Breaks", "detail": "Domain check (Day 1-2) → Attachment expectation (Day 4) → Link hover + Teams tag (Day 5) → Callback + approval chain (Day 6)." }
+    ],
+    "callToAction": "For every persona — HR, Finance, Offshore — STOP (private + urgent) → VERIFY (known domain/number/portal) → REPORT (IT + manager)."
+  }
+}

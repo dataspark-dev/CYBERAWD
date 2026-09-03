@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+
+  <rect x="240" y="150" width="1120" height="620" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="240" y="150" width="1120" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="270" y="192" font-family="Space Mono, monospace" font-size="18" fill="#111827">From: Fleet Ops &lt;fleetops@synergymarinegroup.com&gt;</text>
+
+  <text x="270" y="260" font-family="Barlow, sans-serif" font-size="20" fill="#374151">Subject: Signed maintenance contract attached</text>
+
+  <text x="270" y="330" font-family="Barlow, sans-serif" font-size="20" fill="#1e293b">Hi team,</text>
+  <text x="270" y="368" font-family="Barlow, sans-serif" font-size="20" fill="#374151">Attaching the signed maintenance contract for your records.</text>
+  <text x="270" y="400" font-family="Barlow, sans-serif" font-size="20" fill="#374151">No action needed — just filing it with you for reference.</text>
+
+  <g transform="translate(270,450)">
+    <rect x="0" y="0" width="320" height="60" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <rect x="14" y="14" width="32" height="32" rx="4" fill="#ef4444"/>
+    <text x="30" y="36" font-family="Barlow, sans-serif" font-size="13" font-weight="800" fill="#fff" text-anchor="middle">PDF</text>
+    <text x="60" y="36" font-family="Space Mono, monospace" font-size="15" fill="#1e293b">Maintenance_Contract_Signed.pdf</text>
+  </g>
+
+  <text x="270" y="570" font-family="Barlow, sans-serif" font-size="20" fill="#374151">Thanks,</text>
+  <text x="270" y="602" font-family="Barlow, sans-serif" font-size="20" font-weight="700" fill="#1e293b">Fleet Ops</text>
+
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="18" fill="#67e8f9" text-anchor="middle" letter-spacing="2">DOCUMENT ATTACHMENT EMAIL</text>
+</svg>

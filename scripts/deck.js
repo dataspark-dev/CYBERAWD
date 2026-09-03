@@ -22,6 +22,7 @@ const SLIDES = [
   { file: 'slide-15.html', title: 'Passwords, MFA & Access Hygiene', group: 'Workplace Security' },
   { file: 'slide-16.html', title: 'See Something, Say Something', group: "Do's & Don'ts" },
   { file: 'slide-17.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
+  { file: 'slide-19.html', title: 'Live Awareness Games', group: 'Take It Further' },
   { file: 'slide-18.html', title: 'Closing', group: 'Closing' }
 ];
 

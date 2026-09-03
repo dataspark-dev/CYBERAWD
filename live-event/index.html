@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Live Event Facilitator Console — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+</head>
+<body data-home="index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-brand" href="index.html">
+        <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+        <div class="le-brand-div"></div>
+        <img src="../assets/AFT.png" alt="AFT"/>
+      </a>
+      <div class="le-brand-div"></div>
+      <div class="le-brand-text">
+        LIVE EVENT CONSOLE
+        <small><span class="le-dot" style="display:inline-block;"></span> Facilitator Mode</small>
+      </div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main" style="gap:0;">
+      <div class="le-home-hero">
+        <div class="hh-eyebrow">Synergy Cyber Security Awareness Month</div>
+        <h1>LIVE EVENT <span>FACILITATOR CONSOLE</span></h1>
+      </div>
+
+      <div class="le-modules-wrap">
+        <div class="le-modules-grid" id="modulesGrid">
+          <a class="le-module-card v-cyan" href="modules/fault-finding.html">
+            <div class="mc-bar"></div>
+            <div class="mc-body">
+              <div class="mc-tag">Spot the Fault</div>
+              <div class="mc-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+              <h3>Fault Finding</h3>
+              <p>Compare a real message side-by-side with a fake one and call out what gives it away — 8 rounds across HR, Finance, and Offshore Crew.</p>
+            </div>
+            <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
+          </a>
+
+          <a class="le-module-card v-red" href="modules/live-simulation.html">
+            <div class="mc-bar"></div>
+            <div class="mc-body">
+              <div class="mc-tag">Virtual Environment</div>
+              <div class="mc-icon"><i class="fa-solid fa-vr-cardboard"></i></div>
+              <h3>Live Simulation</h3>
+              <p>Watch one real attack chain play out step by step, from a LinkedIn search to a fraudulent wire transfer, across 4 linked scenarios.</p>
+            </div>
+            <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
+          </a>
+
+          <a class="le-module-card v-purple" href="modules/clue-quest.html">
+            <div class="mc-bar"></div>
+            <div class="mc-body">
+              <div class="mc-tag">Riddles</div>
+              <div class="mc-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+              <h3>Cyber Clue Quest</h3>
+              <p>Read the clue, guess the term, beat the clock — 9 riddles covering everything you've just learned.</p>
+            </div>
+            <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
+          </a>
+
+          <a class="le-module-card v-amber" href="modules/pass-phrase.html">
+            <div class="mc-bar"></div>
+            <div class="mc-body">
+              <div class="mc-tag">Password Builder</div>
+              <div class="mc-icon"><i class="fa-solid fa-key"></i></div>
+              <h3>Pass-Phrase</h3>
+              <p>Start from a real weak password and drag tiles from the deck to build a strong one, watching the strength meter climb as you go.</p>
+            </div>
+            <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
+          </a>
+
+          <a class="le-module-card v-green" href="modules/closing-quiz.html">
+            <div class="mc-bar"></div>
+            <div class="mc-body">
+              <div class="mc-tag">Knowledge Check</div>
+              <div class="mc-icon"><i class="fa-solid fa-bolt"></i></div>
+              <h3>Rapid Fire</h3>
+              <p>Read the situation, make the call, see why it matters — 10 rapid-fire scenarios rotating through every role on site.</p>
+            </div>
+            <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
+          </a>
+
+          <a class="le-module-card v-blue" href="modules/decision-room.html">
+            <div class="mc-bar"></div>
+            <div class="mc-body">
+              <div class="mc-tag">Branching Decisions</div>
+              <div class="mc-icon"><i class="fa-solid fa-diagram-project"></i></div>
+              <h3>Decision Room</h3>
+              <p>Pick your response, see the consequence, and work through 6 real incident scenarios branch by branch.</p>
+            </div>
+            <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="le-home-footer">
+        <span class="mono-tag" style="color:var(--muted);">Keyboard: ↑↓←→ select · Enter/Space open · F fullscreen</span>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="console.js"></script>
+  <script>
+    const modulesGrid = document.getElementById('modulesGrid');
+    const cards = Array.from(modulesGrid.querySelectorAll('.le-module-card'));
+    let focusedIdx = -1;
+
+    // Staggered entrance on load, then drop the class so it doesn't replay
+    modulesGrid.classList.add('entrance');
+    setTimeout(() => modulesGrid.classList.remove('entrance'), 900);
+
+    // Smooth fade-out before leaving for a module, instead of an abrupt jump.
+    const shellEl = document.querySelector('.le-shell');
+    cards.forEach((card) => {
+      card.addEventListener('click', (e) => {
+        if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        const href = card.getAttribute('href');
+        if (!href) return;
+        e.preventDefault();
+        shellEl.classList.add('leaving');
+        setTimeout(() => { window.location.href = href; }, 160);
+      });
+    });
+
+    function setFocus(idx) {
+      cards.forEach((c) => c.classList.remove('focused'));
+      focusedIdx = Math.max(0, Math.min(cards.length - 1, idx));
+      cards[focusedIdx].classList.add('focused');
+      cards[focusedIdx].focus({ preventScroll: true });
+    }
+
+    LiveEvent.onAction({
+      advance: () => {
+        if (focusedIdx === -1) setFocus(0);
+        else cards[focusedIdx].click();
+      },
+      next: () => {
+        setFocus(focusedIdx === -1 ? 0 : focusedIdx + 1);
+      },
+      prev: () => {
+        setFocus(focusedIdx === -1 ? 0 : focusedIdx - 1);
+      }
+    });
+
+    cards.forEach((card, idx) => {
+      card.addEventListener('mouseenter', () => setFocus(idx));
+    });
+  </script>
+</body>
+</html>

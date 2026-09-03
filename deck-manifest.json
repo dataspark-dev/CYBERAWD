@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-08-18T16:52:02",
+  "generated_at": "2026-08-19T18:10:52",
   "root": "C:\\Users\\SRIDHAR\\Documents\\TRININGPPT\\AWRCNTCS",
-  "total_slides_in_deckjs": 18,
+  "total_slides_in_deckjs": 19,
   "slide_files_on_disk": [
     "slide-01.html",
     "slide-02.html",
@@ -20,7 +20,8 @@
     "slide-15.html",
     "slide-16.html",
     "slide-17.html",
-    "slide-18.html"
+    "slide-18.html",
+    "slide-19.html"
   ],
   "missing_files": [],
   "orphan_files": [],
@@ -140,9 +141,21 @@
       ]
     },
     {
-      "group": "Closing",
+      "group": "Take It Further",
       "slide_indexes": [
         18
+      ],
+      "files": [
+        "slide-19.html"
+      ],
+      "titles": [
+        "Live Awareness Games"
+      ]
+    },
+    {
+      "group": "Closing",
+      "slide_indexes": [
+        19
       ],
       "files": [
         "slide-18.html"
@@ -256,7 +269,8 @@
       "slide-14.html",
       "slide-15.html",
       "slide-16.html",
-      "slide-17.html"
+      "slide-17.html",
+      "slide-19.html"
     ]
   },
   "off_palette_colors": {},
@@ -1220,6 +1234,71 @@
     },
     {
       "index": 18,
+      "file": "slide-19.html",
+      "deck_title": "Live Awareness Games",
+      "group": "Take It Further",
+      "slide_tag": null,
+      "eyebrow": "Take It Further",
+      "h1": "PUT IT INTO PRACTICE",
+      "section_lead": [
+        "Everything in this training gets tested live at our awareness games. Click each station to see how it works."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "Cybersecurity Game",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Fault Finding",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Cyber Clue Quest",
+          "body": null
+        },
+        {
+          "tag": "h4",
+          "heading": "Pass-Phrase",
+          "body": null
+        }
+      ],
+      "components": [
+        "flip-card"
+      ],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--amber",
+        "--blue",
+        "--cyan",
+        "--cyan-dark",
+        "--purple"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com",
+        "https://cdnjs.cloudflare.com",
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/favicon.svg",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": [
+        {
+          "severity": "info",
+          "check": "title-drift",
+          "message": "deck.js title 'Live Awareness Games' shares no significant words with this slide's <h1> 'PUT IT INTO PRACTICE'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+        }
+      ]
+    },
+    {
+      "index": 19,
       "file": "slide-18.html",
       "deck_title": "Closing",
       "group": "Closing",
@@ -1302,6 +1381,12 @@
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Passwords, MFA & Access Hygiene' shares no significant words with this slide's <h1> 'YOUR LOGIN IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
+    },
+    {
+      "file": "slide-19.html",
+      "severity": "info",
+      "check": "title-drift",
+      "message": "deck.js title 'Live Awareness Games' shares no significant words with this slide's <h1> 'PUT IT INTO PRACTICE'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
       "file": "slide-18.html",

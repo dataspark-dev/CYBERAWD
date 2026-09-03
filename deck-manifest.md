@@ -1,8 +1,8 @@
 # Deck Manifest
 
-Generated: 2026-08-18T16:52:02  
-Total slides (deck.js): 18  
-Slide files on disk: 18
+Generated: 2026-08-19T18:10:52  
+Total slides (deck.js): 19  
+Slide files on disk: 19
 
 ## Slide-by-Slide
 
@@ -25,7 +25,8 @@ Slide files on disk: 18
 | 15 | Passwords, MFA & Access Hygiene | Workplace Security | hotspot, lock-demo | 1 ⚠ |
 | 16 | See Something, Say Something | Do's & Don'ts | flip-card | — |
 | 17 | Do's & Don'ts | Do's & Don'ts | _static_ | — |
-| 18 | Closing | Closing | _static_ | 1 ⚠ |
+| 18 | Live Awareness Games | Take It Further | flip-card | 1 ⚠ |
+| 19 | Closing | Closing | _static_ | 1 ⚠ |
 
 ## Flow Map
 
@@ -36,7 +37,8 @@ Slide files on disk: 18
 - **AI & Chatbot Risks** (slides 11–13): AI & Chatbot Risks → Shadow AI — Unapproved Tools → When Attackers Use AI Too
 - **Workplace Security** (slides 14–15): Workplace Security Behavior → Passwords, MFA & Access Hygiene
 - **Do's & Don'ts** (slides 16–17): See Something, Say Something → Do's & Don'ts
-- **Closing** (slides 18): Closing
+- **Take It Further** (slides 18): Live Awareness Games
+- **Closing** (slides 19): Closing
 
 ## Interactive Component Inventory
 
@@ -45,7 +47,7 @@ Slide files on disk: 18
 - `compare-slider`: 1 slide(s) — [8]
 - `flow-scene`: 1 slide(s) — [11]
 - `lock-demo`: 2 slide(s) — [14, 15]
-- `flip-card`: 3 slide(s) — [3, 5, 16]
+- `flip-card`: 4 slide(s) — [3, 5, 16, 18]
 - `scenario-card`: 1 slide(s) — [7]
 - `spot-grid`: 2 slide(s) — [10, 13]
 - `checklist-grid`: 1 slide(s) — [12]
@@ -136,7 +138,7 @@ Root palette (main.css `:root`):
 
 Theme usage per slide:
 - **dark**: ['slide-01.html', 'slide-18.html']
-- **light**: ['slide-02.html', 'slide-12.html', 'slide-13.html', 'slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-09.html', 'slide-10.html', 'slide-11.html', 'slide-14.html', 'slide-15.html', 'slide-16.html', 'slide-17.html']
+- **light**: ['slide-02.html', 'slide-12.html', 'slide-13.html', 'slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-09.html', 'slide-10.html', 'slide-11.html', 'slide-14.html', 'slide-15.html', 'slide-16.html', 'slide-17.html', 'slide-19.html']
 
 No off-palette hex colors found — every hex color used matches a `:root` variable value.
 
@@ -149,4 +151,5 @@ No off-palette hex colors found — every hex color used matches a `:root` varia
 - 🔵 **INFO** [title-drift] `slide-09.html`: deck.js title 'AI & Chatbot Risks' shares no significant words with this slide's <h1> 'WHAT HAPPENS WHEN YOU PASTE DATA?'. Could be an intentional group-label-style title, or real drift — verify manually.
 - 🔵 **INFO** [title-drift] `slide-14.html`: deck.js title 'Workplace Security Behavior' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift — verify manually.
 - 🔵 **INFO** [title-drift] `slide-15.html`: deck.js title 'Passwords, MFA & Access Hygiene' shares no significant words with this slide's <h1> 'YOUR LOGIN IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift — verify manually.
+- 🔵 **INFO** [title-drift] `slide-19.html`: deck.js title 'Live Awareness Games' shares no significant words with this slide's <h1> 'PUT IT INTO PRACTICE'. Could be an intentional group-label-style title, or real drift — verify manually.
 - 🔵 **INFO** [title-drift] `slide-18.html`: deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift — verify manually.

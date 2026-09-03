@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect x="230" y="130" width="1140" height="640" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="230" y="130" width="1140" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="260" y="174" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: HR Payroll &lt;hr-payroll@synergymarinegroup.com&gt;</text>
+  <text x="260" y="245" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: Payslip — February 2025 &amp; Rotation Roster — MV Horizon</text>
+  <text x="260" y="315" font-family="Barlow, sans-serif" font-size="18" fill="#1e293b">Hi Raj,</text>
+  <text x="260" y="353" font-family="Barlow, sans-serif" font-size="18" fill="#374151">As requested, attached is your February payslip and the confirmed</text>
+  <text x="260" y="385" font-family="Barlow, sans-serif" font-size="18" fill="#374151">rotation roster for MV Horizon (Feb–Apr). Both were generated from</text>
+  <text x="260" y="417" font-family="Barlow, sans-serif" font-size="18" fill="#374151">the HR system we reviewed in last week's briefing.</text>
+  <g transform="translate(260,450)">
+    <rect x="0" y="0" width="420" height="64" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <rect x="14" y="16" width="32" height="32" rx="4" fill="#ef4444"/>
+    <text x="30" y="37" font-family="Barlow, sans-serif" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">PDF</text>
+    <text x="60" y="31" font-family="Space Mono, monospace" font-size="14" fill="#1e293b">Payslip_Feb2025_RajKumar.pdf</text>
+    <text x="60" y="50" font-family="Space Mono, monospace" font-size="12" fill="#64748b">480 KB · PDF Document</text>
+  </g>
+  <g transform="translate(260,530)">
+    <rect x="0" y="0" width="420" height="64" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <rect x="14" y="16" width="32" height="32" rx="4" fill="#16a34a"/>
+    <text x="30" y="37" font-family="Barlow, sans-serif" font-size="12" font-weight="800" fill="#fff" text-anchor="middle">XLS</text>
+    <text x="60" y="31" font-family="Space Mono, monospace" font-size="14" fill="#1e293b">Rotation_Roster_MV-Horizon_Feb-Apr.xlsx</text>
+    <text x="60" y="50" font-family="Space Mono, monospace" font-size="12" fill="#64748b">210 KB · Spreadsheet</text>
+  </g>
+  <text x="260" y="640" font-family="Barlow, sans-serif" font-size="16" fill="#374151">These match the file types we always use — no macros needed.</text>
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="15" fill="#67e8f9" text-anchor="middle" letter-spacing="2">HR / PAYROLL — EXPECTED PDF + XLS ATTACHMENTS</text>
+</svg>
