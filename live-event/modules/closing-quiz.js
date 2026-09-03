@@ -54,9 +54,17 @@
   // final 5 seconds — natural ticks from one timer are always 1s apart,
   // long clear of each blip's own 120ms length, and every step/reveal stops
   // its timer before the next one starts, so at most one timer is ever live.
+  // The 300ms guard below is a second, independent safety net: the shared
+  // setInterval-based timer can rarely double-fire a couple of ms apart
+  // (observed under test, unrelated to clicking speed), and this keeps that
+  // from ever producing two audible, overlapping blips.
   let tickAudioCtx = null;
+  let lastTickAt = 0;
   function tickSound(remaining) {
     if (remaining <= 0 || remaining > 5) return;
+    const now = performance.now();
+    if (now - lastTickAt < 300) return;
+    lastTickAt = now;
     try {
       if (!tickAudioCtx) tickAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
       const ctx = tickAudioCtx;
