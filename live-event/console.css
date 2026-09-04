@@ -1727,14 +1727,12 @@ body {
 .pp-weak-row {
   display: flex;
   align-items: stretch;
-  justify-content: center;
   gap: 12px;
   margin-top: 16px;
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
   overflow: visible;
-  text-align: center;
 }
 .pp-weak-card {
   flex: 1 1 220px;
@@ -1767,9 +1765,8 @@ body {
   font-size: 15px;
   font-weight: 800;
   color: var(--navy);
-  word-break: break-word;
+  word-break: break-all;
   letter-spacing: 0.3px;
-  text-align: center;
 }
 .pp-weak-card.strong .pp-weak-text { color: #065f46; }
 .pp-weak-arrow {
@@ -1908,35 +1905,6 @@ body {
   background: #fff !important;
   border-color: #cbd5e1 !important;
   color: var(--navy) !important;
-  width: auto;
-  min-width: 64px;
-  height: 42px;
-  padding: 6px 12px;
-  font-size: clamp(13px, 1.5vw, 16px);
-  text-align: center;
-  justify-content: center;
-}
-.pp-deck-tile .pp-tile-letter {
-  white-space: nowrap;
-  text-align: center;
-}
-/* Aligned template words — consistent spacing for word tiles */
-.pp-template-words {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  justify-content: center;
-  margin: 8px 0 4px;
-  font-family: 'Space Mono', monospace;
-  font-size: 11px;
-  color: var(--muted);
-}
-.pp-template-word {
-  background: var(--paper-2);
-  border: 1px solid var(--line);
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-weight: 700;
 }
 .pp-deck-tile:hover {
   background: #fff !important;
@@ -3255,68 +3223,6 @@ body {
 }
 
 
-
-/* ============================================================
-   REDUCED SCREEN / OVERALL FLOW ALIGNMENT FIX
-   Ensures cards, grids, stages, and flow header stay aligned on
-   narrow viewports — no horizontal scroll, equal card rhythm,
-   and consistent vertical flow across all 8 modules.
-   ============================================================ */
-@media (max-width: 768px) {
-  .le-modules-wrap { padding: 0 14px 20px; }
-  .le-modules-grid, .le-modules-grid.is-flow-a, .le-modules-grid.is-legacy {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .le-flow-arc {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    border-radius: 12px;
-    padding: 12px 14px;
-    font-size: 10px;
-  }
-  .le-flow-arc-steps { font-size: 10px; line-height: 1.5; white-space: normal; }
-  .le-home-hero { padding: 18px 16px 10px; }
-  .le-home-hero h1 { font-size: clamp(26px, 7vw, 32px); }
-  .le-main { padding: 12px 12px 16px; }
-  .le-topbar { padding: 10px 14px; gap: 10px; flex-wrap: wrap; }
-  .le-topbar .le-brand img { height: 28px; }
-  .le-module-card .mc-body { padding: 16px 16px 14px; }
-  .le-module-card h3 { font-size: 18px; }
-  .le-module-card p { font-size: 14px; }
-}
-@media (max-width: 480px) {
-  .le-modules-wrap { padding: 0 10px 16px; }
-  .le-modules-grid { gap: 12px; }
-  .le-keyhints { gap: 8px; padding: 10px 12px; font-size: 10px; }
-  .le-keyhint kbd { font-size: 10px; padding: 2px 6px; }
-  .pp-weak-row { gap: 8px; }
-  .pp-deck { gap: 8px; padding: 12px; min-height: 72px; }
-  .pp-tile { width: clamp(38px, 11vw, 52px); height: clamp(38px, 11vw, 52px); font-size: clamp(16px, 4.5vw, 24px); }
-  .pp-deck-tile { min-width: 56px; height: 38px; font-size: 13px; }
-  .db-controls-grid { grid-template-columns: 1fr; gap: 10px; }
-  .db-budget-head { grid-template-columns: 1fr; gap: 12px; padding: 14px; }
-  .db-preview-row { grid-template-columns: 1fr; gap: 6px; }
-  .ls-scenario-nav { gap: 8px; }
-  .ls-scenario-tab { flex: 1 1 100%; max-width: none; padding: 12px; }
-  .qz-choices { grid-template-columns: 1fr; gap: 8px; }
-  .ff-compare-row { flex-direction: column; gap: 12px; }
-  .ff-image-frame { aspect-ratio: auto; min-height: 220px; }
-  .le-btn.lg { font-size: 14px; padding: 12px 18px; }
-  .le-intro-text { font-size: clamp(18px, 5vw, 24px); }
-  .le-remember-card { flex-direction: column; padding: 14px 16px; }
-}
-/* Ensure all stage containers never overflow viewport on reduced screens */
-.le-main, .ff-stage, .ls-stage, .cq-stage, .pp-stage, .db-stage, .hs-stage, .sr-stage, .qs-stage {
-  max-width: 100%;
-  overflow-x: hidden;
-  box-sizing: border-box;
-}
-.le-module-card, .cq-riddle-card, .mf-card, .pp-weak-card, .db-control, .hs-opening {
-  max-width: 100%;
-  box-sizing: border-box;
-}
 
 /* ---------- Utility ---------- */
 .le-hidden { display: none !important; }
