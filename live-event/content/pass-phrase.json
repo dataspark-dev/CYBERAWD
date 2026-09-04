@@ -1,11 +1,13 @@
 {
-  "whyThisMatters": "A password built from a pet's name and a birth year can be guessed by a script in seconds — length and randomness are what actually slow an attacker down, not cleverness.",
-  "rememberThis": "Longer and more random beats clever every time — swap a word for a passphrase.",
+  "whyThisMatters": "A password built from a name and a birth year can be guessed in seconds — length, randomness and mixed types are what actually slow an attacker down, not personal cleverness.",
+  "rememberThis": "Longer and more random beats clever every time — use a phrase, not a name + year.",
+  "deckSize": 20,
+  "slots": 12,
   "rounds": [
-    { "id": "round-1", "label": "Round 1", "difficulty": "easy" },
-    { "id": "round-2", "label": "Round 2", "difficulty": "easy" },
-    { "id": "round-3", "label": "Round 3", "difficulty": "medium" },
-    { "id": "round-4", "label": "Round 4", "difficulty": "hard" },
-    { "id": "round-5", "label": "Round 5", "difficulty": "hard" }
+    { "id": "round-1", "label": "Round 1 — Easy", "difficulty": "easy", "hint": "Weak: rahul1998 / mumbai123 — rebuild with upper + symbol + phrase" },
+    { "id": "round-2", "label": "Round 2 — Easy", "difficulty": "easy", "hint": "Weak: priya2001 — add place + symbols" },
+    { "id": "round-3", "label": "Round 3 — Medium", "difficulty": "medium", "hint": "Weak: RahulMumbai98 — break the personal pattern, add phrase Ocean/Voyage" },
+    { "id": "round-4", "label": "Round 4 — Hard", "difficulty": "hard", "hint": "Weak: Rahul_Mumbai1998 — still guessable, need 12+ random" },
+    { "id": "round-5", "label": "Round 5 — Hard", "difficulty": "hard", "hint": "Weak: Priya#Goa2001! — personal data even with symbols is weak" }
   ]
 }

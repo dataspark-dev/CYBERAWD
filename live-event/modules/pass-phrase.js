@@ -15,14 +15,17 @@
   let currentWeak = '';
   let dragged = null;
 
-  // ----- Pools for generator -----
-  const EASY_BASES = ["password","welcome","letmein","qwerty","admin","monkey","dragon","sunshine","football","princess"];
-  const MEDIUM_BASES = ["welcome","password","letmein","football","sunshine","princess","qwerty","dragon"];
-  const HARD_BASES = ["Welcome","Company","Spring","Summer","Winter","Password","Qwerty","Admin"];
+  // ----- Refined pools — meaningful templates for aligned weak → strong -----
+  // Deck now 20 tiles, meaningful weak passwords per level (name/DOB/place), easy→hard
+  const DECK_SIZE = 20;
+  const NAMES = ["Rahul","Priya","Amit","Neha","Arjun","Sneha","Vikram","Ananya","Rohan","Isha","Karan","Meera"];
+  const PLACES = ["Mumbai","Delhi","Chennai","Kolkata","Goa","Pune","Jaipur","Kochi","Hyderabad"];
+  const YEARS = ["1998","1999","2000","2001","2002","2003","1995","1990","1992"];
+  const PHRASE_WORDS = ["Ocean","Voyage","Anchor","Harbor","Bridge","Compass","Horizon","Voyager","Marina","Delta"];
   const UPPER_POOL = (function(){ var a=[]; for(var i=65;i<=90;i++) a.push(String.fromCharCode(i)); return a; })();
   const LOWER_POOL = (function(){ var a=[]; for(var i=97;i<=122;i++) a.push(String.fromCharCode(i)); return a; })();
   const NUM_POOL = (function(){ var a=[]; for(var i=48;i<=57;i++) a.push(String.fromCharCode(i)); return a; })();
-  const SYM_POOL = ['!','@','#','$','%','^','&','*','-','_','+','=','?','~'];
+  const SYM_POOL = ['!','@','#','$','%','^','&','*','-','_','+','=','?','~','<','>'];
 
   function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
   function shuffled(arr){
@@ -41,67 +44,78 @@
   }
 
   function generateWeakPassword(difficulty){
+    var name = pickRandom(NAMES);
+    var place = pickRandom(PLACES);
+    var year = pickRandom(YEARS);
     if(difficulty === 'easy'){
-      var base = pickRandom(EASY_BASES);
-      base = base.slice(0, 6 + Math.floor(Math.random()*2)).toLowerCase();
-      var suffix = String(Math.floor(Math.random()*10));
-      if(Math.random() < 0.6) suffix += String(Math.floor(Math.random()*10));
-      return base + suffix;
+      // Easy: pure personal data, all lowercase, short — e.g. rahul1998, neha2001, mumbai123
+      if(Math.random() < 0.5) return name.toLowerCase() + year.slice(-2);
+      if(Math.random() < 0.5) return place.toLowerCase() + String(100 + Math.floor(Math.random()*900));
+      return name.toLowerCase() + String(Math.floor(Math.random()*900)+100);
     } else if(difficulty === 'medium'){
-      var baseM = pickRandom(MEDIUM_BASES);
-      baseM = baseM.slice(0, 7 + Math.floor(Math.random()*2));
-      baseM = baseM.charAt(0).toLowerCase() + baseM.slice(1).toLowerCase();
-      var num = String(Math.floor(Math.random()*90)+10);
-      return baseM + num;
-    } else { // hard
-      var baseH = pickRandom(HARD_BASES);
-      // ensure 9-12 chars with capital/digit already present
-      var tail = String(2020 + Math.floor(Math.random()*5));
-      if(baseH.length < 6) return baseH + tail;
-      // sometimes add extra digits to lengthen
-      if(Math.random() < 0.5) tail = tail.slice(2);
-      return baseH + tail;
+      // Medium: Name + Place/Year pattern — RahulMumbai98, PriyaGoa2001 — has upper but still predictable
+      var base = name + place + year.slice(-2);
+      // 30% chance lower first letter to keep it familiar
+      if(Math.random() < 0.3) base = base.charAt(0).toLowerCase() + base.slice(1);
+      return base;
+    } else {
+      // Hard: Name_Place_Year with one symbol but still personal — Rahul_Mumbai1998, Priya#Goa2001!
+      var sep = pickRandom(['_','-','@','#']);
+      var tail = Math.random() < 0.5 ? year : year.slice(-2);
+      var hard = name + sep + place + tail;
+      if(Math.random() < 0.3) hard += pickRandom(SYM_POOL.slice(0,6));
+      return hard;
     }
   }
 
   function generateDeck(difficulty, weak){
-    // More letters, less special/numbers — trickier as difficulty rises (low→high)
-    // Letter-heavy overall; hard has fewest specials/numbers and most decoy duplicates
+    // 20-tile deck — balanced for interactive strong building
+    // Easy: generous helpers (more upper/symbol/number), Medium: balanced, Hard: decoy-heavy, minimal helpers
     var hasUpper = /[A-Z]/.test(weak);
     var hasNum = /[0-9]/.test(weak);
     var hasSym = /[^A-Za-z0-9]/.test(weak);
     var missingUpper = !hasUpper;
     var missingNum = !hasNum;
     var missingSym = !hasSym;
-    var upperCount, symCount, numCount, lowerCount, allowDup;
+    var upperCount, symCount, numCount, lowerCount, allowDup, phraseCount;
+    phraseCount = 0;
     if(difficulty === 'easy'){
-      // Easy: still letter-heavy but relatively helpful — enough missing types, no decoys
-      upperCount = missingUpper ? 3 : 2;
-      symCount = missingSym ? 3 : 2;
-      numCount = 2;
+      upperCount = missingUpper ? 4 : 3;
+      symCount = missingSym ? 4 : 3;
+      numCount = 3;
+      phraseCount = 2; // two phrase-word starters to hint at passphrase
       allowDup = false;
     } else if(difficulty === 'medium'){
+      upperCount = 3;
+      symCount = 3;
+      numCount = 3;
+      phraseCount = 2;
+      allowDup = Math.random() < 0.2;
+    } else {
       upperCount = 2;
       symCount = 2;
+      if(missingSym && Math.random() < 0.4) symCount = 3;
       numCount = 2;
-      allowDup = Math.random() < 0.25;
-    } else { // hard — very letter-heavy, minimal specials/numbers, many duplicate decoys (tricky)
-      upperCount = 2;
-      symCount = 1; // hard: only 1 special (2 occasionally if missing)
-      if(missingSym && Math.random() < 0.3) symCount = 2;
-      numCount = 1; // hard: only 1 number (2 occasionally)
-      if(missingNum && Math.random() < 0.3) numCount = 2;
+      if(missingNum && Math.random() < 0.3) numCount = 3;
+      phraseCount = 1;
       allowDup = true;
     }
-    lowerCount = 15 - upperCount - symCount - numCount;
-    if(lowerCount < 7) lowerCount = 7;
-    var total = upperCount + symCount + numCount + lowerCount;
-    if(total !== 15){ lowerCount += 15 - total; }
+    var remaining = DECK_SIZE - upperCount - symCount - numCount - phraseCount;
+    lowerCount = Math.max(7, remaining);
+    // adjust if rounding
+    var total = upperCount + symCount + numCount + lowerCount + phraseCount;
+    if(total !== DECK_SIZE){ lowerCount += DECK_SIZE - total; }
 
     var deck = [];
     deck = deck.concat(randomChars(UPPER_POOL, upperCount, allowDup));
     deck = deck.concat(randomChars(SYM_POOL, symCount, allowDup));
     deck = deck.concat(randomChars(NUM_POOL, numCount, allowDup));
+    // Add phrase-word starter letters (meaningful, helps build passphrase like Ocean-Voyage)
+    for(var p=0; p<phraseCount; p++){
+      var w = pickRandom(PHRASE_WORDS);
+      deck.push(w.charAt(0)); // capital starter
+      if(lowerCount > 0){ deck.push(w.charAt(1).toLowerCase()); lowerCount--; }
+    }
     if(difficulty === 'hard'){
       var weakLowers = weak.split('').filter(function(c){ return /[a-z]/.test(c); });
       var lowers = [];
@@ -112,7 +126,6 @@
           lowers.push(LOWER_POOL[Math.floor(Math.random()*LOWER_POOL.length)]);
         }
       }
-      // hard: extra decoy duplicates — copy 1-2 existing deck chars into lowers to increase duplicates
       for(var d=0; d<2; d++){
         if(Math.random() < 0.6 && deck.length){
           var dup = deck[Math.floor(Math.random()*deck.length)];
@@ -123,11 +136,21 @@
     } else {
       deck = deck.concat(randomChars(LOWER_POOL, lowerCount, allowDup));
     }
-    return shuffled(deck).slice(0,15);
+    // Ensure exactly DECK_SIZE and shuffle, but keep helpful chars visible
+    deck = shuffled(deck).slice(0, DECK_SIZE);
+    // Guarantee at least one of each missing type is present for easy/medium
+    if(difficulty !== 'hard'){
+      if(missingUpper && !deck.some(function(c){ return /[A-Z]/.test(c); })) deck[0] = pickRandom(UPPER_POOL);
+      if(missingSym && !deck.some(function(c){ return /[^A-Za-z0-9]/.test(c); })) deck[1] = pickRandom(SYM_POOL);
+      if(missingNum && !deck.some(function(c){ return /[0-9]/.test(c); })) deck[2] = pickRandom(NUM_POOL);
+    }
+    return deck;
   }
 
   const els = {
     counter: document.getElementById('itemCounter'),
+    weakText: document.getElementById('weakText'),
+    weakMeta: document.getElementById('weakMeta'),
     tiles: document.getElementById('tilesContainer'),
     deck: document.getElementById('deckContainer'),
     countLabel: document.getElementById('slotCount'),
@@ -441,6 +464,11 @@
     deckChars=generateDeck(difficulty, currentWeak);
     passwordChars=[];
     locked=false;
+    if(els.weakText) els.weakText.textContent=currentWeak;
+    if(els.weakMeta){
+      var meta = difficulty==='easy' ? 'Based on: name + birth year — very guessable (e.g. rahul1998)' : difficulty==='medium' ? 'Based on: Name + Place + year — still personal (e.g. RahulMumbai98)' : 'Based on: Name_Place_Year + symbol — looks strong but personal data remains';
+      els.weakMeta.textContent = meta + ' — deck has ' + DECK_SIZE + ' chars to rebuild strong (upper, symbol, number, phrase)';
+    }
     els.solvedBtn.disabled=true;
     els.solvedBtn.classList.remove('pulse-highlight');
     if(els.rememberCard) els.rememberCard.classList.add('le-hidden');
