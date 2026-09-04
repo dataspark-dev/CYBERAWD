@@ -23,6 +23,7 @@
     revealBtn: document.getElementById('revealBtn'),
     nextBtn: document.getElementById('nextBtn'),
     dots: document.getElementById('progressDots'),
+    upNextRow: document.getElementById('upNextRow'),
     introScreen: document.getElementById('introScreen'),
     activityBody: document.getElementById('activityBody'),
     introText: document.getElementById('introText'),
@@ -56,6 +57,7 @@
     els.feedback.className = 'cq-feedback';
     els.feedback.classList.remove('show');
     if (els.rememberCard) els.rememberCard.classList.add('le-hidden');
+    if (els.upNextRow) els.upNextRow.classList.add('le-hidden');
 
     const isLast = index === riddles.length - 1;
     els.nextBtn.innerHTML = isLast
@@ -109,6 +111,7 @@
     if (index === riddles.length - 1 && els.rememberCard) {
       els.rememberText.textContent = rememberThisText;
       els.rememberCard.classList.remove('le-hidden');
+      if (els.upNextRow) els.upNextRow.classList.remove('le-hidden');
     }
   }
 

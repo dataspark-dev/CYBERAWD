@@ -174,7 +174,7 @@
       "id": "anon-teams-sms",
       "label": "03",
       "title": "Anonymous Teams & Smishing",
-      "persona": "Offshore Employee",
+      "persona": "Offshore Crew",
       "vector": "External Chat / SMS",
       "channelSummary": "SMS • Microsoft Teams (Anonymous) • Portal Link",
       "description": "Offshore crew have intermittent connectivity and trust any fleet message. Attacker pivots to SMS + anonymous Teams from an ‘external’ entity.",

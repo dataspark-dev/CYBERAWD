@@ -38,6 +38,7 @@
     dots: document.getElementById('progressDots'),
     revealBtn: document.getElementById('revealBtn'),
     nextBtn: document.getElementById('nextBtn'),
+    upNextRow: document.getElementById('upNextRow'),
     introScreen: document.getElementById('introScreen'),
     activityBody: document.getElementById('activityBody'),
     introText: document.getElementById('introText'),
@@ -119,6 +120,7 @@
     revealed = false;
     if (els.rememberCardSingle) els.rememberCardSingle.classList.add('le-hidden');
     if (els.rememberCardCompare) els.rememberCardCompare.classList.add('le-hidden');
+    if (els.upNextRow) els.upNextRow.classList.add('le-hidden');
     renderDots();
   }
 
@@ -137,12 +139,14 @@
       if (isLast && els.rememberCardCompare) {
         els.rememberTextCompare.textContent = rememberThisText;
         els.rememberCardCompare.classList.remove('le-hidden');
+        if (els.upNextRow) els.upNextRow.classList.remove('le-hidden');
       }
     } else {
       els.overlay.classList.add('show');
       if (isLast && els.rememberCardSingle) {
         els.rememberTextSingle.textContent = rememberThisText;
         els.rememberCardSingle.classList.remove('le-hidden');
+        if (els.upNextRow) els.upNextRow.classList.remove('le-hidden');
       }
     }
   }

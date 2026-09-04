@@ -42,12 +42,12 @@
     "id": "compare-link-url",
     "type": "compare",
     "category": "Link / External URL",
-    "persona": "Offshore Employee",
+    "persona": "Offshore Crew",
     "title": "Real vs Fake Rotation Email — Link / URL",
     "realImage": "../assets/fault-finding/link-url-email-real.svg",
     "fakeImage": "../assets/fault-finding/link-url-email-fake.svg",
     "placeholder": true,
-    "whatIsWrong": "Both rotation emails display the same link text 'portal.synergymarinegroup.com', but the fake's actual target is different — hover reveals https://portal-synergymarine-group-secure.net/crew/verify?id=42 and a shortened http://bit.ly/CrewRotation-Horizon — while the real offshore email's link truly goes to portal.synergymarinegroup.com. Both are addressed directly to the offshore employee (Rajesh Kumar, 3rd Officer, MV Horizon).",
+    "whatIsWrong": "Both rotation emails display the same link text 'portal.synergymarinegroup.com', but the fake's actual target is different — hover reveals https://portal-synergymarine-group-secure.net/crew/verify?id=42 and a shortened http://bit.ly/CrewRotation-Horizon — while the real offshore email's link truly goes to portal.synergymarinegroup.com. Both are addressed directly to the offshore crew (Rajesh Kumar, 3rd Officer, MV Horizon).",
     "whyItsSuspicious": "For someone offshore with limited time and connectivity, a quick tap is tempting. This red flag is about the link destination versus displayed text, not the sender. Always long-press/hover to inspect the real URL, look for the exact domain portal.synergymarinegroup.com, and never trust a shortened or extra-hyphenated crew portal link — use a bookmarked portal or confirm with your vessel manager when back online."
   },
   {
@@ -57,7 +57,7 @@
     "realImage": "../assets/fault-finding/login-portal-real.svg",
     "fakeImage": "../assets/fault-finding/login-portal-fake.svg",
     "placeholder": true,
-    "whatIsWrong": "The fake crew self-service portal's address bar reads \"portal.synergymanne-group.com\" — a lookalike with an extra 'n' — instead of the real \"portal.synergymarinegroup.com\". The offshore employee's login screen is otherwise cloned pixel-for-pixel.",
+    "whatIsWrong": "The fake crew self-service portal's address bar reads \"portal.synergymanne-group.com\" — a lookalike with an extra 'n' — instead of the real \"portal.synergymarinegroup.com\". The offshore crew login screen is otherwise cloned pixel-for-pixel.",
     "whyItsSuspicious": "Attackers can copy the crew portal's look exactly, but they can't fake the real domain. Offshore crew should always check the address bar before entering credentials in the self-service portal and, when possible, use a bookmarked portal link — the same habit taught in the Link/URL offshore scenario."
   },
   {
