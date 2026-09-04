@@ -1,0 +1,155 @@
+{
+  "title": "Defense Budget",
+  "subtitle": "You have 100 units. Save what you can — not everything can be saved.",
+  "whyThisMatters": "No team can fund everything at once. The tradeoff you make on a quiet day is the defense you have on a bad day — this exercise makes the cost of leaving a gap feel real before an attacker finds it.",
+  "rememberThis": "Every control covers someone else's blind spot — you don't need to buy everything, but you need to know what you left open and how you'll catch it another way.",
+  "budget": 100,
+  "controls": [
+    {
+      "id": "awareness",
+      "layer": "Awareness/Human",
+      "name": "Phishing Drills & Crew Huddles",
+      "cost": 20,
+      "icon": "fa-solid fa-users",
+      "description": "Monthly phishing simulations + toolbox talks so crew spot lookalike domains, urgency tricks, and anonymous Teams banners.",
+      "helpsWith": "Catches display-name spoofs, external-vendor bank-change lures, and 'don't tell Finance' pressure before anyone clicks."
+    },
+    {
+      "id": "email-security",
+      "layer": "Email Security",
+      "name": "Advanced Email Gateway",
+      "cost": 25,
+      "icon": "fa-solid fa-envelope-circle-check",
+      "description": "Attachment sandbox, lookalike-domain flagging, and SPF/DMARC enforcement that quarantines risky mail before it reaches an inbox.",
+      "helpsWith": "Flags hr@synergymarine-group-careers.com and double-extension .pdf.exe before crew ever see them."
+    },
+    {
+      "id": "mfa",
+      "layer": "Identity & Access (MFA)",
+      "name": "Fleet-wide MFA",
+      "cost": 25,
+      "icon": "fa-solid fa-shield-halved",
+      "description": "Phishing-resistant MFA on email, crew portal, and Teams — a stolen password alone no longer opens the door.",
+      "helpsWith": "Stops a harvested portal password from smishing or link-theft being usable on the real account."
+    },
+    {
+      "id": "edr",
+      "layer": "Endpoint/EDR",
+      "name": "Endpoint Detection & Response",
+      "cost": 30,
+      "icon": "fa-solid fa-computer",
+      "description": "Behavioural EDR on every workstation that kills macro-launched PowerShell and alerts SOC on C2 beacons.",
+      "helpsWith": "Blocks Payslip_March.pdf.exe even after open — macro → PowerShell → external beacon never leaves the host."
+    },
+    {
+      "id": "network",
+      "layer": "Network/Perimeter",
+      "name": "DNS Filter & Perimeter Firewall",
+      "cost": 20,
+      "icon": "fa-solid fa-network-wired",
+      "description": "DNS filtering + egress firewall that blocks known-bad domains and C2 destinations at the boundary.",
+      "helpsWith": "Stops a clicked bit.ly/CrewRotation or portal-synergymarine-group-secure.net beacon even if the mail got through."
+    },
+    {
+      "id": "backup",
+      "layer": "Backup & Recovery",
+      "name": "Immutable Daily Backups",
+      "cost": 30,
+      "icon": "fa-solid fa-hard-drive",
+      "description": "Immutable, tested daily backups with offline restore drills — the undo button when prevention fails.",
+      "helpsWith": "Restores crew manifests and payroll shares after a ransomware lock without paying."
+    },
+    {
+      "id": "ir",
+      "layer": "Incident Response",
+      "name": "IR Retainer & Playbooks",
+      "cost": 15,
+      "icon": "fa-solid fa-bell",
+      "description": "24-hour IR retainer, clear reporting line, and Finance's 'no wire without callback' approval chain.",
+      "helpsWith": "Turns a suspicious 'CSO says don't loop Finance' Teams DM into a reported, contained near-miss before money moves."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "recruitment-lure",
+      "label": "01",
+      "title": "HR Recruitment Lure — Lookalike Domain",
+      "persona": "HR / Recruitment",
+      "vector": "LinkedIn OSINT → Predicted Email",
+      "description": "Same chain as Live Simulation 01: public LinkedIn crew lists predict firstname.lastname@synergymarinegroup.com and deliver a CV-lure from hr@synergymarine-group-careers.com.",
+      "narrative": "Attacker scrapes 18 public LinkedIn profiles, predicts the email format, and sends an offer-letter lure from a lookalike career domain via external relay (SPF soft-fail). HR is ideal because they expect attachments from strangers.",
+      "controlOutcomes": {
+        "Awareness/Human": true,
+        "Email Security": true,
+        "Identity & Access (MFA)": false,
+        "Endpoint/EDR": false,
+        "Network/Perimeter": false,
+        "Backup & Recovery": false,
+        "Incident Response": false
+      },
+      "outcomeNotes": {
+        "Awareness/Human": "HR trained to check the exact domain character-by-character catches the added \"-careers\" before replying with passport and bank details.",
+        "Email Security": "Gateway flags the lookalike domain and external relay SPF soft-fail and quarantines it before inbox.",
+        "Identity & Access (MFA)": "No login step here — nothing for MFA to protect.",
+        "Endpoint/EDR": "No payload executed yet — endpoint never engaged.",
+        "Network/Perimeter": "No C2 or portal call to block at the boundary.",
+        "Backup & Recovery": "No data destroyed to recover.",
+        "Incident Response": "Reporting helps after the fact, but without the first two layers the lure already landed."
+      }
+    },
+    {
+      "id": "payslip-macro",
+      "label": "02",
+      "title": "Payslip Macro — Double-Extension Beacon",
+      "persona": "HR / Payroll",
+      "vector": "Weaponized Attachment → PowerShell C2",
+      "description": "Same lure as Live Simulation 02: a reused payslip subject delivers Payslip_March.pdf.exe and Documents.zip (pwd:1234) asking crew to 'Enable Content'.",
+      "narrative": "Subject copied from a legitimate roster mail. Inside: a macro document. Enable Content → PowerShell → external C2 beacon from WIN-HR-LT042. HR payroll lateral risk: crew PII + bank details from shared drive.",
+      "controlOutcomes": {
+        "Awareness/Human": true,
+        "Email Security": true,
+        "Identity & Access (MFA)": false,
+        "Endpoint/EDR": true,
+        "Network/Perimeter": true,
+        "Backup & Recovery": false,
+        "Incident Response": false
+      },
+      "outcomeNotes": {
+        "Awareness/Human": "Pausing on unexpected type (EXE/ZIP) and not enabling macros stops the payload before it runs.",
+        "Email Security": "Sandbox flags double-extension .pdf.exe and password-protected ZIP before delivery.",
+        "Identity & Access (MFA)": "No identity step — MFA not in play.",
+        "Endpoint/EDR": "Behavioural kill chain catches macro → PowerShell → beacon even after the file is opened.",
+        "Network/Perimeter": "Egress DNS/firewall blocks the external C2 domain even if endpoint missed the beacon for a heartbeat.",
+        "Backup & Recovery": "No file encryption here — backup restores nothing yet.",
+        "Incident Response": "Post-execution reporting matters, but this is a seconds-scale block, not a reporting play."
+      }
+    },
+    {
+      "id": "smish-wire-ransom",
+      "label": "03",
+      "title": "Smish + Wire Fraud → Ransomware Lock",
+      "persona": "Finance / Offshore Crew",
+      "vector": "Smishing & Teams → CSO Impersonation → Ransomware",
+      "description": "Adapts Live Simulation 03–04 into one chain: offshore smish via bit.ly + anonymous Teams, then a spoofed CSO ProtonMail wire push ($48,500), with a ransomware lock as fallback if the wire is refused.",
+      "narrative": "Day 5 SMS + Teams 'link only, don't call vessel manager, portal closes 18:00'. Day 6 spoofed CSO via ProtonMail CC's external vendor bank-invoice. If Finance hesitates, a parallel macro payload locks the payroll share and shows a payment countdown.",
+      "controlOutcomes": {
+        "Awareness/Human": true,
+        "Email Security": false,
+        "Identity & Access (MFA)": true,
+        "Endpoint/EDR": true,
+        "Network/Perimeter": false,
+        "Backup & Recovery": true,
+        "Incident Response": true
+      },
+      "outcomeNotes": {
+        "Awareness/Human": "Noticing the Teams 'External' banner + no org tag, hovering to see portal-synergymarine-group-secure.net, and recognizing 'don't loop Finance' as a tactic breaks the chain.",
+        "Email Security": "Core thrust is SMS + Teams + ProtonMail display spoof — outside the email gateway's main lane.",
+        "Identity & Access (MFA)": "Stolen portal creds from the fake rotation link are useless — MFA stops reuse on the real account.",
+        "Endpoint/EDR": "If the fallback ransomware lock runs, EDR contains the PowerShell encryption before fleet-wide spread.",
+        "Network/Perimeter": "Ransomware detonates locally from the already-opened macro — perimeter never sees a network intrusion to block.",
+        "Backup & Recovery": "Immutable tested restore brings the payroll share back without paying, even after a lock.",
+        "Incident Response": "Finance's reporting + callback-on-known-number approval chain stops the wire before $48,500 leaves — the defined IR play."
+      }
+    }
+  ]
+}

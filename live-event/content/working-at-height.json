@@ -1,4 +1,7 @@
-[
+{
+  "whyThisMatters": "A fall doesn't need a big mistake — just one unclipped hook, one missing rail, one overloaded deck is enough.",
+  "rememberThis": "Check your anchor, your edge, and your permit before you go up — and stop work if any one is missing.",
+  "items": [
   {
     "id": "unclipped-lanyard",
     "title": "Unclipped Fall-Arrest Lanyard",
@@ -63,4 +66,5 @@
     "whatIsWrong": "Wind speed is visibly above the safe working limit — flags and equipment are blown near-horizontal — but work at height continues instead of being stopped.",
     "whyItsSuspicious": "Wind loading affects balance, swinging loads, and the stability of ladders and scaffolds. Crossing the site's wind-speed threshold should trigger an automatic stop-work and reassessment, not a judgment call to push on."
   }
-]
+  ]
+}

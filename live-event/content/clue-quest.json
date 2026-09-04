@@ -1,4 +1,7 @@
-[
+{
+  "whyThisMatters": "Naming the trick is half of spotting it — if the room can't say \"urgency trap\" or \"domain spoofing\" out loud together, they won't catch it apart under pressure.",
+  "rememberThis": "If you can name the trick, you can spot it next time — put a word to what felt \"off.\"",
+  "riddles": [
   {
     "id": "domain-spoofing",
     "riddle": "I am a fake HR email. You see hr@synergymarine-group-careers.com, but the real one is hr@synergymarinegroup.com — I just added one extra word. What am I?",
@@ -53,4 +56,5 @@
     "answer": "STOP VERIFY REPORT",
     "options": ["STOP VERIFY REPORT", "MFA FATIGUE", "DOMAIN SPOOFING"]
   }
-]
+  ]
+}

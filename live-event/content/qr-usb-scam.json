@@ -1,4 +1,6 @@
 {
+  "whyThisMatters": "A QR code or USB left in the open is not a convenience — it's a delivery method. The split second you scan or plug in, you give an attacker inside access.",
+  "rememberThis": "Never scan an unknown QR or plug in found media — verify the source with IT first, then report it.",
   "stations": [
     {
       "id": "qr-phishing",

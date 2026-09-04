@@ -85,7 +85,7 @@
   fetch('../content/working-at-height.json')
     .then((r) => r.json())
     .then((data) => {
-      items = data;
+      items = Array.isArray(data) ? data : (data.items || []);
       renderItem();
     })
     .catch((err) => {

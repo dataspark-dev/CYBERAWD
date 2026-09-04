@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Myth vs Fact — Live Event Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-circle-question"></i> Myth vs Fact</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="le-intro-screen" id="introScreen">
+        <div class="le-intro-eyebrow"><i class="fa-solid fa-circle-info"></i> Why This Matters</div>
+        <p class="le-intro-text" id="introText">—</p>
+        <button class="le-btn primary lg" id="introStartBtn" type="button"><i class="fa-solid fa-play"></i> Start</button>
+      </div>
+
+      <div id="activityBody" class="le-hidden">
+        <div class="le-item-counter" id="itemCounter">Myth 1 of 10</div>
+        <div class="ff-title-bar">
+          <div class="mf-topic-tag" id="itemTopic">—</div>
+        </div>
+
+        <div class="cq-stage" id="itemView">
+          <div class="mf-card">
+            <div class="mf-myth-label">Myth</div>
+            <div class="mf-myth" id="mythText">—</div>
+            <div class="mf-fact-wrap" id="factWrap">
+              <div class="mf-fact-label"><i class="fa-solid fa-check"></i> Fact</div>
+              <div class="mf-fact" id="factText">—</div>
+              <div class="mf-detail" id="detailText"></div>
+            </div>
+          </div>
+
+          <div class="le-btn-row">
+            <button class="le-btn amber lg" id="revealBtn" type="button"><i class="fa-solid fa-hammer"></i> Busted (Space)</button>
+            <button class="le-btn primary lg" id="nextBtn" type="button"><i class="fa-solid fa-forward"></i> Next Myth</button>
+          </div>
+
+          <div class="le-progress-dots" id="progressDots"></div>
+        </div>
+
+        <div class="cq-stage le-hidden" id="finalView">
+          <div class="qz-final-board">
+            <div class="fb-eyebrow">Round Complete</div>
+            <h1>Myth vs Fact — Wrap-Up</h1>
+            <p style="font-size:18px;color:var(--body-text);max-width:700px;margin:12px auto 0;">
+              10 myths down — the point was never to memorize the list, it's to question the "obvious" ones you hear elsewhere:
+            </p>
+            <div class="le-remember-card">
+              <i class="fa-solid fa-thumbtack"></i>
+              <div>
+                <div class="le-remember-eyebrow">Remember This</div>
+                <div class="le-remember-text" id="rememberText">—</div>
+              </div>
+            </div>
+          </div>
+          <div class="qz-final-actions">
+            <a class="le-btn primary lg" href="defense-budget.html"><i class="fa-solid fa-forward"></i> Up Next: Defense Budget — Tradeoffs</a>
+            <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="le-keyhints">
+      <div class="le-keyhint"><kbd>SPACE</kbd> reveal fact / next</div>
+      <div class="le-keyhint"><kbd>R</kbd> reveal</div>
+      <div class="le-keyhint"><kbd>←</kbd> back</div>
+      <div class="le-keyhint"><kbd>ESC</kbd> home</div>
+      <div class="le-keyhint"><kbd>F</kbd> fullscreen</div>
+    </div>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="myth-vs-fact.js"></script>
+</body>
+</html>

@@ -7,17 +7,26 @@
   let revealed = false;
   let answered = false;
   let timer = null;
+  let rememberThisText = '';
+  let contentData = null;
+  let introDismissed = false;
 
   const els = {
     counter: document.getElementById('itemCounter'),
     riddleText: document.getElementById('riddleText'),
     answerReveal: document.getElementById('answerReveal'),
+    rememberCard: document.getElementById('rememberCard'),
+    rememberText: document.getElementById('rememberText'),
     optionsContainer: document.getElementById('optionsContainer'),
     feedback: document.getElementById('feedback'),
     timerEl: document.getElementById('timer'),
     revealBtn: document.getElementById('revealBtn'),
     nextBtn: document.getElementById('nextBtn'),
-    dots: document.getElementById('progressDots')
+    dots: document.getElementById('progressDots'),
+    introScreen: document.getElementById('introScreen'),
+    activityBody: document.getElementById('activityBody'),
+    introText: document.getElementById('introText'),
+    introStartBtn: document.getElementById('introStartBtn')
   };
 
   function renderDots() {
@@ -46,6 +55,7 @@
     els.feedback.textContent = '';
     els.feedback.className = 'cq-feedback';
     els.feedback.classList.remove('show');
+    if (els.rememberCard) els.rememberCard.classList.add('le-hidden');
 
     const isLast = index === riddles.length - 1;
     els.nextBtn.innerHTML = isLast
@@ -95,6 +105,13 @@
     });
   }
 
+  function showRememberIfLast() {
+    if (index === riddles.length - 1 && els.rememberCard) {
+      els.rememberText.textContent = rememberThisText;
+      els.rememberCard.classList.remove('le-hidden');
+    }
+  }
+
   function choose(opt, btn) {
     if (answered || revealed) return;
     answered = true;
@@ -111,6 +128,7 @@
       els.feedback.textContent = '✗ Not quite — correct is ' + r.answer;
       els.feedback.className = 'cq-feedback show incorrect';
     }
+    showRememberIfLast();
   }
 
   function goTo(newIndex) {
@@ -138,16 +156,34 @@
     els.answerReveal.classList.add('show');
     els.feedback.textContent = 'Answer: ' + r.answer;
     els.feedback.className = 'cq-feedback show revealed';
+    showRememberIfLast();
   }
+
+  // Brief framing screen before the riddles start — see console.css's
+  // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
+  function beginActivity() {
+    if (!contentData) return;
+    els.introScreen.classList.add('le-hidden');
+    els.activityBody.classList.remove('le-hidden');
+    renderRiddle();
+  }
+
+  function dismissIntro() {
+    if (introDismissed) return;
+    introDismissed = true;
+    beginActivity();
+  }
+
+  if (els.introStartBtn) els.introStartBtn.addEventListener('click', dismissIntro);
 
   els.revealBtn.addEventListener('click', reveal);
   els.nextBtn.addEventListener('click', next);
 
   LiveEvent.onAction({
-    advance: next,
-    next,
-    prev,
-    reveal
+    advance: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    next: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    prev: () => { if (introDismissed) prev(); },
+    reveal: () => { if (introDismissed) reveal(); }
   });
 
   // 1,2,3 to pick options
@@ -166,8 +202,11 @@
   fetch('../content/clue-quest.json')
     .then((r) => r.json())
     .then((data) => {
-      riddles = data;
-      renderRiddle();
+      riddles = data.riddles;
+      rememberThisText = data.rememberThis || '';
+      if (els.introText) els.introText.textContent = data.whyThisMatters || '';
+      contentData = data;
+      if (introDismissed) beginActivity();
     })
     .catch((err) => {
       els.riddleText.textContent = 'Failed to load content/clue-quest.json';

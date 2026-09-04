@@ -5,11 +5,18 @@
   let data = null;
   let scenarioIdx = 0;
   let stage = 0; // 0..beats.length-1 = thread, beats.length = hold, beats.length+1 = reveal, (+1 for globalReveal on last scenario)
+  let rememberThisText = '';
+  let contentData = null;
+  let introDismissed = false;
   const stageEl = document.getElementById('stage');
   const dotsEl = document.getElementById('progressDots');
   const scenarioNavEl = document.getElementById('scenarioNav');
   const scenarioMetaEl = document.getElementById('scenarioMeta');
   const flowBarEl = document.getElementById('flowBar');
+  const introScreen = document.getElementById('introScreen');
+  const activityBody = document.getElementById('activityBody');
+  const introText = document.getElementById('introText');
+  const introStartBtn = document.getElementById('introStartBtn');
 
   function currentScenario() {
     if (data.scenarios && data.scenarios.length) return data.scenarios[scenarioIdx];
@@ -357,6 +364,16 @@
       </div>`;
   }
 
+  function layerTagsHtml(layers) {
+    const hits = (layers || []).filter((l) => l.wouldStopIt);
+    if (!hits.length) return '';
+    return `
+      <div class="ls-layer-tags-label"><i class="fa-solid fa-layer-group"></i> Would have stopped it here</div>
+      <div class="ls-layer-tags">
+        ${hits.map((l) => `<span class="ls-layer-tag"><i class="fa-solid fa-shield-halved"></i> ${esc(l.name)}</span>`).join('')}
+      </div>`;
+  }
+
   function renderReveal() {
     const sc = currentScenario();
     const r = sc.reveal || data.reveal;
@@ -374,6 +391,7 @@
         <div class="lr-title">${esc(r.title)}</div>
         <div class="lr-subtitle">${esc(r.subtitle)}</div>
         <div class="lr-flags">${flagsHtml}</div>
+        ${layerTagsHtml(r.layers)}
         <div class="lr-cta">${esc(r.callToAction)}</div>
         <div class="ls-final-actions">
           ${!isLast ? `<button class="le-btn primary lg" id="nextScenarioBtn" type="button"><i class="fa-solid fa-forward"></i> Next Scenario — ${esc(data.scenarios[scenarioIdx+1].title)}</button>` : ''}
@@ -384,6 +402,29 @@
     const nextBtn = document.getElementById('nextScenarioBtn');
     if (nextBtn) nextBtn.addEventListener('click', () => { scenarioIdx = Math.min(scenarioIdx+1, data.scenarios.length-1); stage=0; render(); });
     document.getElementById('restartScenarioBtn').addEventListener('click', () => { stage=0; render(); });
+  }
+
+  function layersGridHtml(layers) {
+    if (!layers || !layers.length) return '';
+    const rows = layers.map((l) => {
+      const cells = [1, 2, 3, 4].map((n) => {
+        const hit = (l.hitScenarios || []).includes(n);
+        return `<div class="ls-layers-cell ${hit ? 'hit' : 'miss'}"><i class="fa-solid ${hit ? 'fa-check' : 'fa-minus'}"></i></div>`;
+      }).join('');
+      return `
+        <div class="ls-layers-name">${esc(l.name)}</div>
+        ${cells}
+        <div class="ls-layers-summary">${esc(l.summary)}</div>`;
+    }).join('');
+    return `
+      <div class="ls-layers-grid">
+        <div class="ls-layers-header-label">Defense Layer</div>
+        <div class="ls-layers-header-col">S1</div>
+        <div class="ls-layers-header-col">S2</div>
+        <div class="ls-layers-header-col">S3</div>
+        <div class="ls-layers-header-col">S4</div>
+        ${rows}
+      </div>`;
   }
 
   function renderGlobalReveal() {
@@ -409,9 +450,19 @@
         <div class="lr-title">${esc(r.title)}</div>
         <div class="lr-subtitle">${esc(r.subtitle)}</div>
         <div class="lr-flags">${flagsHtml}</div>
+        ${r.layersIntro ? `<div class="ls-layers-intro">${esc(r.layersIntro)}</div>` : ''}
+        ${layersGridHtml(r.layers)}
         <div class="lr-cta">${esc(r.callToAction)}</div>
+        <div class="le-remember-card">
+          <i class="fa-solid fa-thumbtack"></i>
+          <div>
+            <div class="le-remember-eyebrow">Remember This</div>
+            <div class="le-remember-text">${esc(rememberThisText)}</div>
+          </div>
+        </div>
         <div class="ls-final-actions">
-          <button class="le-btn primary lg" id="restartAllBtnGlobal" type="button"><i class="fa-solid fa-arrows-rotate"></i> Restart All</button>
+          <a class="le-btn primary lg" href="myth-vs-fact.html"><i class="fa-solid fa-forward"></i> Up Next: Myth vs Fact — Correct</a>
+          <button class="le-btn ghost lg" id="restartAllBtnGlobal" type="button"><i class="fa-solid fa-arrows-rotate"></i> Restart All</button>
           <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
         </div>
       </div>`;
@@ -513,7 +564,29 @@
     }
   });
 
-  LiveEvent.onAction({ advance, next: advance, prev: back, reveal: skipToReveal });
+  // Brief framing screen before the simulation starts — see console.css's
+  // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
+  function beginActivity() {
+    if (!contentData) return;
+    introScreen.classList.add('le-hidden');
+    activityBody.classList.remove('le-hidden');
+    render();
+  }
+
+  function dismissIntro() {
+    if (introDismissed) return;
+    introDismissed = true;
+    beginActivity();
+  }
+
+  if (introStartBtn) introStartBtn.addEventListener('click', dismissIntro);
+
+  LiveEvent.onAction({
+    advance: () => { if (!introDismissed) { dismissIntro(); return; } advance(); },
+    next: () => { if (!introDismissed) { dismissIntro(); return; } advance(); },
+    prev: () => { if (introDismissed) back(); },
+    reveal: () => { if (introDismissed) skipToReveal(); }
+  });
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !document.getElementById('virtualOverlay').classList.contains('le-hidden')) {
@@ -521,6 +594,7 @@
       e.preventDefault();
       return;
     }
+    if (!introDismissed) return;
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) return;
     const n = parseInt(e.key, 10);
     if (n >= 1 && n <= 4 && data && data.scenarios && data.scenarios[n-1]) {
@@ -535,6 +609,8 @@
     .then(r => r.json())
     .then(json => {
       data = json;
+      rememberThisText = data.rememberThis || '';
+      if (introText) introText.textContent = data.whyThisMatters || '';
       if (!data.scenarios) {
         data.scenarios = [{
           id: 'legacy',
@@ -550,7 +626,8 @@
           reveal: data.reveal
         }];
       }
-      render();
+      contentData = data;
+      if (introDismissed) beginActivity();
     })
     .catch(err => {
       stageEl.innerHTML = '<p style="color:#fff;">Failed to load content/live-simulation.json</p>';

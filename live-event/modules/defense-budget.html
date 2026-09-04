@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Cyber Clue Quest — Live Event Console</title>
+  <title>Defense Budget — Live Event Console</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -17,11 +17,12 @@
 
     <header class="le-topbar">
       <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
-      <div class="le-module-tag"><i class="fa-solid fa-puzzle-piece"></i> Cyber Clue Quest</div>
-      <div class="le-topbar-right"></div>
+      <div class="le-module-tag"><i class="fa-solid fa-coins"></i> Defense Budget</div>
+      <div class="le-topbar-right" id="phaseLabel"></div>
     </header>
 
     <main class="le-main">
+
       <div class="le-intro-screen" id="introScreen">
         <div class="le-intro-eyebrow"><i class="fa-solid fa-circle-info"></i> Why This Matters</div>
         <p class="le-intro-text" id="introText">—</p>
@@ -29,43 +30,16 @@
       </div>
 
       <div id="activityBody" class="le-hidden">
-      <div class="le-item-counter" id="itemCounter">Riddle 1 of 9</div>
-
-      <div class="cq-stage">
-        <div class="cq-riddle-card">
-          <div class="cq-riddle-text" id="riddleText">—</div>
-          <div class="cq-answer-reveal" id="answerReveal"></div>
-          <div class="le-remember-card le-hidden" id="rememberCard">
-            <i class="fa-solid fa-thumbtack"></i>
-            <div>
-              <div class="le-remember-eyebrow">Remember This</div>
-              <div class="le-remember-text" id="rememberText">—</div>
-            </div>
-          </div>
+        <div id="stage" class="db-stage">
+          <!-- Rendered by defense-budget.js -->
         </div>
-
-        <div class="cq-options" id="optionsContainer"></div>
-        <div class="cq-feedback" id="feedback"></div>
-
-        <div class="le-timer" id="timer">
-          <div class="lt-digits">30</div>
-          <div class="lt-label">Seconds</div>
-        </div>
-
-        <div class="le-btn-row">
-          <button class="le-btn amber lg" id="revealBtn" type="button"><i class="fa-solid fa-eye"></i> Reveal (R)</button>
-          <button class="le-btn primary lg" id="nextBtn" type="button"><i class="fa-solid fa-forward"></i> Next Riddle</button>
-        </div>
-
         <div class="le-progress-dots" id="progressDots"></div>
-      </div>
       </div>
     </main>
 
     <div class="le-keyhints">
-      <div class="le-keyhint"><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> choose answer</div>
-      <div class="le-keyhint"><kbd>SPACE</kbd> next riddle</div>
-      <div class="le-keyhint"><kbd>R</kbd> reveal answer</div>
+      <div class="le-keyhint"><kbd>SPACE</kbd> lock / next</div>
+      <div class="le-keyhint"><kbd>1-7</kbd> toggle control</div>
       <div class="le-keyhint"><kbd>←</kbd> back</div>
       <div class="le-keyhint"><kbd>ESC</kbd> home</div>
       <div class="le-keyhint"><kbd>F</kbd> fullscreen</div>
@@ -74,6 +48,6 @@
   </div>
 
   <script src="../console.js"></script>
-  <script src="clue-quest.js"></script>
+  <script src="defense-budget.js"></script>
 </body>
 </html>

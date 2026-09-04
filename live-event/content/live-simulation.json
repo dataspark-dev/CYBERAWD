@@ -1,6 +1,8 @@
 {
   "title": "Live Social-Engineering Simulation — Virtual Environment",
   "subtitle": "Follow the attacker’s full flow: OSINT → Email → Teams/SMS → Portal → Fraud",
+  "whyThisMatters": "Real attacks rarely start with a hack — they start with a public LinkedIn profile and a guessed email address. Watching the whole chain unfold shows how ordinary each step looks alone, and how dangerous they are strung together.",
+  "rememberThis": "One convincing message is never proof — verify through a channel the sender doesn't control.",
   "intro": {
     "title": "You are watching the attacker’s screen",
     "body": "This is a controlled, faciliator-driven walkthrough — no real data was harvested, no real email sent. We’ll step through 4 linked scenarios that show how a Synergy name, a LinkedIn search, and one predicted email become an attachment, an anonymous Teams ping, an SMS, and a CSO wire request. Use SPACE to advance, ← to step back, R to jump to lessons."
@@ -75,6 +77,15 @@
           { "icon": "fa-solid fa-mask", "label": "Lookalike Domain", "detail": "hr@synergymarine-group-careers.com adds ‘-careers’ — HR’s external-facing role makes the extra word plausible. Check the *exact* domain, not the display name." },
           { "icon": "fa-solid fa-shield-halved", "label": "STOP — VERIFY", "detail": "For HR/recruitment: never accept onboarding docs via reply-to external domain. Confirm via known HR crewing line / portal." }
         ],
+        "layers": [
+          { "name": "Awareness/Human", "wouldStopIt": true, "note": "HR trained to check the sender's exact domain character-by-character would catch the added \"-careers\" before replying with sensitive documents." },
+          { "name": "Email Security", "wouldStopIt": true, "note": "SPF soft-fail and a lookalike domain sent through an external relay (amazonses.com) are exactly what an email security gateway is built to flag before it reaches an inbox." },
+          { "name": "Identity & Access (MFA)", "wouldStopIt": false },
+          { "name": "Endpoint/EDR", "wouldStopIt": false },
+          { "name": "Network/Perimeter", "wouldStopIt": false },
+          { "name": "Backup & Recovery", "wouldStopIt": false },
+          { "name": "Incident Response", "wouldStopIt": false }
+        ],
         "callToAction": "STOP: Is this profile public?  VERIFY: exact domain synergymarinegroup.com  REPORT: recruiting@synergymarinegroup.com"
       }
     },
@@ -146,6 +157,15 @@
           { "icon": "fa-solid fa-file-code", "label": "Double Extension", "detail": "Payslip_March.pdf.exe — the final .exe is the real type. Windows hides known extensions by default." },
           { "icon": "fa-solid fa-bolt", "label": "Enable Content Trap", "detail": "‘Enable macros / Enter password 1234’ is the payload trigger. Real Synergy payslips state ‘no macros needed’." },
           { "icon": "fa-solid fa-shield-halved", "label": "STOP — VERIFY", "detail": "For HR/Payroll: was this file expected? Call HR on known line, never reply-to external with docs." }
+        ],
+        "layers": [
+          { "name": "Awareness/Human", "wouldStopIt": false },
+          { "name": "Email Security", "wouldStopIt": true, "note": "Attachment scanning would flag a double-extension .pdf.exe or a password-protected zip before it ever reaches an inbox." },
+          { "name": "Identity & Access (MFA)", "wouldStopIt": false },
+          { "name": "Endpoint/EDR", "wouldStopIt": true, "note": "A macro launching PowerShell that beacons to an external server is exactly what endpoint detection is built to catch and block, even after the attachment is opened." },
+          { "name": "Network/Perimeter", "wouldStopIt": false },
+          { "name": "Backup & Recovery", "wouldStopIt": false },
+          { "name": "Incident Response", "wouldStopIt": false }
         ],
         "callToAction": "STOP before enabling. VERIFY file type + expectation via portal. REPORT to IT — do not forward."
       }
@@ -219,6 +239,15 @@
           { "icon": "fa-solid fa-link", "label": "Display ≠ Href", "detail": "Display text can be faked. Long-press/hover to see https://portal-synergymarine-group-secure.net — extra ‘-secure.net’." },
           { "icon": "fa-solid fa-shield-halved", "label": "STOP — VERIFY", "detail": "For offshore: use bookmarked portal, or SMS your vessel manager on known number — never ‘link only’." }
         ],
+        "layers": [
+          { "name": "Awareness/Human", "wouldStopIt": true, "note": "Noticing the \"External\" Teams banner with no org tag and hovering the link to see the mismatched destination is a human catch, not a technical one." },
+          { "name": "Email Security", "wouldStopIt": false },
+          { "name": "Identity & Access (MFA)", "wouldStopIt": true, "note": "Even if stolen crew-portal credentials were entered on the fake page, MFA would stop them from being usable on the real account." },
+          { "name": "Endpoint/EDR", "wouldStopIt": false },
+          { "name": "Network/Perimeter", "wouldStopIt": false },
+          { "name": "Backup & Recovery", "wouldStopIt": false },
+          { "name": "Incident Response", "wouldStopIt": false }
+        ],
         "callToAction": "STOP before tapping. VERIFY link destination + Teams org tag. REPORT Teams ‘External’ + SMS sender."
       }
     },
@@ -291,6 +320,15 @@
           { "icon": "fa-solid fa-building-columns", "label": "Anomalous External Bank Change", "detail": "Vendor bank change via CC’d vendor mail (external) — real changes follow portal + callback on known number, never email+Teams alone." },
           { "icon": "fa-solid fa-shield-halved", "label": "STOP → VERIFY → REPORT", "detail": "STOP: confidential + off-channel. VERIFY: call CSO + vendor on known numbers. REPORT: Finance + IT — do not process." }
         ],
+        "layers": [
+          { "name": "Awareness/Human", "wouldStopIt": true, "note": "Recognizing that no real CSO asks you to bypass Finance, and verifying through a number you already know instead of the one supplied, is a human catch." },
+          { "name": "Email Security", "wouldStopIt": false },
+          { "name": "Identity & Access (MFA)", "wouldStopIt": false },
+          { "name": "Endpoint/EDR", "wouldStopIt": false },
+          { "name": "Network/Perimeter", "wouldStopIt": false },
+          { "name": "Backup & Recovery", "wouldStopIt": false },
+          { "name": "Incident Response", "wouldStopIt": true, "note": "Reporting the bypass request instead of acting on it — Finance's own escalation step — is what stops the wire before it's sent." }
+        ],
         "callToAction": "STOP: external + secrecy. VERIFY via known CSO/vendor numbers. REPORT — this is exactly why Finance has a separate approval chain."
       }
     }
@@ -301,6 +339,16 @@
     "redFlags": [
       { "icon": "fa-solid fa-diagram-project", "label": "Chain, Not One-Off", "detail": "Each lure fuels the next: LinkedIn names → predicted email → HR docs → crew trust → CSO authority + vendor bank change." },
       { "icon": "fa-solid fa-shield-halved", "label": "Your Breaks", "detail": "Domain check (Day 1-2) → Attachment expectation (Day 4) → Link hover + Teams tag (Day 5) → Callback + approval chain (Day 6)." }
+    ],
+    "layersIntro": "The chain was stopped by different layers at different points — no single control would have stopped all of it.",
+    "layers": [
+      { "name": "Awareness/Human", "hitScenarios": [1, 3, 4], "summary": "Caught the lookalike domain (S1), the anonymous Teams tag and link mismatch (S3), and the authority/urgency bypass request (S4) — the most consistent catch across the chain, but never enough alone." },
+      { "name": "Email Security", "hitScenarios": [1, 2], "summary": "Flagged the lookalike sending domain and SPF failure (S1) and would have blocked the malicious attachment (S2) — but SMS, Teams, and the final wire never touch email at all." },
+      { "name": "Identity & Access (MFA)", "hitScenarios": [3], "summary": "Would have stopped stolen crew-portal credentials from being usable (S3) — the only point in the whole chain where a login step even exists." },
+      { "name": "Endpoint/EDR", "hitScenarios": [2], "summary": "Would have blocked the macro-triggered PowerShell beacon before it reached an external server (S2)." },
+      { "name": "Network/Perimeter", "hitScenarios": [], "summary": "Never engaged — nothing in this chain relied on a network intrusion a firewall or perimeter control would see." },
+      { "name": "Backup & Recovery", "hitScenarios": [], "summary": "Never engaged — this chain steals trust and money, not data, so there's nothing here recovery would have undone." },
+      { "name": "Incident Response", "hitScenarios": [4], "summary": "Finance's own reporting step — flagging the bypass request instead of acting on it — is what stops the wire before it's sent (S4)." }
     ],
     "callToAction": "For every persona — HR, Finance, Offshore — STOP (private + urgent) → VERIFY (known domain/number/portal) → REPORT (IT + manager)."
   }

@@ -1,4 +1,6 @@
 {
+  "whyThisMatters": "AI makes risky shortcuts look safe — pasting code, customer data, or unapproved tools into a chatbot can expose what you were trying to protect.",
+  "rememberThis": "If an AI tool isn't approved, don't feed it work data — check with IT first, and keep sensitive content local.",
   "items": [
     {
       "id": "sr-01",

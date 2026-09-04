@@ -9,6 +9,9 @@
   let items = [];
   let index = 0;
   let revealed = false;
+  let rememberThisText = '';
+  let contentData = null;
+  let introDismissed = false;
 
   const els = {
     counter: document.getElementById('itemCounter'),
@@ -20,6 +23,8 @@
     overlay: document.getElementById('revealOverlay'),
     whatWrong: document.getElementById('whatIsWrongText'),
     whySuspicious: document.getElementById('whyItsSuspiciousText'),
+    rememberCardSingle: document.getElementById('rememberCardSingle'),
+    rememberTextSingle: document.getElementById('rememberTextSingle'),
     compareFrame: document.getElementById('compareFrame'),
     comparePanelA: document.getElementById('comparePanelA'),
     comparePanelB: document.getElementById('comparePanelB'),
@@ -28,9 +33,15 @@
     compareReveal: document.getElementById('compareRevealPanel'),
     compareWhatWrong: document.getElementById('compareWhatIsWrongText'),
     compareWhySuspicious: document.getElementById('compareWhyItsSuspiciousText'),
+    rememberCardCompare: document.getElementById('rememberCardCompare'),
+    rememberTextCompare: document.getElementById('rememberTextCompare'),
     dots: document.getElementById('progressDots'),
     revealBtn: document.getElementById('revealBtn'),
-    nextBtn: document.getElementById('nextBtn')
+    nextBtn: document.getElementById('nextBtn'),
+    introScreen: document.getElementById('introScreen'),
+    activityBody: document.getElementById('activityBody'),
+    introText: document.getElementById('introText'),
+    introStartBtn: document.getElementById('introStartBtn')
   };
 
   let fakeSide = 'A'; // which panel is the fake one for the current compare item
@@ -106,6 +117,8 @@
       : '<i class="fa-solid fa-forward"></i> Next Item';
 
     revealed = false;
+    if (els.rememberCardSingle) els.rememberCardSingle.classList.add('le-hidden');
+    if (els.rememberCardCompare) els.rememberCardCompare.classList.add('le-hidden');
     renderDots();
   }
 
@@ -114,14 +127,23 @@
     revealed = true;
 
     const item = items[index];
+    const isLast = index === items.length - 1;
     if (item && item.type === 'compare') {
       const fakePanel = fakeSide === 'A' ? els.comparePanelA : els.comparePanelB;
       const realPanel = fakeSide === 'A' ? els.comparePanelB : els.comparePanelA;
       fakePanel.classList.add('reveal-fake');
       realPanel.classList.add('reveal-real');
       els.compareReveal.classList.add('show');
+      if (isLast && els.rememberCardCompare) {
+        els.rememberTextCompare.textContent = rememberThisText;
+        els.rememberCardCompare.classList.remove('le-hidden');
+      }
     } else {
       els.overlay.classList.add('show');
+      if (isLast && els.rememberCardSingle) {
+        els.rememberTextSingle.textContent = rememberThisText;
+        els.rememberCardSingle.classList.remove('le-hidden');
+      }
     }
   }
 
@@ -142,21 +164,41 @@
     if (index > 0) goTo(index - 1);
   }
 
+  // Brief framing screen before the queue starts — see console.css's
+  // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
+  function beginActivity() {
+    if (!contentData) return;
+    els.introScreen.classList.add('le-hidden');
+    els.activityBody.classList.remove('le-hidden');
+    renderItem();
+  }
+
+  function dismissIntro() {
+    if (introDismissed) return;
+    introDismissed = true;
+    beginActivity();
+  }
+
+  if (els.introStartBtn) els.introStartBtn.addEventListener('click', dismissIntro);
+
   els.revealBtn.addEventListener('click', reveal);
   els.nextBtn.addEventListener('click', next);
 
   LiveEvent.onAction({
-    advance: next,
-    next,
-    prev,
-    reveal
+    advance: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    next: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    prev: () => { if (introDismissed) prev(); },
+    reveal: () => { if (introDismissed) reveal(); }
   });
 
   fetch('../content/fault-finding.json')
     .then((r) => r.json())
     .then((data) => {
-      items = data;
-      renderItem();
+      items = data.items;
+      rememberThisText = data.rememberThis || '';
+      if (els.introText) els.introText.textContent = data.whyThisMatters || '';
+      contentData = data;
+      if (introDismissed) beginActivity();
     })
     .catch((err) => {
       els.title.textContent = 'Failed to load content/fault-finding.json';

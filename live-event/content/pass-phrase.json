@@ -1,7 +1,11 @@
-[
-  { "id": "round-1", "label": "Round 1", "difficulty": "easy" },
-  { "id": "round-2", "label": "Round 2", "difficulty": "easy" },
-  { "id": "round-3", "label": "Round 3", "difficulty": "medium" },
-  { "id": "round-4", "label": "Round 4", "difficulty": "hard" },
-  { "id": "round-5", "label": "Round 5", "difficulty": "hard" }
-]
+{
+  "whyThisMatters": "A password built from a pet's name and a birth year can be guessed by a script in seconds — length and randomness are what actually slow an attacker down, not cleverness.",
+  "rememberThis": "Longer and more random beats clever every time — swap a word for a passphrase.",
+  "rounds": [
+    { "id": "round-1", "label": "Round 1", "difficulty": "easy" },
+    { "id": "round-2", "label": "Round 2", "difficulty": "easy" },
+    { "id": "round-3", "label": "Round 3", "difficulty": "medium" },
+    { "id": "round-4", "label": "Round 4", "difficulty": "hard" },
+    { "id": "round-5", "label": "Round 5", "difficulty": "hard" }
+  ]
+}

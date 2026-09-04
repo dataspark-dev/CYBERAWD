@@ -1,4 +1,7 @@
-[
+{
+  "whyThisMatters": "Most breaches don't start with hacking — they start with someone opening the wrong email. Today you're building the habit of noticing.",
+  "rememberThis": "Slow down for ten seconds before you click — that's usually all it takes to catch it.",
+  "items": [
   {
     "id": "compare-domain-spoofing",
     "type": "compare",
@@ -81,4 +84,5 @@
     "whatIsWrong": "A user receives a rapid flood of MFA approval push notifications they never requested, hoping one gets approved out of annoyance.",
     "whyItsSuspicious": "A single unexpected MFA prompt is worth noticing; a flood within minutes means someone already has the password and is trying to 'fatigue' you into approving — whether you are onshore HR/Finance or offshore signing on — by accident."
   }
-]
+  ]
+}

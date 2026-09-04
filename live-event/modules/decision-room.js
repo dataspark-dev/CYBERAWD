@@ -28,8 +28,15 @@
     timerEl: document.getElementById('timer'),
     btnRow: document.getElementById('btnRow'),
     nextBtn: document.getElementById('nextBtn'),
-    dots: document.getElementById('progressDots')
+    dots: document.getElementById('progressDots'),
+    introScreen: document.getElementById('introScreen'),
+    activityBody: document.getElementById('activityBody'),
+    introText: document.getElementById('introText'),
+    introStartBtn: document.getElementById('introStartBtn')
   };
+  let rememberThisText = '';
+  let contentData = null;
+  let introDismissed = false;
 
   function letterFor(i) {
     return String.fromCharCode(65 + i);
@@ -182,9 +189,16 @@
           Different situation every time, same instinct needed:
         </p>
         <p class="lr-cta" style="margin-top:18px;">STOP before you act. VERIFY through a channel you already trust. REPORT it either way.</p>
+        <div class="le-remember-card">
+          <i class="fa-solid fa-thumbtack"></i>
+          <div>
+            <div class="le-remember-eyebrow">Remember This</div>
+            <div class="le-remember-text">${LiveEvent.escapeHtml(rememberThisText)}</div>
+          </div>
+        </div>
       </div>
     `;
-    els.btnRow.innerHTML = '<a class="le-btn primary lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>';
+    els.btnRow.innerHTML = '<a class="le-btn primary lg" href="closing-quiz.html"><i class="fa-solid fa-forward"></i> Up Next: Rapid Fire — Urgency</a><a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>';
     els.dots.innerHTML = '';
     if (els.path) els.path.innerHTML = '';
   }
@@ -237,14 +251,35 @@
     }
   }
 
+  // Brief framing screen before the cases start — see console.css's
+  // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
+  function beginActivity() {
+    if (!contentData) return;
+    els.introScreen.classList.add('le-hidden');
+    els.activityBody.classList.remove('le-hidden');
+    startCase();
+  }
+
+  function dismissIntro() {
+    if (introDismissed) return;
+    introDismissed = true;
+    beginActivity();
+  }
+
+  if (els.introStartBtn) els.introStartBtn.addEventListener('click', dismissIntro);
+
   els.nextBtn.addEventListener('click', next);
 
-  LiveEvent.onAction({ advance: next, next, prev });
+  LiveEvent.onAction({
+    advance: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    next: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    prev: () => { if (introDismissed) prev(); }
+  });
 
   // Lightweight local shortcut for calling out an option live — 1/2/3 pick
   // option A/B/C. Self-contained to this page; doesn't touch shared keyboard nav.
   document.addEventListener('keydown', (e) => {
-    if (done || phase !== 'decision') return;
+    if (!introDismissed || done || phase !== 'decision') return;
     const idx = ['1', '2', '3'].indexOf(e.key);
     if (idx === -1) return;
     const decision = currentCase().decisions[decisionIndex];
@@ -255,8 +290,11 @@
   fetch('../content/decision-room.json')
     .then((r) => r.json())
     .then((json) => {
-      cases = json;
-      startCase();
+      cases = json.cases;
+      rememberThisText = json.rememberThis || '';
+      if (els.introText) els.introText.textContent = json.whyThisMatters || '';
+      contentData = json;
+      if (introDismissed) beginActivity();
     })
     .catch((err) => {
       els.stage.innerHTML = '<p style="color:#fff;">Failed to load content/decision-room.json</p>';

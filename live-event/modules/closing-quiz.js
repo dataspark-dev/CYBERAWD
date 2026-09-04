@@ -22,6 +22,13 @@
   const itemCounter = document.getElementById('itemCounter');
   const personaEl = document.getElementById('stepPersona');
   const subtitleEl = document.getElementById('quizSubtitle');
+  const introScreen = document.getElementById('introScreen');
+  const activityBody = document.getElementById('activityBody');
+  const introText = document.getElementById('introText');
+  const introStartBtn = document.getElementById('introStartBtn');
+  let rememberThisText = '';
+  let contentData = null;
+  let introDismissed = false;
 
   function letterFor(i) {
     return String.fromCharCode(65 + i);
@@ -187,9 +194,17 @@
           Whatever the situation — a call, a text, an email, a Teams message — the move is always the same:
         </p>
         <p class="lr-cta" style="margin-top:18px;">STOP before you act. VERIFY through a channel you already trust. REPORT it either way.</p>
+        <div class="le-remember-card">
+          <i class="fa-solid fa-thumbtack"></i>
+          <div>
+            <div class="le-remember-eyebrow">Remember This</div>
+            <div class="le-remember-text">${LiveEvent.escapeHtml(rememberThisText)}</div>
+          </div>
+        </div>
       </div>
       <div class="qz-final-actions">
-        <a class="le-btn primary lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
+        <a class="le-btn primary lg" href="clue-quest.html"><i class="fa-solid fa-forward"></i> Up Next: Cyber Clue Quest — Recall</a>
+        <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
       </div>
     `;
   }
@@ -218,15 +233,40 @@
     }
   }
 
-  LiveEvent.onAction({ advance: next, next, prev, reveal });
+  // Brief framing screen before the first step loads — see console.css's
+  // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
+  function beginActivity() {
+    if (!contentData) return;
+    introScreen.classList.add('le-hidden');
+    activityBody.classList.remove('le-hidden');
+    renderStep();
+  }
+
+  function dismissIntro() {
+    if (introDismissed) return;
+    introDismissed = true;
+    beginActivity();
+  }
+
+  if (introStartBtn) introStartBtn.addEventListener('click', dismissIntro);
+
+  LiveEvent.onAction({
+    advance: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    next: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    prev: () => { if (introDismissed) prev(); },
+    reveal: () => { if (introDismissed) reveal(); }
+  });
 
   fetch('../content/closing-quiz.json')
     .then((r) => r.json())
     .then((json) => {
       data = json;
       buildSteps();
+      rememberThisText = data.rememberThis || '';
       if (subtitleEl) subtitleEl.textContent = data.subtitle || '';
-      renderStep();
+      if (introText) introText.textContent = data.whyThisMatters || '';
+      contentData = data;
+      if (introDismissed) beginActivity();
     })
     .catch((err) => {
       stageEl.innerHTML = '<p style="color:#fff;">Failed to load content/closing-quiz.json</p>';

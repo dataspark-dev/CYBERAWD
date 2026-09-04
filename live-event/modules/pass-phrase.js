@@ -128,8 +128,6 @@
 
   const els = {
     counter: document.getElementById('itemCounter'),
-    weakText: document.getElementById('weakText'),
-    strongPreview: document.getElementById('strongPreview'),
     tiles: document.getElementById('tilesContainer'),
     deck: document.getElementById('deckContainer'),
     countLabel: document.getElementById('slotCount'),
@@ -140,8 +138,17 @@
     timerEl: document.getElementById('timer'),
     solvedBtn: document.getElementById('solvedBtn'),
     nextBtn: document.getElementById('nextBtn'),
-    dots: document.getElementById('progressDots')
+    dots: document.getElementById('progressDots'),
+    rememberCard: document.getElementById('rememberCard'),
+    rememberText: document.getElementById('rememberText'),
+    introScreen: document.getElementById('introScreen'),
+    activityBody: document.getElementById('activityBody'),
+    introText: document.getElementById('introText'),
+    introStartBtn: document.getElementById('introStartBtn')
   };
+  let rememberThisText = '';
+  let contentData = null;
+  let introDismissed = false;
 
   function renderDots(){
     els.dots.innerHTML = rounds.map(function(_,i){
@@ -214,10 +221,6 @@
     els.strengthLabel.textContent='Strength: '+result.label;
     els.strengthLabel.style.color=result.color;
     els.crackTime.textContent=result.crack;
-    if(els.strongPreview){
-      els.strongPreview.textContent=pw || '—';
-      els.strongPreview.style.color=result.score>=60 ? '#065f46' : 'var(--navy)';
-    }
     if(els.countLabel){
       els.countLabel.textContent=pw.length+' / '+MAX_SLOTS;
       els.countLabel.style.color=pw.length>=MAX_SLOTS ? '#b45309' : 'var(--muted)';
@@ -438,10 +441,9 @@
     deckChars=generateDeck(difficulty, currentWeak);
     passwordChars=[];
     locked=false;
-    if(els.weakText) els.weakText.textContent=currentWeak;
-    if(els.strongPreview) els.strongPreview.textContent='—';
     els.solvedBtn.disabled=true;
     els.solvedBtn.classList.remove('pulse-highlight');
+    if(els.rememberCard) els.rememberCard.classList.add('le-hidden');
     renderTiles();
     renderDeck();
     updateStrength();
@@ -471,11 +473,36 @@
     els.solvedBtn.classList.remove('pulse-highlight');
     if(els.tiles){ els.tiles.style.borderColor='#10b981'; els.tiles.style.background='#ecfdf5'; }
     if(timer) timer.stop();
+    if(index===rounds.length-1 && els.rememberCard){
+      els.rememberText.textContent=rememberThisText;
+      els.rememberCard.classList.remove('le-hidden');
+    }
   }
+
+  // Brief framing screen before the rounds start — see console.css's
+  // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
+  function beginActivity(){
+    if(!contentData) return;
+    els.introScreen.classList.add('le-hidden');
+    els.activityBody.classList.remove('le-hidden');
+    renderRound();
+  }
+
+  function dismissIntro(){
+    if(introDismissed) return;
+    introDismissed=true;
+    beginActivity();
+  }
+
+  if(els.introStartBtn) els.introStartBtn.addEventListener('click', dismissIntro);
 
   els.solvedBtn.addEventListener('click', solved);
   els.nextBtn.addEventListener('click', next);
-  LiveEvent.onAction({ advance: next, next: next, prev: prev });
+  LiveEvent.onAction({
+    advance: function(){ if(!introDismissed){ dismissIntro(); return; } next(); },
+    next: function(){ if(!introDismissed){ dismissIntro(); return; } next(); },
+    prev: function(){ if(introDismissed) prev(); }
+  });
 
   fetch('../content/pass-phrase.json')
     .then(function(r){ return r.json(); })
@@ -487,7 +514,10 @@
       rounds.forEach(function(rd){
         if(!rd.difficulty) rd.difficulty='medium';
       });
-      renderRound();
+      rememberThisText = data.rememberThis || '';
+      if(els.introText) els.introText.textContent = data.whyThisMatters || '';
+      contentData = data;
+      if(introDismissed) beginActivity();
     })
     .catch(function(err){
       if(els.tiles) els.tiles.textContent='FAILED TO LOAD CONTENT';

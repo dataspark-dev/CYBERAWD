@@ -1,0 +1,76 @@
+{
+  "whyThisMatters": "A lot of what feels obviously true about cybersecurity is outdated advice or half-right — a few minutes here clears up the ones that actually matter.",
+  "rememberThis": "If a security \"rule\" sounds like something from 10 years ago, it's worth double-checking before you follow it.",
+  "items": [
+    {
+      "id": "mf-01",
+      "topic": "Phishing",
+      "myth": "You can always tell a phishing email because of bad spelling and grammar.",
+      "fact": "Modern phishing emails are often polished and professional — many are written or cleaned up with AI tools now, so spelling mistakes are no longer a reliable warning sign.",
+      "detail": "The real tell is usually the sender's exact address, an unexpected request, or pressure to act fast — not typos."
+    },
+    {
+      "id": "mf-02",
+      "topic": "Phishing",
+      "myth": "If an email comes from someone I know, it's safe.",
+      "fact": "Attackers regularly spoof or hijack real accounts, including coworkers' — a familiar name doesn't confirm a message is genuine.",
+      "detail": "If a request feels off, verify through a different channel, like a phone call, before acting on it."
+    },
+    {
+      "id": "mf-03",
+      "topic": "Phishing",
+      "myth": "Phishing only happens through email.",
+      "fact": "Phishing now happens over text, phone calls, QR codes, and chat apps like Teams — any channel that can carry a link or a request can carry an attempt.",
+      "detail": "The pattern is always the same regardless of channel: urgency, a request, and pressure to act immediately."
+    },
+    {
+      "id": "mf-04",
+      "topic": "Passwords",
+      "myth": "A password with a special character like \"P@ssw0rd!\" is strong.",
+      "fact": "Length beats complexity — a longer plain phrase is harder to crack than a short password with symbol substitutions attackers already expect.",
+      "detail": "\"P@ssw0rd!\" can be cracked in under a second; a random 16-character phrase can take centuries."
+    },
+    {
+      "id": "mf-05",
+      "topic": "Passwords",
+      "myth": "You should change your password every 30-90 days.",
+      "fact": "Frequent forced changes usually lead to weaker, more predictable passwords — a strong, unique password is fine to keep until there's a real reason to think it's been exposed.",
+      "detail": "Most current guidance has moved away from mandatory rotation toward length, uniqueness, and watching for breaches."
+    },
+    {
+      "id": "mf-06",
+      "topic": "Passwords",
+      "myth": "Reusing one strong password across a few accounts is fine, since it's strong.",
+      "fact": "If any one of those accounts is breached, the same password immediately unlocks every other account using it — strength doesn't protect against reuse.",
+      "detail": "A password manager makes using a different password per account realistic without memorizing them all."
+    },
+    {
+      "id": "mf-07",
+      "topic": "Social Engineering",
+      "myth": "Social engineering is just a fancy word for lying.",
+      "fact": "It's the deliberate use of urgency, authority, and trust to make you skip your normal checks — the manipulation is the point, not just the dishonesty.",
+      "detail": "Attackers study how people react under pressure, then design a message specifically to trigger that reaction."
+    },
+    {
+      "id": "mf-08",
+      "topic": "Social Engineering",
+      "myth": "Only careless or untrained people fall for social engineering.",
+      "fact": "Well-designed social engineering is built to work on careful people too — it targets normal human responses to urgency and authority, not a lack of awareness.",
+      "detail": "The goal of training isn't to make you suspicious of everything — it's to build a pause before acting on pressure."
+    },
+    {
+      "id": "mf-09",
+      "topic": "Reporting Culture",
+      "myth": "Reporting a mistake will get you in trouble.",
+      "fact": "Reporting fast is what actually protects you and the company — the damage almost always comes from delay, not from the original click.",
+      "detail": "Security teams would rather help with ten false alarms than find out about one real incident a week too late."
+    },
+    {
+      "id": "mf-10",
+      "topic": "Reporting Culture",
+      "myth": "If I'm not sure something is actually malicious, it's not worth reporting.",
+      "fact": "Security teams would rather check a false alarm than miss a real one — uncertainty is exactly the reason to report, not a reason to stay quiet.",
+      "detail": "A five-minute report is far cheaper than the hours it takes to contain an incident caught too late."
+    }
+  ]
+}

@@ -1,4 +1,7 @@
-[
+{
+  "whyThisMatters": "Most people freeze or panic-fix in the first minute of a real incident — the habit that saves you is knowing your next move before you ever need it.",
+  "rememberThis": "STOP, VERIFY, REPORT — in that order, every time, no matter how the situation looks.",
+  "cases": [
   {
     "id": "phishing-link-clicked",
     "persona": "HR / Recruitment",
@@ -201,4 +204,5 @@
     ],
     "debrief": "Ransomware wants you to panic and pay — STOP by disconnecting immediately, skip trying to VERIFY anything by paying or self-fixing, and REPORT fast so IT Security can contain it before it reaches other systems."
   }
-]
+  ]
+}

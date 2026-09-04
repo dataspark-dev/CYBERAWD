@@ -36,11 +36,17 @@
       </div>
 
       <div class="le-modules-wrap">
-        <div class="le-modules-grid" id="modulesGrid">
-          <a class="le-module-card v-cyan" href="modules/fault-finding.html">
+        <!-- Flow A: Awareness -> See Chain -> Correct -> Tradeoffs -> Decide -> Urgency -> Recall -->
+        <div class="le-flow-arc" aria-hidden="true">
+          <span class="le-flow-arc-label">Flow A — Narrative Arc</span>
+          <span class="le-flow-arc-steps">Spot → See Chain → Correct → Tradeoffs → Decide → Urgency → Recall</span>
+        </div>
+        <div class="le-modules-grid is-flow-a" id="modulesGrid">
+          <!-- 01 Spot -->
+          <a class="le-module-card v-cyan" href="modules/fault-finding.html" data-step="01" data-flow="spot">
             <div class="mc-bar"></div>
             <div class="mc-body">
-              <div class="mc-tag">Spot the Fault</div>
+              <div class="mc-tag">01 · Spot</div>
               <div class="mc-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
               <h3>Fault Finding</h3>
               <p>Compare a real message side-by-side with a fake one and call out what gives it away — 8 rounds across HR, Finance, and Offshore Crew.</p>
@@ -48,10 +54,11 @@
             <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
           </a>
 
-          <a class="le-module-card v-red" href="modules/live-simulation.html">
+          <!-- 02 See Chain -->
+          <a class="le-module-card v-red" href="modules/live-simulation.html" data-step="02" data-flow="see-chain">
             <div class="mc-bar"></div>
             <div class="mc-body">
-              <div class="mc-tag">Virtual Environment</div>
+              <div class="mc-tag">02 · See Chain</div>
               <div class="mc-icon"><i class="fa-solid fa-vr-cardboard"></i></div>
               <h3>Live Simulation</h3>
               <p>Watch one real attack chain play out step by step, from a LinkedIn search to a fraudulent wire transfer, across 4 linked scenarios.</p>
@@ -59,32 +66,47 @@
             <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
           </a>
 
-          <a class="le-module-card v-purple" href="modules/clue-quest.html">
+          <!-- 03 Correct -->
+          <a class="le-module-card v-orange" href="modules/myth-vs-fact.html" data-step="03" data-flow="correct">
             <div class="mc-bar"></div>
             <div class="mc-body">
-              <div class="mc-tag">Riddles</div>
-              <div class="mc-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
-              <h3>Cyber Clue Quest</h3>
-              <p>Read the clue, guess the term, beat the clock — 9 riddles covering everything you've just learned.</p>
+              <div class="mc-tag">03 · Correct</div>
+              <div class="mc-icon"><i class="fa-solid fa-circle-question"></i></div>
+              <h3>Myth vs Fact</h3>
+              <p>Read the myth, bust it, see the fact — 10 quick calls on phishing, passwords, social engineering, and reporting.</p>
             </div>
             <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
           </a>
 
-          <a class="le-module-card v-amber" href="modules/pass-phrase.html">
+          <!-- 04 Tradeoffs -->
+          <a class="le-module-card v-amber" href="modules/defense-budget.html" data-step="04" data-flow="tradeoffs">
             <div class="mc-bar"></div>
             <div class="mc-body">
-              <div class="mc-tag">Password Builder</div>
-              <div class="mc-icon"><i class="fa-solid fa-key"></i></div>
-              <h3>Pass-Phrase</h3>
-              <p>Start from a real weak password and drag tiles from the deck to build a strong one, watching the strength meter climb as you go.</p>
+              <div class="mc-tag">04 · Tradeoffs · No Scoring</div>
+              <div class="mc-icon"><i class="fa-solid fa-coins"></i></div>
+              <h3>Defense Budget</h3>
+              <p>Allocate 100 units across 7 defense layers — you can't afford everything. Lock your budget, then see which attacks you would have stopped and which gaps you left open.</p>
             </div>
             <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
           </a>
 
-          <a class="le-module-card v-green" href="modules/closing-quiz.html">
+          <!-- 05 Decide -->
+          <a class="le-module-card v-blue" href="modules/decision-room.html" data-step="05" data-flow="decide">
             <div class="mc-bar"></div>
             <div class="mc-body">
-              <div class="mc-tag">Knowledge Check</div>
+              <div class="mc-tag">05 · Decide</div>
+              <div class="mc-icon"><i class="fa-solid fa-diagram-project"></i></div>
+              <h3>Decision Room</h3>
+              <p>Pick your response, see the consequence, and work through 6 real incident scenarios branch by branch.</p>
+            </div>
+            <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
+          </a>
+
+          <!-- 06 Urgency -->
+          <a class="le-module-card v-green" href="modules/closing-quiz.html" data-step="06" data-flow="urgency">
+            <div class="mc-bar"></div>
+            <div class="mc-body">
+              <div class="mc-tag">06 · Urgency</div>
               <div class="mc-icon"><i class="fa-solid fa-bolt"></i></div>
               <h3>Rapid Fire</h3>
               <p>Read the situation, make the call, see why it matters — 10 rapid-fire scenarios rotating through every role on site.</p>
@@ -92,13 +114,26 @@
             <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
           </a>
 
-          <a class="le-module-card v-blue" href="modules/decision-room.html">
+          <!-- 07 Recall -->
+          <a class="le-module-card v-purple" href="modules/clue-quest.html" data-step="07" data-flow="recall">
             <div class="mc-bar"></div>
             <div class="mc-body">
-              <div class="mc-tag">Branching Decisions</div>
-              <div class="mc-icon"><i class="fa-solid fa-diagram-project"></i></div>
-              <h3>Decision Room</h3>
-              <p>Pick your response, see the consequence, and work through 6 real incident scenarios branch by branch.</p>
+              <div class="mc-tag">07 · Recall</div>
+              <div class="mc-icon"><i class="fa-solid fa-puzzle-piece"></i></div>
+              <h3>Cyber Clue Quest</h3>
+              <p>Read the clue, guess the term, beat the clock — 9 riddles covering everything you've just learned.</p>
+            </div>
+            <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
+          </a>
+
+          <!-- 08 Recall -->
+          <a class="le-module-card v-amber" href="modules/pass-phrase.html" data-step="08" data-flow="recall">
+            <div class="mc-bar"></div>
+            <div class="mc-body">
+              <div class="mc-tag">08 · Recall</div>
+              <div class="mc-icon"><i class="fa-solid fa-key"></i></div>
+              <h3>Pass-Phrase</h3>
+              <p>Start from a real weak password and drag tiles from the deck to build a strong one, watching the strength meter climb as you go.</p>
             </div>
             <div class="mc-footer"><span>Open Activity</span><i class="fa-solid fa-arrow-right"></i></div>
           </a>
