@@ -97,20 +97,25 @@ body {
 .le-topbar .le-brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   text-decoration: none;
   color: var(--navy);
   flex-shrink: 0;
 }
 .le-topbar .le-brand img {
-  height: clamp(30px, 3vw, 44px);
+  height: clamp(42px, 4.2vw, 64px);
   object-fit: contain;
   filter: none;
+  display: block;
 }
 .le-topbar .le-brand-div {
   width: 1px;
-  height: clamp(22px, 2.4vw, 32px);
+  height: clamp(32px, 3.5vw, 48px);
   background: var(--line);
+  align-self: center;
+}
+.le-topbar {
+  align-items: center;
 }
 .le-topbar .le-brand-text {
   font-family: 'Orbitron', sans-serif;

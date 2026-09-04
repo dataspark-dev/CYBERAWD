@@ -176,9 +176,10 @@ ul { list-style: none; }
   flex-shrink: 0;
 }
 .site-topbar .brand img {
-  height: 32px;
+  height: clamp(38px, 4vw, 56px);
   object-fit: contain;
   filter: brightness(0) invert(1);
+  display: block;
 }
 .site-topbar .brand-div {
   width: 1px;
