@@ -1727,12 +1727,14 @@ body {
 .pp-weak-row {
   display: flex;
   align-items: stretch;
+  justify-content: center;
   gap: 12px;
   margin-top: 16px;
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
   overflow: visible;
+  text-align: center;
 }
 .pp-weak-card {
   flex: 1 1 220px;
@@ -1765,8 +1767,9 @@ body {
   font-size: 15px;
   font-weight: 800;
   color: var(--navy);
-  word-break: break-all;
+  word-break: break-word;
   letter-spacing: 0.3px;
+  text-align: center;
 }
 .pp-weak-card.strong .pp-weak-text { color: #065f46; }
 .pp-weak-arrow {
@@ -1905,6 +1908,35 @@ body {
   background: #fff !important;
   border-color: #cbd5e1 !important;
   color: var(--navy) !important;
+  width: auto;
+  min-width: 64px;
+  height: 42px;
+  padding: 6px 12px;
+  font-size: clamp(13px, 1.5vw, 16px);
+  text-align: center;
+  justify-content: center;
+}
+.pp-deck-tile .pp-tile-letter {
+  white-space: nowrap;
+  text-align: center;
+}
+/* Aligned template words — consistent spacing for word tiles */
+.pp-template-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin: 8px 0 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+}
+.pp-template-word {
+  background: var(--paper-2);
+  border: 1px solid var(--line);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-weight: 700;
 }
 .pp-deck-tile:hover {
   background: #fff !important;
