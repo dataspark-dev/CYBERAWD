@@ -1,0 +1,228 @@
+{
+  "whyThisMatters": "These aren't just buzzwords — knowing what phishing, MFA, or ransomware actually mean is what lets you recognize the real thing the moment it shows up in your inbox or on your screen.",
+  "rememberThis": "You don't need to memorize a glossary — just enough of these words to recognize the real thing when it shows up.",
+  "wordlist": [
+    {
+      "answer": "PHISHING",
+      "clue": "A fake message designed to trick you into clicking or sharing information"
+    },
+    {
+      "answer": "MALWARE",
+      "clue": "General term for any software built to damage, spy on, or take over a device"
+    },
+    {
+      "answer": "RANSOMWARE",
+      "clue": "Malware that locks your files and demands payment before you can get them back"
+    },
+    {
+      "answer": "MFA",
+      "clue": "You enter your password, then approve a prompt on your phone — that second step is called this"
+    },
+    {
+      "answer": "PASSWORD",
+      "clue": "The secret combination of characters that proves it's really you logging in"
+    },
+    {
+      "answer": "FIREWALL",
+      "clue": "The security layer that filters traffic in and out of a network, blocking what looks dangerous"
+    },
+    {
+      "answer": "VPN",
+      "clue": "You connect to airport WiFi and switch this on first to encrypt your traffic"
+    },
+    {
+      "answer": "ENCRYPTION",
+      "clue": "Scrambling data so that only someone with the right key can read it"
+    },
+    {
+      "answer": "PRETEXTING",
+      "clue": "A social engineering trick where the attacker invents a false scenario, like posing as IT support"
+    },
+    {
+      "answer": "BREACH",
+      "clue": "What happens when sensitive data is exposed or stolen from a system — a data ___"
+    },
+    {
+      "answer": "ANTIVIRUS",
+      "clue": "Software that scans your device and removes known malicious programs"
+    },
+    {
+      "answer": "BACKUP",
+      "clue": "A saved copy of your files that lets you recover after ransomware or a crash"
+    },
+    {
+      "answer": "PRIVACY",
+      "clue": "Your control over who can see or use your personal information"
+    },
+    {
+      "answer": "TROJAN",
+      "clue": "Malware that disguises itself as a legitimate program to get you to install it"
+    },
+    {
+      "answer": "SPOOFING",
+      "clue": "Faking a sender address or caller ID so a message looks like it's from someone you trust"
+    },
+    {
+      "answer": "PATCH",
+      "clue": "The update you keep postponing that actually fixes a known security hole"
+    },
+    {
+      "answer": "BOTNET",
+      "clue": "A network of hijacked devices controlled remotely to launch attacks together"
+    },
+    {
+      "answer": "SPAM",
+      "clue": "Unwanted bulk email or messages, sometimes just annoying, sometimes carrying malware"
+    }
+  ],
+  "grid": {
+    "rows": 20,
+    "cols": 20,
+    "placements": [
+      {
+        "answer": "ENCRYPTION",
+        "clue": "Scrambling data so that only someone with the right key can read it",
+        "row": 5,
+        "col": 6,
+        "direction": "down",
+        "number": 1
+      },
+      {
+        "answer": "PRETEXTING",
+        "clue": "A social engineering trick where the attacker invents a false scenario, like posing as IT support",
+        "row": 9,
+        "col": 8,
+        "direction": "across",
+        "number": 2
+      },
+      {
+        "answer": "RANSOMWARE",
+        "clue": "Malware that locks your files and demands payment before you can get them back",
+        "row": 1,
+        "col": 10,
+        "direction": "across",
+        "number": 3
+      },
+      {
+        "answer": "ANTIVIRUS",
+        "clue": "Software that scans your device and removes known malicious programs",
+        "row": 8,
+        "col": 0,
+        "direction": "across",
+        "number": 4
+      },
+      {
+        "answer": "FIREWALL",
+        "clue": "The security layer that filters traffic in and out of a network, blocking what looks dangerous",
+        "row": 6,
+        "col": 10,
+        "direction": "down",
+        "number": 5
+      },
+      {
+        "answer": "PHISHING",
+        "clue": "A fake message designed to trick you into clicking or sharing information",
+        "row": 11,
+        "col": 19,
+        "direction": "down",
+        "number": 6
+      },
+      {
+        "answer": "SPOOFING",
+        "clue": "Faking a sender address or caller ID so a message looks like it's from someone you trust",
+        "row": 3,
+        "col": 8,
+        "direction": "across",
+        "number": 7
+      },
+      {
+        "answer": "PASSWORD",
+        "clue": "The secret combination of characters that proves it's really you logging in",
+        "row": 12,
+        "col": 12,
+        "direction": "down",
+        "number": 8
+      },
+      {
+        "answer": "PRIVACY",
+        "clue": "Your control over who can see or use your personal information",
+        "row": 7,
+        "col": 13,
+        "direction": "across",
+        "number": 9
+      },
+      {
+        "answer": "MALWARE",
+        "clue": "General term for any software built to damage, spy on, or take over a device",
+        "row": 13,
+        "col": 8,
+        "direction": "across",
+        "number": 10
+      },
+      {
+        "answer": "BACKUP",
+        "clue": "A saved copy of your files that lets you recover after ransomware or a crash",
+        "row": 11,
+        "col": 14,
+        "direction": "across",
+        "number": 11
+      },
+      {
+        "answer": "BREACH",
+        "clue": "What happens when sensitive data is exposed or stolen from a system — a data ___",
+        "row": 11,
+        "col": 14,
+        "direction": "down",
+        "number": 11
+      },
+      {
+        "answer": "TROJAN",
+        "clue": "Malware that disguises itself as a legitimate program to get you to install it",
+        "row": 5,
+        "col": 14,
+        "direction": "across",
+        "number": 12
+      },
+      {
+        "answer": "BOTNET",
+        "clue": "A network of hijacked devices controlled remotely to launch attacks together",
+        "row": 0,
+        "col": 14,
+        "direction": "down",
+        "number": 13
+      },
+      {
+        "answer": "PATCH",
+        "clue": "The update you keep postponing that actually fixes a known security hole",
+        "row": 4,
+        "col": 18,
+        "direction": "down",
+        "number": 14
+      },
+      {
+        "answer": "SPAM",
+        "clue": "Unwanted bulk email or messages, sometimes just annoying, sometimes carrying malware",
+        "row": 8,
+        "col": 8,
+        "direction": "down",
+        "number": 15
+      },
+      {
+        "answer": "MFA",
+        "clue": "You enter your password, then approve a prompt on your phone — that second step is called this",
+        "row": 11,
+        "col": 8,
+        "direction": "across",
+        "number": 16
+      },
+      {
+        "answer": "VPN",
+        "clue": "You connect to airport WiFi and switch this on first to encrypt your traffic",
+        "row": 7,
+        "col": 16,
+        "direction": "down",
+        "number": 17
+      }
+    ]
+  }
+}

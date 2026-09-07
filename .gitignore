@@ -13,6 +13,7 @@ env/
 # Environment / secrets
 .env
 .env.*
+!.env.example
 
 # Editor / IDE
 .vscode/
@@ -28,3 +29,6 @@ desktop.ini
 
 # Logs
 *.log
+
+# Persisted live-session state (see app.py SESSIONS_FILE) — runtime data, not source
+data/

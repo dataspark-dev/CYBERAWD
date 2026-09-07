@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cybersecurity Crossword — Live Event Console</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-table-cells"></i> Cybersecurity Crossword</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="le-intro-screen" id="introScreen">
+        <div class="le-intro-eyebrow"><i class="fa-solid fa-circle-info"></i> Why This Matters</div>
+        <p class="le-intro-text" id="introText">—</p>
+        <button class="le-btn primary lg" id="introStartBtn" type="button"><i class="fa-solid fa-play"></i> Start</button>
+      </div>
+
+      <div id="activityBody" class="le-hidden">
+        <div class="cw-stage">
+          <div class="cw-toolbar">
+            <div class="cw-status" id="cwStatus">Fill in the grid at your own pace — no timer, no score.</div>
+            <div class="le-btn-row">
+              <button class="le-btn primary" id="checkBtn" type="button"><i class="fa-solid fa-check"></i> Check</button>
+              <button class="le-btn amber" id="revealBtn" type="button"><i class="fa-solid fa-eye"></i> Reveal</button>
+            </div>
+          </div>
+
+          <div class="cw-confirm le-hidden" id="revealConfirm">
+            <span><i class="fa-solid fa-triangle-exclamation"></i> Reveal every answer? This ends the puzzle for the room.</span>
+            <div class="le-btn-row">
+              <button class="le-btn red" id="revealConfirmYes" type="button">Yes, Reveal</button>
+              <button class="le-btn ghost" id="revealConfirmNo" type="button">Cancel</button>
+            </div>
+          </div>
+
+          <div class="cw-layout">
+            <div class="cw-grid-wrap">
+              <div class="cw-grid" id="cwGrid"></div>
+            </div>
+            <div class="cw-clues">
+              <div class="cw-clue-col">
+                <h3 class="cw-clue-heading">Across</h3>
+                <ul class="cw-clue-list" id="acrossList"></ul>
+              </div>
+              <div class="cw-clue-col">
+                <h3 class="cw-clue-heading">Down</h3>
+                <ul class="cw-clue-list" id="downList"></ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="le-remember-card le-hidden" id="rememberCard">
+            <i class="fa-solid fa-thumbtack"></i>
+            <div>
+              <div class="le-remember-eyebrow">Remember This</div>
+              <div class="le-remember-text" id="rememberText">—</div>
+            </div>
+          </div>
+
+          <div class="le-btn-row le-hidden" id="wrapRow">
+            <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="le-keyhints">
+      <div class="le-keyhint">Click a cell, type to fill</div>
+      <div class="le-keyhint"><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> move</div>
+      <div class="le-keyhint">Click a filled cell again to flip direction</div>
+      <div class="le-keyhint"><kbd>ESC</kbd> home</div>
+      <div class="le-keyhint"><kbd>F</kbd> fullscreen</div>
+    </div>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="crossword.js"></script>
+</body>
+</html>
