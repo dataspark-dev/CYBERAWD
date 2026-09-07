@@ -223,6 +223,10 @@
       e.preventDefault();
       input.value = e.key.toUpperCase();
       clearMark(cell);
+      // Live per-keystroke feedback: confirm correct immediately (green), but a wrong letter
+      // stays neutral rather than turning red — mid-puzzle typing shouldn't read as a penalty,
+      // only the explicit Check button marks wrong cells red.
+      if (input.value === cell.solution) cell.el.classList.add('correct');
       advance(cell, currentDirection);
       updateStatus();
       return;
@@ -366,13 +370,27 @@
     const down = words.filter((w) => w.direction === 'down').sort((a, b) => a.number - b.number);
 
     const renderList = (list, target) => {
+      // Hint is opt-in per clue: a small button that reveals just the first letter as a text
+      // line, never shown by default and never touching the grid itself — clicking it can't be
+      // mistaken for auto-filling progress, it's purely a nudge.
       target.innerHTML = list.map((w) => (
-        `<li data-index="${w.index}"><span class="cw-clue-num">${w.number}.</span>${LiveEvent.escapeHtml(w.clue)}</li>`
+        `<li data-index="${w.index}"><span class="cw-clue-num">${w.number}.</span>${LiveEvent.escapeHtml(w.clue)}`
+        + `<button type="button" class="cw-hint-btn" data-hint-idx="${w.index}"><i class="fa-solid fa-lightbulb"></i> Hint</button>`
+        + `<span class="cw-hint-text le-hidden" data-hint-text-idx="${w.index}">Starts with "${LiveEvent.escapeHtml(w.answer[0])}"</span></li>`
       )).join('');
       Array.from(target.children).forEach((li) => {
         li.addEventListener('click', () => {
           const w = words[Number(li.dataset.index)];
           focusCell(w.row, w.col, w.direction);
+        });
+      });
+      target.querySelectorAll('.cw-hint-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const idx = btn.dataset.hintIdx;
+          const span = target.querySelector(`[data-hint-text-idx="${idx}"]`);
+          if (span) span.classList.remove('le-hidden');
+          btn.disabled = true;
         });
       });
     };

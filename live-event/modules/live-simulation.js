@@ -2,6 +2,11 @@
    4 persona-based attack-chain scenarios + OSINT → Teams/SMS → Portal → CSO Fraud flow
    Facilitator-driven, keyboard-first, self-contained — no scoring, restartable */
 (function () {
+  // How long the "typing…" bubble lingers before the actual message replaces it. Was 520ms —
+  // barely registered as a pause at real event speed. Chat-app typing indicators typically run
+  // 800ms-1.5s; 750ms gives the room a beat to notice "someone's typing" and anticipate what's
+  // coming without dragging, since a facilitator narrates each beat as it lands.
+  const TYPING_DELAY_MS = 750;
   let data = null;
   let scenarioIdx = 0;
   let stage = 0; // 0..beats.length-1 = thread, beats.length = hold, beats.length+1 = reveal, (+1 for globalReveal on last scenario)
@@ -12,7 +17,6 @@
   const dotsEl = document.getElementById('progressDots');
   const scenarioNavEl = document.getElementById('scenarioNav');
   const scenarioMetaEl = document.getElementById('scenarioMeta');
-  const flowBarEl = document.getElementById('flowBar');
   const introScreen = document.getElementById('introScreen');
   const activityBody = document.getElementById('activityBody');
   const introText = document.getElementById('introText');
@@ -90,11 +94,11 @@
     const severityClass = beat.severity === 'critical' ? ' severity-critical' : '';
 
     let artifactHtml = '';
-    let windowTitle = 'Message';
+    // windowIcon only feeds the LinkedIn avatar icon below — the window-bar it used to label
+    // (with its own title per branch) was removed as decoration, so nothing else sets it now.
     let windowIcon = channelIcon(ch);
 
     if (ch === 'linkedin') {
-      windowTitle = 'LinkedIn — Search';
       artifactHtml = `
         <div class="ls-linkedin-card">
           <img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%23e2e8f0'/%3E%3Ctext x='24' y='30' text-anchor='middle' font-size='18' font-family='Barlow'%3ERK%3C/text%3E%3C/svg%3E" />
@@ -105,7 +109,6 @@
           </div>
         </div>`;
     } else if (ch === 'osint') {
-      windowTitle = 'OSINT Tool — Hunter';
       artifactHtml = `<div class="ls-artifact"><i class="fa-solid fa-wand-magic-sparkles"></i> Predicted 18 addresses — try rajesh.kumar@synergymarinegroup.com — <b>Valid format 92%</b></div>`;
     } else if (ch === 'attachment') {
       const isMalicious = (beat.meta && beat.meta.includes('.exe')) || beat.text.includes('.exe') || beat.address?.includes('Application');
@@ -127,8 +130,6 @@
             </div>
           </div>
           <div class="ls-artifact" style="border-color:#fecaca;background:#fef2f2;color:#991b1b"><i class="fa-solid fa-shield-halved"></i> Hover: Windows hides known extensions — .pdf.exe shows as .pdf</div>`;
-        windowTitle = 'HR Email — Attachment Preview';
-        windowIcon = 'fa-solid fa-paperclip';
       } else {
         artifactHtml = `
           <div class="ls-attachment-card">
@@ -141,7 +142,6 @@
             <div><div class="ls-att-name">Rotation_Roster_MV-Horizon_Feb-Apr.xlsx</div><div class="ls-att-meta">210 KB · Spreadsheet — Expected</div></div>
             <i class="fa-solid fa-check" style="margin-left:auto;color:#16a34a"></i>
           </div>`;
-        windowTitle = 'HR Email — Legit Attachments';
       }
     } else if (ch === 'email' && beat.text.includes('portal.synergymarinegroup.com')) {
       if (beat.meta && beat.meta.includes('Display:')) {
@@ -155,47 +155,35 @@
             <div class="ls-link-tooltip malicious">Actual href: ${esc(href)} · Also: bit.ly/CrewRotation-Horizon — <b>Display ≠ destination</b></div>
           </div>
           <div class="ls-artifact"><i class="fa-solid fa-arrow-pointer"></i> Click or tap the blue link — real destination is lookalike with “-secure.net”</div>`;
-        windowTitle = 'Email — Link Mismatch';
       } else if (beat.sender && beat.sender.address.includes('portal')) {
         artifactHtml = `
           <div class="ls-link-preview" style="border-color:#bbf7d0;background:#f0fdf4">
             <i class="fa-solid fa-link" style="color:#16a34a"></i>
             <span class="ls-link-text" style="color:#14532d">https://portal.synergymarinegroup.com/crew/rotation-confirm — matches display ✓</span>
           </div>`;
-        windowTitle = 'Email — Legit Portal Link';
       }
-    } else if (ch === 'sms') {
-      windowTitle = 'Phone — SMS';
-    } else if (ch === 'teams') {
-      windowTitle = 'Microsoft Teams';
     } else if (ch === 'portal') {
-      windowTitle = 'Endpoint — Execution';
       if (beat.text.includes('beacon') || beat.text.includes('PowerShell')) {
         artifactHtml = `<div class="ls-artifact" style="border-color:#fecaca;background:#fef2f2;color:#7f1d1d"><i class="fa-solid fa-bug"></i> Simulated: Macro → PowerShell → C2 beacon — no real payload executed</div>`;
       }
     }
 
-    const liveBadge = external ? '<span class="ls-live-badge"><span class="dot"></span> LIVE EXTERNAL</span>' : '<span class="ls-live-badge" style="background:#f0fdf4;border-color:#bbf7d0;color:#14532d"><span class="dot" style="background:#22c55e"></span> LIVE INTERNAL</span>';
     const avatarHtml = ch === 'sms' ? `<div class="ls-avatar" style="background:#22c55e;color:#fff">💬</div>` : ch === 'linkedin' ? `<div class="ls-avatar" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)"><i class="${windowIcon}"></i></div>` : `<div class="ls-avatar">${esc(avatarText)}</div>`;
 
+    // Window-bar chrome (traffic-light dots, "LIVE EXTERNAL/INTERNAL" badge, window title)
+    // used to sit above every bubble here — it carried no signal the .ls-channel line below
+    // doesn't already carry (channel icon + label + the same external/internal flag via
+    // .ls-ext-badge), so it was removed as pure decoration rather than simplified.
     if (ch === 'sms') {
       return `
         <div class="${external ? 'ls-msg external' : 'ls-msg'}${severityClass}" data-channel="${ch}" data-severity="${esc(beat.severity || 'normal')}">
           ${avatarHtml}
-          <div class="ls-bubble ls-sms-bubble" style="padding:0;overflow:visible">
-            <div class="ls-window-bar" style="background:#f0fdf4;border-bottom-color:#bbf7d0"><span class="ls-traffic"><span class="dot g"></span></span> SMS — 06:12 <span style="margin-left:auto;font-size:10px;color:#14532d">via spoofed gateway</span></div>
-            <div style="padding:14px">
-              <div class="ls-channel"><i class="${channelIcon(ch)}"></i> ${esc(channelLabel(ch))} · ${esc(beat.label)} ${external ? '<span class="ls-ext-badge">EXTERNAL</span>' : ''}</div>
-              <div class="ls-meta"><span class="ls-sender-name">${esc(sender.name)} — ${esc(sender.title)}</span><span>${esc(beat.timestamp)}</span></div>
-              <div class="ls-address">${esc(sender.address)}</div>
-              <div class="ls-text">${esc(beat.text)}</div>
-              ${artifactHtml || (beat.meta ? `<div class="ls-artifact">${esc(beat.meta)}</div>` : '')}
-              <div class="ls-phone-frame" style="margin-top:12px">
-                <div class="ls-phone-notch"></div>
-                <div class="ls-phone-msg">${esc(beat.text)}</div>
-                <div style="font-size:10px;color:#86efac;text-align:center;margin-top:6px">bit.ly link — tap target → lookalike</div>
-              </div>
-            </div>
+          <div class="ls-bubble ls-sms-bubble" style="overflow:visible">
+            <div class="ls-channel"><i class="${channelIcon(ch)}"></i> ${esc(channelLabel(ch))} · ${esc(beat.label)} ${external ? '<span class="ls-ext-badge">EXTERNAL</span>' : ''}</div>
+            <div class="ls-meta"><span class="ls-sender-name">${esc(sender.name)} — ${esc(sender.title)}</span><span>${esc(beat.timestamp)}</span></div>
+            <div class="ls-address">${esc(sender.address)}</div>
+            <div class="ls-text">${esc(beat.text)}</div>
+            ${artifactHtml || (beat.meta ? `<div class="ls-artifact">${esc(beat.meta)}</div>` : '')}
           </div>
         </div>`;
     }
@@ -203,18 +191,12 @@
     return `
       <div class="${external ? 'ls-msg external' : 'ls-msg'}${severityClass}" data-channel="${ch}" data-severity="${esc(beat.severity || 'normal')}">
         ${avatarHtml}
-        <div class="ls-bubble ${ch === 'teams' ? 'ls-teams-bubble' : ch === 'osint' || ch === 'linkedin' ? 'ls-osint-card' : ''}" style="padding:0;overflow:visible">
-          <div class="ls-window-bar">
-            <span class="ls-traffic"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></span>
-            <i class="${windowIcon}"></i> ${esc(windowTitle)} ${liveBadge}
-          </div>
-          <div style="padding:16px 18px">
-            <div class="ls-channel"><i class="${channelIcon(ch)}"></i> ${esc(channelLabel(ch))} · ${esc(beat.label)} ${external ? '<span class="ls-ext-badge">EXTERNAL</span>' : ''}</div>
-            <div class="ls-meta"><span class="ls-sender-name">${esc(sender.name)} — ${esc(sender.title)}</span><span>${esc(beat.timestamp)}</span></div>
-            <div class="ls-address">${esc(sender.address)}</div>
-            <div class="ls-text">${esc(beat.text)}</div>
-            ${artifactHtml || (beat.meta ? `<div class="ls-artifact">${esc(beat.meta)}</div>` : '')}
-          </div>
+        <div class="ls-bubble ${ch === 'teams' ? 'ls-teams-bubble' : ch === 'osint' || ch === 'linkedin' ? 'ls-osint-card' : ''}" style="overflow:visible">
+          <div class="ls-channel"><i class="${channelIcon(ch)}"></i> ${esc(channelLabel(ch))} · ${esc(beat.label)} ${external ? '<span class="ls-ext-badge">EXTERNAL</span>' : ''}</div>
+          <div class="ls-meta"><span class="ls-sender-name">${esc(sender.name)} — ${esc(sender.title)}</span><span>${esc(beat.timestamp)}</span></div>
+          <div class="ls-address">${esc(sender.address)}</div>
+          <div class="ls-text">${esc(beat.text)}</div>
+          ${artifactHtml || (beat.meta ? `<div class="ls-artifact">${esc(beat.meta)}</div>` : '')}
         </div>
       </div>`;
   }
@@ -266,40 +248,6 @@
     `;
   }
 
-  function renderFlowBar() {
-    if (!flowBarEl) return;
-    const sc = currentScenario();
-    const beats = sc.beats || [];
-    const steps = beats.map(b => channelLabel(b.channel));
-    const flow = [];
-    steps.forEach(s => { if (flow[flow.length-1] !== s) flow.push(s); });
-    flow.push('Hold');
-    flow.push('Lessons');
-    if (isLastScenario()) flow.push('Full Flow');
-    flowBarEl.innerHTML = flow.map((label, i) => {
-      const n = beats.length;
-      let isActive = false;
-      let isDone = false;
-      if (!isLastScenario()) {
-        isActive = (i === stage) || (i === n && stage === n) || (i === n+1 && stage > n);
-        isDone = i < stage;
-      } else {
-        // last scenario has extra stage
-        if (stage <= n+1) {
-          isActive = (i === stage) || (i === n && stage === n) || (i === n+1 && stage === n+1);
-          isDone = i < stage;
-        } else {
-          // globalReveal stage
-          isActive = i === flow.length - 1;
-          isDone = i < flow.length - 1;
-        }
-      }
-      const cls = isActive ? 'active' : isDone ? 'done' : '';
-      const arrow = i < flow.length - 1 ? '<span class="ls-flow-arrow">→</span>' : '';
-      return `<span class="ls-flow-step ${cls}">${esc(label)}</span>${arrow}`;
-    }).join('');
-  }
-
   function renderDots() {
     if (!dotsEl) return;
     const sc = currentScenario();
@@ -343,7 +291,7 @@
           const msgEl = wrap.firstElementChild;
           container.replaceChild(msgEl, typingEl);
           msgEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
-        }, 520);
+        }, TYPING_DELAY_MS);
       } else {
         const wrap = document.createElement('div');
         wrap.innerHTML = buildMessageEl(beats[i], i);
@@ -393,6 +341,7 @@
         <div class="lr-flags">${flagsHtml}</div>
         ${layerTagsHtml(r.layers)}
         <div class="lr-cta">${esc(r.callToAction)}</div>
+        ${!isLast && sc.bridgeToNext ? `<div class="ls-bridge"><i class="fa-solid fa-arrow-right-long"></i> ${esc(sc.bridgeToNext)}</div>` : ''}
         <div class="ls-final-actions">
           ${!isLast ? `<button class="le-btn primary lg" id="nextScenarioBtn" type="button"><i class="fa-solid fa-forward"></i> Next Scenario — ${esc(data.scenarios[scenarioIdx+1].title)}</button>` : ''}
           <button class="le-btn ${!isLast ? 'ghost' : 'primary'} lg" id="restartScenarioBtn" type="button"><i class="fa-solid fa-rotate"></i> Replay Scenario</button>
@@ -484,7 +433,6 @@
   function render() {
     renderScenarioNav();
     renderScenarioMeta();
-    renderFlowBar();
     renderGlobalIntro();
     const sc = currentScenario();
     const n = sc.beats?.length || 0;

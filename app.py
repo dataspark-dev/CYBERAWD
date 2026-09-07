@@ -1191,8 +1191,19 @@ def join_page(code):
 <style>
 *{box-sizing:border-box} html,body{height:100%}
 body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background:#f1f5f9;color:#0f172a;min-height:100dvh;display:flex;flex-direction:column}
-.header{position:sticky;top:0;z-index:10;background:white;border-bottom:1px solid #e2e8f0;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.header .brand{font-weight:800;font-size:13px;letter-spacing:0.5px;color:#0f172a}
+/* Header reuses console.css's own .le-topbar/.le-brand classes verbatim (same SYN.png/AFT.png
+   logo files, same colors/borders/blur) so the phone header matches the admin dashboard/console
+   exactly — but .le-topbar's own sizing (clamp(42px,4.2vw,64px) logos, a 5-word subtitle with
+   no wrap guard) was tuned for a 1920x1080 display that never needs to fit a 375-430px phone
+   width; left as-is it overflows the viewport instead of wrapping. These overrides only touch
+   sizing/wrapping, never color/border/shadow, so the visual TREATMENT still matches — it just
+   also fits. */
+.header{position:sticky;top:0;z-index:10;flex-wrap:wrap;row-gap:8px}
+.header .le-brand img{height:32px}
+.header .le-brand-div{height:24px}
+.header .le-brand-text{font-size:13px}
+.header .le-brand-text small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:44vw}
+.header .le-topbar-right{gap:8px}
 .header .room{font-family:'Space Mono',monospace;font-weight:800;font-size:12px;background:#0f172a;color:#e0f2fe;padding:6px 10px;border-radius:999px;letter-spacing:1px}
 .header .count{font-family:'Space Mono',monospace;font-size:12px;color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:6px 10px;border-radius:999px}
 .main{flex:1;display:flex;flex-direction:column;align-items:center;padding:16px;gap:16px;max-width:480px;width:100%;margin:0 auto}
@@ -1243,6 +1254,9 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .cw-cell.active-word{background:#f0f9ff}
 .cw-cell.correct{background:#ecfdf5}
 .cw-cell.incorrect{background:#fef2f2}
+.cw-hint-btn{margin-left:8px;font-family:Space Mono,monospace;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:#0891b2;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:999px;padding:3px 9px;cursor:pointer;touch-action:manipulation}
+.cw-hint-btn:disabled{opacity:0.5;cursor:default}
+.cw-hint-text{display:block;margin-top:4px;font-family:Space Mono,monospace;font-size:11px;font-style:italic;color:#b45309}
 .cw-clues{display:grid;gap:16px;margin-top:14px}
 .cw-clue-col h3{font-size:13px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#334155;margin:0 0 8px}
 .cw-clue-list{list-style:none;padding:0;margin:0;display:grid;gap:8px}
@@ -1357,9 +1371,18 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
 </style>
 </head>
 <body>
-<header class="header">
-  <div class="brand">Synergy <span style="color:#06b6d4">Cyber</span></div>
-  <div style="display:flex;gap:8px;align-items:center">
+<header class="header le-topbar">
+  <div class="le-brand">
+    <img src="/assets/SYN.png" alt="Synergy Marine Group"/>
+    <div class="le-brand-div"></div>
+    <img src="/assets/AFT.png" alt="AFT"/>
+  </div>
+  <div class="le-brand-div"></div>
+  <div class="le-brand-text">
+    SYNERGY CYBER
+    <small><span class="le-dot" style="display:inline-block;"></span> Synergy Cyber Security Awareness Month</small>
+  </div>
+  <div class="le-topbar-right">
     <span class="room">ROOM __ROOM_CODE__</span>
     <span id="headerCount" class="count">—</span>
   </div>
@@ -1404,7 +1427,7 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
   <!-- Crossword compact single-column -->
   <div id="crosswordScreen" class="card hidden">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
-      <span class="badge live">Crossword · 18 clues</span>
+      <span id="cwClueCountBadge" class="badge live">Crossword</span>
       <span id="cwCount" class="badge">0 joined</span>
     </div>
     <div class="cw-wrap">
@@ -1494,6 +1517,7 @@ const els = {
   actNextBtn: document.getElementById('actNextBtn'),
   actDots: document.getElementById('actDots'),
   crosswordScreen: document.getElementById('crosswordScreen'),
+  cwClueCountBadge: document.getElementById('cwClueCountBadge'),
   cwCount: document.getElementById('cwCount'),
   cwGrid: document.getElementById('cwGrid'),
   cwAcross: document.getElementById('cwAcross'),
@@ -1610,7 +1634,7 @@ function updateActivityChrome(){
     // pass-phrase has no single "answer" — a round counts as engaged once at least one
     // character has been placed. Checks both the locally-built slots (rounds visited this
     // session) and the server's myBuild record (rounds built before a refresh/resume).
-    const hasBuild = (it._ppSlots && it._ppSlots.some(c=>c!=null))
+    const hasBuild = (it._ppSlots && it._ppSlots.length>0)
       || (it.myBuild && it.myBuild.builtPassword && it.myBuild.builtPassword.length>0);
     const cls = ['dot']; if(it.myAnswer!=null || hasBuild) cls.push('done'); if(i===actIndex) cls.push('current');
     return '<span class="'+cls.join(' ')+'"></span>';
@@ -1786,22 +1810,29 @@ function ppComputeStrength(pw, weak){
 // builtPassword string (which loses chunk boundaries) is reconstructed greedily by matching
 // deck chunks against the built string — preferring longer chunks first — sufficient for
 // demo continuity; exact chunk identity is recovered via server-stored strength anyway.
+//
+// _ppSlots is a COMPACT array — one entry per placed chunk, in placement order, with no gaps
+// ever stored (previously this was a fixed-length array pre-filled with nulls and chunks were
+// written directly to whatever slot index the participant tapped, which could leave nulls in
+// the middle if that tap didn't land on the very next sequential empty button — the row then
+// rendered those nulls as gaps between chunks). Placing always appends to the end of this
+// array; removing always splices the chunk out, so everything after it shifts down automatically
+// and the row can never show a gap or have chunks render out of placement order.
 function ppEnsureState(item){
   if(item._ppSlots) return;
   var maxChars = item.maxChars || item.maxSlots || 20;
   var deck = item.deck || [];
   var maxTiles = deck.length || 15;
-  var slots = new Array(maxTiles).fill(null);
+  var slots = [];
   var built = (item.myBuild && item.myBuild.builtPassword) || '';
   var deckAvail = deck.map(function(){ return true; });
   // Reconstruct which deck chunks were used to build the string, greedily matching
   // longest deck chunks first to disambiguate ("Ka" vs "K"+"a").
   var pos = 0;
-  var slotIdx = 0;
   // Build a copy of deck sorted by length desc for matching
   var deckByLen = deck.map(function(ch, idx){ return {ch:ch, idx:idx}; });
   deckByLen.sort(function(a,b){ return b.ch.length - a.ch.length; });
-  while(pos < built.length && slotIdx < maxTiles){
+  while(pos < built.length && slots.length < maxTiles){
     var matched = null;
     var matchLen = 0;
     for(var k=0;k<deckByLen.length;k++){
@@ -1815,7 +1846,7 @@ function ppEnsureState(item){
       }
     }
     if(matched){
-      slots[slotIdx++] = matched.ch;
+      slots.push(matched.ch);
       deckAvail[matched.idx] = false;
       pos += matchLen;
     } else {
@@ -1826,26 +1857,23 @@ function ppEnsureState(item){
       var foundIdx = -1;
       for(var i=0;i<deck.length;i++){ if(deckAvail[i] && deck[i]===ch){ foundIdx=i; break; } }
       if(foundIdx!==-1){
-        slots[slotIdx++] = ch;
+        slots.push(ch);
         deckAvail[foundIdx]=false;
       } else {
         // orphan char — place it anyway as a tile (deck-less) so password string is preserved
-        slots[slotIdx++] = ch;
+        slots.push(ch);
       }
       pos += 1;
     }
   }
-  // If built was shorter than slots, remaining stay null (empty placeholders)
-  // Enforce maxChars cap: if reconstructed string exceeds maxChars, truncate largest chunks first
-  var totalChars = slots.filter(function(c){return c!=null;}).join('').length;
-  while(totalChars > maxChars && slotIdx>0){
-    slotIdx--;
-    var removed = slots[slotIdx];
-    slots[slotIdx]=null;
+  // Enforce maxChars cap: if reconstructed string exceeds maxChars, drop chunks off the end
+  var totalChars = slots.join('').length;
+  while(totalChars > maxChars && slots.length>0){
+    var removed = slots.pop();
     if(removed){
       for(var i=0;i<deck.length;i++){ if(!deckAvail[i] && deck[i]===removed){ deckAvail[i]=true; break; } }
     }
-    totalChars = slots.filter(function(c){return c!=null;}).join('').length;
+    totalChars = slots.join('').length;
   }
   item._ppSlots = slots;
   item._ppDeckAvailable = deckAvail;
@@ -1858,7 +1886,7 @@ let ppSubmitTimer = null;
 function ppSubmitBuild(item){
   clearTimeout(ppSubmitTimer);
   ppSubmitTimer = setTimeout(function(){
-    const built = item._ppSlots.filter(function(c){ return c!=null; }).join('');
+    const built = item._ppSlots.join('');
     fetch('/api/session/' + ROOM_CODE + '/passphrase/build', {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({participantId: participantId, roundId: item.id, builtPassword: built})
@@ -1868,7 +1896,7 @@ function ppSubmitBuild(item){
 
 function renderPassPhrase(item){
   ppEnsureState(item);
-  const built = item._ppSlots.filter(c=>c!=null).join('');
+  const built = item._ppSlots.join('');
   const result = ppComputeStrength(built, item.weakPassword||'');
   const maxChars = item._ppMaxChars || item.maxChars || 20;
   const difficulty = item.difficulty || 'medium';
@@ -1888,11 +1916,17 @@ function renderPassPhrase(item){
     + '<div class="pp-meter-labels"><span>Weak</span><span>Fair</span><span>Strong</span><span>V.Strong</span></div>'
     + '</div></div>';
   html += '<div class="pp-section-label"><i class="fa-solid fa-lock"></i> Your Password <span>'+built.length+' / '+maxChars+' chars</span></div>';
-  html += '<div class="pp-tiles" id="ppSlotsRow">' + item._ppSlots.map((ch,i)=>{
-      if(ch==null) return '<button type="button" class="pp-slot-empty" data-slot-idx="'+i+'"></button>';
-      const chunkCls = String(ch).length>1 ? ' chunk-tile' : '';
-      return '<button type="button" class="pp-tile'+chunkCls+'" data-slot-idx="'+i+'"><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
-    }).join('') + '</div>';
+  // Filled tiles render first, in placement order (item._ppSlots is a compact array — see
+  // ppEnsureState), immediately followed by whatever empty slots remain — so a gap can never
+  // appear between two placed chunks, only ever after the last one.
+  const emptyCount = Math.max(0, (item._ppMaxTiles||item.deck.length||0) - item._ppSlots.length);
+  html += '<div class="pp-tiles" id="ppSlotsRow">'
+    + item._ppSlots.map((ch,i)=>{
+        const chunkCls = String(ch).length>1 ? ' chunk-tile' : '';
+        return '<button type="button" class="pp-tile'+chunkCls+'" data-slot-idx="'+i+'" data-filled="1"><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
+      }).join('')
+    + Array(emptyCount).fill('<button type="button" class="pp-slot-empty"></button>').join('')
+    + '</div>';
   html += '<div class="pp-section-label" style="margin-top:14px">'
     + '<i class="fa-solid fa-layer-group"></i> Deck — tap a chunk, then tap a slot above <span style="margin-left:auto;color:#94a3b8;font-weight:400">['+esc(diffLabel)+' · '+twoCount+'×2-char]</span></div>';
   html += '<div class="pp-deck" id="ppDeckTray">' + item.deck.map((ch,i)=>{
@@ -1915,7 +1949,7 @@ function wirePassPhraseBuild(item){
         if(!item._ppDeckAvailable[idx]) return;
         // Enforce char cap even for selection preview — grey out if would exceed
         const maxChars = item._ppMaxChars || item.maxChars || 20;
-        const curChars = item._ppSlots.filter(c=>c!=null).join('').length;
+        const curChars = item._ppSlots.join('').length;
         const chunk = item.deck[idx];
         // Only prevent selection if already at cap; allow deselection
         if(item._ppSelectedDeckIdx!==idx && curChars + String(chunk).length > maxChars){
@@ -1929,27 +1963,32 @@ function wirePassPhraseBuild(item){
     });
   }
   if(slotsRow){
-    slotsRow.querySelectorAll('[data-slot-idx]').forEach(el=>{
+    // Filled tiles: tapping one removes it via splice (not a null-out) — everything after it
+    // shifts down automatically, so the row can never show a gap where a chunk was.
+    slotsRow.querySelectorAll('[data-filled]').forEach(el=>{
       el.addEventListener('click', ()=>{
         const idx = Number(el.dataset.slotIdx);
-        if(item._ppSlots[idx]!=null){
-          // Tapping a FILLED slot removes it, returning that tile to the deck.
-          const ch = item._ppSlots[idx];
-          item._ppSlots[idx] = null;
-          for(let i=0;i<item.deck.length;i++){ if(!item._ppDeckAvailable[i] && item.deck[i]===ch){ item._ppDeckAvailable[i]=true; break; } }
-        } else if(item._ppSelectedDeckIdx!=null){
-          // Tapping an EMPTY slot with a deck tile selected places it there — enforce char cap
-          const dIdx = item._ppSelectedDeckIdx;
-          const chunk = item.deck[dIdx];
-          const maxChars = item._ppMaxChars || item.maxChars || 20;
-          const curChars = item._ppSlots.filter(c=>c!=null).join('').length;
-          if(curChars + String(chunk).length > maxChars) return;
-          item._ppSlots[idx] = chunk;
-          item._ppDeckAvailable[dIdx] = false;
-          item._ppSelectedDeckIdx = null;
-        } else {
-          return; // nothing selected — tapping an empty slot alone does nothing
-        }
+        const ch = item._ppSlots[idx];
+        item._ppSlots.splice(idx, 1);
+        for(let i=0;i<item.deck.length;i++){ if(!item._ppDeckAvailable[i] && item.deck[i]===ch){ item._ppDeckAvailable[i]=true; break; } }
+        renderActivityItem();
+        ppSubmitBuild(item);
+      });
+    });
+    // Empty slots are interchangeable — whichever one is tapped, a selected deck chunk always
+    // appends to the end of the placed sequence, never at the tapped button's own position, so
+    // placement order always matches the order chunks were actually picked.
+    slotsRow.querySelectorAll('.pp-slot-empty').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        if(item._ppSelectedDeckIdx==null) return; // nothing selected — tapping an empty slot alone does nothing
+        const dIdx = item._ppSelectedDeckIdx;
+        const chunk = item.deck[dIdx];
+        const maxChars = item._ppMaxChars || item.maxChars || 20;
+        const curChars = item._ppSlots.join('').length;
+        if(curChars + String(chunk).length > maxChars) return;
+        item._ppSlots.push(chunk);
+        item._ppDeckAvailable[dIdx] = false;
+        item._ppSelectedDeckIdx = null;
         renderActivityItem();
         ppSubmitBuild(item);
       });
@@ -2060,6 +2099,10 @@ function cwHandleKey(e, cell, input){
     e.preventDefault();
     input.value = e.key.toUpperCase();
     clearCwMark(cell);
+    // Live per-keystroke feedback: confirm correct immediately (green), but a wrong letter
+    // stays neutral rather than turning red — mid-puzzle typing shouldn't read as a penalty,
+    // only the explicit Check button marks wrong cells red.
+    if(input.value === cell.solution) cell.el.classList.add('correct');
     const nxt = cwNeighbor(cell, cwCurrentDir, 1);
     if(nxt) cwFocus(nxt.row, nxt.col, cwCurrentDir);
     cwUpdateStatus();
@@ -2139,11 +2182,25 @@ function cwRenderClues(){
   const across=cwWords.filter(w=>w.direction==='across').sort((a,b)=>a.number-b.number);
   const down=cwWords.filter(w=>w.direction==='down').sort((a,b)=>a.number-b.number);
   const render=(list,target)=>{
-    target.innerHTML = list.map(w=> '<li data-index="'+w.index+'"><span class="cw-clue-num">'+w.number+'.</span>'+esc(w.clue)+'</li>').join('');
+    // Hint is opt-in per clue: a small button that reveals just the first letter as a text
+    // line, never shown by default and never touching the grid — tapping it can't be mistaken
+    // for auto-filling progress, it's purely a nudge.
+    target.innerHTML = list.map(w=> '<li data-index="'+w.index+'"><span class="cw-clue-num">'+w.number+'.</span>'+esc(w.clue)
+      + '<button type="button" class="cw-hint-btn" data-hint-idx="'+w.index+'"><i class="fa-solid fa-lightbulb"></i> Hint</button>'
+      + '<span class="cw-hint-text hidden" data-hint-text-idx="'+w.index+'">Starts with "'+esc(w.answer[0])+'"</span></li>').join('');
     Array.from(target.children).forEach(li=>{
       li.addEventListener('click', ()=>{
         const w=cwWords[Number(li.dataset.index)];
         cwFocus(w.row,w.col,w.direction);
+      });
+    });
+    target.querySelectorAll('.cw-hint-btn').forEach(btn=>{
+      btn.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const idx = btn.dataset.hintIdx;
+        const span = target.querySelector('[data-hint-text-idx="'+idx+'"]');
+        if(span) span.classList.remove('hidden');
+        btn.disabled = true;
       });
     });
   };
@@ -2239,6 +2296,7 @@ async function ensureCrossword(){
     const r=await fetch('/live-event/content/crossword.json',{cache:'no-store'});
     const data=await r.json();
     cwBuildModel(data);
+    if(els.cwClueCountBadge) els.cwClueCountBadge.textContent = 'Crossword · ' + cwWords.length + ' clues';
     cwRenderGrid();
     cwRenderClues();
     cwUpdateStatus();

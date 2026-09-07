@@ -8,7 +8,7 @@ file in the same change.
 
 ---
 
-## 1. The 9 modules
+## 1. The 8 modules
 
 There are two separate front ends sharing the same `content/*.json` files:
 
@@ -18,8 +18,8 @@ There are two separate front ends sharing the same `content/*.json` files:
   `app.py`) — the facilitator drives an activity from the admin dashboard; participants follow
   along and answer on their own phones.
 
-**7 of the 9 modules are phone-synced** (launchable from the admin dashboard's picker, backed by
-`GET /api/admin/modules`). **2 are facilitator-only** — they run on the console but are never
+**7 of the 8 modules are phone-synced** (launchable from the admin dashboard's picker, backed by
+`GET /api/admin/modules`). **1 is facilitator-only** — it runs on the console but is never
 pushed to phones.
 
 | # | Module | Phone-synced? | Items | Teaches |
@@ -27,12 +27,16 @@ pushed to phones.
 | 1 | Fault Finding | ✅ (5 of 8 console items — see note) | 5 | Spot the tell between a real and a spoofed email/portal (domain spoofing, urgency framing, malicious attachments, link mismatches, lookalike login pages). |
 | 2 | Live Simulation | ❌ facilitator-only | — | Walks one attack chain end-to-end (LinkedIn recon → phishing → fraudulent wire transfer) as a narrated, linked sequence — not a per-item quiz. |
 | 3 | Myth vs Fact | ✅ | 10 | Busts common phishing/password/social-engineering misconceptions as a True/False poll (half the items show the myth, half show the fact restated — see §7 below). |
-| 4 | Defense Budget | ❌ facilitator-only | — | Allocate a fixed budget across 7 defense layers, then see which simulated attacks would have been stopped — no participant scoring, a group discussion tool. |
-| 5 | Decision Room | ✅ | 18 (6 cases × 3 decisions) | Branching incident-response scenarios — pick a response, see the consequence, across HR/Finance/Offshore/Operations personas. |
-| 6 | Closing Quiz ("Rapid Fire") | ✅ | 10 | Fast-paced scenario judgment calls rotating through every on-site role. |
-| 7 | Clue Quest | ✅ | 9 | Riddle → guess-the-term recall game covering terminology from earlier modules. |
-| 8 | Pass-Phrase | ✅ | 5 | Build a strong password from a themed deck of characters into a 12-slot password row, watching a live strength meter respond to your own construction. Console: drag-and-drop. Phone: tap-to-place (tap a deck tile, then tap a slot) — same mechanic, touch-appropriate interaction; see §5 for how the two surfaces' decks relate. |
-| 9 | Crossword | ✅ (self-paced) | 1 grid (18 clues / 106 letters) | Vocabulary recall, fill-in grid — no per-item push, participants (and the console) work the same 20×20 grid at their own pace. |
+| 4 | Decision Room | ✅ | 18 (6 cases × 3 decisions) | Branching incident-response scenarios — pick a response, see the consequence, across HR/Finance/Offshore/Operations personas. |
+| 5 | Closing Quiz ("Rapid Fire") | ✅ | 10 | Fast-paced scenario judgment calls rotating through every on-site role. |
+| 6 | Clue Quest | ✅ | 9 | Riddle → guess-the-term recall game covering terminology from earlier modules. |
+| 7 | Pass-Phrase | ✅ | 5 | Build a strong password from a themed deck of characters into a 12-slot password row, watching a live strength meter respond to your own construction. Console: drag-and-drop. Phone: tap-to-place (tap a deck tile, then tap a slot) — same mechanic, touch-appropriate interaction; see §5 for how the two surfaces' decks relate. |
+| 8 | Crossword | ✅ (self-paced) | 1 grid (11 clues / 73 letters) | Vocabulary recall, fill-in grid — no per-item push, participants (and the console) work the same 16×10 grid at their own pace. |
+
+**Note on Defense Budget:** removed entirely (2026-09-07) — was facilitator-only, never
+phone-synced, never referenced in `app.py` or `GET /api/admin/modules`. Deleted
+`modules/defense-budget.{html,js}`, `content/defense-budget.json`, its card from
+`live-event/index.html`, and its `.db-*` rules from `console.css`.
 
 **Note on Fault Finding's 5-of-8 split:** `content/fault-finding.json` has 8 items; the console
 shows all 8. Only the 5 `"type": "compare"` items (genuine real-vs-fake judgment tasks) are
