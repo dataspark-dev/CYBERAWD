@@ -3,6 +3,14 @@
   "subtitle": "You have 100 units. Save what you can — not everything can be saved.",
   "whyThisMatters": "No team can fund everything at once. The tradeoff you make on a quiet day is the defense you have on a bad day — this exercise makes the cost of leaving a gap feel real before an attacker finds it.",
   "rememberThis": "Every control covers someone else's blind spot — you don't need to buy everything, but you need to know what you left open and how you'll catch it another way.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the room to justify out loud why they skipped a layer — money conversations get real fast.",
+      "Ask what happens in their actual job if the layer they skipped is the one that gets hit.",
+      "After the reveal — ask if anyone would spend differently a second time, and why."
+    ],
+    "commonWrongAnswer": "Awareness/Human training is the layer most often under-funded relative to how often it's actually the one that stops something in the scenarios — people tend to over-invest in technical controls like EDR or the firewall and under-invest in the human layer."
+  },
   "budget": 100,
   "controls": [
     {
@@ -128,7 +136,7 @@
       "id": "smish-wire-ransom",
       "label": "03",
       "title": "Smish + Wire Fraud → Ransomware Lock",
-      "persona": "Finance / Offshore Crew",
+      "persona": "Finance / Accounts + Offshore Crew",
       "vector": "Smishing & Teams → CSO Impersonation → Ransomware",
       "description": "Adapts Live Simulation 03–04 into one chain: offshore smish via bit.ly + anonymous Teams, then a spoofed CSO ProtonMail wire push ($48,500), with a ransomware lock as fallback if the wire is refused.",
       "narrative": "Day 5 SMS + Teams 'link only, don't call vessel manager, portal closes 18:00'. Day 6 spoofed CSO via ProtonMail CC's external vendor bank-invoice. If Finance hesitates, a parallel macro payload locks the payroll share and shows a payment countdown.",

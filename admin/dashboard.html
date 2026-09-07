@@ -62,6 +62,17 @@
     .adm-cw-fill { height:100%; background: var(--green, #10b981); border-radius:999px; transition: width 0.4s var(--ease-standard); }
     .adm-lobby-box { background:#f0f9ff; border:1px solid #bae6fd; border-radius:12px; padding:16px; margin-top:12px; }
     .adm-complete-box { background:#ecfdf5; border:1px solid #6ee7b7; border-radius:12px; padding:20px; text-align:center; margin-top:12px; }
+    /* Tablet readability: admin progress panel must remain readable on tablet-width
+       facilitator device (e.g. 768px iPad) — not just desktop. Progress rows wrap
+       cleanly, track goes full-width below the name/count line rather than compressing
+       to unreadable width, and outer wrap padding scales down gracefully. */
+    @media (max-width: 768px){
+      .adm-wrap{ padding:0 clamp(12px,3vw,16px) clamp(16px,3vw,24px); }
+      .adm-cw-row{ flex-wrap:wrap; }
+      .adm-cw-track{ flex:1 1 100%; order:3; margin-top:4px; }
+      .adm-cw-count{ font-size:12px; }
+      .adm-cw-name{ font-size:12px; }
+    }
   </style>
 </head>
 <body data-home="/live-event/index.html">
@@ -193,6 +204,16 @@
           <div id="runningPrompt" style="font-weight:800; color:var(--navy); margin-top:10px; font-size:14px;">—</div>
           <div class="adm-row" style="margin-top:8px;"><span id="runningMsg" class="adm-note"></span></div>
           <div class="adm-note" id="runningHint" style="margin-top:6px">—</div>
+
+          <!-- Facilitator Notes — admin-only talking points (discussion prompts + the most
+               commonly-missed item), read straight from content/*.json's own facilitatorNotes
+               field via GET /api/admin/modules/<id>/facilitator-notes. Never sent to
+               participants — that endpoint and this panel are both admin-gated. Collapsed by
+               default so it doesn't compete with the live stats above. -->
+          <details id="facilitatorNotesPanel" class="adm-hidden" style="margin-top:14px; border:1px solid #e2e8f0; border-radius:10px; padding:10px 14px; background:#f8fafc;">
+            <summary style="cursor:pointer; font-weight:800; color:var(--navy); list-style:none;"><i class="fa-solid fa-chalkboard-user"></i> Facilitator Notes <span class="adm-note" style="font-weight:400">— admin-only, never sent to phones</span></summary>
+            <div id="facilitatorNotesBody" style="margin-top:10px; font-size:13px; line-height:1.6;">—</div>
+          </details>
         </div>
 
         <!-- Complete -->
@@ -307,6 +328,8 @@
       runningPrompt: document.getElementById('runningPrompt'),
       runningSelfPacedControls: document.getElementById('runningSelfPacedControls'),
       runningCrosswordControls: document.getElementById('runningCrosswordControls'),
+      facilitatorNotesPanel: document.getElementById('facilitatorNotesPanel'),
+      facilitatorNotesBody: document.getElementById('facilitatorNotesBody'),
       itemPicker: document.getElementById('itemPicker'),
       markCompleteBtn: document.getElementById('markCompleteBtn'),
       nextBtn: document.getElementById('nextBtn'),
@@ -343,11 +366,18 @@
     };
 
     let currentCode = null;
+    let csrfToken = null; // set on login / checkAuth — required as X-CSRF-Token on mutating /api/admin/* calls
     let selectedModule = null;
     let modulesCache = [];
     let activeModule = null;
     let stateCache = null;
     let pollTimer = null;
+    // Guards against a slow poll tick's response landing AFTER a later tick's and clobbering the
+    // UI with stale data (setInterval fires every 1.5s regardless of whether the previous
+    // request has resolved yet). Every pollOnce()/pollResultsForRunning() call captures the
+    // sequence number current at its start and re-checks it after each await — if a newer poll
+    // has started in the meantime, it discards its own (now-stale) response instead of rendering it.
+    let pollSeq = 0;
     // Self-paced (full sequence pushed on Start) — everything except crossword, which keeps
     // its own single-grid, admin-Next-drives-completion model.
     // pass-phrase is handled by its own branch in pollResultsForRunning (no discrete voted
@@ -356,6 +386,7 @@
     const MC_MODULES = ['fault-finding','myth-vs-fact','decision-room','closing-quiz','clue-quest'];
     const PASSPHRASE_MODULE = 'pass-phrase';
     let itemPickerLoadedFor = null; // module id the <select> options were last built for
+    let facilitatorNotesLoadedFor = null; // module id the Facilitator Notes panel was last fetched for
     let selectedItemId = null; // admin's own narration/reveal pointer — independent of participant pacing
     let fastestOverallLoadedFor = null; // room code + module we've already fetched the summary for
 
@@ -372,6 +403,10 @@
         opts.headers['Content-Type'] = 'application/json';
         opts.body = JSON.stringify(opts.body);
       }
+      const method = (opts.method || 'GET').toUpperCase();
+      if(csrfToken && ['POST','PUT','PATCH','DELETE'].includes(method)){
+        opts.headers['X-CSRF-Token'] = csrfToken;
+      }
       const r = await fetch(path, opts);
       let j; const ct = r.headers.get('content-type')||'';
       if(ct.includes('application/json')) j = await r.json(); else j = await r.text();
@@ -380,7 +415,7 @@
     }
 
     async function checkAuth(){
-      try{ const j = await api('/api/admin/check'); return !!j.isAdmin; } catch(e){ return false; }
+      try{ const j = await api('/api/admin/check'); if(j.csrfToken) csrfToken = j.csrfToken; return !!j.isAdmin; } catch(e){ return false; }
     }
     function showLoggedIn(show){
       els.loginPanel.classList.toggle('adm-hidden', show);
@@ -401,13 +436,14 @@
       els.loginMsg.textContent = 'Logging in…';
       try{
         // Try new username+password first, fallback to password-only
-        let ok=false;
-        try{ await api('/api/admin/login', { method:'POST', body:{ username:u, password: pw }}); ok=true; }catch(e){
+        let ok=false, loginRes=null;
+        try{ loginRes = await api('/api/admin/login', { method:'POST', body:{ username:u, password: pw }}); ok=true; }catch(e){
           if(e.message.includes('invalid')) throw e;
           // Try legacy password-only
-          await api('/api/admin/login', { method:'POST', body:{ password: pw }});
+          loginRes = await api('/api/admin/login', { method:'POST', body:{ password: pw }});
           ok=true;
         }
+        if(loginRes && loginRes.csrfToken) csrfToken = loginRes.csrfToken;
         if(ok){ els.loginMsg.textContent = 'Logged in'; els.loginPass.value = ''; showLoggedIn(true); loadModules(); }
       } catch(e){
         els.loginMsg.textContent = 'Login failed: ' + e.message;
@@ -417,6 +453,7 @@
     els.loginUser.addEventListener('keydown', e=>{ if(e.key==='Enter') els.loginBtn.click(); });
     els.logoutBtn.addEventListener('click', async ()=>{
       try{ await api('/api/admin/logout', { method:'POST' }); } catch(e){}
+      csrfToken = null;
       showLoggedIn(false);
       els.loginMsg.textContent = 'Logged out';
       stopPolling();
@@ -683,6 +720,7 @@
         }
         // Show live results
         pollResultsForRunning(st);
+        loadFacilitatorNotes(mod);
         return;
       }
       if(state==='complete'){
@@ -760,11 +798,15 @@
         els.revealedFactWrap.classList.add('adm-hidden');
       }
 
-      // Per-item correctness — admin-only, only present once the item has a correct answer
-      // (myth-vs-fact today). Never shown to participants — this data isn't in /state.
+      // Per-item correctness — admin-only, only present once the item has a single correct answer
+      // (fault-finding, myth-vs-fact, clue-quest, closing-quiz). Never shown to participants.
       if(j.correctness){
         const opt = options.find(o=>o.id===j.correctness.correctOptionId);
         els.correctnessSummary.innerHTML = `<i class="fa-solid fa-check" style="color:var(--green,#10b981)"></i> ${j.correctness.correctCount} correct &nbsp; <i class="fa-solid fa-xmark" style="color:#dc2626"></i> ${j.correctness.incorrectCount} incorrect &nbsp; <span style="color:var(--muted)">— correct answer: ${esc(opt?opt.text:j.correctness.correctOptionId)}</span>`;
+        els.correctnessWrap.classList.remove('adm-hidden');
+      } else if(j.goodness){
+        const opt = options.find(o=>o.id===j.goodness.goodOptionId);
+        els.correctnessSummary.innerHTML = `<i class="fa-solid fa-star" style="color:#0ea5e9"></i> ${j.goodness.goodCount} good decisions &nbsp; <i class="fa-solid fa-circle" style="color:#94a3b8"></i> ${j.goodness.otherCount} other &nbsp; <span style="color:var(--muted)">— sound choice: ${esc(opt?opt.text:j.goodness.goodOptionId)}</span>`;
         els.correctnessWrap.classList.remove('adm-hidden');
       } else {
         els.correctnessWrap.classList.add('adm-hidden');
@@ -847,15 +889,21 @@
     function renderFastestOverall(data){
       const ranked = data.ranked || [];
       const inProgress = data.inProgress || [];
-      els.fastestOverallNote.textContent = data.hasCorrectness
-        ? `Ranked by correct answers (of ${data.totalItems}), ties broken by fastest completion.`
-        : `Ranked by completion time (${data.totalItems} items each) — this module has no objectively correct answer.`;
+      if(data.hasCorrectness){
+        els.fastestOverallNote.textContent = `Ranked by correct answers (of ${data.totalItems}), ties broken by fastest completion.`;
+      } else if(data.hasGoodDecision){
+        els.fastestOverallNote.textContent = `Ranked by good decisions (of ${data.totalItems}), ties broken by fastest completion — labeled distinctly as "good decisions" not "correct".`;
+      } else {
+        els.fastestOverallNote.textContent = `Ranked by completion time (${data.totalItems} items each) — this module has no objectively correct answer.`;
+      }
       if(!ranked.length){
         els.fastestOverallList.innerHTML = '<li class="adm-note">No one has completed every item yet.</li>';
       } else {
         els.fastestOverallList.innerHTML = ranked.map(r=>{
           const elapsed = formatElapsed(r.moduleStartedAt, r.completedAt);
-          const scoreBit = data.hasCorrectness ? `${r.correctCount} / ${data.totalItems} correct &nbsp;·&nbsp; ` : '';
+          let scoreBit = '';
+          if(data.hasCorrectness) scoreBit = `${r.correctCount} / ${data.totalItems} correct &nbsp;·&nbsp; `;
+          else if(data.hasGoodDecision) scoreBit = `${r.goodCount} / ${data.totalItems} good decisions &nbsp;·&nbsp; `;
           return `<li><strong>${ordinal(r.rank)}</strong> — ${esc(r.name)}: ${scoreBit}${elapsed}</li>`;
         }).join('');
       }
@@ -886,6 +934,31 @@
       if(stateCache==='running') pollResultsForRunning({activeModule: activeModule});
     });
 
+    async function loadFacilitatorNotes(mod){
+      if(facilitatorNotesLoadedFor === mod) return; // static per-module content — fetch once per module, not every poll tick
+      facilitatorNotesLoadedFor = mod;
+      try{
+        const j = await api('/api/admin/modules/' + encodeURIComponent(mod) + '/facilitator-notes');
+        const notes = j.facilitatorNotes;
+        if(!notes || (!notes.discussionPrompts?.length && !notes.commonWrongAnswer)){
+          els.facilitatorNotesPanel.classList.add('adm-hidden');
+          return;
+        }
+        let html = '';
+        if(notes.discussionPrompts && notes.discussionPrompts.length){
+          html += '<div style="font-weight:700; margin-bottom:4px;">Discussion prompts</div><ul style="margin:0 0 10px; padding-left:18px;">'
+            + notes.discussionPrompts.map(p=>'<li style="margin-bottom:4px;">'+esc(p)+'</li>').join('') + '</ul>';
+        }
+        if(notes.commonWrongAnswer){
+          html += '<div style="font-weight:700; margin-bottom:4px;">Common wrong answer</div><div>'+esc(notes.commonWrongAnswer)+'</div>';
+        }
+        els.facilitatorNotesBody.innerHTML = html || '—';
+        els.facilitatorNotesPanel.classList.remove('adm-hidden');
+      } catch(e){
+        els.facilitatorNotesPanel.classList.add('adm-hidden');
+      }
+    }
+
     els.markCompleteBtn.addEventListener('click', async ()=>{
       if(!currentCode) return;
       if(!confirm('Mark this activity complete? Participants will see "Activity Complete" — make sure everyone has had a chance to finish.')) return;
@@ -898,13 +971,23 @@
       }
     });
 
-    async function pollResultsForRunning(st){
+    async function pollResultsForRunning(st, mySeq){
       if(!currentCode) return;
+      if(mySeq==null) mySeq = pollSeq; // direct callers (e.g. reveal handler) always want the latest
       if(st && st.activeModule==='crossword'){
         try{
           const cw = await api('/api/admin/session/' + currentCode + '/crossword/progress');
-          els.crosswordProgressNote.innerHTML = 'Crossword lighter sync — <code>POST /crossword/progress</code> debounced, admin polls <code>GET /crossword/progress</code> ~1.5s. Shows <code>X / Y clues filled</code>.';
-          renderCrosswordProgress(cw, 'clues');
+          if(mySeq !== pollSeq) return;
+          els.crosswordProgressNote.innerHTML = 'Crossword — debounced <code>POST /crossword/progress</code> → admin polls <code>GET /crossword/progress</code> ~1.5s. Shows <code>X / Y filled · Z correct (P%)</code> — raw progress vs per-word correctness, distinct metrics.';
+          const cwSuffix = p => {
+            if(p.correctCount!=null){
+              const tot = cw.totalCount||1;
+              const pct = Math.round((p.correctCount/tot)*100);
+              return ' · ' + p.correctCount + ' correct ('+pct+'%)';
+            }
+            return '';
+          };
+          renderCrosswordProgress(cw, 'clues', cwSuffix);
           els.resultsPrompt.textContent = `Crossword — ${cw.totalCount||0} clues · live progress`;
           els.resultsStandardNote.classList.add('adm-hidden');
           els.crosswordProgressWrap.classList.remove('adm-hidden');
@@ -924,6 +1007,7 @@
         // their current strength level.
         try{
           const pp = await api('/api/admin/session/' + currentCode + '/passphrase/progress');
+          if(mySeq !== pollSeq) return;
           els.crosswordProgressNote.innerHTML = 'Pass-Phrase progress — rounds built + current strength per participant, computed server-side (~1.5s).';
           renderCrosswordProgress(pp, 'rounds built', p => p.currentStrengthLabel ? (' · ' + p.currentStrengthLabel) : '');
           els.resultsPrompt.textContent = `Pass-Phrase — ${pp.totalCount||0} rounds · live progress`;
@@ -940,13 +1024,36 @@
       } else if(st && MC_MODULES.includes(st.activeModule)) {
         // Per-participant progress across the FULL self-paced sequence — server-computed from
         // responses (see GET /progress in app.py), same list/shape as crossword's own panel.
+        // Consistent display pattern: "Name — X/Y items · Z correct (P%)" or module-appropriate
+        // equivalent (good decisions for decision-room, correct entries for crossword).
         try{
           const prog = await api('/api/admin/session/' + currentCode + '/progress');
-          els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword.'
-            + (prog.hasCorrectness ? ' Score updates live as the room answers.' : '');
-          // hasCorrectness modules (myth-vs-fact today) get a live running score alongside
-          // progress — the one place a numeric score is shown; never sent to participants.
-          const scoreSuffix = prog.hasCorrectness ? (p => p.correctCount!=null ? (' · ' + p.correctCount + ' correct') : '') : null;
+          if(mySeq !== pollSeq) return;
+          const hasCorr = !!prog.hasCorrectness;
+          const hasGood = !!prog.hasGoodDecision;
+          if(hasGood){
+            els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword. Shows <code>X / Y items · Z good decisions (P%)</code> — admin-only.';
+          } else if(hasCorr){
+            els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword. Shows <code>X / Y items · Z correct (P%)</code> — admin-only, updates live.';
+          } else {
+            els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword. <code>X / Y items</code> — no single correct answer for this module.';
+          }
+          let scoreSuffix = null;
+          if(hasCorr){
+            scoreSuffix = p => {
+              if(p.correctCount==null) return '';
+              const tot = prog.totalCount||1;
+              const pct = Math.round((p.correctCount/tot)*100);
+              return ' · ' + p.correctCount + ' correct ('+pct+'%)';
+            };
+          } else if(hasGood){
+            scoreSuffix = p => {
+              if(p.goodCount==null) return '';
+              const tot = prog.totalCount||1;
+              const pct = Math.round((p.goodCount/tot)*100);
+              return ' · ' + p.goodCount + ' good decisions ('+pct+'%)';
+            };
+          }
           renderCrosswordProgress(prog, 'items', scoreSuffix);
           els.crosswordProgressWrap.classList.remove('adm-hidden');
         }catch(e){}
@@ -957,6 +1064,7 @@
           const itemId = selectedItemId || '';
           const url = '/api/admin/session/' + currentCode + '/results' + (itemId ? ('?itemId=' + encodeURIComponent(itemId)) : '');
           const r = await api(url);
+          if(mySeq !== pollSeq) return;
           renderResults(r);
           els.revealBtn.classList.remove('adm-hidden');
         }catch(e){}
@@ -966,6 +1074,7 @@
         els.resultsStandardNote.classList.remove('adm-hidden');
         try{
           const r = await api('/api/admin/session/' + currentCode + '/results');
+          if(mySeq !== pollSeq) return;
           renderResults(r);
         }catch(e){}
       }
@@ -973,8 +1082,10 @@
 
     async function pollOnce(){
       if(!currentCode) return;
+      const mySeq = ++pollSeq;
       try{
         const s = await api('/api/session/' + currentCode + '/state');
+        if(mySeq !== pollSeq) return; // a newer poll started while this one was in flight — stale, discard
         renderStateUI(s);
         // Keep QR fresh
         if(s.joinUrl){
@@ -984,7 +1095,7 @@
         }
         // If running, also poll results
         if(s.state==='running'){
-          pollResultsForRunning(s);
+          pollResultsForRunning(s, mySeq);
         }
         // Update lobby participants even when not running
         if(s.state==='lobby'){
@@ -992,6 +1103,7 @@
         }
         renderParticipants(s);
       } catch(e){
+        if(mySeq !== pollSeq) return;
         if(String(e.message).includes('Room not found')){
           els.sessionMsg.textContent = 'Room not found — create a new session';
         }

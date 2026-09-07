@@ -3,6 +3,14 @@
   "subtitle": "Keep up — fast calls, real situations, no time to overthink.",
   "whyThisMatters": "Attackers count on you deciding in the first three seconds, before you've had time to think — practicing the pause now is what makes it automatic later.",
   "rememberThis": "When something pushes you to act fast, that pressure itself is the warning sign.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask how it felt to decide under time pressure — was the pause even harder with a quiz clock running?",
+      "For the CFO deepfake-call question — ask if anyone would actually feel comfortable ending a call with a senior exec to go verify.",
+      "Ask the room to name their own \"known channel\" for verifying an urgent request from each persona represented here (Finance, HR, Operations, Offshore)."
+    ],
+    "commonWrongAnswer": "q1 (the CFO video call) is the one people most often get wrong — picking \"approve the payment\" because the face and voice matched, since a live call feels harder to fake than an email."
+  },
   "questions": [
     {
       "id": "q1-cfo-video-call",
@@ -58,7 +66,7 @@
     },
     {
       "id": "q5-report-even-if-unsure",
-      "persona": "HR / Recruitment",
+      "persona": "Operations",
       "question": "Something about an email feels slightly off, but you're not sure enough to call it malicious. Why does flagging it anyway still matter?",
       "choices": [
         "Security teams would rather check a false alarm than miss a real one",
@@ -85,7 +93,7 @@
     },
     {
       "id": "svr-1",
-      "persona": "HR / Recruitment",
+      "persona": "HR / Payroll",
       "scenario": "A coworker gets a text \"from HR\" asking them to click a link and update their payroll details immediately.",
       "idealResponse": "STOP — don't click. VERIFY through the official HR portal or a known contact. REPORT it to IT/security."
     },

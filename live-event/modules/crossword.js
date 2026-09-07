@@ -52,31 +52,48 @@
 
   function computeCrosswordProgress() {
     const total = words.length || 0;
-    if (!total) return { filled: 0, total: 0 };
-    let filled = 0;
+    if (!total) return { filled: 0, total: 0, correct: 0 };
+    let filled = 0, correct = 0;
     for (const w of words) {
       let allFilled = true;
+      let allCorrect = true;
       for (let i = 0; i < w.answer.length; i++) {
         const r = w.direction === 'down' ? w.row + i : w.row;
         const c = w.direction === 'across' ? w.col + i : w.col;
         const cell = cells.get(cellKey(r, c));
-        if (!cell || !cell.input || !cell.input.value.trim()) { allFilled = false; break; }
+        if (!cell || !cell.input || !cell.input.value.trim()) { allFilled = false; allCorrect = false; break; }
+        if (cell.input.value.trim().toUpperCase() !== cell.solution) allCorrect = false;
       }
       if (allFilled) filled++;
+      if (allFilled && allCorrect) correct++;
+      else if (allCorrect) correct++; // already ensures filled, but keep for safety
     }
-    return { filled, total };
+    // De-dupe: correct already implies filled, so recount correctly
+    // Recompute correct as words where every cell matches solution (regardless of filled? same)
+    let correct2 = 0;
+    for (const w of words) {
+      let ok = true;
+      for (let i = 0; i < w.answer.length; i++) {
+        const r = w.direction === 'down' ? w.row + i : w.row;
+        const c = w.direction === 'across' ? w.col + i : w.col;
+        const cell = cells.get(cellKey(r, c));
+        if (!cell || !cell.input || cell.input.value.trim().toUpperCase() !== cell.solution) { ok = false; break; }
+      }
+      if (ok) correct2++;
+    }
+    return { filled, total, correct: correct2 };
   }
 
   async function sendCrosswordProgress() {
     if (!crosswordSyncEnabled || !crosswordSyncRoomCode || !crosswordSyncParticipantId) return;
-    const { filled, total } = computeCrosswordProgress();
-    if (crosswordLastSent && crosswordLastSent.filled === filled && crosswordLastSent.total === total) return;
-    crosswordLastSent = { filled, total };
+    const { filled, total, correct } = computeCrosswordProgress();
+    if (crosswordLastSent && crosswordLastSent.filled === filled && crosswordLastSent.total === total && crosswordLastSent.correct === correct) return;
+    crosswordLastSent = { filled, total, correct };
     try {
       await fetch('/api/session/' + encodeURIComponent(crosswordSyncRoomCode) + '/crossword/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ participantId: crosswordSyncParticipantId, filledCount: filled, totalCount: total }),
+        body: JSON.stringify({ participantId: crosswordSyncParticipantId, filledCount: filled, totalCount: total, correctCount: correct }),
       });
     } catch (e) { /* offline — ignore */ }
   }
@@ -487,7 +504,7 @@
       if (crosswordSyncEnabled) scheduleCrosswordProgress();
     })
     .catch((err) => {
-      els.status.textContent = 'Failed to load content/crossword.json';
+      els.status.textContent = "Couldn't load this activity's content — check your connection or refresh.";
       console.error(err);
     });
 })();

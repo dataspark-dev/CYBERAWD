@@ -1,23 +1,30 @@
-/* Pass-Phrase — Build a Strong Password (generated content, difficulty ramp)
-   Rounds provide only difficulty; weak sample + 15-char deck are generated at
-   runtime weighted by difficulty. 12-slot cap, consuming deck tiles. Strength
-   meter only — no checklist/hints. */
+/* Pass-Phrase — Build a Strong Password (mixed-chunk deck, difficulty ramp)
+   Rounds provide difficulty; weak sample + 15-chunk deck (2-char pairs like "Ka","Th","on"
+   plus singles and symbols) are either static content (content/pass-phrase.json) or generated
+   at runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS) not tile
+   count — a "Ka" tile counts as 2 characters toward the 20-char cap. Strength meter only. */
 (function () {
   const TIMER_SECONDS = 45;
-  const MAX_SLOTS = 12;
+  const MAX_SLOTS = 12; // legacy tile-count cap, kept for old single-char content fallback
+  const MAX_CHARS = 20; // chunk-aware cap: total characters reached, not deck tiles
   let rounds = [];
   let index = 0;
   let locked = false;
   let timer = null;
 
-  let passwordChars = [];
-  let deckChars = [];
+  let passwordChunks = []; // array of chunks (each is 1-2 char string) placed in password row
+  let deckChunks = []; // array of remaining deck chunks
   let currentWeak = '';
   let dragged = null;
 
-  // ----- Refined pools — meaningful templates for aligned weak → strong -----
-  // Deck now 20 tiles, meaningful weak passwords per level (name/DOB/place), easy→hard
-  const DECK_SIZE = 20;
+  // Keep legacy aliases for minimal diff elsewhere (will be reassigned)
+  let passwordChars = passwordChunks;
+  let deckChars = deckChunks;
+
+  // ----- Pools — meaningful weak templates + mixed chunk deck -----
+  // Deck is now 15 mixed chunks: some 2-char syllable pairs ("Ka","Ri","Th","on"), some
+  // single letters, some 1-char symbols/numbers. Easy->hard progression controls composition.
+  const DECK_SIZE = 15;
   const NAMES = ["Rahul","Priya","Amit","Neha","Arjun","Sneha","Vikram","Ananya","Rohan","Isha","Karan","Meera"];
   const PLACES = ["Mumbai","Delhi","Chennai","Kolkata","Goa","Pune","Jaipur","Kochi","Hyderabad"];
   const YEARS = ["1998","1999","2000","2001","2002","2003","1995","1990","1992"];
@@ -26,6 +33,7 @@
   const LOWER_POOL = (function(){ var a=[]; for(var i=97;i<=122;i++) a.push(String.fromCharCode(i)); return a; })();
   const NUM_POOL = (function(){ var a=[]; for(var i=48;i<=57;i++) a.push(String.fromCharCode(i)); return a; })();
   const SYM_POOL = ['!','@','#','$','%','^','&','*','-','_','+','=','?','~','<','>'];
+  const CHUNK_TWO_POOL = ["Ka","Ri","Th","On","An","Re","Co","Ma","Be","Su","Un","Ex","Mi","Tr","Ch","Sh","Pr","St","Li","En","Or","Al","El","Ar","on","th","an","er","in"];
 
   function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
   function shuffled(arr){
@@ -34,6 +42,15 @@
     return a;
   }
   function randomChars(pool, count, allowDup){
+    if(!allowDup){
+      return shuffled(pool).slice(0, count);
+    } else {
+      var out=[];
+      for(var i=0;i<count;i++) out.push(pool[Math.floor(Math.random()*pool.length)]);
+      return out;
+    }
+  }
+  function randomChunks(pool, count, allowDup){
     if(!allowDup){
       return shuffled(pool).slice(0, count);
     } else {
@@ -69,57 +86,49 @@
   }
 
   function generateDeck(difficulty, weak){
-    // 20-tile deck — balanced for interactive strong building
-    // Easy: generous helpers (more upper/symbol/number), Medium: balanced, Hard: decoy-heavy, minimal helpers
+    // 15-chunk mixed deck: 2-char pairs like "Ka","Th","on" plus singles/symbols/numbers.
+    // Easy: mostly singles + couple 2-char/helpers. Hard: more 2-char, fewer obvious helpers.
     var hasUpper = /[A-Z]/.test(weak);
     var hasNum = /[0-9]/.test(weak);
     var hasSym = /[^A-Za-z0-9]/.test(weak);
     var missingUpper = !hasUpper;
     var missingNum = !hasNum;
     var missingSym = !hasSym;
-    var upperCount, symCount, numCount, lowerCount, allowDup, phraseCount;
-    phraseCount = 0;
+    var twoCount, upperCount, symCount, numCount, allowDup;
     if(difficulty === 'easy'){
-      upperCount = missingUpper ? 4 : 3;
-      symCount = missingSym ? 4 : 3;
-      numCount = 3;
-      phraseCount = 2; // two phrase-word starters to hint at passphrase
+      twoCount = 2;
+      upperCount = missingUpper ? 3 : 2;
+      symCount = missingSym ? 3 : 2;
+      numCount = 2;
       allowDup = false;
     } else if(difficulty === 'medium'){
-      upperCount = 3;
-      symCount = 3;
-      numCount = 3;
-      phraseCount = 2;
-      allowDup = Math.random() < 0.2;
-    } else {
+      twoCount = 4;
       upperCount = 2;
       symCount = 2;
-      if(missingSym && Math.random() < 0.4) symCount = 3;
       numCount = 2;
-      if(missingNum && Math.random() < 0.3) numCount = 3;
-      phraseCount = 1;
+      allowDup = Math.random() < 0.2;
+    } else {
+      twoCount = 6;
+      upperCount = 1;
+      if(missingSym && Math.random() < 0.5) upperCount = 2;
+      symCount = 1;
+      if(missingSym && Math.random() < 0.5) symCount = 2;
+      numCount = 1;
+      if(missingNum && Math.random() < 0.4) numCount = 2;
       allowDup = true;
     }
-    var remaining = DECK_SIZE - upperCount - symCount - numCount - phraseCount;
-    lowerCount = Math.max(7, remaining);
-    // adjust if rounding
-    var total = upperCount + symCount + numCount + lowerCount + phraseCount;
-    if(total !== DECK_SIZE){ lowerCount += DECK_SIZE - total; }
-
     var deck = [];
+    deck = deck.concat(randomChunks(CHUNK_TWO_POOL, twoCount, allowDup));
     deck = deck.concat(randomChars(UPPER_POOL, upperCount, allowDup));
     deck = deck.concat(randomChars(SYM_POOL, symCount, allowDup));
     deck = deck.concat(randomChars(NUM_POOL, numCount, allowDup));
-    // Add phrase-word starter letters (meaningful, helps build passphrase like Ocean-Voyage)
-    for(var p=0; p<phraseCount; p++){
-      var w = pickRandom(PHRASE_WORDS);
-      deck.push(w.charAt(0)); // capital starter
-      if(lowerCount > 0){ deck.push(w.charAt(1).toLowerCase()); lowerCount--; }
-    }
+    var lowerNeeded = DECK_SIZE - deck.length;
+    lowerNeeded = Math.max(2, lowerNeeded);
+
     if(difficulty === 'hard'){
       var weakLowers = weak.split('').filter(function(c){ return /[a-z]/.test(c); });
       var lowers = [];
-      for(var i=0;i<lowerCount;i++){
+      for(var i=0;i<lowerNeeded;i++){
         if(Math.random() < 0.55 && weakLowers.length){
           lowers.push(weakLowers[Math.floor(Math.random()*weakLowers.length)]);
         } else {
@@ -134,7 +143,7 @@
       }
       deck = deck.concat(lowers);
     } else {
-      deck = deck.concat(randomChars(LOWER_POOL, lowerCount, allowDup));
+      deck = deck.concat(randomChars(LOWER_POOL, lowerNeeded, allowDup));
     }
     // Ensure exactly DECK_SIZE and shuffle, but keep helpful chars visible
     deck = shuffled(deck).slice(0, DECK_SIZE);
@@ -235,8 +244,11 @@
     return {score:score, checks:checks, label:label, level:level, color:color, crack:crack};
   }
 
+  function getPasswordStr(){ return passwordChunks.join(''); }
+  function getTotalChars(){ return getPasswordStr().length; }
+
   function updateStrength(){
-    var pw=passwordChars.join('');
+    var pw=getPasswordStr();
     var result=computeStrength(pw, currentWeak);
     els.meterFill.style.width=result.score+'%';
     els.meterFill.style.background=result.color;
@@ -245,33 +257,35 @@
     els.strengthLabel.style.color=result.color;
     els.crackTime.textContent=result.crack;
     if(els.countLabel){
-      els.countLabel.textContent=pw.length+' / '+MAX_SLOTS;
-      els.countLabel.style.color=pw.length>=MAX_SLOTS ? '#b45309' : 'var(--muted)';
+      els.countLabel.textContent=pw.length+' / '+MAX_CHARS+' chars';
+      els.countLabel.style.color=pw.length>=MAX_CHARS ? '#b45309' : 'var(--muted)';
     }
     els.tiles.className='pp-tiles strength-'+result.level;
     els.tiles.style.borderColor=result.level==='weak' ? '#fecaca' : result.level==='fair' ? '#fde68a' : result.level==='strong' || result.level==='very-strong' ? '#6ee7b7' : 'var(--line)';
     els.tiles.style.background=result.level==='weak' ? '#fef2f2' : result.level==='fair' ? '#fffbeb' : result.level==='strong' || result.level==='very-strong' ? '#f0fdf4' : '#fff';
-    if(passwordChars.length>=MAX_SLOTS) els.tiles.classList.add('is-full');
+    if(getTotalChars()>=MAX_CHARS) els.tiles.classList.add('is-full');
     else els.tiles.classList.remove('is-full');
     var canSolve=(result.level==='strong' || result.level==='very-strong') && !locked;
     els.solvedBtn.disabled=!canSolve;
     if(canSolve) els.solvedBtn.classList.add('pulse-highlight');
     else els.solvedBtn.classList.remove('pulse-highlight');
-    if(els.deck) els.deck.classList.toggle('deck-full', passwordChars.length>=MAX_SLOTS);
+    if(els.deck) els.deck.classList.toggle('deck-full', getTotalChars()>=MAX_CHARS);
     return result;
   }
 
   function createDeckTile(ch, idx){
     var tile=document.createElement('div');
     tile.className='pp-tile pp-deck-tile';
-    var isFull=passwordChars.length>=MAX_SLOTS;
+    var isFull=getTotalChars() + String(ch).length > MAX_CHARS;
     tile.draggable=!locked && !isFull;
     if(isFull) tile.classList.add('is-inert');
     tile.dataset.source='deck';
     tile.dataset.idx=String(idx);
     tile.innerHTML='<span class="pp-tile-letter">'+LiveEvent.escapeHtml(ch)+'</span>';
+    // Chunk tiles may be 2-char like "Ka" — slightly wider but still touch-friendly
+    if(String(ch).length>1) tile.classList.add('chunk-tile');
     tile.addEventListener('dragstart', function(e){
-      if(locked || passwordChars.length>=MAX_SLOTS){ e.preventDefault(); return; }
+      if(locked || getTotalChars() + String(ch).length > MAX_CHARS){ e.preventDefault(); return; }
       dragged={source:'deck', idx:idx, char:ch};
       tile.classList.add('dragging');
       try{ e.dataTransfer.setData('text/plain', ch); }catch(err){}
@@ -279,9 +293,11 @@
     });
     tile.addEventListener('dragend', function(){ tile.classList.remove('dragging'); dragged=null; });
     tile.addEventListener('click', function(){
-      if(locked || passwordChars.length>=MAX_SLOTS) return;
-      var removed=deckChars.splice(idx,1)[0];
-      passwordChars.push(removed);
+      if(locked || getTotalChars() + String(ch).length > MAX_CHARS) return;
+      var removed=deckChunks.splice(idx,1)[0];
+      passwordChunks.push(removed);
+      // keep aliases in sync
+      passwordChars = passwordChunks; deckChars = deckChunks;
       renderTiles();
       renderDeck();
       updateStrength();
@@ -292,10 +308,10 @@
   function renderDeck(){
     if(!els.deck) return;
     els.deck.innerHTML='';
-    deckChars.forEach(function(ch,i){
+    deckChunks.forEach(function(ch,i){
       els.deck.appendChild(createDeckTile(ch,i));
     });
-    if(deckChars.length===0){
+    if(deckChunks.length===0){
       var empty=document.createElement('div');
       empty.className='pp-deck-empty';
       empty.textContent='—';
@@ -305,9 +321,10 @@
 
   function renderTiles(){
     els.tiles.innerHTML='';
-    passwordChars.forEach(function(ch,i){
+    passwordChunks.forEach(function(ch,i){
       var tile=document.createElement('div');
       tile.className='pp-tile';
+      if(String(ch).length>1) tile.classList.add('chunk-tile');
       tile.draggable=!locked;
       tile.dataset.source='password';
       tile.dataset.idx=String(i);
@@ -339,13 +356,17 @@
         if(locked || !dragged) return;
         if(dragged.source==='password'){
           if(dragged.idx===i) return;
-          var moved=passwordChars.splice(dragged.idx,1)[0];
+          var moved=passwordChunks.splice(dragged.idx,1)[0];
           var targetIdx=dragged.idx < i ? i-1 : i;
-          passwordChars.splice(targetIdx + (dragged.idx < i ? 1 : 0), 0, moved);
+          passwordChunks.splice(targetIdx + (dragged.idx < i ? 1 : 0), 0, moved);
+          passwordChars = passwordChunks;
         } else if(dragged.source==='deck'){
-          if(passwordChars.length>=MAX_SLOTS) return;
-          var deckChar=deckChars.splice(dragged.idx,1)[0];
-          passwordChars.splice(i,0,deckChar);
+          // Check char cap before inserting at position i
+          var newTotal = getTotalChars() + String(dragged.char).length;
+          if(newTotal > MAX_CHARS) return;
+          var deckChar=deckChunks.splice(dragged.idx,1)[0];
+          passwordChunks.splice(i,0,deckChar);
+          passwordChars = passwordChunks; deckChars = deckChunks;
         }
         dragged=null;
         renderTiles();
@@ -354,16 +375,23 @@
       });
       tile.addEventListener('dblclick', function(){
         if(locked) return;
-        var returned=passwordChars.splice(i,1)[0];
-        deckChars.push(returned);
+        var returned=passwordChunks.splice(i,1)[0];
+        deckChunks.push(returned);
+        passwordChars = passwordChunks; deckChars = deckChunks;
         renderTiles();
         renderDeck();
         updateStrength();
       });
       els.tiles.appendChild(tile);
     });
-    var remaining=MAX_SLOTS-passwordChars.length;
-    for(var s=0;s<remaining;s++){
+    // Empty placeholders reflect remaining char capacity (not tile count) — chunk-aware
+    var totalChars = getTotalChars();
+    var remaining= Math.max(0, MAX_CHARS - totalChars);
+    // Show at most 12 placeholders visually to avoid overflow, but ensure char cap is clear in label
+    var placeholders = Math.min(remaining, 8);
+    // If already many tiles, show fewer placeholders to keep row readable at 375px
+    if(passwordChunks.length > 6) placeholders = Math.min(placeholders, 4);
+    for(var s=0;s<placeholders;s++){
       var slot=document.createElement('div');
       slot.className='pp-slot';
       slot.setAttribute('aria-hidden','true');
@@ -379,7 +407,7 @@
       // (tiles handle their own dragover). Slots/hints are pointer-events:none so this fires for empty area.
       var overTile = e.target.closest && e.target.closest('.pp-tile[data-source="password"]');
       if(!overTile){
-        if(dragged.source==='deck' && passwordChars.length>=MAX_SLOTS) return;
+        if(dragged.source==='deck' && getTotalChars() + String(dragged.char).length > MAX_CHARS) return;
         e.preventDefault();
         if(e.dataTransfer) e.dataTransfer.dropEffect = dragged.source==='deck' ? 'copy' : 'move';
         els.tiles.classList.add('drag-over');
@@ -403,17 +431,19 @@
       e.stopPropagation();
       els.tiles.classList.remove('drag-over');
       if(dragged.source==='deck'){
-        if(passwordChars.length>=MAX_SLOTS) return;
-        var c=deckChars.splice(dragged.idx,1)[0];
+        if(getTotalChars() + String(dragged.char).length > MAX_CHARS) return;
+        var c=deckChunks.splice(dragged.idx,1)[0];
         if(c===undefined) return;
-        passwordChars.push(c);
+        passwordChunks.push(c);
+        passwordChars = passwordChunks; deckChars = deckChunks;
         dragged=null;
         renderTiles();
         renderDeck();
         updateStrength();
       } else if(dragged.source==='password'){
-        var moved=passwordChars.splice(dragged.idx,1)[0];
-        passwordChars.push(moved);
+        var moved=passwordChunks.splice(dragged.idx,1)[0];
+        passwordChunks.push(moved);
+        passwordChars = passwordChunks;
         dragged=null;
         renderTiles();
         updateStrength();
@@ -437,16 +467,17 @@
       e.preventDefault();
       e.stopPropagation();
       els.deck.classList.remove('drag-over');
-      var returned=passwordChars.splice(dragged.idx,1)[0];
+      var returned=passwordChunks.splice(dragged.idx,1)[0];
       if(returned===undefined) return;
       var targetTile=e.target.closest ? e.target.closest('.pp-deck-tile') : null;
       if(targetTile && targetTile.dataset.idx!=null){
         var tIdx=parseInt(targetTile.dataset.idx,10);
-        if(!isNaN(tIdx)) deckChars.splice(tIdx,0,returned);
-        else deckChars.push(returned);
+        if(!isNaN(tIdx)) deckChunks.splice(tIdx,0,returned);
+        else deckChunks.push(returned);
       } else {
-        deckChars.push(returned);
+        deckChunks.push(returned);
       }
+      passwordChars = passwordChunks; deckChars = deckChunks;
       dragged=null;
       renderTiles();
       renderDeck();
@@ -458,16 +489,26 @@
   function renderRound(){
     var r=rounds[index];
     if(!r) return;
-    els.counter.textContent=r.label+' of '+rounds.length;
+    els.counter.textContent='Round '+(index+1)+' of '+rounds.length;
     var difficulty=r.difficulty || 'medium';
-    currentWeak=generateWeakPassword(difficulty);
-    deckChars=generateDeck(difficulty, currentWeak);
-    passwordChars=[];
+    // If content already provides weakPassword/deck (new chunk deck), use those directly
+    // so the console matches the static content the phone sees, rather than regenerating
+    // random each render (old behavior). Fallback to generation only if missing.
+    if(r.weakPassword && Array.isArray(r.deck)){
+      currentWeak = r.weakPassword;
+      deckChunks = r.deck.slice();
+    } else {
+      currentWeak=generateWeakPassword(difficulty);
+      deckChunks=generateDeck(difficulty, currentWeak);
+    }
+    passwordChunks=[];
+    passwordChars = passwordChunks; deckChars = deckChunks;
     locked=false;
     if(els.weakText) els.weakText.textContent=currentWeak;
     if(els.weakMeta){
-      var meta = difficulty==='easy' ? 'Based on: name + birth year — very guessable (e.g. rahul1998)' : difficulty==='medium' ? 'Based on: Name + Place + year — still personal (e.g. RahulMumbai98)' : 'Based on: Name_Place_Year + symbol — looks strong but personal data remains';
-      els.weakMeta.textContent = meta + ' — deck has ' + DECK_SIZE + ' chars to rebuild strong (upper, symbol, number, phrase)';
+      var diffLabel = difficulty.charAt(0).toUpperCase()+difficulty.slice(1);
+      var metaBase = difficulty==='easy' ? 'Based on: name + birth year — very guessable (e.g. rahul1998)' : difficulty==='medium' ? 'Based on: Name + Place + year — still personal (e.g. RahulMumbai98)' : 'Based on: Name_Place_Year + symbol — looks strong but personal data remains';
+      els.weakMeta.textContent = diffLabel+' — ' + metaBase + ' — deck has ' + DECK_SIZE + ' chunks (' + deckChunks.filter(function(c){return String(c).length>1;}).length + ' ×2-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
     }
     els.solvedBtn.disabled=true;
     els.solvedBtn.classList.remove('pulse-highlight');
@@ -548,7 +589,7 @@
       if(introDismissed) beginActivity();
     })
     .catch(function(err){
-      if(els.tiles) els.tiles.textContent='FAILED TO LOAD CONTENT';
+      if(els.tiles) els.tiles.textContent="Couldn't load this activity's content — check your connection or refresh.";
       console.error(err);
     });
 })();

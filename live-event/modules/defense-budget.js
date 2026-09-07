@@ -60,7 +60,7 @@
     } else if (phase === 'reveal') {
       phaseLabelEl.textContent = `Attack ${scenarioIdx + 1} of ${scenarios.length}`;
     } else if (phase === 'wrap') {
-      phaseLabelEl.textContent = 'Wrap-up';
+      phaseLabelEl.textContent = 'Wrap-Up';
     }
   }
 
@@ -235,7 +235,8 @@
 
     stageEl.innerHTML = `
       <div class="db-scenario">
-        <div class="db-scenario-kicker"><span class="db-scenario-label">${esc(sc.label || String(scenarioIdx+1).padStart(2,'0'))}</span> · ${esc(sc.persona || '')} · ${esc(sc.vector || '')}</div>
+        ${sc.persona ? `<div class="persona-tag">${esc(sc.persona)}</div>` : ''}
+        <div class="db-scenario-kicker"><span class="db-scenario-label">${esc(sc.label || String(scenarioIdx+1).padStart(2,'0'))}</span> · ${esc(sc.vector || '')}</div>
         <h2 class="db-scenario-title">${esc(sc.title)}</h2>
         <p class="db-scenario-desc">${esc(sc.description)}</p>
         <div class="db-scenario-narrative"><i class="fa-solid fa-circle-info"></i> ${esc(sc.narrative || '')}</div>
@@ -258,7 +259,7 @@
         </div>
 
         <div class="ls-final-actions">
-          ${!isLast ? `<button class="le-btn primary lg" id="nextScBtn" type="button"><i class="fa-solid fa-forward"></i> Next Attack</button>` : `<button class="le-btn primary lg" id="wrapBtn" type="button"><i class="fa-solid fa-flag-checkered"></i> See Wrap-up</button>`}
+          ${!isLast ? `<button class="le-btn primary lg" id="nextScBtn" type="button"><i class="fa-solid fa-forward"></i> Next Attack</button>` : `<button class="le-btn primary lg" id="wrapBtn" type="button"><i class="fa-solid fa-flag-checkered"></i> See Wrap-Up</button>`}
           <button class="le-btn ghost lg" id="editBudgetBtn" type="button"><i class="fa-solid fa-pen"></i> Edit Budget</button>
           <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
         </div>
@@ -462,7 +463,7 @@
       if (introDismissed) beginActivity();
     })
     .catch(err => {
-      if (stageEl) stageEl.innerHTML = '<p style="color:#fff;padding:24px;">Failed to load content/defense-budget.json</p>';
+      if (stageEl) stageEl.innerHTML = '<p style="color:#fff;padding:24px;">Couldn\'t load this activity\'s content — check your connection or refresh.</p>';
       console.error(err);
     });
 })();

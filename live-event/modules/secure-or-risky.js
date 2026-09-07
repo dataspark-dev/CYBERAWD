@@ -81,8 +81,8 @@
     els.voteRisky.disabled = true;
 
     els.resultText.innerHTML = isCorrect
-      ? '<i class="fa-solid fa-check"></i> <strong>CORRECT</strong> — It is ' + item.answer
-      : '<i class="fa-solid fa-xmark"></i> <strong>INCORRECT</strong> — The answer is ' + item.answer;
+      ? '<i class="fa-solid fa-check"></i> <strong>Correct</strong> — It is ' + item.answer
+      : '<i class="fa-solid fa-xmark"></i> <strong>Not quite</strong> — The answer is ' + item.answer;
     els.resultText.className = 'sr-result ' + (isCorrect ? 'correct' : 'incorrect');
     els.lessonText.textContent = item.explanation;
     els.revealPanel.classList.add('show');
@@ -127,7 +127,7 @@
       renderDots();
     })
     .catch((err) => {
-      els.scenarioText.textContent = 'Failed to load content/secure-or-risky.json';
+      els.scenarioText.textContent = "Couldn't load this activity's content — check your connection or refresh.";
       console.error(err);
     });
 })();

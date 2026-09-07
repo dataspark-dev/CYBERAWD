@@ -1,6 +1,14 @@
 {
   "whyThisMatters": "These aren't just buzzwords — knowing what phishing, MFA, or ransomware actually mean is what lets you recognize the real thing the moment it shows up in your inbox or on your screen.",
   "rememberThis": "You don't need to memorize a glossary — just enough of these words to recognize the real thing when it shows up.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which term people knew the clue for but blanked on the exact word — vocabulary gaps are worth naming out loud.",
+      "Ask if anyone can explain the difference between malware, ransomware, and a trojan without looking at the clues.",
+      "Ask which of these terms actually shows up in their day-to-day work versus which ones are just \"good to know.\""
+    ],
+    "commonWrongAnswer": "PRETEXTING is the term people most often can't recall or confuse with phishing/social engineering generally — it's the least everyday word in the list."
+  },
   "wordlist": [
     {
       "answer": "PHISHING",

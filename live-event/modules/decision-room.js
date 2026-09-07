@@ -183,7 +183,7 @@
     els.scenario.textContent = '';
     els.stage.innerHTML = `
       <div class="qz-final-board">
-        <div class="fb-eyebrow">Decision Room Complete</div>
+        <div class="fb-eyebrow">Round Complete</div>
         <h1>All 6 Cases Worked Through</h1>
         <p style="font-size:18px;color:var(--body-text);max-width:700px;margin:12px auto 0;">
           Different situation every time, same instinct needed:
@@ -297,7 +297,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      els.stage.innerHTML = '<p style="color:#fff;">Failed to load content/decision-room.json</p>';
+      els.stage.innerHTML = '<p style="color:#fff;">Couldn\'t load this activity\'s content — check your connection or refresh.</p>';
       console.error(err);
     });
 })();

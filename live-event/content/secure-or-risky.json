@@ -1,6 +1,14 @@
 {
   "whyThisMatters": "AI makes risky shortcuts look safe — pasting code, customer data, or unapproved tools into a chatbot can expose what you were trying to protect.",
   "rememberThis": "If an AI tool isn't approved, don't feed it work data — check with IT first, and keep sensitive content local.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which AI tools people are already using day-to-day, and whether those are on the approved list.",
+      "For the deepfake video-call item — ask how confident people feel they could actually tell a real call from a faked one.",
+      "Ask what \"anonymize the data first\" actually means in practice — would anyone know how to do that before this session?"
+    ],
+    "commonWrongAnswer": "sr-03 (uploading a PII spreadsheet asking an AI tool to \"anonymize it automatically\") is the one most often called SECURE, since \"anonymize\" sounds like a safety step rather than the risk itself."
+  },
   "items": [
     {
       "id": "sr-01",

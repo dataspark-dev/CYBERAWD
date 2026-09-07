@@ -142,7 +142,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      els.myth.textContent = 'Failed to load content/myth-vs-fact.json';
+      els.myth.textContent = "Couldn't load this activity's content — check your connection or refresh.";
       console.error(err);
     });
 })();

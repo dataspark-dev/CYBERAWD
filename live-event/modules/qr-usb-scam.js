@@ -17,6 +17,7 @@
     threatType: document.getElementById('threatType'),
     explanationText: document.getElementById('explanationText'),
     dots: document.getElementById('progressDots'),
+    counter: document.getElementById('itemCounter'),
     nextBtn: document.getElementById('nextBtn'),
     startBtn: document.getElementById('startBtn')
   };
@@ -31,6 +32,8 @@
   function renderStation() {
     const station = stations[index];
     if (!station) return;
+
+    if (els.counter) els.counter.textContent = 'Station ' + (index + 1) + ' of ' + stations.length;
 
     // Show prop image if available, otherwise just label
     if (station.image) {
@@ -130,7 +133,7 @@
       renderDots();
     })
     .catch((err) => {
-      els.propLabel.textContent = 'Failed to load content/qr-usb-scam.json';
+      els.propLabel.textContent = "Couldn't load this activity's content — check your connection or refresh.";
       console.error(err);
     });
 })();

@@ -205,7 +205,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      els.title.textContent = 'Failed to load content/fault-finding.json';
+      els.title.textContent = "Couldn't load this activity's content — check your connection or refresh.";
       console.error(err);
     });
 })();

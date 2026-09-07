@@ -1,6 +1,14 @@
 {
   "whyThisMatters": "Naming the trick is half of spotting it — if the room can't say \"urgency trap\" or \"domain spoofing\" out loud together, they won't catch it apart under pressure.",
   "rememberThis": "If you can name the trick, you can spot it next time — put a word to what felt \"off.\"",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask someone to define one of these terms in their own words before revealing the answer — could they explain it to a coworker who missed today's session?",
+      "Ask which two terms are easiest to mix up and why (fake link vs. fake portal trips people up most).",
+      "Ask for a real example from their own inbox or phone that matches one of these terms."
+    ],
+    "commonWrongAnswer": "FAKE LINK and FAKE PORTAL are the two most commonly swapped — both involve a mismatched destination, so people often pick one when the riddle points to the other."
+  },
   "riddles": [
   {
     "id": "domain-spoofing",

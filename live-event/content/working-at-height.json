@@ -1,6 +1,14 @@
 {
   "whyThisMatters": "A fall doesn't need a big mistake — just one unclipped hook, one missing rail, one overloaded deck is enough.",
   "rememberThis": "Check your anchor, your edge, and your permit before you go up — and stop work if any one is missing.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the room to name the actual control missing in each image, not just \"looks unsafe\" — anchor, edge, permit, or load.",
+      "Ask if any of these have a real near-miss story from site — most crews have one.",
+      "Ask what \"stop work\" actually looks like in practice on their site — who do they tell, and does it slow the job down?"
+    ],
+    "commonWrongAnswer": "The improvised anchor point (lanyard clipped to a process pipe) is the one people most often miss, since the worker visibly IS clipped in — the mistake is which point they clipped to, not whether they clipped in at all."
+  },
   "items": [
   {
     "id": "unclipped-lanyard",

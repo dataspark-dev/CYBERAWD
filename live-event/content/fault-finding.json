@@ -1,6 +1,14 @@
 {
   "whyThisMatters": "Most breaches don't start with hacking — they start with someone opening the wrong email. Today you're building the habit of noticing.",
   "rememberThis": "Slow down for ten seconds before you click — that's usually all it takes to catch it.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which detail people noticed first — sender domain, urgency wording, or the attachment — and whether that's the same thing they'd actually check on their own phone.",
+      "For the offshore link/URL card — ask how many people actually hover or long-press a link before tapping, and what makes that hard to do underway with limited connectivity.",
+      "Ask if anyone has seen something like the smishing text or the fake IT pop-up for real, and what they did about it."
+    ],
+    "commonWrongAnswer": "The domain-spoofing and fake-portal cards are the most often missed — both real/fake images look almost identical, so people judge by which one looks more polished instead of checking the exact domain character-by-character."
+  },
   "items": [
   {
     "id": "compare-domain-spoofing",
@@ -53,6 +61,7 @@
   {
     "id": "compare-login-portal",
     "type": "compare",
+    "persona": "Offshore Crew",
     "title": "Real vs Fake Crew Self-Service Portal",
     "realImage": "../assets/fault-finding/login-portal-real.svg",
     "fakeImage": "../assets/fault-finding/login-portal-fake.svg",

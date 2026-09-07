@@ -26,14 +26,14 @@
         <div class="qs-intro" id="introScreen">
           <div class="hh-eyebrow">Brief the room</div>
           <h2>QR / USB / AI Scam Challenge</h2>
-          <p class="sr-intro-text">3 physical threat stations. Facilitator shows prop → room identifies the threat → tap Reveal for explanation.</p>
+          <p class="sr-intro-text">3 physical threat stations. Facilitator shows prop → room identifies the threat → click Reveal for explanation.</p>
           <div class="le-btn-row">
             <button class="le-btn primary lg" id="startBtn" type="button"><i class="fa-solid fa-play"></i> Start (Space)</button>
           </div>
         </div>
 
         <div class="qs-round le-hidden" id="roundScreen">
-          <div class="qs-progress" id="progressDots"></div>
+          <div class="le-item-counter" id="itemCounter">Station 1 of 3</div>
 
           <div class="qs-station" id="stationCard">
             <div class="qs-prop-display">
@@ -51,6 +51,8 @@
               <div class="qs-explanation" id="explanationText">—</div>
             </div>
           </div>
+
+          <div class="le-progress-dots" id="progressDots"></div>
 
           <div class="le-btn-row">
             <button class="le-btn primary lg" id="nextBtn" type="button" disabled><i class="fa-solid fa-forward"></i> Next Station</button>

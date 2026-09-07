@@ -90,7 +90,7 @@
       onExpire: () => {
         if (!answered && !revealed) {
           els.optionsContainer.querySelectorAll('.cq-option').forEach(b => b.disabled = true);
-          els.feedback.textContent = 'Time up — tap Reveal to see the answer';
+          els.feedback.textContent = 'Time up — click Reveal to see the answer';
           els.feedback.className = 'cq-feedback show timeout';
         }
       }
@@ -125,7 +125,7 @@
     highlightOptions(r.answer, btn);
     els.answerReveal.classList.add('show');
     if (isCorrect) {
-      els.feedback.textContent = '✓ Correct! — ' + r.answer;
+      els.feedback.textContent = '✓ Correct — ' + r.answer;
       els.feedback.className = 'cq-feedback show correct';
     } else {
       els.feedback.textContent = '✗ Not quite — correct is ' + r.answer;
@@ -212,7 +212,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      els.riddleText.textContent = 'Failed to load content/clue-quest.json';
+      els.riddleText.textContent = "Couldn't load this activity's content — check your connection or refresh.";
       console.error(err);
     });
 })();

@@ -1,6 +1,14 @@
 {
   "whyThisMatters": "Most people freeze or panic-fix in the first minute of a real incident — the habit that saves you is knowing your next move before you ever need it.",
   "rememberThis": "STOP, VERIFY, REPORT — in that order, every time, no matter how the situation looks.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the room what they'd actually do in the first 60 seconds of finding an unknown USB or a locked screen — before revealing the \"good\" answer.",
+      "For the vishing call — ask if anyone has a memorized \"known number\" to call back on, or if they'd have to look it up under pressure.",
+      "Ask why \"wait and see if anything goes wrong\" is tempting, even though it's the wrong move in every one of these cases."
+    ],
+    "commonWrongAnswer": "The instinct to self-fix — change your own password, restart a locked device, move a breached folder — before reporting is the most consistently wrong pick across all 6 cases, since it feels proactive even though it usually destroys evidence IT needs."
+  },
   "cases": [
   {
     "id": "phishing-link-clicked",

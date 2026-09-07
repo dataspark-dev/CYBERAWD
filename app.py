@@ -18,6 +18,7 @@ import string
 import random
 import socket
 import secrets
+import hashlib
 from pathlib import Path
 from datetime import datetime, timezone, timedelta
 from functools import wraps
@@ -33,6 +34,8 @@ except ImportError:
     pass
 
 from flask import Flask, send_from_directory, abort, request, jsonify, session, Response, redirect
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 ROOT = Path(__file__).resolve().parent
 DECK_JS = ROOT / "scripts" / "deck.js"
@@ -47,6 +50,16 @@ INDEX_HTML = ROOT / "index.html"
 SLIDE_ENTRY_RE = re.compile(r"\{\s*file:\s*['\"](?P<file>[^'\"]+)['\"]")
 
 app = Flask(__name__)
+# Per-IP rate limiting for the public, unauthenticated participant routes — this is now reachable
+# on the open internet (not just venue WiFi), so a scripted flood of fake joins/responses against
+# a live room is possible without it. No app-wide default_limits: admin routes are already behind
+# login, and static/content GETs don't need throttling — only the specific mutating participant
+# endpoints below opt in via @limiter.limit(...). In-memory storage (default) is fine at this
+# scale, matching the existing single-process, in-memory-plus-disk-persistence SESSIONS design.
+# Limits are per-IP but generous, since real participants often share one NAT'd IP (venue WiFi/
+# corporate network) — sized to comfortably cover a full room self-pacing through a module, not
+# to cap legitimate classroom-sized concurrent use.
+limiter = Limiter(get_remote_address, app=app, default_limits=[], storage_uri="memory://")
 # -- session / admin config (additive, does not affect existing routes) --
 # Env vars (see .env.example for local dev; on Render set in Environment settings):
 #   ADMIN_USERNAME, ADMIN_PASSWORD, FLASK_SECRET_KEY
@@ -61,6 +74,9 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY") or os.environ.get("SECRET_KE
 # this lifetime controls expiry. 12h >> typical 2-4h event, so no mid-event logout.
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=12)
 app.permanent_session_lifetime = timedelta(hours=12)
+# Idle timeout — logs an admin out after this long with no admin API activity, independent of
+# (and shorter than) the 12h absolute cookie lifetime above. See _gate_admin_routes.
+ADMIN_IDLE_TIMEOUT = timedelta(hours=2)
 
 # In-memory room/session store (state machine for whole-activity flow):
 # {
@@ -183,6 +199,10 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             # (e.g. "../assets/fault-finding/x.svg", relative to live-event/modules/) are
             # rewritten to absolute site paths ("/live-event/assets/fault-finding/x.svg") since
             # this is served from a different URL (/join/<code>), not live-event/modules/.
+            # Participant view is deterministic: A always shows the real image, B the fake —
+            # so B is always the correct answer (the console randomizes separately per render,
+            # participant correctness is fixed per room for stable scoring). This matches the
+            # same correctOptionId / isCorrect / _sanitize pattern used for myth-vs-fact.
             def _abs_asset(path):
                 if not path:
                     return None
@@ -190,9 +210,11 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             return {
                 "id": str(base_id),
                 "prompt": str(raw.get("title") or base_id).strip(),
+                "persona": raw.get("persona"),
                 "realImage": _abs_asset(raw.get("realImage")),
                 "fakeImage": _abs_asset(raw.get("fakeImage")),
                 "options": _normalize_options([{"id": "A", "text": "Option A is fake"}, {"id": "B", "text": "Option B is fake"}]),
+                "correctOptionId": "B",
                 "fact": str(raw.get("whyItsSuspicious") or raw.get("whatIsWrong") or ""),
                 "revealed": False,
             }
@@ -229,6 +251,11 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             # raw is a decision {prompt, options[]}; _load will flatten cases→decisions and
             # inject caseId/persona/scenario (see _load_module_sequence) so the phone template
             # can show the same persona badge + scenario context as the console.
+            # No single "correct" answer — instead track a "good choice" per decision
+            # (outcome=="good") as the admin-only analog metric, labeled "good decisions"
+            # not "correct answers" so it isn't misread as the same thing. Participant sees
+            # no Correct/Not-quite badge here (neutral picked state only); admin sees
+            # goodCount alongside progress. Outcome is preserved on each option for that.
             prompt = raw.get("prompt") or raw.get("scenario") or base_id
             opts = raw.get("options") or raw.get("choices") or []
             # Keep original option ids/text for reveal
@@ -239,7 +266,22 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 fact = " | ".join([o.get("feedback","") for o in opts if o.get("outcome")=="good"])
             except Exception:
                 pass
-            return {
+            # Determine the "good" option id (admin-only scoring, not correctOptionId)
+            good_option_id = None
+            try:
+                for o in opts:
+                    if isinstance(o, dict) and o.get("outcome") == "good" and o.get("id"):
+                        good_option_id = str(o.get("id"))
+                        break
+                # fallback: find via normalized outcome if original id missing
+                if not good_option_id:
+                    for no in norm_opts:
+                        if no.get("outcome") == "good":
+                            good_option_id = no["id"]
+                            break
+            except Exception:
+                pass
+            out = {
                 "id": str(base_id),
                 "prompt": str(prompt).strip(),
                 "persona": raw.get("persona"),
@@ -249,44 +291,83 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 "fact": fact,
                 "revealed": False,
             }
+            if good_option_id:
+                out["goodOptionId"] = good_option_id
+            return out
         if module_id == "closing-quiz":
             # raw is question {question, choices} or SVR prompt {scenario, idealResponse} — the
             # phone template needs to tell these apart to render the right visual (qz-choice
             # grid vs svr-scenario-card, matching the console's two distinct item types).
             if "question" in raw:
-                return {
+                norm_opts = _normalize_options(raw.get("choices") or [])
+                correct_id = None
+                try:
+                    ci = raw.get("correctIndex")
+                    if isinstance(ci, int) and 0 <= ci < len(norm_opts):
+                        correct_id = norm_opts[ci]["id"]
+                except Exception:
+                    pass
+                out = {
                     "id": str(base_id),
                     "kind": "question",
                     "prompt": str(raw.get("question") or base_id).strip(),
-                    "options": _normalize_options(raw.get("choices") or []),
+                    "persona": raw.get("persona"),
+                    "options": norm_opts,
                     "fact": str(raw.get("explanation") or ""),
                     "revealed": False,
                 }
+                if correct_id:
+                    out["correctOptionId"] = correct_id
+                return out
             else:
-                # SVR prompt
+                # SVR prompt — no single correct answer (STOP/VERIFY/REPORT are all part of ideal)
                 return {
                     "id": str(base_id),
                     "kind": "svr",
                     "prompt": str(raw.get("scenario") or base_id).strip(),
+                    "persona": raw.get("persona"),
                     "options": _normalize_options(["STOP", "VERIFY", "REPORT"]),
                     "fact": str(raw.get("idealResponse") or ""),
                     "revealed": False,
                 }
         if module_id == "clue-quest":
-            return {
+            # Single defined answer per riddle — wire same isCorrect pattern as myth-vs-fact/fault-finding
+            # for parity (participant Correct/Not-quite badge, admin correctCount). Options are
+            # string list, answer is one of them (e.g. "DOMAIN SPOOFING").
+            norm_opts = _normalize_options(raw.get("options") or [])
+            answer = str(raw.get("answer") or "").strip()
+            correct_id = None
+            try:
+                # case-insensitive match against normalized text
+                for o in norm_opts:
+                    if o.get("text", "").strip().upper() == answer.upper():
+                        correct_id = o["id"]
+                        break
+                # fallback exact
+                if not correct_id:
+                    for o in norm_opts:
+                        if o.get("text", "").strip() == answer:
+                            correct_id = o["id"]
+                            break
+            except Exception:
+                pass
+            out = {
                 "id": str(base_id),
                 "prompt": str(raw.get("riddle") or base_id).strip(),
-                "options": _normalize_options(raw.get("options") or []),
-                "fact": str(raw.get("answer") or ""),
+                "options": norm_opts,
+                "fact": str(answer),
                 "revealed": False,
             }
+            if correct_id:
+                out["correctOptionId"] = correct_id
+            return out
         if module_id == "pass-phrase":
             # Real build-your-own-password mechanic, matching the console (pass-phrase.js):
-            # a themed deck of PP_DECK_SIZE characters the participant taps into a
-            # PP_MAX_SLOTS-slot password row, watching the strength meter respond to their OWN
-            # construction — not a vote on a pre-built rating. weakPassword/deck are static
-            # content (see content/pass-phrase.json), generated once by
-            # scripts/gen_passphrase_content.py using the same pools/composition logic as
+            # a themed deck of PP_DECK_SIZE CHUNKS (mixed 2-char pairs like "Ka","Th","on",
+            # singles, symbols/numbers) that participants combine — not letter-by-letter — to
+            # assemble a password, capped by total character count (PP_MAX_CHARS) not tile count.
+            # weakPassword/deck are static content (see content/pass-phrase.json), generated once
+            # by scripts/gen_passphrase_content.py using the same pools/composition logic as
             # _pp_generate_weak_password/_pp_generate_deck below, rather than regenerated at
             # request time — this keeps the deck fixed for the whole activity, like every other
             # module's content, instead of reshuffling on every launch. Falls back to a fresh
@@ -309,6 +390,8 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 "weakRequirement": requirement,
                 "deck": list(deck),
                 "maxSlots": PP_MAX_SLOTS,
+                "maxChars": PP_MAX_CHARS,
+                "difficulty": difficulty,
                 "options": [],
                 "revealed": False,
             }
@@ -430,7 +513,66 @@ def _get_join_url(room_code: str) -> str:
     return f"/join/{room_code}"
 
 
-def _sanitize_item_for_participant(item: dict | None, active_module: str | None = None, my_answer=None, my_build=None) -> dict | None:
+def _ff_effective_fake_side(item: dict, participant_id: str | None) -> str | None:
+    """Fault-finding only: deterministic per-participant slot ('A' or 'B') for the fake image.
+
+    The console (fault-finding.js) randomizes `fakeSide` on every render (Math.random()<0.5).
+    The phone path used to hardcode B-is-always-fake, which meant the position was a learnable
+    fixed pattern (tap B without even looking). This derives a stable hash of (itemId,
+    participantId) instead — same participant always sees the same side for a given item (so
+    grading and repeated /state polls stay consistent), but different participants land on
+    different sides, and there's no single global answer to memorize. Returns None for
+    non-fault-finding items (no realImage/fakeImage pair) or with no participant context, in
+    which case callers fall back to the item's own fixed correctOptionId.
+    """
+    if not item or item.get("realImage") is None or item.get("fakeImage") is None or not participant_id:
+        return None
+    digest = hashlib.sha256(f"{item.get('id')}:{participant_id}".encode("utf-8")).digest()
+    return "A" if digest[0] % 2 == 0 else "B"
+
+
+def _response_entries_for_module(bucket: dict, module_id: str | None) -> dict:
+    """Filter a {participantId: entry} response bucket down to entries that actually belong to
+    module_id.
+
+    sess["responses"] is keyed by raw itemId (not module-namespaced) and deliberately survives
+    re-launching a different module in the same room (see admin_launch: "launch does not wipe
+    them", so a facilitator can run several modules back-to-back in one room/QR code). Every
+    module's content today uses module-prefixed ids (mf-*, compare-*, phishing-link-clicked,
+    ...) so there's no live collision, but nothing previously stopped two modules from reusing
+    the same itemId and silently mixing each other's answers/correctness. session_respond now
+    tags each new entry with the moduleId active at the moment it was recorded; this filters out
+    any entry whose tag doesn't match the module being read, closing that gap for all responses
+    written from here on. Entries with no tag at all (pre-dating this change) are passed through
+    unfiltered rather than dropped, so already-collected event data isn't silently wiped by a
+    mid-event deploy — filtering only ever removes entries we can positively prove belong to a
+    different module.
+    """
+    if not bucket:
+        return {}
+    return {
+        pid: entry for pid, entry in bucket.items()
+        if not isinstance(entry, dict) or entry.get("moduleId") in (None, module_id)
+    }
+
+
+def _effective_correct_option_id(item: dict | None, participant_id: str | None = None):
+    """correctOptionId as it actually applies to one participant.
+
+    Identical to item['correctOptionId'] for every module except fault-finding, whose fake-image
+    slot is randomized per participant (see _ff_effective_fake_side) rather than fixed by content
+    order — grading, admin correctCount, and per-item feedback must all key off this, not the
+    item's raw correctOptionId, or they'd disagree with what that participant actually saw.
+    """
+    if not item:
+        return None
+    fake_side = _ff_effective_fake_side(item, participant_id)
+    if fake_side is not None:
+        return fake_side
+    return item.get("correctOptionId")
+
+
+def _sanitize_item_for_participant(item: dict | None, active_module: str | None = None, my_answer=None, my_build=None, participant_id: str | None = None) -> dict | None:
     """Return participant-safe copy of an item — no answer key, no fact/reveal text.
 
     Reveals are an admin-screen-only, shared-with-the-room-together action (read aloud off the
@@ -444,25 +586,41 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
     per-item educational feedback. Never the answer key itself, never a running tally — just
     "was I right this time." `my_build`, when given, is pass-phrase's equivalent — the
     participant's own in-progress build for this round (builtPassword + computed strength), so
-    refreshing/navigating back doesn't lose progress.
+    refreshing/navigating back doesn't lose progress. `participant_id`, when given, drives
+    fault-finding's per-participant real/fake image randomization (see _ff_effective_fake_side)
+    — omitted only by callers that have no participant context (e.g. viewed pre-join).
     """
     if not item:
         return None
+    # Sanitize options: only id and text are safe to expose — outcome/isCorrect/correct
+    # must never leak to participants (see decision-room outcome leak check). Rebuild list
+    # rather than passing through the stored array directly.
+    sanitized_opts = []
+    for o in item.get("options", []):
+        try:
+            sanitized_opts.append({"id": str(o.get("id", "")), "text": str(o.get("text", ""))})
+        except Exception:
+            pass
     safe = {
         "id": item.get("id"),
         "prompt": item.get("prompt"),
-        "options": item.get("options", []),
+        "options": sanitized_opts,
     }
     # Pure display fields, safe to pass through as-is — none of these reveal a correct answer.
     # Only copied when present so modules that don't set them don't carry null clutter.
     for field in ("realImage", "fakeImage", "topic", "persona", "caseTitle", "caseScenario", "kind",
-                  "weakPassword", "weakRequirement", "deck", "maxSlots"):
+                  "weakPassword", "weakRequirement", "deck", "maxSlots", "maxChars", "difficulty"):
         if item.get(field) is not None:
             safe[field] = item[field]
+    effective_correct = _effective_correct_option_id(item, participant_id)
+    # Fault-finding: this participant's fake image lands in slot A instead of the content's
+    # default B — swap the two image URLs so what they SEE matches what gets graded correct.
+    if active_module == "fault-finding" and safe.get("realImage") is not None and effective_correct == "A":
+        safe["realImage"], safe["fakeImage"] = safe.get("fakeImage"), safe.get("realImage")
     if my_answer is not None:
         safe["myAnswer"] = my_answer
-        if item.get("correctOptionId") is not None:
-            safe["myAnswerCorrect"] = (str(my_answer) == str(item["correctOptionId"]))
+        if effective_correct is not None:
+            safe["myAnswerCorrect"] = (str(my_answer) == str(effective_correct))
     if my_build is not None:
         safe["myBuild"] = my_build
     return safe
@@ -470,15 +628,17 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
 
 # --- Pass-phrase: build-your-own-password deck + strength meter ---
 # Ported from live-event/modules/pass-phrase.js's own generateWeakPassword/generateDeck/
-# computeStrength — the console's real mechanic (build from a themed deck into a 12-slot
-# password, watch the strength meter) rather than a rating poll. The console generates a NEW
-# random weak password + deck on every render (see pass-phrase.js) and this doesn't try to
-# reproduce it bit-for-bit (different RNG, and the console itself never repeats a value either)
-# — it reuses the SAME pools and difficulty-scaled composition intent so the phone gets a
-# comparably "themed" deck, generated once per round at module-load time (not per-poll) so it
-# stays fixed for the whole activity, the same way every other module's content does.
-PP_DECK_SIZE = 20
-PP_MAX_SLOTS = 12
+# computeStrength — the console's real mechanic (build from a themed deck into a password
+# row, watch the strength meter) rather than a rating poll. Redesigned to multi-character
+# chunks (Part 2): deck is now 15 mixed CHUNKS (some 2-char syllable pairs like "Ka","Th",
+# "on", some single letters, some 1-char symbols/numbers) that participants combine — not
+# letter-by-letter — to assemble a password, capped by total character count (PP_MAX_CHARS)
+# rather than tile count so a "Ka" tile counts as 2 characters toward the cap. Difficulty
+# ramps easy→hard across 5 rounds: easy is mostly singles + a couple 2-char/helpers,
+# hard has more 2-char chunks and fewer obviously-needed symbols/numbers.
+PP_DECK_SIZE = 15
+PP_MAX_SLOTS = 12  # legacy tile-count cap, kept for backwards compat with old content
+PP_MAX_CHARS = 20  # new chunk-aware cap: total characters reached, not tile count
 PP_NAMES = ["Rahul", "Priya", "Amit", "Neha", "Arjun", "Sneha", "Vikram", "Ananya", "Rohan", "Isha", "Karan", "Meera"]
 PP_PLACES = ["Mumbai", "Delhi", "Chennai", "Kolkata", "Goa", "Pune", "Jaipur", "Kochi", "Hyderabad"]
 PP_YEARS = ["1998", "1999", "2000", "2001", "2002", "2003", "1995", "1990", "1992"]
@@ -487,6 +647,7 @@ PP_UPPER_POOL = [chr(c) for c in range(65, 91)]
 PP_LOWER_POOL = [chr(c) for c in range(97, 123)]
 PP_NUM_POOL = [chr(c) for c in range(48, 58)]
 PP_SYM_POOL = list("!@#$%^&*-_+=?~<>")
+PP_CHUNK_TWO_POOL = ["Ka","Ri","Th","On","An","Re","Co","Ma","Be","Su","Un","Ex","Mi","Tr","Ch","Sh","Pr","St","Li","En","Or","Al","El","Ar","on","th","an","er","in"]
 
 
 def _pp_generate_weak_password(difficulty: str) -> str:
@@ -525,68 +686,94 @@ def _pp_rand_chars(pool: list, count: int, allow_dup: bool) -> list:
     return [random.choice(pool) for _ in range(count)]
 
 
+def _pp_rand_chunks(pool: list, count: int, allow_dup: bool) -> list:
+    """Same as _pp_rand_chars but for the 2-char chunk pool."""
+    if count <= 0:
+        return []
+    if not allow_dup:
+        shuffled_pool = pool[:]
+        random.shuffle(shuffled_pool)
+        return shuffled_pool[:count]
+    return [random.choice(pool) for _ in range(count)]
+
+
 def _pp_generate_deck(difficulty: str, weak: str) -> list:
+    """Mixed-chunk deck: 2-char syllable pairs + singles + symbols/numbers.
+
+    Easy: mostly singles plus a couple easy 2-char/symbol chunks — straightforward.
+    Hard: more 2-char chunks and fewer obviously-needed symbols/numbers.
+    Total deck size is PP_DECK_SIZE (15) chunks, each chunk is 1 or 2 characters.
+    Strength still scores the concatenated string, so deck composition controls
+    how deliberately a participant must combine chunks to reach Strong/Very Strong.
+    """
     has_upper = bool(re.search(r"[A-Z]", weak))
     has_num = bool(re.search(r"[0-9]", weak))
     has_sym = bool(re.search(r"[^A-Za-z0-9]", weak))
     missing_upper, missing_num, missing_sym = not has_upper, not has_num, not has_sym
     if difficulty == "easy":
-        upper_count = 4 if missing_upper else 3
-        sym_count = 4 if missing_sym else 3
-        num_count = 3
-        phrase_count = 2
+        two_count = 2
+        upper_count = 3 if missing_upper else 2
+        sym_count = 3 if missing_sym else 2
+        num_count = 2
         allow_dup = False
     elif difficulty == "medium":
-        upper_count, sym_count, num_count = 3, 3, 3
-        phrase_count = 2
-        allow_dup = random.random() < 0.2
-    else:
+        two_count = 4
         upper_count = 2
-        sym_count = 3 if (missing_sym and random.random() < 0.4) else 2
-        num_count = 3 if (missing_num and random.random() < 0.3) else 2
-        phrase_count = 1
+        sym_count = 2
+        num_count = 2
+        allow_dup = random.random() < 0.2
+    else:  # hard
+        two_count = 6
+        upper_count = 1
+        if missing_sym and random.random() < 0.5:
+            upper_count = 2
+        sym_count = 1
+        if missing_sym and random.random() < 0.5:
+            sym_count = 2
+        num_count = 1
+        if missing_num and random.random() < 0.4:
+            num_count = 2
         allow_dup = True
 
     deck = []
+    deck += _pp_rand_chunks(PP_CHUNK_TWO_POOL, two_count, allow_dup)
     deck += _pp_rand_chars(PP_UPPER_POOL, upper_count, allow_dup)
     deck += _pp_rand_chars(PP_SYM_POOL, sym_count, allow_dup)
     deck += _pp_rand_chars(PP_NUM_POOL, num_count, allow_dup)
-    lower_count = max(7, PP_DECK_SIZE - upper_count - sym_count - num_count - phrase_count)
-
-    for _ in range(phrase_count):
-        w = random.choice(PP_PHRASE_WORDS)
-        deck.append(w[0])
-        if lower_count > 0:
-            deck.append(w[1].lower())
-            lower_count -= 1
+    lower_needed = PP_DECK_SIZE - len(deck)
+    lower_needed = max(2, lower_needed)
 
     if difficulty == "hard":
         weak_lowers = [c for c in weak if c.islower()]
         lowers = []
-        for _ in range(lower_count):
+        for _ in range(lower_needed):
             if weak_lowers and random.random() < 0.55:
                 lowers.append(random.choice(weak_lowers))
             else:
                 lowers.append(random.choice(PP_LOWER_POOL))
+        # decoy dupes to make choices less obvious
         for d in range(2):
             if deck and lowers and random.random() < 0.6:
                 dup = random.choice(deck)
                 lowers[d % len(lowers)] = dup
         deck += lowers
     else:
-        deck += _pp_rand_chars(PP_LOWER_POOL, lower_count, allow_dup)
+        deck += _pp_rand_chars(PP_LOWER_POOL, lower_needed, allow_dup)
 
     random.shuffle(deck)
     deck = deck[:PP_DECK_SIZE]
-    while len(deck) < PP_DECK_SIZE:  # guard against any rounding shortfall above
+    while len(deck) < PP_DECK_SIZE:
         deck.append(random.choice(PP_LOWER_POOL))
 
+    # Guarantee at least one of each missing type is present for easy/medium
     if difficulty != "hard":
-        if missing_upper and not any(c.isupper() for c in deck):
+        # check_helpers: need to consider that 2-char chunks may contain upper/lower/symbol
+        flat = "".join(deck)
+        if missing_upper and not any(c.isupper() for c in flat):
             deck[0] = random.choice(PP_UPPER_POOL)
-        if missing_sym and not any(not c.isalnum() for c in deck):
+        if missing_sym and not any(not c.isalnum() for c in flat):
             deck[1] = random.choice(PP_SYM_POOL)
-        if missing_num and not any(c.isdigit() for c in deck):
+        if missing_num and not any(c.isdigit() for c in flat):
             deck[2] = random.choice(PP_NUM_POOL)
     return deck
 
@@ -683,6 +870,8 @@ def _normalize_options(options) -> list:
                 entry["isCorrect"] = bool(opt["isCorrect"])
             if "correct" in opt:
                 entry["isCorrect"] = bool(opt["correct"])
+            if "outcome" in opt:
+                entry["outcome"] = str(opt["outcome"])
             norm.append(entry)
         else:
             norm.append({"id": f"opt{idx}", "text": str(opt)})
@@ -704,11 +893,34 @@ def _gate_admin_routes():
     if request.path.startswith("/api/admin/"):
         if request.path == "/api/admin/login":
             return None
-        if not session.get("is_admin"):
+        if request.method == "OPTIONS":
             # Allow OPTIONS for CORS preflight if needed
-            if request.method == "OPTIONS":
-                return None
+            return None
+        if not session.get("is_admin"):
             return jsonify({"error": "unauthorized"}), 401
+        # Idle timeout: separate from the 12h absolute cookie lifetime (PERMANENT_SESSION_LIFETIME
+        # above) — logs an unattended admin session out after a stretch of no admin API activity,
+        # rather than staying valid for the full 12h regardless of use, now that this dashboard is
+        # reachable on the open internet and not just venue WiFi.
+        now = datetime.now(timezone.utc)
+        last_active_raw = session.get("last_admin_activity")
+        if last_active_raw:
+            try:
+                last_active = datetime.fromisoformat(last_active_raw)
+            except Exception:
+                last_active = None
+            if last_active and (now - last_active) > ADMIN_IDLE_TIMEOUT:
+                session.clear()
+                return jsonify({"error": "session expired", "message": "logged out after inactivity — please log in again"}), 401
+        session["last_admin_activity"] = now.isoformat()
+        # CSRF: session cookie + same-origin fetch alone isn't enough once this is reachable on
+        # the open internet — require the per-login token (see /api/admin/login, /api/admin/check)
+        # as a header on every mutating admin request. Safe (GET/HEAD) requests are exempt.
+        if request.method in ("POST", "PUT", "PATCH", "DELETE"):
+            token = request.headers.get("X-CSRF-Token") or ""
+            expected = session.get("csrf_token") or ""
+            if not token or not expected or not secrets.compare_digest(str(token), str(expected)):
+                return jsonify({"error": "invalid csrf token"}), 403
 
 
 def load_deck_file_list():
@@ -849,18 +1061,31 @@ def admin_login():
             return jsonify({"error": "invalid password"}), 401
     session["is_admin"] = True
     session.permanent = True
-    return jsonify({"ok": True, "message": "logged in", "username": ADMIN_USERNAME})
+    session["last_admin_activity"] = datetime.now(timezone.utc).isoformat()
+    # Fresh CSRF token per login — required as X-CSRF-Token on every mutating /api/admin/*
+    # request (see _gate_admin_routes). Returned here so the dashboard can attach it going forward.
+    csrf_token = secrets.token_urlsafe(32)
+    session["csrf_token"] = csrf_token
+    return jsonify({"ok": True, "message": "logged in", "username": ADMIN_USERNAME, "csrfToken": csrf_token})
 
 
 @app.route("/api/admin/logout", methods=["POST", "GET"])
 def admin_logout():
-    session.pop("is_admin", None)
+    session.clear()
     return jsonify({"ok": True, "message": "logged out"})
 
 
 @app.route("/api/admin/check", methods=["GET"])
 def admin_check():
-    return jsonify({"isAdmin": bool(session.get("is_admin"))})
+    is_admin = bool(session.get("is_admin"))
+    out = {"isAdmin": is_admin}
+    if is_admin:
+        # A session created before CSRF support won't have a token yet — issue one now so an
+        # already-logged-in admin (cookie still valid) doesn't need to re-login to get one.
+        if not session.get("csrf_token"):
+            session["csrf_token"] = secrets.token_urlsafe(32)
+        out["csrfToken"] = session["csrf_token"]
+    return jsonify(out)
 
 
 @app.route("/api/session/create", methods=["POST"])
@@ -986,6 +1211,10 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .ok{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;padding:12px;border-radius:12px;margin-top:12px;font-size:14px;word-break:break-word}
 .err{background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d;padding:12px;border-radius:12px;margin-top:12px;font-size:14px}
 .badge{font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;display:inline-flex;align-items:center;gap:6px}
+/* Shared small context tag — who/what a scenario is about (persona) or its subject category
+   (myth-vs-fact's topic). One styled class reused everywhere this pattern appears, instead of
+   each render function inventing its own (unstyled) class name. */
+.persona-tag{font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:#e0f2fe;border:1px solid #bae6fd;color:#075985;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px}
 .badge.live{background:#fef9c3;border-color:#fde68a;color:#854d0e}
 .waiting-icon{width:56px;height:56px;border-radius:50%;background:#e0f2fe;color:#0c4a6e;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px}
 .prompt{font-size:18px;font-weight:800;line-height:1.35;margin:0 0 16px;color:#0f172a}
@@ -1056,8 +1285,8 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
    cq-option) only ever defined :hover for the desktop console's mouse use, so they needed
    this most.  */
 .option-btn, .ff-compare-panel, .dr-option, .qz-choice, .cq-option,
-.pp-tile[data-slot-idx], .pp-slot-empty, .pp-deck-tile,
-.act-nav .btn, .btn, .cw-clue-list li{
+.pp-tile[data-slot-idx], .pp-slot-empty, .pp-deck-tile, .pp-tile.chunk-tile, .pp-deck-tile.chunk-tile,
+.act-nav .btn, .btn, .cw-clue-list li, .feedback-badge{
   touch-action: manipulation;
 }
 .ff-compare-panel:active:not(:disabled){ transform: scale(0.985); }
@@ -1065,6 +1294,17 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .qz-choice:active{ background: rgba(6,182,212,0.10) !important; }
 .cq-option:active{ background: rgba(6,182,212,0.06) !important; }
 .pp-tile[data-slot-idx]:active, .pp-deck-tile:not(:disabled):active{ transform: scale(0.94); }
+/* Feedback badges are non-interactive educational feedback per card (correct/not-quite) —
+   they appear below the options after an answer, never overlay the options, and must not
+   block or delay the next tap. They have no pointer events that could intercept a tap on the
+   Prev/Next chrome below, and the 1400ms auto-advance pause is intentional for reading, not
+   a touch delay — Prev remains immediately tappable to go back. */
+.feedback-badge{ pointer-events: none; touch-action: manipulation; }
+.pp-tile.chunk-tile, .pp-deck-tile.chunk-tile{
+  /* 2-char chunks like "Ka","Th","on" are slightly wider than single chars but still
+     comfortably tappable at 375px — flex-wrap keeps the 15-chunk deck from overflowing. */
+  min-width: clamp(56px, 6.2vw, 78px);
+}
 
 /* Fault-finding: console's ff-compare-row is a side-by-side flex row with no mobile
    breakpoint — force a vertical stack, and turn each panel into a real tappable button
@@ -1138,7 +1378,7 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
   <!-- Waiting — lobby shows chosen module name -->
   <div id="waitingScreen" class="card hidden">
     <div class="waiting-icon">⏳</div>
-    <h2 style="text-align:center">Waiting for host</h2>
+    <h2 style="text-align:center">Waiting for facilitator</h2>
     <p id="waitingSub" style="text-align:center">You're in. The facilitator will launch the next activity shortly.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:8px">
       <span id="waitingCount" class="badge">0 joined</span>
@@ -1185,7 +1425,7 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
   <div id="completeScreen" class="card hidden" style="text-align:center">
     <div style="font-size:32px">🎉</div>
     <h2>Activity Complete</h2>
-    <p>Great work! Waiting for host to choose next activity — same room, no re-scan needed.</p>
+    <p>Great work! Waiting for facilitator to choose next activity — same room, no re-scan needed.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
       <span id="completeCount" class="badge">0 joined</span>
       <span id="completeModule" class="badge">—</span>
@@ -1208,6 +1448,12 @@ let participantName = localStorage.getItem(STORAGE_NAME);
 let pollTimer = null;
 let retryCount = 0;
 let notFoundCount = 0;
+// Guards against a slow poll tick's response landing AFTER a later tick's and rendering stale
+// state over it (setInterval fires every 1.5s regardless of whether the previous request has
+// resolved) — fetchState captures the sequence number current at its start and re-checks it
+// right after the fetch resolves; a mismatch means a newer poll has already started, so this
+// (now-stale) response is discarded instead of rendered.
+let fetchSeq = 0;
 const NOT_FOUND_RETRY_LIMIT = 3; // ~3 poll cycles at 1.5s = ~4.5s before giving up on a 404
 let lastActiveModule = null;
 let lastActiveItemId = null;
@@ -1304,8 +1550,11 @@ async function doJoin(){
   hideErr();
   try{
     const r = await fetch('/api/session/' + ROOM_CODE + '/join', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name})});
-    const j = await r.json();
-    if(!r.ok) throw new Error(j.error || 'Join failed');
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok){
+      if(j.error === 'room not found') throw new Error('This session has ended or the room code is wrong. Please check with the facilitator or ask for a new QR.');
+      throw new Error('Could not join — please try again.');
+    }
     participantId = j.participantId;
     participantName = name;
     localStorage.setItem(STORAGE_PID, participantId);
@@ -1422,6 +1671,7 @@ function renderFaultFinding(item){
     + '<div class="ff-tap-hint">'+(picked===letter?'✓ Your answer':'Tap if this one is fake')+'</div>'
     + '</button>';
   return '<div class="ff-compare-frame">'
+    + (item.persona ? '<div class="persona-tag">'+esc(item.persona)+'</div>' : '')
     + '<div style="text-align:center;font-weight:800;margin-bottom:10px;color:var(--navy,#001a4d)">Which one is <span style="color:var(--red,#ef4444)">FAKE</span>?</div>'
     + '<div class="ff-compare-row">' + panel('A', item.realImage) + panel('B', item.fakeImage) + '</div>'
     + '</div>' + renderCorrectFeedback(item);
@@ -1439,7 +1689,7 @@ function renderCorrectFeedback(item){
 function renderMythVsFact(item){
   const picked = item.myAnswer;
   return '<div class="mf-card">'
-    + (item.topic ? '<div class="mf-topic-tag">'+esc(item.topic)+'</div>' : '')
+    + (item.topic ? '<div class="persona-tag">'+esc(item.topic)+'</div>' : '')
     + '<div class="mf-myth" style="margin-top:10px">'+esc(item.prompt||'')+'</div>'
     + '<div class="options">' + (item.options||[]).map(opt=>{
         const sel = picked!=null && String(picked)===String(opt.id);
@@ -1452,7 +1702,7 @@ function renderDecisionRoom(item){
   let html = '';
   if(item.persona || item.caseTitle){
     html += '<div class="ff-title-bar">';
-    if(item.persona) html += '<div class="dr-persona-tag">'+esc(item.persona)+'</div>';
+    if(item.persona) html += '<div class="persona-tag">'+esc(item.persona)+'</div>';
     if(item.caseTitle) html += '<h2 style="margin:8px 0 4px;font-size:18px;color:var(--navy,#001a4d)">'+esc(item.caseTitle)+'</h2>';
     if(item.caseScenario) html += '<div class="dr-scenario-context">'+esc(item.caseScenario)+'</div>';
     html += '</div>';
@@ -1471,12 +1721,13 @@ function renderClosingQuiz(item){
     const sel = picked!=null && String(picked)===String(opt.id);
     return '<div class="qz-choice'+(sel?' picked':'')+'" data-answer-opt="'+esc(opt.id)+'"><span class="qz-letter">'+esc(letter)+'</span><span>'+esc(opt.text)+'</span></div>';
   };
+  const personaTag = item.persona ? '<div class="persona-tag">'+esc(item.persona)+'</div>' : '';
   if(item.kind === 'svr'){
-    return '<div class="svr-scenario-card"><div class="svr-scenario-text">'+esc(item.prompt||'')+'</div></div>'
+    return personaTag + '<div class="svr-scenario-card"><div class="svr-scenario-text">'+esc(item.prompt||'')+'</div></div>'
       + '<div class="qz-choices">' + (item.options||[]).map(opt=>choiceRow(opt, opt.text[0])).join('') + '</div>'
       + renderCorrectFeedback(item);
   }
-  return '<div class="qz-question">'+esc(item.prompt||'')+'</div>'
+  return personaTag + '<div class="qz-question">'+esc(item.prompt||'')+'</div>'
     + '<div class="qz-choices">' + (item.options||[]).map((opt,idx)=>choiceRow(opt, String.fromCharCode(65+idx))).join('') + '</div>'
     + renderCorrectFeedback(item);
 }
@@ -1529,21 +1780,78 @@ function ppComputeStrength(pw, weak){
 
 // Local-only build state, stashed directly on the item object (same pattern as myAnswer)
 // so navigating away and back to a round preserves in-progress placement without a round-trip.
+// Chunk-aware: deck is 15 mixed chunks (e.g. "Ka","Th","on", singles, symbols). Password row
+// holds whole chunks per tile (not single characters), capped by total character count
+// (maxChars 20) not tile count. Deck availability is per chunk, and resume from myBuild's
+// builtPassword string (which loses chunk boundaries) is reconstructed greedily by matching
+// deck chunks against the built string — preferring longer chunks first — sufficient for
+// demo continuity; exact chunk identity is recovered via server-stored strength anyway.
 function ppEnsureState(item){
   if(item._ppSlots) return;
-  var maxSlots = item.maxSlots || 12;
-  var slots = new Array(maxSlots).fill(null);
-  var built = (item.myBuild && item.myBuild.builtPassword) || '';
-  for(var i=0;i<built.length && i<maxSlots;i++) slots[i] = built[i];
+  var maxChars = item.maxChars || item.maxSlots || 20;
   var deck = item.deck || [];
+  var maxTiles = deck.length || 15;
+  var slots = new Array(maxTiles).fill(null);
+  var built = (item.myBuild && item.myBuild.builtPassword) || '';
   var deckAvail = deck.map(function(){ return true; });
-  slots.forEach(function(ch){
-    if(ch==null) return;
-    for(var i=0;i<deck.length;i++){ if(deckAvail[i] && deck[i]===ch){ deckAvail[i]=false; break; } }
-  });
+  // Reconstruct which deck chunks were used to build the string, greedily matching
+  // longest deck chunks first to disambiguate ("Ka" vs "K"+"a").
+  var pos = 0;
+  var slotIdx = 0;
+  // Build a copy of deck sorted by length desc for matching
+  var deckByLen = deck.map(function(ch, idx){ return {ch:ch, idx:idx}; });
+  deckByLen.sort(function(a,b){ return b.ch.length - a.ch.length; });
+  while(pos < built.length && slotIdx < maxTiles){
+    var matched = null;
+    var matchLen = 0;
+    for(var k=0;k<deckByLen.length;k++){
+      var entry = deckByLen[k];
+      if(!deckAvail[entry.idx]) continue;
+      var chunk = entry.ch;
+      if(built.substr(pos, chunk.length) === chunk){
+        matched = entry;
+        matchLen = chunk.length;
+        break;
+      }
+    }
+    if(matched){
+      slots[slotIdx++] = matched.ch;
+      deckAvail[matched.idx] = false;
+      pos += matchLen;
+    } else {
+      // No deck chunk matches at this position — fall back to single char (may be residue
+      // from old single-char content still in wild). Treat built[pos] as a tile if it exists
+      // as a deck entry, else just advance.
+      var ch = built[pos];
+      var foundIdx = -1;
+      for(var i=0;i<deck.length;i++){ if(deckAvail[i] && deck[i]===ch){ foundIdx=i; break; } }
+      if(foundIdx!==-1){
+        slots[slotIdx++] = ch;
+        deckAvail[foundIdx]=false;
+      } else {
+        // orphan char — place it anyway as a tile (deck-less) so password string is preserved
+        slots[slotIdx++] = ch;
+      }
+      pos += 1;
+    }
+  }
+  // If built was shorter than slots, remaining stay null (empty placeholders)
+  // Enforce maxChars cap: if reconstructed string exceeds maxChars, truncate largest chunks first
+  var totalChars = slots.filter(function(c){return c!=null;}).join('').length;
+  while(totalChars > maxChars && slotIdx>0){
+    slotIdx--;
+    var removed = slots[slotIdx];
+    slots[slotIdx]=null;
+    if(removed){
+      for(var i=0;i<deck.length;i++){ if(!deckAvail[i] && deck[i]===removed){ deckAvail[i]=true; break; } }
+    }
+    totalChars = slots.filter(function(c){return c!=null;}).join('').length;
+  }
   item._ppSlots = slots;
   item._ppDeckAvailable = deckAvail;
   item._ppSelectedDeckIdx = null;
+  item._ppMaxTiles = maxTiles;
+  item._ppMaxChars = maxChars;
 }
 
 let ppSubmitTimer = null;
@@ -1562,8 +1870,12 @@ function renderPassPhrase(item){
   ppEnsureState(item);
   const built = item._ppSlots.filter(c=>c!=null).join('');
   const result = ppComputeStrength(built, item.weakPassword||'');
+  const maxChars = item._ppMaxChars || item.maxChars || 20;
+  const difficulty = item.difficulty || 'medium';
+  const diffLabel = difficulty.charAt(0).toUpperCase()+difficulty.slice(1);
+  const twoCount = (item.deck||[]).filter(function(c){return String(c).length>1;}).length;
   let html = '<div class="pp-weak-card">'
-    + '<div class="pp-weak-label"><i class="fa-solid fa-triangle-exclamation"></i> Starting Sample — Weak</div>'
+    + '<div class="pp-weak-label"><i class="fa-solid fa-triangle-exclamation"></i> Starting Sample — Weak <span style="margin-left:6px;font-weight:400;opacity:0.7">['+esc(diffLabel)+']</span></div>'
     + '<div class="pp-weak-text">'+esc(item.weakPassword||'')+'</div>'
     + (item.weakRequirement ? '<div class="pp-weak-meta">'+esc(item.weakRequirement)+'</div>' : '')
     + '</div>';
@@ -1575,19 +1887,21 @@ function renderPassPhrase(item){
     + '<div class="pp-meter"><div class="pp-meter-fill" style="width:'+result.score+'%;background:'+result.color+'"></div></div>'
     + '<div class="pp-meter-labels"><span>Weak</span><span>Fair</span><span>Strong</span><span>V.Strong</span></div>'
     + '</div></div>';
-  html += '<div class="pp-section-label"><i class="fa-solid fa-lock"></i> Your Password <span>'+built.length+' / '+item._ppSlots.length+'</span></div>';
+  html += '<div class="pp-section-label"><i class="fa-solid fa-lock"></i> Your Password <span>'+built.length+' / '+maxChars+' chars</span></div>';
   html += '<div class="pp-tiles" id="ppSlotsRow">' + item._ppSlots.map((ch,i)=>{
       if(ch==null) return '<button type="button" class="pp-slot-empty" data-slot-idx="'+i+'"></button>';
-      return '<button type="button" class="pp-tile" data-slot-idx="'+i+'"><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
+      const chunkCls = String(ch).length>1 ? ' chunk-tile' : '';
+      return '<button type="button" class="pp-tile'+chunkCls+'" data-slot-idx="'+i+'"><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
     }).join('') + '</div>';
   html += '<div class="pp-section-label" style="margin-top:14px">'
-    + '<i class="fa-solid fa-layer-group"></i> Deck — tap a character, then tap a slot above</div>';
+    + '<i class="fa-solid fa-layer-group"></i> Deck — tap a chunk, then tap a slot above <span style="margin-left:auto;color:#94a3b8;font-weight:400">['+esc(diffLabel)+' · '+twoCount+'×2-char]</span></div>';
   html += '<div class="pp-deck" id="ppDeckTray">' + item.deck.map((ch,i)=>{
       const avail = item._ppDeckAvailable[i];
       const isSelected = item._ppSelectedDeckIdx===i;
-      const cls = ['pp-tile','pp-deck-tile']; if(!avail) cls.push('is-inert'); if(isSelected) cls.push('selected');
+      const cls = ['pp-tile','pp-deck-tile']; if(String(ch).length>1) cls.push('chunk-tile'); if(!avail) cls.push('is-inert'); if(isSelected) cls.push('selected');
       return '<button type="button" class="'+cls.join(' ')+'" data-deck-idx="'+i+'" '+(!avail?'disabled':'')+'><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
     }).join('') + '</div>';
+  html += '<div style="margin-top:6px;font-family:Space Mono,monospace;font-size:11px;color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count — a "Ka" tile counts as 2</div>';
   return html;
 }
 
@@ -1599,6 +1913,15 @@ function wirePassPhraseBuild(item){
       btn.addEventListener('click', ()=>{
         const idx = Number(btn.dataset.deckIdx);
         if(!item._ppDeckAvailable[idx]) return;
+        // Enforce char cap even for selection preview — grey out if would exceed
+        const maxChars = item._ppMaxChars || item.maxChars || 20;
+        const curChars = item._ppSlots.filter(c=>c!=null).join('').length;
+        const chunk = item.deck[idx];
+        // Only prevent selection if already at cap; allow deselection
+        if(item._ppSelectedDeckIdx!==idx && curChars + String(chunk).length > maxChars){
+          // flash the count? just ignore tap — cap reached
+          return;
+        }
         // Tap the same tile again to deselect it without placing.
         item._ppSelectedDeckIdx = (item._ppSelectedDeckIdx===idx) ? null : idx;
         renderActivityItem();
@@ -1615,9 +1938,13 @@ function wirePassPhraseBuild(item){
           item._ppSlots[idx] = null;
           for(let i=0;i<item.deck.length;i++){ if(!item._ppDeckAvailable[i] && item.deck[i]===ch){ item._ppDeckAvailable[i]=true; break; } }
         } else if(item._ppSelectedDeckIdx!=null){
-          // Tapping an EMPTY slot with a deck tile selected places it there.
+          // Tapping an EMPTY slot with a deck tile selected places it there — enforce char cap
           const dIdx = item._ppSelectedDeckIdx;
-          item._ppSlots[idx] = item.deck[dIdx];
+          const chunk = item.deck[dIdx];
+          const maxChars = item._ppMaxChars || item.maxChars || 20;
+          const curChars = item._ppSlots.filter(c=>c!=null).join('').length;
+          if(curChars + String(chunk).length > maxChars) return;
+          item._ppSlots[idx] = chunk;
           item._ppDeckAvailable[dIdx] = false;
           item._ppSelectedDeckIdx = null;
         } else {
@@ -1865,28 +2192,38 @@ function cwReveal(){
 }
 function computeCwProgress(){
   const total=cwWords.length||0;
-  if(!total) return {filled:0,total:0};
-  let filled=0;
+  if(!total) return {filled:0,total:0,correct:0};
+  let filled=0, correct=0;
   for(const w of cwWords){
-    let all=true;
+    let all=true, allCorrect=true;
     for(let i=0;i<w.answer.length;i++){
       const r=w.direction==='down'?w.row+i:w.row;
       const c=w.direction==='across'?w.col+i:w.col;
       const cell=cwCells.get(cwKey(r,c));
-      if(!cell || !cell.input || !cell.input.value.trim()){ all=false; break; }
+      if(!cell || !cell.input || !cell.input.value.trim()){ all=false; allCorrect=false; break; }
+      if(cell.input.value.trim().toUpperCase() !== cell.solution) allCorrect=false;
     }
     if(all) filled++;
+    // correct entries are those where every cell matches solution (implies filled)
+    let ok=true;
+    for(let i=0;i<w.answer.length;i++){
+      const r=w.direction==='down'?w.row+i:w.row;
+      const c=w.direction==='across'?w.col+i:w.col;
+      const cell=cwCells.get(cwKey(r,c));
+      if(!cell || !cell.input || cell.input.value.trim().toUpperCase() !== cell.solution){ ok=false; break; }
+    }
+    if(ok) correct++;
   }
-  return {filled,total};
+  return {filled,total,correct};
 }
 async function sendCwProgress(){
   if(!participantId || !ROOM_CODE) return;
   if(document.getElementById('crosswordScreen').classList.contains('hidden')) return;
-  const {filled,total}=computeCwProgress();
-  if(cwLastSent && cwLastSent.filled===filled && cwLastSent.total===total) return;
-  cwLastSent={filled,total};
+  const {filled,total,correct}=computeCwProgress();
+  if(cwLastSent && cwLastSent.filled===filled && cwLastSent.total===total && cwLastSent.correct===correct) return;
+  cwLastSent={filled,total,correct};
   try{
-    await fetch('/api/session/'+ROOM_CODE+'/crossword/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({participantId:participantId, filledCount:filled, totalCount:total})});
+    await fetch('/api/session/'+ROOM_CODE+'/crossword/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({participantId:participantId, filledCount:filled, totalCount:total, correctCount:correct})});
   }catch(e){}
 }
 function scheduleCwProgress(){
@@ -1916,8 +2253,10 @@ async function ensureCrossword(){
 
 // --- State polling — whole-activity flow (lobby/running/complete) ---
 async function fetchState(){
+  const mySeq = ++fetchSeq;
   try{
     const r=await fetch('/api/session/' + ROOM_CODE + '/state?participantId=' + encodeURIComponent(participantId||''), {cache:'no-store'});
+    if(mySeq !== fetchSeq) return; // a newer poll started while this one was in flight — stale, discard
     if(r.status===404){
       // Covers the brief window right after a server restart where the process is back up
       // (persisted sessions reloading, or this poll landing before that finishes) but the
@@ -1950,8 +2289,8 @@ async function fetchState(){
     if(!curMod || !state){
       actModuleLoaded = null; // so relaunching any module later re-initializes the activity
       showScreen('waiting');
-      els.waitingModule.textContent = 'No active module';
-      document.getElementById('waitingSub').textContent = "You're in. Waiting for host to pick an activity.";
+      els.waitingModule.textContent = 'No active activity';
+      document.getElementById('waitingSub').textContent = "You're in. Waiting for the facilitator to pick an activity.";
       els.waitingNames.innerHTML = (s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:12px;color:#94a3b8">Share the room code to invite others</span>';
       return;
     }
@@ -1960,7 +2299,7 @@ async function fetchState(){
       actModuleLoaded = null; // clears the PREVIOUS activity's local state before Start
       showScreen('waiting');
       els.waitingModule.textContent = displayName + ' — lobby';
-      document.getElementById('waitingSub').textContent = "You're in — waiting for the host to start " + displayName;
+      document.getElementById('waitingSub').textContent = "You're in — waiting for the facilitator to start " + displayName;
       // Live joined count explicitly tied to chosen module
       els.waitingNames.innerHTML = '<div style="font-size:13px;color:#0c4a6e;font-weight:700;margin-bottom:6px">' + esc(displayName) + ' — ' + (s.totalItems||0) + ' items</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' + ((s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:12px;color:#94a3b8">No one yet — share QR</span>') + '</div><div style="margin-top:8px;font-family:Space Mono,monospace;font-size:11px;color:#64748b">' + (s.participantCount||0) + ' joined — waiting for Start</div>';
       return;
@@ -2005,7 +2344,7 @@ async function fetchState(){
       actModuleLoaded = null;
       showScreen('waiting');
       els.waitingModule.textContent = 'Choosing next activity';
-      document.getElementById('waitingSub').textContent = "You're in — waiting for the host to choose the next activity.";
+      document.getElementById('waitingSub').textContent = "You're in — waiting for the facilitator to choose the next activity.";
       els.waitingNames.innerHTML = (s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:12px;color:#94a3b8">Share the room code to invite others</span>';
       return;
     }
@@ -2014,6 +2353,7 @@ async function fetchState(){
     els.waitingModule.textContent = displayName;
     document.getElementById('waitingSub').textContent = 'Waiting…';
   }catch(e){
+    if(mySeq !== fetchSeq) return;
     // Network-level failures (offline, DNS, etc.) — 404 is handled above and never reaches here.
     retryCount++;
     if(retryCount>=2) els.reconnectBanner.classList.remove('hidden');
@@ -2052,6 +2392,7 @@ function stopPolling(){ if(pollTimer){ clearInterval(pollTimer); pollTimer=null;
 
 
 @app.route("/api/session/<code>/join", methods=["POST"])
+@limiter.limit("30/minute")
 @persist_after
 def session_join(code):
     code = code.strip().upper()
@@ -2087,6 +2428,29 @@ def admin_modules():
     """List 7 modules with item counts read live from content/*.json."""
     mods = _get_modules_with_counts()
     return jsonify({"modules": mods, "total": len(mods)})
+
+
+@app.route("/api/admin/modules/<module_id>/facilitator-notes", methods=["GET"])
+@admin_required
+def admin_facilitator_notes(module_id):
+    """Admin-only talking points for a module: whyThisMatters plus facilitatorNotes (2-3
+    discussion prompts + the one most commonly-missed item), read straight from that module's
+    own content/*.json. Static per-module content, not session state — keyed by module id alone
+    so the dashboard can show it as soon as a module starts running, no room-specific lookup
+    needed. Deliberately never referenced by any participant-facing route or template; the only
+    caller is the admin dashboard's own Facilitator Notes panel (see loadFacilitatorNotes in
+    admin/dashboard.html)."""
+    module_id = str(module_id).strip()
+    if module_id not in MODULE_IDS:
+        return jsonify({"error": "unknown module", "valid": sorted(MODULE_IDS)}), 400
+    data = _read_module_json(module_id)
+    if not data:
+        return jsonify({"error": "content not found"}), 404
+    return jsonify({
+        "module": module_id,
+        "whyThisMatters": data.get("whyThisMatters"),
+        "facilitatorNotes": data.get("facilitatorNotes"),
+    })
 
 
 @app.route("/api/admin/session/<code>/launch", methods=["POST"])
@@ -2300,6 +2664,7 @@ def admin_reveal(code):
 
 
 @app.route("/api/session/<code>/respond", methods=["POST"])
+@limiter.limit("300/minute")
 @persist_after
 def session_respond(code):
     code = code.strip().upper()
@@ -2338,11 +2703,16 @@ def session_respond(code):
     if item_id not in sess["responses"]:
         sess["responses"][item_id] = {}
     responded_at = datetime.now(timezone.utc).isoformat()
-    sess["responses"][item_id][participant_id] = {"optionId": option_id, "respondedAt": responded_at}
+    # moduleId tags this entry with whichever module was active when it was recorded, so a later
+    # read (see _response_entries_for_module) can tell it apart from a same-named item id reused
+    # by a different module launched in this same room afterward.
+    sess["responses"][item_id][participant_id] = {
+        "optionId": option_id, "respondedAt": responded_at, "moduleId": sess.get("activeModule"),
+    }
     # Per-item correct/wrong feedback on the participant's OWN answer only — a derived boolean,
     # never the answer key itself (correctOptionId is never sent to participants anywhere else
     # either; see _sanitize_item_for_participant). Only present when the item has one.
-    correct_option_id = target_item.get("correctOptionId")
+    correct_option_id = _effective_correct_option_id(target_item, participant_id)
     is_correct = (option_id == str(correct_option_id)) if correct_option_id is not None else None
     return jsonify({"ok": True, "roomCode": code, "itemId": item_id, "optionId": option_id, "isCorrect": is_correct})
 
@@ -2367,7 +2737,8 @@ def session_state(code):
     def _my_answer(item_id):
         if not valid_participant or not item_id:
             return None
-        entry = sess["responses"].get(item_id, {}).get(participant_id)
+        bucket = _response_entries_for_module(sess["responses"].get(item_id, {}), active_module)
+        entry = bucket.get(participant_id)
         return entry.get("optionId") if isinstance(entry, dict) else entry
 
     def _my_build(item_id):
@@ -2381,6 +2752,7 @@ def session_state(code):
         active_item, active_module,
         my_answer=_my_answer(active_item["id"]) if active_item else None,
         my_build=_my_build(active_item["id"]) if active_item else None,
+        participant_id=participant_id if valid_participant else None,
     )
     # For whole-activity flow, currentItem is only while running; lobby/complete have no currentItem
     current_item = safe_item if state == "running" else None
@@ -2394,7 +2766,8 @@ def session_state(code):
     if state == "running":
         items = [
             _sanitize_item_for_participant(
-                it, active_module, my_answer=_my_answer(it.get("id")), my_build=_my_build(it.get("id"))
+                it, active_module, my_answer=_my_answer(it.get("id")), my_build=_my_build(it.get("id")),
+                participant_id=participant_id if valid_participant else None,
             )
             for it in module_sequence
         ]
@@ -2404,7 +2777,7 @@ def session_state(code):
     participant_count = len(participant_names)
     response_count = 0
     if active_item and state == "running":
-        bucket = sess["responses"].get(active_item["id"], {})
+        bucket = _response_entries_for_module(sess["responses"].get(active_item["id"], {}), active_module)
         response_count = len(bucket)
     # Current index / total for progress
     current_index = sess.get("currentItemIndex")
@@ -2462,7 +2835,7 @@ def admin_results(code):
             "correctness": None,
         })
     item_id = active_item["id"]
-    bucket = sess["responses"].get(item_id, {})
+    bucket = _response_entries_for_module(sess["responses"].get(item_id, {}), sess.get("activeModule"))
 
     def _entry_option(entry):
         # Backwards compat: older in-memory entries (pre-timestamp) stored a bare optionId
@@ -2500,16 +2873,35 @@ def admin_results(code):
         for pid, entry in bucket.items()
     ]
     responded_in_order.sort(key=lambda r: r["respondedAt"] or "")
-    # Per-item correctness count — admin-only (myth-vs-fact today; generalizes to any module
-    # whose normalized item sets correctOptionId). None when the item has no correct answer.
+    # Per-item correctness count — admin-only (generalizes to any module whose normalized
+    # item sets correctOptionId: myth-vs-fact, fault-finding, clue-quest, closing-quiz).
+    # None when the item has no single correct answer (decision-room, pass-phrase, crossword).
+    # Fault-finding's correctOptionId is per-participant (randomized fake-image slot — see
+    # _effective_correct_option_id), so each responder's own effective value is checked rather
+    # than a single shared one; correctOptionId below stays the item's base value, only for
+    # display/back-compat.
     correctness = None
     correct_option_id = active_item.get("correctOptionId")
     if correct_option_id is not None:
-        correct_count = sum(1 for r in responded_in_order if str(r["optionId"]) == str(correct_option_id))
+        correct_count = sum(
+            1 for r in responded_in_order
+            if str(r["optionId"]) == str(_effective_correct_option_id(active_item, r["participantId"]))
+        )
         correctness = {
             "correctOptionId": correct_option_id,
             "correctCount": correct_count,
             "incorrectCount": len(responded_in_order) - correct_count,
+        }
+    # Decision-room analog: "good decision" count per item (outcome=="good") — admin-only,
+    # labeled distinctly as "good decisions" not "correct answers" so it isn't misread as same thing.
+    goodness = None
+    good_option_id = active_item.get("goodOptionId")
+    if good_option_id is not None:
+        good_count = sum(1 for r in responded_in_order if str(r["optionId"]) == str(good_option_id))
+        goodness = {
+            "goodOptionId": good_option_id,
+            "goodCount": good_count,
+            "otherCount": len(responded_in_order) - good_count,
         }
     responses_flat = {pid: _entry_option(entry) for pid, entry in bucket.items()}
     return jsonify({
@@ -2523,6 +2915,7 @@ def admin_results(code):
         "responses": responses_flat,  # {participantId: optionId} — flat, kept for backwards compat
         "respondedInOrder": responded_in_order,  # admin-only, sorted first-to-respond first
         "correctness": correctness,
+        "goodness": goodness,
         "perParticipant": per_participant,
         "nonRespondents": non_respondents,
     })
@@ -2540,10 +2933,11 @@ def admin_progress(code):
     directly from sess["responses"] — the server already sees every discrete answer via
     /respond, so no separate client-side progress ping is needed for these.
 
-    For modules with objective correctness (correctOptionId set on the normalized items — see
-    _normalize_module_item; today only myth-vs-fact), also reports a LIVE per-participant
-    correctCount, updating in real time as the room answers — not just at Mark Complete via
-    GET /module-summary. Admin-only, same as everything else in this file's /admin/* routes.
+    For modules with objective correctness (correctOptionId — myth-vs-fact, fault-finding,
+    clue-quest, closing-quiz question items) also reports a LIVE per-participant correctCount.
+    For decision-room (no single correct, but outcome=="good" tagged) reports goodCount
+    analog metric labeled distinctly as "good decisions" not "correct". Both are admin-only
+    and update live as the room answers — never sent to participants.
     """
     code = code.strip().upper()
     sess = SESSIONS.get(code)
@@ -2551,45 +2945,69 @@ def admin_progress(code):
         return jsonify({"error": "room not found"}), 404
     module_sequence = sess.get("moduleSequence") or []
     total = len(module_sequence)
-    correct_option_by_item = {
-        it["id"]: it["correctOptionId"] for it in module_sequence if it.get("correctOptionId") is not None
+    items_by_id = {it.get("id"): it for it in module_sequence}
+    has_correctness = any(it.get("correctOptionId") is not None for it in module_sequence)
+    good_option_by_item = {
+        it["id"]: it.get("goodOptionId") for it in module_sequence if it.get("goodOptionId") is not None
     }
-    has_correctness = bool(correct_option_by_item)
+    has_good = bool(good_option_by_item)
     item_ids = [it.get("id") for it in module_sequence]
+    active_module = sess.get("activeModule")
     responses = sess.get("responses", {})
     result = []
     for pid, name in sess.get("participants", {}).items():
         answered = 0
         correct = 0
+        good = 0
         last_at = None
         for item_id in item_ids:
-            entry = responses.get(item_id, {}).get(pid)
+            entry = _response_entries_for_module(responses.get(item_id, {}), active_module).get(pid)
             if entry is None:
                 continue
             answered += 1
             at = entry.get("respondedAt") if isinstance(entry, dict) else None
             oid = entry.get("optionId") if isinstance(entry, dict) else entry
-            if item_id in correct_option_by_item and str(oid) == str(correct_option_by_item[item_id]):
+            # Fault-finding's correct slot is per-participant (randomized fake-image side) —
+            # evaluate each participant's own effective correct option, not a single shared one.
+            eff_correct = _effective_correct_option_id(items_by_id.get(item_id), pid)
+            if eff_correct is not None and str(oid) == str(eff_correct):
                 correct += 1
+            if item_id in good_option_by_item and str(oid) == str(good_option_by_item[item_id]):
+                good += 1
             if at and (last_at is None or at > last_at):
                 last_at = at
-        result.append({
+        entry_out = {
             "participantId": pid,
             "name": name,
             "filledCount": answered,
             "totalCount": total,
-            "correctCount": correct if has_correctness else None,
             "updatedAt": last_at,
-        })
+        }
+        if has_correctness:
+            entry_out["correctCount"] = correct
+        else:
+            entry_out["correctCount"] = None
+        if has_good:
+            entry_out["goodCount"] = good
+        result.append(entry_out)
     result.sort(key=lambda x: (-x["filledCount"], x["name"].lower()))
-    return jsonify({
+    out = {
         "roomCode": code,
         "hasCorrectness": has_correctness,
+        "hasGoodDecision": has_good,
         "activeModule": sess.get("activeModule"),
         "progress": result,
         "participantCount": len(sess.get("participants", {})),
         "totalCount": total,
-    })
+    }
+    # provide unified label hint for admin dashboard's consistent display
+    if has_good:
+        out["metricLabel"] = "good decisions"
+    elif has_correctness:
+        out["metricLabel"] = "correct"
+    else:
+        out["metricLabel"] = None
+    return jsonify(out)
 
 
 def _compute_module_summary(sess):
@@ -2601,15 +3019,18 @@ def _compute_module_summary(sess):
     coverage, i.e. their "final qualifying response", not simply their latest edit — a
     participant who finishes then goes back and tweaks an earlier answer doesn't get a later
     completedAt for it), and correctCount when the module has objective correct answers
-    (correctOptionId set on its normalized items — see _normalize_module_item; today only
-    myth-vs-fact). Never exposed to participants — this is only ever read from admin routes.
+    (correctOptionId set on its normalized items — myth-vs-fact, fault-finding, clue-quest,
+    closing-quiz question items). For decision-room (no single correct, outcome=="good") the
+    analog is goodCount labeled "good decisions". Never exposed to participants — this is only
+    ever read from admin routes.
 
     Crossword is a special case: it has no per-item /respond sequence at all (a single grid
     item, filled via the separate crosswordProgress ping — see crossword_progress), no
-    objective correctness concept (free-text grid, not scored), and no per-participant
-    "first ping" retained (crosswordProgress overwrites on each debounced ping) — so
-    moduleStartedAt is always None there, and completedAt/ranking use crosswordProgress's own
-    filledCount/totalCount/updatedAt instead of sess["responses"].
+    objective correctness concept (free-text grid, not scored for summary ranking — per-word
+    correctness is a separate progress metric), and no per-participant "first ping" retained
+    (crosswordProgress overwrites on each debounced ping) — so moduleStartedAt is always None
+    there, and completedAt/ranking use crosswordProgress's own filledCount/totalCount/updatedAt
+    instead of sess["responses"].
     """
     if sess.get("activeModule") == "crossword":
         total = 0
@@ -2674,18 +3095,21 @@ def _compute_module_summary(sess):
 
     module_sequence = sess.get("moduleSequence") or []
     item_ids = [it.get("id") for it in module_sequence]
+    items_by_id = {it.get("id"): it for it in module_sequence}
     total_items = len(item_ids)
+    active_module = sess.get("activeModule")
     responses = sess.get("responses", {})
-    correct_option_by_item = {
-        it["id"]: it["correctOptionId"] for it in module_sequence if it.get("correctOptionId") is not None
+    has_correctness = any(it.get("correctOptionId") is not None for it in module_sequence)
+    good_option_by_item = {
+        it["id"]: it.get("goodOptionId") for it in module_sequence if it.get("goodOptionId") is not None
     }
-    has_correctness = bool(correct_option_by_item)
+    has_good = bool(good_option_by_item)
 
     summary = []
     for pid, name in sess.get("participants", {}).items():
         entries = []  # (item_id, respondedAt, optionId) for every item this participant answered
         for item_id in item_ids:
-            entry = responses.get(item_id, {}).get(pid)
+            entry = _response_entries_for_module(responses.get(item_id, {}), active_module).get(pid)
             if entry is None:
                 continue
             at = entry.get("respondedAt") if isinstance(entry, dict) else None
@@ -2707,18 +3131,30 @@ def _compute_module_summary(sess):
                     break
         correct_count = None
         if has_correctness:
-            correct_count = sum(
+            # Fault-finding: each entry's effective correct option is this participant's own
+            # randomized fake-image slot (see _effective_correct_option_id), not a shared value.
+            correct_count = 0
+            for item_id, _, oid in entries:
+                eff_correct = _effective_correct_option_id(items_by_id.get(item_id), pid)
+                if eff_correct is not None and str(oid) == str(eff_correct):
+                    correct_count += 1
+        good_count = None
+        if has_good:
+            good_count = sum(
                 1 for item_id, _, oid in entries
-                if item_id in correct_option_by_item and str(oid) == str(correct_option_by_item[item_id])
+                if item_id in good_option_by_item and str(oid) == str(good_option_by_item[item_id])
             )
-        summary.append({
+        entry_out = {
             "participantId": pid, "name": name,
             "answeredCount": answered_count, "totalCount": total_items,
             "isComplete": is_complete,
             "moduleStartedAt": started_at, "lastAnsweredAt": last_answered_at,
             "completedAt": completed_at,
             "correctCount": correct_count,
-        })
+        }
+        if has_good:
+            entry_out["goodCount"] = good_count
+        summary.append(entry_out)
     return summary, has_correctness, total_items
 
 
@@ -2727,13 +3163,15 @@ def _compute_module_summary(sess):
 def admin_module_summary(code):
     """Admin-only ranked "fastest overall" summary for the room's currently loaded module.
 
-    Ranking: modules with objective correctness (correctOptionId on their items) rank by
-    correctCount descending, ties broken by completedAt ascending (fastest correct finisher
-    wins ties). Modules without correctness rank by completedAt ascending only. Participants
-    who haven't completed every item are excluded from the ranking but returned separately
-    (inProgress) for context. Scoped to the room's CURRENTLY loaded moduleSequence — once a new
-    module is launched the old one's sequence is gone (see admin_launch), so this only answers
-    for whichever module is presently active, matching the Mark Complete flow it's built for.
+    Ranking: modules with objective correctness (correctOptionId — myth-vs-fact, fault-finding,
+    clue-quest, closing-quiz) rank by correctCount descending, ties broken by completedAt
+    ascending (fastest correct finisher wins ties). Decision-room ranks by goodCount (sound
+    decisions) similarly, labeled distinctly. Modules without either rank by completedAt
+    ascending only. Participants who haven't completed every item are excluded from the ranking
+    but returned separately (inProgress) for context. Scoped to the room's CURRENTLY loaded
+    moduleSequence — once a new module is launched the old one's sequence is gone (see
+    admin_launch), so this only answers for whichever module is presently active, matching the
+    Mark Complete flow it's built for.
     """
     code = code.strip().upper()
     sess = SESSIONS.get(code)
@@ -2751,21 +3189,35 @@ def admin_module_summary(code):
     summary, has_correctness, total_items = _compute_module_summary(sess)
     completed = [s for s in summary if s["isComplete"]]
     in_progress = [s for s in summary if not s["isComplete"]]
+    # Detect decision-room style ranking (goodCount) — any entry with goodCount indicates
+    # that module's analog metric should drive ranking instead of completedAt alone.
+    has_good = any("goodCount" in s for s in summary)
     if has_correctness:
         completed.sort(key=lambda s: (-(s["correctCount"] or 0), s["completedAt"] or ""))
+    elif has_good:
+        completed.sort(key=lambda s: (-(s.get("goodCount") or 0), s["completedAt"] or ""))
     else:
         completed.sort(key=lambda s: s["completedAt"] or "")
     for i, s in enumerate(completed):
         s["rank"] = i + 1
-    return jsonify({
+    ranked_by = "correctCount" if has_correctness else ("goodCount" if has_good else "completedAt")
+    out = {
         "roomCode": code,
         "module": module,
         "totalItems": total_items,
         "hasCorrectness": has_correctness,
-        "rankedBy": "correctCount" if has_correctness else "completedAt",
+        "hasGoodDecision": has_good,
+        "rankedBy": ranked_by,
         "ranked": completed,
         "inProgress": in_progress,
-    })
+    }
+    if has_good:
+        out["metricLabel"] = "good decisions"
+    elif has_correctness:
+        out["metricLabel"] = "correct"
+    else:
+        out["metricLabel"] = None
+    return jsonify(out)
 
 
 @app.route("/api/admin/dashboard", methods=["GET"])
@@ -2778,7 +3230,7 @@ def admin_dashboard():
         active_item = sess.get("activeItem")
         response_count = 0
         if active_item:
-            response_count = len(sess["responses"].get(active_item["id"], {}))
+            response_count = len(_response_entries_for_module(sess["responses"].get(active_item["id"], {}), sess.get("activeModule")))
         sessions.append({
             "roomCode": code,
             "createdAt": sess.get("createdAt"),
@@ -2797,9 +3249,17 @@ def admin_dashboard():
 
 # --- Crossword lightweight sync (free-text grid, not single-option) ---
 @app.route("/api/session/<code>/crossword/progress", methods=["POST"])
+@limiter.limit("300/minute")
 @persist_after
 def crossword_progress(code):
-    """Participants ping debounced progress: {participantId, filledCount, totalCount}."""
+    """Participants ping debounced progress: {participantId, filledCount, totalCount, correctCount?}.
+
+    Per-word correctness (correctCount = entries where filled letters match the actual answer)
+    is tracked as a distinct admin metric from raw filledCount, so the facilitator sees both
+    "how much has been filled" and "how many entries are actually correct" — not conflated.
+    correctCount is optional for backwards compat (older clients send only filledCount); when
+    absent it stays None and admin sees filled-only until the client updates.
+    """
     code = code.strip().upper()
     sess = SESSIONS.get(code)
     if not sess:
@@ -2818,6 +3278,17 @@ def crossword_progress(code):
         total = int(data.get("totalCount", data.get("total_count", 0)))
     except Exception:
         return jsonify({"error": "filledCount and totalCount must be integers"}), 400
+    # Optional per-word correctness — distinct from raw filled progress
+    correct = None
+    if "correctCount" in data or "correct_count" in data:
+        try:
+            correct = int(data.get("correctCount", data.get("correct_count", 0)))
+        except Exception:
+            return jsonify({"error": "correctCount must be integer"}), 400
+        if correct < 0:
+            correct = 0
+        if total > 0 and correct > total:
+            correct = total
     # Clamp
     if filled < 0:
         filled = 0
@@ -2828,18 +3299,35 @@ def crossword_progress(code):
     # Ensure store exists for older sessions
     if "crosswordProgress" not in sess:
         sess["crosswordProgress"] = {}
-    sess["crosswordProgress"][participant_id] = {
+    # Preserve previous correctCount if this ping didn't include it (debounced separate paths)
+    prev = sess["crosswordProgress"].get(participant_id, {})
+    if correct is None and "correctCount" in prev:
+        correct = prev.get("correctCount")
+    entry = {
         "filledCount": filled,
         "totalCount": total,
         "updatedAt": datetime.now(timezone.utc).isoformat(),
     }
-    return jsonify({"ok": True, "roomCode": code, "participantId": participant_id, "filledCount": filled, "totalCount": total})
+    if correct is not None:
+        entry["correctCount"] = correct
+    else:
+        # keep None explicit so admin knows it's not yet reported
+        entry["correctCount"] = None
+    sess["crosswordProgress"][participant_id] = entry
+    out = {"ok": True, "roomCode": code, "participantId": participant_id, "filledCount": filled, "totalCount": total}
+    if correct is not None:
+        out["correctCount"] = correct
+    return jsonify(out)
 
 
 @app.route("/api/admin/session/<code>/crossword/progress", methods=["GET"])
 @admin_required
 def admin_crossword_progress(code):
-    """Admin poll: per-participant filled/total counts for live progress panel (~1.5s)."""
+    """Admin poll: per-participant filled/total counts for live progress panel (~1.5s).
+
+    Also returns per-word correctness (correctCount) when clients report it — distinct
+    from raw filled progress, so admin sees "X/Y filled · Z correct (P%)" not conflated.
+    """
     code = code.strip().upper()
     sess = SESSIONS.get(code)
     if not sess:
@@ -2861,11 +3349,13 @@ def admin_crossword_progress(code):
     for pid, name in sess.get("participants", {}).items():
         entry = prog.get(pid)
         if entry:
+            cc = entry.get("correctCount")
             result.append({
                 "participantId": pid,
                 "name": name,
                 "filledCount": int(entry.get("filledCount", 0)),
                 "totalCount": int(entry.get("totalCount", 0)),
+                "correctCount": int(cc) if cc is not None else None,
                 "updatedAt": entry.get("updatedAt"),
             })
         else:
@@ -2874,10 +3364,16 @@ def admin_crossword_progress(code):
                 "name": name,
                 "filledCount": 0,
                 "totalCount": default_total,
+                "correctCount": None,
                 "updatedAt": None,
             })
-    # Sort by filledCount desc, then name
-    result.sort(key=lambda x: (-x["filledCount"], x["name"].lower()))
+    # Sort by correctCount desc when available, else filledCount desc, then name
+    def _sort_key(x):
+        cc = x.get("correctCount")
+        if cc is not None:
+            return (-cc, -x["filledCount"], x["name"].lower())
+        return (-x["filledCount"], x["name"].lower())
+    result.sort(key=_sort_key)
     return jsonify({
         "roomCode": code,
         "activeModule": sess.get("activeModule"),
@@ -2888,6 +3384,7 @@ def admin_crossword_progress(code):
 
 
 @app.route("/api/session/<code>/passphrase/build", methods=["POST"])
+@limiter.limit("300/minute")
 @persist_after
 def passphrase_build(code):
     """Participant's in-progress password build, sent on every change (debounced client-side —
@@ -2910,14 +3407,22 @@ def passphrase_build(code):
     round_item = next((it for it in module_sequence if it.get("id") == round_id), None)
     if not round_item or "deck" not in round_item:
         return jsonify({"error": "round not found in this activity's sequence"}), 400
-    max_slots = int(round_item.get("maxSlots") or PP_MAX_SLOTS)
-    built_password = built_password[:max_slots]
-    # Every character placed must have actually come from this round's deck (respecting how
-    # many of each the deck has) — a tapped-together build can only ever be a subset of the
-    # deck it was built from.
+    # Chunk-aware cap: total character count, not tile count (Part 2). Fall back to maxSlots
+    # for older single-char content still in the wild.
+    max_chars = int(round_item.get("maxChars") or round_item.get("maxSlots") or PP_MAX_CHARS)
+    # also respect legacy maxSlots as character cap when deck was single-char (12)
+    # new decks have maxChars=20, old have maxSlots=12
+    built_password = built_password[:max_chars]
+    # Chunk validation: deck is list of chunks (1-2 chars). Expand each chunk into its
+    # constituent characters for validation — a "Ka" tile contributes one K and one a to the
+    # available pool. This matches the chunk-aware cap (total chars) while still ensuring the
+    # password was assembled only from deck-provided characters, respecting multiplicities.
+    # For strictly chunk-boundary validation the client also sends the same builtPassword
+    # string; the server's strength scoring remains on the full string exactly as before.
     deck_counts: dict = {}
-    for c in round_item["deck"]:
-        deck_counts[c] = deck_counts.get(c, 0) + 1
+    for chunk in round_item["deck"]:
+        for ch in str(chunk):
+            deck_counts[ch] = deck_counts.get(ch, 0) + 1
     used_counts: dict = {}
     for c in built_password:
         used_counts[c] = used_counts.get(c, 0) + 1

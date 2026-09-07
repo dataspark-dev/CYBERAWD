@@ -1,6 +1,14 @@
 {
   "whyThisMatters": "A lot of what feels obviously true about cybersecurity is outdated advice or half-right — a few minutes here clears up the ones that actually matter.",
   "rememberThis": "If a security \"rule\" sounds like something from 10 years ago, it's worth double-checking before you follow it.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask if anyone has seen a phishing email recently with zero typos or a completely professional look — what actually tipped them off if not spelling?",
+      "For the password myths — ask if anyone is still manually rotating a password every 30-90 days out of habit, and where that habit came from.",
+      "For the reporting-culture items — ask the room honestly whether they'd report something they weren't sure was malicious, and what would make that easier to do."
+    ],
+    "commonWrongAnswer": "mf-04 (\"P@ssw0rd!\" is strong) is the one people most often get wrong — a symbol swap feels secure, so the room tends to call it TRUE (strong) when it's actually a myth attackers already expect."
+  },
   "items": [
     {
       "id": "mf-01",

@@ -630,7 +630,7 @@
       if (introDismissed) beginActivity();
     })
     .catch(err => {
-      stageEl.innerHTML = '<p style="color:#fff;">Failed to load content/live-simulation.json</p>';
+      stageEl.innerHTML = '<p style="color:#fff;">Couldn\'t load this activity\'s content — check your connection or refresh.</p>';
       console.error(err);
     });
 })();
