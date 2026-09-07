@@ -506,9 +506,15 @@
     locked=false;
     if(els.weakText) els.weakText.textContent=currentWeak;
     if(els.weakMeta){
+      var hint = r.hint || '';
+      var req = hint.indexOf('—')>-1 ? hint.split('—').slice(1).join('—').trim() : '';
       var diffLabel = difficulty.charAt(0).toUpperCase()+difficulty.slice(1);
-      var metaBase = difficulty==='easy' ? 'Based on: name + birth year — very guessable (e.g. rahul1998)' : difficulty==='medium' ? 'Based on: Name + Place + year — still personal (e.g. RahulMumbai98)' : 'Based on: Name_Place_Year + symbol — looks strong but personal data remains';
-      els.weakMeta.textContent = diffLabel+' — ' + metaBase + ' — deck has ' + DECK_SIZE + ' chunks (' + deckChunks.filter(function(c){return String(c).length>1;}).length + ' ×2-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
+      if(req){
+        els.weakMeta.textContent = diffLabel+' — ' + req + ' — deck has ' + DECK_SIZE + ' chunks (' + deckChunks.filter(function(c){return String(c).length>1;}).length + ' ×2-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
+      } else {
+        var metaBase = difficulty==='easy' ? 'Based on: name + birth year — very guessable (e.g. rahul1998)' : difficulty==='medium' ? 'Based on: Name + Place + year — still personal (e.g. RahulMumbai98)' : 'Based on: Name_Place_Year + symbol — looks strong but personal data remains';
+        els.weakMeta.textContent = diffLabel+' — ' + metaBase + ' — deck has ' + DECK_SIZE + ' chunks (' + deckChunks.filter(function(c){return String(c).length>1;}).length + ' ×2-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
+      }
     }
     els.solvedBtn.disabled=true;
     els.solvedBtn.classList.remove('pulse-highlight');

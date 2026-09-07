@@ -706,8 +706,8 @@
           const idx = st.currentIndex!=null ? st.currentIndex : 0;
           if(total && idx+1 >= total) els.nextBtn.innerHTML = '<i class="fa-solid fa-flag-checkered"></i> Complete';
           else els.nextBtn.innerHTML = '<i class="fa-solid fa-forward"></i> Next';
-          els.runningMsg.textContent = 'Crossword is self-paced — progress below';
-          els.runningHint.textContent = 'Crossword: Start unlocked the grid for every phone at once — no Next sequence, just the live progress panel below.';
+          els.runningMsg.textContent = 'Crossword is self-paced — progress below (participants tap Done — Submit Grid when finished)';
+          els.runningHint.textContent = 'Crossword: Start unlocked the grid for every phone at once — no Next sequence. Participants hit Done — Submit Grid when they consider it finished (not when grid is full). Progress below shows ✓ submitted / ○ in progress — Mark Complete (Next → Complete) ends the room for everyone regardless.';
         } else {
           els.runningProgress.textContent = 'self-paced';
           els.runningCrosswordControls.classList.add('adm-hidden');
@@ -716,7 +716,7 @@
           const picked = (st.items||[]).find(it=>it.id===selectedItemId) || (st.items||[])[0];
           els.runningPrompt.textContent = picked ? picked.prompt : '';
           els.runningMsg.textContent = '';
-          els.runningHint.textContent = 'Self-paced — every phone already has the full ' + total + '-item sequence and is answering at its own pace. Pick an item above to view its results or reveal it on this screen; Mark Complete whenever you\'re ready to move on.';
+          els.runningHint.textContent = 'Self-paced — every phone already has the full ' + total + '-item sequence and is answering at its own pace. Pick an item above to view its results or reveal it on this screen. Progress below shows ✓ submitted / ● reached end / ○ in progress per participant — Mark Complete ends the room for everyone (non-submitted stay not submitted) whenever you\'re ready.';
         }
         // Show live results
         pollResultsForRunning(st);
@@ -852,14 +852,38 @@
         const pct = tot ? Math.round((filled/tot)*100) : 0;
         const when = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '';
         const suffix = suffixFn ? esc(suffixFn(p)) : '';
+        // Three-state submission badge — authoritative done signal
+        let statusBadge = '';
+        const st = p.submissionStatus || (p.submittedAt ? 'submitted' : null);
+        if(st){
+          if(st==='submitted'){
+            const t = p.submittedAt ? new Date(p.submittedAt).toLocaleTimeString() : '';
+            statusBadge = `<span class="adm-badge" style="background:#ecfdf5;border-color:#6ee7b7;color:#065f46;font-size:10px">✓ submitted${t?' · '+esc(t):''}</span>`;
+          } else if(st==='reached_end'){
+            statusBadge = `<span class="adm-badge" style="background:#fffbeb;border-color:#fde68a;color:#92400e;font-size:10px">● reached end — not submitted</span>`;
+          } else {
+            statusBadge = `<span class="adm-badge" style="font-size:10px">○ in progress</span>`;
+          }
+        } else if(p.submittedAt){
+          const t = new Date(p.submittedAt).toLocaleTimeString();
+          statusBadge = `<span class="adm-badge" style="background:#ecfdf5;border-color:#6ee7b7;color:#065f46;font-size:10px">✓ submitted · ${esc(t)}</span>`;
+        }
         return `<div class="adm-cw-row">
-          <div class="adm-cw-name"><i class="fa-solid fa-user" style="color:var(--cyan-dark)"></i> ${esc(p.name || p.participantId)} <span style="font-weight:400; color:var(--faint); font-size:11px; margin-left:4px;">${esc(p.participantId.slice(0,8))}</span></div>
+          <div class="adm-cw-name"><i class="fa-solid fa-user" style="color:var(--cyan-dark)"></i> ${esc(p.name || p.participantId)} <span style="font-weight:400; color:var(--faint); font-size:11px; margin-left:4px;">${esc(p.participantId.slice(0,8))}</span> ${statusBadge}</div>
           <div class="adm-cw-count">${filled} / ${tot} ${esc(unit)}${suffix}</div>
           <div class="adm-cw-track"><div class="adm-cw-fill" style="width:${pct}%"></div></div>
           <span class="adm-note" style="margin:0; white-space:nowrap;">${pct}%${when? ' · '+esc(when):''}</span>
         </div>`;
       }).join('');
-      els.crosswordProgressMeta.textContent = `${list.length} participant(s) · ${total} ${unit} · updates ~1.5s`;
+      // Summary counts per status for facilitator at-a-glance
+      const subCount = list.filter(p=> (p.submissionStatus||'')==='submitted').length;
+      const reachedCount = list.filter(p=> (p.submissionStatus||'')==='reached_end').length;
+      const inProgCount = list.length - subCount - reachedCount;
+      let meta = `${list.length} participant(s) · ${total} ${unit} · ${subCount} submitted`;
+      if(reachedCount) meta += ` · ${reachedCount} reached end (not submitted)`;
+      if(inProgCount) meta += ` · ${inProgCount} in progress`;
+      meta += ` · updates ~1.5s`;
+      els.crosswordProgressMeta.textContent = meta;
     }
 
     // "2m 14s" style relative-duration formatter — used only for the admin-only Fastest
@@ -890,11 +914,11 @@
       const ranked = data.ranked || [];
       const inProgress = data.inProgress || [];
       if(data.hasCorrectness){
-        els.fastestOverallNote.textContent = `Ranked by correct answers (of ${data.totalItems}), ties broken by fastest completion.`;
+        els.fastestOverallNote.textContent = `Ranked by correct answers (of ${data.totalItems}), ties broken by fastest submission (submittedAt).`;
       } else if(data.hasGoodDecision){
-        els.fastestOverallNote.textContent = `Ranked by good decisions (of ${data.totalItems}), ties broken by fastest completion — labeled distinctly as "good decisions" not "correct".`;
+        els.fastestOverallNote.textContent = `Ranked by good decisions (of ${data.totalItems}), ties broken by fastest submission — labeled distinctly as "good decisions" not "correct".`;
       } else {
-        els.fastestOverallNote.textContent = `Ranked by completion time (${data.totalItems} items each) — this module has no objectively correct answer.`;
+        els.fastestOverallNote.textContent = `Ranked by submission time (${data.totalItems} items each) — this module has no objectively correct answer.`;
       }
       if(!ranked.length){
         els.fastestOverallList.innerHTML = '<li class="adm-note">No one has completed every item yet.</li>';

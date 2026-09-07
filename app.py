@@ -92,7 +92,9 @@ ADMIN_IDLE_TIMEOUT = timedelta(hours=2)
 #     "currentItemIndex": None | int,
 #     "activeItem": dict | None,  # {id, prompt, options:[{id,text}], fact?, answerId?, revealed?} — only while running
 #     "responses": { itemId: { participantId: {"optionId": str, "respondedAt": iso8601} } },
-#     "crosswordProgress": { participantId: { filledCount:int, totalCount:int, updatedAt:iso } }
+#     "crosswordProgress": { participantId: { filledCount:int, totalCount:int, updatedAt:iso } },
+#     "passphraseBuilds": { participantId: { roundId: {builtPassword, strength, updatedAt} } },
+#     "submissions": { participantId: { moduleId: submittedAt_iso } }  # per-participant per-module deliberate Submit
 #   }
 # }
 SESSIONS: dict = {}
@@ -211,6 +213,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 "id": str(base_id),
                 "prompt": str(raw.get("title") or base_id).strip(),
                 "persona": raw.get("persona"),
+                "category": raw.get("category"),
                 "realImage": _abs_asset(raw.get("realImage")),
                 "fakeImage": _abs_asset(raw.get("fakeImage")),
                 "options": _normalize_options([{"id": "A", "text": "Option A is fake"}, {"id": "B", "text": "Option B is fake"}]),
@@ -572,23 +575,17 @@ def _effective_correct_option_id(item: dict | None, participant_id: str | None =
     return item.get("correctOptionId")
 
 
-def _sanitize_item_for_participant(item: dict | None, active_module: str | None = None, my_answer=None, my_build=None, participant_id: str | None = None) -> dict | None:
-    """Return participant-safe copy of an item — no answer key, no fact/reveal text.
+def _sanitize_item_for_participant(item: dict | None, active_module: str | None = None, my_answer=None, my_build=None, participant_id: str | None = None, is_submitted: bool = False) -> dict | None:
+    """Return participant-safe copy of an item — no answer key, no fact/reveal text *before* submit.
 
-    Reveals are an admin-screen-only, shared-with-the-room-together action (read aloud off the
-    facilitator's own dashboard) — never sent to individual phones, so "fact"/"revealed"/
-    "correctOptionId"/"isTrue" are deliberately never copied here, regardless of module or
-    reveal state. `my_answer`, when given, decorates the item with the requesting participant's
-    own prior optionId for this item (so their phone can show "you picked X" when they navigate
-    back to an already-answered item in the self-paced full-sequence view) — and, when the item
-    has a correctOptionId, also derives "myAnswerCorrect" (a boolean — was THIS participant's
-    own answer right), the one piece of correctness info participants ARE meant to see, as
-    per-item educational feedback. Never the answer key itself, never a running tally — just
-    "was I right this time." `my_build`, when given, is pass-phrase's equivalent — the
-    participant's own in-progress build for this round (builtPassword + computed strength), so
-    refreshing/navigating back doesn't lose progress. `participant_id`, when given, drives
-    fault-finding's per-participant real/fake image randomization (see _ff_effective_fake_side)
-    — omitted only by callers that have no participant context (e.g. viewed pre-join).
+    Before Submit, reveals are admin-screen-only (read aloud) — never sent to phones, so
+    "fact"/"revealed"/"correctOptionId"/"isTrue" are not copied. `my_answer` decorates with
+    own prior optionId and derives `myAnswerCorrect` (was THIS answer right) as immediate
+    badge feedback. After Submit (`is_submitted=True`), the full `fact` (identification +
+    recommendation: what was wrong + why suspicious / idealResponse / explanation) is now
+    included so the participant can review per-item detail in read-only mode, mirroring the
+    console's Reveal. `my_build` is pass-phrase's equivalent. `participant_id` drives
+    per-participant image randomization.
     """
     if not item:
         return None
@@ -608,10 +605,15 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
     }
     # Pure display fields, safe to pass through as-is — none of these reveal a correct answer.
     # Only copied when present so modules that don't set them don't carry null clutter.
-    for field in ("realImage", "fakeImage", "topic", "persona", "caseTitle", "caseScenario", "kind",
+    for field in ("realImage", "fakeImage", "topic", "persona", "category", "caseTitle", "caseScenario", "kind",
                   "weakPassword", "weakRequirement", "deck", "maxSlots", "maxChars", "difficulty"):
         if item.get(field) is not None:
             safe[field] = item[field]
+    # Hybrid after Submit: participant sees full identification + recommendation (fact) in read-only review,
+    # mirroring console's Reveal. Before Submit, fact is never sent.
+    if is_submitted and item.get("fact"):
+        safe["fact"] = str(item.get("fact"))
+        safe["revealed"] = True
     effective_correct = _effective_correct_option_id(item, participant_id)
     # Fault-finding: this participant's fake image lands in slot A instead of the content's
     # default B — swap the two image URLs so what they SEE matches what gets graded correct.
@@ -1107,6 +1109,7 @@ def session_create():
         "responses": {},  # itemId -> {participantId: optionId}
         "crosswordProgress": {},  # participantId -> {filledCount, totalCount, updatedAt}
         "passphraseBuilds": {},  # participantId -> {roundId: {builtPassword, strength, updatedAt}}
+        "submissions": {},  # participantId -> { moduleId: submittedAt_iso }
     }
     join_url = _get_join_url(code)
     return jsonify({"roomCode": code, "joinUrl": join_url, "join_url": join_url})
@@ -1409,6 +1412,13 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
     </div>
     <div id="waitingNames" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center"></div>
   </div>
+  <!-- Participant intro — mirrors console's le-intro-screen (whyThisMatters) -->
+  <div id="introScreen" class="card hidden" style="text-align:center">
+    <div style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;color:#0891b2;background:#ecfeff;border:1px solid #a5f3fc;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-circle-info"></i> Why This Matters</div>
+    <p id="introText" style="margin:16px 0;font-size:15px;line-height:1.5;color:#0f172a"></p>
+    <button id="introStartBtn" class="btn" style="width:100%;background:#06b6d4;color:white" type="button"><i class="fa-solid fa-play"></i> Start</button>
+    <p style="margin-top:10px;font-family:'Space Mono',monospace;font-size:10px;color:#94a3b8">Synergy Cyber Security Awareness Month</p>
+  </div>
   <!-- Self-paced activity — real per-module template mounted into #actMount, participant
        pages through the full item list at their own pace (their own Prev/Next below). -->
   <div id="activityScreen" class="card hidden">
@@ -1423,6 +1433,33 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
       <button id="actNextBtn" class="btn secondary" type="button">Next ›</button>
     </div>
     <div id="actDots" class="le-progress-dots" style="justify-content:center;margin-top:14px"></div>
+    <div id="actSubmitWrap" class="hidden" style="margin-top:16px; text-align:center; border-top:1px solid #e2e8f0; padding-top:14px">
+      <button id="actSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%" type="button"><i class="fa-solid fa-paper-plane"></i> Done — Submit Answers</button>
+      <div id="actSubmitHint" class="adm-note" style="margin-top:6px">Review with Prev/Next before you submit. After Submit your answers are locked — you can't change them.</div>
+      <div id="actSubmitMsg" class="adm-note" style="margin-top:6px"></div>
+    </div>
+    <div id="reviewBackWrap" class="hidden" style="margin-top:12px; text-align:center; border-top:1px dashed #6ee7b7; padding-top:12px">
+      <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode — answers locked, identification & recommendation shown below each answer.</div>
+      <button id="backToSubmittedFromActivityBtn" class="btn secondary" style="width:100%" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
+    </div>
+  </div>
+  <!-- Submitted — deliberate locked confirmation, distinct from generic complete -->
+  <div id="submittedScreen" class="card hidden" style="text-align:center; border-color:#6ee7b7; background:#ecfdf5">
+    <div style="font-size:32px">✅</div>
+    <h2 style="color:#065f46">Submitted — thanks!</h2>
+    <p id="submittedMsg">Your answers for <span class="badge" id="submittedModule">—</span> have been recorded and are now locked. You can't edit them further.</p>
+    <p style="font-size:12px;color:#065f46; font-weight:600">Waiting for facilitator to move the room on — same room, no re-scan needed.</p>
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap; margin-top:8px">
+      <span id="submittedCount" class="badge">—</span>
+      <span id="submittedModule2" class="badge" style="background:#ecfdf5; border-color:#6ee7b7; color:#065f46">locked</span>
+    </div>
+    <p id="submittedAtLine" style="font-family:'Space Mono',monospace;font-size:11px;color:#64748b;margin-top:10px"></p>
+    <div id="submittedRememberWrap" class="hidden" style="margin-top:14px; text-align:left; background:white; border:1px solid #6ee7b7; border-radius:12px; padding:14px">
+      <div style="font-family:'Space Mono',monospace;font-size:11px;font-weight:800;color:#065f46;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-thumbtack"></i> Remember This</div>
+      <div id="submittedRememberText" style="margin-top:6px;font-size:14px;font-weight:700;color:#0f172a"></div>
+    </div>
+    <button id="reviewAnswersBtn" class="btn secondary" style="width:100%;margin-top:14px" type="button"><i class="fa-solid fa-eye"></i> Review Answers with Details</button>
+    <button id="backToSubmittedBtn" class="btn secondary hidden" style="width:100%;margin-top:8px" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
   </div>
   <!-- Crossword compact single-column -->
   <div id="crosswordScreen" class="card hidden">
@@ -1442,6 +1479,15 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
         <button id="cwReveal" class="btn secondary" style="flex:1">Reveal</button>
       </div>
       <div id="cwProgressHint" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:11px;color:#94a3b8;text-align:center">Progress syncs automatically (debounced)</div>
+      <div id="cwSubmitWrap" style="margin-top:14px; text-align:center; border-top:1px solid #e2e8f0; padding-top:12px">
+        <button id="cwSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%" type="button"><i class="fa-solid fa-paper-plane"></i> Done — Submit Grid</button>
+        <div class="adm-note" style="margin-top:6px">Submit locks your grid — you can't edit after that.</div>
+        <div id="cwSubmitMsg" class="adm-note" style="margin-top:6px"></div>
+      </div>
+      <div id="cwReviewBackWrap" class="hidden" style="margin-top:12px; text-align:center; border-top:1px dashed #6ee7b7; padding-top:12px">
+        <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode — grid locked, submitted.</div>
+        <button id="backToSubmittedFromCwBtn" class="btn secondary" style="width:100%" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
+      </div>
     </div>
   </div>
   <!-- Complete — same room stays for next activity -->
@@ -1487,6 +1533,13 @@ let hasAnsweredCurrentItem = false;
 let actModuleLoaded = null;
 let actItems = [];
 let actIndex = 0;
+// Submission state — per-participant per-module deliberate lock
+let mySubmission = null; // {isSubmitted, submittedAt, module} for current activeModule from /state
+let actIsSubmitted = false; // mirrors mySubmission for activityScreen (MC + pass-phrase)
+let cwIsSubmitted = false;  // mirrors for crossword
+let introDismissedFor = null; // module id for which participant intro was dismissed
+let lastRememberThis = null;
+let isReviewingAfterSubmit = false; // participant tapped Review on submittedScreen
 let cwInitialized = false;
 let cwWords = [];
 let cwCells = new Map();
@@ -1516,6 +1569,25 @@ const els = {
   actPrevBtn: document.getElementById('actPrevBtn'),
   actNextBtn: document.getElementById('actNextBtn'),
   actDots: document.getElementById('actDots'),
+  actSubmitWrap: document.getElementById('actSubmitWrap'),
+  actSubmitBtn: document.getElementById('actSubmitBtn'),
+  actSubmitMsg: document.getElementById('actSubmitMsg'),
+  introScreen: document.getElementById('introScreen'),
+  introText: document.getElementById('introText'),
+  introStartBtn: document.getElementById('introStartBtn'),
+  submittedScreen: document.getElementById('submittedScreen'),
+  submittedModule: document.getElementById('submittedModule'),
+  submittedModule2: document.getElementById('submittedModule2'),
+  submittedCount: document.getElementById('submittedCount'),
+  submittedAtLine: document.getElementById('submittedAtLine'),
+  submittedRememberWrap: document.getElementById('submittedRememberWrap'),
+  submittedRememberText: document.getElementById('submittedRememberText'),
+  reviewAnswersBtn: document.getElementById('reviewAnswersBtn'),
+  backToSubmittedBtn: document.getElementById('backToSubmittedBtn'),
+  reviewBackWrap: document.getElementById('reviewBackWrap'),
+  backToSubmittedFromActivityBtn: document.getElementById('backToSubmittedFromActivityBtn'),
+  cwReviewBackWrap: document.getElementById('cwReviewBackWrap'),
+  backToSubmittedFromCwBtn: document.getElementById('backToSubmittedFromCwBtn'),
   crosswordScreen: document.getElementById('crosswordScreen'),
   cwClueCountBadge: document.getElementById('cwClueCountBadge'),
   cwCount: document.getElementById('cwCount'),
@@ -1525,6 +1597,9 @@ const els = {
   cwStatus: document.getElementById('cwStatus'),
   cwCheck: document.getElementById('cwCheck'),
   cwReveal: document.getElementById('cwReveal'),
+  cwSubmitWrap: document.getElementById('cwSubmitWrap'),
+  cwSubmitBtn: document.getElementById('cwSubmitBtn'),
+  cwSubmitMsg: document.getElementById('cwSubmitMsg'),
   completeScreen: document.getElementById('completeScreen'),
   completeCount: document.getElementById('completeCount'),
   completeModule: document.getElementById('completeModule'),
@@ -1538,13 +1613,17 @@ const els = {
 function showScreen(name){
   els.joinScreen.classList.add('hidden');
   els.waitingScreen.classList.add('hidden');
+  if(els.introScreen) els.introScreen.classList.add('hidden');
   els.activityScreen.classList.add('hidden');
+  if(els.submittedScreen) els.submittedScreen.classList.add('hidden');
   els.crosswordScreen.classList.add('hidden');
   if(els.completeScreen) els.completeScreen.classList.add('hidden');
   els.errorScreen.classList.add('hidden');
   if(name==='join') els.joinScreen.classList.remove('hidden');
   if(name==='waiting') els.waitingScreen.classList.remove('hidden');
+  if(name==='intro' && els.introScreen) els.introScreen.classList.remove('hidden');
   if(name==='activity') els.activityScreen.classList.remove('hidden');
+  if(name==='submitted' && els.submittedScreen) els.submittedScreen.classList.remove('hidden');
   if(name==='crossword') els.crosswordScreen.classList.remove('hidden');
   if(name==='complete' && els.completeScreen) els.completeScreen.classList.remove('hidden');
   if(name==='error') els.errorScreen.classList.remove('hidden');
@@ -1563,6 +1642,7 @@ function updateHeaderCount(n){
   els.actCount.textContent = n + ' joined';
   els.cwCount.textContent = n + ' joined';
   if(els.completeCount) els.completeCount.textContent = n + ' joined';
+  if(els.submittedCount) els.submittedCount.textContent = n + ' joined';
 }
 function esc(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
@@ -1614,6 +1694,202 @@ async function submitAnswer(item, optionId){
   return true;
 }
 
+// --- Submission helpers — deliberate lock per participant per module ---
+function isActivityAllAnswered(){
+  if(!actItems || !actItems.length) return false;
+  // pass-phrase: each round counts as answered once at least one char placed
+  if(actModuleLoaded === 'pass-phrase'){
+    return actItems.every(it=>{
+      const hasLocal = it._ppSlots && it._ppSlots.length>0;
+      const hasServer = it.myBuild && it.myBuild.builtPassword && it.myBuild.builtPassword.length>0;
+      return hasLocal || hasServer;
+    });
+  }
+  // MC modules with discrete options: every item has a myAnswer
+  return actItems.every(it=> it.myAnswer!=null);
+}
+function updateActivitySubmitVisibility(){
+  if(!els.actSubmitWrap) return;
+  if(actIsSubmitted){
+    els.actSubmitWrap.classList.add('hidden');
+    return;
+  }
+  if(isActivityAllAnswered()){
+    els.actSubmitWrap.classList.remove('hidden');
+    if(els.actSubmitBtn){
+      els.actSubmitBtn.disabled = false;
+      els.actSubmitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Done — Submit Answers';
+    }
+  } else {
+    // Also show on last item even if not all answered? Spec says after last item — but for MC we
+    // prefer to prompt only when all answered; for continuous modules (crossword/pass-phrase) the
+    // crossword has its own submit. Keep hidden until all answered to nudge completion.
+    // However if participant is on last item and wants to submit incomplete, they can still tap
+    // once they reach last item — show disabled hint.
+    if(actIndex === actItems.length - 1 && actItems.length>0){
+      els.actSubmitWrap.classList.remove('hidden');
+      if(els.actSubmitBtn){
+        const allDone = isActivityAllAnswered();
+        els.actSubmitBtn.disabled = !allDone;
+        els.actSubmitBtn.innerHTML = allDone
+          ? '<i class="fa-solid fa-paper-plane"></i> Done — Submit Answers'
+          : '<i class="fa-solid fa-paper-plane"></i> Answer all items to submit';
+      }
+    } else {
+      els.actSubmitWrap.classList.add('hidden');
+    }
+  }
+}
+async function doActivitySubmit(){
+  if(actIsSubmitted) return;
+  const module = actModuleLoaded;
+  if(!module || !participantId) return;
+  if(!isActivityAllAnswered()){
+    if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Please answer every item before submitting.';
+    return;
+  }
+  if(els.actSubmitBtn) els.actSubmitBtn.disabled = true;
+  if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Submitting…';
+  try{
+    const r = await fetch('/api/session/' + ROOM_CODE + '/submit', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({participantId: participantId, module: module})});
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(j.error || 'Submit failed');
+    actIsSubmitted = true;
+    mySubmission = {isSubmitted: true, submittedAt: j.submittedAt, module: module};
+    showSubmittedFor(module, j.submittedAt);
+    if(els.actSubmitMsg) els.actSubmitMsg.textContent = '';
+  }catch(e){
+    if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Submit failed: ' + (e.message||'');
+    if(els.actSubmitBtn) els.actSubmitBtn.disabled = false;
+  }
+}
+function showSubmittedFor(module, submittedAt){
+  actIsSubmitted = true;
+  // Hide activity/crossword and show dedicated submitted confirmation
+  // Keep module name for display
+  if(els.submittedModule) els.submittedModule.textContent = module;
+  if(els.submittedModule2) els.submittedModule2.textContent = module + ' · locked';
+  if(els.submittedAtLine && submittedAt){
+    try{ els.submittedAtLine.textContent = 'Submitted at ' + new Date(submittedAt).toLocaleTimeString(); }catch(e){ els.submittedAtLine.textContent = ''; }
+  }
+  if(els.submittedRememberWrap && els.submittedRememberText){
+    if(lastRememberThis){
+      els.submittedRememberText.textContent = lastRememberThis;
+      els.submittedRememberWrap.classList.remove('hidden');
+    } else {
+      els.submittedRememberWrap.classList.add('hidden');
+    }
+  }
+  showScreen('submitted');
+}
+function updateCwSubmitVisibility(){
+  if(!els.cwSubmitWrap) return;
+  if(cwIsSubmitted){
+    els.cwSubmitWrap.classList.add('hidden');
+    return;
+  }
+  // Crossword: always show submit once grid initialized — participant decides when finished
+  if(cwInitialized){
+    els.cwSubmitWrap.classList.remove('hidden');
+    if(els.cwSubmitBtn) els.cwSubmitBtn.disabled = false;
+  } else {
+    els.cwSubmitWrap.classList.add('hidden');
+  }
+}
+async function doCwSubmit(){
+  if(cwIsSubmitted) return;
+  const module = 'crossword';
+  if(!participantId) return;
+  if(els.cwSubmitBtn) els.cwSubmitBtn.disabled = true;
+  if(els.cwSubmitMsg) els.cwSubmitMsg.textContent = 'Submitting…';
+  try{
+    const r = await fetch('/api/session/' + ROOM_CODE + '/submit', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({participantId: participantId, module: module})});
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(j.error || 'Submit failed');
+    cwIsSubmitted = true;
+    mySubmission = {isSubmitted: true, submittedAt: j.submittedAt, module: module};
+    showSubmittedFor(module, j.submittedAt);
+    // Lock grid inputs
+    cwCells.forEach(cell=>{ if(cell.input) cell.input.readOnly = true; });
+    if(els.cwSubmitMsg) els.cwSubmitMsg.textContent = '';
+  }catch(e){
+    if(els.cwSubmitMsg) els.cwSubmitMsg.textContent = 'Submit failed: ' + (e.message||'');
+    if(els.cwSubmitBtn) els.cwSubmitBtn.disabled = false;
+  }
+}
+let pendingIntroModule = null;
+function showParticipantIntro(curMod, whyText){
+  if(!whyText) return false;
+  if(introDismissedFor === curMod) return false;
+  pendingIntroModule = curMod;
+  if(els.introText) els.introText.textContent = whyText;
+  showScreen('intro');
+  return true;
+}
+function dismissParticipantIntro(){
+  if(!pendingIntroModule) {
+    // Fallback: use last activeModule from mySubmission or actModuleLoaded
+    const fallback = actModuleLoaded || (mySubmission && mySubmission.module);
+    if(fallback) pendingIntroModule = fallback;
+    else return;
+  }
+  introDismissedFor = pendingIntroModule;
+  const mod = pendingIntroModule;
+  pendingIntroModule = null;
+  if(mod === 'crossword'){
+    showScreen('crossword');
+    ensureCrossword();
+    setTimeout(updateCwSubmitVisibility, 400);
+  } else if(MC_MODULES.includes(mod)){
+    showScreen('activity');
+    if(actModuleLoaded === mod) renderActivityItem();
+    else {
+      // Module not yet init'd — next fetchState poll will init, but show placeholder
+      if(els.actMount) els.actMount.innerHTML = '<p style="color:#64748b;text-align:center">Loading activity…</p>';
+    }
+  } else {
+    showScreen('activity');
+  }
+}
+if(els.introStartBtn) els.introStartBtn.addEventListener('click', dismissParticipantIntro);
+if(els.reviewAnswersBtn) els.reviewAnswersBtn.addEventListener('click', ()=>{
+  isReviewingAfterSubmit = true;
+  const mod = pendingIntroModule || introDismissedFor || actModuleLoaded || (mySubmission && mySubmission.module);
+  if(!mod) return;
+  if(mod === 'crossword'){
+    showScreen('crossword');
+    ensureCrossword();
+    setTimeout(()=>{
+      cwCells.forEach(cell=>{ if(cell.input) cell.input.readOnly = true; });
+      if(els.cwReviewBackWrap) els.cwReviewBackWrap.classList.remove('hidden');
+      if(els.cwSubmitWrap) els.cwSubmitWrap.classList.add('hidden');
+    }, 300);
+  } else if(MC_MODULES.includes(mod)){
+    showScreen('activity');
+    if(els.reviewBackWrap) els.reviewBackWrap.classList.remove('hidden');
+    if(els.actSubmitWrap) els.actSubmitWrap.classList.add('hidden');
+    if(actModuleLoaded === mod) renderActivityItem();
+  }
+});
+if(els.backToSubmittedBtn) els.backToSubmittedBtn.addEventListener('click', ()=>{
+  isReviewingAfterSubmit = false;
+  const mod = mySubmission ? mySubmission.module : null;
+  const at = mySubmission ? mySubmission.submittedAt : null;
+  if(mod) showSubmittedFor(mod, at);
+});
+if(els.backToSubmittedFromActivityBtn) els.backToSubmittedFromActivityBtn.addEventListener('click', ()=>{
+  isReviewingAfterSubmit = false;
+  const mod = mySubmission ? mySubmission.module : actModuleLoaded;
+  const at = mySubmission ? mySubmission.submittedAt : null;
+  if(mod) showSubmittedFor(mod, at);
+  if(els.reviewBackWrap) els.reviewBackWrap.classList.add('hidden');
+});
+if(els.backToSubmittedFromCwBtn) els.backToSubmittedFromCwBtn.addEventListener('click', ()=>{
+  isReviewingAfterSubmit = false;
+  showSubmittedFor('crossword', mySubmission && mySubmission.submittedAt);
+  if(els.cwReviewBackWrap) els.cwReviewBackWrap.classList.add('hidden');
+});
+
 // initActivity() runs ONCE per module (when actModuleLoaded changes) — see fetchState. Poll
 // ticks for the SAME module never call this again, so a participant's own Prev/Next position
 // and any in-progress tap are never disrupted by the ambient 1.5s poll loop.
@@ -1621,6 +1897,8 @@ function initActivity(module, items){
   actModuleLoaded = module;
   actItems = items || [];
   actIndex = 0;
+  // Reset per-activity submission lock from server state (fetchState will have set mySubmission)
+  actIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && mySubmission.module===module);
   els.actModuleBadge.textContent = module;
   renderActivityItem();
 }
@@ -1639,6 +1917,7 @@ function updateActivityChrome(){
     const cls = ['dot']; if(it.myAnswer!=null || hasBuild) cls.push('done'); if(i===actIndex) cls.push('current');
     return '<span class="'+cls.join(' ')+'"></span>';
   }).join('');
+  updateActivitySubmitVisibility();
 }
 
 function renderActivityItem(){
@@ -1654,6 +1933,16 @@ function renderActivityItem(){
 }
 
 function wireActivityOptions(item){
+  // If already submitted for this module, lock completely — no further edits even via Prev
+  if(actIsSubmitted){
+    els.actMount.querySelectorAll('[data-answer-opt]').forEach(btn=>{
+      btn.style.pointerEvents = 'none';
+      btn.disabled = true;
+      const optId = btn.dataset.answerOpt;
+      if(String(item.myAnswer)===String(optId)) btn.classList.add('picked');
+    });
+    return;
+  }
   const already = item.myAnswer!=null;
   els.actMount.querySelectorAll('[data-answer-opt]').forEach(btn=>{
     const optId = btn.dataset.answerOpt;
@@ -1663,6 +1952,7 @@ function wireActivityOptions(item){
       return;
     }
     btn.addEventListener('click', async ()=>{
+      if(actIsSubmitted) return;
       els.actMount.querySelectorAll('[data-answer-opt]').forEach(b=>{ b.style.pointerEvents='none'; });
       try{
         const ok = await submitAnswer(item, optId);
@@ -1677,6 +1967,13 @@ function wireActivityOptions(item){
         const advanceDelay = item.myAnswerCorrect!=null ? 1400 : 550;
         setTimeout(()=>{ if(actIndex < actItems.length-1){ actIndex++; renderActivityItem(); } }, advanceDelay);
       }catch(e){
+        const msg = (e.message||'');
+        if(msg.includes('already submitted')){
+          actIsSubmitted = true;
+          if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Already submitted — answers locked.';
+          showSubmittedFor(actModuleLoaded, mySubmission && mySubmission.submittedAt);
+          return;
+        }
         els.actMount.querySelectorAll('[data-answer-opt]').forEach(b=>{ b.style.pointerEvents=''; });
       }
     });
@@ -1684,6 +1981,9 @@ function wireActivityOptions(item){
 }
 els.actPrevBtn.addEventListener('click', ()=>{ if(actIndex>0){ actIndex--; renderActivityItem(); } });
 els.actNextBtn.addEventListener('click', ()=>{ if(actIndex<actItems.length-1){ actIndex++; renderActivityItem(); } });
+// Submit handlers — wired once, safe to re-add (idempotent guard inside)
+if(els.actSubmitBtn) els.actSubmitBtn.addEventListener('click', doActivitySubmit);
+if(els.cwSubmitBtn) els.cwSubmitBtn.addEventListener('click', doCwSubmit);
 
 // --- Per-module templates — adapted from the facilitator console's own component classes
 // (console.css, linked above) so a phone and the big screen read as the same activity. ---
@@ -1694,26 +1994,35 @@ function renderFaultFinding(item){
     + (img ? '<img src="'+esc(img)+'" alt="Option '+letter+'"/>' : '<div style="padding:24px;text-align:center;color:#94a3b8">(no image)</div>')
     + '<div class="ff-tap-hint">'+(picked===letter?'✓ Your answer':'Tap if this one is fake')+'</div>'
     + '</button>';
+  // Parity with console: show persona · category like fault-finding.js:96-97
+  const ffTag = [item.persona, item.category].filter(Boolean).join(' · ');
   return '<div class="ff-compare-frame">'
-    + (item.persona ? '<div class="persona-tag">'+esc(item.persona)+'</div>' : '')
+    + (ffTag ? '<div class="ff-category-tag" style="display:inline-block;margin-bottom:8px">'+esc(ffTag)+'</div>' : '')
     + '<div style="text-align:center;font-weight:800;margin-bottom:10px;color:var(--navy,#001a4d)">Which one is <span style="color:var(--red,#ef4444)">FAKE</span>?</div>'
     + '<div class="ff-compare-row">' + panel('A', item.realImage) + panel('B', item.fakeImage) + '</div>'
     + '</div>' + renderCorrectFeedback(item);
 }
-// Per-item educational feedback for modules with an objective correct answer (only myth-vs-fact
-// today — see correctOptionId in _normalize_module_item). Shows only "was YOUR answer right",
-// never the correct option itself and never a running tally/score — that's admin-only, see
-// GET /api/admin/session/<code>/progress and /module-summary.
+// Hybrid feedback: immediate badge (Correct/Not quite) after answer, plus full
+// identification + recommendation (fact/whatIsWrong) only after deliberate Submit —
+// mirrors console's Reveal (whatIsWrong + whyItsSuspicious) but delayed until locked.
 function renderCorrectFeedback(item){
-  if(item.myAnswerCorrect==null) return '';
-  return item.myAnswerCorrect
-    ? '<div class="feedback-badge correct"><i class="fa-solid fa-check"></i> Correct</div>'
-    : '<div class="feedback-badge incorrect"><i class="fa-solid fa-xmark"></i> Not quite</div>';
+  let html = '';
+  if(item.myAnswerCorrect!=null){
+    html += item.myAnswerCorrect
+      ? '<div class="feedback-badge correct"><i class="fa-solid fa-check"></i> Correct</div>'
+      : '<div class="feedback-badge incorrect"><i class="fa-solid fa-xmark"></i> Not quite</div>';
+  }
+  if(item.fact){
+    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:13px;line-height:1.5;color:#0c4a6e;text-align:left"><strong>Details — Identification & Recommendation:</strong><br>'+esc(item.fact)+'</div>';
+  } else if(item.myAnswerCorrect==null && !item.fact){
+    return '';
+  }
+  return html;
 }
 function renderMythVsFact(item){
   const picked = item.myAnswer;
   return '<div class="mf-card">'
-    + (item.topic ? '<div class="persona-tag">'+esc(item.topic)+'</div>' : '')
+    + (item.topic ? '<div class="mf-topic-tag">'+esc(item.topic)+'</div>' : '')
     + '<div class="mf-myth" style="margin-top:10px">'+esc(item.prompt||'')+'</div>'
     + '<div class="options">' + (item.options||[]).map(opt=>{
         const sel = picked!=null && String(picked)===String(opt.id);
@@ -1726,7 +2035,7 @@ function renderDecisionRoom(item){
   let html = '';
   if(item.persona || item.caseTitle){
     html += '<div class="ff-title-bar">';
-    if(item.persona) html += '<div class="persona-tag">'+esc(item.persona)+'</div>';
+    if(item.persona) html += '<div class="dr-persona-tag">'+esc(item.persona)+'</div>';
     if(item.caseTitle) html += '<h2 style="margin:8px 0 4px;font-size:18px;color:var(--navy,#001a4d)">'+esc(item.caseTitle)+'</h2>';
     if(item.caseScenario) html += '<div class="dr-scenario-context">'+esc(item.caseScenario)+'</div>';
     html += '</div>';
@@ -1745,7 +2054,7 @@ function renderClosingQuiz(item){
     const sel = picked!=null && String(picked)===String(opt.id);
     return '<div class="qz-choice'+(sel?' picked':'')+'" data-answer-opt="'+esc(opt.id)+'"><span class="qz-letter">'+esc(letter)+'</span><span>'+esc(opt.text)+'</span></div>';
   };
-  const personaTag = item.persona ? '<div class="persona-tag">'+esc(item.persona)+'</div>' : '';
+  const personaTag = item.persona ? '<div class="qz-persona-tag">'+esc(item.persona)+'</div>' : '';
   if(item.kind === 'svr'){
     return personaTag + '<div class="svr-scenario-card"><div class="svr-scenario-text">'+esc(item.prompt||'')+'</div></div>'
       + '<div class="qz-choices">' + (item.options||[]).map(opt=>choiceRow(opt, opt.text[0])).join('') + '</div>'
@@ -1757,8 +2066,12 @@ function renderClosingQuiz(item){
 }
 function renderClueQuest(item){
   const picked = item.myAnswer;
+  // Parity with console: console shuffles options per render (clue-quest.js:40 shuffle). Phone now
+  // also shuffles display order so neither surface has a fixed position tell; correctness still
+  // keyed by optionId, not position.
+  const shuffled = (item.options||[]).slice().sort(()=> Math.random()-0.5);
   return '<div class="cq-riddle-card"><div class="cq-riddle-text">'+esc(item.prompt||'')+'</div></div>'
-    + '<div class="cq-options">' + (item.options||[]).map((opt,idx)=>{
+    + '<div class="cq-options">' + shuffled.map((opt,idx)=>{
         const sel = picked!=null && String(picked)===String(opt.id);
         return '<div class="cq-option'+(sel?' picked':'')+'" data-answer-opt="'+esc(opt.id)+'"><span class="cq-opt-num">'+(idx+1)+'</span>'+esc(opt.text)+'</div>';
       }).join('') + '</div>' + renderCorrectFeedback(item);
@@ -1884,8 +2197,10 @@ function ppEnsureState(item){
 
 let ppSubmitTimer = null;
 function ppSubmitBuild(item){
+  if(actIsSubmitted) return;
   clearTimeout(ppSubmitTimer);
   ppSubmitTimer = setTimeout(function(){
+    if(actIsSubmitted) return;
     const built = item._ppSlots.join('');
     fetch('/api/session/' + ROOM_CODE + '/passphrase/build', {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -1905,7 +2220,7 @@ function renderPassPhrase(item){
   let html = '<div class="pp-weak-card">'
     + '<div class="pp-weak-label"><i class="fa-solid fa-triangle-exclamation"></i> Starting Sample — Weak <span style="margin-left:6px;font-weight:400;opacity:0.7">['+esc(diffLabel)+']</span></div>'
     + '<div class="pp-weak-text">'+esc(item.weakPassword||'')+'</div>'
-    + (item.weakRequirement ? '<div class="pp-weak-meta">'+esc(item.weakRequirement)+'</div>' : '')
+    + (item.weakRequirement ? '<div class="pp-weak-meta">'+esc(diffLabel+' — '+item.weakRequirement+' — deck has '+item.deck.length+' chunks ('+twoCount+' ×2-char) to rebuild strong (cap '+maxChars+' chars)')+'</div>' : '')
     + '</div>';
   html += '<div class="pp-builder-card" style="margin-top:14px;padding:14px">'
     + '<div class="pp-strength"><div class="pp-strength-head">'
@@ -1940,11 +2255,20 @@ function renderPassPhrase(item){
 }
 
 function wirePassPhraseBuild(item){
+  // Locked after submit — deck/slots become inert
+  if(actIsSubmitted){
+    const deckTrayLock = document.getElementById('ppDeckTray');
+    if(deckTrayLock) deckTrayLock.querySelectorAll('[data-deck-idx]').forEach(btn=>{ btn.disabled = true; btn.style.pointerEvents='none'; btn.classList.add('is-inert'); });
+    const slotsRowLock = document.getElementById('ppSlotsRow');
+    if(slotsRowLock) slotsRowLock.querySelectorAll('[data-filled]').forEach(el=>{ el.style.pointerEvents='none'; });
+    return;
+  }
   const deckTray = document.getElementById('ppDeckTray');
   const slotsRow = document.getElementById('ppSlotsRow');
   if(deckTray){
     deckTray.querySelectorAll('[data-deck-idx]').forEach(btn=>{
       btn.addEventListener('click', ()=>{
+        if(actIsSubmitted) return;
         const idx = Number(btn.dataset.deckIdx);
         if(!item._ppDeckAvailable[idx]) return;
         // Enforce char cap even for selection preview — grey out if would exceed
@@ -1967,6 +2291,7 @@ function wirePassPhraseBuild(item){
     // shifts down automatically, so the row can never show a gap where a chunk was.
     slotsRow.querySelectorAll('[data-filled]').forEach(el=>{
       el.addEventListener('click', ()=>{
+        if(actIsSubmitted) return;
         const idx = Number(el.dataset.slotIdx);
         const ch = item._ppSlots[idx];
         item._ppSlots.splice(idx, 1);
@@ -1980,6 +2305,7 @@ function wirePassPhraseBuild(item){
     // placement order always matches the order chunks were actually picked.
     slotsRow.querySelectorAll('.pp-slot-empty').forEach(el=>{
       el.addEventListener('click', ()=>{
+        if(actIsSubmitted) return;
         if(item._ppSelectedDeckIdx==null) return; // nothing selected — tapping an empty slot alone does nothing
         const dIdx = item._ppSelectedDeckIdx;
         const chunk = item.deck[dIdx];
@@ -2094,6 +2420,7 @@ function cwRenderGrid(){
   }
 }
 function cwHandleKey(e, cell, input){
+  if(cwIsSubmitted){ e.preventDefault(); return; }
   if(cwRevealed){ e.preventDefault(); return; }
   if(/^[a-zA-Z]$/.test(e.key)){
     e.preventDefault();
@@ -2215,6 +2542,7 @@ function cwUpdateStatus(){
   scheduleCwProgress();
 }
 function cwCheck(){
+  if(cwIsSubmitted) return;
   cwCells.forEach(cell=>{
     if(!cell.input.value) return;
     if(cell.input.value===cell.solution){ cell.el.classList.add('correct'); cell.el.classList.remove('incorrect'); }
@@ -2274,6 +2602,7 @@ function computeCwProgress(){
   return {filled,total,correct};
 }
 async function sendCwProgress(){
+  if(cwIsSubmitted) return;
   if(!participantId || !ROOM_CODE) return;
   if(document.getElementById('crosswordScreen').classList.contains('hidden')) return;
   const {filled,total,correct}=computeCwProgress();
@@ -2284,6 +2613,7 @@ async function sendCwProgress(){
   }catch(e){}
 }
 function scheduleCwProgress(){
+  if(cwIsSubmitted) return;
   if(!participantId) return;
   if(cwProgressTimer) clearTimeout(cwProgressTimer);
   cwProgressTimer=setTimeout(sendCwProgress, CW_DEBOUNCE);
@@ -2362,12 +2692,43 @@ async function fetchState(){
       els.waitingNames.innerHTML = '<div style="font-size:13px;color:#0c4a6e;font-weight:700;margin-bottom:6px">' + esc(displayName) + ' — ' + (s.totalItems||0) + ' items</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' + ((s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:12px;color:#94a3b8">No one yet — share QR</span>') + '</div><div style="margin-top:8px;font-family:Space Mono,monospace;font-size:11px;color:#64748b">' + (s.participantCount||0) + ' joined — waiting for Start</div>';
       return;
     }
+    // Capture per-participant submission status + rememberThis for submitted confirmation
+    lastRememberThis = s.rememberThis || null;
+    mySubmission = s.mySubmission || null;
+    actIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && MC_MODULES.includes(mySubmission.module) && mySubmission.module===curMod);
+    cwIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && mySubmission.module==='crossword' && curMod==='crossword');
+    // If already submitted for this running module, show locked confirmation (distinct from generic complete)
+    // — unless participant tapped Review, in which case keep them on the read-only item view with facts.
+    if(state==='running' && mySubmission && mySubmission.isSubmitted && mySubmission.module===curMod && !isReviewingAfterSubmit){
+      showSubmittedFor(curMod, mySubmission.submittedAt);
+      // Ensure crossword grid is locked if it's the crossword module
+      if(curMod==='crossword'){
+        actModuleLoaded = null;
+        // ensure grid exists then lock
+        ensureCrossword();
+        setTimeout(()=>{ cwCells.forEach(cell=>{ if(cell.input) cell.input.readOnly = true; }); updateCwSubmitVisibility(); }, 300);
+      }
+      return;
+    }
     // Running — crossword's own dedicated grid, or the self-paced full-sequence activity
+    // Flow parity with console: intro/whyThisMatters before items (console le-intro-screen)
     if(state==='running'){
       if(curMod==='crossword'){
+        if(showParticipantIntro(curMod, s.whyThisMatters)) return;
         actModuleLoaded = null;
         showScreen('crossword');
         ensureCrossword();
+        // Update submit visibility after grid ensured; handle review mode
+        setTimeout(()=>{
+          updateCwSubmitVisibility();
+          if(isReviewingAfterSubmit && cwIsSubmitted){
+            if(els.cwReviewBackWrap) els.cwReviewBackWrap.classList.remove('hidden');
+            if(els.cwSubmitWrap) els.cwSubmitWrap.classList.add('hidden');
+            cwCells.forEach(cell=>{ if(cell.input) cell.input.readOnly = true; });
+          } else {
+            if(els.cwReviewBackWrap) els.cwReviewBackWrap.classList.add('hidden');
+          }
+        }, 400);
         return;
       }
       if(MC_MODULES.includes(curMod)){
@@ -2378,12 +2739,36 @@ async function fetchState(){
           document.getElementById('waitingSub').textContent = 'Running ' + displayName + ' — no items to show.';
           return;
         }
+        if(showParticipantIntro(curMod, s.whyThisMatters)) return;
         showScreen('activity');
+        // Review mode: keep activity visible with facts, hide Submit, show Back to Confirmation
+        if(isReviewingAfterSubmit && actIsSubmitted){
+          if(els.reviewBackWrap) els.reviewBackWrap.classList.remove('hidden');
+          if(els.actSubmitWrap) els.actSubmitWrap.classList.add('hidden');
+        } else {
+          if(els.reviewBackWrap) els.reviewBackWrap.classList.add('hidden');
+        }
         // Only (re)initialize on an actual module change — a poll tick for the SAME module
         // must never re-run this, or it would reset the participant's own Prev/Next position
         // and interrupt any in-progress tap (see initActivity's own comment).
         if(actModuleLoaded !== curMod){
           initActivity(curMod, items);
+        } else {
+          // Same module — but items may have updated myAnswer/myBuild from server (e.g. after refresh)
+          // Sync local actItems with fresh server items to keep submit visibility accurate,
+          // without resetting actIndex. Also propagate fact (identification+recommendation) now visible after Submit.
+          if(items.length === actItems.length){
+            for(let i=0;i<items.length;i++){
+              actItems[i].myAnswer = items[i].myAnswer;
+              actItems[i].myAnswerCorrect = items[i].myAnswerCorrect;
+              actItems[i].myBuild = items[i].myBuild;
+              actItems[i].fact = items[i].fact;
+              actItems[i].revealed = items[i].revealed;
+            }
+            // Re-render current item so fact detail appears in review mode
+            if(isReviewingAfterSubmit && actIsSubmitted) renderActivityItem();
+            else updateActivitySubmitVisibility();
+          }
         }
         return;
       }
@@ -2745,6 +3130,11 @@ def session_respond(code):
         return jsonify({"error": "participantId, itemId, optionId required"}), 400
     if participant_id not in sess["participants"]:
         return jsonify({"error": "unknown participantId"}), 404
+    # Lock: after deliberate Submit, no further edits for that participant+module
+    _sub = sess.get("submissions", {}).get(participant_id, {}).get(sess.get("activeModule"))
+    if _sub:
+        _sub_at = _sub if isinstance(_sub, str) else _sub.get("submittedAt")
+        return jsonify({"error": "already submitted - answers locked", "submittedAt": _sub_at}), 403
     # Self-paced: accept a response for ANY item in the full pushed sequence, not only
     # whichever one is "active" — participants page through the whole set at their own pace,
     # not in lockstep with a single admin-driven pointer.
@@ -2773,6 +3163,82 @@ def session_respond(code):
     correct_option_id = _effective_correct_option_id(target_item, participant_id)
     is_correct = (option_id == str(correct_option_id)) if correct_option_id is not None else None
     return jsonify({"ok": True, "roomCode": code, "itemId": item_id, "optionId": option_id, "isCorrect": is_correct})
+
+
+@app.route("/api/session/<code>/submit", methods=["POST"])
+@limiter.limit("30/minute")
+@persist_after
+def session_submit(code):
+    """Deliberate per-participant per-module completion — locks answers for that module.
+
+    Participant taps 'Submit Answers' once they consider themselves done (all MC items
+    answered, or builds/grid finished for pass-phrase/crossword). Records submittedAt
+    per participant per module in sess['submissions'][pid][module] — this is the
+    authoritative 'done' signal for admin progress / fastest-overall ranking, not just
+    last-item-answered-at. After submission further calls to /respond, /passphrase/build
+    or /crossword/progress for that participant+module are rejected (locked). The room's
+    running/complete state is unchanged — admin's Mark Complete still moves the whole room
+    to complete regardless of who has or hasn't submitted (non-submitted simply stay not
+    submitted). Idempotent: resubmitting same participant+module returns original timestamp.
+    """
+    code = code.strip().upper()
+    sess = SESSIONS.get(code)
+    if not sess:
+        return jsonify({"error": "room not found"}), 404
+    data = request.get_json(silent=True) or {}
+    if not data:
+        data = request.form.to_dict(flat=True)
+    participant_id = str(data.get("participantId") or data.get("participant_id") or data.get("pid") or request.args.get("participantId") or "").strip()
+    module = str(data.get("module") or data.get("moduleId") or data.get("activeModule") or sess.get("activeModule") or "").strip()
+    if not participant_id:
+        return jsonify({"error": "participantId required"}), 400
+    if not module:
+        return jsonify({"error": "module required"}), 400
+    if module not in MODULE_IDS:
+        return jsonify({"error": "unknown module", "valid": sorted(MODULE_IDS)}), 400
+    if participant_id not in sess.get("participants", {}):
+        return jsonify({"error": "unknown participantId"}), 404
+    # Only allow submit for the currently active module while running — but keep idempotent
+    # handling so a participant who already submitted for a prior module doesn't get blocked when
+    # the room later moves to a new module and old submissions remain.
+    active_module = sess.get("activeModule")
+    state = sess.get("state")
+    if state != "running" or active_module != module:
+        # Allow resubmission check before hard error — if they already submitted for this module,
+        # return that record even if room has moved on.
+        existing = sess.get("submissions", {}).get(participant_id, {}).get(module)
+        if existing:
+            # normalize stored value: may be iso string or dict with submittedAt
+            submitted_at = existing if isinstance(existing, str) else existing.get("submittedAt")
+            return jsonify({"ok": True, "alreadySubmitted": True, "roomCode": code, "module": module, "submittedAt": submitted_at})
+        if state != "running":
+            return jsonify({"error": "not running", "state": state}), 400
+        if active_module != module:
+            return jsonify({"error": "module mismatch", "activeModule": active_module, "requestedModule": module}), 400
+    # For discrete MC modules, require every item answered before submit — this keeps the
+    # three-state admin display meaningful (in_progress vs reached_end vs submitted) and
+    # matches the phone UI which only enables Submit when all items have an answer.
+    # Continuous modules (crossword, pass-phrase) allow submit at any point — participant
+    # decides when their build/grid is "finished", not when a count is reached.
+    if module in ('fault-finding','myth-vs-fact','decision-room','closing-quiz','clue-quest'):
+        seq = sess.get("moduleSequence") or []
+        if seq:
+            answered = 0
+            for _it in seq:
+                _bucket = _response_entries_for_module(sess.get("responses", {}).get(_it.get("id"), {}), module)
+                if _bucket.get(participant_id) is not None:
+                    answered += 1
+            if answered < len(seq):
+                return jsonify({"error": "not all items answered", "answered": answered, "total": len(seq)}), 400
+    sess.setdefault("submissions", {})
+    sess["submissions"].setdefault(participant_id, {})
+    existing = sess["submissions"][participant_id].get(module)
+    if existing:
+        submitted_at = existing if isinstance(existing, str) else existing.get("submittedAt")
+        return jsonify({"ok": True, "alreadySubmitted": True, "roomCode": code, "module": module, "submittedAt": submitted_at})
+    submitted_at = datetime.now(timezone.utc).isoformat()
+    sess["submissions"][participant_id][module] = submitted_at
+    return jsonify({"ok": True, "alreadySubmitted": False, "roomCode": code, "module": module, "submittedAt": submitted_at})
 
 
 @app.route("/api/session/<code>/state", methods=["GET"])
@@ -2806,11 +3272,25 @@ def session_state(code):
             return None
         return sess.get("passphraseBuilds", {}).get(participant_id, {}).get(item_id)
 
+    # Per-participant per-module submission status (authoritative done signal)
+    my_submission = None
+    my_is_submitted = False
+    my_submitted_at = None
+    if valid_participant and active_module:
+        _sub_raw = sess.get("submissions", {}).get(participant_id, {}).get(active_module)
+        if _sub_raw:
+            my_is_submitted = True
+            my_submitted_at = _sub_raw if isinstance(_sub_raw, str) else _sub_raw.get("submittedAt")
+            my_submission = {"isSubmitted": True, "submittedAt": my_submitted_at, "module": active_module}
+        else:
+            my_submission = {"isSubmitted": False, "submittedAt": None, "module": active_module}
+
     safe_item = _sanitize_item_for_participant(
         active_item, active_module,
         my_answer=_my_answer(active_item["id"]) if active_item else None,
         my_build=_my_build(active_item["id"]) if active_item else None,
         participant_id=participant_id if valid_participant else None,
+        is_submitted=my_is_submitted,
     )
     # For whole-activity flow, currentItem is only while running; lobby/complete have no currentItem
     current_item = safe_item if state == "running" else None
@@ -2826,6 +3306,7 @@ def session_state(code):
             _sanitize_item_for_participant(
                 it, active_module, my_answer=_my_answer(it.get("id")), my_build=_my_build(it.get("id")),
                 participant_id=participant_id if valid_participant else None,
+                is_submitted=my_is_submitted,
             )
             for it in module_sequence
         ]
@@ -2842,6 +3323,9 @@ def session_state(code):
     total = len(module_sequence)
     # Module display name
     display_name = next((m["displayName"] for m in MODULE_DEFS if m["id"] == active_module), active_module)
+    content_data = _read_module_json(active_module) if active_module else None
+    why_this = content_data.get("whyThisMatters") if content_data else None
+    remember = content_data.get("rememberThis") if content_data else None
     return jsonify({
         "roomCode": code,
         "activeModule": active_module,
@@ -2856,6 +3340,11 @@ def session_state(code):
         "participantNames": participant_names,
         "responseCount": response_count,
         "joinUrl": _get_join_url(code),
+        "mySubmission": my_submission,
+        "isSubmitted": my_is_submitted,
+        "submittedAt": my_submitted_at,
+        "whyThisMatters": why_this,
+        "rememberThis": remember,
     })
 
 
@@ -3034,12 +3523,24 @@ def admin_progress(code):
                 good += 1
             if at and (last_at is None or at > last_at):
                 last_at = at
+        # Submission status — authoritative done signal
+        _sub_raw = sess.get("submissions", {}).get(pid, {}).get(active_module)
+        submitted_at = _sub_raw if isinstance(_sub_raw, str) else (_sub_raw.get("submittedAt") if isinstance(_sub_raw, dict) else _sub_raw)
+        # normalize None -> no submission
+        if submitted_at:
+            submission_status = "submitted"
+        elif total > 0 and answered >= total:
+            submission_status = "reached_end"
+        else:
+            submission_status = "in_progress"
         entry_out = {
             "participantId": pid,
             "name": name,
             "filledCount": answered,
             "totalCount": total,
             "updatedAt": last_at,
+            "submittedAt": submitted_at,
+            "submissionStatus": submission_status,
         }
         if has_correctness:
             entry_out["correctCount"] = correct
@@ -3048,7 +3549,11 @@ def admin_progress(code):
         if has_good:
             entry_out["goodCount"] = good
         result.append(entry_out)
-    result.sort(key=lambda x: (-x["filledCount"], x["name"].lower()))
+    # Submitted first, then reached_end, then in_progress — within each group by progress
+    def _status_rank(s):
+        order = {"submitted": 0, "reached_end": 1, "in_progress": 2}
+        return (order.get(s.get("submissionStatus"), 3), -s["filledCount"], s["name"].lower())
+    result.sort(key=_status_rank)
     out = {
         "roomCode": code,
         "hasCorrectness": has_correctness,
@@ -3072,53 +3577,53 @@ def _compute_module_summary(sess):
     """Admin-only "who finished fastest" data for the room's CURRENTLY loaded module sequence.
 
     Per participant: moduleStartedAt (their own first recorded response in this module),
-    lastAnsweredAt (their most recent), completedAt (set only once they've answered every item
-    — computed as the timestamp of the response that first brought their answered-set to full
-    coverage, i.e. their "final qualifying response", not simply their latest edit — a
-    participant who finishes then goes back and tweaks an earlier answer doesn't get a later
-    completedAt for it), and correctCount when the module has objective correct answers
-    (correctOptionId set on its normalized items — myth-vs-fact, fault-finding, clue-quest,
-    closing-quiz question items). For decision-room (no single correct, outcome=="good") the
-    analog is goodCount labeled "good decisions". Never exposed to participants — this is only
-    ever read from admin routes.
+    lastAnsweredAt (their most recent), completedAt (now the participant's deliberate
+    submittedAt — the timestamp of their POST /submit for this module — rather than the
+    last-item-answered-at. This makes Submit the authoritative 'done' signal, not just
+    reaching the last item. Participants who have answered all items but not yet hit Submit
+    are considered 'reached end, not submitted' and stay in inProgress, not ranked. Only
+    submitted participants appear in ranked. For modules without objective correct answers
+    the ranking is still by submittedAt. Never exposed to participants — only from admin routes.
 
-    Crossword is a special case: it has no per-item /respond sequence at all (a single grid
-    item, filled via the separate crosswordProgress ping — see crossword_progress), no
-    objective correctness concept (free-text grid, not scored for summary ranking — per-word
-    correctness is a separate progress metric), and no per-participant "first ping" retained
-    (crosswordProgress overwrites on each debounced ping) — so moduleStartedAt is always None
-    there, and completedAt/ranking use crosswordProgress's own filledCount/totalCount/updatedAt
-    instead of sess["responses"].
+    Crossword and pass-phrase also use submittedAt as the done signal, rather than
+    filledCount/totalCount reaching full coverage — the grid/build is considered done when
+    the participant taps Submit, not when the grid happens to be full.
     """
-    if sess.get("activeModule") == "crossword":
+    active_module = sess.get("activeModule")
+    submissions = sess.get("submissions", {})
+    def _submitted_at(pid, mod):
+        raw = submissions.get(pid, {}).get(mod) if mod else None
+        if isinstance(raw, str):
+            return raw
+        if isinstance(raw, dict):
+            return raw.get("submittedAt")
+        return raw
+
+    if active_module == "crossword":
         total = 0
         cw = sess.get("crosswordProgress", {})
-        # total clue count isn't stored per-participant consistently until someone has pinged;
-        # take the max totalCount seen so an early, partial ping doesn't undercount the grid.
         for entry in cw.values():
             total = max(total, int(entry.get("totalCount") or 0))
         summary = []
         for pid, name in sess.get("participants", {}).items():
             entry = cw.get(pid)
             filled = int(entry.get("filledCount") or 0) if entry else 0
-            is_complete = total > 0 and filled >= total
             updated_at = entry.get("updatedAt") if entry else None
+            submitted_at = _submitted_at(pid, active_module)
+            is_complete = submitted_at is not None
             summary.append({
                 "participantId": pid, "name": name,
                 "answeredCount": filled, "totalCount": total,
                 "isComplete": is_complete,
-                "moduleStartedAt": None,  # not tracked at that granularity for crossword
+                "moduleStartedAt": None,
                 "lastAnsweredAt": updated_at,
-                "completedAt": updated_at if is_complete else None,
+                "completedAt": submitted_at,
+                "submittedAt": submitted_at,
                 "correctCount": None,
             })
         return summary, False, total
 
-    if sess.get("activeModule") == "pass-phrase":
-        # Also no per-item /respond sequence — participants build freely via
-        # POST /passphrase/build (see passphrase_build), keyed by roundId not itemId. No
-        # objective correctness (a strength meter isn't a right/wrong answer), and completion
-        # means "built something in every round", not any particular strength reached.
+    if active_module == "pass-phrase":
         module_sequence = sess.get("moduleSequence") or []
         round_ids = [it.get("id") for it in module_sequence]
         total_rounds = len(round_ids)
@@ -3128,25 +3633,18 @@ def _compute_module_summary(sess):
             rounds_built = builds.get(pid, {})
             entries = [(rid, rounds_built[rid].get("updatedAt")) for rid in round_ids if rid in rounds_built]
             answered_count = len(entries)
-            is_complete = total_rounds > 0 and answered_count >= total_rounds
             timestamps = [t for _, t in entries if t]
             started_at = min(timestamps) if timestamps else None
             last_answered_at = max(timestamps) if timestamps else None
-            completed_at = None
-            if is_complete:
-                ordered = sorted(entries, key=lambda e: (e[1] or ""))
-                seen = set()
-                for rid, at in ordered:
-                    seen.add(rid)
-                    if len(seen) >= total_rounds:
-                        completed_at = at
-                        break
+            submitted_at = _submitted_at(pid, active_module)
+            is_complete = submitted_at is not None
             summary.append({
                 "participantId": pid, "name": name,
                 "answeredCount": answered_count, "totalCount": total_rounds,
                 "isComplete": is_complete,
                 "moduleStartedAt": started_at, "lastAnsweredAt": last_answered_at,
-                "completedAt": completed_at,
+                "completedAt": submitted_at,
+                "submittedAt": submitted_at,
                 "correctCount": None,
             })
         return summary, False, total_rounds
@@ -3174,19 +3672,13 @@ def _compute_module_summary(sess):
             oid = entry.get("optionId") if isinstance(entry, dict) else entry
             entries.append((item_id, at, oid))
         answered_count = len(entries)
-        is_complete = total_items > 0 and answered_count >= total_items
         timestamps = [e[1] for e in entries if e[1]]
         started_at = min(timestamps) if timestamps else None
         last_answered_at = max(timestamps) if timestamps else None
-        completed_at = None
-        if is_complete:
-            ordered = sorted(entries, key=lambda e: (e[1] or ""))
-            seen = set()
-            for item_id, at, _ in ordered:
-                seen.add(item_id)
-                if len(seen) >= total_items:
-                    completed_at = at
-                    break
+        # Authoritative done = explicit Submit, not just answered-everything
+        submitted_at = _submitted_at(pid, active_module)
+        is_complete = submitted_at is not None
+        completed_at = submitted_at
         correct_count = None
         if has_correctness:
             # Fault-finding: each entry's effective correct option is this participant's own
@@ -3208,6 +3700,7 @@ def _compute_module_summary(sess):
             "isComplete": is_complete,
             "moduleStartedAt": started_at, "lastAnsweredAt": last_answered_at,
             "completedAt": completed_at,
+            "submittedAt": submitted_at,
             "correctCount": correct_count,
         }
         if has_good:
@@ -3330,6 +3823,11 @@ def crossword_progress(code):
         return jsonify({"error": "participantId required"}), 400
     if participant_id not in sess.get("participants", {}):
         return jsonify({"error": "unknown participantId"}), 404
+    # Lock after submit
+    _sub = sess.get("submissions", {}).get(participant_id, {}).get(sess.get("activeModule"))
+    if _sub:
+        _sub_at = _sub if isinstance(_sub, str) else _sub.get("submittedAt")
+        return jsonify({"error": "already submitted - progress locked", "submittedAt": _sub_at}), 403
     # Parse counts — accept int or str
     try:
         filled = int(data.get("filledCount", data.get("filled_count", 0)))
@@ -3403,18 +3901,32 @@ def admin_crossword_progress(code):
             default_total = max(v.get("totalCount", 0) for v in prog.values())
         except Exception:
             default_total = 0
+    active_module = sess.get("activeModule") or "crossword"
     result = []
     for pid, name in sess.get("participants", {}).items():
         entry = prog.get(pid)
+        _sub_raw = sess.get("submissions", {}).get(pid, {}).get(active_module)
+        submitted_at = _sub_raw if isinstance(_sub_raw, str) else (_sub_raw.get("submittedAt") if isinstance(_sub_raw, dict) else _sub_raw)
         if entry:
             cc = entry.get("correctCount")
+            filled = int(entry.get("filledCount", 0))
+            tot = int(entry.get("totalCount", 0))
+            # submission status for crossword: submitted if has submittedAt, else reached_end if filled>=tot
+            if submitted_at:
+                sub_status = "submitted"
+            elif tot > 0 and filled >= tot:
+                sub_status = "reached_end"
+            else:
+                sub_status = "in_progress"
             result.append({
                 "participantId": pid,
                 "name": name,
-                "filledCount": int(entry.get("filledCount", 0)),
-                "totalCount": int(entry.get("totalCount", 0)),
+                "filledCount": filled,
+                "totalCount": tot,
                 "correctCount": int(cc) if cc is not None else None,
                 "updatedAt": entry.get("updatedAt"),
+                "submittedAt": submitted_at,
+                "submissionStatus": sub_status,
             })
         else:
             result.append({
@@ -3424,13 +3936,17 @@ def admin_crossword_progress(code):
                 "totalCount": default_total,
                 "correctCount": None,
                 "updatedAt": None,
+                "submittedAt": submitted_at,
+                "submissionStatus": "submitted" if submitted_at else "in_progress",
             })
-    # Sort by correctCount desc when available, else filledCount desc, then name
+    # Submitted first, then reached_end, then in_progress — within each group by correctness/progress
     def _sort_key(x):
+        order = {"submitted": 0, "reached_end": 1, "in_progress": 2}
         cc = x.get("correctCount")
+        base = (order.get(x.get("submissionStatus"), 3),)
         if cc is not None:
-            return (-cc, -x["filledCount"], x["name"].lower())
-        return (-x["filledCount"], x["name"].lower())
+            return base + (-cc, -x["filledCount"], x["name"].lower())
+        return base + (-x["filledCount"], x["name"].lower())
     result.sort(key=_sort_key)
     return jsonify({
         "roomCode": code,
@@ -3461,6 +3977,11 @@ def passphrase_build(code):
         return jsonify({"error": "participantId and roundId required"}), 400
     if participant_id not in sess.get("participants", {}):
         return jsonify({"error": "unknown participantId"}), 404
+    # Lock after submit
+    _sub = sess.get("submissions", {}).get(participant_id, {}).get(sess.get("activeModule"))
+    if _sub:
+        _sub_at = _sub if isinstance(_sub, str) else _sub.get("submittedAt")
+        return jsonify({"error": "already submitted - build locked", "submittedAt": _sub_at}), 403
     module_sequence = sess.get("moduleSequence") or []
     round_item = next((it for it in module_sequence if it.get("id") == round_id), None)
     if not round_item or "deck" not in round_item:
@@ -3508,6 +4029,7 @@ def admin_passphrase_progress(code):
     module_sequence = sess.get("moduleSequence") or []
     total_rounds = len(module_sequence)
     builds = sess.get("passphraseBuilds", {})
+    active_module = sess.get("activeModule") or "pass-phrase"
     result = []
     for pid, name in sess.get("participants", {}).items():
         rounds_built = builds.get(pid, {})
@@ -3517,6 +4039,14 @@ def admin_passphrase_progress(code):
         if rounds_built:
             latest_round = max(rounds_built.items(), key=lambda kv: kv[1].get("updatedAt") or "")
             current_strength = latest_round[1].get("strength")
+        _sub_raw = sess.get("submissions", {}).get(pid, {}).get(active_module)
+        submitted_at = _sub_raw if isinstance(_sub_raw, str) else (_sub_raw.get("submittedAt") if isinstance(_sub_raw, dict) else _sub_raw)
+        if submitted_at:
+            sub_status = "submitted"
+        elif total_rounds > 0 and completed_rounds >= total_rounds:
+            sub_status = "reached_end"
+        else:
+            sub_status = "in_progress"
         result.append({
             "participantId": pid,
             "name": name,
@@ -3525,8 +4055,13 @@ def admin_passphrase_progress(code):
             "currentStrengthLabel": current_strength.get("label") if current_strength else None,
             "currentStrengthScore": current_strength.get("score") if current_strength else None,
             "updatedAt": last_at,
+            "submittedAt": submitted_at,
+            "submissionStatus": sub_status,
         })
-    result.sort(key=lambda x: (-x["filledCount"], x["name"].lower()))
+    def _pp_sort(x):
+        order = {"submitted": 0, "reached_end": 1, "in_progress": 2}
+        return (order.get(x.get("submissionStatus"), 3), -x["filledCount"], x["name"].lower())
+    result.sort(key=_pp_sort)
     return jsonify({
         "roomCode": code,
         "activeModule": sess.get("activeModule"),
@@ -3562,6 +4097,8 @@ def admin_reset(code):
     sess["activeItem"] = None
     sess["responses"] = {}
     sess["crosswordProgress"] = {}
+    sess["passphraseBuilds"] = {}
+    sess["submissions"] = {}
     sess["createdAt"] = now
     # If you keep additional per-session stores, clear them here as well
     return jsonify({"ok": True, "roomCode": code, "message": "session reset — same code ready for next group", "createdAt": now})
