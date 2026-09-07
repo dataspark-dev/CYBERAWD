@@ -942,8 +942,12 @@
         // responses (see GET /progress in app.py), same list/shape as crossword's own panel.
         try{
           const prog = await api('/api/admin/session/' + currentCode + '/progress');
-          els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword.';
-          renderCrosswordProgress(prog, 'items');
+          els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword.'
+            + (prog.hasCorrectness ? ' Score updates live as the room answers.' : '');
+          // hasCorrectness modules (myth-vs-fact today) get a live running score alongside
+          // progress — the one place a numeric score is shown; never sent to participants.
+          const scoreSuffix = prog.hasCorrectness ? (p => p.correctCount!=null ? (' · ' + p.correctCount + ' correct') : '') : null;
+          renderCrosswordProgress(prog, 'items', scoreSuffix);
           els.crosswordProgressWrap.classList.remove('adm-hidden');
         }catch(e){}
         // Results/correctness/order for whichever item is selected in the picker above.

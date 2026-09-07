@@ -438,9 +438,13 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
     "correctOptionId"/"isTrue" are deliberately never copied here, regardless of module or
     reveal state. `my_answer`, when given, decorates the item with the requesting participant's
     own prior optionId for this item (so their phone can show "you picked X" when they navigate
-    back to an already-answered item in the self-paced full-sequence view). `my_build`, when
-    given, is pass-phrase's equivalent — the participant's own in-progress build for this round
-    (builtPassword + computed strength), so refreshing/navigating back doesn't lose progress.
+    back to an already-answered item in the self-paced full-sequence view) — and, when the item
+    has a correctOptionId, also derives "myAnswerCorrect" (a boolean — was THIS participant's
+    own answer right), the one piece of correctness info participants ARE meant to see, as
+    per-item educational feedback. Never the answer key itself, never a running tally — just
+    "was I right this time." `my_build`, when given, is pass-phrase's equivalent — the
+    participant's own in-progress build for this round (builtPassword + computed strength), so
+    refreshing/navigating back doesn't lose progress.
     """
     if not item:
         return None
@@ -457,6 +461,8 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
             safe[field] = item[field]
     if my_answer is not None:
         safe["myAnswer"] = my_answer
+        if item.get("correctOptionId") is not None:
+            safe["myAnswerCorrect"] = (str(my_answer) == str(item["correctOptionId"]))
     if my_build is not None:
         safe["myBuild"] = my_build
     return safe
@@ -1075,6 +1081,13 @@ button.ff-compare-panel{all:unset;box-sizing:border-box;display:block;width:100%
    (console has no binary choice UI here — it's a single reveal button, not applicable). */
 .mf-card .options{margin-top:14px}
 
+/* Per-item correct/wrong feedback (renderCorrectFeedback) — educational feedback on THIS
+   answer only, no running score anywhere on the participant page (see docs). */
+.feedback-badge{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:10px;text-align:left}
+.feedback-badge.correct{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46}
+.feedback-badge.incorrect{background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d}
+.feedback-badge i{font-size:16px}
+
 /* Pass-phrase: real weak-password framing, live strength meter, and the actual deck/slot
    build interaction (tap-to-place, not drag — touch drag was already deemed unreliable).
    .pp-tile/.pp-deck/.pp-deck-tile/.pp-tiles are the console's own classes (console.css); only
@@ -1324,6 +1337,7 @@ async function submitAnswer(item, optionId){
     throw new Error(j.error || 'Submit failed');
   }
   item.myAnswer = optionId; // update local copy so navigating back shows the selection
+  if(j.isCorrect!=null) item.myAnswerCorrect = j.isCorrect; // per-item feedback only — never a tally
   return true;
 }
 
@@ -1385,8 +1399,10 @@ function wireActivityOptions(item){
         // not just the border color.
         renderActivityItem();
         // Brief pause so the tap visibly registers, then auto-advance (participant can still
-        // use Prev to go back and change an answer — /respond allows overwrite).
-        setTimeout(()=>{ if(actIndex < actItems.length-1){ actIndex++; renderActivityItem(); } }, 550);
+        // use Prev to go back and change an answer — /respond allows overwrite). Items with
+        // correct/wrong feedback get longer — that's meant to be read, not just glimpsed.
+        const advanceDelay = item.myAnswerCorrect!=null ? 1400 : 550;
+        setTimeout(()=>{ if(actIndex < actItems.length-1){ actIndex++; renderActivityItem(); } }, advanceDelay);
       }catch(e){
         els.actMount.querySelectorAll('[data-answer-opt]').forEach(b=>{ b.style.pointerEvents=''; });
       }
@@ -1408,7 +1424,17 @@ function renderFaultFinding(item){
   return '<div class="ff-compare-frame">'
     + '<div style="text-align:center;font-weight:800;margin-bottom:10px;color:var(--navy,#001a4d)">Which one is <span style="color:var(--red,#ef4444)">FAKE</span>?</div>'
     + '<div class="ff-compare-row">' + panel('A', item.realImage) + panel('B', item.fakeImage) + '</div>'
-    + '</div>';
+    + '</div>' + renderCorrectFeedback(item);
+}
+// Per-item educational feedback for modules with an objective correct answer (only myth-vs-fact
+// today — see correctOptionId in _normalize_module_item). Shows only "was YOUR answer right",
+// never the correct option itself and never a running tally/score — that's admin-only, see
+// GET /api/admin/session/<code>/progress and /module-summary.
+function renderCorrectFeedback(item){
+  if(item.myAnswerCorrect==null) return '';
+  return item.myAnswerCorrect
+    ? '<div class="feedback-badge correct"><i class="fa-solid fa-check"></i> Correct</div>'
+    : '<div class="feedback-badge incorrect"><i class="fa-solid fa-xmark"></i> Not quite</div>';
 }
 function renderMythVsFact(item){
   const picked = item.myAnswer;
@@ -1418,7 +1444,8 @@ function renderMythVsFact(item){
     + '<div class="options">' + (item.options||[]).map(opt=>{
         const sel = picked!=null && String(picked)===String(opt.id);
         return '<button type="button" class="option-btn'+(sel?' selected picked':'')+'" data-answer-opt="'+esc(opt.id)+'">'+esc(opt.text)+'</button>';
-      }).join('') + '</div></div>';
+      }).join('') + '</div>'
+    + renderCorrectFeedback(item) + '</div>';
 }
 function renderDecisionRoom(item){
   const picked = item.myAnswer;
@@ -1435,7 +1462,7 @@ function renderDecisionRoom(item){
     const letter = String.fromCharCode(65+idx);
     const sel = picked!=null && String(picked)===String(opt.id);
     return '<button type="button" class="dr-option'+(sel?' picked':'')+'" data-answer-opt="'+esc(opt.id)+'"><span class="dr-opt-letter">'+letter+'</span><span class="dr-opt-text">'+esc(opt.text)+'</span></button>';
-  }).join('') + '</div></div>';
+  }).join('') + '</div></div>' + renderCorrectFeedback(item);
   return html;
 }
 function renderClosingQuiz(item){
@@ -1446,10 +1473,12 @@ function renderClosingQuiz(item){
   };
   if(item.kind === 'svr'){
     return '<div class="svr-scenario-card"><div class="svr-scenario-text">'+esc(item.prompt||'')+'</div></div>'
-      + '<div class="qz-choices">' + (item.options||[]).map(opt=>choiceRow(opt, opt.text[0])).join('') + '</div>';
+      + '<div class="qz-choices">' + (item.options||[]).map(opt=>choiceRow(opt, opt.text[0])).join('') + '</div>'
+      + renderCorrectFeedback(item);
   }
   return '<div class="qz-question">'+esc(item.prompt||'')+'</div>'
-    + '<div class="qz-choices">' + (item.options||[]).map((opt,idx)=>choiceRow(opt, String.fromCharCode(65+idx))).join('') + '</div>';
+    + '<div class="qz-choices">' + (item.options||[]).map((opt,idx)=>choiceRow(opt, String.fromCharCode(65+idx))).join('') + '</div>'
+    + renderCorrectFeedback(item);
 }
 function renderClueQuest(item){
   const picked = item.myAnswer;
@@ -1457,7 +1486,7 @@ function renderClueQuest(item){
     + '<div class="cq-options">' + (item.options||[]).map((opt,idx)=>{
         const sel = picked!=null && String(picked)===String(opt.id);
         return '<div class="cq-option'+(sel?' picked':'')+'" data-answer-opt="'+esc(opt.id)+'"><span class="cq-opt-num">'+(idx+1)+'</span>'+esc(opt.text)+'</div>';
-      }).join('') + '</div>';
+      }).join('') + '</div>' + renderCorrectFeedback(item);
 }
 // --- Pass-phrase: real build-your-own-password mechanic (tap-to-place, not drag — touch
 // drag was already deemed unreliable in an earlier pass). Matches the console's actual
@@ -1606,7 +1635,7 @@ function renderGenericItem(item){
     + '<div class="options">' + (item.options||[]).map(opt=>{
         const sel = picked!=null && String(picked)===String(opt.id);
         return '<button type="button" class="option-btn'+(sel?' selected picked':'')+'" data-answer-opt="'+esc(opt.id)+'">'+esc(opt.text)+'</button>';
-      }).join('') + '</div>';
+      }).join('') + '</div>' + renderCorrectFeedback(item);
 }
 const ACTIVITY_RENDERERS = {
   'fault-finding': renderFaultFinding,
@@ -2310,7 +2339,12 @@ def session_respond(code):
         sess["responses"][item_id] = {}
     responded_at = datetime.now(timezone.utc).isoformat()
     sess["responses"][item_id][participant_id] = {"optionId": option_id, "respondedAt": responded_at}
-    return jsonify({"ok": True, "roomCode": code, "itemId": item_id, "optionId": option_id})
+    # Per-item correct/wrong feedback on the participant's OWN answer only — a derived boolean,
+    # never the answer key itself (correctOptionId is never sent to participants anywhere else
+    # either; see _sanitize_item_for_participant). Only present when the item has one.
+    correct_option_id = target_item.get("correctOptionId")
+    is_correct = (option_id == str(correct_option_id)) if correct_option_id is not None else None
+    return jsonify({"ok": True, "roomCode": code, "itemId": item_id, "optionId": option_id, "isCorrect": is_correct})
 
 
 @app.route("/api/session/<code>/state", methods=["GET"])
@@ -2505,6 +2539,11 @@ def admin_progress(code):
     their own progress via POST /crossword/progress), the 6 MC-style modules are computed here
     directly from sess["responses"] — the server already sees every discrete answer via
     /respond, so no separate client-side progress ping is needed for these.
+
+    For modules with objective correctness (correctOptionId set on the normalized items — see
+    _normalize_module_item; today only myth-vs-fact), also reports a LIVE per-participant
+    correctCount, updating in real time as the room answers — not just at Mark Complete via
+    GET /module-summary. Admin-only, same as everything else in this file's /admin/* routes.
     """
     code = code.strip().upper()
     sess = SESSIONS.get(code)
@@ -2512,11 +2551,16 @@ def admin_progress(code):
         return jsonify({"error": "room not found"}), 404
     module_sequence = sess.get("moduleSequence") or []
     total = len(module_sequence)
+    correct_option_by_item = {
+        it["id"]: it["correctOptionId"] for it in module_sequence if it.get("correctOptionId") is not None
+    }
+    has_correctness = bool(correct_option_by_item)
     item_ids = [it.get("id") for it in module_sequence]
     responses = sess.get("responses", {})
     result = []
     for pid, name in sess.get("participants", {}).items():
         answered = 0
+        correct = 0
         last_at = None
         for item_id in item_ids:
             entry = responses.get(item_id, {}).get(pid)
@@ -2524,6 +2568,9 @@ def admin_progress(code):
                 continue
             answered += 1
             at = entry.get("respondedAt") if isinstance(entry, dict) else None
+            oid = entry.get("optionId") if isinstance(entry, dict) else entry
+            if item_id in correct_option_by_item and str(oid) == str(correct_option_by_item[item_id]):
+                correct += 1
             if at and (last_at is None or at > last_at):
                 last_at = at
         result.append({
@@ -2531,11 +2578,13 @@ def admin_progress(code):
             "name": name,
             "filledCount": answered,
             "totalCount": total,
+            "correctCount": correct if has_correctness else None,
             "updatedAt": last_at,
         })
     result.sort(key=lambda x: (-x["filledCount"], x["name"].lower()))
     return jsonify({
         "roomCode": code,
+        "hasCorrectness": has_correctness,
         "activeModule": sess.get("activeModule"),
         "progress": result,
         "participantCount": len(sess.get("participants", {})),
