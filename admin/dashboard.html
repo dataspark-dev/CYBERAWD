@@ -913,23 +913,31 @@
     function renderFastestOverall(data){
       const ranked = data.ranked || [];
       const inProgress = data.inProgress || [];
+      // Top 3 winners per module — ordered who scores more first, ties by earliest submittedAt
+      // (fastest submission). Backend already sorts: correctCount desc → submittedAt asc (or
+      // goodCount / submittedAt). Frontend displays Top 3 podium.
       if(data.hasCorrectness){
-        els.fastestOverallNote.textContent = `Ranked by correct answers (of ${data.totalItems}), ties broken by fastest submission (submittedAt).`;
+        els.fastestOverallNote.textContent = `Top 3 — ranked by correct answers (of ${data.totalItems}), ties broken by fastest submission (submittedAt).`;
       } else if(data.hasGoodDecision){
-        els.fastestOverallNote.textContent = `Ranked by good decisions (of ${data.totalItems}), ties broken by fastest submission — labeled distinctly as "good decisions" not "correct".`;
+        els.fastestOverallNote.textContent = `Top 3 — ranked by good decisions (of ${data.totalItems}), ties broken by fastest submission — labeled distinctly as "good decisions" not "correct".`;
       } else {
-        els.fastestOverallNote.textContent = `Ranked by submission time (${data.totalItems} items each) — this module has no objectively correct answer.`;
+        els.fastestOverallNote.textContent = `Top 3 — ranked by submission time (${data.totalItems} items each) — this module has no objectively correct answer.`;
       }
       if(!ranked.length){
-        els.fastestOverallList.innerHTML = '<li class="adm-note">No one has completed every item yet.</li>';
+        els.fastestOverallList.innerHTML = '<li class="adm-note">No one has completed every item yet — waiting for first Submit.</li>';
       } else {
-        els.fastestOverallList.innerHTML = ranked.map(r=>{
+        const top3 = ranked.slice(0,3);
+        els.fastestOverallList.innerHTML = top3.map(r=>{
           const elapsed = formatElapsed(r.moduleStartedAt, r.completedAt);
           let scoreBit = '';
           if(data.hasCorrectness) scoreBit = `${r.correctCount} / ${data.totalItems} correct &nbsp;·&nbsp; `;
           else if(data.hasGoodDecision) scoreBit = `${r.goodCount} / ${data.totalItems} good decisions &nbsp;·&nbsp; `;
-          return `<li><strong>${ordinal(r.rank)}</strong> — ${esc(r.name)}: ${scoreBit}${elapsed}</li>`;
+          const medal = r.rank===1 ? '🥇 ' : r.rank===2 ? '🥈 ' : r.rank===3 ? '🥉 ' : '';
+          return `<li>${medal}<strong>${ordinal(r.rank)}</strong> — ${esc(r.name)}: ${scoreBit}${elapsed}</li>`;
         }).join('');
+        if(ranked.length > 3){
+          els.fastestOverallList.innerHTML += `<li class="adm-note" style="text-align:center;margin-top:4px">+ ${ranked.length - 3} more submitted beyond top 3</li>`;
+        }
       }
       els.fastestOverallInProgress.textContent = inProgress.length
         ? `Still in progress: ${inProgress.map(p=>p.name+' ('+p.answeredCount+'/'+data.totalItems+')').join(', ')}`

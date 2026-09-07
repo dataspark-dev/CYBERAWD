@@ -1174,7 +1174,7 @@ def join_page(code):
     if not sess:
         html_bad = """<!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/><title>Room __ROOM_CODE__ not found — Synergy</title>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/><title>Room __ROOM_CODE__ not found — Synergy</title>
 <style>body{font-family:system-ui,-apple-system,Barlow,sans-serif;background:#f8fafc;color:#0f172a;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:16px} .card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;max-width:420px;width:100%;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08)} h1{font-size:1.25rem;margin:0 0 8px} p{color:#64748b;margin:0 0 16px;line-height:1.5} a{color:#0891b2;text-decoration:none;font-weight:700} .room{font-family:monospace;background:#e0f2fe;color:#0c4a6e;padding:4px 8px;border-radius:6px;letter-spacing:1px}</style>
 </head><body><div class="card"><h1>Room <span class="room">__ROOM_CODE__</span> not found</h1><p>This room code doesn't exist or has been closed. Double-check the code or ask the facilitator for a fresh QR.</p><p><a href="/">← Go home</a></p><p style="font-size:12px;color:#94a3b8;margin-top:12px">Synergy Cyber Security Awareness Month</p></div></body></html>"""
         html_bad = html_bad.replace("__ROOM_CODE__", code)
@@ -1183,7 +1183,7 @@ def join_page(code):
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/>
 <title>Join __ROOM_CODE__ — Synergy Cyber Security Awareness Month</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Barlow:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
@@ -3605,9 +3605,14 @@ def _compute_module_summary(sess):
         for entry in cw.values():
             total = max(total, int(entry.get("totalCount") or 0))
         summary = []
+        has_correct = False
         for pid, name in sess.get("participants", {}).items():
             entry = cw.get(pid)
             filled = int(entry.get("filledCount") or 0) if entry else 0
+            cc_raw = entry.get("correctCount") if entry else None
+            cc = int(cc_raw) if cc_raw is not None else None
+            if cc is not None:
+                has_correct = True
             updated_at = entry.get("updatedAt") if entry else None
             submitted_at = _submitted_at(pid, active_module)
             is_complete = submitted_at is not None
@@ -3619,9 +3624,9 @@ def _compute_module_summary(sess):
                 "lastAnsweredAt": updated_at,
                 "completedAt": submitted_at,
                 "submittedAt": submitted_at,
-                "correctCount": None,
+                "correctCount": cc,
             })
-        return summary, False, total
+        return summary, has_correct, total
 
     if active_module == "pass-phrase":
         module_sequence = sess.get("moduleSequence") or []
