@@ -8,22 +8,22 @@
   <text x="260" y="353" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Please find your updated payslip attached. Enable macros and</text>
   <text x="260" y="385" font-family="Barlow, sans-serif" font-size="18" fill="#374151">click “Enable Content” to view the appraisal section.</text>
   <g transform="translate(260,420)">
-    <rect x="0" y="0" width="380" height="64" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+    <rect x="0" y="0" width="380" height="64" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
     <rect x="14" y="16" width="32" height="32" rx="4" fill="#2563eb"/>
     <text x="30" y="37" font-family="Barlow, sans-serif" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">EXE</text>
     <text x="60" y="31" font-family="Space Mono, monospace" font-size="13" fill="#1e293b">Payslip_March.pdf.exe</text>
-    <text x="60" y="50" font-family="Space Mono, monospace" font-size="12" fill="#b91c1c">1.1 MB · Application</text>
+    <text x="60" y="50" font-family="Space Mono, monospace" font-size="12" fill="#64748b">1.1 MB · Application</text>
   </g>
   <g transform="translate(260,500)">
-    <rect x="0" y="0" width="380" height="64" rx="8" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
+    <rect x="0" y="0" width="380" height="64" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
     <rect x="14" y="16" width="32" height="32" rx="4" fill="#7c3aed"/>
     <text x="30" y="37" font-family="Barlow, sans-serif" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">ZIP</text>
     <text x="60" y="31" font-family="Space Mono, monospace" font-size="13" fill="#1e293b">Documents.zip</text>
-    <text x="60" y="50" font-family="Space Mono, monospace" font-size="12" fill="#b91c1c">3.4 MB · Archive — password: 1234</text>
+    <text x="60" y="50" font-family="Space Mono, monospace" font-size="12" fill="#64748b">3.4 MB · Archive — password: 1234</text>
   </g>
   <g transform="translate(260,580)">
-    <rect x="0" y="0" width="360" height="34" rx="6" fill="#fde68a"/>
-    <text x="10" y="23" font-family="Barlow, sans-serif" font-size="12" font-weight="700" fill="#78350f">Enable Content / Enter password to view files</text>
+    <rect x="0" y="0" width="360" height="34" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <text x="10" y="23" font-family="Barlow, sans-serif" font-size="12" fill="#374151">Enable Content / Enter password to view files</text>
   </g>
-  <text x="800" y="850" font-family="Space Mono, monospace" font-size="15" fill="#f87171" text-anchor="middle" letter-spacing="2">HR / PAYROLL — SUSPICIOUS DOUBLE-EXTENSION &amp; ZIP</text>
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="15" fill="#67e8f9" text-anchor="middle" letter-spacing="2">HR / PAYROLL — PAYSLIP &amp; ROSTER</text>
 </svg>

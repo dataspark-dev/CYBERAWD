@@ -69,7 +69,7 @@ ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD") or os.environ.get("ADMIN_PASS"
 # FLASK_SECRET_KEY is the canonical name; SECRET_KEY kept as fallback for older deploys.
 app.secret_key = os.environ.get("FLASK_SECRET_KEY") or os.environ.get("SECRET_KEY") or "change-this-to-a-random-string"
 # Admin login session: permanent cookie so facilitator isn't logged out mid-event.
-# Flask default is 31 days; we set explicit 12h to be safe for a live Cyber Awareness Month
+# Flask default is 31 days; we set explicit 12h to be safe for a live Synergy Cyber Security Awareness Month
 # session while still expiring reasonably. With `session.permanent=True` in login,
 # this lifetime controls expiry. 12h >> typical 2-4h event, so no mid-event logout.
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=12)
@@ -1181,7 +1181,7 @@ def join_page(code):
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-<title>Join __ROOM_CODE__ — Synergy Cyber Awareness</title>
+<title>Join __ROOM_CODE__ — Synergy Cyber Security Awareness Month</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Barlow:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <!-- Reuses the same component classes as the facilitator console (mf-card, dr-option,
@@ -3543,7 +3543,7 @@ def admin_reset(code):
     """Clear participants/responses/activeModule so same room code can be reused for next group.
 
     Keeps the room code itself and creates a fresh timestamp; wipes everything
-    that would leak between Cyber Awareness Month events without requiring a
+    that would leak between Synergy Cyber Security Awareness Month events without requiring a
     server restart. Participants must re-join after reset (old participantIds
     become unknown, join page handles this with a clear re-join prompt).
     """
