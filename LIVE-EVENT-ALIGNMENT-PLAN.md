@@ -13,8 +13,6 @@
 | 10 min | 🤖 **Real or AI? – Deepfake Challenge** | `live-simulation` | ⚠️ Partial | **Refine** — Add deepfake video/image/audio identification |
 | 10 min | 🎙️ **Voice Clone Challenge** | `live-simulation` | ⚠️ Partial | **Refine** — Add voice cloning scenario to live-simulation |
 | 10 min | 🕵️ **AI-Powered Social Engineering Challenge** | `incident-response` | ⚠️ Partial | **Refine** — Re-theme as social engineering decision tree |
-| 10 min | 💻 **Secure or Risky? – AI Edition** | — | **Gap** | **Create new** — Rapid-fire binary choice game |
-| 10 min | 📱 **QR / USB / AI Scam Challenge** | — | **Gap** | **Create new** — Physical prop + digital reveal module |
 | 10 min | 🧠 **Cyber + AI Quiz** | `closing-quiz` | ✅ Exists | **Refine** — Add AI-specific questions, pledge screen |
 | 5 min | 🏆 Winner Announcement | `closing-quiz` | ✅ Partial | **Refine** — Add scoreboard/winner reveal |
 | 5 min | 🛡️ Cybersecurity & AI Safety Pledge | `closing-quiz` | ⚠️ Partial | **Refine** — Add pledge screen at end |
@@ -59,24 +57,6 @@
 
 ---
 
-### Phase 2: New Modules (Gaps)
-
-#### 5. secure-or-risky → "Secure or Risky? – AI Edition" (10 min)
-**Format**: Rapid-fire binary choice
-- 10 scenarios, 10 seconds each
-- Facilitator reads → room votes (hands/voice) → reveal → 1-line explanation
-- Scenarios: AI-generated code, ChatGPT data paste, AI meeting notes, deepfake verification, etc.
-- **New files**: `secure-or-risky.html`, `secure-or-risky.js`, `secure-or-risky.json`
-
-#### 6. qr-usb-scam → "QR / USB / AI Scam Challenge" (10 min)
-**Format**: Physical + digital hybrid
-- Facilitator shows physical props (QR code poster, USB drive, NFC tag)
-- Room identifies threat → facilitator taps "Reveal" → digital explanation
-- 3 stations: QR phishing, USB drop, AI voice QR scam
-- **New files**: `qr-usb-scam.html`, `qr-usb-scam.js`, `qr-usb-scam.json`
-
----
-
 ## Console Index Reordering
 
 New module sequence for `live-event/index.html`:
@@ -86,9 +66,7 @@ const MODULE_ORDER = [
   { key: 'faultFinding',       label: 'Module 1 — Spot the Phish (AI Edition)',       time: '15 min', color: 'v-cyan' },
   { key: 'liveSimulation',     label: 'Module 2 — Deepfake & Voice Clone Challenge',  time: '20 min', color: 'v-red' },
   { key: 'incidentResponse',   label: 'Module 3 — AI Social Engineering Challenge',   time: '10 min', color: 'v-blue' },
-  { key: 'secureOrRisky',      label: 'Module 4 — Secure or Risky? AI Edition',       time: '10 min', color: 'v-purple' },
-  { key: 'qrUsbScam',          label: 'Module 5 — QR / USB / AI Scam Challenge',      time: '10 min', color: 'v-amber' },
-  { key: 'closingQuiz',        label: 'Module 6 — Cyber+AI Quiz, Winner & Pledge',    time: '15 min', color: 'v-green' },
+  { key: 'closingQuiz',        label: 'Module 4 — Cyber+AI Quiz, Winner & Pledge',    time: '15 min', color: 'v-green' },
 ];
 ```
 
@@ -112,35 +90,13 @@ const MODULE_ORDER = [
 - 8 questions (mix of existing + new AI questions)
 - Add `category: 'cyber'|'ai'` for scoring breakdown
 
-### secure-or-risky.json (NEW)
-```json
-{
-  "items": [
-    { "scenario": "Paste proprietary code into ChatGPT to debug", "answer": "RISKY", "explanation": "Data leaves your environment; use local AI or sanctioned tools." },
-    { "scenario": "Verify a CEO voice message by calling back on known number", "answer": "SECURE", "explanation": "Out-of-band verification defeats voice cloning." },
-    ...
-  ]
-}
-```
-
-### qr-usb-scam.json (NEW)
-```json
-{
-  "stations": [
-    { "id": "qr-phish", "prop": "QR code on poster", "threat": "Redirects to credential harvester", "explanation": "..." },
-    { "id": "usb-drop", "prop": "USB labeled 'Payroll 2024'", "threat": "Auto-runs malware", "explanation": "..." },
-    { "id": "ai-voice-qr", "prop": "QR + 'Scan to verify your voice ID'", "threat": "Enrolls attacker's voice as yours", "explanation": "..." }
-  ]
-}
-```
-
 ---
 
 ## CSS/Component Reuse
 
 | Component | Used By | Status |
 |-----------|---------|--------|
-| `.le-timer` | live-simulation, incident-response, secure-or-risky, qr-usb-scam | ✅ Exists |
+| `.le-timer` | live-simulation, incident-response | ✅ Exists |
 | `.ff-compare-frame` | fault-finding | ✅ Refined |
 | `.ir-steps` (drag-drop) | incident-response (old) | ⚠️ Replace with decision cards |
 | `.qz-choices` | closing-quiz | ✅ Exists |
@@ -154,10 +110,8 @@ const MODULE_ORDER = [
 2. **Refine fault-finding.json** — Add AI phishing examples
 3. **Refactor live-simulation** — New beats, media players, 20-min flow
 4. **Refactor incident-response** — Decision tree format, 10-min flow
-5. **Create secure-or-risky** — New rapid-fire module
-6. **Create qr-usb-scam** — New hybrid module
-7. **Refine closing-quiz** — AI questions, winner screen, pledge
-8. **Test full 90-min run-through** — Timing, transitions, keyboard flow
+5. **Refine closing-quiz** — AI questions, winner screen, pledge
+6. **Test full 90-min run-through** — Timing, transitions, keyboard flow
 
 ---
 
@@ -182,8 +136,6 @@ const MODULE_ORDER = [
 | fault-finding content update | 0.5 |
 | live-simulation refactor | 3 |
 | incident-response refactor | 2 |
-| secure-or-risky (new) | 2 |
-| qr-usb-scam (new) | 2 |
 | closing-quiz refine | 1.5 |
 | Integration testing | 1.5 |
-| **Total** | **~13 hours** |
+| **Total** | **~9 hours** |

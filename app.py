@@ -218,36 +218,31 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 "fakeImage": _abs_asset(raw.get("fakeImage")),
                 "options": _normalize_options([{"id": "A", "text": "Option A is fake"}, {"id": "B", "text": "Option B is fake"}]),
                 "correctOptionId": "B",
-                "fact": str(raw.get("whyItsSuspicious") or raw.get("whatIsWrong") or ""),
+                # Console's Reveal shows both as separate rows (What's Wrong / Why It's
+                # Suspicious) — kept as two fields here too so the phone can do the same,
+                # instead of collapsing them into one blended paragraph.
+                "whatIsWrong": str(raw.get("whatIsWrong") or ""),
+                "fact": str(raw.get("whyItsSuspicious") or ""),
                 "revealed": False,
             }
         if module_id == "myth-vs-fact":
-            # Yes/No poll: content authors mark isTrue per item — true means the "fact" text
-            # itself is shown as the claim to judge, false means the "myth" text is shown.
-            # This reuses the existing myth/fact/detail fields as-is (no duplicated content)
-            # while producing a genuine mixed True/False quiz instead of always-correct-"Myth".
-            is_true = bool(raw.get("isTrue", False))
-            claim = raw.get("fact") if is_true else raw.get("myth")
-            correct_option_id = "yes" if is_true else "no"
-            # Reveal text always surfaces the piece the participant hasn't already been shown:
-            # if the claim shown WAS the fact, reveal adds the busted myth as context; if the
-            # claim shown WAS the myth, reveal supplies the actual fact + detail.
-            if is_true:
-                reveal = str(raw.get("detail") or "").strip()
-                if raw.get("myth"):
-                    reveal = (reveal + (" " if reveal else "") + f"Common misconception: \"{raw['myth']}\"").strip()
-            else:
-                reveal = str(raw.get("fact") or "").strip()
-                if raw.get("detail"):
-                    reveal = (reveal + (" — " if reveal else "") + str(raw["detail"])).strip()
+            # Console is pure narration: always shows the "myth" field as the claim, then
+            # busts it with "fact" + "detail" on Reveal — every myth in this content set is a
+            # genuinely false statement meant to be busted, there is no true-claim variant.
+            # Phone layers a light "Myth or Fact?" yes/no quiz on top of that same claim/reveal
+            # pair (an intentional surface difference — console stays narration-only, phone
+            # gets a quiz) but must show the identical myth text and correct answer for every
+            # item, not swap to the fact text or flip correctness based on content's isTrue.
+            # fact/detail stay two separate fields (console's #factText / #detailText are
+            # separate elements too) rather than blended into one resynthesized paragraph.
             return {
                 "id": str(base_id),
-                "prompt": str(claim or raw.get("prompt") or base_id).strip(),
+                "prompt": str(raw.get("myth") or raw.get("prompt") or base_id).strip(),
                 "topic": raw.get("topic"),
                 "options": _normalize_options([{"id": "yes", "text": "True"}, {"id": "no", "text": "False"}]),
-                "isTrue": is_true,
-                "correctOptionId": correct_option_id,
-                "fact": reveal,
+                "correctOptionId": "no",
+                "fact": str(raw.get("fact") or "").strip(),
+                "detail": str(raw.get("detail") or "").strip(),
                 "revealed": False,
             }
         if module_id == "decision-room":
@@ -263,10 +258,17 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             opts = raw.get("options") or raw.get("choices") or []
             # Keep original option ids/text for reveal
             norm_opts = _normalize_options(opts if opts else ["Option A", "Option B"])
-            # Fact = good outcome feedback
-            fact = ""
+            # Per-option feedback, keyed by option id — console shows whichever option's OWN
+            # feedback the room actually picked, not always the "good" one's. Kept out of the
+            # options array itself (which _sanitize_item_for_participant strips down to
+            # id/text pre-answer) and looked up by _effective_correct_option_id's sibling logic
+            # in _sanitize_item_for_participant once my_answer is known, same as every other
+            # module's "reveal only what THIS participant is entitled to see" pattern.
+            option_feedback = {}
             try:
-                fact = " | ".join([o.get("feedback","") for o in opts if o.get("outcome")=="good"])
+                for o in opts:
+                    if isinstance(o, dict) and o.get("id") is not None:
+                        option_feedback[str(o["id"])] = str(o.get("feedback") or "")
             except Exception:
                 pass
             # Determine the "good" option id (admin-only scoring, not correctOptionId)
@@ -291,7 +293,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 "caseTitle": raw.get("caseTitle"),
                 "caseScenario": raw.get("caseScenario"),
                 "options": norm_opts,
-                "fact": fact,
+                "optionFeedback": option_feedback,
                 "revealed": False,
             }
             if good_option_id:
@@ -323,13 +325,17 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                     out["correctOptionId"] = correct_id
                 return out
             else:
-                # SVR prompt — no single correct answer (STOP/VERIFY/REPORT are all part of ideal)
+                # SVR prompt — read-only narration on console (scenario + ideal response, no
+                # vote of any kind — STOP/VERIFY/REPORT are all part of one ideal response, not
+                # 3 choices). Options intentionally empty here to match: there is nothing to
+                # tap, only something to read (see isActivityAllAnswered's kind==='svr' check
+                # and renderClosingQuiz's svr branch, which never renders a choice grid for this).
                 return {
                     "id": str(base_id),
                     "kind": "svr",
                     "prompt": str(raw.get("scenario") or base_id).strip(),
                     "persona": raw.get("persona"),
-                    "options": _normalize_options(["STOP", "VERIFY", "REPORT"]),
+                    "options": [],
                     "fact": str(raw.get("idealResponse") or ""),
                     "revealed": False,
                 }
@@ -425,7 +431,7 @@ def _load_module_sequence(module_id: str):
         if module_id == "myth-vs-fact":
             return [_normalize_module_item(module_id, r, i) for i, r in enumerate(data.get("items", []))]
         if module_id == "decision-room":
-            # Flatten cases -> decisions = 18 steps
+            # Flatten cases -> decisions, one debrief step per case = 24 steps
             seq = []
             for c in data.get("cases", []):
                 for d in c.get("decisions", []):
@@ -438,6 +444,19 @@ def _load_module_sequence(module_id: str):
                     copy["caseTitle"] = c.get("title")
                     copy["caseScenario"] = c.get("scenario")
                     seq.append(_normalize_module_item(module_id, copy, len(seq)))
+                # Debrief — console's natural next beat once a case's 3rd decision is answered,
+                # not a gated "reveal": pure narration with nothing to choose, so (like
+                # closing-quiz's SVR prompts) it's sent unconditionally and counts as done with
+                # no vote required (see isActivityAllAnswered/updateActivityChrome's kind checks).
+                seq.append({
+                    "id": f"{c.get('id')}_debrief",
+                    "kind": "debrief",
+                    "prompt": str(c.get("debrief") or "").strip(),
+                    "persona": c.get("persona"),
+                    "caseTitle": c.get("title"),
+                    "caseScenario": c.get("scenario"),
+                    "options": [],
+                })
             return seq
         if module_id == "closing-quiz":
             qs = data.get("questions", []) or []
@@ -575,23 +594,32 @@ def _effective_correct_option_id(item: dict | None, participant_id: str | None =
     return item.get("correctOptionId")
 
 
-def _sanitize_item_for_participant(item: dict | None, active_module: str | None = None, my_answer=None, my_build=None, participant_id: str | None = None, is_submitted: bool = False) -> dict | None:
-    """Return participant-safe copy of an item — no answer key, no fact/reveal text *before* submit.
+# GET /api/session/<code>/state is polled every ~1.5s by every connected phone, and re-sanitizes
+# every item in the room's moduleSequence on every single call. Most of that work — stripping
+# outcome/isCorrect from options, copying the safe display fields — is identical for every
+# participant and every poll as long as the item itself hasn't changed, so _sanitize_item_shared
+# memoizes just that invariant portion, keyed by id(item). Deliberately excluded from the cache
+# (computed fresh on every call instead, see _sanitize_item_for_participant): realImage/fakeImage
+# (fault-finding swaps these per participant's own randomized fake slot), and fact/revealed/
+# whatIsWrong/detail (gated by this participant's own submission state, or clue-quest's
+# per-participant answered-state) — none of that is safe to share across participants or polls.
+# Cache entries are invalidated explicitly by _invalidate_item_cache whenever a room's sequence
+# is about to be replaced or cleared (admin_launch, admin_reset) rather than left to garbage
+# collection — id() can be reused for an unrelated later dict once the original item is freed,
+# which would otherwise risk a stale-content hit for a same-address-recycled item.
+_ITEM_SANITIZE_CACHE: dict[int, dict] = {}
 
-    Before Submit, reveals are admin-screen-only (read aloud) — never sent to phones, so
-    "fact"/"revealed"/"correctOptionId"/"isTrue" are not copied. `my_answer` decorates with
-    own prior optionId and derives `myAnswerCorrect` (was THIS answer right) as immediate
-    badge feedback. After Submit (`is_submitted=True`), the full `fact` (identification +
-    recommendation: what was wrong + why suspicious / idealResponse / explanation) is now
-    included so the participant can review per-item detail in read-only mode, mirroring the
-    console's Reveal. `my_build` is pass-phrase's equivalent. `participant_id` drives
-    per-participant image randomization.
-    """
-    if not item:
-        return None
-    # Sanitize options: only id and text are safe to expose — outcome/isCorrect/correct
-    # must never leak to participants (see decision-room outcome leak check). Rebuild list
-    # rather than passing through the stored array directly.
+
+def _invalidate_item_cache(sequence) -> None:
+    for it in sequence or []:
+        _ITEM_SANITIZE_CACHE.pop(id(it), None)
+
+
+def _sanitize_item_shared(item: dict) -> dict:
+    """Participant-invariant portion of item sanitization, memoized — see _ITEM_SANITIZE_CACHE."""
+    cached = _ITEM_SANITIZE_CACHE.get(id(item))
+    if cached is not None:
+        return cached
     sanitized_opts = []
     for o in item.get("options", []):
         try:
@@ -603,17 +631,57 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
         "prompt": item.get("prompt"),
         "options": sanitized_opts,
     }
-    # Pure display fields, safe to pass through as-is — none of these reveal a correct answer.
-    # Only copied when present so modules that don't set them don't carry null clutter.
-    for field in ("realImage", "fakeImage", "topic", "persona", "category", "caseTitle", "caseScenario", "kind",
+    for field in ("topic", "persona", "category", "caseTitle", "caseScenario", "kind",
                   "weakPassword", "weakRequirement", "deck", "maxSlots", "maxChars", "difficulty"):
         if item.get(field) is not None:
             safe[field] = item[field]
+    _ITEM_SANITIZE_CACHE[id(item)] = safe
+    return safe
+
+
+def _sanitize_item_for_participant(item: dict | None, active_module: str | None = None, my_answer=None, my_build=None, participant_id: str | None = None, is_submitted: bool = False) -> dict | None:
+    """Return participant-safe copy of an item — no answer key, no fact/reveal text *before* submit.
+
+    Before Submit, reveals are admin-screen-only (read aloud) — never sent to phones, so
+    "fact"/"revealed"/"isTrue" are not copied, and correctOptionId is withheld entirely for any
+    item this participant hasn't answered yet. `my_answer` decorates with own prior optionId
+    and derives `myAnswerCorrect` (was THIS answer right) as immediate badge feedback, and
+    — only once answered — the effective `correctOptionId` itself, so a render function can
+    highlight which specific option was right (matching console's on-reveal highlight), the
+    same normal quiz-review disclosure `session_respond` already returns for the same item the
+    instant it's answered. After Submit (`is_submitted=True`), the full `fact` (identification +
+    recommendation: what was wrong + why suspicious / idealResponse / explanation) is now
+    included so the participant can review per-item detail in read-only mode, mirroring the
+    console's Reveal. `my_build` is pass-phrase's equivalent. `participant_id` drives
+    per-participant image randomization.
+    """
+    if not item:
+        return None
+    # Shallow copy of the memoized invariant portion (id/prompt/sanitized options/display
+    # fields) — never mutate the cached dict itself, only this per-call copy of it.
+    safe = dict(_sanitize_item_shared(item))
+    # realImage/fakeImage excluded from the shared cache on purpose — fault-finding swaps
+    # these per participant below, so they're always computed fresh, never memoized.
+    if item.get("realImage") is not None:
+        safe["realImage"] = item["realImage"]
+    if item.get("fakeImage") is not None:
+        safe["fakeImage"] = item["fakeImage"]
     # Hybrid after Submit: participant sees full identification + recommendation (fact) in read-only review,
-    # mirroring console's Reveal. Before Submit, fact is never sent.
-    if is_submitted and item.get("fact"):
+    # mirroring console's Reveal. Before Submit, fact is never sent — EXCEPT clue-quest, whose
+    # whole console mechanic is an immediate per-riddle answer reveal (plus a no-penalty
+    # "give up and see it now" action), so gating that behind finishing all 9 riddles would
+    # break the feature entirely. Scoped to clue-quest only; every other module keeps the
+    # deferred-to-Submit review pattern unchanged.
+    if (is_submitted or (active_module == "clue-quest" and my_answer is not None)) and item.get("fact"):
         safe["fact"] = str(item.get("fact"))
         safe["revealed"] = True
+        # Fault-finding's console Reveal shows both "What's Wrong" and "Why It's Suspicious" as
+        # separate rows — whatIsWrong rides along with fact under the identical gate/timing.
+        if item.get("whatIsWrong"):
+            safe["whatIsWrong"] = str(item.get("whatIsWrong"))
+        # Myth-vs-fact's console Reveal likewise keeps fact and detail as two separate texts.
+        if item.get("detail"):
+            safe["detail"] = str(item.get("detail"))
     effective_correct = _effective_correct_option_id(item, participant_id)
     # Fault-finding: this participant's fake image lands in slot A instead of the content's
     # default B — swap the two image URLs so what they SEE matches what gets graded correct.
@@ -623,6 +691,21 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
         safe["myAnswer"] = my_answer
         if effective_correct is not None:
             safe["myAnswerCorrect"] = (str(my_answer) == str(effective_correct))
+            safe["correctOptionId"] = effective_correct
+        # Decision-room has no single correct answer, but console reveals the CHOSEN option's
+        # own outcome (good/consequence) + that option's own feedback text inline the instant
+        # it's picked — other options' outcomes stay hidden (never sent, matching the
+        # pre-answer outcome leak-check), so this only ever reveals what this participant
+        # already committed to seeing.
+        if active_module == "decision-room":
+            for o in item.get("options", []):
+                if str(o.get("id")) == str(my_answer):
+                    if o.get("outcome"):
+                        safe["myOutcome"] = str(o["outcome"])
+                    break
+            fb = (item.get("optionFeedback") or {}).get(str(my_answer))
+            if fb:
+                safe["myFeedback"] = fb
     if my_build is not None:
         safe["myBuild"] = my_build
     return safe
@@ -988,7 +1071,7 @@ def live_event_index():
 
 @app.route("/live-event/<path:filename>")
 def live_event(filename):
-    # Gate only the console's own HTML pages (index.html above + the 9 module pages here) —
+    # Gate only the console's own HTML pages (index.html above + the 8 module pages here) —
     # NOT the shared assets under this same path (console.css, console.js, content/*.json,
     # assets/*), which the phone-synced /join/<code> page also depends on (console.css's own
     # @import chain, fault-finding's real email images) and participants are never
@@ -1257,6 +1340,8 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .cw-cell.active-word{background:#f0f9ff}
 .cw-cell.correct{background:#ecfdf5}
 .cw-cell.incorrect{background:#fef2f2}
+.cw-cell.revealed{background:#fffbeb}
+.cw-cell.revealed .cw-input{color:#78350f}
 .cw-hint-btn{margin-left:8px;font-family:Space Mono,monospace;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:#0891b2;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:999px;padding:3px 9px;cursor:pointer;touch-action:manipulation}
 .cw-hint-btn:disabled{opacity:0.5;cursor:default}
 .cw-hint-text{display:block;margin-top:4px;font-family:Space Mono,monospace;font-size:11px;font-style:italic;color:#b45309}
@@ -1289,6 +1374,10 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
    clue-quest's "hr@synergymarinegroup.com") has nowhere to break on a 375px phone and pushes
    the whole card past the viewport edge. Force-wrap anywhere inside the mounted template. */
 #actMount, #actMount *{overflow-wrap:anywhere}
+/* Clue-quest's countdown reuses console's .le-timer/.lt-digits as-is (same amber/red threshold
+   behavior), but console's own digit size (clamp floor 90px) assumes a 1920x1080 display —
+   at a 375px phone width that would eat most of the card. Shrink for mobile only. */
+#actMount .le-timer .lt-digits{font-size:44px}
 .act-nav{display:flex;gap:10px;margin-top:16px}
 .act-nav .btn{flex:1}
 .act-nav .btn:disabled{opacity:0.35}
@@ -1303,7 +1392,7 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
    this most.  */
 .option-btn, .ff-compare-panel, .dr-option, .qz-choice, .cq-option,
 .pp-tile[data-slot-idx], .pp-slot-empty, .pp-deck-tile, .pp-tile.chunk-tile, .pp-deck-tile.chunk-tile,
-.act-nav .btn, .btn, .cw-clue-list li, .feedback-badge{
+.act-nav .btn, .btn, .cw-clue-list li, .feedback-badge, #actMount .le-btn{
   touch-action: manipulation;
 }
 .ff-compare-panel:active:not(:disabled){ transform: scale(0.985); }
@@ -1479,6 +1568,8 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
         <button id="cwReveal" class="btn secondary" style="flex:1">Reveal</button>
       </div>
       <div id="cwProgressHint" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:11px;color:#94a3b8;text-align:center">Progress syncs automatically (debounced)</div>
+      <div id="cwSolvedBanner" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;font-weight:800;text-align:center">✓ Every word is in place — nice work.</div>
+      <div id="cwRememberCard" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;color:#78350f"><div style="font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px"><i class="fa-solid fa-thumbtack"></i> Remember This</div><div id="cwRememberCardText"></div></div>
       <div id="cwSubmitWrap" style="margin-top:14px; text-align:center; border-top:1px solid #e2e8f0; padding-top:12px">
         <button id="cwSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%" type="button"><i class="fa-solid fa-paper-plane"></i> Done — Submit Grid</button>
         <div class="adm-note" style="margin-top:6px">Submit locks your grid — you can't edit after that.</div>
@@ -1547,6 +1638,7 @@ let cwRows = 0, cwCols = 0;
 let cwCurrentRow = -1, cwCurrentCol = -1, cwCurrentDir = 'across';
 let cwPendingDir = null;
 let cwRevealed = false;
+let cwRememberText = '';
 let cwProgressTimer = null;
 let cwLastSent = null;
 const CW_DEBOUNCE = 3500;
@@ -1595,6 +1687,9 @@ const els = {
   cwAcross: document.getElementById('cwAcross'),
   cwDown: document.getElementById('cwDown'),
   cwStatus: document.getElementById('cwStatus'),
+  cwSolvedBanner: document.getElementById('cwSolvedBanner'),
+  cwRememberCard: document.getElementById('cwRememberCard'),
+  cwRememberCardText: document.getElementById('cwRememberCardText'),
   cwCheck: document.getElementById('cwCheck'),
   cwReveal: document.getElementById('cwReveal'),
   cwSubmitWrap: document.getElementById('cwSubmitWrap'),
@@ -1691,22 +1786,34 @@ async function submitAnswer(item, optionId){
   }
   item.myAnswer = optionId; // update local copy so navigating back shows the selection
   if(j.isCorrect!=null) item.myAnswerCorrect = j.isCorrect; // per-item feedback only — never a tally
+  if(j.correctOptionId!=null) item.correctOptionId = j.correctOptionId; // revealed only now that this item is answered
+  if(j.fact!=null){ item.fact = j.fact; item.revealed = !!j.revealed; } // clue-quest's immediate reveal — see session_respond
+  if(j.myOutcome!=null) item.myOutcome = j.myOutcome; // decision-room's immediate outcome+feedback — see session_respond
+  if(j.myFeedback!=null) item.myFeedback = j.myFeedback;
   return true;
 }
 
 // --- Submission helpers — deliberate lock per participant per module ---
+// Console gates its own "Solved" button behind reaching Strong/Very-Strong (pass-phrase.js's
+// canSolve) rather than accepting any non-empty build — matches that here so a round only
+// counts as done once it's actually strong, not just attempted.
+function ppRoundIsStrong(it){
+  const built = (it._ppSlots ? it._ppSlots.join('') : '') || (it.myBuild && it.myBuild.builtPassword) || '';
+  if(!built) return false;
+  const level = ppComputeStrength(built, it.weakPassword||'').level;
+  return level==='strong' || level==='very-strong';
+}
 function isActivityAllAnswered(){
   if(!actItems || !actItems.length) return false;
-  // pass-phrase: each round counts as answered once at least one char placed
+  // pass-phrase: each round counts as answered once it reaches Strong+, matching console
   if(actModuleLoaded === 'pass-phrase'){
-    return actItems.every(it=>{
-      const hasLocal = it._ppSlots && it._ppSlots.length>0;
-      const hasServer = it.myBuild && it.myBuild.builtPassword && it.myBuild.builtPassword.length>0;
-      return hasLocal || hasServer;
-    });
+    return actItems.every(ppRoundIsStrong);
   }
-  // MC modules with discrete options: every item has a myAnswer
-  return actItems.every(it=> it.myAnswer!=null);
+  // MC modules with discrete options: every item has a myAnswer — except closing-quiz's SVR
+  // prompts and decision-room's debrief steps, which (like console) are read-only narration
+  // with nothing to choose, so they count as done just by having no options to answer in
+  // the first place.
+  return actItems.every(it=> it.myAnswer!=null || it.kind==='svr' || it.kind==='debrief');
 }
 function updateActivitySubmitVisibility(){
   if(!els.actSubmitWrap) return;
@@ -1909,12 +2016,11 @@ function updateActivityChrome(){
   els.actPrevBtn.disabled = actIndex<=0;
   els.actNextBtn.disabled = actIndex>=total-1;
   els.actDots.innerHTML = actItems.map((it,i)=>{
-    // pass-phrase has no single "answer" — a round counts as engaged once at least one
-    // character has been placed. Checks both the locally-built slots (rounds visited this
-    // session) and the server's myBuild record (rounds built before a refresh/resume).
-    const hasBuild = (it._ppSlots && it._ppSlots.length>0)
-      || (it.myBuild && it.myBuild.builtPassword && it.myBuild.builtPassword.length>0);
-    const cls = ['dot']; if(it.myAnswer!=null || hasBuild) cls.push('done'); if(i===actIndex) cls.push('current');
+    // pass-phrase has no single "answer" — a round's dot only turns "done" once it reaches
+    // Strong+, matching console's own Solved-button gate (ppRoundIsStrong).
+    const hasBuild = actModuleLoaded==='pass-phrase' ? ppRoundIsStrong(it)
+      : (it._ppSlots && it._ppSlots.length>0) || (it.myBuild && it.myBuild.builtPassword && it.myBuild.builtPassword.length>0);
+    const cls = ['dot']; if(it.myAnswer!=null || hasBuild || it.kind==='svr' || it.kind==='debrief') cls.push('done'); if(i===actIndex) cls.push('current');
     return '<span class="'+cls.join(' ')+'"></span>';
   }).join('');
   updateActivitySubmitVisibility();
@@ -1929,6 +2035,9 @@ function renderActivityItem(){
   // interaction with its own wiring and its own debounced submit, not a single-answer lock.
   if(actModuleLoaded === 'pass-phrase') wirePassPhraseBuild(item);
   else wireActivityOptions(item);
+  // Clue-quest's timer + no-penalty Reveal button are its own mechanic, layered on top of
+  // the shared [data-answer-opt] wiring above (which already handles a real tap).
+  if(actModuleLoaded === 'clue-quest'){ cqManageTimer(item); wireClueQuestGiveUp(item); }
   updateActivityChrome();
 }
 
@@ -1989,18 +2098,47 @@ if(els.cwSubmitBtn) els.cwSubmitBtn.addEventListener('click', doCwSubmit);
 // (console.css, linked above) so a phone and the big screen read as the same activity. ---
 function renderFaultFinding(item){
   const picked = item.myAnswer;
-  const panel = (letter, img)=> '<button type="button" class="ff-compare-panel'+(picked===letter?' picked':'')+'" data-answer-opt="'+letter+'">'
-    + '<div class="ff-compare-label">OPTION '+letter+'</div>'
-    + (img ? '<img src="'+esc(img)+'" alt="Option '+letter+'"/>' : '<div style="padding:24px;text-align:center;color:#94a3b8">(no image)</div>')
-    + '<div class="ff-tap-hint">'+(picked===letter?'✓ Your answer':'Tap if this one is fake')+'</div>'
-    + '</button>';
+  // correctOptionId is only ever populated once picked!=null (see _sanitize_item_for_participant) —
+  // console's reveal() adds the same reveal-fake/reveal-real glow to its two panels the instant
+  // Reveal is tapped, so this fires in step with the immediate Correct/Not-quite badge below,
+  // not deferred to Submit like the explanatory text is.
+  const correctId = item.correctOptionId;
+  const panel = (letter, img)=>{
+    const cls = ['ff-compare-panel'];
+    // Once revealed, defer entirely to console's real reveal-fake/reveal-real glow (matching
+    // console's own reveal() exactly) rather than layering the phone-only "picked" cyan
+    // override on top of it — the "✓ Your answer" tap-hint text below still marks which
+    // panel was tapped, so that information isn't lost, just no longer fighting the glow color.
+    if(picked!=null && correctId!=null) cls.push(letter===correctId ? 'reveal-fake' : 'reveal-real');
+    else if(picked===letter) cls.push('picked');
+    return '<button type="button" class="'+cls.join(' ')+'" data-answer-opt="'+letter+'">'
+      + '<div class="ff-compare-label">OPTION '+letter+'</div>'
+      + (img ? '<img src="'+esc(img)+'" alt="Option '+letter+'"/>' : '<div style="padding:24px;text-align:center;color:#94a3b8">(no image)</div>')
+      + '<div class="ff-tap-hint">'+(picked===letter?'✓ Your answer':'Tap if this one is fake')+'</div>'
+      + '</button>';
+  };
   // Parity with console: show persona · category like fault-finding.js:96-97
   const ffTag = [item.persona, item.category].filter(Boolean).join(' · ');
+  // Console's own ff-compare-reveal: two rows, What's Wrong + Why It's Suspicious — kept
+  // separate (not blended into one paragraph) and only populated once item.fact arrives,
+  // which for this module is deliberately deferred until whole-activity Submit (see
+  // _sanitize_item_for_participant) — same hybrid timing as the badge-now/detail-later split
+  // this module has always had.
+  const reveal = (item.fact || item.whatIsWrong) ? ('<div class="ff-compare-reveal show">'
+      + (item.whatIsWrong ? '<div class="ff-r-row"><i class="fa-solid fa-circle-exclamation"></i><div><div class="ff-r-label">What’s Wrong</div><div class="ff-r-text">'+esc(item.whatIsWrong)+'</div></div></div>' : '')
+      + (item.fact ? '<div class="ff-r-row"><i class="fa-solid fa-lightbulb"></i><div><div class="ff-r-label">Why It’s Suspicious</div><div class="ff-r-text">'+esc(item.fact)+'</div></div></div>' : '')
+      + '</div>') : '';
+  const badge = item.myAnswerCorrect!=null
+    ? (item.myAnswerCorrect
+        ? '<div class="feedback-badge correct"><i class="fa-solid fa-check"></i> Correct</div>'
+        : '<div class="feedback-badge incorrect"><i class="fa-solid fa-xmark"></i> Not quite</div>')
+    : '';
   return '<div class="ff-compare-frame">'
     + (ffTag ? '<div class="ff-category-tag" style="display:inline-block;margin-bottom:8px">'+esc(ffTag)+'</div>' : '')
     + '<div style="text-align:center;font-weight:800;margin-bottom:10px;color:var(--navy,#001a4d)">Which one is <span style="color:var(--red,#ef4444)">FAKE</span>?</div>'
     + '<div class="ff-compare-row">' + panel('A', item.realImage) + panel('B', item.fakeImage) + '</div>'
-    + '</div>' + renderCorrectFeedback(item);
+    + reveal
+    + '</div>' + badge;
 }
 // Hybrid feedback: immediate badge (Correct/Not quite) after answer, plus full
 // identification + recommendation (fact/whatIsWrong) only after deliberate Submit —
@@ -2021,17 +2159,31 @@ function renderCorrectFeedback(item){
 }
 function renderMythVsFact(item){
   const picked = item.myAnswer;
+  // Console's myth/fact/detail card, real classes — the yes/no quiz buttons below have no
+  // console equivalent (console is pure narration, no vote at all) so those stay phone-only.
+  const factWrap = item.fact ? ('<div class="mf-fact-wrap show">'
+      + '<div class="mf-fact-label"><i class="fa-solid fa-check"></i> Fact</div>'
+      + '<div class="mf-fact">'+esc(item.fact)+'</div>'
+      + (item.detail ? '<div class="mf-detail">'+esc(item.detail)+'</div>' : '')
+      + '</div>') : '';
+  const badge = item.myAnswerCorrect!=null
+    ? (item.myAnswerCorrect
+        ? '<div class="feedback-badge correct"><i class="fa-solid fa-check"></i> Correct</div>'
+        : '<div class="feedback-badge incorrect"><i class="fa-solid fa-xmark"></i> Not quite</div>')
+    : '';
   return '<div class="mf-card">'
     + (item.topic ? '<div class="mf-topic-tag">'+esc(item.topic)+'</div>' : '')
-    + '<div class="mf-myth" style="margin-top:10px">'+esc(item.prompt||'')+'</div>'
-    + '<div class="options">' + (item.options||[]).map(opt=>{
+    + '<div class="mf-myth-label" style="margin-top:10px">Myth</div>'
+    + '<div class="mf-myth'+(picked!=null?' busted':'')+'">'+esc(item.prompt||'')+'</div>'
+    + factWrap
+    + '</div>'
+    + '<div class="options" style="margin-top:14px">' + (item.options||[]).map(opt=>{
         const sel = picked!=null && String(picked)===String(opt.id);
         return '<button type="button" class="option-btn'+(sel?' selected picked':'')+'" data-answer-opt="'+esc(opt.id)+'">'+esc(opt.text)+'</button>';
       }).join('') + '</div>'
-    + renderCorrectFeedback(item) + '</div>';
+    + badge;
 }
 function renderDecisionRoom(item){
-  const picked = item.myAnswer;
   let html = '';
   if(item.persona || item.caseTitle){
     html += '<div class="ff-title-bar">';
@@ -2040,41 +2192,152 @@ function renderDecisionRoom(item){
     if(item.caseScenario) html += '<div class="dr-scenario-context">'+esc(item.caseScenario)+'</div>';
     html += '</div>';
   }
+  // Debrief — console's natural next beat after a case's 3rd decision, no vote, just the
+  // same dark ff-r-row/label/text reveal panel console uses for it (dr-debrief-panel).
+  if(item.kind === 'debrief'){
+    html += '<div class="dr-debrief-panel"><div class="ff-r-row"><i class="fa-solid fa-lightbulb"></i><div>'
+      + '<div class="ff-r-label">Debrief</div><div class="ff-r-text">'+esc(item.prompt||'')+'</div>'
+      + '</div></div></div>';
+    return html;
+  }
+  const picked = item.myAnswer;
   html += '<div class="dr-scene"><div class="dr-prompt" style="margin:14px 0;color:var(--navy,#001a4d);font-weight:700">'+esc(item.prompt||'')+'</div>';
   html += '<div class="dr-options">' + (item.options||[]).map((opt,idx)=>{
     const letter = String.fromCharCode(65+idx);
     const sel = picked!=null && String(picked)===String(opt.id);
-    return '<button type="button" class="dr-option'+(sel?' picked':'')+'" data-answer-opt="'+esc(opt.id)+'"><span class="dr-opt-letter">'+letter+'</span><span class="dr-opt-text">'+esc(opt.text)+'</span></button>';
-  }).join('') + '</div></div>' + renderCorrectFeedback(item);
+    // Once the chosen option's outcome is known, defer to console's real good/consequence
+    // color-coding (matching console's own selected.good/selected.consequence exactly)
+    // instead of the phone-only cyan "picked" override, same reasoning as fault-finding's
+    // reveal-fake/reveal-real vs. picked.
+    const cls = ['dr-option'];
+    if(sel && item.myOutcome) cls.push('selected', item.myOutcome);
+    else if(sel) cls.push('picked');
+    return '<button type="button" class="'+cls.join(' ')+'" data-answer-opt="'+esc(opt.id)+'"><span class="dr-opt-letter">'+letter+'</span><span class="dr-opt-text">'+esc(opt.text)+'</span></button>';
+  }).join('') + '</div>';
+  // Console shows the chosen option's own feedback inline the instant it's picked (dr-feedback,
+  // color-matched to that option's outcome) — no separate badge, no blended "good answer" text.
+  if(picked!=null && item.myFeedback){
+    html += '<div class="dr-feedback show'+(item.myOutcome?(' '+item.myOutcome):'')+'">'+esc(item.myFeedback)+'</div>';
+  }
+  html += '</div>';
   return html;
 }
 function renderClosingQuiz(item){
   const picked = item.myAnswer;
   const choiceRow = (opt, letter)=>{
     const sel = picked!=null && String(picked)===String(opt.id);
-    return '<div class="qz-choice'+(sel?' picked':'')+'" data-answer-opt="'+esc(opt.id)+'"><span class="qz-letter">'+esc(letter)+'</span><span>'+esc(opt.text)+'</span></div>';
+    // Once this item has been answered, item.correctOptionId is revealed (see session_respond
+    // / _sanitize_item_for_participant — only ever for an item this participant already
+    // answered) so the actually-correct choice can be highlighted green here, matching
+    // console's on-reveal highlight, not just a generic Correct/Not-quite badge.
+    const isCorrectOpt = item.correctOptionId!=null && String(opt.id)===String(item.correctOptionId);
+    const cls = ['qz-choice']; if(sel) cls.push('picked'); if(isCorrectOpt) cls.push('correct');
+    return '<div class="'+cls.join(' ')+'" data-answer-opt="'+esc(opt.id)+'"><span class="qz-letter">'+esc(letter)+'</span><span>'+esc(opt.text)+'</span></div>';
   };
-  const personaTag = item.persona ? '<div class="qz-persona-tag">'+esc(item.persona)+'</div>' : '';
+  // "flash" plays automatically on mount since renderActivityItem replaces this element's
+  // whole innerHTML fresh each time (no remove/reflow/re-add dance needed like console's own
+  // persistent-element version) — matches console's per-step persona-tag pop animation.
+  const personaTag = item.persona ? '<div class="qz-persona-tag flash">'+esc(item.persona)+'</div>' : '';
   if(item.kind === 'svr'){
-    return personaTag + '<div class="svr-scenario-card"><div class="svr-scenario-text">'+esc(item.prompt||'')+'</div></div>'
-      + '<div class="qz-choices">' + (item.options||[]).map(opt=>choiceRow(opt, opt.text[0])).join('') + '</div>'
-      + renderCorrectFeedback(item);
+    // SVR prompts are read-only on console too — a scenario plus one ideal response, never a
+    // vote (STOP/VERIFY/REPORT are all part of the same ideal response, not 3 choices) — so no
+    // choice grid here at all, matching console's renderSvrStep exactly.
+    const response = item.fact ? '<div class="svr-response show">'+esc(item.fact)+'</div>' : '';
+    return personaTag + '<div class="svr-scenario-card"><div class="svr-scenario-text">'+esc(item.prompt||'')+'</div>'+response+'</div>';
   }
   return personaTag + '<div class="qz-question">'+esc(item.prompt||'')+'</div>'
     + '<div class="qz-choices">' + (item.options||[]).map((opt,idx)=>choiceRow(opt, String.fromCharCode(65+idx))).join('') + '</div>'
     + renderCorrectFeedback(item);
 }
+const CQ_TIMER_SECONDS = 30;
+let cqTimerInterval = null, cqTimerItemId = null;
+function cqStopTimer(){ if(cqTimerInterval){ clearInterval(cqTimerInterval); cqTimerInterval=null; } cqTimerItemId=null; }
+// Console's clue-quest gives a genuine 30s-per-riddle countdown (LiveEvent.createTimer) that
+// locks the riddle and shows a "Time up" state on expiry; the phone had no timer at all before
+// this, so a participant could sit on a riddle indefinitely. Manages one interval for whichever
+// clue-quest item is currently on screen — stopped/restarted on navigation, answer, or give-up.
+function cqManageTimer(item){
+  if(actModuleLoaded!=='clue-quest' || item.myAnswer!=null || item._cqRevealed || item._cqTimedOut){ cqStopTimer(); return; }
+  if(cqTimerItemId===item.id) return; // already ticking for this exact item — don't restart on re-render
+  cqStopTimer();
+  cqTimerItemId = item.id;
+  if(item._cqSecondsLeft==null) item._cqSecondsLeft = CQ_TIMER_SECONDS;
+  cqRenderTimerDisplay(item);
+  cqTimerInterval = setInterval(()=>{
+    item._cqSecondsLeft--;
+    if(item._cqSecondsLeft<=0){
+      cqStopTimer();
+      item._cqTimedOut = true;
+      if(actItems[actIndex]===item) renderActivityItem();
+      return;
+    }
+    cqRenderTimerDisplay(item);
+  }, 1000);
+}
+function cqRenderTimerDisplay(item){
+  const el = document.getElementById('cqTimer');
+  if(!el) return;
+  const remaining = Math.max(item._cqSecondsLeft||0, 0);
+  el.classList.remove('amber','red');
+  if(remaining<=5) el.classList.add('red'); else if(remaining<=10) el.classList.add('amber');
+  const digits = el.querySelector('.lt-digits');
+  if(digits) digits.textContent = String(remaining).padStart(2,'0');
+}
 function renderClueQuest(item){
   const picked = item.myAnswer;
-  // Parity with console: console shuffles options per render (clue-quest.js:40 shuffle). Phone now
-  // also shuffles display order so neither surface has a fixed position tell; correctness still
-  // keyed by optionId, not position.
-  const shuffled = (item.options||[]).slice().sort(()=> Math.random()-0.5);
-  return '<div class="cq-riddle-card"><div class="cq-riddle-text">'+esc(item.prompt||'')+'</div></div>'
+  const answered = picked!=null; // includes the '__giveup__' sentinel — that's still "answered" for locking purposes
+  const revealed = !!item._cqRevealed;
+  const timedOut = !!item._cqTimedOut;
+  const locked = answered || revealed || timedOut;
+  // Shuffle once per riddle and cache on the item — recomputing on every render (which
+  // renderActivityItem does right after a tap, to reflect the new answer state) made the
+  // options visibly reorder under the participant's thumb the instant they picked one.
+  if(!item._cqShuffled) item._cqShuffled = (item.options||[]).slice().sort(()=> Math.random()-0.5);
+  const shuffled = item._cqShuffled;
+  const correctId = item.correctOptionId;
+  let feedbackHtml = '';
+  if(revealed && correctId!=null){
+    feedbackHtml = '<div class="cq-feedback show revealed">Answer: '+esc(item.fact||'')+'</div>';
+  } else if(answered && correctId!=null){
+    feedbackHtml = item.myAnswerCorrect
+      ? '<div class="cq-feedback show correct">✓ Correct — '+esc(item.fact||'')+'</div>'
+      : '<div class="cq-feedback show incorrect">✗ Not quite — correct is '+esc(item.fact||'')+'</div>';
+  } else if(timedOut){
+    feedbackHtml = '<div class="cq-feedback show timeout">Time up — tap Reveal to see the answer</div>';
+  }
+  const showTimer = !answered && !revealed && !timedOut;
+  // Give-up stays available even after a timeout (nothing was submitted yet) — only a real
+  // answer or an already-used Reveal takes it away.
+  const giveUpBtn = (!answered && !revealed) ? '<div class="le-btn-row" style="margin-top:12px"><button type="button" id="cqGiveUpBtn" class="le-btn amber lg"><i class="fa-solid fa-eye"></i> Reveal</button></div>' : '';
+  return '<div class="cq-riddle-card"><div class="cq-riddle-text">'+esc(item.prompt||'')+'</div>'
+    + (item.fact ? '<div class="cq-answer-reveal'+((answered||revealed)?' show':'')+'">'+esc(item.fact)+'</div>' : '')
+    + '</div>'
+    + (showTimer ? '<div class="le-timer" id="cqTimer" style="margin:14px auto"><div class="lt-digits">30</div><div class="lt-label">Seconds</div></div>' : '')
     + '<div class="cq-options">' + shuffled.map((opt,idx)=>{
-        const sel = picked!=null && String(picked)===String(opt.id);
-        return '<div class="cq-option'+(sel?' picked':'')+'" data-answer-opt="'+esc(opt.id)+'"><span class="cq-opt-num">'+(idx+1)+'</span>'+esc(opt.text)+'</div>';
-      }).join('') + '</div>' + renderCorrectFeedback(item);
+        const sel = answered && String(picked)===String(opt.id);
+        const isCorrectOpt = correctId!=null && String(opt.id)===String(correctId);
+        const cls = ['cq-option']; if(sel) cls.push('picked');
+        if(locked && correctId!=null){ if(isCorrectOpt) cls.push('correct'); else if(sel) cls.push('incorrect'); }
+        const tapAttr = locked ? '' : ' data-answer-opt="'+esc(opt.id)+'"';
+        return '<div class="'+cls.join(' ')+'"'+tapAttr+'><span class="cq-opt-num">'+(idx+1)+'</span>'+esc(opt.text)+'</div>';
+      }).join('') + '</div>'
+    + feedbackHtml + giveUpBtn;
+}
+function wireClueQuestGiveUp(item){
+  const btn = document.getElementById('cqGiveUpBtn');
+  if(!btn) return;
+  btn.addEventListener('click', async ()=>{
+    if(item.myAnswer!=null || item._cqRevealed) return;
+    btn.disabled = true;
+    cqStopTimer();
+    item._cqRevealed = true;
+    try{
+      await submitAnswer(item, '__giveup__');
+    }catch(e){
+      // Already-submitted-module race etc. — fall through to re-render with whatever state we have.
+    }
+    if(actItems[actIndex]===item) renderActivityItem();
+  });
 }
 // --- Pass-phrase: real build-your-own-password mechanic (tap-to-place, not drag — touch
 // drag was already deemed unreliable in an earlier pass). Matches the console's actual
@@ -2087,6 +2350,9 @@ function renderClueQuest(item){
 // (_pp_compute_strength in app.py) as the authoritative, stored value — this copy is only an
 // instant local preview so the meter doesn't wait on a network round-trip for every tap.
 function ppComputeStrength(pw, weak){
+  // Line-for-line port of console's own computeStrength() (pass-phrase.js) — including crack
+  // time and level, which the phone previously computed server-side (_pp_compute_strength) but
+  // never surfaced in this client-side preview copy, so "time to crack" never rendered.
   var checks = {
     upper: /[A-Z]/.test(pw), lower: /[a-z]/.test(pw),
     number: /[0-9]/.test(pw), special: /[^A-Za-z0-9]/.test(pw)
@@ -2107,12 +2373,31 @@ function ppComputeStrength(pw, weak){
   }
   if(/(.)\1{2,}/.test(pw)) score=Math.max(0,score-10);
   score=Math.min(100,Math.max(0,score));
-  var label='Weak', color='#ef4444';
-  if(pw.length===0 || score<40){ label='Weak'; color='#ef4444'; }
-  else if(score<60){ label='Fair'; color='#f59e0b'; }
-  else if(score<80){ label='Strong'; color='#10b981'; }
-  else { label='Very Strong'; color='#065f46'; }
-  return {score:score, label:label, color:color};
+  var charset=0;
+  if(checks.lower) charset+=26;
+  if(checks.upper) charset+=26;
+  if(checks.number) charset+=10;
+  if(checks.special) charset+=12;
+  var crack='—';
+  if(pw.length>0 && charset>0){
+    var entropy=pw.length*Math.log2(charset);
+    var guesses=Math.pow(2,entropy);
+    var s=guesses/1e9;
+    if(s<1) crack='< 1 second';
+    else if(s<60) crack=Math.round(s)+' seconds';
+    else if(s<3600) crack=Math.round(s/60)+' minutes';
+    else if(s<86400) crack=Math.round(s/3600)+' hours';
+    else if(s<2592000) crack=Math.round(s/86400)+' days';
+    else if(s<31536000) crack=Math.round(s/2592000)+' months';
+    else if(s<315360000) crack=Math.round(s/31536000)+' years';
+    else crack='centuries';
+  }
+  var label='Weak', level='weak', color='#ef4444';
+  if(pw.length===0 || score<40){ label='Weak'; level='weak'; color='#ef4444'; }
+  else if(score<60){ label='Fair'; level='fair'; color='#f59e0b'; }
+  else if(score<80){ label='Strong'; level='strong'; color='#10b981'; }
+  else { label='Very Strong'; level='very-strong'; color='#065f46'; }
+  return {score:score, label:label, level:level, color:color, crack:crack};
 }
 
 // Local-only build state, stashed directly on the item object (same pattern as myAnswer)
@@ -2229,6 +2514,7 @@ function renderPassPhrase(item){
     + '</div>'
     + '<div class="pp-meter"><div class="pp-meter-fill" style="width:'+result.score+'%;background:'+result.color+'"></div></div>'
     + '<div class="pp-meter-labels"><span>Weak</span><span>Fair</span><span>Strong</span><span>V.Strong</span></div>'
+    + '<div class="pp-crack">Time to crack: '+esc(result.crack)+'</div>'
     + '</div></div>';
   html += '<div class="pp-section-label"><i class="fa-solid fa-lock"></i> Your Password <span>'+built.length+' / '+maxChars+' chars</span></div>';
   // Filled tiles render first, in placement order (item._ppSlots is a compact array — see
@@ -2359,8 +2645,8 @@ function cwBuildModel(data){
   });
 }
 function cwRenderGrid(){
-  // Fill available width per cell, but never shrink below a tappable floor. This grid is
-  // 20x20 — plain 1fr tracks compress to ~14px/cell on a 375px phone (unusable to tap), and
+  // Fill available width per cell, but never shrink below a tappable floor. A wide grid's
+  // plain 1fr tracks compress to an unusably small per-cell width on a narrow phone, and
   // minmax(...,1fr) alone doesn't help here: a block-level grid's "auto" width just fills its
   // parent, so fr tracks still get squeezed to fit rather than growing the box. Fixed px
   // tracks avoid that ambiguity — once the grid's true content width (cols * cellPx) exceeds
@@ -2543,10 +2829,11 @@ function cwUpdateStatus(){
 }
 function cwCheck(){
   if(cwIsSubmitted) return;
+  let allFilled=true, allCorrect=true;
   cwCells.forEach(cell=>{
-    if(!cell.input.value) return;
+    if(!cell.input.value){ allFilled=false; allCorrect=false; return; }
     if(cell.input.value===cell.solution){ cell.el.classList.add('correct'); cell.el.classList.remove('incorrect'); }
-    else { cell.el.classList.add('incorrect'); cell.el.classList.remove('correct'); }
+    else { cell.el.classList.add('incorrect'); cell.el.classList.remove('correct'); allCorrect=false; }
   });
   // mark clues solved
   cwWords.forEach(w=>{
@@ -2560,7 +2847,19 @@ function cwCheck(){
     const li=document.querySelector('.cw-clue-list li[data-index="'+w.index+'"]');
     if(li) li.classList.toggle('solved', solved);
   });
-  cwUpdateStatus();
+  if(allFilled && allCorrect){
+    els.cwStatus.textContent='Every word is in place — nice work.';
+    cwShowWrapUp();
+  } else {
+    cwUpdateStatus();
+  }
+}
+function cwShowWrapUp(){
+  if(els.cwSolvedBanner) els.cwSolvedBanner.classList.remove('hidden');
+  if(cwRememberText && els.cwRememberCard){
+    els.cwRememberCardText.textContent = cwRememberText;
+    els.cwRememberCard.classList.remove('hidden');
+  }
 }
 function cwReveal(){
   cwRevealed=true;
@@ -2572,6 +2871,7 @@ function cwReveal(){
   });
   document.querySelectorAll('.cw-clue-list li').forEach(li=> li.classList.add('solved'));
   els.cwStatus.textContent='Answers revealed';
+  cwShowWrapUp();
   scheduleCwProgress();
   setTimeout(sendCwProgress, 200);
 }
@@ -2625,14 +2925,19 @@ async function ensureCrossword(){
   try{
     const r=await fetch('/live-event/content/crossword.json',{cache:'no-store'});
     const data=await r.json();
+    cwRememberText = data.rememberThis || '';
     cwBuildModel(data);
     if(els.cwClueCountBadge) els.cwClueCountBadge.textContent = 'Crossword · ' + cwWords.length + ' clues';
     cwRenderGrid();
     cwRenderClues();
     cwUpdateStatus();
-    // wire check/reveal
+    // wire check/reveal — console gates Reveal behind an explicit Yes/Cancel confirm since
+    // it's irreversible; a native confirm() gives the phone the same one-tap-can't-undo-it
+    // safeguard without needing a whole extra confirm-panel screen.
     els.cwCheck.addEventListener('click', cwCheck);
-    els.cwReveal.addEventListener('click', cwReveal);
+    els.cwReveal.addEventListener('click', ()=>{
+      if(confirm('Reveal every answer? This ends the puzzle and cannot be undone.')) cwReveal();
+    });
     scheduleCwProgress();
   }catch(e){
     els.cwStatus.textContent='Failed to load grid';
@@ -2761,8 +3066,13 @@ async function fetchState(){
             for(let i=0;i<items.length;i++){
               actItems[i].myAnswer = items[i].myAnswer;
               actItems[i].myAnswerCorrect = items[i].myAnswerCorrect;
+              actItems[i].correctOptionId = items[i].correctOptionId;
               actItems[i].myBuild = items[i].myBuild;
               actItems[i].fact = items[i].fact;
+              actItems[i].whatIsWrong = items[i].whatIsWrong;
+              actItems[i].detail = items[i].detail;
+              actItems[i].myOutcome = items[i].myOutcome;
+              actItems[i].myFeedback = items[i].myFeedback;
               actItems[i].revealed = items[i].revealed;
             }
             // Re-render current item so fact detail appears in review mode
@@ -2922,6 +3232,9 @@ def admin_launch(code):
     sess.setdefault("moduleSequence", [])
     sess.setdefault("state", None)
     sess.setdefault("currentItemIndex", None)
+    # Drop the outgoing sequence's memoized sanitize-cache entries before replacing it —
+    # see _ITEM_SANITIZE_CACHE.
+    _invalidate_item_cache(sess.get("moduleSequence"))
     sess["activeModule"] = module
     sess["state"] = "lobby"
     sess["moduleSequence"] = seq
@@ -3142,9 +3455,13 @@ def session_respond(code):
     target_item = next((it for it in module_sequence if it.get("id") == item_id), None)
     if not target_item:
         return jsonify({"error": "item not found in this activity's sequence"}), 400
-    # Validate option
+    # Validate option — "__giveup__" is a special sentinel (clue-quest's no-penalty Reveal,
+    # matching console's give-up-and-see-the-answer action) that deliberately skips this check:
+    # it's not a real choice, just a request to see the answer, recorded as an incorrect
+    # response (matching the real outcome — they didn't get it right) via the same is_correct
+    # computation below, same admin-visible bookkeeping as any other answer.
     valid_ids = {str(o["id"]) for o in target_item.get("options", [])}
-    if option_id not in valid_ids:
+    if option_id != "__giveup__" and option_id not in valid_ids:
         return jsonify({"error": "invalid optionId", "valid": list(valid_ids)}), 400
     # Record (overwrite allowed — last vote counts; respondedAt moves with it, so a changed
     # answer also moves the participant to their new position in admin's response-order list)
@@ -3157,12 +3474,34 @@ def session_respond(code):
     sess["responses"][item_id][participant_id] = {
         "optionId": option_id, "respondedAt": responded_at, "moduleId": sess.get("activeModule"),
     }
-    # Per-item correct/wrong feedback on the participant's OWN answer only — a derived boolean,
-    # never the answer key itself (correctOptionId is never sent to participants anywhere else
-    # either; see _sanitize_item_for_participant). Only present when the item has one.
+    # Per-item correct/wrong feedback on the participant's OWN answer only. correctOptionId is
+    # only ever revealed here, for the one item this participant just locked in an answer for —
+    # matching a normal quiz-review pattern (see it once you've submitted this item), never
+    # before answering and never for any other item or participant (see _sanitize_item_for_participant,
+    # which applies the identical my_answer-is-not-None gate for /state's own copy of this).
     correct_option_id = _effective_correct_option_id(target_item, participant_id)
     is_correct = (option_id == str(correct_option_id)) if correct_option_id is not None else None
-    return jsonify({"ok": True, "roomCode": code, "itemId": item_id, "optionId": option_id, "isCorrect": is_correct})
+    resp = {"ok": True, "roomCode": code, "itemId": item_id, "optionId": option_id, "isCorrect": is_correct, "correctOptionId": correct_option_id}
+    # Clue-quest reveals its riddle's answer text immediately on response (see the matching
+    # exception in _sanitize_item_for_participant) — /respond is what the tap itself waits on,
+    # so the fact has to travel here too, not just on the next /state poll, or the phone's
+    # brand-new feedback/give-up text would render blank for the ~1s until the next poll.
+    if sess.get("activeModule") == "clue-quest" and target_item.get("fact"):
+        resp["fact"] = str(target_item.get("fact"))
+        resp["revealed"] = True
+    # Decision-room reveals the chosen option's own outcome + feedback the instant it's picked
+    # (console has no separate reveal step at all here) — same "the tap itself waits on this"
+    # reasoning as clue-quest above, so it travels in the /respond reply, not just the next poll.
+    if sess.get("activeModule") == "decision-room":
+        for o in target_item.get("options", []):
+            if str(o.get("id")) == option_id:
+                if o.get("outcome"):
+                    resp["myOutcome"] = str(o["outcome"])
+                break
+        fb = (target_item.get("optionFeedback") or {}).get(option_id)
+        if fb:
+            resp["myFeedback"] = fb
+    return jsonify(resp)
 
 
 @app.route("/api/session/<code>/submit", methods=["POST"])
@@ -4092,6 +4431,9 @@ def admin_reset(code):
     if not sess:
         return jsonify({"error": "room not found"}), 404
     now = datetime.now(timezone.utc).isoformat()
+    # Drop the outgoing sequence's memoized sanitize-cache entries before clearing it —
+    # see _ITEM_SANITIZE_CACHE.
+    _invalidate_item_cache(sess.get("moduleSequence"))
     # Preserve roomCode, reset everything that carries group state
     sess["participants"] = {}
     sess["participantMeta"] = {}

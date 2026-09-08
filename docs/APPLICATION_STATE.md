@@ -1,7 +1,7 @@
 # Application State — Synergy Cyber Security Awareness Month
 
 Reference document for the live-event application: the standalone presentation console plus
-the admin/phone-sync live-poll system built on top of it. Last verified end-to-end: 2026-09-06.
+the admin/phone-sync live-poll system built on top of it. Last verified end-to-end: 2026-09-08.
 
 This is a living reference — if a future change alters routes, modules, or config, update this
 file in the same change.
@@ -38,17 +38,20 @@ phone-synced, never referenced in `app.py` or `GET /api/admin/modules`. Deleted
 `modules/defense-budget.{html,js}`, `content/defense-budget.json`, its card from
 `live-event/index.html`, and its `.db-*` rules from `console.css`.
 
+**Note on qr-usb-scam / secure-or-risky / working-at-height:** removed entirely (2026-09-08) —
+none were ever linked from `index.html`'s module grid or phone-synced, and none were referenced
+anywhere in `app.py`. Deleted `modules/qr-usb-scam.{html,js}`, `modules/secure-or-risky.{html,js}`,
+`modules/working-at-height.{html,js}`, their three `content/*.json` files, and the `.sr-*`/`.qs-*`
+rules from `console.css`. Also deleted 5 unrelated orphaned prototype files that had no matching
+HTML/content and no references anywhere (`modules/scoreboard.js`, `attack-sim.js`, `defense-lab.js`,
+`quiz.js`, `deepfake.js`) plus `live-event/simulation.js` and `live-event/training.css`, all
+leftovers from an earlier, abandoned `window.SimulationModules`/`window.TrainingState` prototype.
+
 **Note on Fault Finding's 5-of-8 split:** `content/fault-finding.json` has 8 items; the console
 shows all 8. Only the 5 `"type": "compare"` items (genuine real-vs-fake judgment tasks) are
 pushed to phones — the other 3 (`smishing-text`, `fake-it-popup`, `mfa-fatigue`) are single-image
 reference cards with nothing to compare/choose between, so they stay console-only. See
 `_load_module_sequence` in `app.py`.
-
-**Not on the console menu at all:** `live-event/modules/qr-usb-scam.html`,
-`secure-or-risky.html`, and `working-at-height.html` (plus their `content/*.json` files) exist in
-the repo but aren't linked from `index.html` or `console.js` — leftover from earlier project
-history, not currently reachable from any menu. Harmless as-is; flagged here so they aren't
-mistaken for a bug if rediscovered.
 
 ---
 
@@ -63,7 +66,7 @@ itself now requires the same admin session cookie as `/admin`.
 
 > **Access-model change:** earlier passes of this project explicitly verified and documented the
 > standalone console as having "zero dependency on the admin/session system," including no
-> login. That has been **reversed** — `/live-event/index.html` and the 9 module pages under
+> login. That has been **reversed** — `/live-event/index.html` and the 8 module pages under
 > `/live-event/modules/*.html` now redirect an unauthenticated visitor to `/admin`'s login form
 > (see `live_event_index`/`live_event` in `app.py`). This is a deliberate access-control decision
 > for this event, not a regression of the earlier no-auth verification — that verification was
