@@ -27,7 +27,7 @@ pushed to phones.
 | 1 | Fault Finding | ✅ (5 of 8 console items — see note) | 5 | Spot the tell between a real and a spoofed email/portal (domain spoofing, urgency framing, malicious attachments, link mismatches, lookalike login pages). |
 | 2 | Live Simulation | ❌ facilitator-only | — | Walks one attack chain end-to-end (LinkedIn recon → phishing → fraudulent wire transfer) as a narrated, linked sequence — not a per-item quiz. |
 | 3 | Myth vs Fact | ✅ | 10 | Busts common phishing/password/social-engineering misconceptions as a True/False poll (half the items show the myth, half show the fact restated — see §7 below). |
-| 4 | Decision Room | ✅ | 34 (16 cases: 6 long 3-decision branching cases + 10 short cases — 5 single-decision quick calls, 5 debrief-only reveals) | Branching incident-response scenarios — pick a response, see the consequence, across HR/Finance/Offshore/Operations personas. Merged with the former standalone "Closing Quiz"/Rapid Fire module (2026-09-08) — its 5 quiz questions and 5 Stop-Verify-Report prompts are now short cases interleaved with the original 6 long cases, so depth (branching) and pace (quick hits) live in one continuous activity instead of two similar-feeling ones back to back. See the merge note below. |
+| 4 | Decision Room | ✅ | 10 (10 cases, each exactly one scenario → one decision → one debrief) | Incident-response scenarios — pick a response, see the consequence and the debrief, across HR/Recruitment, HR/Payroll, Finance/Accounts, Offshore Crew, and Operations personas. Merged with the former standalone "Closing Quiz"/Rapid Fire module (2026-09-08), then flattened and trimmed from 34 items/16 cases down to 10 for live facilitation (2026-09-08) — see the two notes below. |
 | 5 | Clue Quest | ✅ | 9 | Riddle → guess-the-term recall game covering terminology from earlier modules. |
 | 6 | Pass-Phrase | ✅ | 5 | Build a strong password from a themed deck of characters into a 12-slot password row, watching a live strength meter respond to your own construction. Console: drag-and-drop. Phone: tap-to-place (tap a deck tile, then tap a slot) — same mechanic, touch-appropriate interaction; see §5 for how the two surfaces' decks relate. |
 | 7 | Crossword | ✅ (self-paced) | 1 grid (11 clues / 73 letters) | Vocabulary recall, fill-in grid — no per-item push, participants (and the console) work the same 16×10 grid at their own pace. |
@@ -41,21 +41,34 @@ phone-synced, never referenced in `app.py` or `GET /api/admin/modules`. Deleted
 **Note on the Decision Room + Closing Quiz merge (2026-09-08):** the two modules sat back-to-back
 in the narrative flow and felt too similar as two separate stand-and-deliver decision activities.
 Rather than delete either one, every piece of Closing Quiz's content was folded into Decision
-Room's own case/decision/outcome shape as additional short cases (a quiz question becomes a
-1-decision case scored good/consequence like every other decision — the single shared
-`explanation` becomes every option's `feedback`, since Closing Quiz always revealed the same text
-regardless of which choice was tapped; a Stop-Verify-Report prompt becomes a 0-decision,
-debrief-only case, since it was always pure narration+reveal, never an actual multi-choice
-question — reusing the existing `kind:"debrief"` step type rather than inventing fake
-distractors for content that never had any). The two case lengths get different console pacing
-(`decision-room.js`): long cases keep the original silent, ambient 90s-per-case clock; short
-cases get a brisk, ticking 15-20s clock (reusing Closing Quiz's own urgent timer styling and
-audio) that reveals the good option on expiry without attributing a choice that was never made.
-The phone stays untimed for every case length, unchanged from before the merge (neither module
-ever had a phone-side timer). `closing-quiz` (id, routes, `content/closing-quiz.json`,
-`modules/closing-quiz.{html,js}`) is fully retired — `decision-room` survives as the one merged
-module, same id/displayName/URL as before. Every scenario/decision/outcome/explanation word from
-both source files was preserved; nothing was deleted, only restructured.
+Room's own case/decision/outcome shape as additional cases (a quiz question became a decision
+scored good/consequence like every other decision — the single shared `explanation` became every
+option's `feedback`, since Closing Quiz always revealed the same text regardless of which choice
+was tapped; a Stop-Verify-Report prompt became a debrief-only case, since it was always pure
+narration+reveal, never an actual multi-choice question). `closing-quiz` (id, routes,
+`content/closing-quiz.json`, `modules/closing-quiz.{html,js}`) is fully retired — `decision-room`
+survives as the one merged module, same id/displayName/URL as before. This merge produced an
+intermediate 34-item/16-case shape (mixing 3-decision cases with 1- and 0-decision ones, two
+console timer paces); that intermediate shape was itself simplified away the same day — see the
+next note.
+
+**Note on the Decision Room flatten-and-trim (2026-09-08):** 34 items across 16 cases (some with
+up to 3 sequential decisions) was too much for a facilitator to navigate live via the admin item
+picker. Every case was flattened to its single most essential decision (each multi-decision case
+kept only its first decision — the initial "STOP" reflex — since the debrief already synthesizes
+the full STOP/VERIFY/REPORT arc regardless of how many decisions led to it), and the pool was
+trimmed from 16 cases to the 10 strongest/most distinct: all 4 debrief-only cases with no real
+decision to flatten were cut except one (`svr-1`, the only source of the HR/Payroll persona —
+kept by giving it a proper decision, 2 new consequence options written in the same voice as the
+rest of the content, rather than lose that persona from the rotation entirely), plus 2 more cases
+cut for redundant lesson/persona overlap. Every case is now exactly one sequence item — scenario,
+one decision (2-4 options), one debrief — with the debrief riding along on that same item as
+`caseDebrief`/`myDebrief` (revealed the instant the participant answers, same timing as
+`myOutcome`/`myFeedback`) rather than a separate step, so the admin item picker shows exactly 10
+entries. The dual console timer (a silent 90s ambient clock for long cases, a brisk ticking 15-20s
+one for short cases) collapsed to a single brisk ~20s clock for all 10 — a single decision didn't
+carry the old 90s ambient pace the way three did, and quick live navigation is the whole point of
+this pass. The phone stays untimed, unchanged from before either pass.
 
 **Note on qr-usb-scam / secure-or-risky / working-at-height:** removed entirely (2026-09-08) —
 none were ever linked from `index.html`'s module grid or phone-synced, and none were referenced
@@ -165,7 +178,7 @@ false` for one you expected to be scored:
 |---|---|---|
 | Myth vs Fact | ✅ (`isTrue`/`correctOptionId` from the True/False restructure) | correctCount desc, then completedAt asc |
 | Fault Finding | ❌ | completedAt asc |
-| Decision Room | ❌ (every case — long or short — is tagged good/consequence via `goodOptionId`, never `correctOptionId`; this is deliberate, not a gap, since the merge with the former Closing Quiz needed exactly one consistent admin-facing metric, not two competing ones — see the merge note in §1) | goodCount desc ("good decisions"), then completedAt asc |
+| Decision Room | ❌ (every one of its 10 cases is tagged good/consequence via `goodOptionId`, never `correctOptionId`; this is deliberate, not a gap, since the merge with the former Closing Quiz needed exactly one consistent admin-facing metric, not two competing ones — see the merge note in §1) | goodCount desc ("good decisions"), then completedAt asc |
 | Clue Quest | ❌ (no answer key stored on the normalized item) | completedAt asc |
 | Pass-Phrase | ❌ (a strength *meter*, not a graded answer — see below) | completedAt asc |
 | Crossword | ❌ (free-text grid, not scored; ranked via `crosswordProgress` instead of `responses` — no per-participant `moduleStartedAt` either, since crossword only retains each participant's *latest* debounced ping, not their first) | completedAt asc |
@@ -221,10 +234,9 @@ trade-offs, not bugs waiting to be found again**:
   trusted operator per event.
 - **Fault Finding's persona rotation has a small gap:** 4 of its 5 phone-synced items carry a
   `persona` tag (HR/Recruitment, Finance/Accounts, HR/Payroll, Offshore Crew); the 5th
-  (`compare-login-portal`) has none. Decision Room's persona rotation (all 16 cases, long and
-  short alike) is complete and reasonably balanced across Offshore Crew / HR-Recruitment /
-  Finance-Accounts / Operations / HR-Payroll. Not fixed here — it's a content-authoring call,
-  not a code bug.
+  (`compare-login-portal`) has none. Decision Room's persona rotation (all 10 cases) covers all
+  five named personas — HR/Recruitment ×2, HR/Payroll ×1, Offshore Crew ×2, Finance/Accounts ×2,
+  Operations ×3. Not fixed here — it's a content-authoring call, not a code bug.
 ---
 
 ## 7. Before your next live event — checklist

@@ -292,6 +292,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 "persona": raw.get("persona"),
                 "caseTitle": raw.get("caseTitle"),
                 "caseScenario": raw.get("caseScenario"),
+                "caseDebrief": raw.get("caseDebrief"),
                 "options": norm_opts,
                 "optionFeedback": option_feedback,
                 "revealed": False,
@@ -400,42 +401,30 @@ def _load_module_sequence(module_id: str):
         if module_id == "myth-vs-fact":
             return [_normalize_module_item(module_id, r, i) for i, r in enumerate(data.get("items", []))]
         if module_id == "decision-room":
-            # Flatten cases -> decisions, one debrief step per case (34 steps total: 16 cases,
-            # mixing 6 "long" 3-decision branching cases with 10 "short" cases folded in from
-            # the former closing-quiz module - 5 single-decision quick calls (ex quiz questions,
-            # scored good/consequence like every other decision instead of a separate
-            # correct/incorrect model) and 5 debrief-only cases with zero decisions (ex
-            # Stop-Verify-Report prompts, which were always pure narration+reveal, never an
-            # actual multi-choice question - see docs/APPLICATION_STATE.md for the merge notes).
+            # One sequence item per case (10 cases -> 10 items) - each case is exactly one
+            # scenario, one decision (2-4 options, good/consequence outcomes), one debrief.
+            # The debrief text rides along on the SAME item as caseDebrief rather than as a
+            # separate sequence step, so a facilitator's admin item picker shows exactly one
+            # entry per case (10, not a multiple of it) - _sanitize_item_for_participant reveals
+            # it as myDebrief alongside myOutcome/myFeedback the instant this participant answers,
+            # same "reveal only what THIS participant just earned" timing as the outcome itself,
+            # not a separate step to page through. Earlier revisions of this module flattened
+            # cases into a variable number of decision+debrief steps (up to 34 total across 16
+            # cases, some 3 decisions deep) - simplified here for live facilitation: every case
+            # is now the same shape, so there's nothing case-length-specific left to branch on.
             seq = []
             for c in data.get("cases", []):
-                for d in c.get("decisions", []):
-                    # Keep case context in id, and carry the case's persona/title/scenario
-                    # through so the phone template can show the same persona badge + scenario
-                    # framing as the console's per-case context bar.
-                    copy = dict(d)
-                    copy["id"] = f"{c.get('id')}_" + str(copy.get("id") or len(seq))
-                    copy["persona"] = c.get("persona")
-                    copy["caseTitle"] = c.get("title")
-                    copy["caseScenario"] = c.get("scenario")
-                    seq.append(_normalize_module_item(module_id, copy, len(seq)))
-                # Debrief - console's natural next beat once a case's last decision is answered
-                # (or immediately, for a zero-decision case), not a gated "reveal": pure
-                # narration with nothing to choose, so it's sent unconditionally and counts as
-                # done with no vote required (see isActivityAllAnswered/updateActivityChrome's
-                # kind checks). Skipped entirely for a case with no debrief text (the 5 short
-                # single-decision cases fold their explanation into the decision's own per-option
-                # feedback instead - a debrief on top would just repeat it).
-                if c.get("debrief"):
-                    seq.append({
-                        "id": f"{c.get('id')}_debrief",
-                        "kind": "debrief",
-                        "prompt": str(c.get("debrief") or "").strip(),
-                        "persona": c.get("persona"),
-                        "caseTitle": c.get("title"),
-                        "caseScenario": c.get("scenario"),
-                        "options": [],
-                    })
+                decisions = c.get("decisions") or []
+                if not decisions:
+                    continue
+                d = decisions[0]
+                copy = dict(d)
+                copy["id"] = f"{c.get('id')}_" + str(copy.get("id") or len(seq))
+                copy["persona"] = c.get("persona")
+                copy["caseTitle"] = c.get("title")
+                copy["caseScenario"] = c.get("scenario")
+                copy["caseDebrief"] = c.get("debrief")
+                seq.append(_normalize_module_item(module_id, copy, len(seq)))
             return seq
         if module_id == "clue-quest":
             return [_normalize_module_item(module_id, r, i) for i, r in enumerate(data.get("riddles", []))]
@@ -670,7 +659,9 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
         # own outcome (good/consequence) + that option's own feedback text inline the instant
         # it's picked - other options' outcomes stay hidden (never sent, matching the
         # pre-answer outcome leak-check), so this only ever reveals what this participant
-        # already committed to seeing.
+        # already committed to seeing. The case's debrief (myDebrief) rides the same reveal
+        # timing - each case is one combined item now (see _load_module_sequence), so the
+        # debrief has nowhere else to be gated behind except this same "just answered" moment.
         if active_module == "decision-room":
             for o in item.get("options", []):
                 if str(o.get("id")) == str(my_answer):
@@ -680,6 +671,8 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
             fb = (item.get("optionFeedback") or {}).get(str(my_answer))
             if fb:
                 safe["myFeedback"] = fb
+            if item.get("caseDebrief"):
+                safe["myDebrief"] = str(item["caseDebrief"])
     if my_build is not None:
         safe["myBuild"] = my_build
     return safe
@@ -1928,6 +1921,7 @@ async function submitAnswer(item, optionId){
   if(j.fact!=null){ item.fact = j.fact; item.revealed = !!j.revealed; } // clue-quest's immediate reveal - see session_respond
   if(j.myOutcome!=null) item.myOutcome = j.myOutcome; // decision-room's immediate outcome+feedback - see session_respond
   if(j.myFeedback!=null) item.myFeedback = j.myFeedback;
+  if(j.myDebrief!=null) item.myDebrief = j.myDebrief; // decision-room's case debrief, same reveal timing as myOutcome/myFeedback
   return true;
 }
 
@@ -1947,14 +1941,13 @@ function isActivityAllAnswered(){
   if(actModuleLoaded === 'pass-phrase'){
     return actItems.every(ppRoundIsStrong);
   }
-  // MC modules with discrete options: every item has a myAnswer - except decision-room's
-  // debrief steps (including the ones folded in from the former closing-quiz SVR prompts),
-  // which (like console) are read-only narration with nothing to choose, so they count as
-  // done just by having no options to answer in the first place. 'svr' is kept in this check
-  // only as a defensive no-op for any already-in-flight legacy session data - new content
-  // never produces that kind anymore (see _load_module_sequence's decision-room branch).
-  // Also treat any item with no options as auto-done even if its kind was mis-tagged, to stay
-  // aligned with the server's gate (see session_submit).
+  // MC modules with discrete options: every item has a myAnswer. Decision-room no longer
+  // produces any debrief-only/no-option items (every one of its 10 items is a real decision -
+  // its debrief now rides along as myDebrief on the same item, see _load_module_sequence) so
+  // the 'debrief'/'svr' kind checks below are kept only as a defensive no-op for any other
+  // module or already-in-flight legacy session data. Also treat any item with no options as
+  // auto-done even if its kind was mis-tagged, to stay aligned with the server's gate (see
+  // session_submit).
   return actItems.every(it=> it.myAnswer!=null || it.kind==='svr' || it.kind==='debrief' || !it.options || it.options.length===0);
 }
 function updateActivitySubmitVisibility(){
@@ -2262,7 +2255,10 @@ function wireActivityOptions(item){
         // Brief pause so the tap visibly registers, then auto-advance (participant can still
         // use Prev to go back and change an answer - /respond allows overwrite). Items with
         // correct/wrong feedback get longer - that's meant to be read, not just glimpsed.
-        const advanceDelay = item.myAnswerCorrect!=null ? 1400 : 550;
+        // Decision-room gets the same longer pause: each answer now reveals both the outcome
+        // feedback AND the case debrief inline (see renderDecisionRoom), more to read than a
+        // plain correct/incorrect badge.
+        const advanceDelay = (item.myAnswerCorrect!=null || actModuleLoaded==='decision-room') ? 1400 : 550;
         setTimeout(()=>{ if(actIndex < actItems.length-1){ actIndex++; renderActivityItem(); } }, advanceDelay);
       }catch(e){
         const msg = (e.message||'');
@@ -2375,48 +2371,19 @@ function renderMythVsFact(item){
 }
 function renderDecisionRoom(item){
   let html = '';
-  // Case context linkage - compute case position from actItems so navigation via Prev/Next/dots
-  // always shows which case and which step within that case this is, making the debrief's
-  // relationship to its 3 preceding decisions immediately clear (no jarring context switch).
-  let caseProgress = '';
-  try{
-    if(actItems && actItems.length){
-      const cases = [];
-      for(const it of actItems){ if(it.caseTitle && !cases.includes(it.caseTitle)) cases.push(it.caseTitle); }
-      const caseIdx = cases.indexOf(item.caseTitle) + 1;
-      const caseTotal = cases.length || 16;
-      if(item.kind === 'debrief'){
-        caseProgress = `Case ${caseIdx}/${caseTotal} - Debrief`;
-      } else {
-        const caseItems = actItems.filter(it=>it.caseTitle===item.caseTitle);
-        // Decisions are first N of caseItems, debrief (if any) is last; find position among
-        // decisions only. A case's own decision count varies now (1 for the short cases folded
-        // in from the former closing-quiz quiz questions, 3 for the original long cases), so
-        // this is always sized off the actual case, never a hardcoded "/3".
-        const decisionsOnly = caseItems.filter(it=>it.kind!=='debrief');
-        const pos = decisionsOnly.findIndex(it=>it.id===item.id) + 1;
-        const posLabel = pos>0 ? `${pos}/${decisionsOnly.length}` : `${actItems.indexOf(item)+1}/${actItems.length}`;
-        caseProgress = `Case ${caseIdx}/${caseTotal} - Decision ${posLabel}`;
-      }
-    }
-  }catch(e){ caseProgress=''; }
+  // Every case is now exactly one sequence item (scenario -> one decision -> debrief, see
+  // _load_module_sequence's decision-room branch) so the case position is just this item's own
+  // index in actItems - no more multi-decision-per-case bookkeeping needed.
+  const caseNum = actItems.indexOf(item) + 1;
+  const caseTotal = actItems.length || 10;
+  const caseProgress = `Case ${caseNum}/${caseTotal}`;
   if(item.persona || item.caseTitle){
     html += '<div class="ff-title-bar">';
-    if(caseProgress) html += '<div style="font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#64748b;margin-bottom:6px;">'+esc(caseProgress)+'</div>';
+    html += '<div style="font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#64748b;margin-bottom:6px;">'+esc(caseProgress)+'</div>';
     if(item.persona) html += '<div class="dr-persona-tag">'+esc(item.persona)+'</div>';
     if(item.caseTitle) html += '<h2 style="margin:8px 0 4px;font-size:var(--fs-body);color:var(--navy,#001a4d)">'+esc(item.caseTitle)+'</h2>';
     if(item.caseScenario) html += '<div class="dr-scenario-context">'+esc(item.caseScenario)+'</div>';
     html += '</div>';
-  }
-  // Debrief - console's natural next beat after a case's 3rd decision, no vote, just the
-  // same dark ff-r-row/label/text reveal panel console uses for it (dr-debrief-panel).
-  // Header above (persona + title + scenario) is identical to the 3 decisions that
-  // preceded it, so the debrief is visually tied to its case, not a context switch.
-  if(item.kind === 'debrief'){
-    html += '<div class="dr-debrief-panel"><div class="ff-r-row"><i class="fa-solid fa-lightbulb"></i><div>'
-      + '<div class="ff-r-label">Debrief - '+esc(item.caseTitle||'Case')+'</div><div class="ff-r-text">'+esc(item.prompt||'')+'</div>'
-      + '</div></div></div>';
-    return html;
   }
   const picked = item.myAnswer;
   html += '<div class="dr-scene"><div class="dr-prompt" style="margin:14px 0;color:var(--navy,#001a4d);font-weight:700">'+esc(item.prompt||'')+'</div>';
@@ -2436,6 +2403,14 @@ function renderDecisionRoom(item){
   // color-matched to that option's outcome) - no separate badge, no blended "good answer" text.
   if(picked!=null && item.myFeedback){
     html += '<div class="dr-feedback show'+(item.myOutcome?(' '+item.myOutcome):'')+'">'+esc(item.myFeedback)+'</div>';
+  }
+  // The case's debrief now shows inline right below the outcome, once answered - reusing the
+  // same dr-debrief-panel look this used to get as its own separate step (see the app.py
+  // comment on caseDebrief/myDebrief for why it's bundled onto this one item instead).
+  if(picked!=null && item.myDebrief){
+    html += '<div class="dr-debrief-panel" style="margin-top:14px"><div class="ff-r-row"><i class="fa-solid fa-lightbulb"></i><div>'
+      + '<div class="ff-r-label">Debrief</div><div class="ff-r-text">'+esc(item.myDebrief)+'</div>'
+      + '</div></div></div>';
   }
   html += '</div>';
   return html;
@@ -3519,6 +3494,7 @@ async function fetchState(){
               if(items[i].detail != null) actItems[i].detail = items[i].detail;
               if(items[i].myOutcome != null) actItems[i].myOutcome = items[i].myOutcome;
               if(items[i].myFeedback != null) actItems[i].myFeedback = items[i].myFeedback;
+              if(items[i].myDebrief != null) actItems[i].myDebrief = items[i].myDebrief;
               if(items[i].revealed != null) actItems[i].revealed = items[i].revealed;
             }
             // Re-render current item so fact detail appears in review mode
@@ -3945,6 +3921,8 @@ def session_respond(code):
         fb = (target_item.get("optionFeedback") or {}).get(option_id)
         if fb:
             resp["myFeedback"] = fb
+        if target_item.get("caseDebrief"):
+            resp["myDebrief"] = str(target_item["caseDebrief"])
     return jsonify(resp)
 
 
@@ -4006,14 +3984,12 @@ def session_submit(code):
     if module in ('fault-finding','myth-vs-fact','decision-room','clue-quest'):
         seq = sess.get("moduleSequence") or []
         if seq:
-            # Only items that actually require an answer count toward the gate.
-            # Decision-room's debrief steps (11 of them: 6 from the original long cases, 5
-            # folded in from the former closing-quiz SVR prompts) are pure narration with no
-            # options - client treats them as auto-done via kind==='debrief' in
-            # isActivityAllAnswered(). Counting them would make a fully-answered run (23
-            # decisions) look incomplete (23/34) and cause the false "not all items answered"
-            # failure. 'svr' is kept in the exclusion below only as a defensive no-op for any
-            # already-in-flight legacy session data - new content never produces that kind.
+            # Only items that actually require an answer count toward the gate. Decision-room
+            # no longer produces any kind==='debrief' items at all (each case's debrief now
+            # rides along on its own decision item as caseDebrief/myDebrief - see
+            # _load_module_sequence) so every one of its 10 items requires an answer. The
+            # 'debrief'/'svr' exclusion below is kept as a defensive no-op for any other module
+            # or already-in-flight legacy session data that might still produce one.
             required = [ _it for _it in seq if _it.get('kind') not in ('debrief','svr') ]
             # Defensive: if kind filtering excluded nothing but some items have
             # no options to answer (future narration item missing kind), also
@@ -4285,10 +4261,10 @@ def admin_progress(code):
 
     For modules with objective correctness (correctOptionId - myth-vs-fact, fault-finding,
     clue-quest) also reports a LIVE per-participant correctCount. For decision-room (no single
-    correct answer anywhere in its 34 items - every decision, including the ones folded in from
-    the former closing-quiz quiz questions, is tagged good/consequence instead) reports goodCount
-    analog metric labeled distinctly as "good decisions" not "correct". Both are admin-only
-    and update live as the room answers - never sent to participants.
+    correct answer anywhere in its 10 items - every case's one decision is tagged
+    good/consequence instead) reports goodCount analog metric labeled distinctly as "good
+    decisions" not "correct". Both are admin-only and update live as the room answers - never
+    sent to participants.
     """
     code = code.strip().upper()
     sess = SESSIONS.get(code)

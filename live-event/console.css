@@ -1994,46 +1994,6 @@ body {
   color: var(--body-text);
 }
 
-/* Within-case path — 3 connected decision nodes standing in for plain
-   progress dots, so the narrative arc (not just a count) stays visible. */
-.dr-path {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  margin: 0 0 clamp(6px, 1vw, 12px);
-}
-.dr-path-node {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Space Mono', monospace;
-  font-size: var(--fs-badge);
-  font-weight: 800;
-  border: 2px solid rgba(6, 182, 212, 0.3);
-  color: var(--muted);
-  background: #fff;
-  transition: background var(--dur-panel) var(--ease-standard), border-color var(--dur-panel) var(--ease-standard), color var(--dur-panel) var(--ease-standard);
-}
-.dr-path-node.current {
-  border-color: var(--cyan);
-  background: var(--cyan);
-  color: #fff;
-  box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.15);
-}
-.dr-path-node.done { border-color: var(--green); background: var(--green); color: #fff; }
-.dr-path-line {
-  width: clamp(24px, 3.4vw, 48px);
-  height: 2px;
-  background: rgba(6, 182, 212, 0.25);
-  transition: background var(--dur-panel) var(--ease-standard);
-}
-.dr-path-line.done { background: var(--green); }
-
 .dr-decision {
   width: 100%;
   max-width: 900px;
@@ -2175,146 +2135,20 @@ body {
   color: var(--muted);
   text-align: center;
 }
-/* Calm timer — same shared component as every other module, but scoped
-   here to stay quiet: no amber/red alarm state, smaller digits, softer glow.
-   This is a background pacing cue for the facilitator, not a countdown to beat. */
-.dr-calm-timer .lt-digits {
-  font-size: clamp(48px, 6vw, 84px);
-  text-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
-}
-.dr-calm-timer.amber .lt-digits,
-.dr-calm-timer.red .lt-digits,
-.dr-calm-timer.expired .lt-digits {
-  color: var(--cyan-dark);
-  text-shadow: 0 0 12px rgba(6, 182, 212, 0.15);
-  animation: none;
-}
-.dr-calm-timer .lt-label { opacity: 0.7; }
-/* Case-level progress — a touch slower than the app default, matching the
-   deliberate pace (contrast: Rapid Fire's dots below are faster). */
+/* Case-level progress dots. */
 .dr-dots .dot { transition: background var(--dur-panel), border-color var(--dur-panel), transform var(--dur-panel); }
 
 /* ============================================================
-   CLOSING QUIZ
+   SHORT-CASE TIMER + FINAL SCREEN — originally built for the standalone
+   "Closing Quiz"/Rapid Fire module, then reused for Decision Room's own short
+   cases when the two modules were merged, and now the ONE timer this module
+   uses for every case (the later single-decision-per-case simplification
+   dropped the slower ambient/silent "long case" timer entirely — see
+   decision-room.js). The per-choice qz-question/qz-choice/svr-scenario-card
+   rendering was retired along with the merge (every case renders through
+   Decision Room's own dr-option/dr-debrief-panel templates); only the
+   timer's urgent pacing and the shared final-screen classes survive here.
    ============================================================ */
-.qz-subtitle {
-  font-family: 'Barlow', sans-serif;
-  font-size: var(--fs-badge);
-  color: var(--muted);
-  text-align: center;
-  margin-bottom: clamp(6px, 1vw, 12px);
-}
-.qz-persona-tag {
-  font-family: 'Space Mono', monospace;
-  font-size: var(--fs-badge);
-  font-weight: 800;
-  color: var(--cyan-light);
-  background: rgba(6, 182, 212, 0.14);
-  border: 1px solid rgba(6, 182, 212, 0.35);
-  padding: 6px 18px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 18px;
-  display: inline-block;
-}
-/* Badge flash, not a lingering header — retriggered on every step (see
-   closing-quiz.js) so the persona reads as a quick call-out, not a fixture. */
-@keyframes qz-persona-flash {
-  0% { transform: scale(1.18); box-shadow: 0 0 0 7px rgba(6, 182, 212, 0.28); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
-}
-.qz-persona-tag.flash { animation: qz-persona-flash 160ms ease-out; }
-.qz-question {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 700;
-  font-size: var(--fs-heading);
-  line-height: 1.35;
-  max-width: 1300px;
-  margin-bottom: clamp(14px, 1.8vw, 22px);
-}
-/* Fast, sharp pop — a brand-new node every render, so this replays on its
-   own each step. Deliberately quicker/snappier than Decision Room's fade. */
-@keyframes qz-snap-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.qz-question, .svr-scenario-card { animation: qz-snap-in 130ms ease-out; }
-.qz-choices {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-  max-width: 1300px;
-  width: 100%;
-}
-@media (max-width: 1100px) { .qz-choices { grid-template-columns: 1fr; } }
-.qz-choice {
-  background: var(--glass-bg);
-  border: 2px solid var(--glass-border);
-  border-radius: var(--r);
-  padding: clamp(12px, 1.4vw, 18px);
-  font-size: var(--fs-subhead);
-  font-weight: 600;
-  text-align: left;
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-.qz-choice .qz-letter {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
-  color: var(--cyan-light);
-  flex-shrink: 0;
-}
-.qz-choice.correct {
-  border-color: var(--green);
-  background: rgba(16, 185, 129, 0.16);
-}
-.qz-choice.correct .qz-letter { color: var(--green); }
-.qz-explanation {
-  max-width: 1200px;
-  background: rgba(6, 182, 212, 0.1);
-  border-left: 5px solid var(--cyan);
-  border-radius: 0 var(--r) var(--r) 0;
-  padding: 16px 22px;
-  margin-top: clamp(16px, 2vw, 26px);
-  font-size: var(--fs-body);
-  line-height: 1.5;
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: opacity var(--dur-panel) var(--ease-standard), max-height 0.4s ease;
-  text-align: left;
-}
-.qz-explanation.show { opacity: 1; max-height: 260px; margin-top: clamp(16px, 2vw, 26px); }
-
-.svr-scenario-card {
-  max-width: 1300px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--r-lg);
-  padding: clamp(30px, 4vw, 56px);
-  box-shadow: var(--shadow-xl);
-}
-.svr-scenario-text {
-  font-size: var(--fs-heading);
-  font-weight: 600;
-  line-height: 1.45;
-  font-style: italic;
-}
-.svr-response {
-  font-family: 'Space Mono', monospace;
-  font-size: var(--fs-body);
-  color: var(--green);
-  font-weight: 700;
-  margin-top: clamp(16px, 2vw, 26px);
-  opacity: 0;
-  max-height: 0;
-  overflow: hidden;
-  transition: opacity var(--dur-panel) var(--ease-standard), max-height 0.4s ease;
-}
-.svr-response.show { opacity: 1; max-height: 200px; }
-
 /* Urgent timer — the one place in the app where the countdown itself should
    feel like the point. Faster, harder pulse than the shared default, and
    amber gets a pulse too (the default only pulses once it turns red).
@@ -2332,10 +2166,6 @@ body {
   animation: qz-timer-urgent-pulse 0.45s ease-in-out infinite;
   text-shadow: 0 0 46px rgba(239, 68, 68, 0.75);
 }
-/* Step progress — a touch faster than the app default, matching the pace
-   (contrast: Decision Room's dots above are slower). */
-.qz-dots .dot { transition: background var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast); }
-
 .qz-final-board {
   text-align: center;
 }

@@ -29,27 +29,26 @@
       </div>
 
       <div id="activityBody" class="le-hidden">
-      <div class="le-item-counter" id="itemCounter">Case 1 of 16</div>
-      <p class="dr-intro">Long cases: take your time and talk as a group. Fast cases: trust your first idea. The clock is short on those.</p>
+      <div class="le-item-counter" id="itemCounter">Case 1 of 10</div>
+      <p class="dr-intro">One decision each — trust your first instinct, the clock moves fast.</p>
       <div class="ff-title-bar">
         <div class="dr-persona-tag" id="casePersona"></div>
         <h2 id="caseTitle"> - </h2>
         <div class="dr-scenario-context" id="caseScenario"></div>
-        <div class="dr-path" id="casePath"></div>
       </div>
 
       <div class="cq-stage">
         <div class="dr-decision" id="decisionStage">
-          <!-- Rendered by decision-room.js: current decision's prompt + option cards, or the case debrief -->
+          <!-- Rendered by decision-room.js: scenario's decision (prompt + option cards), then its outcome + debrief once answered -->
         </div>
 
-        <div class="le-timer dr-calm-timer" id="timer">
-          <div class="lt-digits">90</div>
+        <div class="le-timer qz-urgent-timer" id="timer">
+          <div class="lt-digits">20</div>
           <div class="lt-label">Seconds</div>
         </div>
 
         <div class="le-btn-row" id="btnRow">
-          <button class="le-btn primary lg" id="nextBtn" type="button" disabled><i class="fa-solid fa-forward"></i> Next Decision</button>
+          <button class="le-btn primary lg" id="nextBtn" type="button" disabled><i class="fa-solid fa-forward"></i> Next Case</button>
         </div>
 
         <div class="le-progress-dots dr-dots" id="progressDots"></div>
