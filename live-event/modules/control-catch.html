@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Control Catch — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../console.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg"/>
+</head>
+<body data-home="../index.html">
+  <div class="le-shell">
+    <div class="le-grid-bg"></div>
+
+    <header class="le-topbar">
+      <a class="le-home-link" href="../index.html"><i class="fa-solid fa-arrow-left"></i> Home</a>
+      <div class="le-module-tag"><i class="fa-solid fa-bullseye"></i> Control Catch</div>
+      <div class="le-topbar-right"></div>
+    </header>
+
+    <main class="le-main">
+      <div class="le-intro-screen" id="introScreen">
+        <div class="le-intro-eyebrow"><i class="fa-solid fa-circle-info"></i> Synergy Cyber Security Awareness Month · Why This Matters</div>
+        <p class="le-intro-text" id="introText">—</p>
+        <button class="le-btn primary lg" id="introStartBtn" type="button"><i class="fa-solid fa-play"></i> Start</button>
+      </div>
+
+      <div id="activityBody" class="le-hidden">
+        <div class="le-item-counter" id="itemCounter">Control Catch — 75s round</div>
+
+        <div class="cc-stage">
+          <div class="cc-console-hud">
+            <div class="cc-console-stat"><span class="cc-console-label">Score</span><span class="cc-console-value" id="ccScoreVal">0</span></div>
+            <div class="cc-console-stat"><span class="cc-console-label">Lives</span><span class="cc-console-value" id="ccLivesVal">❤❤❤</span></div>
+            <div class="le-timer" id="timer">
+              <div class="lt-digits">75</div>
+              <div class="lt-label">Seconds</div>
+            </div>
+          </div>
+
+          <div class="cc-console-hint" id="ccHint">Click the GOOD bubbles (real security habits). Let the BAD ones fall — don't click those. 3 lives.</div>
+
+          <div class="cc-console-arena" id="ccArena"></div>
+
+          <div class="cc-console-gameover le-hidden" id="ccGameOverWrap">
+            <div class="cc-console-gameover-title">GAME OVER</div>
+            <div id="ccGameOverStats" class="cc-console-gameover-stats">—</div>
+          </div>
+
+          <div class="le-remember-card le-hidden" id="rememberCard">
+            <i class="fa-solid fa-thumbtack"></i>
+            <div>
+              <div class="le-remember-eyebrow">Remember This</div>
+              <div class="le-remember-text" id="rememberText">—</div>
+            </div>
+          </div>
+
+          <div class="le-btn-row">
+            <button class="le-btn amber lg" id="restartBtn" type="button"><i class="fa-solid fa-rotate"></i> Restart Round (R)</button>
+          </div>
+
+          <div class="le-btn-row le-hidden" id="upNextRow" style="margin-top:12px;">
+            <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="le-keyhints">
+      <div class="le-keyhint"><kbd>R</kbd> restart round</div>
+      <div class="le-keyhint"><kbd>ESC</kbd> home</div>
+      <div class="le-keyhint"><kbd>F</kbd> fullscreen</div>
+    </div>
+
+  </div>
+
+  <script src="../console.js"></script>
+  <script src="control-catch.js"></script>
+</body>
+</html>

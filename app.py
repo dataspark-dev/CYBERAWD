@@ -160,7 +160,7 @@ def persist_after(f):
 
 _load_sessions_from_disk()
 
-# 7 live-poll modules — whole-activity, content pulled from existing content/*.json
+# 8 live-poll modules — whole-activity, content pulled from existing content/*.json
 # (counts read at request time, never hardcoded)
 MODULE_DEFS = [
     {"id": "fault-finding", "displayName": "Fault Finding", "content": "fault-finding.json"},
@@ -170,6 +170,7 @@ MODULE_DEFS = [
     {"id": "clue-quest", "displayName": "Clue Quest", "content": "clue-quest.json"},
     {"id": "pass-phrase", "displayName": "Pass-Phrase", "content": "pass-phrase.json"},
     {"id": "crossword", "displayName": "Crossword", "content": "crossword.json"},
+    {"id": "control-catch", "displayName": "Control Catch", "content": "control-catch.json"},
 ]
 MODULE_IDS = {m["id"] for m in MODULE_DEFS}
 CONTENT_DIR = LIVE_EVENT_DIR / "content"
@@ -408,6 +409,14 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
         if module_id == "crossword":
             # Crossword is one grid, self-paced; no per-item poll. Represent as single grid item.
             return {"id": "crossword-grid", "prompt": "Crossword grid", "options": [], "fact": "", "revealed": False}
+        if module_id == "control-catch":
+            # Falling-bubble reflex game — one continuous timed round per participant, same
+            # "single synthetic item" placeholder pattern as crossword (see there). The real
+            # bubble pool (whyThisMatters/rememberThis/bubbles[]) is fetched by the client
+            # directly from content/control-catch.json, exactly like crossword fetches its own
+            # grid — this item exists only so the generic lobby/running/complete state machine
+            # has something to point currentItemIndex/activeItem at.
+            return {"id": "control-catch-game", "prompt": "Control Catch", "options": [], "fact": "", "revealed": False}
     except Exception:
         pass
     # Fallback generic
@@ -474,13 +483,16 @@ def _load_module_sequence(module_id: str):
         if module_id == "crossword":
             # One grid activity
             return [_normalize_module_item(module_id, {}, 0)]
+        if module_id == "control-catch":
+            # One continuous timed game, same single-synthetic-item pattern as crossword.
+            return [_normalize_module_item(module_id, {}, 0)]
     except Exception:
         return []
     return []
 
 
 def _get_modules_with_counts():
-    """Return 7 modules with item counts read live from content/*.json."""
+    """Return 8 modules with item counts read live from content/*.json."""
     out = []
     for m in MODULE_DEFS:
         seq = _load_module_sequence(m["id"])
@@ -1440,7 +1452,7 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
    this most.  */
 .option-btn, .ff-compare-panel, .dr-option, .qz-choice, .cq-option,
 .pp-tile[data-slot-idx], .pp-slot-empty, .pp-deck-tile, .pp-tile.chunk-tile, .pp-deck-tile.chunk-tile,
-.act-nav .btn, .btn, .cw-clue-list li, .feedback-badge{
+.act-nav .btn, .btn, .cw-clue-list li, .feedback-badge, .cc-bubble{
   touch-action: manipulation;
 }
 .ff-compare-panel:active:not(:disabled){ transform: scale(0.985); }
@@ -1558,6 +1570,31 @@ button.pp-tile, button.pp-deck-tile{
 .cq-option{cursor:pointer}
 .cq-option.picked{border-color:var(--cyan,#06b6d4) !important;background:rgba(6,182,212,0.08) !important;color:var(--navy,#001a4d) !important}
 .cq-option.picked .cq-opt-num{background:var(--cyan,#06b6d4) !important}
+
+/* Control Catch: falling-bubble reflex game. HUD (score/lives/time) above a fixed-height
+   arena; bubbles are absolutely-positioned buttons animated purely via CSS transition on
+   `top` (see ccSpawnBubble in the JS) rather than canvas or rAF — same DOM+CSS approach every
+   other module in this file uses, kept consistent rather than introducing a one-off canvas
+   dependency for a single module. */
+.cc-hud{display:flex;gap:10px;margin-bottom:10px}
+.cc-hud-stat{flex:1;background:var(--navy-4);border-radius:10px;padding:8px 10px;text-align:center}
+.cc-hud-label{display:block;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px}
+.cc-hud-value{display:block;font-family:'Orbitron',sans-serif;font-weight:800;font-size:var(--fs-subhead);color:#fff;margin-top:2px}
+.cc-hint{font-size:var(--fs-badge);color:#64748b;text-align:center;margin-bottom:10px;line-height:1.4}
+.cc-arena{position:relative;width:100%;height:min(62vh,520px);background:linear-gradient(180deg,#eef6ff,#f8fafc);border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;touch-action:manipulation}
+.cc-bubble{
+  position:absolute;top:-15%;transform:translateX(-50%);
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  width:clamp(84px,26vw,128px);min-height:56px;padding:6px 10px;border-radius:999px;
+  font-family:'Space Mono',monospace;font-weight:800;font-size:12px;line-height:1.2;
+  border:2px solid rgba(6,182,212,0.5);background:rgba(255,255,255,0.95);color:#0f172a;
+  box-shadow:0 4px 10px rgba(15,23,42,0.12);cursor:pointer;user-select:none;
+  transition:top linear, transform 120ms ease, opacity 160ms ease;
+}
+.cc-bubble:active{transform:translateX(-50%) scale(0.9)}
+.cc-bubble.cc-pop-good{border-color:var(--green,#10b981);background:rgba(16,185,129,0.18);transform:translateX(-50%) scale(1.3);opacity:0}
+.cc-bubble.cc-pop-bad{border-color:var(--red,#ef4444);background:rgba(239,68,68,0.18);transform:translateX(-50%) scale(1.3);opacity:0}
+.cc-hud-value.cc-lives-low{color:#fca5a5}
 </style>
 </head>
 <body>
@@ -1641,6 +1678,14 @@ button.pp-tile, button.pp-deck-tile{
       <span id="submittedModule2" class="badge" style="background:#ecfdf5; border-color:#6ee7b7; color:#065f46">locked</span>
     </div>
     <p id="submittedAtLine" style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;margin-top:10px"></p>
+    <!-- Control Catch's own final score — "your result" framing, never a comparison to anyone
+         else's score (see doCcSubmit/showSubmittedFor: this is filled from the participant's
+         own local game state, not fetched from the server, and no other module's screen shows
+         this block). -->
+    <div id="submittedScoreWrap" class="hidden" style="margin-top:14px; text-align:left; background:white; border:1px solid #6ee7b7; border-radius:12px; padding:14px">
+      <div style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#065f46;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-bullseye"></i> Your Result</div>
+      <div id="submittedScoreText" style="margin-top:6px;font-size:var(--fs-badge);font-weight:700;color:#0f172a"></div>
+    </div>
     <div id="submittedRememberWrap" class="hidden" style="margin-top:14px; text-align:left; background:white; border:1px solid #6ee7b7; border-radius:12px; padding:14px">
       <div style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#065f46;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-thumbtack"></i> Remember This</div>
       <div id="submittedRememberText" style="margin-top:6px;font-size:var(--fs-badge);font-weight:700;color:#0f172a"></div>
@@ -1677,6 +1722,31 @@ button.pp-tile, button.pp-deck-tile{
         <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode — grid locked, submitted.</div>
         <button id="backToSubmittedFromCwBtn" class="btn secondary" style="width:100%" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
       </div>
+    </div>
+  </div>
+  <!-- Control Catch — falling-bubble reflex game, own timed round per participant -->
+  <div id="controlCatchScreen" class="card hidden">
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+      <span id="ccModuleBadge" class="badge live">Control Catch</span>
+      <span id="ccCount" class="badge">0 joined</span>
+    </div>
+    <div class="cc-hud">
+      <div class="cc-hud-stat"><span class="cc-hud-label">Score</span><span id="ccScoreVal" class="cc-hud-value">0</span></div>
+      <div class="cc-hud-stat"><span class="cc-hud-label">Lives</span><span id="ccLivesVal" class="cc-hud-value">❤❤❤</span></div>
+      <div class="cc-hud-stat"><span class="cc-hud-label">Time</span><span id="ccTimeVal" class="cc-hud-value">0:00</span></div>
+    </div>
+    <div id="ccIntroHint" class="cc-hint">Tap the GOOD bubbles (real security habits). Let the BAD ones fall — don't tap those. 3 lives, watch the clock.</div>
+    <div id="ccArena" class="cc-arena"></div>
+    <div id="ccGameOverWrap" class="hidden" style="margin-top:14px;padding:14px;border-radius:12px;background:#ecfdf5;border:1px solid #6ee7b7;text-align:center">
+      <div style="font-weight:800;color:#065f46;font-family:'Orbitron',sans-serif;letter-spacing:0.5px">GAME OVER — YOUR RESULT</div>
+      <div id="ccGameOverStats" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#065f46">—</div>
+      <div style="margin-top:8px;font-size:var(--fs-badge);color:#065f46">This is your own result — not shared or compared with anyone else in the room.</div>
+      <button id="ccSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%;margin-top:12px" type="button"><i class="fa-solid fa-paper-plane"></i> Done — Submit My Score</button>
+      <div id="ccSubmitMsg" class="adm-note" style="margin-top:6px"></div>
+    </div>
+    <div id="ccReviewBackWrap" class="hidden" style="margin-top:12px; text-align:center; border-top:1px dashed #6ee7b7; padding-top:12px">
+      <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode — round finished, submitted.</div>
+      <button id="backToSubmittedFromCcBtn" class="btn secondary" style="width:100%" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
     </div>
   </div>
   <!-- Complete — same room stays for next activity -->
@@ -1741,6 +1811,7 @@ let cwRememberText = '';
 let cwProgressTimer = null;
 let cwLastSent = null;
 const CW_DEBOUNCE = 3500;
+let ccIsSubmitted = false;  // mirrors mySubmission for control-catch
 
 const els = {
   joinScreen: document.getElementById('joinScreen'),
@@ -1794,6 +1865,22 @@ const els = {
   cwSubmitWrap: document.getElementById('cwSubmitWrap'),
   cwSubmitBtn: document.getElementById('cwSubmitBtn'),
   cwSubmitMsg: document.getElementById('cwSubmitMsg'),
+  submittedScoreWrap: document.getElementById('submittedScoreWrap'),
+  submittedScoreText: document.getElementById('submittedScoreText'),
+  controlCatchScreen: document.getElementById('controlCatchScreen'),
+  ccModuleBadge: document.getElementById('ccModuleBadge'),
+  ccCount: document.getElementById('ccCount'),
+  ccScoreVal: document.getElementById('ccScoreVal'),
+  ccLivesVal: document.getElementById('ccLivesVal'),
+  ccTimeVal: document.getElementById('ccTimeVal'),
+  ccIntroHint: document.getElementById('ccIntroHint'),
+  ccArena: document.getElementById('ccArena'),
+  ccGameOverWrap: document.getElementById('ccGameOverWrap'),
+  ccGameOverStats: document.getElementById('ccGameOverStats'),
+  ccSubmitBtn: document.getElementById('ccSubmitBtn'),
+  ccSubmitMsg: document.getElementById('ccSubmitMsg'),
+  ccReviewBackWrap: document.getElementById('ccReviewBackWrap'),
+  backToSubmittedFromCcBtn: document.getElementById('backToSubmittedFromCcBtn'),
   completeScreen: document.getElementById('completeScreen'),
   completeCount: document.getElementById('completeCount'),
   completeModule: document.getElementById('completeModule'),
@@ -1811,6 +1898,7 @@ function showScreen(name){
   els.activityScreen.classList.add('hidden');
   if(els.submittedScreen) els.submittedScreen.classList.add('hidden');
   els.crosswordScreen.classList.add('hidden');
+  if(els.controlCatchScreen) els.controlCatchScreen.classList.add('hidden');
   if(els.completeScreen) els.completeScreen.classList.add('hidden');
   els.errorScreen.classList.add('hidden');
   if(name==='join') els.joinScreen.classList.remove('hidden');
@@ -1819,6 +1907,7 @@ function showScreen(name){
   if(name==='activity') els.activityScreen.classList.remove('hidden');
   if(name==='submitted' && els.submittedScreen) els.submittedScreen.classList.remove('hidden');
   if(name==='crossword') els.crosswordScreen.classList.remove('hidden');
+  if(name==='control-catch' && els.controlCatchScreen) els.controlCatchScreen.classList.remove('hidden');
   if(name==='complete' && els.completeScreen) els.completeScreen.classList.remove('hidden');
   if(name==='error') els.errorScreen.classList.remove('hidden');
 }
@@ -1835,6 +1924,7 @@ function updateHeaderCount(n){
   els.waitingCount.textContent = n + ' joined';
   els.actCount.textContent = n + ' joined';
   els.cwCount.textContent = n + ' joined';
+  if(els.ccCount) els.ccCount.textContent = n + ' joined';
   if(els.completeCount) els.completeCount.textContent = n + ' joined';
   if(els.submittedCount) els.submittedCount.textContent = n + ' joined';
 }
@@ -1987,6 +2077,27 @@ function showSubmittedFor(module, submittedAt){
       els.submittedRememberWrap.classList.add('hidden');
     }
   }
+  // Control Catch's own final score — "your result" framing, read from this participant's own
+  // local game state (never re-fetched from the server, never another participant's numbers —
+  // see ccEndGame). Falls back to localStorage so a hard refresh after submitting still shows
+  // it instead of a bare confirmation with no numbers.
+  if(els.submittedScoreWrap && els.submittedScoreText){
+    let result = (module==='control-catch') ? ccFinalResult : null;
+    if(!result && module==='control-catch'){
+      try{ result = JSON.parse(localStorage.getItem('ccResult_'+ROOM_CODE) || 'null'); }catch(e){}
+    }
+    if(module==='control-catch' && result){
+      const mins = Math.floor(result.survivedMs/60000), secs = Math.round((result.survivedMs%60000)/1000);
+      els.submittedScoreText.textContent = result.score + ' good caught · ' + result.badPops + ' bad popped · ' + result.livesLeft + '/3 lives left · survived ' + mins + ':' + String(secs).padStart(2,'0');
+      els.submittedScoreWrap.classList.remove('hidden');
+    } else {
+      els.submittedScoreWrap.classList.add('hidden');
+    }
+  }
+  // Control Catch is a real-time reflex round, not a set of reviewable per-item facts like
+  // every other module here — "Review Answers with Details" has nothing meaningful to show,
+  // so hide it rather than leave a tap that silently does nothing.
+  if(els.reviewAnswersBtn) els.reviewAnswersBtn.classList.toggle('hidden', module==='control-catch');
   showScreen('submitted');
 }
 function updateCwSubmitVisibility(){
@@ -2095,6 +2206,11 @@ if(els.backToSubmittedFromCwBtn) els.backToSubmittedFromCwBtn.addEventListener('
   isReviewingAfterSubmit = false;
   showSubmittedFor('crossword', mySubmission && mySubmission.submittedAt);
   if(els.cwReviewBackWrap) els.cwReviewBackWrap.classList.add('hidden');
+});
+if(els.backToSubmittedFromCcBtn) els.backToSubmittedFromCcBtn.addEventListener('click', ()=>{
+  isReviewingAfterSubmit = false;
+  showSubmittedFor('control-catch', mySubmission && mySubmission.submittedAt);
+  if(els.ccReviewBackWrap) els.ccReviewBackWrap.classList.add('hidden');
 });
 
 // initActivity() runs ONCE per module (when actModuleLoaded changes) — see fetchState. Poll
@@ -2214,6 +2330,7 @@ els.actNextBtn.addEventListener('click', ()=>{ if(actIndex<actItems.length-1){ a
 // Submit handlers — wired once, safe to re-add (idempotent guard inside)
 if(els.actSubmitBtn) els.actSubmitBtn.addEventListener('click', doActivitySubmit);
 if(els.cwSubmitBtn) els.cwSubmitBtn.addEventListener('click', doCwSubmit);
+if(els.ccSubmitBtn) els.ccSubmitBtn.addEventListener('click', doCcSubmit);
 
 // --- Per-module templates — adapted from the facilitator console's own component classes
 // (console.css, linked above) so a phone and the big screen read as the same activity. ---
@@ -3091,6 +3208,231 @@ async function ensureCrossword(){
   }
 }
 
+// --- Control Catch: falling-bubble reflex game ---
+// The server never referees reflex timing — same "client-only clock" precedent as clue-quest's
+// 30s-per-riddle countdown (see cqManageTimer above): all spawn/fall/tap/score/lives logic runs
+// entirely in this browser tab, and only a periodic snapshot is pinged to the server (for the
+// admin's live progress panel + the post-game ranked summary), mirroring crossword's own
+// ensureCrossword/scheduleCwProgress debounced-ping pattern one section up.
+const CC_DURATION_MS = 75000;       // 75s round (60-90s range)
+const CC_SPAWN_START_MS = 1400;     // spawn cadence at round start
+const CC_SPAWN_MIN_MS = 650;        // spawn cadence floor once fully ramped up
+const CC_FALL_START_MS = 4800;      // how long a bubble takes top-to-bottom at round start
+const CC_FALL_MIN_MS = 2600;        // fall-duration floor once fully ramped up
+const CC_DEBOUNCE = 2000;
+let ccInitialized = false;
+let ccContent = null;
+let ccBubbles = [];       // [{el, bubble}] currently on screen
+let ccScore = 0;          // good bubbles popped — this participant's own score, never synced from anyone else
+let ccBadPops = 0;
+let ccLives = 3;
+let ccGameOver = false;
+let ccStartTs = 0;
+let ccSpawnTimer = null;
+let ccHudTimer = null;
+let ccProgressTimer = null;
+let ccLastSentProgress = null;
+let ccFinalResult = null; // {score, badPops, livesLeft, survivedMs} — "your result" only, see showSubmittedFor
+
+function ccElapsedMs(){ return ccStartTs ? (Date.now() - ccStartTs) : 0; }
+function ccRampProgress(elapsed){ return Math.max(0, Math.min(1, elapsed / CC_DURATION_MS)); }
+function ccSpawnIntervalFor(elapsed){ const t = ccRampProgress(elapsed); return CC_SPAWN_START_MS - t * (CC_SPAWN_START_MS - CC_SPAWN_MIN_MS); }
+function ccFallDurationFor(elapsed){ const t = ccRampProgress(elapsed); return CC_FALL_START_MS - t * (CC_FALL_START_MS - CC_FALL_MIN_MS); }
+
+function ccFormatClock(ms){
+  const s = Math.max(0, ms);
+  const mins = Math.floor(s/60000), secs = Math.floor((s%60000)/1000);
+  return mins + ':' + String(secs).padStart(2,'0');
+}
+
+function ccUpdateHud(){
+  if(els.ccScoreVal) els.ccScoreVal.textContent = String(ccScore);
+  if(els.ccLivesVal){
+    els.ccLivesVal.textContent = '❤'.repeat(ccLives) + '🖤'.repeat(Math.max(0, 3-ccLives));
+    els.ccLivesVal.classList.toggle('cc-lives-low', ccLives<=1);
+  }
+  if(els.ccTimeVal) els.ccTimeVal.textContent = ccFormatClock(Math.max(0, CC_DURATION_MS - ccElapsedMs()));
+}
+
+async function sendCcProgress(immediate){
+  if(ccIsSubmitted) return;
+  if(!participantId || !ROOM_CODE) return;
+  const snapshot = {score: ccScore, badPops: ccBadPops, livesLeft: ccLives, gameOver: ccGameOver};
+  if(!immediate && ccLastSentProgress
+     && ccLastSentProgress.score===snapshot.score
+     && ccLastSentProgress.badPops===snapshot.badPops
+     && ccLastSentProgress.livesLeft===snapshot.livesLeft
+     && ccLastSentProgress.gameOver===snapshot.gameOver) return;
+  ccLastSentProgress = snapshot;
+  try{
+    await fetch('/api/session/'+ROOM_CODE+'/control-catch/progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.assign({participantId:participantId}, snapshot))});
+  }catch(e){}
+}
+function scheduleCcProgress(){
+  if(ccIsSubmitted) return;
+  if(!participantId) return;
+  if(ccProgressTimer) clearTimeout(ccProgressTimer);
+  ccProgressTimer = setTimeout(()=>sendCcProgress(false), CC_DEBOUNCE);
+}
+
+// A tapped bubble freezes at its current on-screen position (read via getBoundingClientRect,
+// not left at whatever CSS-transition midpoint it happened to be at) before the pop animation
+// plays — otherwise cancelling the falling `top` transition mid-flight can make the pop
+// animation itself look like it jumps or stutters.
+function ccFreezeBubbleAt(el){
+  const rect = el.getBoundingClientRect();
+  const arenaRect = els.ccArena.getBoundingClientRect();
+  el.style.transition = 'none';
+  el.style.top = (rect.top - arenaRect.top) + 'px';
+}
+
+function ccPopBubble(el, bubble){
+  if(ccGameOver) return;
+  if(el.dataset.resolved==='1') return;
+  el.dataset.resolved = '1';
+  ccFreezeBubbleAt(el);
+  void el.offsetHeight; // force reflow so transition:none above actually applies before re-enabling it below
+  el.style.transition = 'transform 120ms ease, opacity 160ms ease';
+  if(bubble.good){
+    ccScore++;
+    el.classList.add('cc-pop-good');
+  } else {
+    ccBadPops++;
+    ccLives = Math.max(0, ccLives-1);
+    el.classList.add('cc-pop-bad');
+  }
+  ccUpdateHud();
+  scheduleCcProgress();
+  setTimeout(()=>{ el.remove(); ccBubbles = ccBubbles.filter(b=>b.el!==el); }, 200);
+  if(ccLives<=0) ccEndGame();
+}
+
+function ccSpawnBubble(){
+  if(ccGameOver || !els.ccArena) return;
+  const pool = (ccContent && ccContent.bubbles) || [];
+  if(!pool.length) return;
+  const bubble = pool[Math.floor(Math.random()*pool.length)];
+  const el = document.createElement('button');
+  el.type = 'button';
+  el.className = 'cc-bubble';
+  el.textContent = bubble.text;
+  el.style.left = (12 + Math.random()*76) + '%';
+  el.style.top = '-15%';
+  el.dataset.resolved = '0';
+  els.ccArena.appendChild(el);
+  const fallMs = ccFallDurationFor(ccElapsedMs());
+  el.addEventListener('click', ()=> ccPopBubble(el, bubble));
+  el.addEventListener('transitionend', (e)=>{
+    if(e.propertyName!=='top') return;
+    if(el.dataset.resolved==='1') return;
+    // Reached the bottom untouched — bad bubbles SHOULD pass (dodging by inaction is correct,
+    // no penalty); good bubbles just missed are also not penalized, only rewarded when popped.
+    el.dataset.resolved = '1';
+    el.remove();
+    ccBubbles = ccBubbles.filter(b=>b.el!==el);
+  });
+  // Double rAF: let the browser paint the initial top:-15% first, then apply the transition —
+  // changing transitionDuration and top in the same frame the element was created would collapse
+  // the animation into an instant jump instead of a real fall.
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      el.style.transitionDuration = fallMs + 'ms';
+      el.style.top = '104%';
+    });
+  });
+  ccBubbles.push({el, bubble});
+}
+
+function ccSpawnLoop(){
+  if(ccGameOver) return;
+  ccSpawnBubble();
+  const elapsed = ccElapsedMs();
+  if(elapsed >= CC_DURATION_MS){ ccEndGame(); return; }
+  ccSpawnTimer = setTimeout(ccSpawnLoop, ccSpawnIntervalFor(elapsed));
+}
+
+function ccEndGame(){
+  if(ccGameOver) return;
+  ccGameOver = true;
+  if(ccSpawnTimer) clearTimeout(ccSpawnTimer);
+  if(ccHudTimer) clearInterval(ccHudTimer);
+  // Freeze whatever's still on screen in place rather than yanking it away mid-fall — reads as
+  // "time's up", not a glitch — and disable further taps (game is over, no more scoring).
+  ccBubbles.forEach(({el})=>{
+    if(el.dataset.resolved==='1') return;
+    ccFreezeBubbleAt(el);
+    el.style.pointerEvents = 'none';
+    el.style.opacity = '0.4';
+  });
+  ccUpdateHud();
+  const survivedMs = Math.min(ccElapsedMs(), CC_DURATION_MS);
+  ccFinalResult = {score: ccScore, badPops: ccBadPops, livesLeft: ccLives, survivedMs: survivedMs};
+  try{ localStorage.setItem('ccResult_'+ROOM_CODE, JSON.stringify(ccFinalResult)); }catch(e){}
+  if(els.ccGameOverStats){
+    els.ccGameOverStats.textContent = ccScore + ' good caught · ' + ccBadPops + ' bad popped · ' + ccLives + '/3 lives left · survived ' + ccFormatClock(survivedMs);
+  }
+  if(els.ccGameOverWrap) els.ccGameOverWrap.classList.remove('hidden');
+  if(els.ccIntroHint) els.ccIntroHint.classList.add('hidden');
+  sendCcProgress(true);
+}
+
+async function doCcSubmit(){
+  if(ccIsSubmitted) return;
+  const module = 'control-catch';
+  if(!participantId) return;
+  if(els.ccSubmitBtn) els.ccSubmitBtn.disabled = true;
+  if(els.ccSubmitMsg) els.ccSubmitMsg.textContent = 'Submitting…';
+  try{
+    const r = await fetch('/api/session/' + ROOM_CODE + '/submit', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({participantId: participantId, module: module})});
+    const j = await r.json().catch(()=>({}));
+    if(!r.ok) throw new Error(j.error || 'Submit failed');
+    ccIsSubmitted = true;
+    mySubmission = {isSubmitted: true, submittedAt: j.submittedAt, module: module};
+    showSubmittedFor(module, j.submittedAt);
+    if(els.ccSubmitMsg) els.ccSubmitMsg.textContent = '';
+  }catch(e){
+    if(els.ccSubmitMsg) els.ccSubmitMsg.textContent = 'Submit failed: ' + (e.message||'');
+    if(els.ccSubmitBtn) els.ccSubmitBtn.disabled = false;
+  }
+}
+
+function ccStopGame(){
+  if(ccSpawnTimer) clearTimeout(ccSpawnTimer);
+  if(ccHudTimer) clearInterval(ccHudTimer);
+  if(ccProgressTimer) clearTimeout(ccProgressTimer);
+  ccSpawnTimer = null; ccHudTimer = null; ccProgressTimer = null;
+  if(els.ccArena) els.ccArena.innerHTML = '';
+  ccBubbles = [];
+  // Reset so relaunching control-catch in the same room (no page reload) starts a fresh round
+  // next time ensureControlCatch() runs, instead of silently no-op'ing like crossword's
+  // cwInitialized (which never resets) would.
+  ccInitialized = false;
+}
+
+async function ensureControlCatch(){
+  if(ccInitialized) return;
+  ccInitialized = true;
+  ccScore = 0; ccBadPops = 0; ccLives = 3; ccGameOver = false; ccFinalResult = null;
+  ccBubbles = []; ccLastSentProgress = null;
+  if(els.ccGameOverWrap) els.ccGameOverWrap.classList.add('hidden');
+  if(els.ccIntroHint) els.ccIntroHint.classList.remove('hidden');
+  if(els.ccArena) els.ccArena.innerHTML = '';
+  ccUpdateHud();
+  try{
+    const r = await fetch('/live-event/content/control-catch.json', {cache:'no-store'});
+    ccContent = await r.json();
+  }catch(e){
+    ccContent = {bubbles: []};
+  }
+  ccStartTs = Date.now();
+  ccSpawnTimer = setTimeout(ccSpawnLoop, 400);
+  ccHudTimer = setInterval(()=>{
+    if(ccGameOver) return;
+    ccUpdateHud();
+    if(ccElapsedMs() >= CC_DURATION_MS) ccEndGame();
+  }, 300);
+}
+
 // --- State polling — whole-activity flow (lobby/running/complete) ---
 async function fetchState(){
   const mySeq = ++fetchSeq;
@@ -3128,6 +3470,7 @@ async function fetchState(){
     // No module yet — waiting for host to pick
     if(!curMod || !state){
       actModuleLoaded = null; const _as=document.getElementById('activityScreen'); if(_as) delete _as.dataset.module; // so relaunching any module later re-initializes the activity
+      ccStopGame();
       showScreen('waiting');
       els.waitingModule.textContent = 'No active activity';
       document.getElementById('waitingSub').textContent = "You're in. Waiting for the facilitator to pick an activity.";
@@ -3137,6 +3480,7 @@ async function fetchState(){
     // Lobby — module chosen but not yet started, show waiting for start with module name
     if(state==='lobby'){
       actModuleLoaded = null; const _as2=document.getElementById('activityScreen'); if(_as2) delete _as2.dataset.module; // clears the PREVIOUS activity's local state before Start
+      ccStopGame();
       showScreen('waiting');
       els.waitingModule.textContent = displayName + ' — lobby';
       document.getElementById('waitingSub').textContent = "You're in — waiting for the facilitator to start " + displayName;
@@ -3149,6 +3493,7 @@ async function fetchState(){
     mySubmission = s.mySubmission || null;
     actIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && MC_MODULES.includes(mySubmission.module) && mySubmission.module===curMod);
     cwIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && mySubmission.module==='crossword' && curMod==='crossword');
+    ccIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && mySubmission.module==='control-catch' && curMod==='control-catch');
     // If already submitted for this running module, show locked confirmation (distinct from generic complete)
     // — unless participant tapped Review, in which case keep them on the read-only item view with facts.
     if(state==='running' && mySubmission && mySubmission.isSubmitted && mySubmission.module===curMod && !isReviewingAfterSubmit){
@@ -3159,6 +3504,10 @@ async function fetchState(){
         // ensure grid exists then lock
         ensureCrossword();
         setTimeout(()=>{ cwCells.forEach(cell=>{ if(cell.input) cell.input.readOnly = true; }); updateCwSubmitVisibility(); }, 300);
+      }
+      if(curMod==='control-catch'){
+        actModuleLoaded = null; const _as3b=document.getElementById('activityScreen'); if(_as3b) delete _as3b.dataset.module;
+        ccStopGame();
       }
       return;
     }
@@ -3181,6 +3530,13 @@ async function fetchState(){
             if(els.cwReviewBackWrap) els.cwReviewBackWrap.classList.add('hidden');
           }
         }, 400);
+        return;
+      }
+      if(curMod==='control-catch'){
+        if(showParticipantIntro(curMod, s.whyThisMatters)) return;
+        actModuleLoaded = null; const _as4b=document.getElementById('activityScreen'); if(_as4b) delete _as4b.dataset.module;
+        showScreen('control-catch');
+        ensureControlCatch();
         return;
       }
       if(MC_MODULES.includes(curMod)){
@@ -3238,6 +3594,7 @@ async function fetchState(){
     // Complete — same room stays, waiting for next pick
     if(state==='complete'){
       actModuleLoaded = null; const _as5=document.getElementById('activityScreen'); if(_as5) delete _as5.dataset.module;
+      ccStopGame();
       showScreen('complete');
       if(els.completeModule) els.completeModule.textContent = displayName;
       return;
@@ -3247,6 +3604,7 @@ async function fetchState(){
     // from it so the room/activity history isn't implied to be reset.
     if(state==='idle'){
       actModuleLoaded = null; const _as6=document.getElementById('activityScreen'); if(_as6) delete _as6.dataset.module;
+      ccStopGame();
       showScreen('waiting');
       els.waitingModule.textContent = 'Choosing next activity';
       document.getElementById('waitingSub').textContent = "You're in — waiting for the facilitator to choose the next activity.";
@@ -3330,7 +3688,7 @@ def session_join(code):
 @app.route("/api/admin/modules", methods=["GET"])
 @admin_required
 def admin_modules():
-    """List 7 modules with item counts read live from content/*.json."""
+    """List 8 modules with item counts read live from content/*.json."""
     mods = _get_modules_with_counts()
     return jsonify({"modules": mods, "total": len(mods)})
 
@@ -4090,9 +4448,12 @@ def _compute_module_summary(sess):
     submitted participants appear in ranked. For modules without objective correct answers
     the ranking is still by submittedAt. Never exposed to participants — only from admin routes.
 
-    Crossword and pass-phrase also use submittedAt as the done signal, rather than
-    filledCount/totalCount reaching full coverage — the grid/build is considered done when
-    the participant taps Submit, not when the grid happens to be full.
+    Crossword, pass-phrase and control-catch also use submittedAt as the done signal, rather
+    than filledCount/totalCount reaching full coverage — the grid/build/game is considered done
+    when the participant taps Submit, not when the grid happens to be full or the round timer
+    runs out. Control-catch's correctCount is the participant's own score (good bubbles popped)
+    — never another participant's, and never an aggregate — same one-way-only data flow as
+    every other module's correctCount.
     """
     active_module = sess.get("activeModule")
     submissions = sess.get("submissions", {})
@@ -4132,6 +4493,33 @@ def _compute_module_summary(sess):
                 "correctCount": cc,
             })
         return summary, has_correct, total
+
+    if active_module == "control-catch":
+        cc = sess.get("controlCatchProgress", {})
+        content = _read_module_json("control-catch") or {}
+        total_good = sum(1 for b in (content.get("bubbles") or []) if b.get("good"))
+        summary = []
+        for pid, name in sess.get("participants", {}).items():
+            entry = cc.get(pid)
+            score = int(entry.get("score") or 0) if entry else 0
+            bad_pops = int(entry.get("badPops") or 0) if entry else 0
+            lives_left = int(entry["livesLeft"]) if entry and entry.get("livesLeft") is not None else 3
+            updated_at = entry.get("updatedAt") if entry else None
+            submitted_at = _submitted_at(pid, active_module)
+            is_complete = submitted_at is not None
+            summary.append({
+                "participantId": pid, "name": name,
+                "answeredCount": score, "totalCount": total_good,
+                "isComplete": is_complete,
+                "moduleStartedAt": None,
+                "lastAnsweredAt": updated_at,
+                "completedAt": submitted_at,
+                "submittedAt": submitted_at,
+                "correctCount": score,
+                "badPops": bad_pops,
+                "livesLeft": lives_left,
+            })
+        return summary, True, total_good
 
     if active_module == "pass-phrase":
         module_sequence = sess.get("moduleSequence") or []
@@ -4581,6 +4969,111 @@ def admin_passphrase_progress(code):
     })
 
 
+@app.route("/api/session/<code>/control-catch/progress", methods=["POST"])
+@limiter.limit("300/minute")
+@persist_after
+def control_catch_progress(code):
+    """Participant pings their own live game state: {participantId, score, badPops, livesLeft,
+    gameOver}. Same lightweight-sync shape as crossword_progress — the server never referees
+    reflex timing (bubble spawn/fall/tap all happen client-side, like clue-quest's client-only
+    countdown, see app.py's clue-quest timer comment), it only stores each participant's own
+    latest snapshot for the admin's live progress panel and the post-game summary/ranking.
+    Never aggregated back to other participants — read only by admin-gated routes."""
+    code = code.strip().upper()
+    sess = SESSIONS.get(code)
+    if not sess:
+        return jsonify({"error": "room not found"}), 404
+    data = request.get_json(silent=True) or {}
+    if not data:
+        data = request.form.to_dict(flat=True)
+    participant_id = str(data.get("participantId") or data.get("participant_id") or data.get("pid") or "").strip()
+    if not participant_id:
+        return jsonify({"error": "participantId required"}), 400
+    if participant_id not in sess.get("participants", {}):
+        return jsonify({"error": "unknown participantId"}), 404
+    # Lock after submit
+    _sub = sess.get("submissions", {}).get(participant_id, {}).get(sess.get("activeModule"))
+    if _sub:
+        _sub_at = _sub if isinstance(_sub, str) else _sub.get("submittedAt")
+        return jsonify({"error": "already submitted - progress locked", "submittedAt": _sub_at}), 403
+    try:
+        score = int(data.get("score", 0))
+        bad_pops = int(data.get("badPops", data.get("bad_pops", 0)))
+        lives_left = int(data.get("livesLeft", data.get("lives_left", 3)))
+    except Exception:
+        return jsonify({"error": "score, badPops and livesLeft must be integers"}), 400
+    score = max(0, score)
+    bad_pops = max(0, bad_pops)
+    lives_left = max(0, min(3, lives_left))
+    game_over = bool(data.get("gameOver", data.get("game_over", False)))
+    sess.setdefault("controlCatchProgress", {})
+    sess["controlCatchProgress"][participant_id] = {
+        "score": score,
+        "badPops": bad_pops,
+        "livesLeft": lives_left,
+        "gameOver": game_over,
+        "updatedAt": datetime.now(timezone.utc).isoformat(),
+    }
+    return jsonify({"ok": True, "roomCode": code, "participantId": participant_id, "score": score, "badPops": bad_pops, "livesLeft": lives_left, "gameOver": game_over})
+
+
+@app.route("/api/admin/session/<code>/control-catch/progress", methods=["GET"])
+@admin_required
+def admin_control_catch_progress(code):
+    """Admin poll: per-participant score/lives/game-over state for the live progress panel
+    (~1.5s), same list shape as crossword's own progress panel (filledCount/totalCount reused
+    as score/max-possible-score so the shared renderCrosswordProgress() UI works unmodified) —
+    see _compute_module_summary's control-catch branch for the post-completion ranked version.
+    Admin-only route; nothing here is ever returned from a participant-facing endpoint."""
+    code = code.strip().upper()
+    sess = SESSIONS.get(code)
+    if not sess:
+        return jsonify({"error": "room not found"}), 404
+    content = _read_module_json("control-catch") or {}
+    total_good = sum(1 for b in (content.get("bubbles") or []) if b.get("good"))
+    sess.setdefault("controlCatchProgress", {})
+    prog = sess["controlCatchProgress"]
+    active_module = sess.get("activeModule") or "control-catch"
+    result = []
+    for pid, name in sess.get("participants", {}).items():
+        entry = prog.get(pid)
+        _sub_raw = sess.get("submissions", {}).get(pid, {}).get(active_module)
+        submitted_at = _sub_raw if isinstance(_sub_raw, str) else (_sub_raw.get("submittedAt") if isinstance(_sub_raw, dict) else _sub_raw)
+        score = int(entry.get("score") or 0) if entry else 0
+        bad_pops = int(entry.get("badPops") or 0) if entry else 0
+        lives_left = int(entry["livesLeft"]) if entry and entry.get("livesLeft") is not None else 3
+        game_over = bool(entry.get("gameOver")) if entry else False
+        if submitted_at:
+            sub_status = "submitted"
+        elif game_over:
+            sub_status = "reached_end"
+        else:
+            sub_status = "in_progress"
+        result.append({
+            "participantId": pid,
+            "name": name,
+            "filledCount": score,
+            "totalCount": total_good,
+            "badPops": bad_pops,
+            "livesLeft": lives_left,
+            "gameOver": game_over,
+            "updatedAt": entry.get("updatedAt") if entry else None,
+            "submittedAt": submitted_at,
+            "submissionStatus": sub_status,
+        })
+    def _cc_sort(x):
+        order = {"submitted": 0, "reached_end": 1, "in_progress": 2}
+        return (order.get(x.get("submissionStatus"), 3), -x["filledCount"], x["name"].lower())
+    result.sort(key=_cc_sort)
+    return jsonify({
+        "roomCode": code,
+        "activeModule": sess.get("activeModule"),
+        "progress": result,
+        "participantCount": len(sess.get("participants", {})),
+        "totalCount": total_good,
+    })
+
+
 @app.route("/api/admin/session/<code>/reset", methods=["POST"])
 @admin_required
 @persist_after
@@ -4611,6 +5104,7 @@ def admin_reset(code):
     sess["responses"] = {}
     sess["crosswordProgress"] = {}
     sess["passphraseBuilds"] = {}
+    sess["controlCatchProgress"] = {}
     sess["submissions"] = {}
     sess["createdAt"] = now
     # If you keep additional per-session stores, clear them here as well
@@ -4635,7 +5129,9 @@ if __name__ == "__main__":
 #   GET    /api/session/<code>/qr                         -> PNG QR for join URL (request.host_url)
 #   GET    /join/<code>                                    -> HTML join page (participant)
 #   POST   /api/session/<code>/join   {name}               -> {participantId}
-#   GET    /api/admin/modules                             -> 7 modules + live item counts from content/*.json
+#   GET    /api/admin/modules                             -> 8 modules + live item counts from content/*.json
+#   POST   /api/session/<code>/control-catch/progress       -> {participantId, score, badPops, livesLeft, gameOver} -> participant's own live game snapshot (never another participant's)
+#   GET    /api/admin/session/<code>/control-catch/progress -> per-participant score/lives/game-over for live progress panel (~1.5s), admin-only
 #   POST   /api/admin/session/<code>/launch {module}       -> loads module's item sequence, sets state=lobby
 #   POST   /api/admin/session/<code>/start                -> lobby -> running: unlocks the FULL sequence for every
 #                                                             phone at once (self-paced); also sets admin's own

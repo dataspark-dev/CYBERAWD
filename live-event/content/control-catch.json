@@ -1,0 +1,78 @@
+{
+  "whyThisMatters": "Real security moments are split-second — you don't get time to research whether a link, a login prompt, or a habit is safe. Training the reflex to burst the obviously bad stuff on sight, while still catching yourself on anything that only SOUNDS secure, is exactly what keeps real inboxes and accounts safe.",
+  "rememberThis": "Fast instincts are good — but a control that only sounds secure (short-but-complex password, stale antivirus, a charging cable) can fool reflex alone. When you're not sure, slow down and check before you trust the label.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the room which bubble caught them out — most people misjudge at least one of the 6 trick bubbles on their first try.",
+      "Ask why 'SMS Code Received' counts as good even though it sounds weaker than other MFA — what does that say about 'better than nothing'?",
+      "Ask why a short password with symbols (like the trick bubble) still reads as 'complex' to most people, and why that instinct is wrong."
+    ],
+    "commonWrongAnswer": "The most common miss is reflexively bursting anything that LOOKS security-related (MFA-shaped, antivirus-shaped, password-shaped) without checking if it's actually current, strong, or real — the 6 trick bubbles exist to catch exactly that pattern."
+  },
+  "bubbles": [
+    { "id": "mfa-enabled", "text": "MFA Enabled", "good": true },
+    { "id": "verified-sender", "text": "Verified Sender", "good": true },
+    { "id": "reported-phishing", "text": "Reported Phishing Email", "good": true },
+    { "id": "encrypted-backup", "text": "Encrypted Backup", "good": true },
+    { "id": "software-updated", "text": "Software Updated", "good": true },
+    { "id": "password-manager", "text": "Used Password Manager", "good": true },
+    { "id": "locked-screen", "text": "Locked Screen When Away", "good": true },
+    { "id": "vpn-public-wifi", "text": "VPN On Public Wi-Fi", "good": true },
+    { "id": "unique-password", "text": "Unique Password Per Site", "good": true },
+    { "id": "checked-url", "text": "Checked URL Before Clicking", "good": true },
+    { "id": "antivirus-active", "text": "Antivirus Active & Updated", "good": true },
+    { "id": "reused-password", "text": "Reused Password", "good": false },
+    { "id": "clicked-unknown-link", "text": "Clicked Unknown Link", "good": false },
+    { "id": "disabled-antivirus", "text": "Disabled Antivirus", "good": false },
+    { "id": "shared-password", "text": "Shared Password With Colleague", "good": false },
+    { "id": "ignored-update", "text": "Ignored Update Prompt", "good": false },
+    { "id": "sticky-note-password", "text": "Password On Sticky Note", "good": false },
+    { "id": "cracked-software", "text": "Downloaded Cracked Software", "good": false },
+    { "id": "unlocked-laptop", "text": "Left Laptop Unlocked", "good": false },
+    { "id": "opened-attachment", "text": "Opened Unexpected Attachment", "good": false },
+    { "id": "skipped-mfa", "text": "Skipped MFA Setup", "good": false },
+    { "id": "trusted-unknown-caller", "text": "Trusted Unknown Caller", "good": false },
+    {
+      "id": "sms-code-received",
+      "text": "SMS Code Received",
+      "good": true,
+      "trick": true,
+      "note": "Still real MFA — weaker than an authenticator app (SIM-swap risk), but far better than a password alone. 'Better than nothing' is a genuine security upgrade."
+    },
+    {
+      "id": "long-passphrase-no-symbols",
+      "text": "Long Passphrase, No Symbols",
+      "good": true,
+      "trick": true,
+      "note": "A long random phrase without symbols can still beat a short 'complex' password — length matters more than character variety."
+    },
+    {
+      "id": "8char-password-symbols",
+      "text": "8-Char Password With Symbols",
+      "good": false,
+      "trick": true,
+      "note": "Symbols don't save a short password — length beats complexity. An 8-character password is crackable quickly no matter how it's dressed up."
+    },
+    {
+      "id": "public-charging-cable",
+      "text": "Public Phone Charging Cable",
+      "good": false,
+      "trick": true,
+      "note": "\"Juice jacking\" — a public USB port or cable can push malware or pull data through the same connection that charges your phone."
+    },
+    {
+      "id": "urgent-ceo-request",
+      "text": "Urgent Request From CEO",
+      "good": false,
+      "trick": true,
+      "note": "Authority plus urgency is the classic Business Email Compromise pretext, not proof a request is real — it's designed to make you skip verification."
+    },
+    {
+      "id": "antivirus-installed-last-year",
+      "text": "Antivirus Installed Last Year",
+      "good": false,
+      "trick": true,
+      "note": "Unpatched, un-updated antivirus barely helps against current threats — \"installed\" isn't the same as \"current\"."
+    }
+  ]
+}

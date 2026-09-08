@@ -188,7 +188,7 @@
 
         <!-- Module picker — whole-activity flow -->
         <div id="pickerSection" class="adm-card" style="margin-top:18px;">
-          <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose Activity — 7 modules (whole-activity, pre-loaded)</div>
+          <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose Activity — 8 modules (whole-activity, pre-loaded)</div>
           <div class="adm-note">Counts pulled live from <code>content/*.json</code> via <code>GET /api/admin/modules</code> — no stale hardcoding. Select a module, then <strong>Launch</strong> to create lobby. Same room/participants stay joined between activities.</div>
           <div id="pickerGrid" class="adm-launcher-grid"></div>
           <div class="adm-row" style="margin-top:14px;">
@@ -421,6 +421,9 @@
     // item-picker + results-bars + reveal bucket.
     const MC_MODULES = ['fault-finding','myth-vs-fact','decision-room','closing-quiz','clue-quest'];
     const PASSPHRASE_MODULE = 'pass-phrase';
+    // Control Catch is a continuous timed reflex game, same "no discrete voted items" shape as
+    // crossword/pass-phrase — own dedicated progress panel below, not part of MC_MODULES.
+    const CONTROL_CATCH_MODULE = 'control-catch';
     let itemPickerLoadedFor = null; // module id the <select> options were last built for
     let facilitatorNotesLoadedFor = null; // module id the Facilitator Notes panel was last fetched for
     let selectedItemId = null; // admin's own narration/reveal pointer — independent of participant pacing
@@ -578,7 +581,7 @@
         <button class="adm-mod-btn ${selectedModule===m.id?'selected':''}" data-module="${esc(m.id)}" type="button">
           <span class="adm-mod-id">${esc(m.id)}</span>
           <span class="adm-mod-label">${esc(m.displayName)}</span>
-          <span class="adm-mod-desc">${esc(m.id)} — ${m.itemCount} ${m.itemCount===1?'item':'items'}${m.id==='crossword'?' · 1 grid, self-paced':''}</span>
+          <span class="adm-mod-desc">${esc(m.id)} — ${m.itemCount} ${m.itemCount===1?'item':'items'}${m.id==='crossword'?' · 1 grid, self-paced':(m.id==='control-catch'?' · 1 game, self-paced, 75s round':'')}</span>
           <span class="adm-mod-count">${m.itemCount} items</span>
         </button>
       `).join('');
@@ -734,16 +737,22 @@
         els.liveRow.classList.remove('adm-hidden');
         els.runningModuleName.textContent = display;
         const total = st.totalItems||0;
-        if(mod==='crossword'){
+        if(mod==='crossword' || mod===CONTROL_CATCH_MODULE){
           els.runningProgress.textContent = 'self-paced';
           els.runningSelfPacedControls.classList.add('adm-hidden');
           els.runningCrosswordControls.classList.remove('adm-hidden');
-          els.runningPrompt.textContent = 'Crossword grid unlocked';
           const idx = st.currentIndex!=null ? st.currentIndex : 0;
           if(total && idx+1 >= total) els.nextBtn.innerHTML = '<i class="fa-solid fa-flag-checkered"></i> Complete';
           else els.nextBtn.innerHTML = '<i class="fa-solid fa-forward"></i> Next';
-          els.runningMsg.textContent = 'Crossword is self-paced — progress below (participants tap Done — Submit Grid when finished)';
-          els.runningHint.textContent = 'Crossword: Start unlocked the grid for every phone at once — no Next sequence. Participants hit Done — Submit Grid when they consider it finished (not when grid is full). Progress below shows ✓ submitted / ○ in progress — Mark Complete (Next → Complete) ends the room for everyone regardless.';
+          if(mod==='crossword'){
+            els.runningPrompt.textContent = 'Crossword grid unlocked';
+            els.runningMsg.textContent = 'Crossword is self-paced — progress below (participants tap Done — Submit Grid when finished)';
+            els.runningHint.textContent = 'Crossword: Start unlocked the grid for every phone at once — no Next sequence. Participants hit Done — Submit Grid when they consider it finished (not when grid is full). Progress below shows ✓ submitted / ○ in progress — Mark Complete (Next → Complete) ends the room for everyone regardless.';
+          } else {
+            els.runningPrompt.textContent = 'Control Catch unlocked';
+            els.runningMsg.textContent = 'Control Catch is self-paced — each participant plays their own 75s round (progress below)';
+            els.runningHint.textContent = 'Control Catch: Start unlocked the game for every phone at once — each participant plays their own timed round (3 lives) independently and submits their own final score when their round ends, no Next sequence. Scores are personal — never shown to or compared with other participants. Progress below shows ✓ submitted / ● round over, not submitted / ○ still playing — Mark Complete ends the room for everyone regardless of whether every participant has finished their round.';
+          }
         } else {
           els.runningProgress.textContent = 'self-paced';
           els.runningCrosswordControls.classList.add('adm-hidden');
@@ -956,7 +965,9 @@
       // Top 3 winners per module — ordered who scores more first, ties by earliest submittedAt
       // (fastest submission). Backend already sorts: correctCount desc → submittedAt asc (or
       // goodCount / submittedAt). Frontend displays Top 3 podium.
-      if(data.hasCorrectness){
+      if(data.module==='control-catch' && data.hasCorrectness){
+        els.fastestOverallNote.textContent = `Top 3 — ranked by good bubbles popped (of ${data.totalItems} possible), ties broken by fastest submission — each score is that participant's own personal round, never compared live to anyone else's.`;
+      } else if(data.hasCorrectness){
         els.fastestOverallNote.textContent = `Top 3 — ranked by correct answers (of ${data.totalItems}), ties broken by fastest submission (submittedAt).`;
       } else if(data.hasGoodDecision){
         els.fastestOverallNote.textContent = `Top 3 — ranked by good decisions (of ${data.totalItems}), ties broken by fastest submission — labeled distinctly as "good decisions" not "correct".`;
@@ -970,7 +981,8 @@
         els.fastestOverallList.innerHTML = top3.map(r=>{
           const elapsed = formatElapsed(r.moduleStartedAt, r.completedAt);
           let scoreBit = '';
-          if(data.hasCorrectness) scoreBit = `${r.correctCount} / ${data.totalItems} correct &nbsp;·&nbsp; `;
+          if(data.module==='control-catch' && data.hasCorrectness) scoreBit = `${r.correctCount} / ${data.totalItems} good caught &nbsp;·&nbsp; `;
+          else if(data.hasCorrectness) scoreBit = `${r.correctCount} / ${data.totalItems} correct &nbsp;·&nbsp; `;
           else if(data.hasGoodDecision) scoreBit = `${r.goodCount} / ${data.totalItems} good decisions &nbsp;·&nbsp; `;
           const medal = r.rank===1 ? '🥇 ' : r.rank===2 ? '🥈 ' : r.rank===3 ? '🥉 ' : '';
           return `<li>${medal}<strong>${ordinal(r.rank)}</strong> — ${esc(r.name)}: ${scoreBit}${elapsed}</li>`;
@@ -1071,6 +1083,32 @@
           els.revealedFactWrap.classList.add('adm-hidden');
           els.revealBtn.classList.add('adm-hidden');
         }catch(e){}
+      } else if(st && st.activeModule===CONTROL_CATCH_MODULE) {
+        // Falling-bubble reflex game — no discrete voted items (participants ping their own
+        // score/lives via POST /control-catch/progress), same dedicated-progress-panel
+        // pattern as crossword/pass-phrase. filledCount here is score (good bubbles popped),
+        // totalCount is the content pool's total good-bubble count (max possible score).
+        try{
+          const cc = await api('/api/admin/session/' + currentCode + '/control-catch/progress');
+          if(mySeq !== pollSeq) return;
+          els.crosswordProgressNote.innerHTML = 'Control Catch — each participant pings their own score/lives (~debounced), admin polls ~1.5s. Shows <code>X / Y good caught</code> — personal score, never compared between participants.';
+          const ccSuffix = p => {
+            let bit = ' · ' + (p.livesLeft!=null ? p.livesLeft : 3) + ' lives left';
+            if(p.badPops) bit += ' · ' + p.badPops + ' bad popped';
+            return bit;
+          };
+          renderCrosswordProgress(cc, 'good caught', ccSuffix);
+          els.resultsPrompt.textContent = `Control Catch — ${cc.totalCount||0} good bubbles possible · live progress`;
+          els.crosswordProgressWrap.classList.remove('adm-hidden');
+        }catch(e){}
+        els.resultsStandardNote.classList.add('adm-hidden');
+        els.resultsBars.classList.add('adm-hidden');
+        els.resultsBars.innerHTML='';
+        els.resultsMeta.textContent='';
+        els.correctnessWrap.classList.add('adm-hidden');
+        els.responseOrderWrap.classList.add('adm-hidden');
+        els.revealedFactWrap.classList.add('adm-hidden');
+        els.revealBtn.classList.add('adm-hidden');
       } else if(st && st.activeModule===PASSPHRASE_MODULE) {
         // Real build-your-own-password mechanic (see PART's rebuild) — no discrete voted
         // items at all (participants build freely via POST /passphrase/build), so there's
