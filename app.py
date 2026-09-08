@@ -723,7 +723,7 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
 # hard has more 2-char chunks and fewer obviously-needed symbols/numbers.
 PP_DECK_SIZE = 15
 PP_MAX_SLOTS = 12  # legacy tile-count cap, kept for backwards compat with old content
-PP_MAX_CHARS = 20  # new chunk-aware cap: total characters reached, not tile count
+PP_MAX_CHARS = 12  # chunk-aware cap: total characters reached, not tile count
 PP_NAMES = ["Rahul", "Priya", "Amit", "Neha", "Arjun", "Sneha", "Vikram", "Ananya", "Rohan", "Isha", "Karan", "Meera"]
 PP_PLACES = ["Mumbai", "Delhi", "Chennai", "Kolkata", "Goa", "Pune", "Jaipur", "Kochi", "Hyderabad"]
 PP_YEARS = ["1998", "1999", "2000", "2001", "2002", "2003", "1995", "1990", "1992"]
@@ -1268,7 +1268,7 @@ def join_page(code):
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/>
 <title>Join __ROOM_CODE__ — Synergy Cyber Security Awareness Month</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Barlow:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Barlow:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <!-- Reuses the same component classes as the facilitator console (mf-card, dr-option,
      cq-riddle-card, ff-compare-panel, etc.) so a phone and the big screen showing the same
@@ -1287,54 +1287,54 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .header{position:sticky;top:0;z-index:10;flex-wrap:wrap;row-gap:8px}
 .header .le-brand img{height:32px}
 .header .le-brand-div{height:24px}
-.header .le-brand-text{font-size:13px}
+.header .le-brand-text{font-size:var(--fs-badge)}
 .header .le-brand-text small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:44vw}
 .header .le-topbar-right{gap:8px}
-.header .room{font-family:'Space Mono',monospace;font-weight:800;font-size:12px;background:#0f172a;color:#e0f2fe;padding:6px 10px;border-radius:999px;letter-spacing:1px}
-.header .count{font-family:'Space Mono',monospace;font-size:12px;color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:6px 10px;border-radius:999px}
+.header .room{font-family:'Space Mono',monospace;font-weight:800;font-size:var(--fs-badge);background:#0f172a;color:#e0f2fe;padding:6px 10px;border-radius:999px;letter-spacing:1px}
+.header .count{font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:6px 10px;border-radius:999px}
 .main{flex:1;display:flex;flex-direction:column;align-items:center;padding:16px;gap:16px;max-width:480px;width:100%;margin:0 auto}
 .card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:20px;width:100%;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-.card h1{font-size:1.35rem;margin:0 0 8px;line-height:1.2}
-.card h2{font-size:1.1rem;margin:0 0 12px}
-.card p{color:#475569;margin:0 0 14px;line-height:1.5;font-size:14px}
+.card h1{font-size:var(--fs-subhead);margin:0 0 8px;line-height:1.2}
+.card h2{font-size:var(--fs-body);margin:0 0 12px}
+.card p{color:#475569;margin:0 0 14px;line-height:1.5;font-size:var(--fs-badge)}
 .hidden{display:none !important}
-.input{width:100%;padding:14px 14px;border:1px solid #cbd5e1;border-radius:12px;font-size:16px;background:white}
+.input{width:100%;padding:14px 14px;border:1px solid #cbd5e1;border-radius:12px;font-size:var(--fs-body);background:white}
 .input:focus{outline:2px solid #06b6d4;outline-offset:2px;border-color:#06b6d4}
-.btn{width:100%;padding:14px 16px;border-radius:12px;border:0;background:#06b6d4;color:white;font-weight:800;font-size:16px;min-height:52px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn{width:100%;padding:14px 16px;border-radius:12px;border:0;background:#06b6d4;color:white;font-weight:800;font-size:var(--fs-body);min-height:52px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn:active{transform:scale(0.99)}
 .btn:disabled{opacity:0.5;cursor:not-allowed}
 .btn.secondary{background:white;color:#0f172a;border:1px solid #cbd5e1}
 .btn.secondary:active{background:#f8fafc}
-.ok{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;padding:12px;border-radius:12px;margin-top:12px;font-size:14px;word-break:break-word}
-.err{background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d;padding:12px;border-radius:12px;margin-top:12px;font-size:14px}
-.badge{font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;display:inline-flex;align-items:center;gap:6px}
+.ok{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;padding:12px;border-radius:12px;margin-top:12px;font-size:var(--fs-badge);word-break:break-word}
+.err{background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d;padding:12px;border-radius:12px;margin-top:12px;font-size:var(--fs-badge)}
+.badge{font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;display:inline-flex;align-items:center;gap:6px}
 /* Shared small context tag — who/what a scenario is about (persona) or its subject category
    (myth-vs-fact's topic). One styled class reused everywhere this pattern appears, instead of
    each render function inventing its own (unstyled) class name. */
-.persona-tag{font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:#e0f2fe;border:1px solid #bae6fd;color:#075985;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px}
+.persona-tag{font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.6px;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:#e0f2fe;border:1px solid #bae6fd;color:#075985;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px}
 .badge.live{background:#fef9c3;border-color:#fde68a;color:#854d0e}
-.waiting-icon{width:56px;height:56px;border-radius:50%;background:#e0f2fe;color:#0c4a6e;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 12px}
-.prompt{font-size:18px;font-weight:800;line-height:1.35;margin:0 0 16px;color:#0f172a}
+.waiting-icon{width:56px;height:56px;border-radius:50%;background:#e0f2fe;color:#0c4a6e;display:flex;align-items:center;justify-content:center;font-size:var(--fs-subhead);margin:0 auto 12px}
+.prompt{font-size:var(--fs-body);font-weight:800;line-height:1.35;margin:0 0 16px;color:#0f172a}
 .options{display:grid;gap:12px}
-.option-btn{width:100%;padding:16px 14px;border-radius:12px;border:2px solid #e2e8f0;background:white;color:#0f172a;font-weight:700;font-size:16px;min-height:56px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px;line-height:1.3}
+.option-btn{width:100%;padding:16px 14px;border-radius:12px;border:2px solid #e2e8f0;background:white;color:#0f172a;font-weight:700;font-size:var(--fs-body);min-height:56px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px;line-height:1.3}
 .option-btn:active{transform:scale(0.985)}
 .option-btn.selected{background:#0f172a;color:white;border-color:#0f172a}
 .option-btn:disabled{cursor:default;opacity:1}
-.option-btn .opt-num{width:32px;height:32px;border-radius:50%;background:#0f172a;color:white;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:13px;font-weight:800;flex-shrink:0}
+.option-btn .opt-num{width:32px;height:32px;border-radius:50%;background:#0f172a;color:white;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;flex-shrink:0}
 .option-btn.selected .opt-num{background:white;color:#0f172a}
 .fact{margin-top:16px;background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px;color:#78350f;line-height:1.5}
 .fact strong{color:#92400e}
 .locked{margin-top:14px;background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;padding:12px;border-radius:12px;text-align:center;font-weight:700}
-.reconnect{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#0f172a;color:white;padding:10px 14px;border-radius:999px;font-family:'Space Mono',monospace;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:50}
+.reconnect{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#0f172a;color:white;padding:10px 14px;border-radius:999px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);box-shadow:0 4px 12px rgba(0,0,0,0.15);z-index:50}
 /* Crossword compact mobile */
 .cw-wrap{width:100%}
-.cw-status{font-family:'Space Mono',monospace;font-size:12px;color:#64748b;text-align:center;margin:8px 0 10px}
+.cw-status{font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center;margin:8px 0 10px}
 .cw-grid-wrap{background:white;border:1px solid #e2e8f0;border-radius:12px;padding:8px;overflow:auto;-webkit-overflow-scrolling:touch}
 .cw-grid{display:grid;gap:1px;background:#cbd5e1;border:1px solid #cbd5e1;border-radius:8px;overflow:hidden;min-width:280px}
 .cw-cell{position:relative;background:white;aspect-ratio:1;display:flex;align-items:center;justify-content:center;min-width:0}
 .cw-cell.cw-block{background:#1e293b}
-.cw-num{position:absolute;top:2px;left:3px;font-family:'Space Mono',monospace;font-size:7px;font-weight:800;color:#475569;line-height:1}
-.cw-input{width:100%;height:100%;border:0;text-align:center;font-weight:800;font-size:16px;text-transform:uppercase;background:transparent;outline:none;padding:0;touch-action:manipulation}
+.cw-num{position:absolute;top:2px;left:3px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#475569;line-height:1}
+.cw-input{width:100%;height:100%;border:0;text-align:center;font-weight:800;font-size:var(--fs-body);text-transform:uppercase;background:transparent;outline:none;padding:0;touch-action:manipulation}
 .cw-input:focus{background:#e0f2fe}
 .cw-cell.active-cell{background:#e0f2fe}
 .cw-cell.active-word{background:#f0f9ff}
@@ -1342,17 +1342,17 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .cw-cell.incorrect{background:#fef2f2}
 .cw-cell.revealed{background:#fffbeb}
 .cw-cell.revealed .cw-input{color:#78350f}
-.cw-hint-btn{margin-left:8px;font-family:Space Mono,monospace;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:#0891b2;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:999px;padding:3px 9px;cursor:pointer;touch-action:manipulation}
+.cw-hint-btn{margin-left:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;text-transform:uppercase;letter-spacing:0.5px;color:#0891b2;background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.25);border-radius:999px;padding:3px 9px;cursor:pointer;touch-action:manipulation}
 .cw-hint-btn:disabled{opacity:0.5;cursor:default}
-.cw-hint-text{display:block;margin-top:4px;font-family:Space Mono,monospace;font-size:11px;font-style:italic;color:#b45309}
+.cw-hint-text{display:block;margin-top:4px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-style:italic;color:#b45309}
 .cw-clues{display:grid;gap:16px;margin-top:14px}
-.cw-clue-col h3{font-size:13px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#334155;margin:0 0 8px}
+.cw-clue-col h3{font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#334155;margin:0 0 8px}
 .cw-clue-list{list-style:none;padding:0;margin:0;display:grid;gap:8px}
-.cw-clue-list li{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;font-size:13px;line-height:1.4;cursor:pointer}
+.cw-clue-list li{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:10px 12px;font-size:var(--fs-badge);line-height:1.4;cursor:pointer}
 .cw-clue-list li.active{background:#e0f2fe;border-color:#06b6d4}
 .cw-clue-list li.solved{background:#ecfdf5;border-color:#6ee7b7}
 .cw-clue-num{font-family:'Space Mono',monospace;font-weight:800;color:#0c4a6e;margin-right:6px}
-@media (max-width:375px){ .main{padding:12px} .card{padding:16px} .prompt{font-size:17px} .option-btn{font-size:15px;min-height:52px;padding:14px 12px} }
+@media (max-width:375px){ .main{padding:12px} .card{padding:16px} .prompt{font-size:var(--fs-body)} .option-btn{font-size:var(--fs-body);min-height:52px;padding:14px 12px} }
 /* .cw-input stays at 16px at every width (not shrunk here) — an <input> below 16px triggers
    an automatic page zoom on focus in mobile Safari; the grid cells are already a fixed 32px
    regardless of viewport (see cwRenderGrid), so 16px text fits comfortably at every width. */
@@ -1367,7 +1367,24 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
    ============================================================ */
 .act-topline{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .act-progress-badge{margin-left:auto}
-#actMount{display:flex;flex-direction:column;gap:14px}
+#actMount{display:flex;flex-direction:column;gap:14px; min-height: 320px;}
+/* Closing-quiz SVR vs MCQ — an earlier pass tried to solve "Submit overlapping content at the
+   final index" and "Nav jumps when paging 5→6" by caging #activityScreen to a fixed 68vh/680px
+   flex column with #actMount as the only shrinkable/scrollable child. That traded one bug for a
+   worse one: a full MCQ question (prompt + 4 choices) doesn't fit in the leftover height once
+   Nav/Dots/Submit's reserved space is subtracted, so the choice grid silently scrolled out of
+   view inside #actMount's own internal scrollbar — indistinguishable from "the options are
+   missing" without noticing you can scroll a tiny inner box. #actSubmitWrap already reserves its
+   own space generically (see its own rule below, .hidden keeps display:block so the box never
+   collapses) for every module, not just this one, so that concern doesn't need a special cage
+   here — closing-quiz can size like every other module (natural page height, no internal
+   scroll). Only keeping a minimum height on the SVR card itself, so the shorter narration-only
+   steps don't make Nav jump up dramatically next to the taller MCQ steps. */
+#actMount .qz-question, #actMount .svr-scenario-card{width:100%; max-width:100%;}
+.svr-scenario-card{min-height:220px; display:flex; flex-direction:column; justify-content:center;}
+#actMount .qz-choices{min-height:0;}
+#actSubmitWrap{position:relative; z-index:1; background:white; clear:both; min-height:72px; box-sizing:border-box;}
+#actSubmitWrap.hidden{display:block !important; visibility:hidden; opacity:0; pointer-events:none; /* keep layout space so mount doesn't jump when Submit appears at final index */}
 /* Reused console text classes (.cq-riddle-text, .dr-prompt, .qz-question, .mf-myth, etc.)
    were never built to wrap an unbroken long token — a desktop-width console line has plenty
    of room, but content that includes something like an email address with no hyphen (e.g.
@@ -1392,7 +1409,7 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
    this most.  */
 .option-btn, .ff-compare-panel, .dr-option, .qz-choice, .cq-option,
 .pp-tile[data-slot-idx], .pp-slot-empty, .pp-deck-tile, .pp-tile.chunk-tile, .pp-deck-tile.chunk-tile,
-.act-nav .btn, .btn, .cw-clue-list li, .feedback-badge, #actMount .le-btn{
+.act-nav .btn, .btn, .cw-clue-list li, .feedback-badge{
   touch-action: manipulation;
 }
 .ff-compare-panel:active:not(:disabled){ transform: scale(0.985); }
@@ -1417,8 +1434,21 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
    (the console never needs a click target here since it's narrated, not answered). */
 .ff-compare-row{flex-direction:column !important}
 button.ff-compare-panel{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;position:relative;touch-action:manipulation}
+/* Console's .ff-compare-label absolutely overlays the image's top-left corner (top:12px) —
+   fine at console's large rendered size, but at phone width the image renders short enough
+   that the label's fixed ~41px footprint (12px offset + its own height) reaches past where the
+   SVG's own white card actually starts (these assets inset their white rect well down from a
+   full-bleed dark background, e.g. it-notice-real.svg's card starts 14% into a 900-tall
+   viewBox — only ~26px at a 178px-tall rendered image), so the label's rounded bottom edge
+   overlapped into the card instead of clearing it. Taking it out of absolute-overlay flow and
+   letting it sit as a normal in-flow block above the image (it's already first in the markup)
+   gives it real spacing that doesn't depend on a fixed pixel offset matching a proportional
+   point in a variable-height image — console's own side-by-side layout is untouched, since this
+   selector only applies within the phone's stacked .ff-compare-panel and console.css's own rule
+   is never edited. */
+.ff-compare-panel .ff-compare-label{position:static;display:inline-block;margin:10px 0 8px 12px}
 .ff-compare-panel img{display:block;width:100%;height:auto;border-radius:0 0 8px 8px}
-.ff-compare-panel .ff-tap-hint{text-align:center;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:var(--cyan-dark,#0891b2);padding:8px;background:rgba(6,182,212,0.08)}
+.ff-compare-panel .ff-tap-hint{text-align:center;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:var(--cyan-dark,#0891b2);padding:8px;background:rgba(6,182,212,0.08)}
 .ff-compare-panel.picked{border-color:var(--cyan,#06b6d4) !important;box-shadow:0 0 0 3px rgba(6,182,212,0.25)}
 .ff-compare-panel.picked .ff-tap-hint{background:var(--cyan,#06b6d4);color:#fff}
 .ff-compare-panel:disabled{cursor:default}
@@ -1429,10 +1459,10 @@ button.ff-compare-panel{all:unset;box-sizing:border-box;display:block;width:100%
 
 /* Per-item correct/wrong feedback (renderCorrectFeedback) — educational feedback on THIS
    answer only, no running score anywhere on the participant page (see docs). */
-.feedback-badge{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:800;font-size:14px;display:flex;align-items:center;gap:10px;text-align:left}
+.feedback-badge{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:800;font-size:var(--fs-badge);display:flex;align-items:center;gap:10px;text-align:left}
 .feedback-badge.correct{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46}
 .feedback-badge.incorrect{background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d}
-.feedback-badge i{font-size:16px}
+.feedback-badge i{font-size:var(--fs-body)}
 
 /* Pass-phrase: real weak-password framing, live strength meter, and the actual deck/slot
    build interaction (tap-to-place, not drag — touch drag was already deemed unreliable).
@@ -1440,9 +1470,25 @@ button.ff-compare-panel{all:unset;box-sizing:border-box;display:block;width:100%
    the empty-slot placeholder and the "selected" state are new — the console's own build row
    starts empty and only ever shows filled tiles (no pre-drawn empty slots), and it has no
    tap-to-select state since its click handler places a tile immediately on tap. */
-.pp-section-label{margin-top:4px;font-family:'Space Mono',monospace;font-size:12px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:#475569;display:flex;align-items:center;gap:6px}
+.pp-section-label{margin-top:4px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:#475569;display:flex;align-items:center;gap:6px}
 .pp-section-label span{margin-left:auto;color:#94a3b8;text-transform:none;letter-spacing:0}
-button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
+/* button.X{all:unset} strips a <button>'s UA styling so console.css's own .pp-tile/.pp-deck-tile
+   rules can apply cleanly (same trick as button.ff-compare-panel above) — but all:unset resets
+   EVERY property, and button.pp-tile/button.pp-deck-tile (element+class) is more specific than
+   console.css's bare .pp-tile/.pp-deck-tile class selectors, so it was also wiping out their
+   width/height/display/border/background with nothing put back, leaving each chunk as bare
+   unstyled inline text with no visible tile boundary at all. Re-declaring .pp-tile's own box
+   model here (verbatim from console.css) restores real bordered/backgrounded tiles; console.css's
+   own .pp-deck-tile{...!important} rules still win for deck-tray tiles' color scheme on top of
+   this, exactly as before. */
+button.pp-tile, button.pp-deck-tile{
+  all:unset;box-sizing:border-box;
+  display:flex;align-items:center;justify-content:center;
+  width:clamp(48px,5.4vw,72px);height:clamp(48px,5.4vw,72px);
+  font-family:'Space Mono',monospace;font-weight:700;font-size:var(--fs-heading);
+  background:var(--navy-4);border:2px solid rgba(6,182,212,0.4);border-radius:10px;
+  color:#fff;cursor:pointer;user-select:none;
+}
 .pp-slot-empty{box-sizing:border-box;width:clamp(48px,5.4vw,72px);height:clamp(48px,5.4vw,72px);border:2px dashed #cbd5e1;border-radius:10px;cursor:pointer}
 .pp-deck-tile.selected{border-color:var(--cyan,#06b6d4) !important;box-shadow:0 0 0 3px rgba(6,182,212,0.3);transform:translateY(-2px)}
 .pp-deck-tile:disabled{cursor:not-allowed}
@@ -1457,6 +1503,7 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
 .qz-choice{cursor:pointer}
 .qz-choice.picked{border-color:var(--cyan,#06b6d4) !important;background:rgba(6,182,212,0.12) !important}
 .qz-choice.picked .qz-letter{color:var(--cyan-dark,#0891b2) !important}
+#actMount .svr-response.show{max-height:none; overflow:visible;}
 .cq-option{cursor:pointer}
 .cq-option.picked{border-color:var(--cyan,#06b6d4) !important;background:rgba(6,182,212,0.08) !important;color:var(--navy,#001a4d) !important}
 .cq-option.picked .cq-opt-num{background:var(--cyan,#06b6d4) !important}
@@ -1488,7 +1535,7 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
     <button id="joinBtn" class="btn" style="margin-top:12px">Join session</button>
     <div id="joinOk" class="ok hidden"></div>
     <div id="joinErr" class="err hidden"></div>
-    <p style="margin-top:14px;font-size:12px;color:#94a3b8;text-align:center">Room __ROOM_CODE__ · Synergy Cyber Security Awareness Month</p>
+    <p style="margin-top:14px;font-size:var(--fs-badge);color:#94a3b8;text-align:center">Room __ROOM_CODE__ · Synergy Cyber Security Awareness Month</p>
   </div>
   <!-- Waiting — lobby shows chosen module name -->
   <div id="waitingScreen" class="card hidden">
@@ -1503,10 +1550,10 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
   </div>
   <!-- Participant intro — mirrors console's le-intro-screen (whyThisMatters) -->
   <div id="introScreen" class="card hidden" style="text-align:center">
-    <div style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;color:#0891b2;background:#ecfeff;border:1px solid #a5f3fc;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-circle-info"></i> Why This Matters</div>
-    <p id="introText" style="margin:16px 0;font-size:15px;line-height:1.5;color:#0f172a"></p>
+    <div style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#0891b2;background:#ecfeff;border:1px solid #a5f3fc;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-circle-info"></i> Why This Matters</div>
+    <p id="introText" style="margin:16px 0;font-size:var(--fs-body);line-height:1.5;color:#0f172a"></p>
     <button id="introStartBtn" class="btn" style="width:100%;background:#06b6d4;color:white" type="button"><i class="fa-solid fa-play"></i> Start</button>
-    <p style="margin-top:10px;font-family:'Space Mono',monospace;font-size:10px;color:#94a3b8">Synergy Cyber Security Awareness Month</p>
+    <p style="margin-top:10px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8">Synergy Cyber Security Awareness Month</p>
   </div>
   <!-- Self-paced activity — real per-module template mounted into #actMount, participant
        pages through the full item list at their own pace (their own Prev/Next below). -->
@@ -1534,18 +1581,18 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
   </div>
   <!-- Submitted — deliberate locked confirmation, distinct from generic complete -->
   <div id="submittedScreen" class="card hidden" style="text-align:center; border-color:#6ee7b7; background:#ecfdf5">
-    <div style="font-size:32px">✅</div>
+    <div style="font-size:var(--fs-heading)">✅</div>
     <h2 style="color:#065f46">Submitted — thanks!</h2>
     <p id="submittedMsg">Your answers for <span class="badge" id="submittedModule">—</span> have been recorded and are now locked. You can't edit them further.</p>
-    <p style="font-size:12px;color:#065f46; font-weight:600">Waiting for facilitator to move the room on — same room, no re-scan needed.</p>
+    <p style="font-size:var(--fs-badge);color:#065f46; font-weight:600">Waiting for facilitator to move the room on — same room, no re-scan needed.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap; margin-top:8px">
       <span id="submittedCount" class="badge">—</span>
       <span id="submittedModule2" class="badge" style="background:#ecfdf5; border-color:#6ee7b7; color:#065f46">locked</span>
     </div>
-    <p id="submittedAtLine" style="font-family:'Space Mono',monospace;font-size:11px;color:#64748b;margin-top:10px"></p>
+    <p id="submittedAtLine" style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;margin-top:10px"></p>
     <div id="submittedRememberWrap" class="hidden" style="margin-top:14px; text-align:left; background:white; border:1px solid #6ee7b7; border-radius:12px; padding:14px">
-      <div style="font-family:'Space Mono',monospace;font-size:11px;font-weight:800;color:#065f46;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-thumbtack"></i> Remember This</div>
-      <div id="submittedRememberText" style="margin-top:6px;font-size:14px;font-weight:700;color:#0f172a"></div>
+      <div style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#065f46;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-thumbtack"></i> Remember This</div>
+      <div id="submittedRememberText" style="margin-top:6px;font-size:var(--fs-badge);font-weight:700;color:#0f172a"></div>
     </div>
     <button id="reviewAnswersBtn" class="btn secondary" style="width:100%;margin-top:14px" type="button"><i class="fa-solid fa-eye"></i> Review Answers with Details</button>
     <button id="backToSubmittedBtn" class="btn secondary hidden" style="width:100%;margin-top:8px" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
@@ -1567,9 +1614,9 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
         <button id="cwCheck" class="btn secondary" style="flex:1">Check</button>
         <button id="cwReveal" class="btn secondary" style="flex:1">Reveal</button>
       </div>
-      <div id="cwProgressHint" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:11px;color:#94a3b8;text-align:center">Progress syncs automatically (debounced)</div>
+      <div id="cwProgressHint" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8;text-align:center">Progress syncs automatically (debounced)</div>
       <div id="cwSolvedBanner" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;font-weight:800;text-align:center">✓ Every word is in place — nice work.</div>
-      <div id="cwRememberCard" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;color:#78350f"><div style="font-weight:800;font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px"><i class="fa-solid fa-thumbtack"></i> Remember This</div><div id="cwRememberCardText"></div></div>
+      <div id="cwRememberCard" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;color:#78350f"><div style="font-weight:800;font-size:var(--fs-badge);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px"><i class="fa-solid fa-thumbtack"></i> Remember This</div><div id="cwRememberCardText"></div></div>
       <div id="cwSubmitWrap" style="margin-top:14px; text-align:center; border-top:1px solid #e2e8f0; padding-top:12px">
         <button id="cwSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%" type="button"><i class="fa-solid fa-paper-plane"></i> Done — Submit Grid</button>
         <div class="adm-note" style="margin-top:6px">Submit locks your grid — you can't edit after that.</div>
@@ -1583,7 +1630,7 @@ button.pp-tile, button.pp-deck-tile{all:unset;box-sizing:border-box}
   </div>
   <!-- Complete — same room stays for next activity -->
   <div id="completeScreen" class="card hidden" style="text-align:center">
-    <div style="font-size:32px">🎉</div>
+    <div style="font-size:var(--fs-heading)">🎉</div>
     <h2>Activity Complete</h2>
     <p>Great work! Waiting for facilitator to choose next activity — same room, no re-scan needed.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
@@ -1638,6 +1685,7 @@ let cwRows = 0, cwCols = 0;
 let cwCurrentRow = -1, cwCurrentCol = -1, cwCurrentDir = 'across';
 let cwPendingDir = null;
 let cwRevealed = false;
+let cwLastActiveWordIdx = null; // last word index the clue list was scrolled to — see cwHighlight
 let cwRememberText = '';
 let cwProgressTimer = null;
 let cwLastSent = null;
@@ -1812,8 +1860,9 @@ function isActivityAllAnswered(){
   // MC modules with discrete options: every item has a myAnswer — except closing-quiz's SVR
   // prompts and decision-room's debrief steps, which (like console) are read-only narration
   // with nothing to choose, so they count as done just by having no options to answer in
-  // the first place.
-  return actItems.every(it=> it.myAnswer!=null || it.kind==='svr' || it.kind==='debrief');
+  // the first place. Defensive: also treat any item with no options as auto-done even if
+  // its kind was mis-tagged, to stay aligned with the server's gate (see session_submit).
+  return actItems.every(it=> it.myAnswer!=null || it.kind==='svr' || it.kind==='debrief' || !it.options || it.options.length===0);
 }
 function updateActivitySubmitVisibility(){
   if(!els.actSubmitWrap) return;
@@ -2004,6 +2053,9 @@ function initActivity(module, items){
   actModuleLoaded = module;
   actItems = items || [];
   actIndex = 0;
+  // Tag the activity card with the module for module-specific layout (e.g. closing-quiz flex fix)
+  const actScreen = document.getElementById('activityScreen');
+  if(actScreen) { if(module) actScreen.dataset.module = module; else delete actScreen.dataset.module; }
   // Reset per-activity submission lock from server state (fetchState will have set mySubmission)
   actIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && mySubmission.module===module);
   els.actModuleBadge.textContent = module;
@@ -2020,9 +2072,27 @@ function updateActivityChrome(){
     // Strong+, matching console's own Solved-button gate (ppRoundIsStrong).
     const hasBuild = actModuleLoaded==='pass-phrase' ? ppRoundIsStrong(it)
       : (it._ppSlots && it._ppSlots.length>0) || (it.myBuild && it.myBuild.builtPassword && it.myBuild.builtPassword.length>0);
-    const cls = ['dot']; if(it.myAnswer!=null || hasBuild || it.kind==='svr' || it.kind==='debrief') cls.push('done'); if(i===actIndex) cls.push('current');
-    return '<span class="'+cls.join(' ')+'"></span>';
+    const isDone = it.myAnswer!=null || hasBuild || it.kind==='svr' || it.kind==='debrief' || !it.options || it.options.length===0;
+    const cls = ['dot']; if(isDone) cls.push('done'); if(i===actIndex) cls.push('current');
+    const kindLabel = it.kind==='debrief' ? 'debrief' : it.kind==='svr' ? 'info' : `step ${i+1}`;
+    const stateLabel = isDone ? 'answered' : 'unanswered';
+    // Dot is now interactive — shows answered vs unanswered (done=cyan, unanswered=gray) and
+    // is tappable to jump directly, so a user can visually spot the missing step before Submit.
+    return `<span class="${cls.join(' ')}" data-dot-idx="${i}" role="button" tabindex="0" aria-label="${kindLabel} ${stateLabel}" title="${kindLabel}: ${stateLabel} — click to jump" style="cursor:pointer"></span>`;
   }).join('');
+  // Wire dot navigation — tap any dot to jump directly (visual answered/unanswered already
+  // encoded in done vs gray; this makes the dots functional navigation, not just decoration).
+  els.actDots.querySelectorAll('[data-dot-idx]').forEach(el=>{
+    const go = ()=>{
+      const idx = parseInt(el.dataset.dotIdx,10);
+      if(!isNaN(idx) && idx>=0 && idx<actItems.length){
+        actIndex = idx;
+        renderActivityItem();
+      }
+    };
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); go(); }});
+  });
   updateActivitySubmitVisibility();
 }
 
@@ -2035,9 +2105,9 @@ function renderActivityItem(){
   // interaction with its own wiring and its own debounced submit, not a single-answer lock.
   if(actModuleLoaded === 'pass-phrase') wirePassPhraseBuild(item);
   else wireActivityOptions(item);
-  // Clue-quest's timer + no-penalty Reveal button are its own mechanic, layered on top of
-  // the shared [data-answer-opt] wiring above (which already handles a real tap).
-  if(actModuleLoaded === 'clue-quest'){ cqManageTimer(item); wireClueQuestGiveUp(item); }
+  // Clue-quest's 30s-per-riddle timer is its own mechanic, layered on top of the shared
+  // [data-answer-opt] wiring above (which already handles a real tap).
+  if(actModuleLoaded === 'clue-quest'){ cqManageTimer(item); }
   updateActivityChrome();
 }
 
@@ -2151,7 +2221,7 @@ function renderCorrectFeedback(item){
       : '<div class="feedback-badge incorrect"><i class="fa-solid fa-xmark"></i> Not quite</div>';
   }
   if(item.fact){
-    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:13px;line-height:1.5;color:#0c4a6e;text-align:left"><strong>Details — Identification & Recommendation:</strong><br>'+esc(item.fact)+'</div>';
+    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:var(--fs-badge);line-height:1.5;color:#0c4a6e;text-align:left"><strong>Details — Identification & Recommendation:</strong><br>'+esc(item.fact)+'</div>';
   } else if(item.myAnswerCorrect==null && !item.fact){
     return '';
   }
@@ -2185,18 +2255,43 @@ function renderMythVsFact(item){
 }
 function renderDecisionRoom(item){
   let html = '';
+  // Case context linkage — compute case position from actItems so navigation via Prev/Next/dots
+  // always shows which case and which step within that case this is, making the debrief's
+  // relationship to its 3 preceding decisions immediately clear (no jarring context switch).
+  let caseProgress = '';
+  try{
+    if(actItems && actItems.length){
+      const cases = [];
+      for(const it of actItems){ if(it.caseTitle && !cases.includes(it.caseTitle)) cases.push(it.caseTitle); }
+      const caseIdx = cases.indexOf(item.caseTitle) + 1;
+      const caseTotal = cases.length || 6;
+      if(item.kind === 'debrief'){
+        caseProgress = `Case ${caseIdx}/${caseTotal} — Debrief`;
+      } else {
+        const caseItems = actItems.filter(it=>it.caseTitle===item.caseTitle);
+        // decisions are first N of caseItems, debrief is last; find position among decisions only
+        const decisionsOnly = caseItems.filter(it=>it.kind!=='debrief');
+        const pos = decisionsOnly.findIndex(it=>it.id===item.id) + 1;
+        const posLabel = pos>0 ? `${pos}/3` : `${actItems.indexOf(item)+1}/24`;
+        caseProgress = `Case ${caseIdx}/${caseTotal} — Decision ${posLabel}`;
+      }
+    }
+  }catch(e){ caseProgress=''; }
   if(item.persona || item.caseTitle){
     html += '<div class="ff-title-bar">';
+    if(caseProgress) html += '<div style="font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#64748b;margin-bottom:6px;">'+esc(caseProgress)+'</div>';
     if(item.persona) html += '<div class="dr-persona-tag">'+esc(item.persona)+'</div>';
-    if(item.caseTitle) html += '<h2 style="margin:8px 0 4px;font-size:18px;color:var(--navy,#001a4d)">'+esc(item.caseTitle)+'</h2>';
+    if(item.caseTitle) html += '<h2 style="margin:8px 0 4px;font-size:var(--fs-body);color:var(--navy,#001a4d)">'+esc(item.caseTitle)+'</h2>';
     if(item.caseScenario) html += '<div class="dr-scenario-context">'+esc(item.caseScenario)+'</div>';
     html += '</div>';
   }
   // Debrief — console's natural next beat after a case's 3rd decision, no vote, just the
   // same dark ff-r-row/label/text reveal panel console uses for it (dr-debrief-panel).
+  // Header above (persona + title + scenario) is identical to the 3 decisions that
+  // preceded it, so the debrief is visually tied to its case, not a context switch.
   if(item.kind === 'debrief'){
     html += '<div class="dr-debrief-panel"><div class="ff-r-row"><i class="fa-solid fa-lightbulb"></i><div>'
-      + '<div class="ff-r-label">Debrief</div><div class="ff-r-text">'+esc(item.prompt||'')+'</div>'
+      + '<div class="ff-r-label">Debrief — '+esc(item.caseTitle||'Case')+'</div><div class="ff-r-text">'+esc(item.prompt||'')+'</div>'
       + '</div></div></div>';
     return html;
   }
@@ -2255,9 +2350,9 @@ function cqStopTimer(){ if(cqTimerInterval){ clearInterval(cqTimerInterval); cqT
 // Console's clue-quest gives a genuine 30s-per-riddle countdown (LiveEvent.createTimer) that
 // locks the riddle and shows a "Time up" state on expiry; the phone had no timer at all before
 // this, so a participant could sit on a riddle indefinitely. Manages one interval for whichever
-// clue-quest item is currently on screen — stopped/restarted on navigation, answer, or give-up.
+// clue-quest item is currently on screen — stopped/restarted on navigation or answer.
 function cqManageTimer(item){
-  if(actModuleLoaded!=='clue-quest' || item.myAnswer!=null || item._cqRevealed || item._cqTimedOut){ cqStopTimer(); return; }
+  if(actModuleLoaded!=='clue-quest' || item.myAnswer!=null || item._cqTimedOut){ cqStopTimer(); return; }
   if(cqTimerItemId===item.id) return; // already ticking for this exact item — don't restart on re-render
   cqStopTimer();
   cqTimerItemId = item.id;
@@ -2285,10 +2380,9 @@ function cqRenderTimerDisplay(item){
 }
 function renderClueQuest(item){
   const picked = item.myAnswer;
-  const answered = picked!=null; // includes the '__giveup__' sentinel — that's still "answered" for locking purposes
-  const revealed = !!item._cqRevealed;
+  const answered = picked!=null;
   const timedOut = !!item._cqTimedOut;
-  const locked = answered || revealed || timedOut;
+  const locked = answered || timedOut;
   // Shuffle once per riddle and cache on the item — recomputing on every render (which
   // renderActivityItem does right after a tap, to reflect the new answer state) made the
   // options visibly reorder under the participant's thumb the instant they picked one.
@@ -2296,21 +2390,16 @@ function renderClueQuest(item){
   const shuffled = item._cqShuffled;
   const correctId = item.correctOptionId;
   let feedbackHtml = '';
-  if(revealed && correctId!=null){
-    feedbackHtml = '<div class="cq-feedback show revealed">Answer: '+esc(item.fact||'')+'</div>';
-  } else if(answered && correctId!=null){
+  if(answered && correctId!=null){
     feedbackHtml = item.myAnswerCorrect
       ? '<div class="cq-feedback show correct">✓ Correct — '+esc(item.fact||'')+'</div>'
       : '<div class="cq-feedback show incorrect">✗ Not quite — correct is '+esc(item.fact||'')+'</div>';
   } else if(timedOut){
-    feedbackHtml = '<div class="cq-feedback show timeout">Time up — tap Reveal to see the answer</div>';
+    feedbackHtml = '<div class="cq-feedback show timeout">Time up — no answer locked in this round</div>';
   }
-  const showTimer = !answered && !revealed && !timedOut;
-  // Give-up stays available even after a timeout (nothing was submitted yet) — only a real
-  // answer or an already-used Reveal takes it away.
-  const giveUpBtn = (!answered && !revealed) ? '<div class="le-btn-row" style="margin-top:12px"><button type="button" id="cqGiveUpBtn" class="le-btn amber lg"><i class="fa-solid fa-eye"></i> Reveal</button></div>' : '';
+  const showTimer = !answered && !timedOut;
   return '<div class="cq-riddle-card"><div class="cq-riddle-text">'+esc(item.prompt||'')+'</div>'
-    + (item.fact ? '<div class="cq-answer-reveal'+((answered||revealed)?' show':'')+'">'+esc(item.fact)+'</div>' : '')
+    + (item.fact ? '<div class="cq-answer-reveal'+(answered?' show':'')+'">'+esc(item.fact)+'</div>' : '')
     + '</div>'
     + (showTimer ? '<div class="le-timer" id="cqTimer" style="margin:14px auto"><div class="lt-digits">30</div><div class="lt-label">Seconds</div></div>' : '')
     + '<div class="cq-options">' + shuffled.map((opt,idx)=>{
@@ -2321,23 +2410,7 @@ function renderClueQuest(item){
         const tapAttr = locked ? '' : ' data-answer-opt="'+esc(opt.id)+'"';
         return '<div class="'+cls.join(' ')+'"'+tapAttr+'><span class="cq-opt-num">'+(idx+1)+'</span>'+esc(opt.text)+'</div>';
       }).join('') + '</div>'
-    + feedbackHtml + giveUpBtn;
-}
-function wireClueQuestGiveUp(item){
-  const btn = document.getElementById('cqGiveUpBtn');
-  if(!btn) return;
-  btn.addEventListener('click', async ()=>{
-    if(item.myAnswer!=null || item._cqRevealed) return;
-    btn.disabled = true;
-    cqStopTimer();
-    item._cqRevealed = true;
-    try{
-      await submitAnswer(item, '__giveup__');
-    }catch(e){
-      // Already-submitted-module race etc. — fall through to re-render with whatever state we have.
-    }
-    if(actItems[actIndex]===item) renderActivityItem();
-  });
+    + feedbackHtml;
 }
 // --- Pass-phrase: real build-your-own-password mechanic (tap-to-place, not drag — touch
 // drag was already deemed unreliable in an earlier pass). Matches the console's actual
@@ -2404,7 +2477,7 @@ function ppComputeStrength(pw, weak){
 // so navigating away and back to a round preserves in-progress placement without a round-trip.
 // Chunk-aware: deck is 15 mixed chunks (e.g. "Ka","Th","on", singles, symbols). Password row
 // holds whole chunks per tile (not single characters), capped by total character count
-// (maxChars 20) not tile count. Deck availability is per chunk, and resume from myBuild's
+// (maxChars 12) not tile count. Deck availability is per chunk, and resume from myBuild's
 // builtPassword string (which loses chunk boundaries) is reconstructed greedily by matching
 // deck chunks against the built string — preferring longer chunks first — sufficient for
 // demo continuity; exact chunk identity is recovered via server-stored strength anyway.
@@ -2418,7 +2491,7 @@ function ppComputeStrength(pw, weak){
 // and the row can never show a gap or have chunks render out of placement order.
 function ppEnsureState(item){
   if(item._ppSlots) return;
-  var maxChars = item.maxChars || item.maxSlots || 20;
+  var maxChars = item.maxChars || item.maxSlots || 12;
   var deck = item.deck || [];
   var maxTiles = deck.length || 15;
   var slots = [];
@@ -2498,7 +2571,7 @@ function renderPassPhrase(item){
   ppEnsureState(item);
   const built = item._ppSlots.join('');
   const result = ppComputeStrength(built, item.weakPassword||'');
-  const maxChars = item._ppMaxChars || item.maxChars || 20;
+  const maxChars = item._ppMaxChars || item.maxChars || 12;
   const difficulty = item.difficulty || 'medium';
   const diffLabel = difficulty.charAt(0).toUpperCase()+difficulty.slice(1);
   const twoCount = (item.deck||[]).filter(function(c){return String(c).length>1;}).length;
@@ -2510,7 +2583,7 @@ function renderPassPhrase(item){
   html += '<div class="pp-builder-card" style="margin-top:14px;padding:14px">'
     + '<div class="pp-strength"><div class="pp-strength-head">'
     + '<span class="pp-strength-label" style="color:'+result.color+'">Strength: '+result.label+'</span>'
-    + '<span style="margin-left:8px;color:#94a3b8;font-family:Space Mono,monospace;font-size:12px">'+result.score+' / 100</span>'
+    + '<span style="margin-left:8px;color:#94a3b8;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge)">'+result.score+' / 100</span>'
     + '</div>'
     + '<div class="pp-meter"><div class="pp-meter-fill" style="width:'+result.score+'%;background:'+result.color+'"></div></div>'
     + '<div class="pp-meter-labels"><span>Weak</span><span>Fair</span><span>Strong</span><span>V.Strong</span></div>'
@@ -2536,7 +2609,7 @@ function renderPassPhrase(item){
       const cls = ['pp-tile','pp-deck-tile']; if(String(ch).length>1) cls.push('chunk-tile'); if(!avail) cls.push('is-inert'); if(isSelected) cls.push('selected');
       return '<button type="button" class="'+cls.join(' ')+'" data-deck-idx="'+i+'" '+(!avail?'disabled':'')+'><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
     }).join('') + '</div>';
-  html += '<div style="margin-top:6px;font-family:Space Mono,monospace;font-size:11px;color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count — a "Ka" tile counts as 2</div>';
+  html += '<div style="margin-top:6px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count — a "Ka" tile counts as 2</div>';
   return html;
 }
 
@@ -2558,7 +2631,7 @@ function wirePassPhraseBuild(item){
         const idx = Number(btn.dataset.deckIdx);
         if(!item._ppDeckAvailable[idx]) return;
         // Enforce char cap even for selection preview — grey out if would exceed
-        const maxChars = item._ppMaxChars || item.maxChars || 20;
+        const maxChars = item._ppMaxChars || item.maxChars || 12;
         const curChars = item._ppSlots.join('').length;
         const chunk = item.deck[idx];
         // Only prevent selection if already at cap; allow deselection
@@ -2595,7 +2668,7 @@ function wirePassPhraseBuild(item){
         if(item._ppSelectedDeckIdx==null) return; // nothing selected — tapping an empty slot alone does nothing
         const dIdx = item._ppSelectedDeckIdx;
         const chunk = item.deck[dIdx];
-        const maxChars = item._ppMaxChars || item.maxChars || 20;
+        const maxChars = item._ppMaxChars || item.maxChars || 12;
         const curChars = item._ppSlots.join('').length;
         if(curChars + String(chunk).length > maxChars) return;
         item._ppSlots.push(chunk);
@@ -2787,7 +2860,23 @@ function cwHighlight(){
       if(wc) wc.el.classList.add('active-word');
     }
     const li=document.querySelector('.cw-clue-list li[data-index="'+idx+'"]');
-    if(li){ li.classList.add('active'); li.scrollIntoView({block:'nearest'}); }
+    if(li){
+      li.classList.add('active');
+      // Only scroll the clue list to reveal the active clue when the active WORD actually
+      // changes (tapped a different cell/clue, or crossed into a new word) — not on every
+      // single keystroke's auto-advance to the next cell within the SAME word. cwHighlight
+      // re-runs on every cell focus change (see cwSelect), so without this guard, typing a
+      // multi-letter word scrolled the page toward the clue list after every letter — the
+      // grid (and the still-correctly-focused input in it) would scroll off the visible
+      // viewport, which reads exactly like "focus jumped to the hints list" even though
+      // document.activeElement never actually left the grid.
+      if(idx !== cwLastActiveWordIdx){
+        li.scrollIntoView({block:'nearest'});
+        cwLastActiveWordIdx = idx;
+      }
+    }
+  } else {
+    cwLastActiveWordIdx = null;
   }
 }
 function clearCwMark(cell){ cell.el.classList.remove('correct','incorrect'); }
@@ -2980,21 +3069,21 @@ async function fetchState(){
 
     // No module yet — waiting for host to pick
     if(!curMod || !state){
-      actModuleLoaded = null; // so relaunching any module later re-initializes the activity
+      actModuleLoaded = null; const _as=document.getElementById('activityScreen'); if(_as) delete _as.dataset.module; // so relaunching any module later re-initializes the activity
       showScreen('waiting');
       els.waitingModule.textContent = 'No active activity';
       document.getElementById('waitingSub').textContent = "You're in. Waiting for the facilitator to pick an activity.";
-      els.waitingNames.innerHTML = (s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:12px;color:#94a3b8">Share the room code to invite others</span>';
+      els.waitingNames.innerHTML = (s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">Share the room code to invite others</span>';
       return;
     }
     // Lobby — module chosen but not yet started, show waiting for start with module name
     if(state==='lobby'){
-      actModuleLoaded = null; // clears the PREVIOUS activity's local state before Start
+      actModuleLoaded = null; const _as2=document.getElementById('activityScreen'); if(_as2) delete _as2.dataset.module; // clears the PREVIOUS activity's local state before Start
       showScreen('waiting');
       els.waitingModule.textContent = displayName + ' — lobby';
       document.getElementById('waitingSub').textContent = "You're in — waiting for the facilitator to start " + displayName;
       // Live joined count explicitly tied to chosen module
-      els.waitingNames.innerHTML = '<div style="font-size:13px;color:#0c4a6e;font-weight:700;margin-bottom:6px">' + esc(displayName) + ' — ' + (s.totalItems||0) + ' items</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' + ((s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:12px;color:#94a3b8">No one yet — share QR</span>') + '</div><div style="margin-top:8px;font-family:Space Mono,monospace;font-size:11px;color:#64748b">' + (s.participantCount||0) + ' joined — waiting for Start</div>';
+      els.waitingNames.innerHTML = '<div style="font-size:var(--fs-badge);color:#0c4a6e;font-weight:700;margin-bottom:6px">' + esc(displayName) + ' — ' + (s.totalItems||0) + ' items</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' + ((s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">No one yet — share QR</span>') + '</div><div style="margin-top:8px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b">' + (s.participantCount||0) + ' joined — waiting for Start</div>';
       return;
     }
     // Capture per-participant submission status + rememberThis for submitted confirmation
@@ -3008,7 +3097,7 @@ async function fetchState(){
       showSubmittedFor(curMod, mySubmission.submittedAt);
       // Ensure crossword grid is locked if it's the crossword module
       if(curMod==='crossword'){
-        actModuleLoaded = null;
+        actModuleLoaded = null; const _as3=document.getElementById('activityScreen'); if(_as3) delete _as3.dataset.module;
         // ensure grid exists then lock
         ensureCrossword();
         setTimeout(()=>{ cwCells.forEach(cell=>{ if(cell.input) cell.input.readOnly = true; }); updateCwSubmitVisibility(); }, 300);
@@ -3020,7 +3109,7 @@ async function fetchState(){
     if(state==='running'){
       if(curMod==='crossword'){
         if(showParticipantIntro(curMod, s.whyThisMatters)) return;
-        actModuleLoaded = null;
+        actModuleLoaded = null; const _as4=document.getElementById('activityScreen'); if(_as4) delete _as4.dataset.module;
         showScreen('crossword');
         ensureCrossword();
         // Update submit visibility after grid ensured; handle review mode
@@ -3064,16 +3153,21 @@ async function fetchState(){
           // without resetting actIndex. Also propagate fact (identification+recommendation) now visible after Submit.
           if(items.length === actItems.length){
             for(let i=0;i<items.length;i++){
-              actItems[i].myAnswer = items[i].myAnswer;
-              actItems[i].myAnswerCorrect = items[i].myAnswerCorrect;
-              actItems[i].correctOptionId = items[i].correctOptionId;
-              actItems[i].myBuild = items[i].myBuild;
-              actItems[i].fact = items[i].fact;
-              actItems[i].whatIsWrong = items[i].whatIsWrong;
-              actItems[i].detail = items[i].detail;
-              actItems[i].myOutcome = items[i].myOutcome;
-              actItems[i].myFeedback = items[i].myFeedback;
-              actItems[i].revealed = items[i].revealed;
+              // Preserve local answer if server is stale (race: tap just happened,
+              // poll that was already in flight still has null). Don't clobber a
+              // locally-set myAnswer with a stale null, otherwise Prev/Next
+              // navigation appears to lose the answer and dots flicker back to
+              // unanswered, and isActivityAllAnswered would incorrectly fail.
+              if(items[i].myAnswer != null) actItems[i].myAnswer = items[i].myAnswer;
+              if(items[i].myAnswerCorrect != null) actItems[i].myAnswerCorrect = items[i].myAnswerCorrect;
+              if(items[i].correctOptionId != null) actItems[i].correctOptionId = items[i].correctOptionId;
+              if(items[i].myBuild != null) actItems[i].myBuild = items[i].myBuild;
+              if(items[i].fact != null) actItems[i].fact = items[i].fact;
+              if(items[i].whatIsWrong != null) actItems[i].whatIsWrong = items[i].whatIsWrong;
+              if(items[i].detail != null) actItems[i].detail = items[i].detail;
+              if(items[i].myOutcome != null) actItems[i].myOutcome = items[i].myOutcome;
+              if(items[i].myFeedback != null) actItems[i].myFeedback = items[i].myFeedback;
+              if(items[i].revealed != null) actItems[i].revealed = items[i].revealed;
             }
             // Re-render current item so fact detail appears in review mode
             if(isReviewingAfterSubmit && actIsSubmitted) renderActivityItem();
@@ -3085,7 +3179,7 @@ async function fetchState(){
     }
     // Complete — same room stays, waiting for next pick
     if(state==='complete'){
-      actModuleLoaded = null;
+      actModuleLoaded = null; const _as5=document.getElementById('activityScreen'); if(_as5) delete _as5.dataset.module;
       showScreen('complete');
       if(els.completeModule) els.completeModule.textContent = displayName;
       return;
@@ -3094,11 +3188,11 @@ async function fetchState(){
     // Same lobby-style "waiting for host" message as the no-module-yet case, but distinct
     // from it so the room/activity history isn't implied to be reset.
     if(state==='idle'){
-      actModuleLoaded = null;
+      actModuleLoaded = null; const _as6=document.getElementById('activityScreen'); if(_as6) delete _as6.dataset.module;
       showScreen('waiting');
       els.waitingModule.textContent = 'Choosing next activity';
       document.getElementById('waitingSub').textContent = "You're in — waiting for the facilitator to choose the next activity.";
-      els.waitingNames.innerHTML = (s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:12px;color:#94a3b8">Share the room code to invite others</span>';
+      els.waitingNames.innerHTML = (s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">Share the room code to invite others</span>';
       return;
     }
     // Fallback
@@ -3455,13 +3549,9 @@ def session_respond(code):
     target_item = next((it for it in module_sequence if it.get("id") == item_id), None)
     if not target_item:
         return jsonify({"error": "item not found in this activity's sequence"}), 400
-    # Validate option — "__giveup__" is a special sentinel (clue-quest's no-penalty Reveal,
-    # matching console's give-up-and-see-the-answer action) that deliberately skips this check:
-    # it's not a real choice, just a request to see the answer, recorded as an incorrect
-    # response (matching the real outcome — they didn't get it right) via the same is_correct
-    # computation below, same admin-visible bookkeeping as any other answer.
+    # Validate option
     valid_ids = {str(o["id"]) for o in target_item.get("options", [])}
-    if option_id != "__giveup__" and option_id not in valid_ids:
+    if option_id not in valid_ids:
         return jsonify({"error": "invalid optionId", "valid": list(valid_ids)}), 400
     # Record (overwrite allowed — last vote counts; respondedAt moves with it, so a changed
     # answer also moves the participant to their new position in admin's response-order list)
@@ -3485,7 +3575,7 @@ def session_respond(code):
     # Clue-quest reveals its riddle's answer text immediately on response (see the matching
     # exception in _sanitize_item_for_participant) — /respond is what the tap itself waits on,
     # so the fact has to travel here too, not just on the next /state poll, or the phone's
-    # brand-new feedback/give-up text would render blank for the ~1s until the next poll.
+    # correct/incorrect feedback text would render blank for the ~1s until the next poll.
     if sess.get("activeModule") == "clue-quest" and target_item.get("fact"):
         resp["fact"] = str(target_item.get("fact"))
         resp["revealed"] = True
@@ -3562,13 +3652,31 @@ def session_submit(code):
     if module in ('fault-finding','myth-vs-fact','decision-room','closing-quiz','clue-quest'):
         seq = sess.get("moduleSequence") or []
         if seq:
+            # Only items that actually require an answer count toward the gate.
+            # Debrief (decision-room, 6 debriefs) and SVR (closing-quiz, 5 prompts)
+            # are pure narration with no options — client treats them as auto-done
+            # via kind==='debrief'/'svr' in isActivityAllAnswered(). Counting them
+            # would make a fully-answered run (e.g. 18 decisions) look incomplete
+            # (18/24) and cause the false "not all items answered" failure.
+            required = [ _it for _it in seq if _it.get('kind') not in ('debrief','svr') ]
+            # Defensive: if kind filtering excluded nothing but some items have
+            # no options to answer (future narration item missing kind), also
+            # exclude empty-option items. This keeps the gate aligned with the
+            # phone's actual tappable surface.
+            if len(required) == len(seq):
+                # No debrief/svr found — but check for empty-option narration steps
+                has_empty = any(not _it.get('options') for _it in seq)
+                if has_empty:
+                    required = [ _it for _it in seq if _it.get('options') ]
+                    if not required:
+                        required = seq
             answered = 0
-            for _it in seq:
+            for _it in required:
                 _bucket = _response_entries_for_module(sess.get("responses", {}).get(_it.get("id"), {}), module)
                 if _bucket.get(participant_id) is not None:
                     answered += 1
-            if answered < len(seq):
-                return jsonify({"error": "not all items answered", "answered": answered, "total": len(seq)}), 400
+            if answered < len(required):
+                return jsonify({"error": "not all items answered", "answered": answered, "total": len(required)}), 400
     sess.setdefault("submissions", {})
     sess["submissions"].setdefault(participant_id, {})
     existing = sess["submissions"][participant_id].get(module)
@@ -4331,10 +4439,10 @@ def passphrase_build(code):
     if not round_item or "deck" not in round_item:
         return jsonify({"error": "round not found in this activity's sequence"}), 400
     # Chunk-aware cap: total character count, not tile count (Part 2). Fall back to maxSlots
-    # for older single-char content still in the wild.
+    # for older single-char content still in the wild — both are 12 now, but they measure
+    # different things (maxChars = total characters; legacy maxSlots = tile count), so the
+    # fallback chain is kept even though the two values currently coincide.
     max_chars = int(round_item.get("maxChars") or round_item.get("maxSlots") or PP_MAX_CHARS)
-    # also respect legacy maxSlots as character cap when deck was single-char (12)
-    # new decks have maxChars=20, old have maxSlots=12
     built_password = built_password[:max_chars]
     # Chunk validation: deck is list of chunks (1-2 chars). Expand each chunk into its
     # constituent characters for validation — a "Ka" tile contributes one K and one a to the

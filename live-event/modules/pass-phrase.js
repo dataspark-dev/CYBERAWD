@@ -2,11 +2,11 @@
    Rounds provide difficulty; weak sample + 15-chunk deck (2-char pairs like "Ka","Th","on"
    plus singles and symbols) are either static content (content/pass-phrase.json) or generated
    at runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS) not tile
-   count — a "Ka" tile counts as 2 characters toward the 20-char cap. Strength meter only. */
+   count — a "Ka" tile counts as 2 characters toward the 12-char cap. Strength meter only. */
 (function () {
   const TIMER_SECONDS = 45;
   const MAX_SLOTS = 12; // legacy tile-count cap, kept for old single-char content fallback
-  const MAX_CHARS = 20; // chunk-aware cap: total characters reached, not deck tiles
+  const MAX_CHARS = 12; // chunk-aware cap: total characters reached, not deck tiles
   let rounds = [];
   let index = 0;
   let locked = false;

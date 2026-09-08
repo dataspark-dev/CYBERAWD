@@ -82,6 +82,18 @@
   --space-7: 28px;
   --space-8: 32px;
 
+  /* --- Type scale — collapses dozens of near-duplicate one-off clamp()/px
+     font-size values across console/admin/phone into 5 shared tiers (typography
+     consistency pass). Flat px for every tier except --fs-display, which is the
+     one place that still needs to scale hard with viewport (the shared countdown-
+     timer digits, .lt-digits) — everything else reads fine as a single fixed size
+     down to the 375px mobile breakpoint. --- */
+  --fs-badge: 12px;    /* badges/labels/counters/mono UI chrome — was a ~9-16px clamp/px cluster */
+  --fs-body: 16px;     /* body copy, option/answer text — was a ~13-19px clamp/px cluster */
+  --fs-subhead: 20px;  /* subheadings, section labels — was an ~18-26px clamp/px cluster */
+  --fs-heading: 28px;  /* module titles, big headings — was a ~22-38px clamp/px cluster */
+  --fs-display: clamp(90px, 13vw, 220px); /* shared countdown-timer digits only (.lt-digits) */
+
   /* --- Glass / gradient surfaces (visual-polish layer) --- */
   --glass-bg: rgba(255, 255, 255, 0.72);
   --glass-bg-strong: rgba(255, 255, 255, 0.85);

@@ -164,7 +164,7 @@ instead of `sess["responses"]`. "Complete" means built something in all 5 rounds
 particular strength reached.
 
 **How the console's deck and the phone's deck relate:** the console (`pass-phrase.js`)
-procedurally generates a fresh random `weakPassword` + 20-tile deck on every render via
+procedurally generates a fresh random `weakPassword` + 15-chunk deck on every render via
 `generateWeakPassword()`/`generateDeck()` — never the same twice, even for the same round. The
 phone instead reads a **fixed** `weakPassword` + `deck` per round from
 `content/pass-phrase.json`, generated **once** by `scripts/gen_passphrase_content.py` (which

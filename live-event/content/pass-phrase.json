@@ -10,7 +10,7 @@
     "commonWrongAnswer": "Stopping as soon as the meter turns green — adding just one symbol or number instead of pushing for length — is the most common miss; participants consistently undervalue length over complexity."
   },
   "deckSize": 15,
-  "maxChars": 20,
+  "maxChars": 12,
   "slots": 12,
   "rounds": [
     {
