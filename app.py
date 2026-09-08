@@ -715,13 +715,16 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
 # Ported from live-event/modules/pass-phrase.js's own generateWeakPassword/generateDeck/
 # computeStrength — the console's real mechanic (build from a themed deck into a password
 # row, watch the strength meter) rather than a rating poll. Redesigned to multi-character
-# chunks (Part 2): deck is now 15 mixed CHUNKS (some 2-char syllable pairs like "Ka","Th",
+# chunks (Part 2): deck is now 12 mixed CHUNKS (some 2-char syllable pairs like "Ka","Th",
 # "on", some single letters, some 1-char symbols/numbers) that participants combine — not
 # letter-by-letter — to assemble a password, capped by total character count (PP_MAX_CHARS)
 # rather than tile count so a "Ka" tile counts as 2 characters toward the cap. Difficulty
 # ramps easy→hard across 5 rounds: easy is mostly singles + a couple 2-char/helpers,
-# hard has more 2-char chunks and fewer obviously-needed symbols/numbers.
-PP_DECK_SIZE = 15
+# hard has more 2-char chunks and fewer obviously-needed symbols/numbers. Deck size (12)
+# deliberately matches PP_MAX_CHARS's tile-grid visual (12-tile deck, 12-char build row) —
+# verified this doesn't overflow the per-difficulty composition counts before the final
+# shuffle+slice (see _pp_generate_deck's own docstring for the exact per-difficulty math).
+PP_DECK_SIZE = 12
 PP_MAX_SLOTS = 12  # legacy tile-count cap, kept for backwards compat with old content
 PP_MAX_CHARS = 12  # chunk-aware cap: total characters reached, not tile count
 PP_NAMES = ["Rahul", "Priya", "Amit", "Neha", "Arjun", "Sneha", "Vikram", "Ananya", "Rohan", "Isha", "Karan", "Meera"]
@@ -787,9 +790,19 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
 
     Easy: mostly singles plus a couple easy 2-char/symbol chunks — straightforward.
     Hard: more 2-char chunks and fewer obviously-needed symbols/numbers.
-    Total deck size is PP_DECK_SIZE (15) chunks, each chunk is 1 or 2 characters.
+    Total deck size is PP_DECK_SIZE (12) chunks, each chunk is 1 or 2 characters.
     Strength still scores the concatenated string, so deck composition controls
     how deliberately a participant must combine chunks to reach Strong/Very Strong.
+
+    Per-difficulty chunk-count math (verified to sum to exactly PP_DECK_SIZE before the
+    final shuffle+slice, so nothing gets randomly trimmed away — see the reachability
+    check in docs/APPLICATION_STATE.md-adjacent commit history if this ever needs re-
+    deriving): easy = 2 (two-char) + 3 upper + 3 sym + 2 num + 2 lower = 12 (easy's weak
+    password is always all-lowercase+digits, so missing_upper/missing_sym are always
+    True here, always taking the 3-count branch). medium = 4 + 2 + 2 + 2 + 2 = 12 (fixed
+    counts, no missing-branch). hard = 6 + 1 + 1 + 1 + 3 = 12 (hard's weak password always
+    contains a symbol separator and a numeric year, so missing_sym/missing_num are always
+    False here, always taking the 1-count branch, never the 2-count one).
     """
     has_upper = bool(re.search(r"[A-Z]", weak))
     has_num = bool(re.search(r"[0-9]", weak))
@@ -1425,8 +1438,19 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .feedback-badge{ pointer-events: none; touch-action: manipulation; }
 .pp-tile.chunk-tile, .pp-deck-tile.chunk-tile{
   /* 2-char chunks like "Ka","Th","on" are slightly wider than single chars but still
-     comfortably tappable at 375px — flex-wrap keeps the 15-chunk deck from overflowing. */
+     comfortably tappable at 375px. */
   min-width: clamp(56px, 6.2vw, 78px);
+}
+/* Deck tray: exactly 12 chunks now (was 15), matching the build row's own 12-char cap —
+   console's own .pp-deck is flex-wrap (fine on a wide desktop screen, but at phone width
+   it wrapped to however many tiles happened to fit per row, producing a dangling short
+   last row — e.g. 4/4/4/3 at 15 tiles). A fixed 4-column grid gives 12 tiles exactly 3
+   full rows, no dangling row, and visually matches the build slots' own 12-count. */
+.pp-deck{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  justify-items: center;
 }
 
 /* Fault-finding: console's ff-compare-row is a side-by-side flex row with no mobile

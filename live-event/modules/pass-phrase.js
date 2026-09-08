@@ -1,5 +1,5 @@
 /* Pass-Phrase — Build a Strong Password (mixed-chunk deck, difficulty ramp)
-   Rounds provide difficulty; weak sample + 15-chunk deck (2-char pairs like "Ka","Th","on"
+   Rounds provide difficulty; weak sample + 12-chunk deck (2-char pairs like "Ka","Th","on"
    plus singles and symbols) are either static content (content/pass-phrase.json) or generated
    at runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS) not tile
    count — a "Ka" tile counts as 2 characters toward the 12-char cap. Strength meter only. */
@@ -22,9 +22,9 @@
   let deckChars = deckChunks;
 
   // ----- Pools — meaningful weak templates + mixed chunk deck -----
-  // Deck is now 15 mixed chunks: some 2-char syllable pairs ("Ka","Ri","Th","on"), some
+  // Deck is now 12 mixed chunks: some 2-char syllable pairs ("Ka","Ri","Th","on"), some
   // single letters, some 1-char symbols/numbers. Easy->hard progression controls composition.
-  const DECK_SIZE = 15;
+  const DECK_SIZE = 12;
   const NAMES = ["Rahul","Priya","Amit","Neha","Arjun","Sneha","Vikram","Ananya","Rohan","Isha","Karan","Meera"];
   const PLACES = ["Mumbai","Delhi","Chennai","Kolkata","Goa","Pune","Jaipur","Kochi","Hyderabad"];
   const YEARS = ["1998","1999","2000","2001","2002","2003","1995","1990","1992"];
