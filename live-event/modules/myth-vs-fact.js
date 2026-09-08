@@ -1,5 +1,5 @@
-/* Myth vs Fact — a quick, unscored knowledge interstitial.
-   Not a quiz: one myth per screen, no timer, no right/wrong pressure — just
+/* Myth vs Fact - a quick, unscored knowledge interstitial.
+   Not a quiz: one myth per screen, no timer, no right/wrong pressure - just
    read the myth, bust it, read the fact. Calm and readable, closer to
    Decision Room's pace than Rapid Fire's. Self-contained: no scoring,
    standalone endpoint like every other module. */
@@ -98,7 +98,7 @@
     if (index > 0) goTo(index - 1);
   }
 
-  // Brief framing screen before the first myth loads — see console.css's
+  // Brief framing screen before the first myth loads - see console.css's
   // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
   function beginActivity() {
     if (!contentData) return;
@@ -120,7 +120,7 @@
 
   LiveEvent.onAction({
     // SPACE does double duty: bust the myth first, then advance on the next
-    // press — reads naturally without needing two separate key presses.
+    // press - reads naturally without needing two separate key presses.
     advance: () => {
       if (!introDismissed) { dismissIntro(); return; }
       if (done) return;
@@ -142,7 +142,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      els.myth.textContent = "Couldn't load this activity's content — check your connection or refresh.";
+      els.myth.textContent = "Could not load this activity. Check your connection and refresh.";
       console.error(err);
     });
 })();

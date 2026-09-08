@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard — Synergy Cyber Security Awareness Month</title>
+  <title>Admin Dashboard - Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -62,7 +62,7 @@
     .adm-cw-track { height:8px; background:#e2e8f0; border-radius:999px; overflow:hidden; flex:0 0 120px; }
     .adm-cw-fill { height:100%; background: var(--green, #10b981); border-radius:999px; transition: width 0.4s var(--ease-standard); }
     /* Fix: submitted-state badge was a fixed-size circle (border-radius:50% + centered text
-       with fixed width/height) — variable-length "SUBMITTED · HH:MM:SS AM" wrapped and crossed
+       with fixed width/height) - variable-length "SUBMITTED · HH:MM:SS AM" wrapped and crossed
        its own border. Changed to auto-sized pill (border-radius:999px, padding, inline-flex)
        so the shape always fits content with breathing room and wraps cleanly to a second line
        inside the pill if needed. Only submitted state's badge uses this; in-progress / reached_end
@@ -99,7 +99,7 @@
     .adm-lobby-box { background:#f0f9ff; border:1px solid #bae6fd; border-radius:12px; padding:16px; margin-top:12px; }
     .adm-complete-box { background:#ecfdf5; border:1px solid #6ee7b7; border-radius:12px; padding:20px; text-align:center; margin-top:12px; }
     /* Tablet readability: admin progress panel must remain readable on tablet-width
-       facilitator device (e.g. 768px iPad) — not just desktop. Progress rows wrap
+       facilitator device (e.g. 768px iPad) - not just desktop. Progress rows wrap
        cleanly, track goes full-width below the name/count line rather than compressing
        to unreadable width, and outer wrap padding scales down gracefully. */
     @media (max-width: 768px){
@@ -124,7 +124,7 @@
       <div class="le-brand-div"></div>
       <div class="le-brand-text">
         ADMIN DASHBOARD
-        <small><span class="le-dot" style="display:inline-block;"></span> Synergy Cyber Security Awareness Month — Facilitator Control</small>
+        <small><span class="le-dot" style="display:inline-block;"></span> Synergy Cyber Security Awareness Month - Facilitator Control</small>
       </div>
       <div class="le-topbar-right">
         <a class="le-home-link" href="/live-event/index.html"><i class="fa-solid fa-arrow-left"></i> Console</a>
@@ -136,14 +136,14 @@
       <!-- LOGIN -->
       <div id="loginPanel" class="adm-login-card">
         <h2><i class="fa-solid fa-lock"></i> Admin Login</h2>
-        <p>Enter facilitator credentials. Session cookie gates all <code>/api/admin/*</code>.</p>
+        <p>Enter your facilitator username and password. You need to log in to use the admin tools.</p>
         <div style="display:grid; gap:10px; text-align:left;">
           <input id="loginUser" class="adm-input" type="text" placeholder="Username (ADMIN_USERNAME)" autocomplete="username" value="admin"/>
           <input id="loginPass" class="adm-input" type="password" placeholder="Password (ADMIN_PASSWORD)" autocomplete="current-password"/>
           <button id="loginBtn" class="le-btn primary" type="button" style="width:100%; justify-content:center;"><i class="fa-solid fa-right-to-bracket"></i> Login</button>
           <div id="loginMsg" class="adm-note" style="text-align:center;"></div>
         </div>
-        <div class="adm-note" style="text-align:center; margin-top:10px;">Set via <code>.env</code> (<code>ADMIN_USERNAME</code>, <code>ADMIN_PASSWORD</code>, <code>FLASK_SECRET_KEY</code>) — see <code>.env.example</code>. On Render, set in Environment settings.</div>
+        <div class="adm-note" style="text-align:center; margin-top:10px;">Set in <code>.env</code> (<code>ADMIN_USERNAME</code>, <code>ADMIN_PASSWORD</code>, <code>FLASK_SECRET_KEY</code>). See <code>.env.example</code>. On Render, set in Environment settings.</div>
       </div>
 
       <!-- DASHBOARD ROOT -->
@@ -154,76 +154,76 @@
           <div class="adm-section-title"><i class="fa-solid fa-satellite-dish"></i> Session</div>
           <div class="adm-row" style="margin-top:12px;">
             <button id="createSessionBtn" class="le-btn primary" type="button"><i class="fa-solid fa-plus"></i> New Session</button>
-            <span class="adm-note">fresh code + QR, no restart</span>
+            <span class="adm-note">Creates a fresh room code and QR. No restart needed.</span>
             <input id="roomInput" class="adm-input" style="max-width:160px;" placeholder="ROOM CODE" maxlength="12"/>
             <button id="loadSessionBtn" class="le-btn" type="button"><i class="fa-solid fa-arrow-right"></i> Load</button>
             <button id="resetSessionBtn" class="le-btn amber" type="button" title="Clear participants/responses/activeModule for same code"><i class="fa-solid fa-rotate"></i> Reset This Room</button>
             <button id="logoutBtn" class="le-btn ghost" type="button"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
           </div>
           <div id="sessionMsg" class="adm-note"></div>
-          <div class="adm-note" style="margin-top:6px"><strong>New Session</strong> = fresh 6-char code + QR (keeps old rooms). <strong>Reset This Room</strong> = <code>POST /reset</code> clears same code for next group, no restart.</div>
+          <div class="adm-note" style="margin-top:6px"><strong>New Session</strong> creates a fresh 6-character code and QR. Old rooms stay. <strong>Reset This Room</strong> clears the same code for the next group. No restart needed.</div>
         </div>
 
-        <!-- QR + Room Code — prominently at the top -->
+        <!-- QR + Room Code - prominently at the top -->
         <div id="qrSection" class="adm-card adm-hidden" style="margin-top:18px;">
-          <div class="adm-section-title"><i class="fa-solid fa-qrcode"></i> Join — QR + Room Code</div>
+          <div class="adm-section-title"><i class="fa-solid fa-qrcode"></i> Join - QR and Room Code</div>
           <div class="adm-qr-top" style="margin-top:14px;">
             <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
               <img id="qrImg" class="adm-qr-img" alt="QR for join URL" src=""/>
-              <div class="adm-badge" style="font-size:var(--fs-badge);">Scans to <span id="qrUrlLabel">—</span></div>
+              <div class="adm-badge" style="font-size:var(--fs-badge);">Scans to <span id="qrUrlLabel"> - </span></div>
             </div>
             <div>
               <div style="font-family:'Space Mono',monospace; font-size:var(--fs-badge); font-weight:800; color:var(--faint); letter-spacing:1px; text-transform:uppercase;">Room Code</div>
-              <div id="roomCodeBig" class="adm-roomcode">—</div>
-              <div class="adm-join-url" id="joinUrlDisplay">—</div>
+              <div id="roomCodeBig" class="adm-roomcode"> - </div>
+              <div class="adm-join-url" id="joinUrlDisplay"> - </div>
               <div class="adm-row" style="margin-top:10px;">
                 <button id="copyLinkBtn" class="le-btn" type="button"><i class="fa-solid fa-link"></i> Copy Join Link</button>
                 <a id="openJoinLink" class="le-btn ghost" target="_blank" rel="noopener"><i class="fa-solid fa-external-link"></i> Open Join Page</a>
                 <span class="adm-note" id="copyMsg"></span>
               </div>
-              <div class="adm-note" style="margin-top:10px;">QR from <code>GET /api/session/&lt;code&gt;/qr</code> via <code>request.host_url</code> — auto-follows live host/custom domain.</div>
+              <div class="adm-note" style="margin-top:10px;">QR is built from the current host address. It works on any domain automatically.</div>
             </div>
           </div>
         </div>
 
-        <!-- Module picker — whole-activity flow -->
+        <!-- Module picker - whole-activity flow -->
         <div id="pickerSection" class="adm-card" style="margin-top:18px;">
-          <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose Activity — 8 modules (whole-activity, pre-loaded)</div>
-          <div class="adm-note">Counts pulled live from <code>content/*.json</code> via <code>GET /api/admin/modules</code> — no stale hardcoding. Select a module, then <strong>Launch</strong> to create lobby. Same room/participants stay joined between activities.</div>
+          <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose Activity - 8 modules (all items pre-loaded)</div>
+          <div class="adm-note">Counts come live from the content files. Select a module, then press <strong>Launch</strong> to create the lobby. The same room and participants stay joined between activities.</div>
           <div id="pickerGrid" class="adm-launcher-grid"></div>
           <div class="adm-row" style="margin-top:14px;">
-            <button id="launchBtn" class="le-btn primary" type="button" disabled><i class="fa-solid fa-paper-plane"></i> Launch — create lobby</button>
+            <button id="launchBtn" class="le-btn primary" type="button" disabled><i class="fa-solid fa-paper-plane"></i> Launch - create lobby</button>
             <span id="pickerMsg" class="adm-note"></span>
           </div>
           <div id="pickerSelected" class="adm-note" style="margin-top:8px"></div>
         </div>
 
-        <!-- Lobby — waiting for host to start -->
+        <!-- Lobby - waiting for host to start -->
         <div id="lobbySection" class="adm-card adm-hidden" style="margin-top:18px;">
-          <div class="adm-section-title"><i class="fa-solid fa-hourglass-half"></i> Lobby — <span id="lobbyModuleName">—</span> <span class="adm-badge">lobby</span></div>
+          <div class="adm-section-title"><i class="fa-solid fa-hourglass-half"></i> Lobby - <span id="lobbyModuleName"> - </span> <span class="adm-badge">lobby</span></div>
           <div class="adm-lobby-box">
-            <p style="margin:0 0 8px; font-weight:700; color:#0c4a6e">Waiting for host to start — participants see “You're in — waiting for host to start <span id="lobbyModuleName2">—</span>” with live count.</p>
+            <p style="margin:0 0 8px; font-weight:700; color:#0c4a6e">Waiting for host to start. Participants see "You are in - waiting for host to start <span id="lobbyModuleName2"> - </span>" with live count.</p>
             <div class="adm-row">
               <span id="lobbyCount" class="badge">0 joined</span>
-              <span id="lobbyModuleBadge" class="badge">—</span>
-              <span id="lobbyItemCount" class="badge">—</span>
+              <span id="lobbyModuleBadge" class="badge"> - </span>
+              <span id="lobbyItemCount" class="badge"> - </span>
             </div>
             <ul id="lobbyNames" class="adm-part-list"></ul>
             <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
-              <button id="startBtn" class="le-btn primary" type="button" disabled><i class="fa-solid fa-play"></i> Start — push item 1</button>
-              <span id="lobbyMsg" class="adm-note" style="align-self:center">Need at least 1 participant to Start</span>
+              <button id="startBtn" class="le-btn primary" type="button" disabled><i class="fa-solid fa-play"></i> Start - push item 1</button>
+              <span id="lobbyMsg" class="adm-note" style="align-self:center">You need at least 1 participant to press Start</span>
             </div>
-            <div class="adm-note" style="margin-top:8px">Participants who scan QR during lobby see name entry → “You're in — waiting for host to start [Module Name]” with live joined count.</div>
+            <div class="adm-note" style="margin-top:8px">Participants who scan the QR in the lobby see a name box, then "You are in - waiting for host to start [Module Name]" with live joined count.</div>
           </div>
         </div>
 
-        <!-- Running — self-paced modules already pushed the FULL sequence to every phone on
+        <!-- Running - self-paced modules already pushed the FULL sequence to every phone on
              Start; the admin's controls here are for narration/review, not gating participant
              progress: pick any item to view its results/reveal it on this screen, and mark the
              whole activity complete whenever ready (participants keep answering at their own
              pace regardless of which item the admin is currently looking at). -->
         <div id="runningSection" class="adm-card adm-hidden" style="margin-top:18px;">
-          <div class="adm-section-title"><i class="fa-solid fa-person-running"></i> Running — <span id="runningModuleName">—</span> <span class="adm-badge active">running</span> <span id="runningProgress" class="badge">—</span></div>
+          <div class="adm-section-title"><i class="fa-solid fa-person-running"></i> Running - <span id="runningModuleName"> - </span> <span class="adm-badge active">running</span> <span id="runningProgress" class="badge"> - </span></div>
 
           <!-- Self-paced modules (all but crossword): item picker + direct complete trigger -->
           <div id="runningSelfPacedControls" class="adm-row adm-hidden" style="margin-top:12px; align-items:center;">
@@ -237,18 +237,18 @@
             <button id="nextBtn" class="le-btn primary" type="button"><i class="fa-solid fa-forward"></i> Next</button>
           </div>
 
-          <div id="runningPrompt" style="font-weight:800; color:var(--navy); margin-top:10px; font-size:var(--fs-badge);">—</div>
+          <div id="runningPrompt" style="font-weight:800; color:var(--navy); margin-top:10px; font-size:var(--fs-badge);"> - </div>
           <div class="adm-row" style="margin-top:8px;"><span id="runningMsg" class="adm-note"></span></div>
-          <div class="adm-note" id="runningHint" style="margin-top:6px">—</div>
+          <div class="adm-note" id="runningHint" style="margin-top:6px"> - </div>
 
-          <!-- Facilitator Notes — admin-only talking points (discussion prompts + the most
+          <!-- Facilitator Notes - admin-only talking points (discussion prompts + the most
                commonly-missed item), read straight from content/*.json's own facilitatorNotes
                field via GET /api/admin/modules/<id>/facilitator-notes. Never sent to
-               participants — that endpoint and this panel are both admin-gated. Collapsed by
+               participants - that endpoint and this panel are both admin-gated. Collapsed by
                default so it doesn't compete with the live stats above. -->
           <details id="facilitatorNotesPanel" class="adm-hidden" style="margin-top:14px; border:1px solid #e2e8f0; border-radius:10px; padding:10px 14px; background:#f8fafc;">
-            <summary style="cursor:pointer; font-weight:800; color:var(--navy); list-style:none;"><i class="fa-solid fa-chalkboard-user"></i> Facilitator Notes <span class="adm-note" style="font-weight:400">— admin-only, never sent to phones</span></summary>
-            <div id="facilitatorNotesBody" style="margin-top:10px; font-size:var(--fs-badge); line-height:1.6;">—</div>
+            <summary style="cursor:pointer; font-weight:800; color:var(--navy); list-style:none;"><i class="fa-solid fa-chalkboard-user"></i> Facilitator Notes <span class="adm-note" style="font-weight:400">- admin only, never sent to phones</span></summary>
+            <div id="facilitatorNotesBody" style="margin-top:10px; font-size:var(--fs-badge); line-height:1.6;"> - </div>
           </details>
         </div>
 
@@ -257,13 +257,13 @@
           <div class="adm-complete-box">
             <div style="font-size:var(--fs-heading); margin-bottom:8px">🎉</div>
             <div style="font-family:'Orbitron',sans-serif; font-weight:900; font-size:var(--fs-body); color:#065f46">Activity Complete</div>
-            <div id="completeModuleName" style="font-weight:700; margin-top:4px">—</div>
-            <div id="completeStats" class="adm-note" style="margin-top:8px">—</div>
-            <button id="chooseNextBtn" class="le-btn primary" type="button" style="margin-top:14px"><i class="fa-solid fa-list"></i> Choose Next Activity — same room, no re-scan</button>
-            <div class="adm-note" style="margin-top:8px">Same room/participants stay joined — activeModule/state reset to lobby for next pick — no QR re-scan between activities in one event.</div>
+            <div id="completeModuleName" style="font-weight:700; margin-top:4px"> - </div>
+            <div id="completeStats" class="adm-note" style="margin-top:8px"> - </div>
+            <button id="chooseNextBtn" class="le-btn primary" type="button" style="margin-top:14px"><i class="fa-solid fa-list"></i> Choose Next Activity - same room, no re-scan</button>
+            <div class="adm-note" style="margin-top:8px">Same room/participants stay joined - activeModule/state reset to lobby for next pick - no QR re-scan between activities in one event.</div>
           </div>
 
-          <!-- Fastest Overall — admin-only, never sent to participants (see GET /module-summary
+          <!-- Fastest Overall - admin-only, never sent to participants (see GET /module-summary
                in app.py). Ranked by correctCount then completion time for modules with an
                objective answer (myth-vs-fact today); by completion time alone otherwise. -->
           <div id="fastestOverallWrap" class="adm-hidden" style="margin-top:16px; text-align:left;">
@@ -278,18 +278,18 @@
         <div id="liveRow" class="adm-live-row adm-hidden" style="margin-top:18px;">
           <div id="resultsPanel" class="adm-card">
             <div class="adm-section-title"><i class="fa-solid fa-chart-simple"></i> Live Results <span class="adm-badge" style="margin-left:6px; font-size:var(--fs-badge);">polls 1.5s</span></div>
-            <div id="resultsStandardNote" class="adm-note">Polls <code>GET /api/admin/session/&lt;code&gt;/results</code> — bars per option.</div>
+            <div id="resultsStandardNote" class="adm-note">Shows live poll results. Bars for each option. Updates every 1.5 seconds.</div>
             <div id="resultsPrompt" style="font-weight:800; color:var(--navy); margin-top:10px; font-size:var(--fs-badge);">No active item</div>
             <div id="resultsBars" class="adm-bars"></div>
             <div id="correctnessWrap" class="adm-hidden" style="margin-top:10px;">
               <div id="correctnessSummary" class="adm-note" style="font-weight:700; color:var(--navy);"></div>
             </div>
             <!-- Same list/shape as crossword's own progress panel (filledCount/totalCount per
-                 participant) — reused here for the 6 self-paced modules too, sourced from
+                 participant) - reused here for the 6 self-paced modules too, sourced from
                  GET /progress (server-computed from responses) instead of crossword's
                  client-pushed debounced ping. Label text swaps per module, see JS. -->
             <div id="crosswordProgressWrap" class="adm-hidden">
-              <div id="crosswordProgressNote" class="adm-note" style="margin-top:8px;">Crossword lighter sync — <code>POST /crossword/progress</code> debounced, admin polls <code>GET /crossword/progress</code> ~1.5s. Shows <code>X / Y clues filled</code>.</div>
+              <div id="crosswordProgressNote" class="adm-note" style="margin-top:8px;">Crossword lighter sync - <code>POST /crossword/progress</code> debounced, admin polls <code>GET /crossword/progress</code> ~1.5s. Shows <code>X / Y clues filled</code>.</div>
               <div id="crosswordProgressList" class="adm-cw-list"></div>
               <div id="crosswordProgressMeta" class="adm-note"></div>
             </div>
@@ -298,24 +298,24 @@
               <div class="adm-section-title" style="font-size:var(--fs-badge);"><i class="fa-solid fa-stopwatch"></i> Response Order <span class="adm-badge" style="font-size:var(--fs-badge);">admin-only, resets per item</span></div>
               <ul id="responseOrderList" class="adm-part-list"></ul>
             </div>
-            <!-- Reveal is admin-screen-only — read aloud to the room, never sent to phones
+            <!-- Reveal is admin-screen-only - read aloud to the room, never sent to phones
                  (participant /state never includes fact/revealed, by design). -->
             <div id="revealedFactWrap" class="adm-hidden" style="margin-top:14px; background:#fffbeb; border:1px solid #fde68a; border-radius:10px; padding:12px;">
-              <div class="adm-note" style="font-weight:700; color:#92400e; margin:0 0 4px;"><i class="fa-solid fa-eye"></i> Revealed (admin screen only)</div>
+              <div class="adm-note" style="font-weight:700; color:#92400e; margin:0 0 4px;"><i class="fa-solid fa-eye"></i> Revealed (only on admin screen)</div>
               <div id="revealedFactText" style="font-size:var(--fs-badge); color:#78350f; line-height:1.5;"></div>
             </div>
-            <button id="revealBtn" class="le-btn amber adm-hidden" type="button" style="margin-top:14px;"><i class="fa-solid fa-eye"></i> Reveal — <code>POST /reveal</code></button>
+            <button id="revealBtn" class="le-btn amber adm-hidden" type="button" style="margin-top:14px;"><i class="fa-solid fa-eye"></i> Reveal</button>
             <div id="revealMsg" class="adm-note"></div>
           </div>
 
           <div id="participantsPanel" class="adm-card">
             <div class="adm-section-title"><i class="fa-solid fa-users"></i> Participants <span id="participantCountBadge" class="adm-badge">0 joined</span></div>
-            <div class="adm-note">Polls <code>GET /state</code> — count + names, 1.5s.</div>
+            <div class="adm-note">Shows count and names. Updates every 1.5 seconds.</div>
             <ul id="participantList" class="adm-part-list"></ul>
           </div>
         </div>
 
-        <div class="adm-note" style="text-align:center; margin-top:10px;">Live Simulation is console-only and isn't in this picker.</div>
+        <div class="adm-note" style="text-align:center; margin-top:10px;">Live Simulation is only on the facilitator console. It is not in this picker.</div>
 
       </div>
 
@@ -402,7 +402,7 @@
     };
 
     let currentCode = null;
-    let csrfToken = null; // set on login / checkAuth — required as X-CSRF-Token on mutating /api/admin/* calls
+    let csrfToken = null; // set on login / checkAuth - required as X-CSRF-Token on mutating /api/admin/* calls
     let selectedModule = null;
     let modulesCache = [];
     let activeModule = null;
@@ -411,22 +411,22 @@
     // Guards against a slow poll tick's response landing AFTER a later tick's and clobbering the
     // UI with stale data (setInterval fires every 1.5s regardless of whether the previous
     // request has resolved yet). Every pollOnce()/pollResultsForRunning() call captures the
-    // sequence number current at its start and re-checks it after each await — if a newer poll
+    // sequence number current at its start and re-checks it after each await - if a newer poll
     // has started in the meantime, it discards its own (now-stale) response instead of rendering it.
     let pollSeq = 0;
-    // Self-paced (full sequence pushed on Start) — everything except crossword, which keeps
+    // Self-paced (full sequence pushed on Start) - everything except crossword, which keeps
     // its own single-grid, admin-Next-drives-completion model.
     // pass-phrase is handled by its own branch in pollResultsForRunning (no discrete voted
-    // items — see PASSPHRASE_MODULE below), same as crossword — not part of the generic
+    // items - see PASSPHRASE_MODULE below), same as crossword - not part of the generic
     // item-picker + results-bars + reveal bucket.
-    const MC_MODULES = ['fault-finding','myth-vs-fact','decision-room','closing-quiz','clue-quest'];
+    const MC_MODULES = ['fault-finding','myth-vs-fact','decision-room','clue-quest'];
     const PASSPHRASE_MODULE = 'pass-phrase';
     // Control Catch is a continuous timed reflex game, same "no discrete voted items" shape as
-    // crossword/pass-phrase — own dedicated progress panel below, not part of MC_MODULES.
+    // crossword/pass-phrase - own dedicated progress panel below, not part of MC_MODULES.
     const CONTROL_CATCH_MODULE = 'control-catch';
     let itemPickerLoadedFor = null; // module id the <select> options were last built for
     let facilitatorNotesLoadedFor = null; // module id the Facilitator Notes panel was last fetched for
-    let selectedItemId = null; // admin's own narration/reveal pointer — independent of participant pacing
+    let selectedItemId = null; // admin's own narration/reveal pointer - independent of participant pacing
     let fastestOverallLoadedFor = null; // room code + module we've already fetched the summary for
 
     function esc(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
@@ -471,8 +471,8 @@
     els.loginBtn.addEventListener('click', async ()=>{
       const u = els.loginUser.value.trim() || 'admin';
       const pw = els.loginPass.value.trim();
-      if(!pw){ els.loginMsg.textContent = 'Enter password'; return; }
-      els.loginMsg.textContent = 'Logging in…';
+      if(!pw){ els.loginMsg.textContent = 'Please enter your password'; return; }
+      els.loginMsg.textContent = 'Logging in...';
       try{
         // Try new username+password first, fallback to password-only
         let ok=false, loginRes=null;
@@ -514,7 +514,7 @@
         activeModule = st.activeModule || null;
         stateCache = st.state || null;
       } catch(e){
-        els.sessionMsg.textContent = 'Warning: ' + e.message;
+        els.sessionMsg.textContent = 'Note: ' + e.message;
         joinUrl = location.origin + '/join/' + code;
       }
       els.roomCodeBig.textContent = code;
@@ -523,13 +523,13 @@
       els.qrImg.src = '/api/session/' + code + '/qr?ts=' + Date.now();
       els.openJoinLink.href = joinUrl;
       els.qrSection.classList.remove('adm-hidden');
-      els.sessionMsg.textContent = 'Session ' + code + ' — QR via request.host_url (same code reusable between activities)';
+      els.sessionMsg.textContent = 'Session ' + code + ' - QR ready (same code can be reused between activities)';
       renderStateUI(st);
       ensurePolling();
       loadModules();
     }
     els.createSessionBtn.addEventListener('click', async ()=>{
-      els.sessionMsg.textContent = 'Creating…';
+      els.sessionMsg.textContent = 'Creating...';
       try{
         const j = await api('/api/session/create', { method:'POST', body:{} });
         await setCurrentCode(j.roomCode);
@@ -546,10 +546,10 @@
       const code = (currentCode || els.roomInput.value.trim()).toUpperCase();
       if(!code){ els.sessionMsg.textContent = 'Load or create a session first, then Reset'; return; }
       if(!confirm('Reset room ' + code + '? Clears participants/responses/activeModule so SAME code can be reused for next group.')) return;
-      els.sessionMsg.textContent = 'Resetting ' + code + '…';
+      els.sessionMsg.textContent = 'Resetting ' + code + '...';
       try{
         await api('/api/admin/session/' + code + '/reset', { method:'POST', body:{} });
-        els.sessionMsg.textContent = 'Reset OK — ' + code + ' is now clean. Participants must re-join.';
+        els.sessionMsg.textContent = 'Reset OK - ' + code + ' is now clean. Participants must re-join.';
         await setCurrentCode(code);
         pollOnce();
       }catch(e){
@@ -581,7 +581,7 @@
         <button class="adm-mod-btn ${selectedModule===m.id?'selected':''}" data-module="${esc(m.id)}" type="button">
           <span class="adm-mod-id">${esc(m.id)}</span>
           <span class="adm-mod-label">${esc(m.displayName)}</span>
-          <span class="adm-mod-desc">${esc(m.id)} — ${m.itemCount} ${m.itemCount===1?'item':'items'}${m.id==='crossword'?' · 1 grid, self-paced':(m.id==='control-catch'?' · 1 game, self-paced, 75s round':'')}</span>
+          <span class="adm-mod-desc">${esc(m.id)} - ${m.itemCount} ${m.itemCount===1?'item':'items'}${m.id==='crossword'?' · 1 grid, self-paced':(m.id==='control-catch'?' · 1 game, self-paced, 75s round':'')}</span>
           <span class="adm-mod-count">${m.itemCount} items</span>
         </button>
       `).join('');
@@ -589,7 +589,7 @@
         btn.addEventListener('click', ()=>{
           selectedModule = btn.dataset.module;
           const mod = modulesCache.find(x=>x.id===selectedModule);
-          els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' — ' + (mod?mod.itemCount:'?') + ' items — click Launch to create lobby';
+          els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' - ' + (mod?mod.itemCount:'?') + ' items - press Launch to create lobby';
           els.launchBtn.disabled = false;
           renderPicker();
         });
@@ -597,31 +597,31 @@
       els.launchBtn.disabled = !selectedModule;
       if(selectedModule){
         const mod = modulesCache.find(x=>x.id===selectedModule);
-        els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' — ' + (mod?mod.itemCount:'?') + ' items';
+        els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' - ' + (mod?mod.itemCount:'?') + ' items';
       } else {
-        els.pickerSelected.textContent = 'Pick a module, then Launch';
+        els.pickerSelected.textContent = 'Pick a module, then press Launch';
       }
     }
     els.launchBtn.addEventListener('click', async ()=>{
-      if(!selectedModule){ els.pickerMsg.textContent = 'Pick a module first'; return; }
+      if(!selectedModule){ els.pickerMsg.textContent = 'Please pick a module first'; return; }
       // If no currentCode, create a fresh room first (reuse flow: Launch generates room+QR)
       let code = currentCode;
       if(!code){
-        els.pickerMsg.textContent = 'No room — creating one…';
+        els.pickerMsg.textContent = 'No room - creating one...';
         try{
           const j = await api('/api/session/create', { method:'POST', body:{} });
           code = j.roomCode;
           await setCurrentCode(code);
-          els.pickerMsg.textContent = 'Created room ' + code + ' — launching…';
+          els.pickerMsg.textContent = 'Created room ' + code + ' - launching...';
         }catch(e){
           els.pickerMsg.textContent = 'Create failed: ' + e.message;
           return;
         }
       }
-      els.pickerMsg.textContent = 'Launching ' + selectedModule + '…';
+      els.pickerMsg.textContent = 'Launching ' + selectedModule + '...';
       try{
         const j = await api('/api/admin/session/' + code + '/launch', { method:'POST', body:{ module: selectedModule } });
-        els.pickerMsg.textContent = 'Launched ' + selectedModule + ' — lobby with ' + j.itemCount + ' items. Participants see waiting screen.';
+        els.pickerMsg.textContent = 'Launched ' + selectedModule + ' - lobby with ' + j.itemCount + ' items. Participants see waiting screen.';
         // State will be lobby; next poll will show lobby UI
         pollOnce();
       }catch(e){
@@ -632,10 +632,10 @@
     // Lobby Start
     els.startBtn.addEventListener('click', async ()=>{
       if(!currentCode) return;
-      els.lobbyMsg.textContent = 'Starting…';
+      els.lobbyMsg.textContent = 'Starting...';
       try{
         const j = await api('/api/admin/session/' + currentCode + '/start', { method:'POST', body:{} });
-        els.lobbyMsg.textContent = 'Started — item 1/' + j.total;
+        els.lobbyMsg.textContent = 'Started - item 1/' + j.total;
         pollOnce();
       }catch(e){
         els.lobbyMsg.textContent = 'Start failed: ' + e.message;
@@ -645,13 +645,13 @@
     // Running Next
     els.nextBtn.addEventListener('click', async ()=>{
       if(!currentCode) return;
-      els.runningMsg.textContent = 'Advancing…';
+      els.runningMsg.textContent = 'Moving to next...';
       try{
         const j = await api('/api/admin/session/' + currentCode + '/next', { method:'POST', body:{} });
         if(j.state==='complete'){
           els.runningMsg.textContent = 'Activity complete';
         } else {
-          els.runningMsg.textContent = 'Now item ' + ((j.currentIndex||0)+1) + '/' + j.total;
+          els.runningMsg.textContent = 'Now on item ' + ((j.currentIndex||0)+1) + ' of ' + j.total;
         }
         pollOnce();
       }catch(e){
@@ -660,20 +660,20 @@
     });
 
     // Complete -> Choose Next Activity (same room, no re-scan)
-    // This calls the server FIRST — state=="complete" only flips to "idle" once the
+    // This calls the server FIRST - state=="complete" only flips to "idle" once the
     // request succeeds, so we never show the picker optimistically. Previously this was
     // a client-only DOM toggle that never told the server, so the next 1.5s poll tick
     // would see state still "complete" and snap the dashboard right back to the just-
     // finished module's completion panel while the operator was still picking.
     els.chooseNextBtn.addEventListener('click', async ()=>{
       if(!currentCode) return;
-      els.chooseNextBtn.disabled = true;
+      els.chooseNextBtn.disabled = true; // plain fix placeholder
       try{
         await api('/api/admin/session/' + currentCode + '/return-to-picker', { method:'POST', body:{} });
         selectedModule = null;
         els.completeSection.classList.add('adm-hidden');
         els.pickerSection.classList.remove('adm-hidden');
-        els.pickerSelected.textContent = 'Pick next activity — same room ' + currentCode + ' stays, no re-scan needed';
+        els.pickerSelected.textContent = 'Pick next activity - same room ' + currentCode + ' stays, no re-scan needed';
         renderPicker();
         els.launchBtn.disabled = true;
         await pollOnce();
@@ -699,10 +699,10 @@
       activeModule = mod;
       stateCache = state;
       // Always update module display
-      const display = st.displayName || mod || '—';
+      const display = st.displayName || mod || ' - ';
       // Hide/show sections by state
       if(!mod || !state){
-        // No module yet — show picker
+        // No module yet - show picker
         els.lobbySection.classList.add('adm-hidden');
         els.runningSection.classList.add('adm-hidden');
         els.liveRow.classList.add('adm-hidden');
@@ -723,7 +723,7 @@
         // Start disabled until >=1 participant
         const count = st.participantCount||0;
         els.startBtn.disabled = count < 1;
-        els.lobbyMsg.textContent = count < 1 ? 'Need at least 1 participant to Start' : 'Ready — click Start to push item 1';
+        els.lobbyMsg.textContent = count < 1 ? 'You need at least 1 participant to press Start' : 'Ready - press Start to send item 1';
         // Show lobby participants
         renderParticipants(st);
         renderLobbyNames(st);
@@ -746,12 +746,12 @@
           else els.nextBtn.innerHTML = '<i class="fa-solid fa-forward"></i> Next';
           if(mod==='crossword'){
             els.runningPrompt.textContent = 'Crossword grid unlocked';
-            els.runningMsg.textContent = 'Crossword is self-paced — progress below (participants tap Done — Submit Grid when finished)';
-            els.runningHint.textContent = 'Crossword: Start unlocked the grid for every phone at once — no Next sequence. Participants hit Done — Submit Grid when they consider it finished (not when grid is full). Progress below shows ✓ submitted / ○ in progress — Mark Complete (Next → Complete) ends the room for everyone regardless.';
+            els.runningMsg.textContent = 'Crossword is self-paced - progress below (participants tap Done - Submit Grid when finished)';
+            els.runningHint.textContent = 'Crossword: Start unlocked the grid for every phone at once - no Next sequence. Participants hit Done - Submit Grid when they consider it finished (not when grid is full). Progress below shows ✓ submitted / ○ in progress - Mark Complete (Next → Complete) ends the room for everyone regardless.';
           } else {
             els.runningPrompt.textContent = 'Control Catch unlocked';
-            els.runningMsg.textContent = 'Control Catch is self-paced — each participant plays their own 75s round (progress below)';
-            els.runningHint.textContent = 'Control Catch: Start unlocked the game for every phone at once — each participant plays their own timed round (3 lives) independently and submits their own final score when their round ends, no Next sequence. Scores are personal — never shown to or compared with other participants. Progress below shows ✓ submitted / ● round over, not submitted / ○ still playing — Mark Complete ends the room for everyone regardless of whether every participant has finished their round.';
+            els.runningMsg.textContent = 'Control Catch is self-paced - each participant plays their own 75s round (progress below)';
+            els.runningHint.textContent = 'Control Catch: Start unlocked the game for every phone at once - each participant plays their own timed round (3 lives) independently and submits their own final score when their round ends, no Next sequence. Scores are personal - never shown to or compared with other participants. Progress below shows ✓ submitted / ● round over, not submitted / ○ still playing - Mark Complete ends the room for everyone regardless of whether every participant has finished their round.';
           }
         } else {
           els.runningProgress.textContent = 'self-paced';
@@ -761,7 +761,7 @@
           const picked = (st.items||[]).find(it=>it.id===selectedItemId) || (st.items||[])[0];
           els.runningPrompt.textContent = picked ? picked.prompt : '';
           els.runningMsg.textContent = '';
-          els.runningHint.textContent = 'Self-paced — every phone already has the full ' + total + '-item sequence and is answering at its own pace. Pick an item above to view its results or reveal it on this screen. Progress below shows ✓ submitted / ● reached end / ○ in progress per participant — Mark Complete ends the room for everyone (non-submitted stay not submitted) whenever you\'re ready.';
+          els.runningHint.textContent = 'Self-paced - every phone already has the full ' + total + '-item sequence and is answering at its own pace. Pick an item above to view its results or reveal it on this screen. Progress below shows ✓ submitted / ● reached end / ○ in progress per participant - Mark Complete ends the room for everyone (non-submitted stay not submitted) whenever you\'re ready.';
         }
         // Show live results
         pollResultsForRunning(st);
@@ -776,8 +776,8 @@
         els.liveRow.classList.add('adm-hidden');
         els.completeSection.classList.remove('adm-hidden');
         els.completeModuleName.textContent = display;
-        els.completeStats.textContent = (st.participantCount||0) + ' participants · ' + (st.totalItems||0) + ' items — same room stays for next activity';
-        // module-summary supports crossword too (see _compute_module_summary in app.py) — no
+        els.completeStats.textContent = (st.participantCount||0) + ' participants · ' + (st.totalItems||0) + ' items - same room stays for next activity';
+        // module-summary supports crossword too (see _compute_module_summary in app.py) - no
         // module exclusion needed here. Guarded so this fetches once per room+module, not on
         // every 1.5s poll tick while the complete panel stays up.
         const fastestKey = currentCode + ':' + mod;
@@ -788,7 +788,7 @@
         return;
       }
       if(state==='idle'){
-        // Back at the picker after "Choose Next Activity" — a poll tick landing here must
+        // Back at the picker after "Choose Next Activity" - a poll tick landing here must
         // NOT force the completion panel back up; the operator is actively choosing.
         fastestOverallLoadedFor = null;
         els.completeSection.classList.add('adm-hidden');
@@ -804,7 +804,7 @@
       const names = st.participantNames||[];
       const count = st.participantCount||0;
       document.getElementById('lobbyCount').textContent = count + ' joined';
-      document.getElementById('lobbyNames').innerHTML = names.length ? names.map(n=>'<li>'+esc(n)+'</li>').join('') : '<li class="adm-note">No one yet — share QR</li>';
+      document.getElementById('lobbyNames').innerHTML = names.length ? names.map(n=>'<li>'+esc(n)+'</li>').join('') : '<li class="adm-note">No one yet - share QR</li>';
       // Also update generic participant list
       renderParticipants(st);
     }
@@ -834,7 +834,7 @@
       }).join('');
       els.resultsMeta.textContent = `${total} response(s) · ${j.participantCount||0} joined · ${j.activeModule||''} ${j.activeItem.revealed ? '· revealed' : ''}`;
 
-      // Reveal is admin-screen-only — read the fact/explanation aloud to the room; it is never
+      // Reveal is admin-screen-only - read the fact/explanation aloud to the room; it is never
       // sent to participant phones (see _sanitize_item_for_participant / _my_answer in app.py).
       if(j.activeItem.revealed && j.activeItem.fact){
         els.revealedFactText.textContent = j.activeItem.fact;
@@ -843,28 +843,28 @@
         els.revealedFactWrap.classList.add('adm-hidden');
       }
 
-      // Per-item correctness — admin-only, only present once the item has a single correct answer
-      // (fault-finding, myth-vs-fact, clue-quest, closing-quiz). Never shown to participants.
+      // Per-item correctness - admin-only, only present once the item has a single correct answer
+      // (fault-finding, myth-vs-fact, clue-quest). Never shown to participants.
       if(j.correctness){
         const opt = options.find(o=>o.id===j.correctness.correctOptionId);
-        els.correctnessSummary.innerHTML = `<i class="fa-solid fa-check" style="color:var(--green,#10b981)"></i> ${j.correctness.correctCount} correct &nbsp; <i class="fa-solid fa-xmark" style="color:var(--red-2,#dc2626)"></i> ${j.correctness.incorrectCount} incorrect &nbsp; <span style="color:var(--muted)">— correct answer: ${esc(opt?opt.text:j.correctness.correctOptionId)}</span>`;
+        els.correctnessSummary.innerHTML = `<i class="fa-solid fa-check" style="color:var(--green,#10b981)"></i> ${j.correctness.correctCount} correct &nbsp; <i class="fa-solid fa-xmark" style="color:var(--red-2,#dc2626)"></i> ${j.correctness.incorrectCount} incorrect &nbsp; <span style="color:var(--muted)"> -  correct answer: ${esc(opt?opt.text:j.correctness.correctOptionId)}</span>`;
         els.correctnessWrap.classList.remove('adm-hidden');
       } else if(j.goodness){
         const opt = options.find(o=>o.id===j.goodness.goodOptionId);
-        els.correctnessSummary.innerHTML = `<i class="fa-solid fa-star" style="color:var(--sky,#0ea5e9)"></i> ${j.goodness.goodCount} good decisions &nbsp; <i class="fa-solid fa-circle" style="color:var(--faint,#94a3b8)"></i> ${j.goodness.otherCount} other &nbsp; <span style="color:var(--muted)">— sound choice: ${esc(opt?opt.text:j.goodness.goodOptionId)}</span>`;
+        els.correctnessSummary.innerHTML = `<i class="fa-solid fa-star" style="color:var(--sky,#0ea5e9)"></i> ${j.goodness.goodCount} good decisions &nbsp; <i class="fa-solid fa-circle" style="color:var(--faint,#94a3b8)"></i> ${j.goodness.otherCount} other &nbsp; <span style="color:var(--muted)"> -  sound choice: ${esc(opt?opt.text:j.goodness.goodOptionId)}</span>`;
         els.correctnessWrap.classList.remove('adm-hidden');
       } else {
         els.correctnessWrap.classList.add('adm-hidden');
       }
 
-      // First-come-first-served response order — admin-only display, resets with every new
+      // First-come-first-served response order - admin-only display, resets with every new
       // item/module the same way the vote counts above already do.
       const order = j.respondedInOrder || [];
       if(order.length){
         els.responseOrderList.innerHTML = order.map((r,idx)=>{
           const opt = options.find(o=>o.id===r.optionId);
           const when = r.respondedAt ? new Date(r.respondedAt).toLocaleTimeString() : '';
-          return `<li><strong>${ordinal(idx+1)}</strong> — ${esc(r.name)}: ${esc(opt?opt.text:r.optionId)}${when? ' <span style="color:var(--faint);font-family:\'Space Mono\',monospace;font-size:var(--fs-badge);">'+esc(when)+'</span>':''}</li>`;
+          return `<li><strong>${ordinal(idx+1)}</strong> - ${esc(r.name)}: ${esc(opt?opt.text:r.optionId)}${when? ' <span style="color:var(--faint);font-family:\'Space Mono\',monospace;font-size:var(--fs-badge);">'+esc(when)+'</span>':''}</li>`;
         }).join('');
         els.responseOrderWrap.classList.remove('adm-hidden');
       } else {
@@ -877,7 +877,7 @@
       els.participantCountBadge.textContent = count + ' joined';
       const names = s.participantNames || [];
       if(!names.length){
-        els.participantList.innerHTML = '<li class="adm-note">No participants yet — share the QR.</li>';
+        els.participantList.innerHTML = '<li class="adm-note">No participants yet - share the QR.</li>';
         return;
       }
       els.participantList.innerHTML = names.map(n=>`<li><i class="fa-solid fa-user" style="color:var(--cyan-dark); margin-right:6px;"></i>${esc(n)}</li>`).join('');
@@ -887,7 +887,7 @@
       const list = j.progress || [];
       const total = j.totalCount || 0;
       if(!list.length){
-        els.crosswordProgressList.innerHTML = `<div class="adm-note">No participants yet — share the QR. Progress will appear as <code>X / Y ${esc(unit)} filled</code>.</div>`;
+        els.crosswordProgressList.innerHTML = `<div class="adm-note">No participants yet - share the QR. Progress will appear as <code>X / Y ${esc(unit)} filled</code>.</div>`;
         els.crosswordProgressMeta.textContent = '';
         return;
       }
@@ -897,7 +897,7 @@
         const pct = tot ? Math.round((filled/tot)*100) : 0;
         const when = p.updatedAt ? new Date(p.updatedAt).toLocaleTimeString() : '';
         const suffix = suffixFn ? esc(suffixFn(p)) : '';
-        // Three-state submission badge — authoritative done signal
+        // Three-state submission badge - authoritative done signal
         // Submitted state uses dedicated pill class (.adm-badge--submitted) so variable-length
         // "SUBMITTED · HH:MM:SS AM" always fits with padding and wraps inside the pill, never
         // crossing its border. In-progress / reached_end badges intentionally keep the original
@@ -909,7 +909,7 @@
             const t = p.submittedAt ? new Date(p.submittedAt).toLocaleTimeString() : '';
             statusBadge = `<span class="adm-badge adm-badge--submitted">✓ submitted${t?' · '+esc(t):''}</span>`;
           } else if(st==='reached_end'){
-            statusBadge = `<span class="adm-badge" style="background:#fffbeb;border-color:#fde68a;color:#92400e;font-size:var(--fs-badge)">● reached end — not submitted</span>`;
+            statusBadge = `<span class="adm-badge" style="background:#fffbeb;border-color:#fde68a;color:#92400e;font-size:var(--fs-badge)">● reached end - not submitted</span>`;
           } else {
             statusBadge = `<span class="adm-badge" style="font-size:var(--fs-badge)">○ in progress</span>`;
           }
@@ -935,12 +935,12 @@
       els.crosswordProgressMeta.textContent = meta;
     }
 
-    // "2m 14s" style relative-duration formatter — used only for the admin-only Fastest
+    // "2m 14s" style relative-duration formatter - used only for the admin-only Fastest
     // Overall panel below.
     function formatElapsed(startIso, endIso){
-      if(!startIso || !endIso) return '—';
+      if(!startIso || !endIso) return ' - ';
       const ms = new Date(endIso).getTime() - new Date(startIso).getTime();
-      if(!(ms >= 0)) return '—';
+      if(!(ms >= 0)) return ' - ';
       const totalSec = Math.round(ms/1000);
       const m = Math.floor(totalSec/60), s = totalSec%60;
       return m > 0 ? `${m}m ${s}s` : `${s}s`;
@@ -962,20 +962,20 @@
     function renderFastestOverall(data){
       const ranked = data.ranked || [];
       const inProgress = data.inProgress || [];
-      // Top 3 winners per module — ordered who scores more first, ties by earliest submittedAt
+      // Top 3 winners per module - ordered who scores more first, ties by earliest submittedAt
       // (fastest submission). Backend already sorts: correctCount desc → submittedAt asc (or
       // goodCount / submittedAt). Frontend displays Top 3 podium.
       if(data.module==='control-catch' && data.hasCorrectness){
-        els.fastestOverallNote.textContent = `Top 3 — ranked by good bubbles popped (of ${data.totalItems} possible), ties broken by fastest submission — each score is that participant's own personal round, never compared live to anyone else's.`;
+        els.fastestOverallNote.textContent = `Top 3 - ranked by good bubbles popped (of ${data.totalItems} possible), ties broken by fastest submission - each score is that participant's own personal round, never compared live to anyone else's.`;
       } else if(data.hasCorrectness){
-        els.fastestOverallNote.textContent = `Top 3 — ranked by correct answers (of ${data.totalItems}), ties broken by fastest submission (submittedAt).`;
+        els.fastestOverallNote.textContent = `Top 3 - ranked by correct answers (of ${data.totalItems}), ties broken by fastest submission (submittedAt).`;
       } else if(data.hasGoodDecision){
-        els.fastestOverallNote.textContent = `Top 3 — ranked by good decisions (of ${data.totalItems}), ties broken by fastest submission — labeled distinctly as "good decisions" not "correct".`;
+        els.fastestOverallNote.textContent = `Top 3 - ranked by good decisions (of ${data.totalItems}), ties broken by fastest submission - labeled distinctly as "good decisions" not "correct".`;
       } else {
-        els.fastestOverallNote.textContent = `Top 3 — ranked by submission time (${data.totalItems} items each) — this module has no objectively correct answer.`;
+        els.fastestOverallNote.textContent = `Top 3 - ranked by submission time (${data.totalItems} items each) - this module has no objectively correct answer.`;
       }
       if(!ranked.length){
-        els.fastestOverallList.innerHTML = '<li class="adm-note">No one has completed every item yet — waiting for first Submit.</li>';
+        els.fastestOverallList.innerHTML = '<li class="adm-note">No one has completed every item yet - waiting for first Submit.</li>';
       } else {
         const top3 = ranked.slice(0,3);
         els.fastestOverallList.innerHTML = top3.map(r=>{
@@ -985,7 +985,7 @@
           else if(data.hasCorrectness) scoreBit = `${r.correctCount} / ${data.totalItems} correct &nbsp;·&nbsp; `;
           else if(data.hasGoodDecision) scoreBit = `${r.goodCount} / ${data.totalItems} good decisions &nbsp;·&nbsp; `;
           const medal = r.rank===1 ? '🥇 ' : r.rank===2 ? '🥈 ' : r.rank===3 ? '🥉 ' : '';
-          return `<li>${medal}<strong>${ordinal(r.rank)}</strong> — ${esc(r.name)}: ${scoreBit}${elapsed}</li>`;
+          return `<li>${medal}<strong>${ordinal(r.rank)}</strong> - ${esc(r.name)}: ${scoreBit}${elapsed}</li>`;
         }).join('');
         if(ranked.length > 3){
           els.fastestOverallList.innerHTML += `<li class="adm-note" style="text-align:center;margin-top:4px">+ ${ranked.length - 3} more submitted beyond top 3</li>`;
@@ -997,7 +997,7 @@
       els.fastestOverallWrap.classList.remove('adm-hidden');
     }
 
-    // Item picker for the 6 self-paced modules — lets the admin view results/reveal ANY item
+    // Item picker for the 6 self-paced modules - lets the admin view results/reveal ANY item
     // in the sequence (participants already have all of them; there's no single "current"
     // item to follow anymore). Built from the same s.items the participant page itself uses,
     // so it never needs a separate admin-only endpoint just to list the sequence.
@@ -1019,7 +1019,7 @@
     });
 
     async function loadFacilitatorNotes(mod){
-      if(facilitatorNotesLoadedFor === mod) return; // static per-module content — fetch once per module, not every poll tick
+      if(facilitatorNotesLoadedFor === mod) return; // static per-module content - fetch once per module, not every poll tick
       facilitatorNotesLoadedFor = mod;
       try{
         const j = await api('/api/admin/modules/' + encodeURIComponent(mod) + '/facilitator-notes');
@@ -1036,7 +1036,7 @@
         if(notes.commonWrongAnswer){
           html += '<div style="font-weight:700; margin-bottom:4px;">Common wrong answer</div><div>'+esc(notes.commonWrongAnswer)+'</div>';
         }
-        els.facilitatorNotesBody.innerHTML = html || '—';
+        els.facilitatorNotesBody.innerHTML = html || ' - ';
         els.facilitatorNotesPanel.classList.remove('adm-hidden');
       } catch(e){
         els.facilitatorNotesPanel.classList.add('adm-hidden');
@@ -1045,8 +1045,8 @@
 
     els.markCompleteBtn.addEventListener('click', async ()=>{
       if(!currentCode) return;
-      if(!confirm('Mark this activity complete? Participants will see "Activity Complete" — make sure everyone has had a chance to finish.')) return;
-      els.runningMsg.textContent = 'Marking complete…';
+      if(!confirm('Mark this activity complete? Participants will see "Activity Complete" - make sure everyone has had a chance to finish.')) return;
+      els.runningMsg.textContent = 'Marking complete...';
       try{
         await api('/api/admin/session/' + currentCode + '/next', { method:'POST', body:{ complete: true } });
         pollOnce();
@@ -1062,7 +1062,7 @@
         try{
           const cw = await api('/api/admin/session/' + currentCode + '/crossword/progress');
           if(mySeq !== pollSeq) return;
-          els.crosswordProgressNote.innerHTML = 'Crossword — debounced <code>POST /crossword/progress</code> → admin polls <code>GET /crossword/progress</code> ~1.5s. Shows <code>X / Y filled · Z correct (P%)</code> — raw progress vs per-word correctness, distinct metrics.';
+          els.crosswordProgressNote.innerHTML = 'Crossword - debounced <code>POST /crossword/progress</code> → admin polls <code>GET /crossword/progress</code> ~1.5s. Shows <code>X / Y filled · Z correct (P%)</code> - raw progress vs per-word correctness, distinct metrics.';
           const cwSuffix = p => {
             if(p.correctCount!=null){
               const tot = cw.totalCount||1;
@@ -1072,7 +1072,7 @@
             return '';
           };
           renderCrosswordProgress(cw, 'clues', cwSuffix);
-          els.resultsPrompt.textContent = `Crossword — ${cw.totalCount||0} clues · live progress`;
+          els.resultsPrompt.textContent = `Crossword - ${cw.totalCount||0} clues · live progress`;
           els.resultsStandardNote.classList.add('adm-hidden');
           els.crosswordProgressWrap.classList.remove('adm-hidden');
           els.resultsBars.classList.add('adm-hidden');
@@ -1084,21 +1084,21 @@
           els.revealBtn.classList.add('adm-hidden');
         }catch(e){}
       } else if(st && st.activeModule===CONTROL_CATCH_MODULE) {
-        // Falling-bubble reflex game — no discrete voted items (participants ping their own
+        // Falling-bubble reflex game - no discrete voted items (participants ping their own
         // score/lives via POST /control-catch/progress), same dedicated-progress-panel
         // pattern as crossword/pass-phrase. filledCount here is score (good bubbles popped),
         // totalCount is the content pool's total good-bubble count (max possible score).
         try{
           const cc = await api('/api/admin/session/' + currentCode + '/control-catch/progress');
           if(mySeq !== pollSeq) return;
-          els.crosswordProgressNote.innerHTML = 'Control Catch — each participant pings their own score/lives (~debounced), admin polls ~1.5s. Shows <code>X / Y good caught</code> — personal score, never compared between participants.';
+          els.crosswordProgressNote.innerHTML = 'Control Catch - each participant pings their own score/lives (~debounced), admin polls ~1.5s. Shows <code>X / Y good caught</code> - personal score, never compared between participants.';
           const ccSuffix = p => {
             let bit = ' · ' + (p.livesLeft!=null ? p.livesLeft : 3) + ' lives left';
             if(p.badPops) bit += ' · ' + p.badPops + ' bad popped';
             return bit;
           };
           renderCrosswordProgress(cc, 'good caught', ccSuffix);
-          els.resultsPrompt.textContent = `Control Catch — ${cc.totalCount||0} good bubbles possible · live progress`;
+          els.resultsPrompt.textContent = `Control Catch - ${cc.totalCount||0} good bubbles possible · live progress`;
           els.crosswordProgressWrap.classList.remove('adm-hidden');
         }catch(e){}
         els.resultsStandardNote.classList.add('adm-hidden');
@@ -1110,7 +1110,7 @@
         els.revealedFactWrap.classList.add('adm-hidden');
         els.revealBtn.classList.add('adm-hidden');
       } else if(st && st.activeModule===PASSPHRASE_MODULE) {
-        // Real build-your-own-password mechanic (see PART's rebuild) — no discrete voted
+        // Real build-your-own-password mechanic (see PART's rebuild) - no discrete voted
         // items at all (participants build freely via POST /passphrase/build), so there's
         // nothing meaningful for the generic results-bars/reveal panel to show. Same
         // dedicated-progress-panel pattern as crossword: per-participant round-completion +
@@ -1118,9 +1118,9 @@
         try{
           const pp = await api('/api/admin/session/' + currentCode + '/passphrase/progress');
           if(mySeq !== pollSeq) return;
-          els.crosswordProgressNote.innerHTML = 'Pass-Phrase progress — rounds built + current strength per participant, computed server-side (~1.5s).';
+          els.crosswordProgressNote.innerHTML = 'Pass-Phrase progress - rounds built + current strength per participant, computed server-side (~1.5s).';
           renderCrosswordProgress(pp, 'rounds built', p => p.currentStrengthLabel ? (' · ' + p.currentStrengthLabel) : '');
-          els.resultsPrompt.textContent = `Pass-Phrase — ${pp.totalCount||0} rounds · live progress`;
+          els.resultsPrompt.textContent = `Pass-Phrase - ${pp.totalCount||0} rounds · live progress`;
           els.crosswordProgressWrap.classList.remove('adm-hidden');
         }catch(e){}
         els.resultsStandardNote.classList.add('adm-hidden');
@@ -1132,9 +1132,9 @@
         els.revealedFactWrap.classList.add('adm-hidden');
         els.revealBtn.classList.add('adm-hidden');
       } else if(st && MC_MODULES.includes(st.activeModule)) {
-        // Per-participant progress across the FULL self-paced sequence — server-computed from
+        // Per-participant progress across the FULL self-paced sequence - server-computed from
         // responses (see GET /progress in app.py), same list/shape as crossword's own panel.
-        // Consistent display pattern: "Name — X/Y items · Z correct (P%)" or module-appropriate
+        // Consistent display pattern: "Name - X/Y items · Z correct (P%)" or module-appropriate
         // equivalent (good decisions for decision-room, correct entries for crossword).
         try{
           const prog = await api('/api/admin/session/' + currentCode + '/progress');
@@ -1142,11 +1142,11 @@
           const hasCorr = !!prog.hasCorrectness;
           const hasGood = !!prog.hasGoodDecision;
           if(hasGood){
-            els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword. Shows <code>X / Y items · Z good decisions (P%)</code> — admin-only.';
+            els.crosswordProgressNote.innerHTML = 'Self-paced progress - computed server-side from responses (~1.5s), same X / Y pattern as Crossword. Shows <code>X / Y items · Z good decisions (P%)</code> - admin-only.';
           } else if(hasCorr){
-            els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword. Shows <code>X / Y items · Z correct (P%)</code> — admin-only, updates live.';
+            els.crosswordProgressNote.innerHTML = 'Self-paced progress - computed server-side from responses (~1.5s), same X / Y pattern as Crossword. Shows <code>X / Y items · Z correct (P%)</code> - admin-only, updates live.';
           } else {
-            els.crosswordProgressNote.innerHTML = 'Self-paced progress — computed server-side from responses (~1.5s), same X / Y pattern as Crossword. <code>X / Y items</code> — no single correct answer for this module.';
+            els.crosswordProgressNote.innerHTML = 'Self-paced progress - computed server-side from responses (~1.5s), same X / Y pattern as Crossword. <code>X / Y items</code> - no single correct answer for this module.';
           }
           let scoreSuffix = null;
           if(hasCorr){
@@ -1195,7 +1195,7 @@
       const mySeq = ++pollSeq;
       try{
         const s = await api('/api/session/' + currentCode + '/state');
-        if(mySeq !== pollSeq) return; // a newer poll started while this one was in flight — stale, discard
+        if(mySeq !== pollSeq) return; // a newer poll started while this one was in flight - stale, discard
         renderStateUI(s);
         // Keep QR fresh
         if(s.joinUrl){
@@ -1215,7 +1215,7 @@
       } catch(e){
         if(mySeq !== pollSeq) return;
         if(String(e.message).includes('Room not found')){
-          els.sessionMsg.textContent = 'Room not found — create a new session';
+          els.sessionMsg.textContent = 'Room not found - create a new session';
         }
       }
     }
@@ -1228,11 +1228,11 @@
 
     els.revealBtn.addEventListener('click', async ()=>{
       if(!currentCode) return;
-      els.revealMsg.textContent = 'Revealing…';
+      els.revealMsg.textContent = 'Revealing...';
       try{
         const body = selectedItemId ? { itemId: selectedItemId } : {};
         await api('/api/admin/session/' + currentCode + '/reveal', { method:'POST', body });
-        els.revealMsg.textContent = 'Revealed on this screen only — read it aloud to the room (phones never show this)';
+        els.revealMsg.textContent = 'Revealed on this screen only - read it aloud to the room (phones never show this)';
         pollOnce();
       } catch(e){
         els.revealMsg.textContent = 'Reveal failed: ' + e.message;

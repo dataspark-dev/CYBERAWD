@@ -1,8 +1,8 @@
-/* Live Simulation — Social-Engineering Virtual Environment
+/* Live Simulation - Social-Engineering Virtual Environment
    4 persona-based attack-chain scenarios + OSINT → Teams/SMS → Portal → CSO Fraud flow
-   Facilitator-driven, keyboard-first, self-contained — no scoring, restartable */
+   Facilitator-driven, keyboard-first, self-contained - no scoring, restartable */
 (function () {
-  // How long the "typing…" bubble lingers before the actual message replaces it. Was 520ms —
+  // How long the "typing..." bubble lingers before the actual message replaces it. Was 520ms  - 
   // barely registered as a pause at real event speed. Chat-app typing indicators typically run
   // 800ms-1.5s; 750ms gives the room a beat to notice "someone's typing" and anticipate what's
   // coming without dragging, since a facilitator narrates each beat as it lands.
@@ -94,7 +94,7 @@
     const severityClass = beat.severity === 'critical' ? ' severity-critical' : '';
 
     let artifactHtml = '';
-    // windowIcon only feeds the LinkedIn avatar icon below — the window-bar it used to label
+    // windowIcon only feeds the LinkedIn avatar icon below - the window-bar it used to label
     // (with its own title per branch) was removed as decoration, so nothing else sets it now.
     let windowIcon = channelIcon(ch);
 
@@ -103,13 +103,13 @@
         <div class="ls-linkedin-card">
           <img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%23e2e8f0'/%3E%3Ctext x='24' y='30' text-anchor='middle' font-size='18' font-family='Barlow'%3ERK%3C/text%3E%3C/svg%3E" />
           <div>
-            <div class="ls-linkedin-name">Rajesh Kumar · 3/O — MV Horizon</div>
+            <div class="ls-linkedin-name">Rajesh Kumar · 3/O - MV Horizon</div>
             <div class="ls-linkedin-role">Synergy Marine Group · India · 500+ connections · Joined 2021</div>
             <div style="font-size:11px;color:#0ea5e9;margin-top:4px;"><i class="fa-brands fa-linkedin"></i> Public profile · Vessel: MV Horizon · Location: Singapore</div>
           </div>
         </div>`;
     } else if (ch === 'osint') {
-      artifactHtml = `<div class="ls-artifact"><i class="fa-solid fa-wand-magic-sparkles"></i> Predicted 18 addresses — try rajesh.kumar@synergymarinegroup.com — <b>Valid format 92%</b></div>`;
+      artifactHtml = `<div class="ls-artifact"><i class="fa-solid fa-wand-magic-sparkles"></i> Predicted 18 addresses - try rajesh.kumar@synergymarinegroup.com - <b>Valid format 92%</b></div>`;
     } else if (ch === 'attachment') {
       const isMalicious = (beat.meta && beat.meta.includes('.exe')) || beat.text.includes('.exe') || beat.address?.includes('Application');
       if (beat.text.includes('Payslip_March.pdf.exe') || isMalicious) {
@@ -118,7 +118,7 @@
             <div class="ls-att-icon exe">EXE</div>
             <div>
               <div class="ls-att-name">Payslip_March.pdf.exe</div>
-              <div class="ls-att-meta">1.1 MB · Application · Double extension — <b>.exe is real type</b></div>
+              <div class="ls-att-meta">1.1 MB · Application · Double extension - <b>.exe is real type</b></div>
             </div>
             <i class="fa-solid fa-triangle-exclamation" style="margin-left:auto;color:#ef4444"></i>
           </div>
@@ -126,20 +126,20 @@
             <div class="ls-att-icon zip">ZIP</div>
             <div>
               <div class="ls-att-name">Documents.zip</div>
-              <div class="ls-att-meta">3.4 MB · Archive · Password: 1234 — generic name</div>
+              <div class="ls-att-meta">3.4 MB · Archive · Password: 1234 - generic name</div>
             </div>
           </div>
-          <div class="ls-artifact" style="border-color:#fecaca;background:#fef2f2;color:#991b1b"><i class="fa-solid fa-shield-halved"></i> Hover: Windows hides known extensions — .pdf.exe shows as .pdf</div>`;
+          <div class="ls-artifact" style="border-color:#fecaca;background:#fef2f2;color:#991b1b"><i class="fa-solid fa-shield-halved"></i> Hover: Windows hides known extensions - .pdf.exe shows as .pdf</div>`;
       } else {
         artifactHtml = `
           <div class="ls-attachment-card">
             <div class="ls-att-icon pdf">PDF</div>
-            <div><div class="ls-att-name">Payslip_Feb2025_RajKumar.pdf</div><div class="ls-att-meta">480 KB · PDF — Expected</div></div>
+            <div><div class="ls-att-name">Payslip_Feb2025_RajKumar.pdf</div><div class="ls-att-meta">480 KB · PDF - Expected</div></div>
             <i class="fa-solid fa-check" style="margin-left:auto;color:#16a34a"></i>
           </div>
           <div class="ls-attachment-card" style="margin-top:8px">
             <div class="ls-att-icon xls">XLS</div>
-            <div><div class="ls-att-name">Rotation_Roster_MV-Horizon_Feb-Apr.xlsx</div><div class="ls-att-meta">210 KB · Spreadsheet — Expected</div></div>
+            <div><div class="ls-att-name">Rotation_Roster_MV-Horizon_Feb-Apr.xlsx</div><div class="ls-att-meta">210 KB · Spreadsheet - Expected</div></div>
             <i class="fa-solid fa-check" style="margin-left:auto;color:#16a34a"></i>
           </div>`;
       }
@@ -148,30 +148,30 @@
         const display = 'https://portal.synergymarinegroup.com/crew/rotation-confirm';
         const href = 'https://portal-synergymarine-group-secure.net/crew/verify?id=42';
         artifactHtml = `
-          <div class="ls-link-preview" data-href="${esc(href)}" role="button" tabindex="0" aria-label="Link preview — click to reveal destination">
+          <div class="ls-link-preview" data-href="${esc(href)}" role="button" tabindex="0" aria-label="Link preview - click to reveal destination">
             <i class="fa-solid fa-link" style="color:#2563eb"></i>
             <span class="ls-link-text">${esc(display)}</span>
             <span class="ls-ext-badge">CLICK TO INSPECT</span>
-            <div class="ls-link-tooltip malicious">Actual href: ${esc(href)} · Also: bit.ly/CrewRotation-Horizon — <b>Display ≠ destination</b></div>
+            <div class="ls-link-tooltip malicious">Actual href: ${esc(href)} · Also: bit.ly/CrewRotation-Horizon - <b>Display ≠ destination</b></div>
           </div>
-          <div class="ls-artifact"><i class="fa-solid fa-arrow-pointer"></i> Click or tap the blue link — real destination is lookalike with “-secure.net”</div>`;
+          <div class="ls-artifact"><i class="fa-solid fa-arrow-pointer"></i> Click or tap the blue link - real destination is lookalike with “-secure.net”</div>`;
       } else if (beat.sender && beat.sender.address.includes('portal')) {
         artifactHtml = `
           <div class="ls-link-preview" style="border-color:#bbf7d0;background:#f0fdf4">
             <i class="fa-solid fa-link" style="color:#16a34a"></i>
-            <span class="ls-link-text" style="color:#14532d">https://portal.synergymarinegroup.com/crew/rotation-confirm — matches display ✓</span>
+            <span class="ls-link-text" style="color:#14532d">https://portal.synergymarinegroup.com/crew/rotation-confirm - matches display ✓</span>
           </div>`;
       }
     } else if (ch === 'portal') {
       if (beat.text.includes('beacon') || beat.text.includes('PowerShell')) {
-        artifactHtml = `<div class="ls-artifact" style="border-color:#fecaca;background:#fef2f2;color:#7f1d1d"><i class="fa-solid fa-bug"></i> Simulated: Macro → PowerShell → C2 beacon — no real payload executed</div>`;
+        artifactHtml = `<div class="ls-artifact" style="border-color:#fecaca;background:#fef2f2;color:#7f1d1d"><i class="fa-solid fa-bug"></i> Simulated: Macro → PowerShell → C2 beacon - no real payload executed</div>`;
       }
     }
 
     const avatarHtml = ch === 'sms' ? `<div class="ls-avatar" style="background:#22c55e;color:#fff">💬</div>` : ch === 'linkedin' ? `<div class="ls-avatar" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)"><i class="${windowIcon}"></i></div>` : `<div class="ls-avatar">${esc(avatarText)}</div>`;
 
     // Window-bar chrome (traffic-light dots, "LIVE EXTERNAL/INTERNAL" badge, window title)
-    // used to sit above every bubble here — it carried no signal the .ls-channel line below
+    // used to sit above every bubble here - it carried no signal the .ls-channel line below
     // doesn't already carry (channel icon + label + the same external/internal flag via
     // .ls-ext-badge), so it was removed as pure decoration rather than simplified.
     if (ch === 'sms') {
@@ -180,7 +180,7 @@
           ${avatarHtml}
           <div class="ls-bubble ls-sms-bubble" style="overflow:visible">
             <div class="ls-channel"><i class="${channelIcon(ch)}"></i> ${esc(channelLabel(ch))} · ${esc(beat.label)} ${external ? '<span class="ls-ext-badge">EXTERNAL</span>' : ''}</div>
-            <div class="ls-meta"><span class="ls-sender-name">${esc(sender.name)} — ${esc(sender.title)}</span><span>${esc(beat.timestamp)}</span></div>
+            <div class="ls-meta"><span class="ls-sender-name">${esc(sender.name)} - ${esc(sender.title)}</span><span>${esc(beat.timestamp)}</span></div>
             <div class="ls-address">${esc(sender.address)}</div>
             <div class="ls-text">${esc(beat.text)}</div>
             ${artifactHtml || (beat.meta ? `<div class="ls-artifact">${esc(beat.meta)}</div>` : '')}
@@ -193,7 +193,7 @@
         ${avatarHtml}
         <div class="ls-bubble ${ch === 'teams' ? 'ls-teams-bubble' : ch === 'osint' || ch === 'linkedin' ? 'ls-osint-card' : ''}" style="overflow:visible">
           <div class="ls-channel"><i class="${channelIcon(ch)}"></i> ${esc(channelLabel(ch))} · ${esc(beat.label)} ${external ? '<span class="ls-ext-badge">EXTERNAL</span>' : ''}</div>
-          <div class="ls-meta"><span class="ls-sender-name">${esc(sender.name)} — ${esc(sender.title)}</span><span>${esc(beat.timestamp)}</span></div>
+          <div class="ls-meta"><span class="ls-sender-name">${esc(sender.name)} - ${esc(sender.title)}</span><span>${esc(beat.timestamp)}</span></div>
           <div class="ls-address">${esc(sender.address)}</div>
           <div class="ls-text">${esc(beat.text)}</div>
           ${artifactHtml || (beat.meta ? `<div class="ls-artifact">${esc(beat.meta)}</div>` : '')}
@@ -343,7 +343,7 @@
         <div class="lr-cta">${esc(r.callToAction)}</div>
         ${!isLast && sc.bridgeToNext ? `<div class="ls-bridge"><i class="fa-solid fa-arrow-right-long"></i> ${esc(sc.bridgeToNext)}</div>` : ''}
         <div class="ls-final-actions">
-          ${!isLast ? `<button class="le-btn primary lg" id="nextScenarioBtn" type="button"><i class="fa-solid fa-forward"></i> Next Scenario — ${esc(data.scenarios[scenarioIdx+1].title)}</button>` : ''}
+          ${!isLast ? `<button class="le-btn primary lg" id="nextScenarioBtn" type="button"><i class="fa-solid fa-forward"></i> Next Scenario - ${esc(data.scenarios[scenarioIdx+1].title)}</button>` : ''}
           <button class="le-btn ${!isLast ? 'ghost' : 'primary'} lg" id="restartScenarioBtn" type="button"><i class="fa-solid fa-rotate"></i> Replay Scenario</button>
           <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
         </div>
@@ -388,13 +388,13 @@
     stageEl.innerHTML = `
       <div class="ls-reveal ls-global-reveal">
         <div class="ls-global-timeline">
-          <span class="ls-timeline-step"><i class="fa-brands fa-linkedin"></i> Day 1 — OSINT</span>
+          <span class="ls-timeline-step"><i class="fa-brands fa-linkedin"></i> Day 1 - OSINT</span>
           <span class="ls-timeline-arrow">→</span>
-          <span class="ls-timeline-step"><i class="fa-solid fa-paperclip"></i> Day 4 — Attachment</span>
+          <span class="ls-timeline-step"><i class="fa-solid fa-paperclip"></i> Day 4 - Attachment</span>
           <span class="ls-timeline-arrow">→</span>
-          <span class="ls-timeline-step"><i class="fa-brands fa-microsoft"></i> Day 5 — Teams/SMS</span>
+          <span class="ls-timeline-step"><i class="fa-brands fa-microsoft"></i> Day 5 - Teams/SMS</span>
           <span class="ls-timeline-arrow">→</span>
-          <span class="ls-timeline-step is-critical"><i class="fa-solid fa-building-columns"></i> Day 6 — Wire</span>
+          <span class="ls-timeline-step is-critical"><i class="fa-solid fa-building-columns"></i> Day 6 - Wire</span>
         </div>
         <div class="lr-title">${esc(r.title)}</div>
         <div class="lr-subtitle">${esc(r.subtitle)}</div>
@@ -410,7 +410,7 @@
           </div>
         </div>
         <div class="ls-final-actions">
-          <a class="le-btn primary lg" href="myth-vs-fact.html"><i class="fa-solid fa-forward"></i> Up Next: Myth vs Fact — Correct</a>
+          <a class="le-btn primary lg" href="myth-vs-fact.html"><i class="fa-solid fa-forward"></i> Up Next: Myth vs Fact - Correct</a>
           <button class="le-btn ghost lg" id="restartAllBtnGlobal" type="button"><i class="fa-solid fa-arrows-rotate"></i> Restart All</button>
           <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
         </div>
@@ -497,22 +497,22 @@
     const att = e.target.closest('.ls-attachment-card.malicious');
     if (att) {
       e.preventDefault();
-      showOverlay('Execution Blocked — Simulation', 'In a real system, double-clicking Payslip_March.pdf.exe would have launched an EXE, not a PDF. Windows hides the true .exe extension by default — the PDF icon is fake. This is why HR/Payroll must verify file type and expectation before enabling macros.');
+      showOverlay('Execution Blocked - Simulation', 'In a real system, double-clicking Payslip_March.pdf.exe would have launched an EXE, not a PDF. Windows hides the true .exe extension by default - the PDF icon is fake. This is why HR/Payroll must verify file type and expectation before enabling macros.');
     }
     const link = e.target.closest('.ls-link-preview[data-href]');
     if (link) {
       e.preventDefault();
-      showOverlay('Link Destination Revealed', 'Displayed: portal.synergymarinegroup.com — Actual href: ' + link.dataset.href + ' — Always hover/long-press on mobile. The blue text can be any string; the href is what the browser follows.');
+      showOverlay('Link Destination Revealed', 'Displayed: portal.synergymarinegroup.com - Actual href: ' + link.dataset.href + ' - Always hover/long-press on mobile. The blue text can be any string; the href is what the browser follows.');
     } else {
       const linkPlain = e.target.closest('.ls-link-preview');
       if (linkPlain && linkPlain.dataset.href) {
         e.preventDefault();
-        showOverlay('Link Destination Revealed', 'Displayed: portal.synergymarinegroup.com — Actual href: ' + linkPlain.dataset.href + ' — Always hover/long-press on mobile.');
+        showOverlay('Link Destination Revealed', 'Displayed: portal.synergymarinegroup.com - Actual href: ' + linkPlain.dataset.href + ' - Always hover/long-press on mobile.');
       }
     }
   });
 
-  // Brief framing screen before the simulation starts — see console.css's
+  // Brief framing screen before the simulation starts - see console.css's
   // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
   function beginActivity() {
     if (!contentData) return;
@@ -578,7 +578,7 @@
       if (introDismissed) beginActivity();
     })
     .catch(err => {
-      stageEl.innerHTML = '<p style="color:#fff;">Couldn\'t load this activity\'s content — check your connection or refresh.</p>';
+      stageEl.innerHTML = '<p style="color:#fff;">Couldn\'t load this activity\'s content - check your connection or refresh.</p>';
       console.error(err);
     });
 })();

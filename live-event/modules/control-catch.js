@@ -1,9 +1,9 @@
-/* Control Catch — falling-bubble reflex game (console/facilitator screen).
-   Standalone: no team scoring, no server sync — the phone-synced version (app.py's /join/<code>
+/* Control Catch - falling-bubble reflex game (console/facilitator screen).
+   Standalone: no team scoring, no server sync - the phone-synced version (app.py's /join/<code>
    embedded page) is a separate, independent playthrough per participant with its own personal
    score. This console version exists so a facilitator can run/demo the exact same mechanic on
    the shared screen. Bubbles are plain DOM buttons animated via a CSS transition on `top`
-   (same DOM+CSS approach as every other module here — no canvas). */
+   (same DOM+CSS approach as every other module here - no canvas). */
 (function () {
   const TIMER_SECONDS = 75;
   const CC_SPAWN_START_MS = 1400;
@@ -11,7 +11,7 @@
   const CC_FALL_START_MS = 4800;
   const CC_FALL_MIN_MS = 2600;
   const CC_DURATION_MS = TIMER_SECONDS * 1000;
-  // Decorative palette only (see console.css's .cc-c1..c6 + the comment above them) — picked
+  // Decorative palette only (see console.css's .cc-c1..c6 + the comment above them) - picked
   // at random per bubble, with zero relationship to bubble.good, so color never hints at the
   // right answer. Pop-outcome color (green/red) is separate and handled entirely by CSS via
   // the .cc-pop-good/.cc-pop-bad classes added in popBubble below.
@@ -80,7 +80,7 @@
     el.dataset.resolved = '1';
     freezeBubbleAt(el);
     void el.offsetHeight; // force the transition:none above to apply before the keyframe animation below starts
-    // Outcome color/animation is CSS-driven (see console.css's cc-burst-good/cc-burst-bad) —
+    // Outcome color/animation is CSS-driven (see console.css's cc-burst-good/cc-burst-bad)  - 
     // no inline transform/opacity here, just add the class and let the keyframes take over.
     if (bubble.good) {
       score++;
@@ -100,7 +100,7 @@
     const bubble = bubblePool[Math.floor(Math.random() * bubblePool.length)];
     const el = document.createElement('button');
     el.type = 'button';
-    // Decorative color is random and independent of bubble.good — see CC_COLOR_CLASSES above.
+    // Decorative color is random and independent of bubble.good - see CC_COLOR_CLASSES above.
     const colorClass = CC_COLOR_CLASSES[Math.floor(Math.random() * CC_COLOR_CLASSES.length)];
     el.className = 'cc-bubble ' + colorClass;
     el.textContent = bubble.text;
@@ -206,7 +206,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      if (els.hint) els.hint.textContent = "Couldn't load this activity's content — check your connection or refresh.";
+      if (els.hint) els.hint.textContent = "Could not load this activity. Check your connection and refresh.";
       console.error(err);
     });
 })();

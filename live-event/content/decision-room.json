@@ -1,216 +1,649 @@
 {
-  "whyThisMatters": "Most people freeze or panic-fix in the first minute of a real incident — the habit that saves you is knowing your next move before you ever need it.",
-  "rememberThis": "STOP, VERIFY, REPORT — in that order, every time, no matter how the situation looks.",
+  "whyThisMatters": "In the first minute of a real incident, most people freeze or try to fix it alone. The habit that helps you is knowing your next step before you need it.",
+  "rememberThis": "STOP, VERIFY, REPORT. Use this order every time, no matter what the situation looks like.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the room what they'd actually do in the first 60 seconds of finding an unknown USB or a locked screen — before revealing the \"good\" answer.",
-      "For the vishing call — ask if anyone has a memorized \"known number\" to call back on, or if they'd have to look it up under pressure.",
-      "Ask why \"wait and see if anything goes wrong\" is tempting, even though it's the wrong move in every one of these cases."
+      "Ask the group what they would do in the first 60 seconds if they found an unknown USB drive or a locked screen. Ask before you show the good answer.",
+      "For the phone call case, ask if anyone has a trusted number they know by heart to call back on. Or would they need to look it up under pressure?",
+      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
+      "Ask how it felt to decide on the fast cases under time pressure. Was it harder to pause when the clock was running?",
+      "For the CFO video call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
+      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
     ],
-    "commonWrongAnswer": "The instinct to self-fix — change your own password, restart a locked device, move a breached folder — before reporting is the most consistently wrong pick across all 6 cases, since it feels proactive even though it usually destroys evidence IT needs."
+    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked device, or move a leaked folder. It feels helpful. But it often destroys evidence that IT needs. For the fast cases, people most often get the CFO video call wrong. They choose \"approve the payment\" because the face and voice matched. A live call feels harder to fake than an email."
   },
   "cases": [
-  {
-    "id": "phishing-link-clicked",
-    "persona": "HR / Recruitment",
-    "title": "You Clicked a Phishing Link",
-    "scenario": "You're going through candidate emails and click a link in what looked like a routine application follow-up — only after clicking does the page look wrong.",
-    "decisions": [
-      {
-        "id": "d1",
-        "prompt": "The page that opened looks off — a fake-looking login box appears. What's your first move?",
-        "options": [
-          { "id": "a", "text": "Enter your work login to see if it's really asking for that", "outcome": "consequence", "feedback": "Typing credentials into an unfamiliar page is exactly how phishing pages steal them — even a quick \"test\" entry can hand over a working password." },
-          { "id": "b", "text": "Close the tab without entering anything and don't touch the device further", "outcome": "good", "feedback": "Right call. Not entering anything stops the attack from working, and leaving the device as-is preserves what IT needs to see." },
-          { "id": "c", "text": "Take a screenshot to show a coworker before doing anything else", "outcome": "consequence", "feedback": "Sharing it around delays the one thing that actually matters here — getting it to IT fast, not crowd-sourcing an opinion first." }
-        ]
-      },
-      {
-        "id": "d2",
-        "prompt": "You didn't enter anything, but the device is still connected to the network. What next?",
-        "options": [
-          { "id": "a", "text": "Disconnect the device from Wi-Fi and the network", "outcome": "good", "feedback": "Disconnecting first limits how far anything that did run can spread, before IT even gets involved." },
-          { "id": "b", "text": "Leave it connected and keep working — nothing was typed in, so it's probably fine", "outcome": "consequence", "feedback": "A link can trigger something the moment the page loads, before you type anything. Staying connected gives it time to spread." }
-        ]
-      },
-      {
-        "id": "d3",
-        "prompt": "Now it's time to loop in IT Security. What do you report, and how fast?",
-        "options": [
-          { "id": "a", "text": "Report it immediately, including the sender, the link, and exactly what you clicked", "outcome": "good", "feedback": "Fast, detailed reporting is what lets IT Security contain it before it reaches anyone else — and gives them what they need to act." },
-          { "id": "b", "text": "Wait to see if anything actually goes wrong before reporting", "outcome": "consequence", "feedback": "By the time something visibly goes wrong, the window to contain it quietly may already be gone." },
-          { "id": "c", "text": "Change your password yourself first, then report later", "outcome": "consequence", "feedback": "Reporting first means IT can tell you whether a password change is even needed — doing it solo can also overwrite evidence they need." }
-        ]
-      }
-    ],
-    "debrief": "Whether it's a link, an attachment, or anything you weren't expecting — STOP before you interact further, VERIFY nothing more before disconnecting, and REPORT immediately with the details. Every minute you wait is a minute IT Security doesn't have."
-  },
-  {
-    "id": "unknown-usb-drive",
-    "persona": "Offshore Crew",
-    "title": "You Found an Unknown USB Drive",
-    "scenario": "You're doing rounds on deck and find a USB drive taped to a workstation with no label and no obvious owner.",
-    "decisions": [
-      {
-        "id": "d1",
-        "prompt": "No one's claiming it and you're curious who it belongs to. What do you do?",
-        "options": [
-          { "id": "a", "text": "Plug it into a nearby workstation to check what's on it", "outcome": "consequence", "feedback": "Unknown drives can run malicious code the instant they're connected — plugging it in to \"just look\" is exactly how it gets in." },
-          { "id": "b", "text": "Leave it unplugged and don't try to identify the owner yourself", "outcome": "good", "feedback": "Exactly right — not connecting it removes the risk entirely, and it's not your job to figure out whose it is." },
-          { "id": "c", "text": "Ask around the crew mess if anyone's missing a USB drive", "outcome": "consequence", "feedback": "Reasonable instinct, but it delays getting it to someone who can actually check it safely, and word can reach whoever planted it." }
-        ]
-      },
-      {
-        "id": "d2",
-        "prompt": "You've left it unplugged. What's the right next step before it gets forgotten in a drawer?",
-        "options": [
-          { "id": "a", "text": "Check with IT whether there's a safe way to inspect unknown media", "outcome": "good", "feedback": "This is the right instinct — some teams have an isolated way to check media safely, and asking first avoids guessing." },
-          { "id": "b", "text": "Hold onto it and mention it whenever IT is next around", "outcome": "consequence", "feedback": "\"Whenever they're next around\" can mean days — a live threat sitting in a drawer is still a threat." }
-        ]
-      },
-      {
-        "id": "d3",
-        "prompt": "Time to hand it over. What's the move?",
-        "options": [
-          { "id": "a", "text": "Report it and hand it to IT Security or your security team directly", "outcome": "good", "feedback": "Handing it over and letting IT determine whether it's safe is exactly how this should end — properly contained, properly checked." },
-          { "id": "b", "text": "Drop it at the front desk with a note and move on", "outcome": "consequence", "feedback": "It might sit there unnoticed for a while — a direct handover to IT/security makes sure someone qualified actually looks at it." }
-        ]
-      }
-    ],
-    "debrief": "Unknown media is one of the easiest ways malware gets onto a system — STOP before connecting anything, VERIFY with IT how to handle it safely, and REPORT it directly so it gets properly inspected, not left in a drawer."
-  },
-  {
-    "id": "stolen-laptop",
-    "persona": "Operations",
-    "title": "Your Laptop Was Stolen",
-    "scenario": "You're back from a site visit and realize your laptop was stolen from the van during a stop.",
-    "decisions": [
-      {
-        "id": "d1",
-        "prompt": "You just realized it's gone. What's your first move?",
-        "options": [
-          { "id": "a", "text": "Drive back to the last stop to look for it yourself", "outcome": "consequence", "feedback": "Every minute spent searching is a minute IT isn't locking down accounts or triggering a remote wipe — speed matters more than the search." },
-          { "id": "b", "text": "Report it to IT Security and your manager immediately", "outcome": "good", "feedback": "Exactly right — fast reporting is what lets IT act while there's still time to lock things down." }
-        ]
-      },
-      {
-        "id": "d2",
-        "prompt": "IT Security is on the call with you now. What do you give them?",
-        "options": [
-          { "id": "a", "text": "The device ID or asset tag, if you have it", "outcome": "good", "feedback": "That's what lets IT act on the right device fast, instead of chasing down details first." },
-          { "id": "b", "text": "Just a general description — you'll dig up the exact details later", "outcome": "consequence", "feedback": "Vague details slow down the one thing that needs to happen fast: locking down the right device." }
-        ]
-      },
-      {
-        "id": "d3",
-        "prompt": "IT asks what else needs attention. What do you check?",
-        "options": [
-          { "id": "a", "text": "Ask IT whether a remote wipe or lock was triggered, and change your passwords", "outcome": "good", "feedback": "Confirming the wipe/lock and rotating your passwords closes the two doors an attacker would actually use." },
-          { "id": "b", "text": "Assume IT has it handled and move on with your day", "outcome": "consequence", "feedback": "IT handling the device doesn't cover accounts you were logged into elsewhere — those still need attention from you." }
-        ]
-      }
-    ],
-    "debrief": "A stolen device with company access is a race against the clock — STOP chasing it yourself, REPORT immediately with what you know, and VERIFY the follow-up (remote wipe, password changes) actually happened."
-  },
-  {
-    "id": "suspected-data-breach",
-    "persona": "Finance / Accounts",
-    "title": "You Suspect a Data Breach",
-    "scenario": "You notice financial records that shouldn't be accessible are suddenly showing up in a shared folder anyone can open.",
-    "decisions": [
-      {
-        "id": "d1",
-        "prompt": "You've just spotted this. What's your first move?",
-        "options": [
-          { "id": "a", "text": "Message a few colleagues to see if they've noticed it too", "outcome": "consequence", "feedback": "Talking it around — even internally — risks the details spreading before IT Security has confirmed what's actually going on." },
-          { "id": "b", "text": "Avoid discussing it publicly or on social media, and don't touch the files", "outcome": "good", "feedback": "Exactly right — containing the conversation and not touching anything preserves both the evidence and the situation." }
-        ]
-      },
-      {
-        "id": "d2",
-        "prompt": "You haven't touched anything. What do you do next?",
-        "options": [
-          { "id": "a", "text": "Try moving the folder somewhere more restricted yourself", "outcome": "consequence", "feedback": "Fixing it yourself can overwrite exactly the evidence IT Security needs to figure out what happened and how." },
-          { "id": "b", "text": "Note down what you observed — what, when, and how — without changing anything", "outcome": "good", "feedback": "This gives IT Security the details they need without disturbing the scene." }
-        ]
-      },
-      {
-        "id": "d3",
-        "prompt": "You have the details noted. What now?",
-        "options": [
-          { "id": "a", "text": "Escalate to IT Security right away and leave affected systems running", "outcome": "good", "feedback": "Reporting fast and leaving systems running preserves the evidence trail IT Security needs to investigate properly." },
-          { "id": "b", "text": "Shut down the affected systems to be safe, then report", "outcome": "consequence", "feedback": "Shutting systems down can wipe exactly the evidence needed — reporting first, systems untouched, is the safer order." }
-        ]
-      }
-    ],
-    "debrief": "A suspected breach is a scene, not a mess to clean up — STOP before discussing or fixing anything, VERIFY what you observed without disturbing it, and REPORT right away so the trained response team can take it from there."
-  },
-  {
-    "id": "vishing-call",
-    "persona": "Offshore Crew",
-    "title": "You Got a Suspicious Phone Call",
-    "scenario": "Someone calls the vessel line claiming to be from head office IT, asking you to confirm your login details over the phone.",
-    "decisions": [
-      {
-        "id": "d1",
-        "prompt": "The caller is asking you to confirm your login details right now. What do you do?",
-        "options": [
-          { "id": "a", "text": "Give a partial answer to seem cooperative without giving everything", "outcome": "consequence", "feedback": "Even a partial confirmation can be enough — a caller like this only needs one true detail to build the rest." },
-          { "id": "b", "text": "Decline to give out any passwords, codes, or personal information", "outcome": "good", "feedback": "Exactly right — no legitimate IT request needs you to say this out loud on an inbound call." }
-        ]
-      },
-      {
-        "id": "d2",
-        "prompt": "They push back, asking you to \"just confirm\" if the account details they read out are correct. What now?",
-        "options": [
-          { "id": "a", "text": "Confirm or deny the details to move the call along faster", "outcome": "consequence", "feedback": "Even confirming \"no, that's wrong\" tells them something real — the safest answer is no answer at all." },
-          { "id": "b", "text": "Hang up and call the official number yourself to verify", "outcome": "good", "feedback": "Exactly right — calling back on a number you already trust removes their control of the conversation entirely." }
-        ]
-      },
-      {
-        "id": "d3",
-        "prompt": "You've hung up and called back on the real number. What's left to do?",
-        "options": [
-          { "id": "a", "text": "Report the call to IT Security, noting the caller ID and what they asked for", "outcome": "good", "feedback": "This gives IT Security what they need to warn others and possibly trace the pattern." },
-          { "id": "b", "text": "Let it go since nothing was actually given away", "outcome": "consequence", "feedback": "Even an unsuccessful attempt is worth flagging — it likely means others are getting the same call." }
-        ]
-      }
-    ],
-    "debrief": "Urgency on a call is a tactic, not a real deadline — STOP before giving out anything, VERIFY by calling back on a number you trust, and REPORT the attempt so others can be warned."
-  },
-  {
-    "id": "ransomware-lockout",
-    "persona": "Operations",
-    "title": "Your Screen Just Locked",
-    "scenario": "A message fills your screen demanding payment to unlock your files. A countdown timer is running.",
-    "decisions": [
-      {
-        "id": "d1",
-        "prompt": "What's your first move?",
-        "options": [
-          { "id": "a", "text": "Try to pay quickly before the timer runs out", "outcome": "consequence", "feedback": "Paying doesn't guarantee your files come back, and it funds the next attack. This also skips reporting entirely, which is what IT Security needs most right now." },
-          { "id": "b", "text": "Disconnect the device from the network immediately", "outcome": "good", "feedback": "Right instinct — this can stop it from spreading to other systems before IT gets involved." },
-          { "id": "c", "text": "Post about it in the team chat to warn others", "outcome": "consequence", "feedback": "Understandable, but this isn't the fastest route to containment, and it can spread panic before IT has confirmed scope." }
-        ]
-      },
-      {
-        "id": "d2",
-        "prompt": "The device is disconnected. What's next?",
-        "options": [
-          { "id": "a", "text": "Report it to IT Security immediately, describing exactly what's on screen", "outcome": "good", "feedback": "This is what actually gets a response moving — IT Security needs to know the details fast to contain it fleet-wide if needed." },
-          { "id": "b", "text": "Try restarting the device to see if the message clears", "outcome": "consequence", "feedback": "Restarting won't undo it and can make recovery harder — IT needs to see the device in its current state first." }
-        ]
-      },
-      {
-        "id": "d3",
-        "prompt": "IT Security is responding. What do you do while you wait?",
-        "options": [
-          { "id": "a", "text": "Leave the device disconnected and untouched, and follow IT's guidance", "outcome": "good", "feedback": "Exactly right — leaving it as-is preserves what IT needs to investigate and recover safely." },
-          { "id": "b", "text": "Try a few things yourself to see if you can unlock it", "outcome": "consequence", "feedback": "Self-fixing a live ransomware lock risks destroying data or evidence IT could otherwise recover." }
-        ]
-      }
-    ],
-    "debrief": "Ransomware wants you to panic and pay — STOP by disconnecting immediately, skip trying to VERIFY anything by paying or self-fixing, and REPORT fast so IT Security can contain it before it reaches other systems."
-  }
+    {
+      "id": "phishing-link-clicked",
+      "persona": "HR / Recruitment",
+      "title": "You Clicked a Phishing Link",
+      "scenario": "You are checking candidate emails. You click a link in what looked like a normal follow-up. After you click, the page looks wrong.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The page that opened looks strange. A fake login box appears. What do you do first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Type your work login to see if it is real",
+              "outcome": "consequence",
+              "feedback": "Do not type your login on a strange page. Even a quick test can give away your password."
+            },
+            {
+              "id": "b",
+              "text": "Close the tab without typing anything and leave the device alone",
+              "outcome": "good",
+              "feedback": "Right choice. Not typing anything stops the attack. Leaving the device as it is keeps what IT needs to see."
+            },
+            {
+              "id": "c",
+              "text": "Take a screenshot to show a coworker before you do anything else",
+              "outcome": "consequence",
+              "feedback": "Sharing it with coworkers slows you down. The most important step is to tell IT fast, not to ask others first."
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "prompt": "You did not type anything. But the device is still on the network. What next?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Disconnect the device from Wi-Fi and the network",
+              "outcome": "good",
+              "feedback": "Disconnecting first helps stop anything that may have started from spreading before IT steps in."
+            },
+            {
+              "id": "b",
+              "text": "Leave it connected and keep working. You did not type anything, so it is probably fine",
+              "outcome": "consequence",
+              "feedback": "A link can start something as soon as the page loads, before you type. Staying connected gives it time to spread."
+            }
+          ]
+        },
+        {
+          "id": "d3",
+          "prompt": "Now you need to tell IT Security. What do you report, and how fast?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Report it immediately, including the sender, the link, and exactly what you clicked",
+              "outcome": "good",
+              "feedback": "Fast and detailed reporting helps IT stop it before it reaches others."
+            },
+            {
+              "id": "b",
+              "text": "Wait to see if anything actually goes wrong before reporting",
+              "outcome": "consequence",
+              "feedback": "By the time you see a clear problem, the chance to stop it quietly may already be gone."
+            },
+            {
+              "id": "c",
+              "text": "Change your password yourself first, then report later",
+              "outcome": "consequence",
+              "feedback": "Tell IT first. They can tell you if you even need to change your password. Changing it yourself can also remove evidence they need."
+            }
+          ]
+        }
+      ],
+      "debrief": "Whether it is a link, an attachment, or anything unexpected, the steps are the same. STOP before you do more. Do not touch the device more than you need to. REPORT right away with details. Every minute you wait is a minute IT does not have."
+    },
+    {
+      "id": "svr-1",
+      "persona": "HR / Payroll",
+      "title": "The Payroll Details Text",
+      "scenario": "A coworker gets a text \"from HR\" asking them to click a link and update their payroll details immediately.",
+      "decisions": [],
+      "debrief": "STOP - do not click. VERIFY using the official HR portal or a known contact. REPORT it to IT or security."
+    },
+    {
+      "id": "q4-tapped-crew-change-link",
+      "persona": "Offshore Crew",
+      "title": "The Crew-Change Link",
+      "scenario": "You get a text about your crew change schedule and tap the link without looking closely. A second later, the page that opened looks strange.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What's the correct first move?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Ignore it and hope nothing happens",
+              "outcome": "consequence",
+              "feedback": "Fast reporting, not silence or trying to fix it yourself, gives IT the best chance to limit damage. This is true on shore or offshore with limited internet."
+            },
+            {
+              "id": "b",
+              "text": "Report it right away through the proper channel - don't try to fix it yourself first",
+              "outcome": "good",
+              "feedback": "Fast reporting, not silence or trying to fix it yourself, gives IT the best chance to limit damage. This is true on shore or offshore with limited internet."
+            },
+            {
+              "id": "c",
+              "text": "Delete the text so no one finds out",
+              "outcome": "consequence",
+              "feedback": "Fast reporting, not silence or trying to fix it yourself, gives IT the best chance to limit damage. This is true on shore or offshore with limited internet."
+            },
+            {
+              "id": "d",
+              "text": "Wait until you're back onshore to mention it",
+              "outcome": "consequence",
+              "feedback": "Fast reporting, not silence or trying to fix it yourself, gives IT the best chance to limit damage. This is true on shore or offshore with limited internet."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unknown-usb-drive",
+      "persona": "Offshore Crew",
+      "title": "You Found an Unknown USB Drive",
+      "scenario": "You are walking on deck and find a USB drive taped to a computer. It has no label and no clear owner.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "No one says it is theirs and you are curious. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Plug it into a nearby workstation to check what's on it",
+              "outcome": "consequence",
+              "feedback": "Unknown drives can run harmful code as soon as they are plugged in. Plugging it in just to look is how it gets in."
+            },
+            {
+              "id": "b",
+              "text": "Leave it unplugged and don't try to identify the owner yourself",
+              "outcome": "good",
+              "feedback": "Correct. Not plugging it in removes the risk. It is not your job to find out who owns it."
+            },
+            {
+              "id": "c",
+              "text": "Ask around the crew mess if anyone's missing a USB drive",
+              "outcome": "consequence",
+              "feedback": "This feels helpful, but it wastes time. Word can also reach the person who left it there before IT sees it."
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "prompt": "You have left it unplugged. What is the right next step before it gets forgotten in a drawer?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Check with IT whether there's a safe way to inspect unknown media",
+              "outcome": "good",
+              "feedback": "Right idea. Some teams have a safe way to check such drives. Ask first so you do not have to guess."
+            },
+            {
+              "id": "b",
+              "text": "Hold onto it and mention it whenever IT is next around",
+              "outcome": "consequence",
+              "feedback": "\"When they are next around\" can mean days. A possible threat sitting in a drawer is still a threat."
+            }
+          ]
+        },
+        {
+          "id": "d3",
+          "prompt": "It is time to hand it over. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Report it and hand it to IT Security or your security team directly",
+              "outcome": "good",
+              "feedback": "Handing it directly to IT and letting them check it is the right end. It is safely handled and checked."
+            },
+            {
+              "id": "b",
+              "text": "Drop it at the front desk with a note and move on",
+              "outcome": "consequence",
+              "feedback": "It might sit there unnoticed. Giving it directly to IT makes sure a trained person checks it."
+            }
+          ]
+        }
+      ],
+      "debrief": "Unknown USB drives are an easy way for harmful software to get into a system. STOP before you plug anything in. Check with IT how to handle it safely. REPORT it directly so it is checked properly, not left in a drawer."
+    },
+    {
+      "id": "q1-cfo-video-call",
+      "persona": "Finance / Accounts",
+      "title": "The CFO Video Call",
+      "scenario": "You are on a video call with someone who looks and sounds exactly like your CFO. Their picture freezes for a second and the lighting looks a little off. But they speak with full confidence. They ask you to approve an unusual payment right now, before the call ends.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you check first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Approve the payment - the face and voice matched, so it must really be them",
+              "outcome": "consequence",
+              "feedback": "A real-looking face and voice on a call is not proof of identity. Both can be faked. An unusual, urgent payment is exactly when to STOP and VERIFY using a channel you already trust. Never use a channel given to you in the same call. Then REPORT anything strange."
+            },
+            {
+              "id": "b",
+              "text": "Quietly stall by saying you'll do it after the call, hoping they forget",
+              "outcome": "consequence",
+              "feedback": "A real-looking face and voice on a call is not proof of identity. Both can be faked. An unusual, urgent payment is exactly when to STOP and VERIFY using a channel you already trust. Never use a channel given to you in the same call. Then REPORT anything strange."
+            },
+            {
+              "id": "c",
+              "text": "End the call and verify the request by contacting your CFO through a number or channel you already know is real",
+              "outcome": "good",
+              "feedback": "Correct. A real-looking face and voice on a call is not proof. An unusual, urgent payment is exactly when to STOP and VERIFY using a channel you already trust. Never use a channel given to you in the same call. Then REPORT anything strange."
+            },
+            {
+              "id": "d",
+              "text": "Ask a coworker in chat if they got the same request, then decide",
+              "outcome": "consequence",
+              "feedback": "A real-looking face and voice on a call is not proof of identity. Both can be faked. An unusual, urgent payment is exactly when to STOP and VERIFY using a channel you already trust. Never use a channel given to you in the same call. Then REPORT anything strange."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "svr-4",
+      "persona": "Finance / Accounts",
+      "title": "The Bank Account \"Update\"",
+      "scenario": "A \"vendor\" emails asking you to change the bank account for an upcoming payment, citing a routine update.",
+      "decisions": [],
+      "debrief": "STOP - do not change payment details from an email alone. VERIFY by phone using a number you already have on file. REPORT the request."
+    },
+    {
+      "id": "stolen-laptop",
+      "persona": "Operations",
+      "title": "Your Laptop Was Stolen",
+      "scenario": "You are back from a site visit and notice your work laptop was taken from the van during a stop.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "You just noticed it is gone. What do you do first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Drive back to the last stop to look for it yourself",
+              "outcome": "consequence",
+              "feedback": "Every minute you spend searching is a minute IT is not locking accounts or wiping the device. Speed matters more than searching."
+            },
+            {
+              "id": "b",
+              "text": "Report it to IT Security and your manager immediately",
+              "outcome": "good",
+              "feedback": "Correct. Fast reporting lets IT act while there is still time to lock things."
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "prompt": "IT is now on the call with you. What do you give them?",
+          "options": [
+            {
+              "id": "a",
+              "text": "The device ID or asset tag, if you have it",
+              "outcome": "good",
+              "feedback": "This lets IT act on the right device fast, instead of searching for details first."
+            },
+            {
+              "id": "b",
+              "text": "Just a general description - you'll dig up the exact details later",
+              "outcome": "consequence",
+              "feedback": "Vague details slow down the one step that must happen fast: locking the right device."
+            }
+          ]
+        },
+        {
+          "id": "d3",
+          "prompt": "IT asks what else needs attention. What do you check?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Ask IT whether a remote wipe or lock was triggered, and change your passwords",
+              "outcome": "good",
+              "feedback": "Checking the remote wipe or lock and changing your passwords closes the two ways an attacker could get in."
+            },
+            {
+              "id": "b",
+              "text": "Assume IT has it handled and move on with your day",
+              "outcome": "consequence",
+              "feedback": "IT locking the device does not cover accounts you were logged into elsewhere. Those still need your attention."
+            }
+          ]
+        }
+      ],
+      "debrief": "A stolen device with company access is a race against time. STOP trying to find it yourself. REPORT right away with what you know. Check that the next steps happened, like remote lock and password changes."
+    },
+    {
+      "id": "svr-2",
+      "persona": "Operations",
+      "title": "Someone Wants Into the Server Room",
+      "scenario": "An unfamiliar person with no visible badge asks you to hold the server-room door open for them because their badge \"isn't scanning.\"",
+      "decisions": [],
+      "debrief": "STOP - do not hold the door. VERIFY their access with reception or security. REPORT the attempt."
+    },
+    {
+      "id": "q3-teams-bypass-permit",
+      "persona": "Operations",
+      "title": "Skip the Permit Sign-Off?",
+      "scenario": "You get a Teams message from someone you do not know. No photo, no chat history. They say the site supervisor cannot be reached. They ask you to skip the permit-to-work sign-off on a job \"just this once\" so the schedule does not slip.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What's the red flag here?",
+          "options": [
+            {
+              "id": "a",
+              "text": "It's fine - schedules matter, and you can sort out the paperwork later",
+              "outcome": "consequence",
+              "feedback": "An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a check because an urgent, unreachable person said so is the red flag. It is the same pattern as a fake CEO asking for a wire transfer. Here it targets a safety step instead of money."
+            },
+            {
+              "id": "b",
+              "text": "Someone with no verified identity is pressuring you to skip a safety check, using urgency and unreachability as the excuse",
+              "outcome": "good",
+              "feedback": "Correct. An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a check because an urgent, unreachable person said so is the red flag. It is the same pattern as a fake CEO asking for a wire transfer. Here it targets a safety step instead of money."
+            },
+            {
+              "id": "c",
+              "text": "It's a normal, routine reminder about the schedule",
+              "outcome": "consequence",
+              "feedback": "An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a check because an urgent, unreachable person said so is the red flag. It is the same pattern as a fake CEO asking for a wire transfer. Here it targets a safety step instead of money."
+            },
+            {
+              "id": "d",
+              "text": "It's expected - supervisors often message from other accounts",
+              "outcome": "consequence",
+              "feedback": "An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a check because an urgent, unreachable person said so is the red flag. It is the same pattern as a fake CEO asking for a wire transfer. Here it targets a safety step instead of money."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "suspected-data-breach",
+      "persona": "Finance / Accounts",
+      "title": "You Suspect a Data Breach",
+      "scenario": "You see financial files that should not be open to everyone. They are now in a shared folder anyone can open.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "You just spotted this. What do you do first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Message a few colleagues to see if they've noticed it too",
+              "outcome": "consequence",
+              "feedback": "Telling others, even inside the company, can spread details before IT has checked what happened."
+            },
+            {
+              "id": "b",
+              "text": "Avoid discussing it publicly or on social media, and don't touch the files",
+              "outcome": "good",
+              "feedback": "Correct. Not talking about it widely and not touching files keeps the evidence safe."
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "prompt": "You have not touched anything. What do you do next?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Try moving the folder somewhere more restricted yourself",
+              "outcome": "consequence",
+              "feedback": "Trying to fix it yourself can delete the evidence IT needs to find what happened."
+            },
+            {
+              "id": "b",
+              "text": "Note down what you observed - what, when, and how - without changing anything",
+              "outcome": "good",
+              "feedback": "This gives IT the details they need without disturbing the scene."
+            }
+          ]
+        },
+        {
+          "id": "d3",
+          "prompt": "You have noted the details. What now?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Escalate to IT Security right away and leave affected systems running",
+              "outcome": "good",
+              "feedback": "Reporting fast and leaving systems running keeps the trail IT needs to investigate."
+            },
+            {
+              "id": "b",
+              "text": "Shut down the affected systems to be safe, then report",
+              "outcome": "consequence",
+              "feedback": "Turning systems off can delete evidence. Report first. Leave systems as they are."
+            }
+          ]
+        }
+      ],
+      "debrief": "A possible data leak is like a scene you should not touch. STOP before you talk about it or try to fix it. Note what you saw without changing anything. REPORT right away so the trained team can take over."
+    },
+    {
+      "id": "svr-5",
+      "persona": "Finance / Accounts",
+      "title": "The CEO Voicemail",
+      "scenario": "A voicemail that sounds exactly like your CEO asks for an urgent favor involving gift cards, right before an important meeting.",
+      "decisions": [],
+      "debrief": "STOP - do not buy anything. VERIFY directly with the CEO through a separate, trusted channel. REPORT the voicemail."
+    },
+    {
+      "id": "q2-candidate-attachment",
+      "persona": "HR / Recruitment",
+      "title": "The Candidate Attachment",
+      "scenario": "A message looks like it is from your usual hiring site. It forwards a promising candidate CV as an attachment. But the sender address is spelled a little differently than normal. It says the candidate needs an answer \"within the hour\" or they will take another offer.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What should you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Open the attachment quickly so you don't lose a strong candidate",
+              "outcome": "consequence",
+              "feedback": "A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know HR often gets attachments from strangers. STOP, VERIFY, and REPORT applies to a \"candidate\" file just like any other email."
+            },
+            {
+              "id": "b",
+              "text": "Reply to the sender asking for more information",
+              "outcome": "consequence",
+              "feedback": "A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know HR often gets attachments from strangers. STOP, VERIFY, and REPORT applies to a \"candidate\" file just like any other email."
+            },
+            {
+              "id": "c",
+              "text": "STOP before opening anything, VERIFY the sender's exact email address and the platform directly, then REPORT if it doesn't check out",
+              "outcome": "good",
+              "feedback": "A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know HR often gets attachments from strangers. STOP, VERIFY, and REPORT applies to a \"candidate\" file just like any other email."
+            },
+            {
+              "id": "d",
+              "text": "Forward it to a colleague and let them decide",
+              "outcome": "consequence",
+              "feedback": "A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know HR often gets attachments from strangers. STOP, VERIFY, and REPORT applies to a \"candidate\" file just like any other email."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "vishing-call",
+      "persona": "Offshore Crew",
+      "title": "You Got a Suspicious Phone Call",
+      "scenario": "Someone calls the ship phone and says they are from head office IT. They ask you to confirm your login details by phone.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The caller wants you to confirm your login details right now. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Give a partial answer to seem cooperative without giving everything",
+              "outcome": "consequence",
+              "feedback": "Even a small hint can be enough. The caller only needs one true detail to build the rest."
+            },
+            {
+              "id": "b",
+              "text": "Decline to give out any passwords, codes, or personal information",
+              "outcome": "good",
+              "feedback": "Correct. A real IT request will never ask you to say your password on an incoming call."
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "prompt": "They push again. They ask you to just say if the details they read out are correct. What now?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Confirm or deny the details to move the call along faster",
+              "outcome": "consequence",
+              "feedback": "Even saying \"no, that is wrong\" tells them something true. The safest answer is no answer."
+            },
+            {
+              "id": "b",
+              "text": "Hang up and call the official number yourself to verify",
+              "outcome": "good",
+              "feedback": "Correct. Calling back on a number you already trust takes away their control of the call."
+            }
+          ]
+        },
+        {
+          "id": "d3",
+          "prompt": "You have hung up and called back on the real number. What is left to do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Report the call to IT Security, noting the caller ID and what they asked for",
+              "outcome": "good",
+              "feedback": "This gives IT what they need to warn others and track the pattern."
+            },
+            {
+              "id": "b",
+              "text": "Let it go since nothing was actually given away",
+              "outcome": "consequence",
+              "feedback": "Even a failed attempt is worth reporting. Others are likely getting the same call."
+            }
+          ]
+        }
+      ],
+      "debrief": "Urgency on a call is a trick, not a real deadline. STOP before you share anything. Check by calling back on a number you trust. REPORT the attempt so others can be warned."
+    },
+    {
+      "id": "svr-3",
+      "persona": "Offshore Crew",
+      "title": "The Pop-Up Warning",
+      "scenario": "While working on a shared laptop, a pop-up says the computer is infected and tells you to call a number on screen right now to fix it.",
+      "decisions": [],
+      "debrief": "STOP - do not call the number. VERIFY with your real IT helpdesk using a known number. REPORT the pop-up."
+    },
+    {
+      "id": "q5-report-even-if-unsure",
+      "persona": "Operations",
+      "title": "Not Sure Enough to Report?",
+      "scenario": "An email feels a little strange, but you are not sure if it is harmful.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "Why does flagging it anyway still matter?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Security teams would rather check a false alarm than miss a real one",
+              "outcome": "good",
+              "feedback": "Correct. Not reporting is far more costly than reporting too much. Every report, sure or not, is a chance to catch something early. This is true for every team."
+            },
+            {
+              "id": "b",
+              "text": "Only IT is responsible for noticing anything unusual",
+              "outcome": "consequence",
+              "feedback": "Not reporting is far more costly than reporting too much. Every report, sure or not, is a chance to catch something early. This is true for every team."
+            },
+            {
+              "id": "c",
+              "text": "Flagging things you're unsure about wastes everyone's time",
+              "outcome": "consequence",
+              "feedback": "Not reporting is far more costly than reporting too much. Every report, sure or not, is a chance to catch something early. This is true for every team."
+            },
+            {
+              "id": "d",
+              "text": "It's better to just ask a coworker first instead of the official channel",
+              "outcome": "consequence",
+              "feedback": "Not reporting is far more costly than reporting too much. Every report, sure or not, is a chance to catch something early. This is true for every team."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ransomware-lockout",
+      "persona": "Operations",
+      "title": "Your Screen Just Locked",
+      "scenario": "A message covers your screen and asks for payment to unlock your files. A countdown timer is running.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Try to pay quickly before the timer runs out",
+              "outcome": "consequence",
+              "feedback": "Paying does not guarantee you get files back. It also funds the next attack. And you skip reporting, which is what IT needs most."
+            },
+            {
+              "id": "b",
+              "text": "Disconnect the device from the network immediately",
+              "outcome": "good",
+              "feedback": "Right idea. This can stop it from spreading to other systems before IT steps in."
+            },
+            {
+              "id": "c",
+              "text": "Post about it in the team chat to warn others",
+              "outcome": "consequence",
+              "feedback": "This is understandable, but it is not the fastest way to contain it. It can also cause panic before IT knows the scope."
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "prompt": "The device is disconnected. What's next?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Report it to IT Security immediately, describing exactly what's on screen",
+              "outcome": "good",
+              "feedback": "This is what gets help moving fast. IT needs details quickly to stop it across the fleet if needed."
+            },
+            {
+              "id": "b",
+              "text": "Try restarting the device to see if the message clears",
+              "outcome": "consequence",
+              "feedback": "Restarting will not fix it and can make recovery harder. IT needs to see the device as it is first."
+            }
+          ]
+        },
+        {
+          "id": "d3",
+          "prompt": "IT Security is responding. What do you do while you wait?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Leave the device disconnected and untouched, and follow IT's guidance",
+              "outcome": "good",
+              "feedback": "Correct. Leaving it as it is keeps what IT needs to investigate and recover safely."
+            },
+            {
+              "id": "b",
+              "text": "Try a few things yourself to see if you can unlock it",
+              "outcome": "consequence",
+              "feedback": "Trying to fix a live ransomware lock yourself can delete data or evidence IT could otherwise recover."
+            }
+          ]
+        }
+      ],
+      "debrief": "Ransomware wants you to panic and pay. STOP by disconnecting right away. Do not try to pay or fix it yourself. REPORT fast so IT can stop it from reaching other systems."
+    }
   ]
 }

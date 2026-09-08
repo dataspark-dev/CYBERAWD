@@ -1,4 +1,4 @@
-/* Cyber Clue Quest — easy riddles + 30s timer + 2-3 interactive options.
+/* Cyber Clue Quest - easy riddles + 30s timer + 2-3 interactive options.
    Self-contained: no team scoring, restarts at beginning when finished. */
 (function () {
   const TIMER_SECONDS = 30;
@@ -61,13 +61,13 @@
 
     const isLast = index === riddles.length - 1;
     els.nextBtn.innerHTML = isLast
-      ? '<i class="fa-solid fa-rotate"></i> Restart — Back to Start'
+      ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start'
       : '<i class="fa-solid fa-forward"></i> Next Riddle';
 
     revealed = false;
     answered = false;
 
-    // Build 2-3 option buttons — shuffle so correct answer isn't always first
+    // Build 2-3 option buttons - shuffle so correct answer isn't always first
     els.optionsContainer.innerHTML = '';
     const opts = r.options && r.options.length ? shuffle(r.options) : [r.answer];
     opts.forEach((opt, i) => {
@@ -90,7 +90,7 @@
       onExpire: () => {
         if (!answered && !revealed) {
           els.optionsContainer.querySelectorAll('.cq-option').forEach(b => b.disabled = true);
-          els.feedback.textContent = 'Time up — click Reveal to see the answer';
+          els.feedback.textContent = 'Time up - click Reveal to see the answer';
           els.feedback.className = 'cq-feedback show timeout';
         }
       }
@@ -125,10 +125,10 @@
     highlightOptions(r.answer, btn);
     els.answerReveal.classList.add('show');
     if (isCorrect) {
-      els.feedback.textContent = '✓ Correct — ' + r.answer;
+      els.feedback.textContent = '✓ Correct - ' + r.answer;
       els.feedback.className = 'cq-feedback show correct';
     } else {
-      els.feedback.textContent = '✗ Not quite — correct is ' + r.answer;
+      els.feedback.textContent = 'Not quite - correct is ' + r.answer;
       els.feedback.className = 'cq-feedback show incorrect';
     }
     showRememberIfLast();
@@ -162,7 +162,7 @@
     showRememberIfLast();
   }
 
-  // Brief framing screen before the riddles start — see console.css's
+  // Brief framing screen before the riddles start - see console.css's
   // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
   function beginActivity() {
     if (!contentData) return;
@@ -212,7 +212,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      els.riddleText.textContent = "Couldn't load this activity's content — check your connection or refresh.";
+      els.riddleText.textContent = "Could not load this activity. Check your connection and refresh.";
       console.error(err);
     });
 })();

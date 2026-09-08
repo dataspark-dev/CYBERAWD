@@ -1,7 +1,7 @@
-/* Fault Finding — image queue with facilitator-controlled reveal.
+/* Fault Finding - image queue with facilitator-controlled reveal.
    Supports two item types:
    - "single" (default): one scenario image, reveal shows what's wrong.
-   - "compare": two images side by side (one real, one fake) — the room
+   - "compare": two images side by side (one real, one fake) - the room
      calls out which one is fake, then Reveal shows the answer with a
      green/red highlight on each panel plus the explanation.
    Self-contained: no shared scoring, restarts at beginning when finished. */
@@ -114,7 +114,7 @@
 
     const isLast = index === items.length - 1;
     els.nextBtn.innerHTML = isLast
-      ? '<i class="fa-solid fa-rotate"></i> Restart — Back to Start'
+      ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start'
       : '<i class="fa-solid fa-forward"></i> Next Item';
 
     revealed = false;
@@ -159,7 +159,7 @@
 
   function next() {
     if (index < items.length - 1) { goTo(index + 1); return; }
-    // At the end, simply restart from the beginning — no redirect.
+    // At the end, simply restart from the beginning - no redirect.
     index = 0;
     renderItem();
   }
@@ -168,7 +168,7 @@
     if (index > 0) goTo(index - 1);
   }
 
-  // Brief framing screen before the queue starts — see console.css's
+  // Brief framing screen before the queue starts - see console.css's
   // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
   function beginActivity() {
     if (!contentData) return;
@@ -205,7 +205,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      els.title.textContent = "Couldn't load this activity's content — check your connection or refresh.";
+      els.title.textContent = "Could not load this activity. Check your connection and refresh.";
       console.error(err);
     });
 })();

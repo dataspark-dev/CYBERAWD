@@ -1,11 +1,11 @@
-/* Rapid Fire — persona-tagged scenario questions at pace.
+/* Rapid Fire - persona-tagged scenario questions at pace.
    Quiz questions and STOP-VERIFY-REPORT prompts are merged into one
-   continuous, timed sequence — same visual/timer treatment for both, though
+   continuous, timed sequence - same visual/timer treatment for both, though
    SVR steps get a longer countdown since they reveal a full sentence, not a
    single highlighted choice.
    Deliberately high-energy: tight per-step timer with the most pronounced
    urgency styling in the app (see .qz-urgent-timer), a quickening tick in the
-   final seconds, and hard, instant cuts between items — no lingering.
+   final seconds, and hard, instant cuts between items - no lingering.
    Contrast Decision Room's slow, ambient, non-urgent per-case clock.
    Self-contained: no scoring, no leaderboard, restarts at beginning when finished. */
 (function () {
@@ -52,13 +52,13 @@
     return step.type === 'svr' ? SVR_TIMER_SECONDS : QUIZ_TIMER_SECONDS;
   }
 
-  // A short, quickening tick in the final seconds — pace/energy only, and
+  // A short, quickening tick in the final seconds - pace/energy only, and
   // unique to Rapid Fire (Decision Room's timer stays silent and calm).
   // One shared, lazily-created AudioContext for the whole page: each tick
   // just schedules a new independent oscillator on it (the standard Web
   // Audio pattern for one-shot sounds), so ticks can never "stack" or leak
   // contexts even if items are clicked through far faster than a timer's
-  // final 5 seconds — natural ticks from one timer are always 1s apart,
+  // final 5 seconds - natural ticks from one timer are always 1s apart,
   // long clear of each blip's own 120ms length, and every step/reveal stops
   // its timer before the next one starts, so at most one timer is ever live.
   // The 300ms guard below is a second, independent safety net: the shared
@@ -85,7 +85,7 @@
       osc.start();
       osc.stop(ctx.currentTime + 0.12);
     } catch (e) {
-      // Web Audio unavailable — silently skip the tick.
+      // Web Audio unavailable - silently skip the tick.
     }
   }
 
@@ -156,7 +156,7 @@
     itemCounter.textContent = `Step ${index + 1} of ${steps.length}`;
     if (personaEl) {
       personaEl.textContent = step.persona;
-      // Retrigger the flash animation every step — a quick badge pop, not a
+      // Retrigger the flash animation every step - a quick badge pop, not a
       // calmly-persisting header (that's Decision Room's treatment).
       personaEl.classList.remove('flash');
       void personaEl.offsetWidth;
@@ -189,9 +189,9 @@
     stageEl.innerHTML = `
       <div class="qz-final-board">
         <div class="fb-eyebrow">Round Complete</div>
-        <h1>Rapid Fire — Wrap-Up</h1>
+        <h1>Rapid Fire - Wrap-Up</h1>
         <p style="font-size:18px;color:var(--body-text);max-width:700px;margin:12px auto 0;">
-          Whatever the situation — a call, a text, an email, a Teams message — the move is always the same:
+          Whatever the situation - a call, a text, an email, a Teams message - the move is always the same:
         </p>
         <p class="lr-cta" style="margin-top:18px;">STOP before you act. VERIFY through a channel you already trust. REPORT it either way.</p>
         <div class="le-remember-card">
@@ -203,7 +203,7 @@
         </div>
       </div>
       <div class="qz-final-actions">
-        <a class="le-btn primary lg" href="clue-quest.html"><i class="fa-solid fa-forward"></i> Up Next: Cyber Clue Quest — Recall</a>
+        <a class="le-btn primary lg" href="clue-quest.html"><i class="fa-solid fa-forward"></i> Up Next: Cyber Clue Quest - Recall</a>
         <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
       </div>
     `;
@@ -233,7 +233,7 @@
     }
   }
 
-  // Brief framing screen before the first step loads — see console.css's
+  // Brief framing screen before the first step loads - see console.css's
   // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
   function beginActivity() {
     if (!contentData) return;
@@ -269,7 +269,7 @@
       if (introDismissed) beginActivity();
     })
     .catch((err) => {
-      stageEl.innerHTML = '<p style="color:#fff;">Couldn\'t load this activity\'s content — check your connection or refresh.</p>';
+      stageEl.innerHTML = '<p style="color:#fff;">Couldn\'t load this activity\'s content - check your connection or refresh.</p>';
       console.error(err);
     });
 })();

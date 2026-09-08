@@ -1,13 +1,13 @@
 {
-  "whyThisMatters": "A password built from a name and a birth year can be guessed in seconds — length, randomness and mixed types are what actually slow an attacker down, not personal cleverness.",
-  "rememberThis": "Longer and more random beats clever every time — use a phrase, not a name + year.",
+  "whyThisMatters": "A password made from a name and a birth year can be guessed in seconds. Length, randomness, and mixed types are what slow an attacker. It is not personal cleverness.",
+  "rememberThis": "Longer and more random is better than clever. Use a phrase, not a name plus a year.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the room to compare their built password's strength meter to their actual personal password habits — any uncomfortable honesty there?",
-      "Ask why length matters more than adding one symbol — can anyone explain it in their own words after watching the meter move?",
-      "Ask if anyone has ever reused a \"strong\" password across multiple accounts, and why that undoes the strength."
+      "Ask the group to compare the password they built with how they make their own passwords. Is there anything that makes them think differently?",
+      "Ask why length matters more than adding one symbol. Can anyone explain it in their own words after watching the meter move?",
+      "Ask if anyone has reused a \"strong\" password on more than one account, and why that removes the strength."
     ],
-    "commonWrongAnswer": "Stopping as soon as the meter turns green — adding just one symbol or number instead of pushing for length — is the most common miss; participants consistently undervalue length over complexity."
+    "commonWrongAnswer": "The most common mistake is stopping as soon as the meter turns green. People add just one symbol or number instead of making it longer. Many people do not value length enough over complexity."
   },
   "deckSize": 20,
   "maxChars": 12,
@@ -15,9 +15,9 @@
   "rounds": [
     {
       "id": "round-1",
-      "label": "Round 1 — Easy",
+      "label": "Round 1 - Easy",
       "difficulty": "easy",
-      "hint": "Weak: rahul1998 / mumbai123 — rebuild with upper + symbol + phrase",
+      "hint": "Weak: rahul1998 / mumbai123 - rebuild with upper + symbol + phrase",
       "weakPassword": "rohan999",
       "deck": [
         "l",
@@ -44,9 +44,9 @@
     },
     {
       "id": "round-2",
-      "label": "Round 2 — Easy",
+      "label": "Round 2 - Easy",
       "difficulty": "easy",
-      "hint": "Weak: priya2001 — add place + symbols",
+      "hint": "Weak: priya2001 - add place + symbols",
       "weakPassword": "isha99",
       "deck": [
         "V",
@@ -73,9 +73,9 @@
     },
     {
       "id": "round-3",
-      "label": "Round 3 — Medium",
+      "label": "Round 3 - Medium",
       "difficulty": "medium",
-      "hint": "Weak: RahulMumbai98 — break the personal pattern, add phrase Ocean/Voyage",
+      "hint": "Weak: RahulMumbai98 - break the personal pattern, add phrase Ocean/Voyage",
       "weakPassword": "NehaMumbai02",
       "deck": [
         "8",
@@ -102,9 +102,9 @@
     },
     {
       "id": "round-4",
-      "label": "Round 4 — Hard",
+      "label": "Round 4 - Hard",
       "difficulty": "hard",
-      "hint": "Weak: Rahul_Mumbai1998 — still guessable, need 12+ random",
+      "hint": "Weak: Rahul_Mumbai1998 - still guessable, need 12+ random",
       "weakPassword": "Ananya_Kochi95",
       "deck": [
         "n",
@@ -131,9 +131,9 @@
     },
     {
       "id": "round-5",
-      "label": "Round 5 — Hard",
+      "label": "Round 5 - Hard",
       "difficulty": "hard",
-      "hint": "Weak: Priya#Goa2001! — personal data even with symbols is weak",
+      "hint": "Weak: Priya#Goa2001! - personal data even with symbols is weak",
       "weakPassword": "Rohan-Pune1999",
       "deck": [
         "Ar",

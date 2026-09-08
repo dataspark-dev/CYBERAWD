@@ -1,4 +1,4 @@
-/* Cybersecurity Crossword — vocabulary reinforcement, room-paced.
+/* Cybersecurity Crossword - vocabulary reinforcement, room-paced.
    Grid layout is precomputed at build time (content/crossword.json);
    this file only renders it and handles fill-in-the-grid interaction.
    Self-contained: no teams, no scoring, no timer pressure to "win". */
@@ -95,7 +95,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ participantId: crosswordSyncParticipantId, filledCount: filled, totalCount: total, correctCount: correct }),
       });
-    } catch (e) { /* offline — ignore */ }
+    } catch (e) { /* offline - ignore */ }
   }
 
   function scheduleCrosswordProgress() {
@@ -224,7 +224,7 @@
       input.value = e.key.toUpperCase();
       clearMark(cell);
       // Live per-keystroke feedback: confirm correct immediately (green), but a wrong letter
-      // stays neutral rather than turning red — mid-puzzle typing shouldn't read as a penalty,
+      // stays neutral rather than turning red - mid-puzzle typing shouldn't read as a penalty,
       // only the explicit Check button marks wrong cells red.
       if (input.value === cell.solution) cell.el.classList.add('correct');
       advance(cell, currentDirection);
@@ -371,7 +371,7 @@
 
     const renderList = (list, target) => {
       // Hint is opt-in per clue: a small button that reveals just the first letter as a text
-      // line, never shown by default and never touching the grid itself — clicking it can't be
+      // line, never shown by default and never touching the grid itself - clicking it can't be
       // mistaken for auto-filling progress, it's purely a nudge.
       target.innerHTML = list.map((w) => (
         `<li data-index="${w.index}"><span class="cw-clue-num">${w.number}.</span>${LiveEvent.escapeHtml(w.clue)}`
@@ -424,7 +424,7 @@
     });
     markSolvedClues();
     if (allFilled && allCorrect) {
-      els.status.textContent = 'Every word is in place — nice work.';
+      els.status.textContent = 'Every word is in place - nice work.';
       showWrapUp();
     } else {
       updateStatus();
@@ -522,7 +522,7 @@
       if (crosswordSyncEnabled) scheduleCrosswordProgress();
     })
     .catch((err) => {
-      els.status.textContent = "Couldn't load this activity's content — check your connection or refresh.";
+      els.status.textContent = "Could not load this activity. Check your connection and refresh.";
       console.error(err);
     });
 })();

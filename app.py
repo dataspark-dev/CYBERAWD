@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Synergy Cyber Security Awareness Month — presentation server.
+Synergy Cyber Security Awareness Month - presentation server.
 
 Serves the static viewer (index.html, scripts, styles, assets, slides)
 over Flask. Validates that every slide listed in deck.js actually exists
@@ -25,7 +25,7 @@ from functools import wraps
 
 # Load .env for local development (see .env.example). On Render, set
 # ADMIN_USERNAME / ADMIN_PASSWORD / FLASK_SECRET_KEY in the service's
-# Environment settings — .env is gitignored and for local dev only.
+# Environment settings - .env is gitignored and for local dev only.
 try:
     from dotenv import load_dotenv
 
@@ -50,14 +50,14 @@ INDEX_HTML = ROOT / "index.html"
 SLIDE_ENTRY_RE = re.compile(r"\{\s*file:\s*['\"](?P<file>[^'\"]+)['\"]")
 
 app = Flask(__name__)
-# Per-IP rate limiting for the public, unauthenticated participant routes — this is now reachable
+# Per-IP rate limiting for the public, unauthenticated participant routes - this is now reachable
 # on the open internet (not just venue WiFi), so a scripted flood of fake joins/responses against
 # a live room is possible without it. No app-wide default_limits: admin routes are already behind
-# login, and static/content GETs don't need throttling — only the specific mutating participant
+# login, and static/content GETs don't need throttling - only the specific mutating participant
 # endpoints below opt in via @limiter.limit(...). In-memory storage (default) is fine at this
 # scale, matching the existing single-process, in-memory-plus-disk-persistence SESSIONS design.
 # Limits are per-IP but generous, since real participants often share one NAT'd IP (venue WiFi/
-# corporate network) — sized to comfortably cover a full room self-pacing through a module, not
+# corporate network) - sized to comfortably cover a full room self-pacing through a module, not
 # to cap legitimate classroom-sized concurrent use.
 limiter = Limiter(get_remote_address, app=app, default_limits=[], storage_uri="memory://")
 # -- session / admin config (additive, does not affect existing routes) --
@@ -74,7 +74,7 @@ app.secret_key = os.environ.get("FLASK_SECRET_KEY") or os.environ.get("SECRET_KE
 # this lifetime controls expiry. 12h >> typical 2-4h event, so no mid-event logout.
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=12)
 app.permanent_session_lifetime = timedelta(hours=12)
-# Idle timeout — logs an admin out after this long with no admin API activity, independent of
+# Idle timeout - logs an admin out after this long with no admin API activity, independent of
 # (and shorter than) the 12h absolute cookie lifetime above. See _gate_admin_routes.
 ADMIN_IDLE_TIMEOUT = timedelta(hours=2)
 
@@ -90,7 +90,7 @@ ADMIN_IDLE_TIMEOUT = timedelta(hours=2)
 #                                                                  # complete=past last, idle=back at picker post-complete
 #     "moduleSequence": [],  # server-side loaded normalized items for activeModule (participants only see currentItem)
 #     "currentItemIndex": None | int,
-#     "activeItem": dict | None,  # {id, prompt, options:[{id,text}], fact?, answerId?, revealed?} — only while running
+#     "activeItem": dict | None,  # {id, prompt, options:[{id,text}], fact?, answerId?, revealed?} - only while running
 #     "responses": { itemId: { participantId: {"optionId": str, "respondedAt": iso8601} } },
 #     "crosswordProgress": { participantId: { filledCount:int, totalCount:int, updatedAt:iso } },
 #     "passphraseBuilds": { participantId: { roundId: {builtPassword, strength, updatedAt} } },
@@ -103,7 +103,7 @@ SESSIONS: dict = {}
 # SESSIONS is in-memory only, which means a Render free/hobby dyno sleep, redeploy, or crash
 # wipes every room, participant, and response mid-event. Rather than adding a real database
 # (overkill for one facilitator running one event at a time), SESSIONS is mirrored to a single
-# JSON file on disk and reloaded at process startup — a plain file is exactly enough durability
+# JSON file on disk and reloaded at process startup - a plain file is exactly enough durability
 # for this tool's actual concurrency (one writer, occasional bursts) without a new service
 # dependency. Every value already stored in SESSIONS is plain str/int/bool/None/list/dict
 # (timestamps are pre-formatted iso8601 strings), so it round-trips through json.dump/load with
@@ -115,7 +115,7 @@ SESSIONS_FILE = DATA_DIR / "sessions.json"
 def _save_sessions_to_disk():
     """Atomic write (temp file + os.replace) so a crash mid-write can't corrupt the file.
 
-    Called only from state-mutating routes — poll/read routes (GET /state, GET /results,
+    Called only from state-mutating routes - poll/read routes (GET /state, GET /results,
     GET /dashboard, etc.) never call this, so the 1.5s admin/participant polling cadence
     never triggers a disk write.
     """
@@ -148,7 +148,7 @@ def persist_after(f):
     """Route decorator: save SESSIONS to disk after the wrapped view function returns.
 
     Applied only to state-mutating routes (create/join/respond/launch/start/next/reveal/
-    reset/return-to-picker/crossword-progress) — see the call sites below.
+    reset/return-to-picker/crossword-progress) - see the call sites below.
     """
     @wraps(f)
     def wrapper(*args, **kwargs):
@@ -160,13 +160,12 @@ def persist_after(f):
 
 _load_sessions_from_disk()
 
-# 8 live-poll modules — whole-activity, content pulled from existing content/*.json
+# 7 live-poll modules - whole-activity, content pulled from existing content/*.json
 # (counts read at request time, never hardcoded)
 MODULE_DEFS = [
     {"id": "fault-finding", "displayName": "Fault Finding", "content": "fault-finding.json"},
     {"id": "myth-vs-fact", "displayName": "Myth vs Fact", "content": "myth-vs-fact.json"},
     {"id": "decision-room", "displayName": "Decision Room", "content": "decision-room.json"},
-    {"id": "closing-quiz", "displayName": "Closing Quiz", "content": "closing-quiz.json"},
     {"id": "clue-quest", "displayName": "Clue Quest", "content": "clue-quest.json"},
     {"id": "pass-phrase", "displayName": "Pass-Phrase", "content": "pass-phrase.json"},
     {"id": "crossword", "displayName": "Crossword", "content": "crossword.json"},
@@ -197,12 +196,12 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
     try:
         if module_id == "fault-finding":
             # Phone template shows the real vs fake image pair as two tappable cards (mirroring
-            # the facilitator console's ff-compare-panel layout, stacked vertically) — the
+            # the facilitator console's ff-compare-panel layout, stacked vertically) - the
             # participant taps whichever card they think is fake. Content-relative image paths
             # (e.g. "../assets/fault-finding/x.svg", relative to live-event/modules/) are
             # rewritten to absolute site paths ("/live-event/assets/fault-finding/x.svg") since
             # this is served from a different URL (/join/<code>), not live-event/modules/.
-            # Participant view is deterministic: A always shows the real image, B the fake —
+            # Participant view is deterministic: A always shows the real image, B the fake  - 
             # so B is always the correct answer (the console randomizes separately per render,
             # participant correctness is fixed per room for stable scoring). This matches the
             # same correctOptionId / isCorrect / _sanitize pattern used for myth-vs-fact.
@@ -220,7 +219,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 "options": _normalize_options([{"id": "A", "text": "Option A is fake"}, {"id": "B", "text": "Option B is fake"}]),
                 "correctOptionId": "B",
                 # Console's Reveal shows both as separate rows (What's Wrong / Why It's
-                # Suspicious) — kept as two fields here too so the phone can do the same,
+                # Suspicious) - kept as two fields here too so the phone can do the same,
                 # instead of collapsing them into one blended paragraph.
                 "whatIsWrong": str(raw.get("whatIsWrong") or ""),
                 "fact": str(raw.get("whyItsSuspicious") or ""),
@@ -228,10 +227,10 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             }
         if module_id == "myth-vs-fact":
             # Console is pure narration: always shows the "myth" field as the claim, then
-            # busts it with "fact" + "detail" on Reveal — every myth in this content set is a
+            # busts it with "fact" + "detail" on Reveal - every myth in this content set is a
             # genuinely false statement meant to be busted, there is no true-claim variant.
             # Phone layers a light "Myth or Fact?" yes/no quiz on top of that same claim/reveal
-            # pair (an intentional surface difference — console stays narration-only, phone
+            # pair (an intentional surface difference - console stays narration-only, phone
             # gets a quiz) but must show the identical myth text and correct answer for every
             # item, not swap to the fact text or flip correctness based on content's isTrue.
             # fact/detail stay two separate fields (console's #factText / #detailText are
@@ -250,7 +249,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             # raw is a decision {prompt, options[]}; _load will flatten cases→decisions and
             # inject caseId/persona/scenario (see _load_module_sequence) so the phone template
             # can show the same persona badge + scenario context as the console.
-            # No single "correct" answer — instead track a "good choice" per decision
+            # No single "correct" answer - instead track a "good choice" per decision
             # (outcome=="good") as the admin-only analog metric, labeled "good decisions"
             # not "correct answers" so it isn't misread as the same thing. Participant sees
             # no Correct/Not-quite badge here (neutral picked state only); admin sees
@@ -259,7 +258,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             opts = raw.get("options") or raw.get("choices") or []
             # Keep original option ids/text for reveal
             norm_opts = _normalize_options(opts if opts else ["Option A", "Option B"])
-            # Per-option feedback, keyed by option id — console shows whichever option's OWN
+            # Per-option feedback, keyed by option id - console shows whichever option's OWN
             # feedback the room actually picked, not always the "good" one's. Kept out of the
             # options array itself (which _sanitize_item_for_participant strips down to
             # id/text pre-answer) and looked up by _effective_correct_option_id's sibling logic
@@ -300,48 +299,8 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             if good_option_id:
                 out["goodOptionId"] = good_option_id
             return out
-        if module_id == "closing-quiz":
-            # raw is question {question, choices} or SVR prompt {scenario, idealResponse} — the
-            # phone template needs to tell these apart to render the right visual (qz-choice
-            # grid vs svr-scenario-card, matching the console's two distinct item types).
-            if "question" in raw:
-                norm_opts = _normalize_options(raw.get("choices") or [])
-                correct_id = None
-                try:
-                    ci = raw.get("correctIndex")
-                    if isinstance(ci, int) and 0 <= ci < len(norm_opts):
-                        correct_id = norm_opts[ci]["id"]
-                except Exception:
-                    pass
-                out = {
-                    "id": str(base_id),
-                    "kind": "question",
-                    "prompt": str(raw.get("question") or base_id).strip(),
-                    "persona": raw.get("persona"),
-                    "options": norm_opts,
-                    "fact": str(raw.get("explanation") or ""),
-                    "revealed": False,
-                }
-                if correct_id:
-                    out["correctOptionId"] = correct_id
-                return out
-            else:
-                # SVR prompt — read-only narration on console (scenario + ideal response, no
-                # vote of any kind — STOP/VERIFY/REPORT are all part of one ideal response, not
-                # 3 choices). Options intentionally empty here to match: there is nothing to
-                # tap, only something to read (see isActivityAllAnswered's kind==='svr' check
-                # and renderClosingQuiz's svr branch, which never renders a choice grid for this).
-                return {
-                    "id": str(base_id),
-                    "kind": "svr",
-                    "prompt": str(raw.get("scenario") or base_id).strip(),
-                    "persona": raw.get("persona"),
-                    "options": [],
-                    "fact": str(raw.get("idealResponse") or ""),
-                    "revealed": False,
-                }
         if module_id == "clue-quest":
-            # Single defined answer per riddle — wire same isCorrect pattern as myth-vs-fact/fault-finding
+            # Single defined answer per riddle - wire same isCorrect pattern as myth-vs-fact/fault-finding
             # for parity (participant Correct/Not-quite badge, admin correctCount). Options are
             # string list, answer is one of them (e.g. "DOMAIN SPOOFING").
             norm_opts = _normalize_options(raw.get("options") or [])
@@ -375,12 +334,12 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             # Real build-your-own-password mechanic, matching the console (pass-phrase.js):
             # a themed deck of PP_DECK_SIZE CHUNKS (mixed 3-char fragments like "Syn","Sec",
             # 2-char pairs like "Ka","Th","on", and 1-char singles/symbols/numbers) that
-            # participants combine — not letter-by-letter — to assemble a password, capped by
+            # participants combine - not letter-by-letter - to assemble a password, capped by
             # total character count (PP_MAX_CHARS, smaller than the deck pool) not tile count.
             # weakPassword/deck are static content (see content/pass-phrase.json), generated once
             # by scripts/gen_passphrase_content.py using the same pools/composition logic as
             # _pp_generate_weak_password/_pp_generate_deck below, rather than regenerated at
-            # request time — this keeps the deck fixed for the whole activity, like every other
+            # request time - this keeps the deck fixed for the whole activity, like every other
             # module's content, instead of reshuffling on every launch. Falls back to a fresh
             # generation only if a round is missing these fields (e.g. hand-added content).
             difficulty = str(raw.get("difficulty") or "medium")
@@ -390,10 +349,10 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 weak = _pp_generate_weak_password(difficulty)
             if not deck:
                 deck = _pp_generate_deck(difficulty, weak)
-            # requirement/context caption — reuses content's own hint text ("Weak: X — why")
+            # requirement/context caption - reuses content's own hint text ("Weak: X - why")
             # for the part after the dash, if present; falls back to a generic line otherwise.
             hint = str(raw.get("hint") or "").strip()
-            requirement = hint.split("—", 1)[1].strip() if "—" in hint else "Rebuild it stronger using the deck below."
+            requirement = hint.split(" - ", 1)[1].strip() if " - " in hint else "Rebuild it stronger using the deck below."
             return {
                 "id": str(base_id),
                 "prompt": None,
@@ -410,11 +369,11 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             # Crossword is one grid, self-paced; no per-item poll. Represent as single grid item.
             return {"id": "crossword-grid", "prompt": "Crossword grid", "options": [], "fact": "", "revealed": False}
         if module_id == "control-catch":
-            # Falling-bubble reflex game — one continuous timed round per participant, same
+            # Falling-bubble reflex game - one continuous timed round per participant, same
             # "single synthetic item" placeholder pattern as crossword (see there). The real
             # bubble pool (whyThisMatters/rememberThis/bubbles[]) is fetched by the client
             # directly from content/control-catch.json, exactly like crossword fetches its own
-            # grid — this item exists only so the generic lobby/running/complete state machine
+            # grid - this item exists only so the generic lobby/running/complete state machine
             # has something to point currentItemIndex/activeItem at.
             return {"id": "control-catch-game", "prompt": "Control Catch", "options": [], "fact": "", "revealed": False}
     except Exception:
@@ -430,9 +389,9 @@ def _load_module_sequence(module_id: str):
         return []
     try:
         if module_id == "fault-finding":
-            # Phone-synced activity only includes the "compare real vs fake" cards — genuine
+            # Phone-synced activity only includes the "compare real vs fake" cards - genuine
             # judgment tasks. The single-image reference cards (today: smishing-text,
-            # fake-it-popup, mfa-fatigue — items 6/7/8 in fault-finding.json) have nothing to
+            # fake-it-popup, mfa-fatigue - items 6/7/8 in fault-finding.json) have nothing to
             # compare/choose between, so they're excluded here but stay untouched in the JSON
             # file and keep appearing in the standalone facilitator console, which reads
             # data["items"] unfiltered (see live-event/modules/fault-finding.js).
@@ -441,7 +400,13 @@ def _load_module_sequence(module_id: str):
         if module_id == "myth-vs-fact":
             return [_normalize_module_item(module_id, r, i) for i, r in enumerate(data.get("items", []))]
         if module_id == "decision-room":
-            # Flatten cases -> decisions, one debrief step per case = 24 steps
+            # Flatten cases -> decisions, one debrief step per case (34 steps total: 16 cases,
+            # mixing 6 "long" 3-decision branching cases with 10 "short" cases folded in from
+            # the former closing-quiz module - 5 single-decision quick calls (ex quiz questions,
+            # scored good/consequence like every other decision instead of a separate
+            # correct/incorrect model) and 5 debrief-only cases with zero decisions (ex
+            # Stop-Verify-Report prompts, which were always pure narration+reveal, never an
+            # actual multi-choice question - see docs/APPLICATION_STATE.md for the merge notes).
             seq = []
             for c in data.get("cases", []):
                 for d in c.get("decisions", []):
@@ -454,27 +419,23 @@ def _load_module_sequence(module_id: str):
                     copy["caseTitle"] = c.get("title")
                     copy["caseScenario"] = c.get("scenario")
                     seq.append(_normalize_module_item(module_id, copy, len(seq)))
-                # Debrief — console's natural next beat once a case's 3rd decision is answered,
-                # not a gated "reveal": pure narration with nothing to choose, so (like
-                # closing-quiz's SVR prompts) it's sent unconditionally and counts as done with
-                # no vote required (see isActivityAllAnswered/updateActivityChrome's kind checks).
-                seq.append({
-                    "id": f"{c.get('id')}_debrief",
-                    "kind": "debrief",
-                    "prompt": str(c.get("debrief") or "").strip(),
-                    "persona": c.get("persona"),
-                    "caseTitle": c.get("title"),
-                    "caseScenario": c.get("scenario"),
-                    "options": [],
-                })
-            return seq
-        if module_id == "closing-quiz":
-            qs = data.get("questions", []) or []
-            prompts = data.get("stopVerifyReportPrompts", []) or []
-            seq = [_normalize_module_item(module_id, r, i) for i, r in enumerate(qs)]
-            # Append SVR prompts as additional steps
-            for idx, p in enumerate(prompts):
-                seq.append(_normalize_module_item(module_id, p, len(seq)))
+                # Debrief - console's natural next beat once a case's last decision is answered
+                # (or immediately, for a zero-decision case), not a gated "reveal": pure
+                # narration with nothing to choose, so it's sent unconditionally and counts as
+                # done with no vote required (see isActivityAllAnswered/updateActivityChrome's
+                # kind checks). Skipped entirely for a case with no debrief text (the 5 short
+                # single-decision cases fold their explanation into the decision's own per-option
+                # feedback instead - a debrief on top would just repeat it).
+                if c.get("debrief"):
+                    seq.append({
+                        "id": f"{c.get('id')}_debrief",
+                        "kind": "debrief",
+                        "prompt": str(c.get("debrief") or "").strip(),
+                        "persona": c.get("persona"),
+                        "caseTitle": c.get("title"),
+                        "caseScenario": c.get("scenario"),
+                        "options": [],
+                    })
             return seq
         if module_id == "clue-quest":
             return [_normalize_module_item(module_id, r, i) for i, r in enumerate(data.get("riddles", []))]
@@ -492,7 +453,7 @@ def _load_module_sequence(module_id: str):
 
 
 def _get_modules_with_counts():
-    """Return 8 modules with item counts read live from content/*.json."""
+    """Return 7 modules with item counts read live from content/*.json."""
     out = []
     for m in MODULE_DEFS:
         seq = _load_module_sequence(m["id"])
@@ -522,7 +483,7 @@ def _get_join_url(room_code: str) -> str:
 
     Uses Flask's request.host_url so QR/join links point to the live
     host (e.g. https://<your-app>.onrender.com) instead of a LAN IP.
-    No URL is hard-coded — it is derived from the request each time, so
+    No URL is hard-coded - it is derived from the request each time, so
     swapping to a custom production domain works automatically.
     """
     try:
@@ -543,7 +504,7 @@ def _get_join_url(room_code: str) -> str:
             return f"{base}/join/{room_code}"
     except Exception:
         pass
-    # Outside request context (e.g. CLI) — fallback to relative URL; caller will
+    # Outside request context (e.g. CLI) - fallback to relative URL; caller will
     # resolve via browser's current host.
     return f"/join/{room_code}"
 
@@ -554,7 +515,7 @@ def _ff_effective_fake_side(item: dict, participant_id: str | None) -> str | Non
     The console (fault-finding.js) randomizes `fakeSide` on every render (Math.random()<0.5).
     The phone path used to hardcode B-is-always-fake, which meant the position was a learnable
     fixed pattern (tap B without even looking). This derives a stable hash of (itemId,
-    participantId) instead — same participant always sees the same side for a given item (so
+    participantId) instead - same participant always sees the same side for a given item (so
     grading and repeated /state polls stay consistent), but different participants land on
     different sides, and there's no single global answer to memorize. Returns None for
     non-fault-finding items (no realImage/fakeImage pair) or with no participant context, in
@@ -580,7 +541,7 @@ def _response_entries_for_module(bucket: dict, module_id: str | None) -> dict:
     any entry whose tag doesn't match the module being read, closing that gap for all responses
     written from here on. Entries with no tag at all (pre-dating this change) are passed through
     unfiltered rather than dropped, so already-collected event data isn't silently wiped by a
-    mid-event deploy — filtering only ever removes entries we can positively prove belong to a
+    mid-event deploy - filtering only ever removes entries we can positively prove belong to a
     different module.
     """
     if not bucket:
@@ -596,7 +557,7 @@ def _effective_correct_option_id(item: dict | None, participant_id: str | None =
 
     Identical to item['correctOptionId'] for every module except fault-finding, whose fake-image
     slot is randomized per participant (see _ff_effective_fake_side) rather than fixed by content
-    order — grading, admin correctCount, and per-item feedback must all key off this, not the
+    order - grading, admin correctCount, and per-item feedback must all key off this, not the
     item's raw correctOptionId, or they'd disagree with what that participant actually saw.
     """
     if not item:
@@ -608,17 +569,17 @@ def _effective_correct_option_id(item: dict | None, participant_id: str | None =
 
 
 # GET /api/session/<code>/state is polled every ~1.5s by every connected phone, and re-sanitizes
-# every item in the room's moduleSequence on every single call. Most of that work — stripping
-# outcome/isCorrect from options, copying the safe display fields — is identical for every
+# every item in the room's moduleSequence on every single call. Most of that work - stripping
+# outcome/isCorrect from options, copying the safe display fields - is identical for every
 # participant and every poll as long as the item itself hasn't changed, so _sanitize_item_shared
 # memoizes just that invariant portion, keyed by id(item). Deliberately excluded from the cache
 # (computed fresh on every call instead, see _sanitize_item_for_participant): realImage/fakeImage
 # (fault-finding swaps these per participant's own randomized fake slot), and fact/revealed/
 # whatIsWrong/detail (gated by this participant's own submission state, or clue-quest's
-# per-participant answered-state) — none of that is safe to share across participants or polls.
+# per-participant answered-state) - none of that is safe to share across participants or polls.
 # Cache entries are invalidated explicitly by _invalidate_item_cache whenever a room's sequence
 # is about to be replaced or cleared (admin_launch, admin_reset) rather than left to garbage
-# collection — id() can be reused for an unrelated later dict once the original item is freed,
+# collection - id() can be reused for an unrelated later dict once the original item is freed,
 # which would otherwise risk a stale-content hit for a same-address-recycled item.
 _ITEM_SANITIZE_CACHE: dict[int, dict] = {}
 
@@ -629,7 +590,7 @@ def _invalidate_item_cache(sequence) -> None:
 
 
 def _sanitize_item_shared(item: dict) -> dict:
-    """Participant-invariant portion of item sanitization, memoized — see _ITEM_SANITIZE_CACHE."""
+    """Participant-invariant portion of item sanitization, memoized - see _ITEM_SANITIZE_CACHE."""
     cached = _ITEM_SANITIZE_CACHE.get(id(item))
     if cached is not None:
         return cached
@@ -653,13 +614,13 @@ def _sanitize_item_shared(item: dict) -> dict:
 
 
 def _sanitize_item_for_participant(item: dict | None, active_module: str | None = None, my_answer=None, my_build=None, participant_id: str | None = None, is_submitted: bool = False) -> dict | None:
-    """Return participant-safe copy of an item — no answer key, no fact/reveal text *before* submit.
+    """Return participant-safe copy of an item - no answer key, no fact/reveal text *before* submit.
 
-    Before Submit, reveals are admin-screen-only (read aloud) — never sent to phones, so
+    Before Submit, reveals are admin-screen-only (read aloud) - never sent to phones, so
     "fact"/"revealed"/"isTrue" are not copied, and correctOptionId is withheld entirely for any
     item this participant hasn't answered yet. `my_answer` decorates with own prior optionId
     and derives `myAnswerCorrect` (was THIS answer right) as immediate badge feedback, and
-    — only once answered — the effective `correctOptionId` itself, so a render function can
+    - only once answered - the effective `correctOptionId` itself, so a render function can
     highlight which specific option was right (matching console's on-reveal highlight), the
     same normal quiz-review disclosure `session_respond` already returns for the same item the
     instant it's answered. After Submit (`is_submitted=True`), the full `fact` (identification +
@@ -671,16 +632,16 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
     if not item:
         return None
     # Shallow copy of the memoized invariant portion (id/prompt/sanitized options/display
-    # fields) — never mutate the cached dict itself, only this per-call copy of it.
+    # fields) - never mutate the cached dict itself, only this per-call copy of it.
     safe = dict(_sanitize_item_shared(item))
-    # realImage/fakeImage excluded from the shared cache on purpose — fault-finding swaps
+    # realImage/fakeImage excluded from the shared cache on purpose - fault-finding swaps
     # these per participant below, so they're always computed fresh, never memoized.
     if item.get("realImage") is not None:
         safe["realImage"] = item["realImage"]
     if item.get("fakeImage") is not None:
         safe["fakeImage"] = item["fakeImage"]
     # Hybrid after Submit: participant sees full identification + recommendation (fact) in read-only review,
-    # mirroring console's Reveal. Before Submit, fact is never sent — EXCEPT clue-quest, whose
+    # mirroring console's Reveal. Before Submit, fact is never sent - EXCEPT clue-quest, whose
     # whole console mechanic is an immediate per-riddle answer reveal (plus a no-penalty
     # "give up and see it now" action), so gating that behind finishing all 9 riddles would
     # break the feature entirely. Scoped to clue-quest only; every other module keeps the
@@ -689,7 +650,7 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
         safe["fact"] = str(item.get("fact"))
         safe["revealed"] = True
         # Fault-finding's console Reveal shows both "What's Wrong" and "Why It's Suspicious" as
-        # separate rows — whatIsWrong rides along with fact under the identical gate/timing.
+        # separate rows - whatIsWrong rides along with fact under the identical gate/timing.
         if item.get("whatIsWrong"):
             safe["whatIsWrong"] = str(item.get("whatIsWrong"))
         # Myth-vs-fact's console Reveal likewise keeps fact and detail as two separate texts.
@@ -697,7 +658,7 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
             safe["detail"] = str(item.get("detail"))
     effective_correct = _effective_correct_option_id(item, participant_id)
     # Fault-finding: this participant's fake image lands in slot A instead of the content's
-    # default B — swap the two image URLs so what they SEE matches what gets graded correct.
+    # default B - swap the two image URLs so what they SEE matches what gets graded correct.
     if active_module == "fault-finding" and safe.get("realImage") is not None and effective_correct == "A":
         safe["realImage"], safe["fakeImage"] = safe.get("fakeImage"), safe.get("realImage")
     if my_answer is not None:
@@ -707,7 +668,7 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
             safe["correctOptionId"] = effective_correct
         # Decision-room has no single correct answer, but console reveals the CHOSEN option's
         # own outcome (good/consequence) + that option's own feedback text inline the instant
-        # it's picked — other options' outcomes stay hidden (never sent, matching the
+        # it's picked - other options' outcomes stay hidden (never sent, matching the
         # pre-answer outcome leak-check), so this only ever reveals what this participant
         # already committed to seeing.
         if active_module == "decision-room":
@@ -726,19 +687,19 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
 
 # --- Pass-phrase: build-your-own-password deck + strength meter ---
 # Ported from live-event/modules/pass-phrase.js's own generateWeakPassword/generateDeck/
-# computeStrength — the console's real mechanic (build from a themed deck into a password
+# computeStrength - the console's real mechanic (build from a themed deck into a password
 # row, watch the strength meter) rather than a rating poll. Deck is a pool of mixed-length
 # CHUNKS (1-char singles, 2-char syllable pairs like "Ka","Th", and 3-char fragments like
-# "Syn","Sec") that participants combine — not letter-by-letter — to assemble a password,
+# "Syn","Sec") that participants combine - not letter-by-letter - to assemble a password,
 # capped by total character count (PP_MAX_CHARS) rather than tile count, so a "Syn" tile
 # counts as 3 characters toward the cap and a single "K" counts as 1. PP_DECK_SIZE (the
-# pool offered) is deliberately LARGER than PP_MAX_CHARS (the build cap) — a bigger, more
+# pool offered) is deliberately LARGER than PP_MAX_CHARS (the build cap) - a bigger, more
 # varied deck gives real choice/combinations when assembling a strong password instead of
 # a scarce deck that forces near-every tile into the build row. Difficulty ramps easy→hard
 # across 5 rounds by shifting the deck's chunk-length mix: easy leans on more 2-3 char
 # recognizable fragments (fewer chunks needed to reach length+variety), hard leans on more
 # standalone 1-char symbol/digit chunks (reaching Strong/Very-Strong still requires
-# deliberately combining several of them, not just concatenating 1-2 whole fragments) — see
+# deliberately combining several of them, not just concatenating 1-2 whole fragments) - see
 # _pp_generate_deck's own docstring for the exact per-difficulty composition.
 PP_DECK_SIZE = 20
 PP_MAX_SLOTS = 12  # legacy tile-count cap, kept for backwards compat with old content
@@ -806,7 +767,7 @@ def _pp_rand_chunks(pool: list, count: int, allow_dup: bool) -> list:
 
 def _pp_generate_deck(difficulty: str, weak: str) -> list:
     """Mixed-length-chunk deck: 3-char fragments + 2-char syllable pairs + 1-char singles
-    (letters/symbols/numbers). Deck size is PP_DECK_SIZE (20) — deliberately larger than
+    (letters/symbols/numbers). Deck size is PP_DECK_SIZE (20) - deliberately larger than
     the PP_MAX_CHARS (12) build cap, so the player has real choice/combinations rather
     than a scarce deck where nearly every tile must be used.
 
@@ -814,12 +775,12 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
     recognizable fragments (fewer, larger chunks get you to length+variety fast); hard
     leans on more standalone 1-char symbol/digit chunks, so reaching Strong/Very-Strong
     still takes deliberately combining several of them rather than dropping in 1-2 whole
-    fragments. Strength still scores the concatenated string — this function only controls
+    fragments. Strength still scores the concatenated string - this function only controls
     how deliberately a participant must combine chunks to get there.
 
     lower_needed is always computed as the REMAINDER (PP_DECK_SIZE - chunks placed so far),
     so every difficulty branch sums to exactly PP_DECK_SIZE before the final shuffle+slice
-    regardless of which random sub-branch fires — nothing relies on hand-verified fixed
+    regardless of which random sub-branch fires - nothing relies on hand-verified fixed
     per-branch sums the way the previous fixed-deck-size design did.
     """
     has_upper = bool(re.search(r"[A-Z]", weak))
@@ -865,7 +826,7 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
 
     if difficulty == "hard":
         # Harder rounds pad out with more STANDALONE 1-char symbol/digit chunks (not just
-        # lowercase filler), so simply concatenating a couple of fragments isn't enough —
+        # lowercase filler), so simply concatenating a couple of fragments isn't enough  - 
         # the player has to reach for singles too, same principle as upper/sym/num above.
         weak_lowers = [c for c in weak if c.islower()]
         lowers = []
@@ -907,7 +868,7 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
 
 
 def _pp_compute_strength(pw: str, weak: str) -> dict:
-    """Direct port of computeStrength() in pass-phrase.js — same scoring, same thresholds."""
+    """Direct port of computeStrength() in pass-phrase.js - same scoring, same thresholds."""
     has_upper = bool(re.search(r"[A-Z]", pw))
     has_lower = bool(re.search(r"[a-z]", pw))
     has_number = bool(re.search(r"[0-9]", pw))
@@ -950,7 +911,7 @@ def _pp_compute_strength(pw: str, weak: str) -> dict:
         charset += 10
     if has_special:
         charset += 12
-    crack = "—"
+    crack = " - "
     if len(pw) > 0 and charset > 0:
         entropy = len(pw) * math.log2(charset)
         guesses = 2 ** entropy
@@ -1027,7 +988,7 @@ def _gate_admin_routes():
         if not session.get("is_admin"):
             return jsonify({"error": "unauthorized"}), 401
         # Idle timeout: separate from the 12h absolute cookie lifetime (PERMANENT_SESSION_LIFETIME
-        # above) — logs an unattended admin session out after a stretch of no admin API activity,
+        # above) - logs an unattended admin session out after a stretch of no admin API activity,
         # rather than staying valid for the full 12h regardless of use, now that this dashboard is
         # reachable on the open internet and not just venue WiFi.
         now = datetime.now(timezone.utc)
@@ -1039,10 +1000,10 @@ def _gate_admin_routes():
                 last_active = None
             if last_active and (now - last_active) > ADMIN_IDLE_TIMEOUT:
                 session.clear()
-                return jsonify({"error": "session expired", "message": "logged out after inactivity — please log in again"}), 401
+                return jsonify({"error": "session expired", "message": "logged out after inactivity - please log in again"}), 401
         session["last_admin_activity"] = now.isoformat()
         # CSRF: session cookie + same-origin fetch alone isn't enough once this is reachable on
-        # the open internet — require the per-login token (see /api/admin/login, /api/admin/check)
+        # the open internet - require the per-login token (see /api/admin/login, /api/admin/check)
         # as a header on every mutating admin request. Safe (GET/HEAD) requests are exempt.
         if request.method in ("POST", "PUT", "PATCH", "DELETE"):
             token = request.headers.get("X-CSRF-Token") or ""
@@ -1104,7 +1065,7 @@ def slides(filename):
 
 @app.route("/live-event/")
 def live_event_index():
-    # Standalone presentation console is now admin-only (see docs/APPLICATION_STATE.md — this
+    # Standalone presentation console is now admin-only (see docs/APPLICATION_STATE.md - this
     # reverses the earlier "zero auth dependency" behavior). Unauthenticated visitors are
     # redirected to /admin's login form rather than seeing the module menu.
     if not session.get("is_admin"):
@@ -1114,7 +1075,7 @@ def live_event_index():
 
 @app.route("/live-event/<path:filename>")
 def live_event(filename):
-    # Gate only the console's own HTML pages (index.html above + the 8 module pages here) —
+    # Gate only the console's own HTML pages (index.html above + the 8 module pages here)  - 
     # NOT the shared assets under this same path (console.css, console.js, content/*.json,
     # assets/*), which the phone-synced /join/<code> page also depends on (console.css's own
     # @import chain, fault-finding's real email images) and participants are never
@@ -1125,10 +1086,10 @@ def live_event(filename):
     return send_from_directory(LIVE_EVENT_DIR, filename)
 
 
-# Public, unauthenticated health check — used by the admin dashboard's own status display
+# Public, unauthenticated health check - used by the admin dashboard's own status display
 # and by an external uptime pinger. Render's free/hobby tier sleeps a dyno after ~15min idle;
 # this app does NOT self-ping (that would fight Render's own sleep policy and can mask real
-# outages) — if you need the dyno kept awake during a live event, point an external uptime
+# outages) - if you need the dyno kept awake during a live event, point an external uptime
 # service (e.g. UptimeRobot, cron-job.org) at GET /health on an interval shorter than the
 # sleep timeout.
 @app.route("/health", methods=["GET"])
@@ -1190,7 +1151,7 @@ def admin_login():
     session["is_admin"] = True
     session.permanent = True
     session["last_admin_activity"] = datetime.now(timezone.utc).isoformat()
-    # Fresh CSRF token per login — required as X-CSRF-Token on every mutating /api/admin/*
+    # Fresh CSRF token per login - required as X-CSRF-Token on every mutating /api/admin/*
     # request (see _gate_admin_routes). Returned here so the dashboard can attach it going forward.
     csrf_token = secrets.token_urlsafe(32)
     session["csrf_token"] = csrf_token
@@ -1208,7 +1169,7 @@ def admin_check():
     is_admin = bool(session.get("is_admin"))
     out = {"isAdmin": is_admin}
     if is_admin:
-        # A session created before CSRF support won't have a token yet — issue one now so an
+        # A session created before CSRF support won't have a token yet - issue one now so an
         # already-logged-in admin (cookie still valid) doesn't need to re-login to get one.
         if not session.get("csrf_token"):
             session["csrf_token"] = secrets.token_urlsafe(32)
@@ -1278,7 +1239,7 @@ def session_qr(code):
             # Center text: room code + URL
             txt1 = f"ROOM: {code}"
             txt2 = join_url
-            txt3 = "QR library missing — show URL"
+            txt3 = "QR library missing - show URL"
             # Draw centered approximations
             draw.text((W//2, H//2 - 40), txt1, fill="black", font=font_big, anchor="mm")
             draw.text((W//2, H//2 + 10), txt2, fill="black", font=font_small, anchor="mm")
@@ -1300,9 +1261,9 @@ def join_page(code):
     if not sess:
         html_bad = """<!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/><title>Room __ROOM_CODE__ not found — Synergy</title>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/><title>Room __ROOM_CODE__ not found - Synergy</title>
 <style>body{font-family:system-ui,-apple-system,Barlow,sans-serif;background:#f8fafc;color:#0f172a;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:16px} .card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;max-width:420px;width:100%;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08)} h1{font-size:1.25rem;margin:0 0 8px} p{color:#64748b;margin:0 0 16px;line-height:1.5} a{color:#0891b2;text-decoration:none;font-weight:700} .room{font-family:monospace;background:#e0f2fe;color:#0c4a6e;padding:4px 8px;border-radius:6px;letter-spacing:1px}</style>
-</head><body><div class="card"><h1>Room <span class="room">__ROOM_CODE__</span> not found</h1><p>This room code doesn't exist or has been closed. Double-check the code or ask the facilitator for a fresh QR.</p><p><a href="/">← Go home</a></p><p style="font-size:12px;color:#94a3b8;margin-top:12px">Synergy Cyber Security Awareness Month</p></div></body></html>"""
+</head><body><div class="card"><h1>Room <span class="room">__ROOM_CODE__</span> not found</h1><p>This room code doesn't exist or has been closed. Check the code or ask the host for a new QR.</p><p><a href="/">- Go home</a></p><p style="font-size:12px;color:#94a3b8;margin-top:12px">Synergy Cyber Security Awareness Month</p></div></body></html>"""
         html_bad = html_bad.replace("__ROOM_CODE__", code)
         return Response(html_bad, status=404, mimetype="text/html")
     html_template = """<!doctype html>
@@ -1310,22 +1271,22 @@ def join_page(code):
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/>
-<title>Join __ROOM_CODE__ — Synergy Cyber Security Awareness Month</title>
+<title>Join __ROOM_CODE__ - Synergy Cyber Security Awareness Month</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Barlow:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <!-- Reuses the same component classes as the facilitator console (mf-card, dr-option,
      cq-riddle-card, ff-compare-panel, etc.) so a phone and the big screen showing the same
-     activity read as the same product — see the phone-only overrides at the end of this block. -->
+     activity read as the same product - see the phone-only overrides at the end of this block. -->
 <link href="/live-event/console.css" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box} html,body{height:100%}
 body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background:#f1f5f9;color:#0f172a;min-height:100dvh;display:flex;flex-direction:column}
 /* Header reuses console.css's own .le-topbar/.le-brand classes verbatim (same SYN.png/AFT.png
    logo files, same colors/borders/blur) so the phone header matches the admin dashboard/console
-   exactly — but .le-topbar's own sizing (clamp(42px,4.2vw,64px) logos, a 5-word subtitle with
+   exactly - but .le-topbar's own sizing (clamp(42px,4.2vw,64px) logos, a 5-word subtitle with
    no wrap guard) was tuned for a 1920x1080 display that never needs to fit a 375-430px phone
    width; left as-is it overflows the viewport instead of wrapping. These overrides only touch
-   sizing/wrapping, never color/border/shadow, so the visual TREATMENT still matches — it just
+   sizing/wrapping, never color/border/shadow, so the visual TREATMENT still matches - it just
    also fits. */
 .header{position:sticky;top:0;z-index:10;flex-wrap:wrap;row-gap:8px}
 .header .le-brand img{height:32px}
@@ -1351,7 +1312,7 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .ok{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;padding:12px;border-radius:12px;margin-top:12px;font-size:var(--fs-badge);word-break:break-word}
 .err{background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d;padding:12px;border-radius:12px;margin-top:12px;font-size:var(--fs-badge)}
 .badge{font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;display:inline-flex;align-items:center;gap:6px}
-/* Shared small context tag — who/what a scenario is about (persona) or its subject category
+/* Shared small context tag - who/what a scenario is about (persona) or its subject category
    (myth-vs-fact's topic). One styled class reused everywhere this pattern appears, instead of
    each render function inventing its own (unstyled) class name. */
 .persona-tag{font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.6px;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:#e0f2fe;border:1px solid #bae6fd;color:#075985;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px}
@@ -1396,12 +1357,12 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .cw-clue-list li.solved{background:#ecfdf5;border-color:#6ee7b7}
 .cw-clue-num{font-family:'Space Mono',monospace;font-weight:800;color:#0c4a6e;margin-right:6px}
 @media (max-width:375px){ .main{padding:12px} .card{padding:16px} .prompt{font-size:var(--fs-body)} .option-btn{font-size:var(--fs-body);min-height:52px;padding:14px 12px} }
-/* .cw-input stays at 16px at every width (not shrunk here) — an <input> below 16px triggers
+/* .cw-input stays at 16px at every width (not shrunk here) - an <input> below 16px triggers
    an automatic page zoom on focus in mobile Safari; the grid cells are already a fixed 32px
    regardless of viewport (see cwRenderGrid), so 16px text fits comfortably at every width. */
 
 /* ============================================================
-   Self-paced activity screen — reuses console.css's own component
+   Self-paced activity screen - reuses console.css's own component
    classes (imported above) for each module's real visual template;
    this block only adds the phone-specific layout/interaction pieces
    that don't exist on the (desktop, narrated-not-tapped) console:
@@ -1411,31 +1372,16 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .act-topline{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .act-progress-badge{margin-left:auto}
 #actMount{display:flex;flex-direction:column;gap:14px; min-height: 320px;}
-/* Closing-quiz SVR vs MCQ — an earlier pass tried to solve "Submit overlapping content at the
-   final index" and "Nav jumps when paging 5→6" by caging #activityScreen to a fixed 68vh/680px
-   flex column with #actMount as the only shrinkable/scrollable child. That traded one bug for a
-   worse one: a full MCQ question (prompt + 4 choices) doesn't fit in the leftover height once
-   Nav/Dots/Submit's reserved space is subtracted, so the choice grid silently scrolled out of
-   view inside #actMount's own internal scrollbar — indistinguishable from "the options are
-   missing" without noticing you can scroll a tiny inner box. #actSubmitWrap already reserves its
-   own space generically (see its own rule below, .hidden keeps display:block so the box never
-   collapses) for every module, not just this one, so that concern doesn't need a special cage
-   here — closing-quiz can size like every other module (natural page height, no internal
-   scroll). Only keeping a minimum height on the SVR card itself, so the shorter narration-only
-   steps don't make Nav jump up dramatically next to the taller MCQ steps. */
-#actMount .qz-question, #actMount .svr-scenario-card{width:100%; max-width:100%;}
-.svr-scenario-card{min-height:220px; display:flex; flex-direction:column; justify-content:center;}
-#actMount .qz-choices{min-height:0;}
 #actSubmitWrap{position:relative; z-index:1; background:white; clear:both; min-height:72px; box-sizing:border-box;}
 #actSubmitWrap.hidden{display:block !important; visibility:hidden; opacity:0; pointer-events:none; /* keep layout space so mount doesn't jump when Submit appears at final index */}
-/* Reused console text classes (.cq-riddle-text, .dr-prompt, .qz-question, .mf-myth, etc.)
-   were never built to wrap an unbroken long token — a desktop-width console line has plenty
+/* Reused console text classes (.cq-riddle-text, .dr-prompt, .mf-myth, etc.)
+   were never built to wrap an unbroken long token - a desktop-width console line has plenty
    of room, but content that includes something like an email address with no hyphen (e.g.
    clue-quest's "hr@synergymarinegroup.com") has nowhere to break on a 375px phone and pushes
    the whole card past the viewport edge. Force-wrap anywhere inside the mounted template. */
 #actMount, #actMount *{overflow-wrap:anywhere}
 /* Clue-quest's countdown reuses console's .le-timer/.lt-digits as-is (same amber/red threshold
-   behavior), but console's own digit size (clamp floor 90px) assumes a 1920x1080 display —
+   behavior), but console's own digit size (clamp floor 90px) assumes a 1920x1080 display  - 
    at a 375px phone width that would eat most of the card. Shrink for mobile only. */
 #actMount .le-timer .lt-digits{font-size:44px}
 .act-nav{display:flex;gap:10px;margin-top:16px}
@@ -1443,33 +1389,31 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .act-nav .btn:disabled{opacity:0.35}
 
 /* Touch pass: every tappable surface gets touch-action:manipulation (kills the ~300ms tap
-   delay some mobile browsers impose and disables double-tap-to-zoom on fast double-taps —
+   delay some mobile browsers impose and disables double-tap-to-zoom on fast double-taps  - 
    without this, a quick double-tap on a card can be interpreted as a zoom gesture instead of
-   two clicks) and an explicit :active press state, since touch devices never trigger :hover —
+   two clicks) and an explicit :active press state, since touch devices never trigger :hover  - 
    without a defined :active, a tap would show zero visual feedback until the network
-   round-trip completes and .picked lands. Reused console.css classes (dr-option, qz-choice,
-   cq-option) only ever defined :hover for the desktop console's mouse use, so they needed
-   this most.  */
-.option-btn, .ff-compare-panel, .dr-option, .qz-choice, .cq-option,
+   round-trip completes and .picked lands. Reused console.css classes (dr-option, cq-option)
+   only ever defined :hover for the desktop console's mouse use, so they needed this most.  */
+.option-btn, .ff-compare-panel, .dr-option, .cq-option,
 .pp-tile[data-slot-idx], .pp-slot-empty, .pp-deck-tile, .pp-tile.chunk-tile, .pp-deck-tile.chunk-tile,
 .act-nav .btn, .btn, .cw-clue-list li, .feedback-badge, .cc-bubble{
   touch-action: manipulation;
 }
 .ff-compare-panel:active:not(:disabled){ transform: scale(0.985); }
 .dr-option:active:not(:disabled){ background: rgba(6,182,212,0.10) !important; }
-.qz-choice:active{ background: rgba(6,182,212,0.10) !important; }
 .cq-option:active{ background: rgba(6,182,212,0.06) !important; }
 .pp-tile[data-slot-idx]:active, .pp-deck-tile:not(:disabled):active{ transform: scale(0.94); }
-/* Feedback badges are non-interactive educational feedback per card (correct/not-quite) —
+/* Feedback badges are non-interactive educational feedback per card (correct/not-quite)  - 
    they appear below the options after an answer, never overlay the options, and must not
    block or delay the next tap. They have no pointer events that could intercept a tap on the
    Prev/Next chrome below, and the 1400ms auto-advance pause is intentional for reading, not
-   a touch delay — Prev remains immediately tappable to go back. */
+   a touch delay - Prev remains immediately tappable to go back. */
 .feedback-badge{ pointer-events: none; touch-action: manipulation; }
 .pp-tile.chunk-tile, .pp-deck-tile.chunk-tile{
   /* 2-char chunks like "Ka","Th","on" are slightly wider than single chars but still
      comfortably tappable at 375px. Height is untouched (same clamp as the base tile) so
-     every tile — 1, 2 or 3 char — sits at the same row height; only width nudges up with
+     every tile - 1, 2 or 3 char - sits at the same row height; only width nudges up with
      content, same technique extended one step further by .chunk-tile3 below. */
   min-width: clamp(56px, 6.2vw, 78px);
 }
@@ -1479,12 +1423,12 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
   min-width: clamp(64px, 7vw, 88px);
   font-size: var(--fs-body);
 }
-/* Deck tray: PP_DECK_SIZE (20) chunks — a deliberately larger, more varied pool than the
+/* Deck tray: PP_DECK_SIZE (20) chunks - a deliberately larger, more varied pool than the
    12-char build cap, so the player has real choice rather than a scarce deck. Console's own
-   .pp-deck is flex-wrap (fine on a wide desktop screen — it just wraps to however many fit
+   .pp-deck is flex-wrap (fine on a wide desktop screen - it just wraps to however many fit
    per row), but at phone width that produced a dangling short last row. A fixed 5-column
    grid gives 20 tiles exactly 4 full rows with no dangling row, at any deck size we pick
-   here — column count intentionally divides PP_DECK_SIZE evenly. */
+   here - column count intentionally divides PP_DECK_SIZE evenly. */
 .pp-deck{
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -1493,20 +1437,20 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 }
 
 /* Fault-finding: console's ff-compare-row is a side-by-side flex row with no mobile
-   breakpoint — force a vertical stack, and turn each panel into a real tappable button
+   breakpoint - force a vertical stack, and turn each panel into a real tappable button
    (the console never needs a click target here since it's narrated, not answered). */
 .ff-compare-row{flex-direction:column !important}
 button.ff-compare-panel{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;position:relative;touch-action:manipulation}
-/* Console's .ff-compare-label absolutely overlays the image's top-left corner (top:12px) —
+/* Console's .ff-compare-label absolutely overlays the image's top-left corner (top:12px)  - 
    fine at console's large rendered size, but at phone width the image renders short enough
    that the label's fixed ~41px footprint (12px offset + its own height) reaches past where the
    SVG's own white card actually starts (these assets inset their white rect well down from a
    full-bleed dark background, e.g. it-notice-real.svg's card starts 14% into a 900-tall
-   viewBox — only ~26px at a 178px-tall rendered image), so the label's rounded bottom edge
+   viewBox - only ~26px at a 178px-tall rendered image), so the label's rounded bottom edge
    overlapped into the card instead of clearing it. Taking it out of absolute-overlay flow and
    letting it sit as a normal in-flow block above the image (it's already first in the markup)
    gives it real spacing that doesn't depend on a fixed pixel offset matching a proportional
-   point in a variable-height image — console's own side-by-side layout is untouched, since this
+   point in a variable-height image - console's own side-by-side layout is untouched, since this
    selector only applies within the phone's stacked .ff-compare-panel and console.css's own rule
    is never edited. */
 .ff-compare-panel .ff-compare-label{position:static;display:inline-block;margin:10px 0 8px 12px}
@@ -1517,10 +1461,10 @@ button.ff-compare-panel{all:unset;box-sizing:border-box;display:block;width:100%
 .ff-compare-panel:disabled{cursor:default}
 
 /* Myth-vs-fact: real mf-card look, plain proven tap-target buttons for the True/False vote
-   (console has no binary choice UI here — it's a single reveal button, not applicable). */
+   (console has no binary choice UI here - it's a single reveal button, not applicable). */
 .mf-card .options{margin-top:14px}
 
-/* Per-item correct/wrong feedback (renderCorrectFeedback) — educational feedback on THIS
+/* Per-item correct/wrong feedback (renderCorrectFeedback) - educational feedback on THIS
    answer only, no running score anywhere on the participant page (see docs). */
 .feedback-badge{margin-top:14px;padding:12px 14px;border-radius:12px;font-weight:800;font-size:var(--fs-badge);display:flex;align-items:center;gap:10px;text-align:left}
 .feedback-badge.correct{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46}
@@ -1528,15 +1472,15 @@ button.ff-compare-panel{all:unset;box-sizing:border-box;display:block;width:100%
 .feedback-badge i{font-size:var(--fs-body)}
 
 /* Pass-phrase: real weak-password framing, live strength meter, and the actual deck/slot
-   build interaction (tap-to-place, not drag — touch drag was already deemed unreliable).
+   build interaction (tap-to-place, not drag - touch drag was already deemed unreliable).
    .pp-tile/.pp-deck/.pp-deck-tile/.pp-tiles are the console's own classes (console.css); only
-   the empty-slot placeholder and the "selected" state are new — the console's own build row
+   the empty-slot placeholder and the "selected" state are new - the console's own build row
    starts empty and only ever shows filled tiles (no pre-drawn empty slots), and it has no
    tap-to-select state since its click handler places a tile immediately on tap. */
 .pp-section-label{margin-top:4px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.5px;text-transform:uppercase;color:#475569;display:flex;align-items:center;gap:6px}
 .pp-section-label span{margin-left:auto;color:#94a3b8;text-transform:none;letter-spacing:0}
 /* button.X{all:unset} strips a <button>'s UA styling so console.css's own .pp-tile/.pp-deck-tile
-   rules can apply cleanly (same trick as button.ff-compare-panel above) — but all:unset resets
+   rules can apply cleanly (same trick as button.ff-compare-panel above) - but all:unset resets
    EVERY property, and button.pp-tile/button.pp-deck-tile (element+class) is more specific than
    console.css's bare .pp-tile/.pp-deck-tile class selectors, so it was also wiping out their
    width/height/display/border/background with nothing put back, leaving each chunk as bare
@@ -1556,28 +1500,24 @@ button.pp-tile, button.pp-deck-tile{
 .pp-deck-tile.selected{border-color:var(--cyan,#06b6d4) !important;box-shadow:0 0 0 3px rgba(6,182,212,0.3);transform:translateY(-2px)}
 .pp-deck-tile:disabled{cursor:not-allowed}
 
-/* Decision-room / clue-quest / closing-quiz already collapse to a single column on their own
-   (dr-options is always column; cq-options/qz-choices auto-fit or media-query to 1 col under
-   1100px) — no stacking override needed, just link the stylesheet above. Console.css only
-   styles these as "correct"/"incorrect" outcome states (there's no participant scoring here),
-   so a neutral "picked" state — distinct from any right/wrong color — is added here. */
+/* Decision-room / clue-quest already collapse to a single column on their own (dr-options is
+   always column; cq-options auto-fit or media-query to 1 col under 1100px) - no stacking
+   override needed, just link the stylesheet above. Console.css only styles these as
+   "correct"/"incorrect" outcome states (there's no participant scoring here), so a neutral
+   "picked" state - distinct from any right/wrong color - is added here. */
 .dr-option.picked{background:rgba(6,182,212,0.16) !important;border-color:var(--cyan,#06b6d4) !important;box-shadow:0 0 18px rgba(6,182,212,0.25)}
 .dr-option.picked .dr-opt-letter{color:var(--cyan-light,#67e8f9) !important}
-.qz-choice{cursor:pointer}
-.qz-choice.picked{border-color:var(--cyan,#06b6d4) !important;background:rgba(6,182,212,0.12) !important}
-.qz-choice.picked .qz-letter{color:var(--cyan-dark,#0891b2) !important}
-#actMount .svr-response.show{max-height:none; overflow:visible;}
 .cq-option{cursor:pointer}
 .cq-option.picked{border-color:var(--cyan,#06b6d4) !important;background:rgba(6,182,212,0.08) !important;color:var(--navy,#001a4d) !important}
 .cq-option.picked .cq-opt-num{background:var(--cyan,#06b6d4) !important}
 
 /* Control Catch: falling-bubble reflex game. HUD (score/lives/time) above a fixed-height
    arena; bubbles are absolutely-positioned buttons animated purely via CSS transition on
-   `top` (see ccSpawnBubble in the JS) rather than canvas or rAF — same DOM+CSS approach every
+   `top` (see ccSpawnBubble in the JS) rather than canvas or rAF - same DOM+CSS approach every
    other module in this file uses, kept consistent rather than introducing a one-off canvas
    dependency for a single module. Bubble color palette (.cc-c1..c6), the good/bad pop-outcome
    animations (.cc-pop-good/.cc-pop-bad) and the color-decoupling rationale all live once in
-   console.css (linked above) — this page only needs its own size-specific .cc-bubble base
+   console.css (linked above) - this page only needs its own size-specific .cc-bubble base
    rule (mobile-scale vs console.css's desktop-scale one) so both surfaces share one visual
    treatment instead of drifting apart. */
 .cc-hud{display:flex;align-items:stretch;gap:10px;margin-bottom:10px}
@@ -1620,43 +1560,43 @@ button.pp-tile, button.pp-deck-tile{
   </div>
   <div class="le-topbar-right">
     <span class="room">ROOM __ROOM_CODE__</span>
-    <span id="headerCount" class="count">—</span>
+    <span id="headerCount" class="count"> - </span>
   </div>
 </header>
 <main class="main">
   <!-- Join -->
   <div id="joinScreen" class="card">
     <h1>Join session</h1>
-    <p>Enter your display name. It will be visible to the facilitator.</p>
+    <p>Enter your name. The host will see it.</p>
     <input id="nameInput" class="input" placeholder="Your name" autocomplete="name" maxlength="40"/>
     <button id="joinBtn" class="btn" style="margin-top:12px">Join session</button>
     <div id="joinOk" class="ok hidden"></div>
     <div id="joinErr" class="err hidden"></div>
     <p style="margin-top:14px;font-size:var(--fs-badge);color:#94a3b8;text-align:center">Room __ROOM_CODE__ · Synergy Cyber Security Awareness Month</p>
   </div>
-  <!-- Waiting — lobby shows chosen module name -->
+  <!-- Waiting - lobby shows chosen module name -->
   <div id="waitingScreen" class="card hidden">
     <div class="waiting-icon">⏳</div>
     <h2 style="text-align:center">Waiting for facilitator</h2>
-    <p id="waitingSub" style="text-align:center">You're in. The facilitator will launch the next activity shortly.</p>
+    <p id="waitingSub" style="text-align:center">You are in. The host will start the next activity soon.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:8px">
       <span id="waitingCount" class="badge">0 joined</span>
-      <span id="waitingModule" class="badge">—</span>
+      <span id="waitingModule" class="badge"> - </span>
     </div>
     <div id="waitingNames" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center"></div>
   </div>
-  <!-- Participant intro — mirrors console's le-intro-screen (whyThisMatters) -->
+  <!-- Participant intro - mirrors console's le-intro-screen (whyThisMatters) -->
   <div id="introScreen" class="card hidden" style="text-align:center">
     <div style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#0891b2;background:#ecfeff;border:1px solid #a5f3fc;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-circle-info"></i> Why This Matters</div>
     <p id="introText" style="margin:16px 0;font-size:var(--fs-body);line-height:1.5;color:#0f172a"></p>
     <button id="introStartBtn" class="btn" style="width:100%;background:#06b6d4;color:white" type="button"><i class="fa-solid fa-play"></i> Start</button>
     <p style="margin-top:10px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8">Synergy Cyber Security Awareness Month</p>
   </div>
-  <!-- Self-paced activity — real per-module template mounted into #actMount, participant
+  <!-- Self-paced activity - real per-module template mounted into #actMount, participant
        pages through the full item list at their own pace (their own Prev/Next below). -->
   <div id="activityScreen" class="card hidden">
     <div class="act-topline">
-      <span id="actModuleBadge" class="badge live">—</span>
+      <span id="actModuleBadge" class="badge live"> - </span>
       <span id="actCount" class="badge">0 joined</span>
       <span id="actProgress" class="badge act-progress-badge">1 / 1</span>
     </div>
@@ -1667,27 +1607,27 @@ button.pp-tile, button.pp-deck-tile{
     </div>
     <div id="actDots" class="le-progress-dots" style="justify-content:center;margin-top:14px"></div>
     <div id="actSubmitWrap" class="hidden" style="margin-top:16px; text-align:center; border-top:1px solid #e2e8f0; padding-top:14px">
-      <button id="actSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%" type="button"><i class="fa-solid fa-paper-plane"></i> Done — Submit Answers</button>
-      <div id="actSubmitHint" class="adm-note" style="margin-top:6px">Review with Prev/Next before you submit. After Submit your answers are locked — you can't change them.</div>
+      <button id="actSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%" type="button"><i class="fa-solid fa-paper-plane"></i> Done - Submit Answers</button>
+      <div id="actSubmitHint" class="adm-note" style="margin-top:6px">Use Prev and Next to review before you submit. After you submit, your answers are locked. You cannot change them.</div>
       <div id="actSubmitMsg" class="adm-note" style="margin-top:6px"></div>
     </div>
     <div id="reviewBackWrap" class="hidden" style="margin-top:12px; text-align:center; border-top:1px dashed #6ee7b7; padding-top:12px">
-      <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode — answers locked, identification & recommendation shown below each answer.</div>
+      <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode - answers are locked. You can now see the details below each answer.</div>
       <button id="backToSubmittedFromActivityBtn" class="btn secondary" style="width:100%" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
     </div>
   </div>
-  <!-- Submitted — deliberate locked confirmation, distinct from generic complete -->
+  <!-- Submitted - deliberate locked confirmation, distinct from generic complete -->
   <div id="submittedScreen" class="card hidden" style="text-align:center; border-color:#6ee7b7; background:#ecfdf5">
     <div style="font-size:var(--fs-heading)">✅</div>
-    <h2 style="color:#065f46">Submitted — thanks!</h2>
-    <p id="submittedMsg">Your answers for <span class="badge" id="submittedModule">—</span> have been recorded and are now locked. You can't edit them further.</p>
-    <p style="font-size:var(--fs-badge);color:#065f46; font-weight:600">Waiting for facilitator to move the room on — same room, no re-scan needed.</p>
+    <h2 style="color:#065f46">Submitted - thanks!</h2>
+    <p id="submittedMsg">Your answers for <span class="badge" id="submittedModule">-</span> have been saved and are now locked. You cannot change them.</p>
+    <p style="font-size:var(--fs-badge);color:#065f46; font-weight:600">Please wait for the host to start the next activity. Same room, no new QR needed.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap; margin-top:8px">
-      <span id="submittedCount" class="badge">—</span>
+      <span id="submittedCount" class="badge"> - </span>
       <span id="submittedModule2" class="badge" style="background:#ecfdf5; border-color:#6ee7b7; color:#065f46">locked</span>
     </div>
     <p id="submittedAtLine" style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;margin-top:10px"></p>
-    <!-- Control Catch's own final score — "your result" framing, never a comparison to anyone
+    <!-- Control Catch's own final score - "your result" framing, never a comparison to anyone
          else's score (see doCcSubmit/showSubmittedFor: this is filled from the participant's
          own local game state, not fetched from the server, and no other module's screen shows
          this block). -->
@@ -1709,7 +1649,7 @@ button.pp-tile, button.pp-deck-tile{
       <span id="cwCount" class="badge">0 joined</span>
     </div>
     <div class="cw-wrap">
-      <div id="cwStatus" class="cw-status">Loading grid…</div>
+      <div id="cwStatus" class="cw-status">Loading grid...</div>
       <div class="cw-grid-wrap"><div id="cwGrid" class="cw-grid"></div></div>
       <div class="cw-clues">
         <div class="cw-clue-col"><h3>Across</h3><ul id="cwAcross" class="cw-clue-list"></ul></div>
@@ -1720,20 +1660,20 @@ button.pp-tile, button.pp-deck-tile{
         <button id="cwReveal" class="btn secondary" style="flex:1">Reveal</button>
       </div>
       <div id="cwProgressHint" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8;text-align:center">Progress syncs automatically (debounced)</div>
-      <div id="cwSolvedBanner" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;font-weight:800;text-align:center">✓ Every word is in place — nice work.</div>
+      <div id="cwSolvedBanner" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;font-weight:800;text-align:center">✓ Every word is in place - nice work.</div>
       <div id="cwRememberCard" class="hidden" style="margin-top:12px;padding:12px 14px;border-radius:12px;background:#fffbeb;border:1px solid #fde68a;color:#78350f"><div style="font-weight:800;font-size:var(--fs-badge);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px"><i class="fa-solid fa-thumbtack"></i> Remember This</div><div id="cwRememberCardText"></div></div>
       <div id="cwSubmitWrap" style="margin-top:14px; text-align:center; border-top:1px solid #e2e8f0; padding-top:12px">
-        <button id="cwSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%" type="button"><i class="fa-solid fa-paper-plane"></i> Done — Submit Grid</button>
-        <div class="adm-note" style="margin-top:6px">Submit locks your grid — you can't edit after that.</div>
+        <button id="cwSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%" type="button"><i class="fa-solid fa-paper-plane"></i> Done - Submit Grid</button>
+        <div class="adm-note" style="margin-top:6px">Submit locks your grid. You cannot change it after that.</div>
         <div id="cwSubmitMsg" class="adm-note" style="margin-top:6px"></div>
       </div>
       <div id="cwReviewBackWrap" class="hidden" style="margin-top:12px; text-align:center; border-top:1px dashed #6ee7b7; padding-top:12px">
-        <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode — grid locked, submitted.</div>
+        <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode - grid is locked and submitted.</div>
         <button id="backToSubmittedFromCwBtn" class="btn secondary" style="width:100%" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
       </div>
     </div>
   </div>
-  <!-- Control Catch — falling-bubble reflex game, own timed round per participant -->
+  <!-- Control Catch - falling-bubble reflex game, own timed round per participant -->
   <div id="controlCatchScreen" class="card hidden">
     <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
       <span id="ccModuleBadge" class="badge live">Control Catch</span>
@@ -1744,38 +1684,38 @@ button.pp-tile, button.pp-deck-tile{
       <div class="cc-hud-stat"><span class="cc-hud-label">Lives</span><span id="ccLivesVal" class="cc-hud-value">❤❤❤</span></div>
       <div class="cc-hud-stat"><span class="cc-hud-label">Time</span><span id="ccTimeVal" class="cc-hud-value">0:00</span></div>
     </div>
-    <div id="ccIntroHint" class="cc-hint">Tap the GOOD bubbles (real security habits). Let the BAD ones fall — don't tap those. 3 lives, watch the clock.</div>
+    <div id="ccIntroHint" class="cc-hint">Tap the GOOD bubbles (real security habits). Let the BAD ones fall. Do not tap those. You have 3 lives. Watch the clock.</div>
     <div id="ccArena" class="cc-arena"></div>
     <div id="ccGameOverWrap" class="hidden" style="margin-top:14px;padding:14px;border-radius:12px;background:#ecfdf5;border:1px solid #6ee7b7;text-align:center">
-      <div style="font-weight:800;color:#065f46;font-family:'Orbitron',sans-serif;letter-spacing:0.5px">GAME OVER — YOUR RESULT</div>
-      <div id="ccGameOverStats" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#065f46">—</div>
-      <div style="margin-top:8px;font-size:var(--fs-badge);color:#065f46">This is your own result — not shared or compared with anyone else in the room.</div>
-      <button id="ccSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%;margin-top:12px" type="button"><i class="fa-solid fa-paper-plane"></i> Done — Submit My Score</button>
+      <div style="font-weight:800;color:#065f46;font-family:'Orbitron',sans-serif;letter-spacing:0.5px">GAME OVER - YOUR RESULT</div>
+      <div id="ccGameOverStats" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#065f46"> - </div>
+      <div style="margin-top:8px;font-size:var(--fs-badge);color:#065f46">This is your own result. It is not shared or compared with others.</div>
+      <button id="ccSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%;margin-top:12px" type="button"><i class="fa-solid fa-paper-plane"></i> Done - Submit My Score</button>
       <div id="ccSubmitMsg" class="adm-note" style="margin-top:6px"></div>
     </div>
     <div id="ccReviewBackWrap" class="hidden" style="margin-top:12px; text-align:center; border-top:1px dashed #6ee7b7; padding-top:12px">
-      <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode — round finished, submitted.</div>
+      <div class="adm-note" style="margin-bottom:8px;color:#065f46;font-weight:700">Review mode - round finished and submitted.</div>
       <button id="backToSubmittedFromCcBtn" class="btn secondary" style="width:100%" type="button"><i class="fa-solid fa-arrow-left"></i> Back to Confirmation</button>
     </div>
   </div>
-  <!-- Complete — same room stays for next activity -->
+  <!-- Complete - same room stays for next activity -->
   <div id="completeScreen" class="card hidden" style="text-align:center">
     <div style="font-size:var(--fs-heading)">🎉</div>
     <h2>Activity Complete</h2>
-    <p>Great work! Waiting for facilitator to choose next activity — same room, no re-scan needed.</p>
+    <p>Great work! Please wait for the host to choose the next activity. Same room, no new QR needed.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
       <span id="completeCount" class="badge">0 joined</span>
-      <span id="completeModule" class="badge">—</span>
+      <span id="completeModule" class="badge"> - </span>
     </div>
   </div>
   <!-- Error -->
   <div id="errorScreen" class="card hidden" style="border-color:#fca5a5">
-    <h2 style="color:#7f1d1d">Connection issue</h2>
-    <p id="errorMsg">—</p>
+    <h2 style="color:#7f1d1d">Connection problem</h2>
+    <p id="errorMsg"> - </p>
     <button id="retryBtn" class="btn secondary">Retry</button>
   </div>
 </main>
-<div id="reconnectBanner" class="reconnect hidden">Reconnecting…</div>
+<div id="reconnectBanner" class="reconnect hidden">Reconnecting...</div>
 <script>
 const ROOM_CODE = "__ROOM_CODE__";
 const STORAGE_PID = 'participantId_' + ROOM_CODE;
@@ -1787,7 +1727,7 @@ let retryCount = 0;
 let notFoundCount = 0;
 // Guards against a slow poll tick's response landing AFTER a later tick's and rendering stale
 // state over it (setInterval fires every 1.5s regardless of whether the previous request has
-// resolved) — fetchState captures the sequence number current at its start and re-checks it
+// resolved) - fetchState captures the sequence number current at its start and re-checks it
 // right after the fetch resolves; a mismatch means a newer poll has already started, so this
 // (now-stale) response is discarded instead of rendered.
 let fetchSeq = 0;
@@ -1796,12 +1736,12 @@ let lastActiveModule = null;
 let lastActiveItemId = null;
 let hasAnsweredCurrentItem = false;
 // Self-paced activity: local-only navigation state. actItems is fetched once per module (not
-// re-fetched/re-rendered on every 1.5s poll — see fetchState) so a participant's own Prev/Next
+// re-fetched/re-rendered on every 1.5s poll - see fetchState) so a participant's own Prev/Next
 // position and in-progress interaction are never disrupted by the ambient poll loop.
 let actModuleLoaded = null;
 let actItems = [];
 let actIndex = 0;
-// Submission state — per-participant per-module deliberate lock
+// Submission state - per-participant per-module deliberate lock
 let mySubmission = null; // {isSubmitted, submittedAt, module} for current activeModule from /state
 let actIsSubmitted = false; // mirrors mySubmission for activityScreen (MC + pass-phrase)
 let cwIsSubmitted = false;  // mirrors for crossword
@@ -1815,7 +1755,7 @@ let cwRows = 0, cwCols = 0;
 let cwCurrentRow = -1, cwCurrentCol = -1, cwCurrentDir = 'across';
 let cwPendingDir = null;
 let cwRevealed = false;
-let cwLastActiveWordIdx = null; // last word index the clue list was scrolled to — see cwHighlight
+let cwLastActiveWordIdx = null; // last word index the clue list was scrolled to - see cwHighlight
 let cwRememberText = '';
 let cwProgressTimer = null;
 let cwLastSent = null;
@@ -1949,8 +1889,8 @@ async function doJoin(){
     const r = await fetch('/api/session/' + ROOM_CODE + '/join', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name})});
     const j = await r.json().catch(()=>({}));
     if(!r.ok){
-      if(j.error === 'room not found') throw new Error('This session has ended or the room code is wrong. Please check with the facilitator or ask for a new QR.');
-      throw new Error('Could not join — please try again.');
+      if(j.error === 'room not found') throw new Error('This session has ended or the room code is wrong. Please check with the host or ask for a new QR.');
+      throw new Error('Could not join - please try again.');
     }
     participantId = j.participantId;
     participantName = name;
@@ -1958,14 +1898,14 @@ async function doJoin(){
     localStorage.setItem(STORAGE_NAME, name);
     startPolling();
   }catch(e){
-    showErr(e.message || 'Join failed — check connection');
+    showErr(e.message || 'Join failed - check connection');
   }finally{
     els.joinBtn.disabled = false;
   }
 }
 
 // --- Self-paced activity: full sequence pushed once, participant pages through it locally ---
-const MC_MODULES = ['fault-finding','myth-vs-fact','decision-room','closing-quiz','clue-quest','pass-phrase'];
+const MC_MODULES = ['fault-finding','myth-vs-fact','decision-room','clue-quest','pass-phrase'];
 
 async function submitAnswer(item, optionId){
   const r = await fetch('/api/session/' + ROOM_CODE + '/respond', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({participantId: participantId, itemId: item.id, optionId: optionId})});
@@ -1976,24 +1916,24 @@ async function submitAnswer(item, optionId){
       localStorage.removeItem(STORAGE_NAME);
       participantId = null;
       showScreen('join');
-      showErr('Session reset — please re-join with your name');
+      showErr('Session was reset - please join again with your name');
       stopPolling();
       return false;
     }
     throw new Error(j.error || 'Submit failed');
   }
   item.myAnswer = optionId; // update local copy so navigating back shows the selection
-  if(j.isCorrect!=null) item.myAnswerCorrect = j.isCorrect; // per-item feedback only — never a tally
+  if(j.isCorrect!=null) item.myAnswerCorrect = j.isCorrect; // per-item feedback only - never a tally
   if(j.correctOptionId!=null) item.correctOptionId = j.correctOptionId; // revealed only now that this item is answered
-  if(j.fact!=null){ item.fact = j.fact; item.revealed = !!j.revealed; } // clue-quest's immediate reveal — see session_respond
-  if(j.myOutcome!=null) item.myOutcome = j.myOutcome; // decision-room's immediate outcome+feedback — see session_respond
+  if(j.fact!=null){ item.fact = j.fact; item.revealed = !!j.revealed; } // clue-quest's immediate reveal - see session_respond
+  if(j.myOutcome!=null) item.myOutcome = j.myOutcome; // decision-room's immediate outcome+feedback - see session_respond
   if(j.myFeedback!=null) item.myFeedback = j.myFeedback;
   return true;
 }
 
-// --- Submission helpers — deliberate lock per participant per module ---
+// --- Submission helpers - deliberate lock per participant per module ---
 // Console gates its own "Solved" button behind reaching Strong/Very-Strong (pass-phrase.js's
-// canSolve) rather than accepting any non-empty build — matches that here so a round only
+// canSolve) rather than accepting any non-empty build - matches that here so a round only
 // counts as done once it's actually strong, not just attempted.
 function ppRoundIsStrong(it){
   const built = (it._ppSlots ? it._ppSlots.join('') : '') || (it.myBuild && it.myBuild.builtPassword) || '';
@@ -2007,11 +1947,14 @@ function isActivityAllAnswered(){
   if(actModuleLoaded === 'pass-phrase'){
     return actItems.every(ppRoundIsStrong);
   }
-  // MC modules with discrete options: every item has a myAnswer — except closing-quiz's SVR
-  // prompts and decision-room's debrief steps, which (like console) are read-only narration
-  // with nothing to choose, so they count as done just by having no options to answer in
-  // the first place. Defensive: also treat any item with no options as auto-done even if
-  // its kind was mis-tagged, to stay aligned with the server's gate (see session_submit).
+  // MC modules with discrete options: every item has a myAnswer - except decision-room's
+  // debrief steps (including the ones folded in from the former closing-quiz SVR prompts),
+  // which (like console) are read-only narration with nothing to choose, so they count as
+  // done just by having no options to answer in the first place. 'svr' is kept in this check
+  // only as a defensive no-op for any already-in-flight legacy session data - new content
+  // never produces that kind anymore (see _load_module_sequence's decision-room branch).
+  // Also treat any item with no options as auto-done even if its kind was mis-tagged, to stay
+  // aligned with the server's gate (see session_submit).
   return actItems.every(it=> it.myAnswer!=null || it.kind==='svr' || it.kind==='debrief' || !it.options || it.options.length===0);
 }
 function updateActivitySubmitVisibility(){
@@ -2024,21 +1967,21 @@ function updateActivitySubmitVisibility(){
     els.actSubmitWrap.classList.remove('hidden');
     if(els.actSubmitBtn){
       els.actSubmitBtn.disabled = false;
-      els.actSubmitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Done — Submit Answers';
+      els.actSubmitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Done - Submit Answers';
     }
   } else {
-    // Also show on last item even if not all answered? Spec says after last item — but for MC we
+    // Also show on last item even if not all answered? Spec says after last item - but for MC we
     // prefer to prompt only when all answered; for continuous modules (crossword/pass-phrase) the
     // crossword has its own submit. Keep hidden until all answered to nudge completion.
     // However if participant is on last item and wants to submit incomplete, they can still tap
-    // once they reach last item — show disabled hint.
+    // once they reach last item - show disabled hint.
     if(actIndex === actItems.length - 1 && actItems.length>0){
       els.actSubmitWrap.classList.remove('hidden');
       if(els.actSubmitBtn){
         const allDone = isActivityAllAnswered();
         els.actSubmitBtn.disabled = !allDone;
         els.actSubmitBtn.innerHTML = allDone
-          ? '<i class="fa-solid fa-paper-plane"></i> Done — Submit Answers'
+          ? '<i class="fa-solid fa-paper-plane"></i> Done - Submit Answers'
           : '<i class="fa-solid fa-paper-plane"></i> Answer all items to submit';
       }
     } else {
@@ -2051,11 +1994,11 @@ async function doActivitySubmit(){
   const module = actModuleLoaded;
   if(!module || !participantId) return;
   if(!isActivityAllAnswered()){
-    if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Please answer every item before submitting.';
+    if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Please answer every item before you submit.';
     return;
   }
   if(els.actSubmitBtn) els.actSubmitBtn.disabled = true;
-  if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Submitting…';
+  if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Submitting...';
   try{
     const r = await fetch('/api/session/' + ROOM_CODE + '/submit', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({participantId: participantId, module: module})});
     const j = await r.json().catch(()=>({}));
@@ -2065,7 +2008,7 @@ async function doActivitySubmit(){
     showSubmittedFor(module, j.submittedAt);
     if(els.actSubmitMsg) els.actSubmitMsg.textContent = '';
   }catch(e){
-    if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Submit failed: ' + (e.message||'');
+    if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Submit failed: ' + (e.message||'Please try again.');
     if(els.actSubmitBtn) els.actSubmitBtn.disabled = false;
   }
 }
@@ -2086,8 +2029,8 @@ function showSubmittedFor(module, submittedAt){
       els.submittedRememberWrap.classList.add('hidden');
     }
   }
-  // Control Catch's own final score — "your result" framing, read from this participant's own
-  // local game state (never re-fetched from the server, never another participant's numbers —
+  // Control Catch's own final score - "your result" framing, read from this participant's own
+  // local game state (never re-fetched from the server, never another participant's numbers  - 
   // see ccEndGame). Falls back to localStorage so a hard refresh after submitting still shows
   // it instead of a bare confirmation with no numbers.
   if(els.submittedScoreWrap && els.submittedScoreText){
@@ -2104,7 +2047,7 @@ function showSubmittedFor(module, submittedAt){
     }
   }
   // Control Catch is a real-time reflex round, not a set of reviewable per-item facts like
-  // every other module here — "Review Answers with Details" has nothing meaningful to show,
+  // every other module here - "Review Answers with Details" has nothing meaningful to show,
   // so hide it rather than leave a tap that silently does nothing.
   if(els.reviewAnswersBtn) els.reviewAnswersBtn.classList.toggle('hidden', module==='control-catch');
   showScreen('submitted');
@@ -2115,7 +2058,7 @@ function updateCwSubmitVisibility(){
     els.cwSubmitWrap.classList.add('hidden');
     return;
   }
-  // Crossword: always show submit once grid initialized — participant decides when finished
+  // Crossword: always show submit once grid initialized - participant decides when finished
   if(cwInitialized){
     els.cwSubmitWrap.classList.remove('hidden');
     if(els.cwSubmitBtn) els.cwSubmitBtn.disabled = false;
@@ -2128,7 +2071,7 @@ async function doCwSubmit(){
   const module = 'crossword';
   if(!participantId) return;
   if(els.cwSubmitBtn) els.cwSubmitBtn.disabled = true;
-  if(els.cwSubmitMsg) els.cwSubmitMsg.textContent = 'Submitting…';
+  if(els.cwSubmitMsg) els.cwSubmitMsg.textContent = 'Submitting...';
   try{
     const r = await fetch('/api/session/' + ROOM_CODE + '/submit', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({participantId: participantId, module: module})});
     const j = await r.json().catch(()=>({}));
@@ -2171,8 +2114,8 @@ function dismissParticipantIntro(){
     showScreen('activity');
     if(actModuleLoaded === mod) renderActivityItem();
     else {
-      // Module not yet init'd — next fetchState poll will init, but show placeholder
-      if(els.actMount) els.actMount.innerHTML = '<p style="color:#64748b;text-align:center">Loading activity…</p>';
+      // Module not yet init'd - next fetchState poll will init, but show placeholder
+      if(els.actMount) els.actMount.innerHTML = '<p style="color:#64748b;text-align:center">Loading activity...</p>';
     }
   } else {
     showScreen('activity');
@@ -2222,14 +2165,14 @@ if(els.backToSubmittedFromCcBtn) els.backToSubmittedFromCcBtn.addEventListener('
   if(els.ccReviewBackWrap) els.ccReviewBackWrap.classList.add('hidden');
 });
 
-// initActivity() runs ONCE per module (when actModuleLoaded changes) — see fetchState. Poll
+// initActivity() runs ONCE per module (when actModuleLoaded changes) - see fetchState. Poll
 // ticks for the SAME module never call this again, so a participant's own Prev/Next position
 // and any in-progress tap are never disrupted by the ambient 1.5s poll loop.
 function initActivity(module, items){
   actModuleLoaded = module;
   actItems = items || [];
   actIndex = 0;
-  // Tag the activity card with the module for module-specific layout (e.g. closing-quiz flex fix)
+  // Tag the activity card with the module id, in case a future module-specific layout rule needs it
   const actScreen = document.getElementById('activityScreen');
   if(actScreen) { if(module) actScreen.dataset.module = module; else delete actScreen.dataset.module; }
   // Reset per-activity submission lock from server state (fetchState will have set mySubmission)
@@ -2244,7 +2187,7 @@ function updateActivityChrome(){
   els.actPrevBtn.disabled = actIndex<=0;
   els.actNextBtn.disabled = actIndex>=total-1;
   els.actDots.innerHTML = actItems.map((it,i)=>{
-    // pass-phrase has no single "answer" — a round's dot only turns "done" once it reaches
+    // pass-phrase has no single "answer" - a round's dot only turns "done" once it reaches
     // Strong+, matching console's own Solved-button gate (ppRoundIsStrong).
     const hasBuild = actModuleLoaded==='pass-phrase' ? ppRoundIsStrong(it)
       : (it._ppSlots && it._ppSlots.length>0) || (it.myBuild && it.myBuild.builtPassword && it.myBuild.builtPassword.length>0);
@@ -2252,11 +2195,11 @@ function updateActivityChrome(){
     const cls = ['dot']; if(isDone) cls.push('done'); if(i===actIndex) cls.push('current');
     const kindLabel = it.kind==='debrief' ? 'debrief' : it.kind==='svr' ? 'info' : `step ${i+1}`;
     const stateLabel = isDone ? 'answered' : 'unanswered';
-    // Dot is now interactive — shows answered vs unanswered (done=cyan, unanswered=gray) and
+    // Dot is now interactive - shows answered vs unanswered (done=cyan, unanswered=gray) and
     // is tappable to jump directly, so a user can visually spot the missing step before Submit.
-    return `<span class="${cls.join(' ')}" data-dot-idx="${i}" role="button" tabindex="0" aria-label="${kindLabel} ${stateLabel}" title="${kindLabel}: ${stateLabel} — click to jump" style="cursor:pointer"></span>`;
+    return `<span class="${cls.join(' ')}" data-dot-idx="${i}" role="button" tabindex="0" aria-label="${kindLabel} ${stateLabel}" title="${kindLabel}: ${stateLabel} - click to jump" style="cursor:pointer"></span>`;
   }).join('');
-  // Wire dot navigation — tap any dot to jump directly (visual answered/unanswered already
+  // Wire dot navigation - tap any dot to jump directly (visual answered/unanswered already
   // encoded in done vs gray; this makes the dots functional navigation, not just decoration).
   els.actDots.querySelectorAll('[data-dot-idx]').forEach(el=>{
     const go = ()=>{
@@ -2277,7 +2220,7 @@ function renderActivityItem(){
   if(!item){ els.actMount.innerHTML = '<p style="color:#94a3b8">No items in this activity.</p>'; return; }
   const renderer = ACTIVITY_RENDERERS[actModuleLoaded] || renderGenericItem;
   els.actMount.innerHTML = renderer(item);
-  // Pass-phrase has no [data-answer-opt] vote at all — it's a free-build deck/slot
+  // Pass-phrase has no [data-answer-opt] vote at all - it's a free-build deck/slot
   // interaction with its own wiring and its own debounced submit, not a single-answer lock.
   if(actModuleLoaded === 'pass-phrase') wirePassPhraseBuild(item);
   else wireActivityOptions(item);
@@ -2288,7 +2231,7 @@ function renderActivityItem(){
 }
 
 function wireActivityOptions(item){
-  // If already submitted for this module, lock completely — no further edits even via Prev
+  // If already submitted for this module, lock completely - no further edits even via Prev
   if(actIsSubmitted){
     els.actMount.querySelectorAll('[data-answer-opt]').forEach(btn=>{
       btn.style.pointerEvents = 'none';
@@ -2317,15 +2260,15 @@ function wireActivityOptions(item){
         // not just the border color.
         renderActivityItem();
         // Brief pause so the tap visibly registers, then auto-advance (participant can still
-        // use Prev to go back and change an answer — /respond allows overwrite). Items with
-        // correct/wrong feedback get longer — that's meant to be read, not just glimpsed.
+        // use Prev to go back and change an answer - /respond allows overwrite). Items with
+        // correct/wrong feedback get longer - that's meant to be read, not just glimpsed.
         const advanceDelay = item.myAnswerCorrect!=null ? 1400 : 550;
         setTimeout(()=>{ if(actIndex < actItems.length-1){ actIndex++; renderActivityItem(); } }, advanceDelay);
       }catch(e){
         const msg = (e.message||'');
         if(msg.includes('already submitted')){
           actIsSubmitted = true;
-          if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Already submitted — answers locked.';
+          if(els.actSubmitMsg) els.actSubmitMsg.textContent = 'Already submitted - answers locked.';
           showSubmittedFor(actModuleLoaded, mySubmission && mySubmission.submittedAt);
           return;
         }
@@ -2336,16 +2279,16 @@ function wireActivityOptions(item){
 }
 els.actPrevBtn.addEventListener('click', ()=>{ if(actIndex>0){ actIndex--; renderActivityItem(); } });
 els.actNextBtn.addEventListener('click', ()=>{ if(actIndex<actItems.length-1){ actIndex++; renderActivityItem(); } });
-// Submit handlers — wired once, safe to re-add (idempotent guard inside)
+// Submit handlers - wired once, safe to re-add (idempotent guard inside)
 if(els.actSubmitBtn) els.actSubmitBtn.addEventListener('click', doActivitySubmit);
 if(els.cwSubmitBtn) els.cwSubmitBtn.addEventListener('click', doCwSubmit);
 if(els.ccSubmitBtn) els.ccSubmitBtn.addEventListener('click', doCcSubmit);
 
-// --- Per-module templates — adapted from the facilitator console's own component classes
+// --- Per-module templates - adapted from the facilitator console's own component classes
 // (console.css, linked above) so a phone and the big screen read as the same activity. ---
 function renderFaultFinding(item){
   const picked = item.myAnswer;
-  // correctOptionId is only ever populated once picked!=null (see _sanitize_item_for_participant) —
+  // correctOptionId is only ever populated once picked!=null (see _sanitize_item_for_participant)  - 
   // console's reveal() adds the same reveal-fake/reveal-real glow to its two panels the instant
   // Reveal is tapped, so this fires in step with the immediate Correct/Not-quite badge below,
   // not deferred to Submit like the explanatory text is.
@@ -2354,7 +2297,7 @@ function renderFaultFinding(item){
     const cls = ['ff-compare-panel'];
     // Once revealed, defer entirely to console's real reveal-fake/reveal-real glow (matching
     // console's own reveal() exactly) rather than layering the phone-only "picked" cyan
-    // override on top of it — the "✓ Your answer" tap-hint text below still marks which
+    // override on top of it - the "✓ Your answer" tap-hint text below still marks which
     // panel was tapped, so that information isn't lost, just no longer fighting the glow color.
     if(picked!=null && correctId!=null) cls.push(letter===correctId ? 'reveal-fake' : 'reveal-real');
     else if(picked===letter) cls.push('picked');
@@ -2366,10 +2309,10 @@ function renderFaultFinding(item){
   };
   // Parity with console: show persona · category like fault-finding.js:96-97
   const ffTag = [item.persona, item.category].filter(Boolean).join(' · ');
-  // Console's own ff-compare-reveal: two rows, What's Wrong + Why It's Suspicious — kept
+  // Console's own ff-compare-reveal: two rows, What's Wrong + Why It's Suspicious - kept
   // separate (not blended into one paragraph) and only populated once item.fact arrives,
   // which for this module is deliberately deferred until whole-activity Submit (see
-  // _sanitize_item_for_participant) — same hybrid timing as the badge-now/detail-later split
+  // _sanitize_item_for_participant) - same hybrid timing as the badge-now/detail-later split
   // this module has always had.
   const reveal = (item.fact || item.whatIsWrong) ? ('<div class="ff-compare-reveal show">'
       + (item.whatIsWrong ? '<div class="ff-r-row"><i class="fa-solid fa-circle-exclamation"></i><div><div class="ff-r-label">What’s Wrong</div><div class="ff-r-text">'+esc(item.whatIsWrong)+'</div></div></div>' : '')
@@ -2388,7 +2331,7 @@ function renderFaultFinding(item){
     + '</div>' + badge;
 }
 // Hybrid feedback: immediate badge (Correct/Not quite) after answer, plus full
-// identification + recommendation (fact/whatIsWrong) only after deliberate Submit —
+// identification + recommendation (fact/whatIsWrong) only after deliberate Submit  - 
 // mirrors console's Reveal (whatIsWrong + whyItsSuspicious) but delayed until locked.
 function renderCorrectFeedback(item){
   let html = '';
@@ -2398,7 +2341,7 @@ function renderCorrectFeedback(item){
       : '<div class="feedback-badge incorrect"><i class="fa-solid fa-xmark"></i> Not quite</div>';
   }
   if(item.fact){
-    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:var(--fs-badge);line-height:1.5;color:#0c4a6e;text-align:left"><strong>Details — Identification & Recommendation:</strong><br>'+esc(item.fact)+'</div>';
+    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:var(--fs-badge);line-height:1.5;color:#0c4a6e;text-align:left"><strong>Details - Identification & Recommendation:</strong><br>'+esc(item.fact)+'</div>';
   } else if(item.myAnswerCorrect==null && !item.fact){
     return '';
   }
@@ -2406,7 +2349,7 @@ function renderCorrectFeedback(item){
 }
 function renderMythVsFact(item){
   const picked = item.myAnswer;
-  // Console's myth/fact/detail card, real classes — the yes/no quiz buttons below have no
+  // Console's myth/fact/detail card, real classes - the yes/no quiz buttons below have no
   // console equivalent (console is pure narration, no vote at all) so those stay phone-only.
   const factWrap = item.fact ? ('<div class="mf-fact-wrap show">'
       + '<div class="mf-fact-label"><i class="fa-solid fa-check"></i> Fact</div>'
@@ -2432,7 +2375,7 @@ function renderMythVsFact(item){
 }
 function renderDecisionRoom(item){
   let html = '';
-  // Case context linkage — compute case position from actItems so navigation via Prev/Next/dots
+  // Case context linkage - compute case position from actItems so navigation via Prev/Next/dots
   // always shows which case and which step within that case this is, making the debrief's
   // relationship to its 3 preceding decisions immediately clear (no jarring context switch).
   let caseProgress = '';
@@ -2441,16 +2384,19 @@ function renderDecisionRoom(item){
       const cases = [];
       for(const it of actItems){ if(it.caseTitle && !cases.includes(it.caseTitle)) cases.push(it.caseTitle); }
       const caseIdx = cases.indexOf(item.caseTitle) + 1;
-      const caseTotal = cases.length || 6;
+      const caseTotal = cases.length || 16;
       if(item.kind === 'debrief'){
-        caseProgress = `Case ${caseIdx}/${caseTotal} — Debrief`;
+        caseProgress = `Case ${caseIdx}/${caseTotal} - Debrief`;
       } else {
         const caseItems = actItems.filter(it=>it.caseTitle===item.caseTitle);
-        // decisions are first N of caseItems, debrief is last; find position among decisions only
+        // Decisions are first N of caseItems, debrief (if any) is last; find position among
+        // decisions only. A case's own decision count varies now (1 for the short cases folded
+        // in from the former closing-quiz quiz questions, 3 for the original long cases), so
+        // this is always sized off the actual case, never a hardcoded "/3".
         const decisionsOnly = caseItems.filter(it=>it.kind!=='debrief');
         const pos = decisionsOnly.findIndex(it=>it.id===item.id) + 1;
-        const posLabel = pos>0 ? `${pos}/3` : `${actItems.indexOf(item)+1}/24`;
-        caseProgress = `Case ${caseIdx}/${caseTotal} — Decision ${posLabel}`;
+        const posLabel = pos>0 ? `${pos}/${decisionsOnly.length}` : `${actItems.indexOf(item)+1}/${actItems.length}`;
+        caseProgress = `Case ${caseIdx}/${caseTotal} - Decision ${posLabel}`;
       }
     }
   }catch(e){ caseProgress=''; }
@@ -2462,13 +2408,13 @@ function renderDecisionRoom(item){
     if(item.caseScenario) html += '<div class="dr-scenario-context">'+esc(item.caseScenario)+'</div>';
     html += '</div>';
   }
-  // Debrief — console's natural next beat after a case's 3rd decision, no vote, just the
+  // Debrief - console's natural next beat after a case's 3rd decision, no vote, just the
   // same dark ff-r-row/label/text reveal panel console uses for it (dr-debrief-panel).
   // Header above (persona + title + scenario) is identical to the 3 decisions that
   // preceded it, so the debrief is visually tied to its case, not a context switch.
   if(item.kind === 'debrief'){
     html += '<div class="dr-debrief-panel"><div class="ff-r-row"><i class="fa-solid fa-lightbulb"></i><div>'
-      + '<div class="ff-r-label">Debrief — '+esc(item.caseTitle||'Case')+'</div><div class="ff-r-text">'+esc(item.prompt||'')+'</div>'
+      + '<div class="ff-r-label">Debrief - '+esc(item.caseTitle||'Case')+'</div><div class="ff-r-text">'+esc(item.prompt||'')+'</div>'
       + '</div></div></div>';
     return html;
   }
@@ -2487,39 +2433,12 @@ function renderDecisionRoom(item){
     return '<button type="button" class="'+cls.join(' ')+'" data-answer-opt="'+esc(opt.id)+'"><span class="dr-opt-letter">'+letter+'</span><span class="dr-opt-text">'+esc(opt.text)+'</span></button>';
   }).join('') + '</div>';
   // Console shows the chosen option's own feedback inline the instant it's picked (dr-feedback,
-  // color-matched to that option's outcome) — no separate badge, no blended "good answer" text.
+  // color-matched to that option's outcome) - no separate badge, no blended "good answer" text.
   if(picked!=null && item.myFeedback){
     html += '<div class="dr-feedback show'+(item.myOutcome?(' '+item.myOutcome):'')+'">'+esc(item.myFeedback)+'</div>';
   }
   html += '</div>';
   return html;
-}
-function renderClosingQuiz(item){
-  const picked = item.myAnswer;
-  const choiceRow = (opt, letter)=>{
-    const sel = picked!=null && String(picked)===String(opt.id);
-    // Once this item has been answered, item.correctOptionId is revealed (see session_respond
-    // / _sanitize_item_for_participant — only ever for an item this participant already
-    // answered) so the actually-correct choice can be highlighted green here, matching
-    // console's on-reveal highlight, not just a generic Correct/Not-quite badge.
-    const isCorrectOpt = item.correctOptionId!=null && String(opt.id)===String(item.correctOptionId);
-    const cls = ['qz-choice']; if(sel) cls.push('picked'); if(isCorrectOpt) cls.push('correct');
-    return '<div class="'+cls.join(' ')+'" data-answer-opt="'+esc(opt.id)+'"><span class="qz-letter">'+esc(letter)+'</span><span>'+esc(opt.text)+'</span></div>';
-  };
-  // "flash" plays automatically on mount since renderActivityItem replaces this element's
-  // whole innerHTML fresh each time (no remove/reflow/re-add dance needed like console's own
-  // persistent-element version) — matches console's per-step persona-tag pop animation.
-  const personaTag = item.persona ? '<div class="qz-persona-tag flash">'+esc(item.persona)+'</div>' : '';
-  if(item.kind === 'svr'){
-    // SVR prompts are read-only on console too — a scenario plus one ideal response, never a
-    // vote (STOP/VERIFY/REPORT are all part of the same ideal response, not 3 choices) — so no
-    // choice grid here at all, matching console's renderSvrStep exactly.
-    const response = item.fact ? '<div class="svr-response show">'+esc(item.fact)+'</div>' : '';
-    return personaTag + '<div class="svr-scenario-card"><div class="svr-scenario-text">'+esc(item.prompt||'')+'</div>'+response+'</div>';
-  }
-  return personaTag + '<div class="qz-question">'+esc(item.prompt||'')+'</div>'
-    + '<div class="qz-choices">' + (item.options||[]).map((opt,idx)=>choiceRow(opt, String.fromCharCode(65+idx))).join('') + '</div>'
-    + renderCorrectFeedback(item);
 }
 const CQ_TIMER_SECONDS = 30;
 let cqTimerInterval = null, cqTimerItemId = null;
@@ -2527,10 +2446,10 @@ function cqStopTimer(){ if(cqTimerInterval){ clearInterval(cqTimerInterval); cqT
 // Console's clue-quest gives a genuine 30s-per-riddle countdown (LiveEvent.createTimer) that
 // locks the riddle and shows a "Time up" state on expiry; the phone had no timer at all before
 // this, so a participant could sit on a riddle indefinitely. Manages one interval for whichever
-// clue-quest item is currently on screen — stopped/restarted on navigation or answer.
+// clue-quest item is currently on screen - stopped/restarted on navigation or answer.
 function cqManageTimer(item){
   if(actModuleLoaded!=='clue-quest' || item.myAnswer!=null || item._cqTimedOut){ cqStopTimer(); return; }
-  if(cqTimerItemId===item.id) return; // already ticking for this exact item — don't restart on re-render
+  if(cqTimerItemId===item.id) return; // already ticking for this exact item - don't restart on re-render
   cqStopTimer();
   cqTimerItemId = item.id;
   if(item._cqSecondsLeft==null) item._cqSecondsLeft = CQ_TIMER_SECONDS;
@@ -2560,7 +2479,7 @@ function renderClueQuest(item){
   const answered = picked!=null;
   const timedOut = !!item._cqTimedOut;
   const locked = answered || timedOut;
-  // Shuffle once per riddle and cache on the item — recomputing on every render (which
+  // Shuffle once per riddle and cache on the item - recomputing on every render (which
   // renderActivityItem does right after a tap, to reflect the new answer state) made the
   // options visibly reorder under the participant's thumb the instant they picked one.
   if(!item._cqShuffled) item._cqShuffled = (item.options||[]).slice().sort(()=> Math.random()-0.5);
@@ -2569,10 +2488,10 @@ function renderClueQuest(item){
   let feedbackHtml = '';
   if(answered && correctId!=null){
     feedbackHtml = item.myAnswerCorrect
-      ? '<div class="cq-feedback show correct">✓ Correct — '+esc(item.fact||'')+'</div>'
-      : '<div class="cq-feedback show incorrect">✗ Not quite — correct is '+esc(item.fact||'')+'</div>';
+      ? '<div class="cq-feedback show correct">✓ Correct - '+esc(item.fact||'')+'</div>'
+      : '<div class="cq-feedback show incorrect">✗ Not quite - correct is '+esc(item.fact||'')+'</div>';
   } else if(timedOut){
-    feedbackHtml = '<div class="cq-feedback show timeout">Time up — no answer locked in this round</div>';
+    feedbackHtml = '<div class="cq-feedback show timeout">Time up - no answer locked in this round</div>';
   }
   const showTimer = !answered && !timedOut;
   return '<div class="cq-riddle-card"><div class="cq-riddle-text">'+esc(item.prompt||'')+'</div>'
@@ -2589,18 +2508,18 @@ function renderClueQuest(item){
       }).join('') + '</div>'
     + feedbackHtml;
 }
-// --- Pass-phrase: real build-your-own-password mechanic (tap-to-place, not drag — touch
+// --- Pass-phrase: real build-your-own-password mechanic (tap-to-place, not drag - touch
 // drag was already deemed unreliable in an earlier pass). Matches the console's actual
 // activity (a themed deck, a 12-slot password row, a live strength meter) instead of a
 // rating poll on a pre-built password. ---
 
 // Verbatim from live-event/modules/pass-phrase.js's own computeStrength() (trimmed to the
-// fields the phone UI needs) — same scoring the console uses, so the live meter here matches
+// fields the phone UI needs) - same scoring the console uses, so the live meter here matches
 // exactly. The debounced POST to /passphrase/build re-runs this SAME logic server-side
-// (_pp_compute_strength in app.py) as the authoritative, stored value — this copy is only an
+// (_pp_compute_strength in app.py) as the authoritative, stored value - this copy is only an
 // instant local preview so the meter doesn't wait on a network round-trip for every tap.
 function ppComputeStrength(pw, weak){
-  // Line-for-line port of console's own computeStrength() (pass-phrase.js) — including crack
+  // Line-for-line port of console's own computeStrength() (pass-phrase.js) - including crack
   // time and level, which the phone previously computed server-side (_pp_compute_strength) but
   // never surfaced in this client-side preview copy, so "time to crack" never rendered.
   var checks = {
@@ -2628,7 +2547,7 @@ function ppComputeStrength(pw, weak){
   if(checks.upper) charset+=26;
   if(checks.number) charset+=10;
   if(checks.special) charset+=12;
-  var crack='—';
+  var crack=' - ';
   if(pw.length>0 && charset>0){
     var entropy=pw.length*Math.log2(charset);
     var guesses=Math.pow(2,entropy);
@@ -2656,13 +2575,13 @@ function ppComputeStrength(pw, weak){
 // holds whole chunks per tile (not single characters), capped by total character count
 // (maxChars 12) not tile count. Deck availability is per chunk, and resume from myBuild's
 // builtPassword string (which loses chunk boundaries) is reconstructed greedily by matching
-// deck chunks against the built string — preferring longer chunks first — sufficient for
+// deck chunks against the built string - preferring longer chunks first - sufficient for
 // demo continuity; exact chunk identity is recovered via server-stored strength anyway.
 //
-// _ppSlots is a COMPACT array — one entry per placed chunk, in placement order, with no gaps
+// _ppSlots is a COMPACT array - one entry per placed chunk, in placement order, with no gaps
 // ever stored (previously this was a fixed-length array pre-filled with nulls and chunks were
 // written directly to whatever slot index the participant tapped, which could leave nulls in
-// the middle if that tap didn't land on the very next sequential empty button — the row then
+// the middle if that tap didn't land on the very next sequential empty button - the row then
 // rendered those nulls as gaps between chunks). Placing always appends to the end of this
 // array; removing always splices the chunk out, so everything after it shifts down automatically
 // and the row can never show a gap or have chunks render out of placement order.
@@ -2671,7 +2590,7 @@ function ppEnsureState(item){
   var maxChars = item.maxChars || item.maxSlots || 12;
   var deck = item.deck || [];
   // The build row can never hold more tiles than maxChars allows (worst case: every placed
-  // chunk is 1 char) — deck.length alone is now a much larger pool (e.g. 20) than the build
+  // chunk is 1 char) - deck.length alone is now a much larger pool (e.g. 20) than the build
   // cap (12), so using it unclamped would pre-render a stack of empty placeholder slots far
   // past what could ever actually be filled.
   var maxTiles = Math.min(deck.length || 15, maxChars);
@@ -2702,7 +2621,7 @@ function ppEnsureState(item){
       deckAvail[matched.idx] = false;
       pos += matchLen;
     } else {
-      // No deck chunk matches at this position — fall back to single char (may be residue
+      // No deck chunk matches at this position - fall back to single char (may be residue
       // from old single-char content still in wild). Treat built[pos] as a tile if it exists
       // as a deck entry, else just advance.
       var ch = built[pos];
@@ -2712,7 +2631,7 @@ function ppEnsureState(item){
         slots.push(ch);
         deckAvail[foundIdx]=false;
       } else {
-        // orphan char — place it anyway as a tile (deck-less) so password string is preserved
+        // orphan char - place it anyway as a tile (deck-less) so password string is preserved
         slots.push(ch);
       }
       pos += 1;
@@ -2758,9 +2677,9 @@ function renderPassPhrase(item){
   const twoCount = (item.deck||[]).filter(function(c){return String(c).length===2;}).length;
   const threeCount = (item.deck||[]).filter(function(c){return String(c).length>=3;}).length;
   let html = '<div class="pp-weak-card">'
-    + '<div class="pp-weak-label"><i class="fa-solid fa-triangle-exclamation"></i> Starting Sample — Weak <span style="margin-left:6px;font-weight:400;opacity:0.7">['+esc(diffLabel)+']</span></div>'
+    + '<div class="pp-weak-label"><i class="fa-solid fa-triangle-exclamation"></i> Starting Sample - Weak <span style="margin-left:6px;font-weight:400;opacity:0.7">['+esc(diffLabel)+']</span></div>'
     + '<div class="pp-weak-text">'+esc(item.weakPassword||'')+'</div>'
-    + (item.weakRequirement ? '<div class="pp-weak-meta">'+esc(diffLabel+' — '+item.weakRequirement+' — deck has '+item.deck.length+' chunks ('+twoCount+' ×2-char, '+threeCount+' ×3-char) to rebuild strong (cap '+maxChars+' chars)')+'</div>' : '')
+    + (item.weakRequirement ? '<div class="pp-weak-meta">'+esc(diffLabel+' - '+item.weakRequirement+' - deck has '+item.deck.length+' chunks ('+twoCount+' ×2-char, '+threeCount+' ×3-char) to rebuild strong (cap '+maxChars+' chars)')+'</div>' : '')
     + '</div>';
   html += '<div class="pp-builder-card" style="margin-top:14px;padding:14px">'
     + '<div class="pp-strength"><div class="pp-strength-head">'
@@ -2772,8 +2691,8 @@ function renderPassPhrase(item){
     + '<div class="pp-crack">Time to crack: '+esc(result.crack)+'</div>'
     + '</div></div>';
   html += '<div class="pp-section-label"><i class="fa-solid fa-lock"></i> Your Password <span>'+built.length+' / '+maxChars+' chars</span></div>';
-  // Filled tiles render first, in placement order (item._ppSlots is a compact array — see
-  // ppEnsureState), immediately followed by whatever empty slots remain — so a gap can never
+  // Filled tiles render first, in placement order (item._ppSlots is a compact array - see
+  // ppEnsureState), immediately followed by whatever empty slots remain - so a gap can never
   // appear between two placed chunks, only ever after the last one.
   const emptyCount = Math.max(0, (item._ppMaxTiles||item.deck.length||0) - item._ppSlots.length);
   html += '<div class="pp-tiles" id="ppSlotsRow">'
@@ -2785,7 +2704,7 @@ function renderPassPhrase(item){
     + Array(emptyCount).fill('<button type="button" class="pp-slot-empty"></button>').join('')
     + '</div>';
   html += '<div class="pp-section-label" style="margin-top:14px">'
-    + '<i class="fa-solid fa-layer-group"></i> Deck — tap a chunk, then tap a slot above <span style="margin-left:auto;color:#94a3b8;font-weight:400">['+esc(diffLabel)+' · '+twoCount+'×2-char, '+threeCount+'×3-char]</span></div>';
+    + '<i class="fa-solid fa-layer-group"></i> Deck - tap a chunk, then tap a slot above <span style="margin-left:auto;color:#94a3b8;font-weight:400">['+esc(diffLabel)+' · '+twoCount+'×2-char, '+threeCount+'×3-char]</span></div>';
   html += '<div class="pp-deck" id="ppDeckTray">' + item.deck.map((ch,i)=>{
       const avail = item._ppDeckAvailable[i];
       const isSelected = item._ppSelectedDeckIdx===i;
@@ -2793,12 +2712,12 @@ function renderPassPhrase(item){
       const cls = ['pp-tile','pp-deck-tile']; if(len>=3) cls.push('chunk-tile3'); else if(len===2) cls.push('chunk-tile'); if(!avail) cls.push('is-inert'); if(isSelected) cls.push('selected');
       return '<button type="button" class="'+cls.join(' ')+'" data-deck-idx="'+i+'" '+(!avail?'disabled':'')+'><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
     }).join('') + '</div>';
-  html += '<div style="margin-top:6px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count — a "Syn" tile counts as 3</div>';
+  html += '<div style="margin-top:6px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count - a "Syn" tile counts as 3</div>';
   return html;
 }
 
 function wirePassPhraseBuild(item){
-  // Locked after submit — deck/slots become inert
+  // Locked after submit - deck/slots become inert
   if(actIsSubmitted){
     const deckTrayLock = document.getElementById('ppDeckTray');
     if(deckTrayLock) deckTrayLock.querySelectorAll('[data-deck-idx]').forEach(btn=>{ btn.disabled = true; btn.style.pointerEvents='none'; btn.classList.add('is-inert'); });
@@ -2814,13 +2733,13 @@ function wirePassPhraseBuild(item){
         if(actIsSubmitted) return;
         const idx = Number(btn.dataset.deckIdx);
         if(!item._ppDeckAvailable[idx]) return;
-        // Enforce char cap even for selection preview — grey out if would exceed
+        // Enforce char cap even for selection preview - grey out if would exceed
         const maxChars = item._ppMaxChars || item.maxChars || 12;
         const curChars = item._ppSlots.join('').length;
         const chunk = item.deck[idx];
         // Only prevent selection if already at cap; allow deselection
         if(item._ppSelectedDeckIdx!==idx && curChars + String(chunk).length > maxChars){
-          // flash the count? just ignore tap — cap reached
+          // flash the count? just ignore tap - cap reached
           return;
         }
         // Tap the same tile again to deselect it without placing.
@@ -2830,7 +2749,7 @@ function wirePassPhraseBuild(item){
     });
   }
   if(slotsRow){
-    // Filled tiles: tapping one removes it via splice (not a null-out) — everything after it
+    // Filled tiles: tapping one removes it via splice (not a null-out) - everything after it
     // shifts down automatically, so the row can never show a gap where a chunk was.
     slotsRow.querySelectorAll('[data-filled]').forEach(el=>{
       el.addEventListener('click', ()=>{
@@ -2843,13 +2762,13 @@ function wirePassPhraseBuild(item){
         ppSubmitBuild(item);
       });
     });
-    // Empty slots are interchangeable — whichever one is tapped, a selected deck chunk always
+    // Empty slots are interchangeable - whichever one is tapped, a selected deck chunk always
     // appends to the end of the placed sequence, never at the tapped button's own position, so
     // placement order always matches the order chunks were actually picked.
     slotsRow.querySelectorAll('.pp-slot-empty').forEach(el=>{
       el.addEventListener('click', ()=>{
         if(actIsSubmitted) return;
-        if(item._ppSelectedDeckIdx==null) return; // nothing selected — tapping an empty slot alone does nothing
+        if(item._ppSelectedDeckIdx==null) return; // nothing selected - tapping an empty slot alone does nothing
         const dIdx = item._ppSelectedDeckIdx;
         const chunk = item.deck[dIdx];
         const maxChars = item._ppMaxChars || item.maxChars || 12;
@@ -2876,7 +2795,6 @@ const ACTIVITY_RENDERERS = {
   'fault-finding': renderFaultFinding,
   'myth-vs-fact': renderMythVsFact,
   'decision-room': renderDecisionRoom,
-  'closing-quiz': renderClosingQuiz,
   'clue-quest': renderClueQuest,
   'pass-phrase': renderPassPhrase,
 };
@@ -2906,7 +2824,7 @@ function cwRenderGrid(){
   // plain 1fr tracks compress to an unusably small per-cell width on a narrow phone, and
   // minmax(...,1fr) alone doesn't help here: a block-level grid's "auto" width just fills its
   // parent, so fr tracks still get squeezed to fit rather than growing the box. Fixed px
-  // tracks avoid that ambiguity — once the grid's true content width (cols * cellPx) exceeds
+  // tracks avoid that ambiguity - once the grid's true content width (cols * cellPx) exceeds
   // the wrap, .cw-grid-wrap's overflow:auto takes over with a horizontal scroll instead of
   // squeezing cells below CELL_MIN.
   const CELL_MIN = 32, GAP = 1;
@@ -2970,7 +2888,7 @@ function cwHandleKey(e, cell, input){
     input.value = e.key.toUpperCase();
     clearCwMark(cell);
     // Live per-keystroke feedback: confirm correct immediately (green), but a wrong letter
-    // stays neutral rather than turning red — mid-puzzle typing shouldn't read as a penalty,
+    // stays neutral rather than turning red - mid-puzzle typing shouldn't read as a penalty,
     // only the explicit Check button marks wrong cells red.
     if(input.value === cell.solution) cell.el.classList.add('correct');
     const nxt = cwNeighbor(cell, cwCurrentDir, 1);
@@ -3012,11 +2930,11 @@ function cwFocus(r,c,dir){
   const cell=cwCells.get(cwKey(r,c));
   if(!cell) return;
   cwPendingDir=dir;
-  // preventScroll: true — without it, focusing a cell that's off the visible edge of the
+  // preventScroll: true - without it, focusing a cell that's off the visible edge of the
   // horizontally-scrollable grid (see cwRenderGrid) triggers the browser's own "scroll this
   // into view" behavior, which on mobile can yank the whole page/grid far out of position
   // (especially once the on-screen keyboard is also resizing the viewport). The grid's own
-  // .cw-grid-wrap scroll container is already sized correctly — we don't want the browser's
+  // .cw-grid-wrap scroll container is already sized correctly - we don't want the browser's
   // default scroll-into-view fighting it on every keystroke's auto-advance-to-next-cell.
   cell.input.focus({preventScroll: true});
 }
@@ -3047,10 +2965,10 @@ function cwHighlight(){
     if(li){
       li.classList.add('active');
       // Only scroll the clue list to reveal the active clue when the active WORD actually
-      // changes (tapped a different cell/clue, or crossed into a new word) — not on every
+      // changes (tapped a different cell/clue, or crossed into a new word) - not on every
       // single keystroke's auto-advance to the next cell within the SAME word. cwHighlight
       // re-runs on every cell focus change (see cwSelect), so without this guard, typing a
-      // multi-letter word scrolled the page toward the clue list after every letter — the
+      // multi-letter word scrolled the page toward the clue list after every letter - the
       // grid (and the still-correctly-focused input in it) would scroll off the visible
       // viewport, which reads exactly like "focus jumped to the hints list" even though
       // document.activeElement never actually left the grid.
@@ -3069,7 +2987,7 @@ function cwRenderClues(){
   const down=cwWords.filter(w=>w.direction==='down').sort((a,b)=>a.number-b.number);
   const render=(list,target)=>{
     // Hint is opt-in per clue: a small button that reveals just the first letter as a text
-    // line, never shown by default and never touching the grid — tapping it can't be mistaken
+    // line, never shown by default and never touching the grid - tapping it can't be mistaken
     // for auto-filling progress, it's purely a nudge.
     target.innerHTML = list.map(w=> '<li data-index="'+w.index+'"><span class="cw-clue-num">'+w.number+'.</span>'+esc(w.clue)
       + '<button type="button" class="cw-hint-btn" data-hint-idx="'+w.index+'"><i class="fa-solid fa-lightbulb"></i> Hint</button>'
@@ -3121,7 +3039,7 @@ function cwCheck(){
     if(li) li.classList.toggle('solved', solved);
   });
   if(allFilled && allCorrect){
-    els.cwStatus.textContent='Every word is in place — nice work.';
+    els.cwStatus.textContent='Every word is in place - nice work.';
     cwShowWrapUp();
   } else {
     cwUpdateStatus();
@@ -3194,7 +3112,7 @@ function scheduleCwProgress(){
 async function ensureCrossword(){
   if(cwInitialized) return;
   cwInitialized = true;
-  els.cwStatus.textContent='Loading grid…';
+  els.cwStatus.textContent='Loading grid...';
   try{
     const r=await fetch('/live-event/content/crossword.json',{cache:'no-store'});
     const data=await r.json();
@@ -3204,7 +3122,7 @@ async function ensureCrossword(){
     cwRenderGrid();
     cwRenderClues();
     cwUpdateStatus();
-    // wire check/reveal — console gates Reveal behind an explicit Yes/Cancel confirm since
+    // wire check/reveal - console gates Reveal behind an explicit Yes/Cancel confirm since
     // it's irreversible; a native confirm() gives the phone the same one-tap-can't-undo-it
     // safeguard without needing a whole extra confirm-panel screen.
     els.cwCheck.addEventListener('click', cwCheck);
@@ -3218,7 +3136,7 @@ async function ensureCrossword(){
 }
 
 // --- Control Catch: falling-bubble reflex game ---
-// The server never referees reflex timing — same "client-only clock" precedent as clue-quest's
+// The server never referees reflex timing - same "client-only clock" precedent as clue-quest's
 // 30s-per-riddle countdown (see cqManageTimer above): all spawn/fall/tap/score/lives logic runs
 // entirely in this browser tab, and only a periodic snapshot is pinged to the server (for the
 // admin's live progress panel + the post-game ranked summary), mirroring crossword's own
@@ -3229,7 +3147,7 @@ const CC_SPAWN_MIN_MS = 650;        // spawn cadence floor once fully ramped up
 const CC_FALL_START_MS = 4800;      // how long a bubble takes top-to-bottom at round start
 const CC_FALL_MIN_MS = 2600;        // fall-duration floor once fully ramped up
 const CC_DEBOUNCE = 2000;
-// Decorative palette only (see console.css's .cc-c1..c6 + the comment above them) — picked at
+// Decorative palette only (see console.css's .cc-c1..c6 + the comment above them) - picked at
 // random per bubble, with zero relationship to bubble.good, so color never hints at the right
 // answer. Pop-outcome color (green/red) is separate and handled entirely by CSS via the
 // .cc-pop-good/.cc-pop-bad classes added in ccPopBubble below.
@@ -3240,7 +3158,7 @@ const CC_POP_REMOVE_MS = 340;
 let ccInitialized = false;
 let ccContent = null;
 let ccBubbles = [];       // [{el, bubble}] currently on screen
-let ccScore = 0;          // good bubbles popped — this participant's own score, never synced from anyone else
+let ccScore = 0;          // good bubbles popped - this participant's own score, never synced from anyone else
 let ccBadPops = 0;
 let ccLives = 3;
 let ccGameOver = false;
@@ -3249,7 +3167,7 @@ let ccSpawnTimer = null;
 let ccHudTimer = null;
 let ccProgressTimer = null;
 let ccLastSentProgress = null;
-let ccFinalResult = null; // {score, badPops, livesLeft, survivedMs} — "your result" only, see showSubmittedFor
+let ccFinalResult = null; // {score, badPops, livesLeft, survivedMs} - "your result" only, see showSubmittedFor
 
 function ccElapsedMs(){ return ccStartTs ? (Date.now() - ccStartTs) : 0; }
 function ccRampProgress(elapsed){ return Math.max(0, Math.min(1, elapsed / CC_DURATION_MS)); }
@@ -3294,7 +3212,7 @@ function scheduleCcProgress(){
 
 // A tapped bubble freezes at its current on-screen position (read via getBoundingClientRect,
 // not left at whatever CSS-transition midpoint it happened to be at) before the pop animation
-// plays — otherwise cancelling the falling `top` transition mid-flight can make the pop
+// plays - otherwise cancelling the falling `top` transition mid-flight can make the pop
 // animation itself look like it jumps or stutters.
 function ccFreezeBubbleAt(el){
   const rect = el.getBoundingClientRect();
@@ -3309,7 +3227,7 @@ function ccPopBubble(el, bubble){
   el.dataset.resolved = '1';
   ccFreezeBubbleAt(el);
   void el.offsetHeight; // force the transition:none above to apply before the keyframe animation below starts
-  // Outcome color/animation is CSS-driven (see console.css's cc-burst-good/cc-burst-bad) —
+  // Outcome color/animation is CSS-driven (see console.css's cc-burst-good/cc-burst-bad)  - 
   // no inline transform/opacity here, just add the class and let the keyframes take over.
   if(bubble.good){
     ccScore++;
@@ -3332,7 +3250,7 @@ function ccSpawnBubble(){
   const bubble = pool[Math.floor(Math.random()*pool.length)];
   const el = document.createElement('button');
   el.type = 'button';
-  // Decorative color is random and independent of bubble.good — see CC_COLOR_CLASSES above.
+  // Decorative color is random and independent of bubble.good - see CC_COLOR_CLASSES above.
   const colorClass = CC_COLOR_CLASSES[Math.floor(Math.random()*CC_COLOR_CLASSES.length)];
   el.className = 'cc-bubble ' + colorClass;
   el.textContent = bubble.text;
@@ -3345,13 +3263,13 @@ function ccSpawnBubble(){
   el.addEventListener('transitionend', (e)=>{
     if(e.propertyName!=='top') return;
     if(el.dataset.resolved==='1') return;
-    // Reached the bottom untouched — bad bubbles SHOULD pass (dodging by inaction is correct,
+    // Reached the bottom untouched - bad bubbles SHOULD pass (dodging by inaction is correct,
     // no penalty); good bubbles just missed are also not penalized, only rewarded when popped.
     el.dataset.resolved = '1';
     el.remove();
     ccBubbles = ccBubbles.filter(b=>b.el!==el);
   });
-  // Double rAF: let the browser paint the initial top:-15% first, then apply the transition —
+  // Double rAF: let the browser paint the initial top:-15% first, then apply the transition  - 
   // changing transitionDuration and top in the same frame the element was created would collapse
   // the animation into an instant jump instead of a real fall.
   requestAnimationFrame(()=>{
@@ -3376,8 +3294,8 @@ function ccEndGame(){
   ccGameOver = true;
   if(ccSpawnTimer) clearTimeout(ccSpawnTimer);
   if(ccHudTimer) clearInterval(ccHudTimer);
-  // Freeze whatever's still on screen in place rather than yanking it away mid-fall — reads as
-  // "time's up", not a glitch — and disable further taps (game is over, no more scoring).
+  // Freeze whatever's still on screen in place rather than yanking it away mid-fall - reads as
+  // "time's up", not a glitch - and disable further taps (game is over, no more scoring).
   ccBubbles.forEach(({el})=>{
     if(el.dataset.resolved==='1') return;
     ccFreezeBubbleAt(el);
@@ -3401,7 +3319,7 @@ async function doCcSubmit(){
   const module = 'control-catch';
   if(!participantId) return;
   if(els.ccSubmitBtn) els.ccSubmitBtn.disabled = true;
-  if(els.ccSubmitMsg) els.ccSubmitMsg.textContent = 'Submitting…';
+  if(els.ccSubmitMsg) els.ccSubmitMsg.textContent = 'Submitting...';
   try{
     const r = await fetch('/api/session/' + ROOM_CODE + '/submit', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({participantId: participantId, module: module})});
     const j = await r.json().catch(()=>({}));
@@ -3453,16 +3371,16 @@ async function ensureControlCatch(){
   }, 300);
 }
 
-// --- State polling — whole-activity flow (lobby/running/complete) ---
+// --- State polling - whole-activity flow (lobby/running/complete) ---
 async function fetchState(){
   const mySeq = ++fetchSeq;
   try{
     const r=await fetch('/api/session/' + ROOM_CODE + '/state?participantId=' + encodeURIComponent(participantId||''), {cache:'no-store'});
-    if(mySeq !== fetchSeq) return; // a newer poll started while this one was in flight — stale, discard
+    if(mySeq !== fetchSeq) return; // a newer poll started while this one was in flight - stale, discard
     if(r.status===404){
       // Covers the brief window right after a server restart where the process is back up
       // (persisted sessions reloading, or this poll landing before that finishes) but the
-      // room isn't resolvable yet — retry a few times with a calm indicator before concluding
+      // room isn't resolvable yet - retry a few times with a calm indicator before concluding
       // the room is genuinely gone, instead of dead-ending on the very first 404.
       notFoundCount++;
       if(notFoundCount<=NOT_FOUND_RETRY_LIMIT){
@@ -3485,9 +3403,9 @@ async function fetchState(){
     updateHeaderCount(s.participantCount||0);
     const curMod = s.activeModule || null;
     const state = s.state || null;
-    const displayName = s.displayName || curMod || '—';
+    const displayName = s.displayName || curMod || ' - ';
 
-    // No module yet — waiting for host to pick
+    // No module yet - waiting for host to pick
     if(!curMod || !state){
       actModuleLoaded = null; const _as=document.getElementById('activityScreen'); if(_as) delete _as.dataset.module; // so relaunching any module later re-initializes the activity
       ccStopGame();
@@ -3497,15 +3415,15 @@ async function fetchState(){
       els.waitingNames.innerHTML = (s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">Share the room code to invite others</span>';
       return;
     }
-    // Lobby — module chosen but not yet started, show waiting for start with module name
+    // Lobby - module chosen but not yet started, show waiting for start with module name
     if(state==='lobby'){
       actModuleLoaded = null; const _as2=document.getElementById('activityScreen'); if(_as2) delete _as2.dataset.module; // clears the PREVIOUS activity's local state before Start
       ccStopGame();
       showScreen('waiting');
-      els.waitingModule.textContent = displayName + ' — lobby';
-      document.getElementById('waitingSub').textContent = "You're in — waiting for the facilitator to start " + displayName;
+      els.waitingModule.textContent = displayName + ' - lobby';
+      document.getElementById('waitingSub').textContent = "You're in - waiting for the facilitator to start " + displayName;
       // Live joined count explicitly tied to chosen module
-      els.waitingNames.innerHTML = '<div style="font-size:var(--fs-badge);color:#0c4a6e;font-weight:700;margin-bottom:6px">' + esc(displayName) + ' — ' + (s.totalItems||0) + ' items</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' + ((s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">No one yet — share QR</span>') + '</div><div style="margin-top:8px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b">' + (s.participantCount||0) + ' joined — waiting for Start</div>';
+      els.waitingNames.innerHTML = '<div style="font-size:var(--fs-badge);color:#0c4a6e;font-weight:700;margin-bottom:6px">' + esc(displayName) + ' - ' + (s.totalItems||0) + ' items</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' + ((s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">No one yet - share QR</span>') + '</div><div style="margin-top:8px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b">' + (s.participantCount||0) + ' joined - waiting for Start</div>';
       return;
     }
     // Capture per-participant submission status + rememberThis for submitted confirmation
@@ -3515,7 +3433,7 @@ async function fetchState(){
     cwIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && mySubmission.module==='crossword' && curMod==='crossword');
     ccIsSubmitted = !!(mySubmission && mySubmission.isSubmitted && mySubmission.module==='control-catch' && curMod==='control-catch');
     // If already submitted for this running module, show locked confirmation (distinct from generic complete)
-    // — unless participant tapped Review, in which case keep them on the read-only item view with facts.
+    // - unless participant tapped Review, in which case keep them on the read-only item view with facts.
     if(state==='running' && mySubmission && mySubmission.isSubmitted && mySubmission.module===curMod && !isReviewingAfterSubmit){
       showSubmittedFor(curMod, mySubmission.submittedAt);
       // Ensure crossword grid is locked if it's the crossword module
@@ -3531,7 +3449,7 @@ async function fetchState(){
       }
       return;
     }
-    // Running — crossword's own dedicated grid, or the self-paced full-sequence activity
+    // Running - crossword's own dedicated grid, or the self-paced full-sequence activity
     // Flow parity with console: intro/whyThisMatters before items (console le-intro-screen)
     if(state==='running'){
       if(curMod==='crossword'){
@@ -3563,8 +3481,8 @@ async function fetchState(){
         const items = s.items || [];
         if(!items.length){
           showScreen('waiting');
-          els.waitingModule.textContent = displayName + ' — running';
-          document.getElementById('waitingSub').textContent = 'Running ' + displayName + ' — no items to show.';
+          els.waitingModule.textContent = displayName + ' - running';
+          document.getElementById('waitingSub').textContent = 'Running ' + displayName + ' - no items to show.';
           return;
         }
         if(showParticipantIntro(curMod, s.whyThisMatters)) return;
@@ -3576,13 +3494,13 @@ async function fetchState(){
         } else {
           if(els.reviewBackWrap) els.reviewBackWrap.classList.add('hidden');
         }
-        // Only (re)initialize on an actual module change — a poll tick for the SAME module
+        // Only (re)initialize on an actual module change - a poll tick for the SAME module
         // must never re-run this, or it would reset the participant's own Prev/Next position
         // and interrupt any in-progress tap (see initActivity's own comment).
         if(actModuleLoaded !== curMod){
           initActivity(curMod, items);
         } else {
-          // Same module — but items may have updated myAnswer/myBuild from server (e.g. after refresh)
+          // Same module - but items may have updated myAnswer/myBuild from server (e.g. after refresh)
           // Sync local actItems with fresh server items to keep submit visibility accurate,
           // without resetting actIndex. Also propagate fact (identification+recommendation) now visible after Submit.
           if(items.length === actItems.length){
@@ -3611,7 +3529,7 @@ async function fetchState(){
         return;
       }
     }
-    // Complete — same room stays, waiting for next pick
+    // Complete - same room stays, waiting for next pick
     if(state==='complete'){
       actModuleLoaded = null; const _as5=document.getElementById('activityScreen'); if(_as5) delete _as5.dataset.module;
       ccStopGame();
@@ -3619,7 +3537,7 @@ async function fetchState(){
       if(els.completeModule) els.completeModule.textContent = displayName;
       return;
     }
-    // Idle — host has returned to the picker after completion, next activity not chosen yet.
+    // Idle - host has returned to the picker after completion, next activity not chosen yet.
     // Same lobby-style "waiting for host" message as the no-module-yet case, but distinct
     // from it so the room/activity history isn't implied to be reset.
     if(state==='idle'){
@@ -3627,17 +3545,17 @@ async function fetchState(){
       ccStopGame();
       showScreen('waiting');
       els.waitingModule.textContent = 'Choosing next activity';
-      document.getElementById('waitingSub').textContent = "You're in — waiting for the facilitator to choose the next activity.";
+      document.getElementById('waitingSub').textContent = "You're in - waiting for the facilitator to choose the next activity.";
       els.waitingNames.innerHTML = (s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">Share the room code to invite others</span>';
       return;
     }
     // Fallback
     showScreen('waiting');
     els.waitingModule.textContent = displayName;
-    document.getElementById('waitingSub').textContent = 'Waiting…';
+    document.getElementById('waitingSub').textContent = 'Waiting...';
   }catch(e){
     if(mySeq !== fetchSeq) return;
-    // Network-level failures (offline, DNS, etc.) — 404 is handled above and never reaches here.
+    // Network-level failures (offline, DNS, etc.) - 404 is handled above and never reaches here.
     retryCount++;
     if(retryCount>=2) els.reconnectBanner.classList.remove('hidden');
   }
@@ -3708,7 +3626,7 @@ def session_join(code):
 @app.route("/api/admin/modules", methods=["GET"])
 @admin_required
 def admin_modules():
-    """List 8 modules with item counts read live from content/*.json."""
+    """List 7 modules with item counts read live from content/*.json."""
     mods = _get_modules_with_counts()
     return jsonify({"modules": mods, "total": len(mods)})
 
@@ -3718,7 +3636,7 @@ def admin_modules():
 def admin_facilitator_notes(module_id):
     """Admin-only talking points for a module: whyThisMatters plus facilitatorNotes (2-3
     discussion prompts + the one most commonly-missed item), read straight from that module's
-    own content/*.json. Static per-module content, not session state — keyed by module id alone
+    own content/*.json. Static per-module content, not session state - keyed by module id alone
     so the dashboard can show it as soon as a module starts running, no room-specific lookup
     needed. Deliberately never referenced by any participant-facing route or template; the only
     caller is the admin dashboard's own Facilitator Notes panel (see loadFacilitatorNotes in
@@ -3762,7 +3680,7 @@ def admin_launch(code):
     sess.setdefault("moduleSequence", [])
     sess.setdefault("state", None)
     sess.setdefault("currentItemIndex", None)
-    # Drop the outgoing sequence's memoized sanitize-cache entries before replacing it —
+    # Drop the outgoing sequence's memoized sanitize-cache entries before replacing it  - 
     # see _ITEM_SANITIZE_CACHE.
     _invalidate_item_cache(sess.get("moduleSequence"))
     sess["activeModule"] = module
@@ -3800,7 +3718,7 @@ def admin_start(code):
         return jsonify({"error": "need at least 1 participant to start"}), 400
     module = sess.get("activeModule")
     seq = sess.get("moduleSequence") or []
-    # For crossword (self-paced), running has no discrete next sequence — grid unlocked
+    # For crossword (self-paced), running has no discrete next sequence - grid unlocked
     if module == "crossword":
         sess["state"] = "running"
         sess["currentItemIndex"] = 0
@@ -3825,12 +3743,12 @@ def admin_start(code):
 @admin_required
 @persist_after
 def admin_next(code):
-    """Advance the admin's own item pointer (used for narration/reveal — for the 6 self-paced
+    """Advance the admin's own item pointer (used for narration/reveal - for the 6 self-paced
     modules this no longer gates what participants can answer, since /start already pushed the
     full sequence to every phone) -> next item, or jump straight to complete.
 
     For self-paced modules the admin typically won't want to click Next once per item just to
-    reach the end — pass {"complete": true} to mark the activity complete directly (e.g. once
+    reach the end - pass {"complete": true} to mark the activity complete directly (e.g. once
     the per-participant progress panel shows everyone finished), instead of walking the whole
     sequence one step at a time.
     """
@@ -3883,7 +3801,7 @@ def admin_return_to_picker(code):
     server state, so state stayed "complete" while the operator was picking the next
     module, and every 1.5s poll tick re-synced the dashboard back to the finished
     module's completion panel. Requires state=="complete". Leaves participants/
-    participantMeta/responses/crosswordProgress untouched, same as launch — same room
+    participantMeta/responses/crosswordProgress untouched, same as launch - same room
     stays joined, no re-scan.
     """
     code = code.strip().upper()
@@ -3905,7 +3823,7 @@ def admin_item(code):
     Kept for backwards compatibility but returns 410. Use POST /launch {module} -> POST /start -> POST /next."""
     return jsonify({
         "error": "deprecated",
-        "message": "POST /item {prompt,options} is deprecated — items are now server-loaded from content/*.json. Use POST /launch {module} (lobby) -> POST /start -> POST /next to walk the pre-loaded sequence. See GET /api/admin/modules for counts.",
+        "message": "POST /item {prompt,options} is deprecated - items are now server-loaded from content/*.json. Use POST /launch {module} (lobby) -> POST /start -> POST /next to walk the pre-loaded sequence. See GET /api/admin/modules for counts.",
         "useInstead": ["/api/admin/modules", "/api/admin/session/<code>/launch", "/api/admin/session/<code>/start", "/api/admin/session/<code>/next"],
     }), 410
 
@@ -3914,7 +3832,7 @@ def admin_item(code):
 @admin_required
 @persist_after
 def admin_reveal(code):
-    """Admin-screen-only reveal — shown on the facilitator's own dashboard for the room to see
+    """Admin-screen-only reveal - shown on the facilitator's own dashboard for the room to see
     together, never sent to participant phones (see _sanitize_item_for_participant, which never
     copies fact/revealed to a participant). Optionally pass {itemId} to reveal a specific item
     in the module's full sequence directly (self-paced modules: admin's own narration pointer
@@ -3979,7 +3897,7 @@ def session_respond(code):
         _sub_at = _sub if isinstance(_sub, str) else _sub.get("submittedAt")
         return jsonify({"error": "already submitted - answers locked", "submittedAt": _sub_at}), 403
     # Self-paced: accept a response for ANY item in the full pushed sequence, not only
-    # whichever one is "active" — participants page through the whole set at their own pace,
+    # whichever one is "active" - participants page through the whole set at their own pace,
     # not in lockstep with a single admin-driven pointer.
     module_sequence = sess.get("moduleSequence") or []
     target_item = next((it for it in module_sequence if it.get("id") == item_id), None)
@@ -3989,7 +3907,7 @@ def session_respond(code):
     valid_ids = {str(o["id"]) for o in target_item.get("options", [])}
     if option_id not in valid_ids:
         return jsonify({"error": "invalid optionId", "valid": list(valid_ids)}), 400
-    # Record (overwrite allowed — last vote counts; respondedAt moves with it, so a changed
+    # Record (overwrite allowed - last vote counts; respondedAt moves with it, so a changed
     # answer also moves the participant to their new position in admin's response-order list)
     if item_id not in sess["responses"]:
         sess["responses"][item_id] = {}
@@ -4001,7 +3919,7 @@ def session_respond(code):
         "optionId": option_id, "respondedAt": responded_at, "moduleId": sess.get("activeModule"),
     }
     # Per-item correct/wrong feedback on the participant's OWN answer only. correctOptionId is
-    # only ever revealed here, for the one item this participant just locked in an answer for —
+    # only ever revealed here, for the one item this participant just locked in an answer for  - 
     # matching a normal quiz-review pattern (see it once you've submitted this item), never
     # before answering and never for any other item or participant (see _sanitize_item_for_participant,
     # which applies the identical my_answer-is-not-None gate for /state's own copy of this).
@@ -4009,14 +3927,14 @@ def session_respond(code):
     is_correct = (option_id == str(correct_option_id)) if correct_option_id is not None else None
     resp = {"ok": True, "roomCode": code, "itemId": item_id, "optionId": option_id, "isCorrect": is_correct, "correctOptionId": correct_option_id}
     # Clue-quest reveals its riddle's answer text immediately on response (see the matching
-    # exception in _sanitize_item_for_participant) — /respond is what the tap itself waits on,
+    # exception in _sanitize_item_for_participant) - /respond is what the tap itself waits on,
     # so the fact has to travel here too, not just on the next /state poll, or the phone's
     # correct/incorrect feedback text would render blank for the ~1s until the next poll.
     if sess.get("activeModule") == "clue-quest" and target_item.get("fact"):
         resp["fact"] = str(target_item.get("fact"))
         resp["revealed"] = True
     # Decision-room reveals the chosen option's own outcome + feedback the instant it's picked
-    # (console has no separate reveal step at all here) — same "the tap itself waits on this"
+    # (console has no separate reveal step at all here) - same "the tap itself waits on this"
     # reasoning as clue-quest above, so it travels in the /respond reply, not just the next poll.
     if sess.get("activeModule") == "decision-room":
         for o in target_item.get("options", []):
@@ -4034,15 +3952,15 @@ def session_respond(code):
 @limiter.limit("30/minute")
 @persist_after
 def session_submit(code):
-    """Deliberate per-participant per-module completion — locks answers for that module.
+    """Deliberate per-participant per-module completion - locks answers for that module.
 
     Participant taps 'Submit Answers' once they consider themselves done (all MC items
     answered, or builds/grid finished for pass-phrase/crossword). Records submittedAt
-    per participant per module in sess['submissions'][pid][module] — this is the
+    per participant per module in sess['submissions'][pid][module] - this is the
     authoritative 'done' signal for admin progress / fastest-overall ranking, not just
     last-item-answered-at. After submission further calls to /respond, /passphrase/build
     or /crossword/progress for that participant+module are rejected (locked). The room's
-    running/complete state is unchanged — admin's Mark Complete still moves the whole room
+    running/complete state is unchanged - admin's Mark Complete still moves the whole room
     to complete regardless of who has or hasn't submitted (non-submitted simply stay not
     submitted). Idempotent: resubmitting same participant+module returns original timestamp.
     """
@@ -4063,13 +3981,13 @@ def session_submit(code):
         return jsonify({"error": "unknown module", "valid": sorted(MODULE_IDS)}), 400
     if participant_id not in sess.get("participants", {}):
         return jsonify({"error": "unknown participantId"}), 404
-    # Only allow submit for the currently active module while running — but keep idempotent
+    # Only allow submit for the currently active module while running - but keep idempotent
     # handling so a participant who already submitted for a prior module doesn't get blocked when
     # the room later moves to a new module and old submissions remain.
     active_module = sess.get("activeModule")
     state = sess.get("state")
     if state != "running" or active_module != module:
-        # Allow resubmission check before hard error — if they already submitted for this module,
+        # Allow resubmission check before hard error - if they already submitted for this module,
         # return that record even if room has moved on.
         existing = sess.get("submissions", {}).get(participant_id, {}).get(module)
         if existing:
@@ -4080,27 +3998,29 @@ def session_submit(code):
             return jsonify({"error": "not running", "state": state}), 400
         if active_module != module:
             return jsonify({"error": "module mismatch", "activeModule": active_module, "requestedModule": module}), 400
-    # For discrete MC modules, require every item answered before submit — this keeps the
+    # For discrete MC modules, require every item answered before submit - this keeps the
     # three-state admin display meaningful (in_progress vs reached_end vs submitted) and
     # matches the phone UI which only enables Submit when all items have an answer.
-    # Continuous modules (crossword, pass-phrase) allow submit at any point — participant
+    # Continuous modules (crossword, pass-phrase) allow submit at any point - participant
     # decides when their build/grid is "finished", not when a count is reached.
-    if module in ('fault-finding','myth-vs-fact','decision-room','closing-quiz','clue-quest'):
+    if module in ('fault-finding','myth-vs-fact','decision-room','clue-quest'):
         seq = sess.get("moduleSequence") or []
         if seq:
             # Only items that actually require an answer count toward the gate.
-            # Debrief (decision-room, 6 debriefs) and SVR (closing-quiz, 5 prompts)
-            # are pure narration with no options — client treats them as auto-done
-            # via kind==='debrief'/'svr' in isActivityAllAnswered(). Counting them
-            # would make a fully-answered run (e.g. 18 decisions) look incomplete
-            # (18/24) and cause the false "not all items answered" failure.
+            # Decision-room's debrief steps (11 of them: 6 from the original long cases, 5
+            # folded in from the former closing-quiz SVR prompts) are pure narration with no
+            # options - client treats them as auto-done via kind==='debrief' in
+            # isActivityAllAnswered(). Counting them would make a fully-answered run (23
+            # decisions) look incomplete (23/34) and cause the false "not all items answered"
+            # failure. 'svr' is kept in the exclusion below only as a defensive no-op for any
+            # already-in-flight legacy session data - new content never produces that kind.
             required = [ _it for _it in seq if _it.get('kind') not in ('debrief','svr') ]
             # Defensive: if kind filtering excluded nothing but some items have
             # no options to answer (future narration item missing kind), also
             # exclude empty-option items. This keeps the gate aligned with the
             # phone's actual tappable surface.
             if len(required) == len(seq):
-                # No debrief/svr found — but check for empty-option narration steps
+                # No debrief/svr found - but check for empty-option narration steps
                 has_empty = any(not _it.get('options') for _it in seq)
                 if has_empty:
                     required = [ _it for _it in seq if _it.get('options') ]
@@ -4137,7 +4057,7 @@ def session_state(code):
     active_item = sess.get("activeItem")
     # Optional: personalizes each item with this participant's own prior answer, so a phone
     # that navigates back to an already-answered item (self-paced full-sequence view) can show
-    # their selection. Never used to leak anyone else's answers — only this participantId's own.
+    # their selection. Never used to leak anyone else's answers - only this participantId's own.
     participant_id = str(request.args.get("participantId") or "").strip()
     valid_participant = bool(participant_id) and participant_id in sess.get("participants", {})
 
@@ -4149,7 +4069,7 @@ def session_state(code):
         return entry.get("optionId") if isinstance(entry, dict) else entry
 
     def _my_build(item_id):
-        # Pass-phrase's equivalent of _my_answer — their in-progress build for this round, so
+        # Pass-phrase's equivalent of _my_answer - their in-progress build for this round, so
         # refreshing or navigating back to a round doesn't lose what they've placed so far.
         if not valid_participant or not item_id or active_module != "pass-phrase":
             return None
@@ -4181,7 +4101,7 @@ def session_state(code):
     # Self-paced full push: once running, participants get every item in the sequence at once
     # and page through it locally at their own pace (submitting each answer as they go via
     # /respond) instead of waiting for an admin-pushed single "next" item. Crossword still
-    # ignores this (it has its own dedicated grid-fetch flow) — harmless to include regardless.
+    # ignores this (it has its own dedicated grid-fetch flow) - harmless to include regardless.
     module_sequence = sess.get("moduleSequence") or []
     items = None
     if state == "running":
@@ -4240,14 +4160,14 @@ def admin_results(code):
         return jsonify({"error": "room not found"}), 404
     # Self-paced modules: admin can view results/correctness for ANY item in the sequence
     # (participants may be spread across different items), not only whichever one the admin's
-    # own narration pointer is currently on — pass ?itemId=<id> to select one explicitly.
+    # own narration pointer is currently on - pass ?itemId=<id> to select one explicitly.
     requested_item_id = str(request.args.get("itemId") or "").strip()
     if requested_item_id:
         module_sequence = sess.get("moduleSequence") or []
         active_item = next((it for it in module_sequence if it.get("id") == requested_item_id), None)
     else:
         # No itemId given: fall back to the room's current activeItem, but only while actually
-        # running — otherwise a module that left activeItem populated at completion (e.g.
+        # running - otherwise a module that left activeItem populated at completion (e.g.
         # crossword, see admin_next) would still be reported as "active" here between
         # completion and the next launch.
         active_item = sess.get("activeItem") if sess.get("state") == "running" else None
@@ -4280,7 +4200,7 @@ def admin_results(code):
     for pid, entry in bucket.items():
         oid = _entry_option(entry)
         counts[str(oid)] = counts.get(str(oid), 0) + 1
-    # per-participant list (name + choice) — unordered, kept for backwards compat
+    # per-participant list (name + choice) - unordered, kept for backwards compat
     per_participant = []
     for pid, entry in bucket.items():
         name = sess["participants"].get(pid, "unknown")
@@ -4290,7 +4210,7 @@ def admin_results(code):
     for pid, name in sess["participants"].items():
         if pid not in bucket:
             non_respondents.append({"participantId": pid, "name": name})
-    # Admin-only "first come, first served" ordering — never exposed via participant /state,
+    # Admin-only "first come, first served" ordering - never exposed via participant /state,
     # not a persistent cross-activity score; it's scoped to this item's response bucket the
     # same way counts/responses already are, so it resets naturally on the next item/module.
     responded_in_order = [
@@ -4303,10 +4223,10 @@ def admin_results(code):
         for pid, entry in bucket.items()
     ]
     responded_in_order.sort(key=lambda r: r["respondedAt"] or "")
-    # Per-item correctness count — admin-only (generalizes to any module whose normalized
-    # item sets correctOptionId: myth-vs-fact, fault-finding, clue-quest, closing-quiz).
+    # Per-item correctness count - admin-only (generalizes to any module whose normalized
+    # item sets correctOptionId: myth-vs-fact, fault-finding, clue-quest).
     # None when the item has no single correct answer (decision-room, pass-phrase, crossword).
-    # Fault-finding's correctOptionId is per-participant (randomized fake-image slot — see
+    # Fault-finding's correctOptionId is per-participant (randomized fake-image slot - see
     # _effective_correct_option_id), so each responder's own effective value is checked rather
     # than a single shared one; correctOptionId below stays the item's base value, only for
     # display/back-compat.
@@ -4322,7 +4242,7 @@ def admin_results(code):
             "correctCount": correct_count,
             "incorrectCount": len(responded_in_order) - correct_count,
         }
-    # Decision-room analog: "good decision" count per item (outcome=="good") — admin-only,
+    # Decision-room analog: "good decision" count per item (outcome=="good") - admin-only,
     # labeled distinctly as "good decisions" not "correct answers" so it isn't misread as same thing.
     goodness = None
     good_option_id = active_item.get("goodOptionId")
@@ -4342,7 +4262,7 @@ def admin_results(code):
         "totalResponses": len(bucket),
         "participantCount": len(sess["participants"]),
         "participants": sess["participantMeta"],
-        "responses": responses_flat,  # {participantId: optionId} — flat, kept for backwards compat
+        "responses": responses_flat,  # {participantId: optionId} - flat, kept for backwards compat
         "respondedInOrder": responded_in_order,  # admin-only, sorted first-to-respond first
         "correctness": correctness,
         "goodness": goodness,
@@ -4354,20 +4274,21 @@ def admin_results(code):
 @app.route("/api/admin/session/<code>/progress", methods=["GET"])
 @admin_required
 def admin_progress(code):
-    """Per-participant progress through the FULL self-paced sequence — answeredCount/
+    """Per-participant progress through the FULL self-paced sequence - answeredCount/
     totalCount, same shape as crossword's filledCount/totalCount progress panel, so the admin
     dashboard's Running view can show one consistent per-participant list regardless of module.
 
     Unlike crossword (a free-text grid the server can't otherwise observe, so participants ping
-    their own progress via POST /crossword/progress), the 6 MC-style modules are computed here
-    directly from sess["responses"] — the server already sees every discrete answer via
+    their own progress via POST /crossword/progress), the MC-style modules are computed here
+    directly from sess["responses"] - the server already sees every discrete answer via
     /respond, so no separate client-side progress ping is needed for these.
 
-    For modules with objective correctness (correctOptionId — myth-vs-fact, fault-finding,
-    clue-quest, closing-quiz question items) also reports a LIVE per-participant correctCount.
-    For decision-room (no single correct, but outcome=="good" tagged) reports goodCount
+    For modules with objective correctness (correctOptionId - myth-vs-fact, fault-finding,
+    clue-quest) also reports a LIVE per-participant correctCount. For decision-room (no single
+    correct answer anywhere in its 34 items - every decision, including the ones folded in from
+    the former closing-quiz quiz questions, is tagged good/consequence instead) reports goodCount
     analog metric labeled distinctly as "good decisions" not "correct". Both are admin-only
-    and update live as the room answers — never sent to participants.
+    and update live as the room answers - never sent to participants.
     """
     code = code.strip().upper()
     sess = SESSIONS.get(code)
@@ -4397,7 +4318,7 @@ def admin_progress(code):
             answered += 1
             at = entry.get("respondedAt") if isinstance(entry, dict) else None
             oid = entry.get("optionId") if isinstance(entry, dict) else entry
-            # Fault-finding's correct slot is per-participant (randomized fake-image side) —
+            # Fault-finding's correct slot is per-participant (randomized fake-image side)  - 
             # evaluate each participant's own effective correct option, not a single shared one.
             eff_correct = _effective_correct_option_id(items_by_id.get(item_id), pid)
             if eff_correct is not None and str(oid) == str(eff_correct):
@@ -4406,7 +4327,7 @@ def admin_progress(code):
                 good += 1
             if at and (last_at is None or at > last_at):
                 last_at = at
-        # Submission status — authoritative done signal
+        # Submission status - authoritative done signal
         _sub_raw = sess.get("submissions", {}).get(pid, {}).get(active_module)
         submitted_at = _sub_raw if isinstance(_sub_raw, str) else (_sub_raw.get("submittedAt") if isinstance(_sub_raw, dict) else _sub_raw)
         # normalize None -> no submission
@@ -4432,7 +4353,7 @@ def admin_progress(code):
         if has_good:
             entry_out["goodCount"] = good
         result.append(entry_out)
-    # Submitted first, then reached_end, then in_progress — within each group by progress
+    # Submitted first, then reached_end, then in_progress - within each group by progress
     def _status_rank(s):
         order = {"submitted": 0, "reached_end": 1, "in_progress": 2}
         return (order.get(s.get("submissionStatus"), 3), -s["filledCount"], s["name"].lower())
@@ -4461,18 +4382,18 @@ def _compute_module_summary(sess):
 
     Per participant: moduleStartedAt (their own first recorded response in this module),
     lastAnsweredAt (their most recent), completedAt (now the participant's deliberate
-    submittedAt — the timestamp of their POST /submit for this module — rather than the
+    submittedAt - the timestamp of their POST /submit for this module - rather than the
     last-item-answered-at. This makes Submit the authoritative 'done' signal, not just
     reaching the last item. Participants who have answered all items but not yet hit Submit
     are considered 'reached end, not submitted' and stay in inProgress, not ranked. Only
     submitted participants appear in ranked. For modules without objective correct answers
-    the ranking is still by submittedAt. Never exposed to participants — only from admin routes.
+    the ranking is still by submittedAt. Never exposed to participants - only from admin routes.
 
     Crossword, pass-phrase and control-catch also use submittedAt as the done signal, rather
-    than filledCount/totalCount reaching full coverage — the grid/build/game is considered done
+    than filledCount/totalCount reaching full coverage - the grid/build/game is considered done
     when the participant taps Submit, not when the grid happens to be full or the round timer
     runs out. Control-catch's correctCount is the participant's own score (good bubbles popped)
-    — never another participant's, and never an aggregate — same one-way-only data flow as
+    - never another participant's, and never an aggregate - same one-way-only data flow as
     every other module's correctCount.
     """
     active_module = sess.get("activeModule")
@@ -4632,13 +4553,13 @@ def _compute_module_summary(sess):
 def admin_module_summary(code):
     """Admin-only ranked "fastest overall" summary for the room's currently loaded module.
 
-    Ranking: modules with objective correctness (correctOptionId — myth-vs-fact, fault-finding,
-    clue-quest, closing-quiz) rank by correctCount descending, ties broken by completedAt
-    ascending (fastest correct finisher wins ties). Decision-room ranks by goodCount (sound
+    Ranking: modules with objective correctness (correctOptionId - myth-vs-fact, fault-finding,
+    clue-quest) rank by correctCount descending, ties broken by completedAt
+    ascending (fastest correct finisher wins ties). Decision-room ranks by goodCount (good
     decisions) similarly, labeled distinctly. Modules without either rank by completedAt
     ascending only. Participants who haven't completed every item are excluded from the ranking
     but returned separately (inProgress) for context. Scoped to the room's CURRENTLY loaded
-    moduleSequence — once a new module is launched the old one's sequence is gone (see
+    moduleSequence - once a new module is launched the old one's sequence is gone (see
     admin_launch), so this only answers for whichever module is presently active, matching the
     Mark Complete flow it's built for.
     """
@@ -4658,7 +4579,7 @@ def admin_module_summary(code):
     summary, has_correctness, total_items = _compute_module_summary(sess)
     completed = [s for s in summary if s["isComplete"]]
     in_progress = [s for s in summary if not s["isComplete"]]
-    # Detect decision-room style ranking (goodCount) — any entry with goodCount indicates
+    # Detect decision-room style ranking (goodCount) - any entry with goodCount indicates
     # that module's analog metric should drive ranking instead of completedAt alone.
     has_good = any("goodCount" in s for s in summary)
     if has_correctness:
@@ -4725,7 +4646,7 @@ def crossword_progress(code):
 
     Per-word correctness (correctCount = entries where filled letters match the actual answer)
     is tracked as a distinct admin metric from raw filledCount, so the facilitator sees both
-    "how much has been filled" and "how many entries are actually correct" — not conflated.
+    "how much has been filled" and "how many entries are actually correct" - not conflated.
     correctCount is optional for backwards compat (older clients send only filledCount); when
     absent it stays None and admin sees filled-only until the client updates.
     """
@@ -4746,13 +4667,13 @@ def crossword_progress(code):
     if _sub:
         _sub_at = _sub if isinstance(_sub, str) else _sub.get("submittedAt")
         return jsonify({"error": "already submitted - progress locked", "submittedAt": _sub_at}), 403
-    # Parse counts — accept int or str
+    # Parse counts - accept int or str
     try:
         filled = int(data.get("filledCount", data.get("filled_count", 0)))
         total = int(data.get("totalCount", data.get("total_count", 0)))
     except Exception:
         return jsonify({"error": "filledCount and totalCount must be integers"}), 400
-    # Optional per-word correctness — distinct from raw filled progress
+    # Optional per-word correctness - distinct from raw filled progress
     correct = None
     if "correctCount" in data or "correct_count" in data:
         try:
@@ -4799,7 +4720,7 @@ def crossword_progress(code):
 def admin_crossword_progress(code):
     """Admin poll: per-participant filled/total counts for live progress panel (~1.5s).
 
-    Also returns per-word correctness (correctCount) when clients report it — distinct
+    Also returns per-word correctness (correctCount) when clients report it - distinct
     from raw filled progress, so admin sees "X/Y filled · Z correct (P%)" not conflated.
     """
     code = code.strip().upper()
@@ -4857,7 +4778,7 @@ def admin_crossword_progress(code):
                 "submittedAt": submitted_at,
                 "submissionStatus": "submitted" if submitted_at else "in_progress",
             })
-    # Submitted first, then reached_end, then in_progress — within each group by correctness/progress
+    # Submitted first, then reached_end, then in_progress - within each group by correctness/progress
     def _sort_key(x):
         order = {"submitted": 0, "reached_end": 1, "in_progress": 2}
         cc = x.get("correctCount")
@@ -4879,7 +4800,7 @@ def admin_crossword_progress(code):
 @limiter.limit("300/minute")
 @persist_after
 def passphrase_build(code):
-    """Participant's in-progress password build, sent on every change (debounced client-side —
+    """Participant's in-progress password build, sent on every change (debounced client-side  - 
     see els.actMount's pass-phrase handlers): {participantId, roundId, builtPassword}. Strength
     is always computed server-side (_pp_compute_strength) from the round's own weakPassword, the
     same criteria the console uses, so the client never has to duplicate or fake the scoring."""
@@ -4905,13 +4826,13 @@ def passphrase_build(code):
     if not round_item or "deck" not in round_item:
         return jsonify({"error": "round not found in this activity's sequence"}), 400
     # Chunk-aware cap: total character count, not tile count (Part 2). Fall back to maxSlots
-    # for older single-char content still in the wild — both are 12 now, but they measure
+    # for older single-char content still in the wild - both are 12 now, but they measure
     # different things (maxChars = total characters; legacy maxSlots = tile count), so the
     # fallback chain is kept even though the two values currently coincide.
     max_chars = int(round_item.get("maxChars") or round_item.get("maxSlots") or PP_MAX_CHARS)
     built_password = built_password[:max_chars]
     # Chunk validation: deck is list of chunks (1-2 chars). Expand each chunk into its
-    # constituent characters for validation — a "Ka" tile contributes one K and one a to the
+    # constituent characters for validation - a "Ka" tile contributes one K and one a to the
     # available pool. This matches the chunk-aware cap (total chars) while still ensuring the
     # password was assembled only from deck-provided characters, respecting multiplicities.
     # For strictly chunk-boundary validation the client also sends the same builtPassword
@@ -4994,11 +4915,11 @@ def admin_passphrase_progress(code):
 @persist_after
 def control_catch_progress(code):
     """Participant pings their own live game state: {participantId, score, badPops, livesLeft,
-    gameOver}. Same lightweight-sync shape as crossword_progress — the server never referees
+    gameOver}. Same lightweight-sync shape as crossword_progress - the server never referees
     reflex timing (bubble spawn/fall/tap all happen client-side, like clue-quest's client-only
     countdown, see app.py's clue-quest timer comment), it only stores each participant's own
     latest snapshot for the admin's live progress panel and the post-game summary/ranking.
-    Never aggregated back to other participants — read only by admin-gated routes."""
+    Never aggregated back to other participants - read only by admin-gated routes."""
     code = code.strip().upper()
     sess = SESSIONS.get(code)
     if not sess:
@@ -5042,7 +4963,7 @@ def control_catch_progress(code):
 def admin_control_catch_progress(code):
     """Admin poll: per-participant score/lives/game-over state for the live progress panel
     (~1.5s), same list shape as crossword's own progress panel (filledCount/totalCount reused
-    as score/max-possible-score so the shared renderCrosswordProgress() UI works unmodified) —
+    as score/max-possible-score so the shared renderCrosswordProgress() UI works unmodified)  - 
     see _compute_module_summary's control-catch branch for the post-completion ranked version.
     Admin-only route; nothing here is ever returned from a participant-facing endpoint."""
     code = code.strip().upper()
@@ -5110,7 +5031,7 @@ def admin_reset(code):
     if not sess:
         return jsonify({"error": "room not found"}), 404
     now = datetime.now(timezone.utc).isoformat()
-    # Drop the outgoing sequence's memoized sanitize-cache entries before clearing it —
+    # Drop the outgoing sequence's memoized sanitize-cache entries before clearing it  - 
     # see _ITEM_SANITIZE_CACHE.
     _invalidate_item_cache(sess.get("moduleSequence"))
     # Preserve roomCode, reset everything that carries group state
@@ -5128,7 +5049,7 @@ def admin_reset(code):
     sess["submissions"] = {}
     sess["createdAt"] = now
     # If you keep additional per-session stores, clear them here as well
-    return jsonify({"ok": True, "roomCode": code, "message": "session reset — same code ready for next group", "createdAt": now})
+    return jsonify({"ok": True, "roomCode": code, "message": "session reset - same code ready for next group", "createdAt": now})
 
 
 # --- end additive ---
@@ -5139,7 +5060,7 @@ if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=port)
 
 # Routes added (additive, original routes untouched):
-#   GET    /health                                         -> {ok, sessionsLoaded} — public, no auth; point an external
+#   GET    /health                                         -> {ok, sessionsLoaded} - public, no auth; point an external
 #                                                             uptime pinger here if you need the dyno kept awake
 #   POST   /api/admin/login                              -> {username?, password} sets session cookie
 #   POST   /api/admin/logout                              -> clears session
@@ -5149,7 +5070,7 @@ if __name__ == "__main__":
 #   GET    /api/session/<code>/qr                         -> PNG QR for join URL (request.host_url)
 #   GET    /join/<code>                                    -> HTML join page (participant)
 #   POST   /api/session/<code>/join   {name}               -> {participantId}
-#   GET    /api/admin/modules                             -> 8 modules + live item counts from content/*.json
+#   GET    /api/admin/modules                             -> 7 modules + live item counts from content/*.json
 #   POST   /api/session/<code>/control-catch/progress       -> {participantId, score, badPops, livesLeft, gameOver} -> participant's own live game snapshot (never another participant's)
 #   GET    /api/admin/session/<code>/control-catch/progress -> per-participant score/lives/game-over for live progress panel (~1.5s), admin-only
 #   POST   /api/admin/session/<code>/launch {module}       -> loads module's item sequence, sets state=lobby

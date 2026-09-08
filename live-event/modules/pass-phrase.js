@@ -1,8 +1,8 @@
-/* Pass-Phrase — Build a Strong Password (mixed-length-chunk deck, difficulty ramp)
+/* Pass-Phrase - Build a Strong Password (mixed-length-chunk deck, difficulty ramp)
    Rounds provide difficulty; weak sample + deck (1-char singles, 2-char pairs like "Ka","Th",
    3-char fragments like "Syn","Sec") are either static content (content/pass-phrase.json) or
    generated at runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS)
-   not tile count — a "Syn" tile counts as 3 characters toward the 12-char cap. Deck pool
+   not tile count - a "Syn" tile counts as 3 characters toward the 12-char cap. Deck pool
    (DECK_SIZE) is deliberately larger than that cap for real choice. Strength meter only. */
 (function () {
   const TIMER_SECONDS = 45;
@@ -22,7 +22,7 @@
   let passwordChars = passwordChunks;
   let deckChars = deckChunks;
 
-  // ----- Pools — meaningful weak templates + mixed-length chunk deck -----
+  // ----- Pools - meaningful weak templates + mixed-length chunk deck -----
   // Deck is DECK_SIZE mixed chunks: some 3-char fragments ("Syn","Sec"), some 2-char
   // syllable pairs ("Ka","Ri","Th","on"), some single letters, some 1-char symbols/numbers.
   // Easy->hard progression shifts the length mix (see generateDeck below), and DECK_SIZE
@@ -70,18 +70,18 @@
     var place = pickRandom(PLACES);
     var year = pickRandom(YEARS);
     if(difficulty === 'easy'){
-      // Easy: pure personal data, all lowercase, short — e.g. rahul1998, neha2001, mumbai123
+      // Easy: pure personal data, all lowercase, short - e.g. rahul1998, neha2001, mumbai123
       if(Math.random() < 0.5) return name.toLowerCase() + year.slice(-2);
       if(Math.random() < 0.5) return place.toLowerCase() + String(100 + Math.floor(Math.random()*900));
       return name.toLowerCase() + String(Math.floor(Math.random()*900)+100);
     } else if(difficulty === 'medium'){
-      // Medium: Name + Place/Year pattern — RahulMumbai98, PriyaGoa2001 — has upper but still predictable
+      // Medium: Name + Place/Year pattern - RahulMumbai98, PriyaGoa2001 - has upper but still predictable
       var base = name + place + year.slice(-2);
       // 30% chance lower first letter to keep it familiar
       if(Math.random() < 0.3) base = base.charAt(0).toLowerCase() + base.slice(1);
       return base;
     } else {
-      // Hard: Name_Place_Year with one symbol but still personal — Rahul_Mumbai1998, Priya#Goa2001!
+      // Hard: Name_Place_Year with one symbol but still personal - Rahul_Mumbai1998, Priya#Goa2001!
       var sep = pickRandom(['_','-','@','#']);
       var tail = Math.random() < 0.5 ? year : year.slice(-2);
       var hard = name + sep + place + tail;
@@ -96,7 +96,7 @@
     // more 2-3 char recognizable fragments, hard leans on more standalone 1-char symbol/digit
     // chunks. lowerNeeded is always the remainder (DECK_SIZE - chunks so far), so every branch
     // sums to exactly DECK_SIZE before the final shuffle+slice regardless of which random
-    // sub-branch fires — mirrors _pp_generate_deck in app.py exactly.
+    // sub-branch fires - mirrors _pp_generate_deck in app.py exactly.
     var hasUpper = /[A-Z]/.test(weak);
     var hasNum = /[0-9]/.test(weak);
     var hasSym = /[^A-Za-z0-9]/.test(weak);
@@ -240,7 +240,7 @@
     if(checks.upper) charset+=26;
     if(checks.number) charset+=10;
     if(checks.special) charset+=12;
-    var crack='—';
+    var crack=' - ';
     if(pw.length>0 && charset>0){
       var entropy=pw.length*Math.log2(charset);
       var guesses=Math.pow(2,entropy);
@@ -302,7 +302,7 @@
     tile.dataset.source='deck';
     tile.dataset.idx=String(idx);
     tile.innerHTML='<span class="pp-tile-letter">'+LiveEvent.escapeHtml(ch)+'</span>';
-    // Chunk tiles may be 2-char like "Ka" or 3-char like "Syn" — slightly wider but still
+    // Chunk tiles may be 2-char like "Ka" or 3-char like "Syn" - slightly wider but still
     // touch-friendly; each length gets its own width/font-size step (see console.css).
     var chLen = String(ch).length;
     if(chLen>=3) tile.classList.add('chunk-tile3');
@@ -337,7 +337,7 @@
     if(deckChunks.length===0){
       var empty=document.createElement('div');
       empty.className='pp-deck-empty';
-      empty.textContent='—';
+      empty.textContent=' - ';
       els.deck.appendChild(empty);
     }
   }
@@ -409,7 +409,7 @@
       });
       els.tiles.appendChild(tile);
     });
-    // Empty placeholders reflect remaining char capacity (not tile count) — chunk-aware
+    // Empty placeholders reflect remaining char capacity (not tile count) - chunk-aware
     var totalChars = getTotalChars();
     var remaining= Math.max(0, MAX_CHARS - totalChars);
     // Show at most 12 placeholders visually to avoid overflow, but ensure char cap is clear in label
@@ -532,15 +532,15 @@
     if(els.weakText) els.weakText.textContent=currentWeak;
     if(els.weakMeta){
       var hint = r.hint || '';
-      var req = hint.indexOf('—')>-1 ? hint.split('—').slice(1).join('—').trim() : '';
+      var req = hint.indexOf(' - ')>-1 ? hint.split(' - ').slice(1).join(' - ').trim() : '';
       var diffLabel = difficulty.charAt(0).toUpperCase()+difficulty.slice(1);
       var twoCt = deckChunks.filter(function(c){return String(c).length===2;}).length;
       var threeCt = deckChunks.filter(function(c){return String(c).length>=3;}).length;
       if(req){
-        els.weakMeta.textContent = diffLabel+' — ' + req + ' — deck has ' + DECK_SIZE + ' chunks (' + twoCt + ' ×2-char, ' + threeCt + ' ×3-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
+        els.weakMeta.textContent = diffLabel+' - ' + req + ' - deck has ' + DECK_SIZE + ' chunks (' + twoCt + ' ×2-char, ' + threeCt + ' ×3-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
       } else {
-        var metaBase = difficulty==='easy' ? 'Based on: name + birth year — very guessable (e.g. rahul1998)' : difficulty==='medium' ? 'Based on: Name + Place + year — still personal (e.g. RahulMumbai98)' : 'Based on: Name_Place_Year + symbol — looks strong but personal data remains';
-        els.weakMeta.textContent = diffLabel+' — ' + metaBase + ' — deck has ' + DECK_SIZE + ' chunks (' + twoCt + ' ×2-char, ' + threeCt + ' ×3-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
+        var metaBase = difficulty==='easy' ? 'Based on: name + birth year - very guessable (e.g. rahul1998)' : difficulty==='medium' ? 'Based on: Name + Place + year - still personal (e.g. RahulMumbai98)' : 'Based on: Name_Place_Year + symbol - looks strong but personal data remains';
+        els.weakMeta.textContent = diffLabel+' - ' + metaBase + ' - deck has ' + DECK_SIZE + ' chunks (' + twoCt + ' ×2-char, ' + threeCt + ' ×3-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
       }
     }
     els.solvedBtn.disabled=true;
@@ -550,7 +550,7 @@
     renderDeck();
     updateStrength();
     var isLast=index===rounds.length-1;
-    els.nextBtn.innerHTML=isLast ? '<i class="fa-solid fa-rotate"></i> Restart — Back to Start' : '<i class="fa-solid fa-forward"></i> Next Round';
+    els.nextBtn.innerHTML=isLast ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start' : '<i class="fa-solid fa-forward"></i> Next Round';
     if(timer) timer.stop();
     timer=LiveEvent.createTimer(els.timerEl, TIMER_SECONDS, { onExpire: function(){} });
     timer.start();
@@ -581,7 +581,7 @@
     }
   }
 
-  // Brief framing screen before the rounds start — see console.css's
+  // Brief framing screen before the rounds start - see console.css's
   // "UNDERSTANDING LAYER" section. One screen, no timer, dismissed by Start.
   function beginActivity(){
     if(!contentData) return;
@@ -622,7 +622,7 @@
       if(introDismissed) beginActivity();
     })
     .catch(function(err){
-      if(els.tiles) els.tiles.textContent="Couldn't load this activity's content — check your connection or refresh.";
+      if(els.tiles) els.tiles.textContent="Could not load this activity. Check your connection and refresh.";
       console.error(err);
     });
 })();

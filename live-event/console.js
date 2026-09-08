@@ -1,5 +1,5 @@
 /* ============================================================
-   LIVE EVENT — shared utilities
+   LIVE EVENT - shared utilities
    Generic, reusable helpers with no shared state:
    keyboard-shortcut navigation, reusable countdown timer,
    fullscreen toggle, and HTML escaping.
@@ -111,7 +111,7 @@ const LiveEvent = (() => {
         osc.stop(ctx.currentTime + 0.5);
         osc.onended = () => ctx.close();
       } catch (e) {
-        // Web Audio unavailable — silently skip the beep.
+        // Web Audio unavailable - silently skip the beep.
       }
     }
 
@@ -159,7 +159,7 @@ const LiveEvent = (() => {
   }
 
   // Mirrors the fade-out used when leaving a page (see index.html's
-  // `.le-shell.leaving`) so every page — home or module — fades in on
+  // `.le-shell.leaving`) so every page - home or module - fades in on
   // arrival instead of snapping into view.
   function initEntrance() {
     const shell = document.querySelector('.le-shell');
