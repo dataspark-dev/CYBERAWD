@@ -1,8 +1,9 @@
-/* Pass-Phrase — Build a Strong Password (mixed-chunk deck, difficulty ramp)
-   Rounds provide difficulty; weak sample + 12-chunk deck (2-char pairs like "Ka","Th","on"
-   plus singles and symbols) are either static content (content/pass-phrase.json) or generated
-   at runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS) not tile
-   count — a "Ka" tile counts as 2 characters toward the 12-char cap. Strength meter only. */
+/* Pass-Phrase — Build a Strong Password (mixed-length-chunk deck, difficulty ramp)
+   Rounds provide difficulty; weak sample + deck (1-char singles, 2-char pairs like "Ka","Th",
+   3-char fragments like "Syn","Sec") are either static content (content/pass-phrase.json) or
+   generated at runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS)
+   not tile count — a "Syn" tile counts as 3 characters toward the 12-char cap. Deck pool
+   (DECK_SIZE) is deliberately larger than that cap for real choice. Strength meter only. */
 (function () {
   const TIMER_SECONDS = 45;
   const MAX_SLOTS = 12; // legacy tile-count cap, kept for old single-char content fallback
@@ -12,7 +13,7 @@
   let locked = false;
   let timer = null;
 
-  let passwordChunks = []; // array of chunks (each is 1-2 char string) placed in password row
+  let passwordChunks = []; // array of chunks (each is 1-3 char string) placed in password row
   let deckChunks = []; // array of remaining deck chunks
   let currentWeak = '';
   let dragged = null;
@@ -21,10 +22,13 @@
   let passwordChars = passwordChunks;
   let deckChars = deckChunks;
 
-  // ----- Pools — meaningful weak templates + mixed chunk deck -----
-  // Deck is now 12 mixed chunks: some 2-char syllable pairs ("Ka","Ri","Th","on"), some
-  // single letters, some 1-char symbols/numbers. Easy->hard progression controls composition.
-  const DECK_SIZE = 12;
+  // ----- Pools — meaningful weak templates + mixed-length chunk deck -----
+  // Deck is DECK_SIZE mixed chunks: some 3-char fragments ("Syn","Sec"), some 2-char
+  // syllable pairs ("Ka","Ri","Th","on"), some single letters, some 1-char symbols/numbers.
+  // Easy->hard progression shifts the length mix (see generateDeck below), and DECK_SIZE
+  // itself is deliberately larger than MAX_CHARS so the deck offers real choice rather than
+  // forcing near-every tile into the build row.
+  const DECK_SIZE = 20;
   const NAMES = ["Rahul","Priya","Amit","Neha","Arjun","Sneha","Vikram","Ananya","Rohan","Isha","Karan","Meera"];
   const PLACES = ["Mumbai","Delhi","Chennai","Kolkata","Goa","Pune","Jaipur","Kochi","Hyderabad"];
   const YEARS = ["1998","1999","2000","2001","2002","2003","1995","1990","1992"];
@@ -34,6 +38,7 @@
   const NUM_POOL = (function(){ var a=[]; for(var i=48;i<=57;i++) a.push(String.fromCharCode(i)); return a; })();
   const SYM_POOL = ['!','@','#','$','%','^','&','*','-','_','+','=','?','~','<','>'];
   const CHUNK_TWO_POOL = ["Ka","Ri","Th","On","An","Re","Co","Ma","Be","Su","Un","Ex","Mi","Tr","Ch","Sh","Pr","St","Li","En","Or","Al","El","Ar","on","th","an","er","in"];
+  const CHUNK_THREE_POOL = ["Syn","Sec","Net","Cyb","Log","Key","Byt","Cod","Def","Hak","Bot","Vpn","Pwd","Enc","Fir","Wal","Loc","Saf","Gua","Shi"];
 
   function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
   function shuffled(arr){
@@ -86,29 +91,36 @@
   }
 
   function generateDeck(difficulty, weak){
-    // 15-chunk mixed deck: 2-char pairs like "Ka","Th","on" plus singles/symbols/numbers.
-    // Easy: mostly singles + couple 2-char/helpers. Hard: more 2-char, fewer obvious helpers.
+    // Mixed-length-chunk deck (DECK_SIZE, larger than MAX_CHARS): 3-char fragments + 2-char
+    // pairs + 1-char singles/symbols/numbers. Difficulty shifts the LENGTH MIX: easy leans on
+    // more 2-3 char recognizable fragments, hard leans on more standalone 1-char symbol/digit
+    // chunks. lowerNeeded is always the remainder (DECK_SIZE - chunks so far), so every branch
+    // sums to exactly DECK_SIZE before the final shuffle+slice regardless of which random
+    // sub-branch fires — mirrors _pp_generate_deck in app.py exactly.
     var hasUpper = /[A-Z]/.test(weak);
     var hasNum = /[0-9]/.test(weak);
     var hasSym = /[^A-Za-z0-9]/.test(weak);
     var missingUpper = !hasUpper;
     var missingNum = !hasNum;
     var missingSym = !hasSym;
-    var twoCount, upperCount, symCount, numCount, allowDup;
+    var threeCount, twoCount, upperCount, symCount, numCount, allowDup;
     if(difficulty === 'easy'){
-      twoCount = 2;
+      threeCount = 4;
+      twoCount = 6;
       upperCount = missingUpper ? 3 : 2;
       symCount = missingSym ? 3 : 2;
       numCount = 2;
       allowDup = false;
     } else if(difficulty === 'medium'){
-      twoCount = 4;
+      threeCount = 3;
+      twoCount = 5;
       upperCount = 2;
       symCount = 2;
       numCount = 2;
       allowDup = Math.random() < 0.2;
     } else {
-      twoCount = 6;
+      threeCount = 2;
+      twoCount = 3;
       upperCount = 1;
       if(missingSym && Math.random() < 0.5) upperCount = 2;
       symCount = 1;
@@ -118,6 +130,7 @@
       allowDup = true;
     }
     var deck = [];
+    deck = deck.concat(randomChunks(CHUNK_THREE_POOL, threeCount, allowDup));
     deck = deck.concat(randomChunks(CHUNK_TWO_POOL, twoCount, allowDup));
     deck = deck.concat(randomChars(UPPER_POOL, upperCount, allowDup));
     deck = deck.concat(randomChars(SYM_POOL, symCount, allowDup));
@@ -126,13 +139,20 @@
     lowerNeeded = Math.max(2, lowerNeeded);
 
     if(difficulty === 'hard'){
+      // Harder rounds pad out with more STANDALONE 1-char symbol/digit chunks (not just
+      // lowercase filler) so simply concatenating a couple of fragments isn't enough.
       var weakLowers = weak.split('').filter(function(c){ return /[a-z]/.test(c); });
       var lowers = [];
       for(var i=0;i<lowerNeeded;i++){
-        if(Math.random() < 0.55 && weakLowers.length){
+        var r = Math.random();
+        if(r < 0.45 && weakLowers.length){
           lowers.push(weakLowers[Math.floor(Math.random()*weakLowers.length)]);
-        } else {
+        } else if(r < 0.70){
           lowers.push(LOWER_POOL[Math.floor(Math.random()*LOWER_POOL.length)]);
+        } else if(r < 0.85){
+          lowers.push(SYM_POOL[Math.floor(Math.random()*SYM_POOL.length)]);
+        } else {
+          lowers.push(NUM_POOL[Math.floor(Math.random()*NUM_POOL.length)]);
         }
       }
       for(var d=0; d<2; d++){
@@ -282,8 +302,11 @@
     tile.dataset.source='deck';
     tile.dataset.idx=String(idx);
     tile.innerHTML='<span class="pp-tile-letter">'+LiveEvent.escapeHtml(ch)+'</span>';
-    // Chunk tiles may be 2-char like "Ka" — slightly wider but still touch-friendly
-    if(String(ch).length>1) tile.classList.add('chunk-tile');
+    // Chunk tiles may be 2-char like "Ka" or 3-char like "Syn" — slightly wider but still
+    // touch-friendly; each length gets its own width/font-size step (see console.css).
+    var chLen = String(ch).length;
+    if(chLen>=3) tile.classList.add('chunk-tile3');
+    else if(chLen===2) tile.classList.add('chunk-tile');
     tile.addEventListener('dragstart', function(e){
       if(locked || getTotalChars() + String(ch).length > MAX_CHARS){ e.preventDefault(); return; }
       dragged={source:'deck', idx:idx, char:ch};
@@ -324,7 +347,9 @@
     passwordChunks.forEach(function(ch,i){
       var tile=document.createElement('div');
       tile.className='pp-tile';
-      if(String(ch).length>1) tile.classList.add('chunk-tile');
+      var chLen=String(ch).length;
+      if(chLen>=3) tile.classList.add('chunk-tile3');
+      else if(chLen===2) tile.classList.add('chunk-tile');
       tile.draggable=!locked;
       tile.dataset.source='password';
       tile.dataset.idx=String(i);
@@ -509,11 +534,13 @@
       var hint = r.hint || '';
       var req = hint.indexOf('—')>-1 ? hint.split('—').slice(1).join('—').trim() : '';
       var diffLabel = difficulty.charAt(0).toUpperCase()+difficulty.slice(1);
+      var twoCt = deckChunks.filter(function(c){return String(c).length===2;}).length;
+      var threeCt = deckChunks.filter(function(c){return String(c).length>=3;}).length;
       if(req){
-        els.weakMeta.textContent = diffLabel+' — ' + req + ' — deck has ' + DECK_SIZE + ' chunks (' + deckChunks.filter(function(c){return String(c).length>1;}).length + ' ×2-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
+        els.weakMeta.textContent = diffLabel+' — ' + req + ' — deck has ' + DECK_SIZE + ' chunks (' + twoCt + ' ×2-char, ' + threeCt + ' ×3-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
       } else {
         var metaBase = difficulty==='easy' ? 'Based on: name + birth year — very guessable (e.g. rahul1998)' : difficulty==='medium' ? 'Based on: Name + Place + year — still personal (e.g. RahulMumbai98)' : 'Based on: Name_Place_Year + symbol — looks strong but personal data remains';
-        els.weakMeta.textContent = diffLabel+' — ' + metaBase + ' — deck has ' + DECK_SIZE + ' chunks (' + deckChunks.filter(function(c){return String(c).length>1;}).length + ' ×2-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
+        els.weakMeta.textContent = diffLabel+' — ' + metaBase + ' — deck has ' + DECK_SIZE + ' chunks (' + twoCt + ' ×2-char, ' + threeCt + ' ×3-char) to rebuild strong (cap '+MAX_CHARS+' chars)';
       }
     }
     els.solvedBtn.disabled=true;

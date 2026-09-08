@@ -372,9 +372,10 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             return out
         if module_id == "pass-phrase":
             # Real build-your-own-password mechanic, matching the console (pass-phrase.js):
-            # a themed deck of PP_DECK_SIZE CHUNKS (mixed 2-char pairs like "Ka","Th","on",
-            # singles, symbols/numbers) that participants combine — not letter-by-letter — to
-            # assemble a password, capped by total character count (PP_MAX_CHARS) not tile count.
+            # a themed deck of PP_DECK_SIZE CHUNKS (mixed 3-char fragments like "Syn","Sec",
+            # 2-char pairs like "Ka","Th","on", and 1-char singles/symbols/numbers) that
+            # participants combine — not letter-by-letter — to assemble a password, capped by
+            # total character count (PP_MAX_CHARS, smaller than the deck pool) not tile count.
             # weakPassword/deck are static content (see content/pass-phrase.json), generated once
             # by scripts/gen_passphrase_content.py using the same pools/composition logic as
             # _pp_generate_weak_password/_pp_generate_deck below, rather than regenerated at
@@ -714,17 +715,20 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
 # --- Pass-phrase: build-your-own-password deck + strength meter ---
 # Ported from live-event/modules/pass-phrase.js's own generateWeakPassword/generateDeck/
 # computeStrength — the console's real mechanic (build from a themed deck into a password
-# row, watch the strength meter) rather than a rating poll. Redesigned to multi-character
-# chunks (Part 2): deck is now 12 mixed CHUNKS (some 2-char syllable pairs like "Ka","Th",
-# "on", some single letters, some 1-char symbols/numbers) that participants combine — not
-# letter-by-letter — to assemble a password, capped by total character count (PP_MAX_CHARS)
-# rather than tile count so a "Ka" tile counts as 2 characters toward the cap. Difficulty
-# ramps easy→hard across 5 rounds: easy is mostly singles + a couple 2-char/helpers,
-# hard has more 2-char chunks and fewer obviously-needed symbols/numbers. Deck size (12)
-# deliberately matches PP_MAX_CHARS's tile-grid visual (12-tile deck, 12-char build row) —
-# verified this doesn't overflow the per-difficulty composition counts before the final
-# shuffle+slice (see _pp_generate_deck's own docstring for the exact per-difficulty math).
-PP_DECK_SIZE = 12
+# row, watch the strength meter) rather than a rating poll. Deck is a pool of mixed-length
+# CHUNKS (1-char singles, 2-char syllable pairs like "Ka","Th", and 3-char fragments like
+# "Syn","Sec") that participants combine — not letter-by-letter — to assemble a password,
+# capped by total character count (PP_MAX_CHARS) rather than tile count, so a "Syn" tile
+# counts as 3 characters toward the cap and a single "K" counts as 1. PP_DECK_SIZE (the
+# pool offered) is deliberately LARGER than PP_MAX_CHARS (the build cap) — a bigger, more
+# varied deck gives real choice/combinations when assembling a strong password instead of
+# a scarce deck that forces near-every tile into the build row. Difficulty ramps easy→hard
+# across 5 rounds by shifting the deck's chunk-length mix: easy leans on more 2-3 char
+# recognizable fragments (fewer chunks needed to reach length+variety), hard leans on more
+# standalone 1-char symbol/digit chunks (reaching Strong/Very-Strong still requires
+# deliberately combining several of them, not just concatenating 1-2 whole fragments) — see
+# _pp_generate_deck's own docstring for the exact per-difficulty composition.
+PP_DECK_SIZE = 20
 PP_MAX_SLOTS = 12  # legacy tile-count cap, kept for backwards compat with old content
 PP_MAX_CHARS = 12  # chunk-aware cap: total characters reached, not tile count
 PP_NAMES = ["Rahul", "Priya", "Amit", "Neha", "Arjun", "Sneha", "Vikram", "Ananya", "Rohan", "Isha", "Karan", "Meera"]
@@ -736,6 +740,9 @@ PP_LOWER_POOL = [chr(c) for c in range(97, 123)]
 PP_NUM_POOL = [chr(c) for c in range(48, 58)]
 PP_SYM_POOL = list("!@#$%^&*-_+=?~<>")
 PP_CHUNK_TWO_POOL = ["Ka","Ri","Th","On","An","Re","Co","Ma","Be","Su","Un","Ex","Mi","Tr","Ch","Sh","Pr","St","Li","En","Or","Al","El","Ar","on","th","an","er","in"]
+# 3-char fragments, loosely themed to the event (Syn=Synergy, Sec=Security, Cyb=Cyber...) so
+# they read as "recognizable" the same way the 2-char pool's "Ka"/"Th" syllables do.
+PP_CHUNK_THREE_POOL = ["Syn","Sec","Net","Cyb","Log","Key","Byt","Cod","Def","Hak","Bot","Vpn","Pwd","Enc","Fir","Wal","Loc","Saf","Gua","Shi"]
 
 
 def _pp_generate_weak_password(difficulty: str) -> str:
@@ -786,42 +793,44 @@ def _pp_rand_chunks(pool: list, count: int, allow_dup: bool) -> list:
 
 
 def _pp_generate_deck(difficulty: str, weak: str) -> list:
-    """Mixed-chunk deck: 2-char syllable pairs + singles + symbols/numbers.
+    """Mixed-length-chunk deck: 3-char fragments + 2-char syllable pairs + 1-char singles
+    (letters/symbols/numbers). Deck size is PP_DECK_SIZE (20) — deliberately larger than
+    the PP_MAX_CHARS (12) build cap, so the player has real choice/combinations rather
+    than a scarce deck where nearly every tile must be used.
 
-    Easy: mostly singles plus a couple easy 2-char/symbol chunks — straightforward.
-    Hard: more 2-char chunks and fewer obviously-needed symbols/numbers.
-    Total deck size is PP_DECK_SIZE (12) chunks, each chunk is 1 or 2 characters.
-    Strength still scores the concatenated string, so deck composition controls
-    how deliberately a participant must combine chunks to reach Strong/Very Strong.
+    Difficulty shifts the LENGTH MIX, not just the type mix: easy leans on more 2-3 char
+    recognizable fragments (fewer, larger chunks get you to length+variety fast); hard
+    leans on more standalone 1-char symbol/digit chunks, so reaching Strong/Very-Strong
+    still takes deliberately combining several of them rather than dropping in 1-2 whole
+    fragments. Strength still scores the concatenated string — this function only controls
+    how deliberately a participant must combine chunks to get there.
 
-    Per-difficulty chunk-count math (verified to sum to exactly PP_DECK_SIZE before the
-    final shuffle+slice, so nothing gets randomly trimmed away — see the reachability
-    check in docs/APPLICATION_STATE.md-adjacent commit history if this ever needs re-
-    deriving): easy = 2 (two-char) + 3 upper + 3 sym + 2 num + 2 lower = 12 (easy's weak
-    password is always all-lowercase+digits, so missing_upper/missing_sym are always
-    True here, always taking the 3-count branch). medium = 4 + 2 + 2 + 2 + 2 = 12 (fixed
-    counts, no missing-branch). hard = 6 + 1 + 1 + 1 + 3 = 12 (hard's weak password always
-    contains a symbol separator and a numeric year, so missing_sym/missing_num are always
-    False here, always taking the 1-count branch, never the 2-count one).
+    lower_needed is always computed as the REMAINDER (PP_DECK_SIZE - chunks placed so far),
+    so every difficulty branch sums to exactly PP_DECK_SIZE before the final shuffle+slice
+    regardless of which random sub-branch fires — nothing relies on hand-verified fixed
+    per-branch sums the way the previous fixed-deck-size design did.
     """
     has_upper = bool(re.search(r"[A-Z]", weak))
     has_num = bool(re.search(r"[0-9]", weak))
     has_sym = bool(re.search(r"[^A-Za-z0-9]", weak))
     missing_upper, missing_num, missing_sym = not has_upper, not has_num, not has_sym
     if difficulty == "easy":
-        two_count = 2
+        three_count = 4
+        two_count = 6
         upper_count = 3 if missing_upper else 2
         sym_count = 3 if missing_sym else 2
         num_count = 2
         allow_dup = False
     elif difficulty == "medium":
-        two_count = 4
+        three_count = 3
+        two_count = 5
         upper_count = 2
         sym_count = 2
         num_count = 2
         allow_dup = random.random() < 0.2
     else:  # hard
-        two_count = 6
+        three_count = 2
+        two_count = 3
         upper_count = 1
         if missing_sym and random.random() < 0.5:
             upper_count = 2
@@ -834,6 +843,7 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
         allow_dup = True
 
     deck = []
+    deck += _pp_rand_chunks(PP_CHUNK_THREE_POOL, three_count, allow_dup)
     deck += _pp_rand_chunks(PP_CHUNK_TWO_POOL, two_count, allow_dup)
     deck += _pp_rand_chars(PP_UPPER_POOL, upper_count, allow_dup)
     deck += _pp_rand_chars(PP_SYM_POOL, sym_count, allow_dup)
@@ -842,13 +852,21 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
     lower_needed = max(2, lower_needed)
 
     if difficulty == "hard":
+        # Harder rounds pad out with more STANDALONE 1-char symbol/digit chunks (not just
+        # lowercase filler), so simply concatenating a couple of fragments isn't enough —
+        # the player has to reach for singles too, same principle as upper/sym/num above.
         weak_lowers = [c for c in weak if c.islower()]
         lowers = []
         for _ in range(lower_needed):
-            if weak_lowers and random.random() < 0.55:
+            r = random.random()
+            if weak_lowers and r < 0.45:
                 lowers.append(random.choice(weak_lowers))
-            else:
+            elif r < 0.70:
                 lowers.append(random.choice(PP_LOWER_POOL))
+            elif r < 0.85:
+                lowers.append(random.choice(PP_SYM_POOL))
+            else:
+                lowers.append(random.choice(PP_NUM_POOL))
         # decoy dupes to make choices less obvious
         for d in range(2):
             if deck and lowers and random.random() < 0.6:
@@ -865,7 +883,7 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
 
     # Guarantee at least one of each missing type is present for easy/medium
     if difficulty != "hard":
-        # check_helpers: need to consider that 2-char chunks may contain upper/lower/symbol
+        # check_helpers: need to consider that 2/3-char chunks may contain upper/lower/symbol
         flat = "".join(deck)
         if missing_upper and not any(c.isupper() for c in flat):
             deck[0] = random.choice(PP_UPPER_POOL)
@@ -1438,17 +1456,26 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 .feedback-badge{ pointer-events: none; touch-action: manipulation; }
 .pp-tile.chunk-tile, .pp-deck-tile.chunk-tile{
   /* 2-char chunks like "Ka","Th","on" are slightly wider than single chars but still
-     comfortably tappable at 375px. */
+     comfortably tappable at 375px. Height is untouched (same clamp as the base tile) so
+     every tile — 1, 2 or 3 char — sits at the same row height; only width nudges up with
+     content, same technique extended one step further by .chunk-tile3 below. */
   min-width: clamp(56px, 6.2vw, 78px);
 }
-/* Deck tray: exactly 12 chunks now (was 15), matching the build row's own 12-char cap —
-   console's own .pp-deck is flex-wrap (fine on a wide desktop screen, but at phone width
-   it wrapped to however many tiles happened to fit per row, producing a dangling short
-   last row — e.g. 4/4/4/3 at 15 tiles). A fixed 4-column grid gives 12 tiles exactly 3
-   full rows, no dangling row, and visually matches the build slots' own 12-count. */
+.pp-tile.chunk-tile3, .pp-deck-tile.chunk-tile3{
+  /* 3-char chunks like "Syn","Sec" need a bit more room again than 2-char ones, plus a
+     slightly smaller letter size so 3 characters don't crowd the tile edge-to-edge. */
+  min-width: clamp(64px, 7vw, 88px);
+  font-size: var(--fs-body);
+}
+/* Deck tray: PP_DECK_SIZE (20) chunks — a deliberately larger, more varied pool than the
+   12-char build cap, so the player has real choice rather than a scarce deck. Console's own
+   .pp-deck is flex-wrap (fine on a wide desktop screen — it just wraps to however many fit
+   per row), but at phone width that produced a dangling short last row. A fixed 5-column
+   grid gives 20 tiles exactly 4 full rows with no dangling row, at any deck size we pick
+   here — column count intentionally divides PP_DECK_SIZE evenly. */
 .pp-deck{
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
   justify-items: center;
 }
@@ -2517,7 +2544,11 @@ function ppEnsureState(item){
   if(item._ppSlots) return;
   var maxChars = item.maxChars || item.maxSlots || 12;
   var deck = item.deck || [];
-  var maxTiles = deck.length || 15;
+  // The build row can never hold more tiles than maxChars allows (worst case: every placed
+  // chunk is 1 char) — deck.length alone is now a much larger pool (e.g. 20) than the build
+  // cap (12), so using it unclamped would pre-render a stack of empty placeholder slots far
+  // past what could ever actually be filled.
+  var maxTiles = Math.min(deck.length || 15, maxChars);
   var slots = [];
   var built = (item.myBuild && item.myBuild.builtPassword) || '';
   var deckAvail = deck.map(function(){ return true; });
@@ -2598,11 +2629,12 @@ function renderPassPhrase(item){
   const maxChars = item._ppMaxChars || item.maxChars || 12;
   const difficulty = item.difficulty || 'medium';
   const diffLabel = difficulty.charAt(0).toUpperCase()+difficulty.slice(1);
-  const twoCount = (item.deck||[]).filter(function(c){return String(c).length>1;}).length;
+  const twoCount = (item.deck||[]).filter(function(c){return String(c).length===2;}).length;
+  const threeCount = (item.deck||[]).filter(function(c){return String(c).length>=3;}).length;
   let html = '<div class="pp-weak-card">'
     + '<div class="pp-weak-label"><i class="fa-solid fa-triangle-exclamation"></i> Starting Sample — Weak <span style="margin-left:6px;font-weight:400;opacity:0.7">['+esc(diffLabel)+']</span></div>'
     + '<div class="pp-weak-text">'+esc(item.weakPassword||'')+'</div>'
-    + (item.weakRequirement ? '<div class="pp-weak-meta">'+esc(diffLabel+' — '+item.weakRequirement+' — deck has '+item.deck.length+' chunks ('+twoCount+' ×2-char) to rebuild strong (cap '+maxChars+' chars)')+'</div>' : '')
+    + (item.weakRequirement ? '<div class="pp-weak-meta">'+esc(diffLabel+' — '+item.weakRequirement+' — deck has '+item.deck.length+' chunks ('+twoCount+' ×2-char, '+threeCount+' ×3-char) to rebuild strong (cap '+maxChars+' chars)')+'</div>' : '')
     + '</div>';
   html += '<div class="pp-builder-card" style="margin-top:14px;padding:14px">'
     + '<div class="pp-strength"><div class="pp-strength-head">'
@@ -2620,20 +2652,22 @@ function renderPassPhrase(item){
   const emptyCount = Math.max(0, (item._ppMaxTiles||item.deck.length||0) - item._ppSlots.length);
   html += '<div class="pp-tiles" id="ppSlotsRow">'
     + item._ppSlots.map((ch,i)=>{
-        const chunkCls = String(ch).length>1 ? ' chunk-tile' : '';
+        const len = String(ch).length;
+        const chunkCls = len>=3 ? ' chunk-tile3' : (len===2 ? ' chunk-tile' : '');
         return '<button type="button" class="pp-tile'+chunkCls+'" data-slot-idx="'+i+'" data-filled="1"><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
       }).join('')
     + Array(emptyCount).fill('<button type="button" class="pp-slot-empty"></button>').join('')
     + '</div>';
   html += '<div class="pp-section-label" style="margin-top:14px">'
-    + '<i class="fa-solid fa-layer-group"></i> Deck — tap a chunk, then tap a slot above <span style="margin-left:auto;color:#94a3b8;font-weight:400">['+esc(diffLabel)+' · '+twoCount+'×2-char]</span></div>';
+    + '<i class="fa-solid fa-layer-group"></i> Deck — tap a chunk, then tap a slot above <span style="margin-left:auto;color:#94a3b8;font-weight:400">['+esc(diffLabel)+' · '+twoCount+'×2-char, '+threeCount+'×3-char]</span></div>';
   html += '<div class="pp-deck" id="ppDeckTray">' + item.deck.map((ch,i)=>{
       const avail = item._ppDeckAvailable[i];
       const isSelected = item._ppSelectedDeckIdx===i;
-      const cls = ['pp-tile','pp-deck-tile']; if(String(ch).length>1) cls.push('chunk-tile'); if(!avail) cls.push('is-inert'); if(isSelected) cls.push('selected');
+      const len = String(ch).length;
+      const cls = ['pp-tile','pp-deck-tile']; if(len>=3) cls.push('chunk-tile3'); else if(len===2) cls.push('chunk-tile'); if(!avail) cls.push('is-inert'); if(isSelected) cls.push('selected');
       return '<button type="button" class="'+cls.join(' ')+'" data-deck-idx="'+i+'" '+(!avail?'disabled':'')+'><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
     }).join('') + '</div>';
-  html += '<div style="margin-top:6px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count — a "Ka" tile counts as 2</div>';
+  html += '<div style="margin-top:6px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count — a "Syn" tile counts as 3</div>';
   return html;
 }
 

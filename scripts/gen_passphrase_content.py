@@ -37,7 +37,7 @@ def main():
         json.dump(data, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
-    print(f"\nWrote weakPassword + deck ({appmod.PP_DECK_SIZE} chunks, mixed 1-2 chars) into {CONTENT_PATH}")
+    print(f"\nWrote weakPassword + deck ({appmod.PP_DECK_SIZE} chunks, mixed 1-3 chars) into {CONTENT_PATH}")
 
 
 if __name__ == "__main__":

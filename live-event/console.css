@@ -1502,6 +1502,10 @@ body {
   width: clamp(56px, 6.5vw, 78px);
   font-size: var(--fs-subhead);
 }
+.pp-tile.chunk-tile3, .pp-deck-tile.chunk-tile3{
+  width: clamp(64px, 7.4vw, 90px);
+  font-size: var(--fs-body);
+}
 .pp-tile.dragging { opacity: 0.4; cursor: grabbing; }
 .pp-tile.drag-over { transform: scale(1.08); border-color: var(--cyan-light); }
 .pp-tile.correct {
@@ -1805,7 +1809,7 @@ body {
   pointer-events: none;
 }
 
-/* Deck tray — 15 mixed cards, wraps (no overflow clip), clearly separated */
+/* Deck tray — a larger mixed pool than the build cap, wraps (no overflow clip), clearly separated */
 .pp-deck {
   display: flex;
   flex-wrap: wrap;
