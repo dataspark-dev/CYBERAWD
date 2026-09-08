@@ -1575,25 +1575,34 @@ button.pp-tile, button.pp-deck-tile{
    arena; bubbles are absolutely-positioned buttons animated purely via CSS transition on
    `top` (see ccSpawnBubble in the JS) rather than canvas or rAF — same DOM+CSS approach every
    other module in this file uses, kept consistent rather than introducing a one-off canvas
-   dependency for a single module. */
-.cc-hud{display:flex;gap:10px;margin-bottom:10px}
-.cc-hud-stat{flex:1;background:var(--navy-4);border-radius:10px;padding:8px 10px;text-align:center}
+   dependency for a single module. Bubble color palette (.cc-c1..c6), the good/bad pop-outcome
+   animations (.cc-pop-good/.cc-pop-bad) and the color-decoupling rationale all live once in
+   console.css (linked above) — this page only needs its own size-specific .cc-bubble base
+   rule (mobile-scale vs console.css's desktop-scale one) so both surfaces share one visual
+   treatment instead of drifting apart. */
+.cc-hud{display:flex;align-items:stretch;gap:10px;margin-bottom:10px}
+.cc-hud-stat{flex:1;background:var(--navy-4);border-radius:10px;padding:8px 10px;text-align:center;display:flex;flex-direction:column;justify-content:center}
 .cc-hud-label{display:block;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px}
 .cc-hud-value{display:block;font-family:'Orbitron',sans-serif;font-weight:800;font-size:var(--fs-subhead);color:#fff;margin-top:2px}
 .cc-hint{font-size:var(--fs-badge);color:#64748b;text-align:center;margin-bottom:10px;line-height:1.4}
-.cc-arena{position:relative;width:100%;height:min(62vh,520px);background:linear-gradient(180deg,#eef6ff,#f8fafc);border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;touch-action:manipulation}
+.cc-arena{
+  position:relative;width:100%;height:min(62vh,520px);
+  background:linear-gradient(180deg,#eef6ff,#f8fafc);
+  border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;touch-action:manipulation;
+  box-shadow:inset 0 0 0 1px rgba(15,23,42,0.03), inset 0 2px 14px rgba(15,23,42,0.04);
+}
 .cc-bubble{
   position:absolute;top:-15%;transform:translateX(-50%);
   display:flex;align-items:center;justify-content:center;text-align:center;
-  width:clamp(84px,26vw,128px);min-height:56px;padding:6px 10px;border-radius:999px;
-  font-family:'Space Mono',monospace;font-weight:800;font-size:12px;line-height:1.2;
-  border:2px solid rgba(6,182,212,0.5);background:rgba(255,255,255,0.95);color:#0f172a;
-  box-shadow:0 4px 10px rgba(15,23,42,0.12);cursor:pointer;user-select:none;
-  transition:top linear, transform 120ms ease, opacity 160ms ease;
+  width:clamp(88px,27vw,140px);min-height:58px;padding:6px 12px;border-radius:999px;
+  font-family:'Space Mono',monospace;font-weight:800;font-size:12px;line-height:1.3;
+  overflow-wrap:break-word;word-break:break-word;
+  border:2px solid rgba(6,182,212,0.5);background:rgba(255,255,255,0.97);color:#0f172a;
+  box-shadow:0 4px 10px rgba(15,23,42,0.14), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -5px 8px rgba(15,23,42,0.05);
+  cursor:pointer;user-select:none;
+  transition:top linear, transform 140ms ease, box-shadow 140ms ease;
 }
 .cc-bubble:active{transform:translateX(-50%) scale(0.9)}
-.cc-bubble.cc-pop-good{border-color:var(--green,#10b981);background:rgba(16,185,129,0.18);transform:translateX(-50%) scale(1.3);opacity:0}
-.cc-bubble.cc-pop-bad{border-color:var(--red,#ef4444);background:rgba(239,68,68,0.18);transform:translateX(-50%) scale(1.3);opacity:0}
 .cc-hud-value.cc-lives-low{color:#fca5a5}
 </style>
 </head>
@@ -3220,6 +3229,14 @@ const CC_SPAWN_MIN_MS = 650;        // spawn cadence floor once fully ramped up
 const CC_FALL_START_MS = 4800;      // how long a bubble takes top-to-bottom at round start
 const CC_FALL_MIN_MS = 2600;        // fall-duration floor once fully ramped up
 const CC_DEBOUNCE = 2000;
+// Decorative palette only (see console.css's .cc-c1..c6 + the comment above them) — picked at
+// random per bubble, with zero relationship to bubble.good, so color never hints at the right
+// answer. Pop-outcome color (green/red) is separate and handled entirely by CSS via the
+// .cc-pop-good/.cc-pop-bad classes added in ccPopBubble below.
+const CC_COLOR_CLASSES = ['cc-c1','cc-c2','cc-c3','cc-c4','cc-c5','cc-c6'];
+// Matches console.css's cc-burst-good/cc-burst-bad animation durations (280ms/320ms) so the
+// pop animation is visible before the element is removed from the DOM.
+const CC_POP_REMOVE_MS = 340;
 let ccInitialized = false;
 let ccContent = null;
 let ccBubbles = [];       // [{el, bubble}] currently on screen
@@ -3291,8 +3308,9 @@ function ccPopBubble(el, bubble){
   if(el.dataset.resolved==='1') return;
   el.dataset.resolved = '1';
   ccFreezeBubbleAt(el);
-  void el.offsetHeight; // force reflow so transition:none above actually applies before re-enabling it below
-  el.style.transition = 'transform 120ms ease, opacity 160ms ease';
+  void el.offsetHeight; // force the transition:none above to apply before the keyframe animation below starts
+  // Outcome color/animation is CSS-driven (see console.css's cc-burst-good/cc-burst-bad) —
+  // no inline transform/opacity here, just add the class and let the keyframes take over.
   if(bubble.good){
     ccScore++;
     el.classList.add('cc-pop-good');
@@ -3303,7 +3321,7 @@ function ccPopBubble(el, bubble){
   }
   ccUpdateHud();
   scheduleCcProgress();
-  setTimeout(()=>{ el.remove(); ccBubbles = ccBubbles.filter(b=>b.el!==el); }, 200);
+  setTimeout(()=>{ el.remove(); ccBubbles = ccBubbles.filter(b=>b.el!==el); }, CC_POP_REMOVE_MS);
   if(ccLives<=0) ccEndGame();
 }
 
@@ -3314,7 +3332,9 @@ function ccSpawnBubble(){
   const bubble = pool[Math.floor(Math.random()*pool.length)];
   const el = document.createElement('button');
   el.type = 'button';
-  el.className = 'cc-bubble';
+  // Decorative color is random and independent of bubble.good — see CC_COLOR_CLASSES above.
+  const colorClass = CC_COLOR_CLASSES[Math.floor(Math.random()*CC_COLOR_CLASSES.length)];
+  el.className = 'cc-bubble ' + colorClass;
   el.textContent = bubble.text;
   el.style.left = (12 + Math.random()*76) + '%';
   el.style.top = '-15%';

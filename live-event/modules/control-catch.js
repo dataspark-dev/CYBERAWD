@@ -11,6 +11,14 @@
   const CC_FALL_START_MS = 4800;
   const CC_FALL_MIN_MS = 2600;
   const CC_DURATION_MS = TIMER_SECONDS * 1000;
+  // Decorative palette only (see console.css's .cc-c1..c6 + the comment above them) — picked
+  // at random per bubble, with zero relationship to bubble.good, so color never hints at the
+  // right answer. Pop-outcome color (green/red) is separate and handled entirely by CSS via
+  // the .cc-pop-good/.cc-pop-bad classes added in popBubble below.
+  const CC_COLOR_CLASSES = ['cc-c1', 'cc-c2', 'cc-c3', 'cc-c4', 'cc-c5', 'cc-c6'];
+  // Matches console.css's cc-burst-good/cc-burst-bad animation durations (280ms/320ms) so the
+  // pop animation is visible before the element is removed from the DOM.
+  const CC_POP_REMOVE_MS = 340;
 
   let bubblePool = [];
   let rememberThisText = '';
@@ -71,8 +79,9 @@
     if (el.dataset.resolved === '1') return;
     el.dataset.resolved = '1';
     freezeBubbleAt(el);
-    void el.offsetHeight;
-    el.style.transition = 'transform 120ms ease, opacity 160ms ease';
+    void el.offsetHeight; // force the transition:none above to apply before the keyframe animation below starts
+    // Outcome color/animation is CSS-driven (see console.css's cc-burst-good/cc-burst-bad) —
+    // no inline transform/opacity here, just add the class and let the keyframes take over.
     if (bubble.good) {
       score++;
       el.classList.add('cc-pop-good');
@@ -82,7 +91,7 @@
       el.classList.add('cc-pop-bad');
     }
     updateHud();
-    setTimeout(() => { el.remove(); bubbles = bubbles.filter(b => b.el !== el); }, 200);
+    setTimeout(() => { el.remove(); bubbles = bubbles.filter(b => b.el !== el); }, CC_POP_REMOVE_MS);
     if (lives <= 0) endGame();
   }
 
@@ -91,7 +100,9 @@
     const bubble = bubblePool[Math.floor(Math.random() * bubblePool.length)];
     const el = document.createElement('button');
     el.type = 'button';
-    el.className = 'cc-bubble';
+    // Decorative color is random and independent of bubble.good — see CC_COLOR_CLASSES above.
+    const colorClass = CC_COLOR_CLASSES[Math.floor(Math.random() * CC_COLOR_CLASSES.length)];
+    el.className = 'cc-bubble ' + colorClass;
     el.textContent = bubble.text;
     el.style.left = (10 + Math.random() * 80) + '%';
     el.style.top = '-15%';
