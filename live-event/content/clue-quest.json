@@ -62,7 +62,7 @@
     },
     {
       "id": "smishing",
-      "riddle": "I am a fake text on your phone with a short link. SMS plus Phishing forms my name. What am I?",
+      "riddle": "I am a fake text message on your phone. I ask you to tap a short link about a package or an urgent account problem. What am I?",
       "answer": "SMISHING",
       "options": [
         "SMISHING",

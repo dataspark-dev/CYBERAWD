@@ -1,6 +1,6 @@
 {
   "title": "Live Social-Engineering Simulation - Virtual Environment",
-  "subtitle": "Follow the attacker's full flow: OSINT → Email → Teams/SMS → Portal → Fraud",
+  "subtitle": "Follow the attacker's full flow: Public Research (OSINT) → Email → Teams/SMS → Portal → Fraud",
   "whyThisMatters": "Real attacks rarely start with hacking. They start with a public LinkedIn profile and a guessed email address. Watching the whole chain shows how normal each step looks on its own, and how dangerous they are together.",
   "rememberThis": "One convincing message is never proof. Check using a channel the sender does not control.",
   "facilitatorNotes": {
@@ -19,7 +19,7 @@
     {
       "id": "osint-linkedin",
       "label": "01",
-      "title": "OSINT & Email Prediction",
+      "title": "Public Research (OSINT) & Email Prediction",
       "persona": "HR / Recruitment",
       "vector": "LinkedIn Recon → Predictive Email",
       "channelSummary": "LinkedIn • OSINT Tool • Email",
@@ -74,7 +74,7 @@
             "address": "hr@synergymarine-group-careers.com via amazonses.com"
           },
           "text": "Subject: Offer Letter - 2nd Marine Engineer - MV Horizon | Crew Recruitment Drive 2025 - Please review the provisional offer & onboarding checklist attached and confirm via the HR portal link by 28 Nov. Warm regards, HR Recruitment - Synergy Marine Group",
-          "meta": "Identical to real HR mail - only the domain differs: hr@synergymarine-group-careers.com (−careers added). Sent from external SES, SPF soft-fail.",
+          "meta": "Identical to real HR mail - only the domain differs: hr@synergymarine-group-careers.com (−careers added). Sent from an outside email service that failed Synergy's sender check.",
           "severity": "critical"
         },
         {
@@ -131,7 +131,7 @@
           {
             "name": "Email Security",
             "wouldStopIt": true,
-            "note": "SPF soft-fail and a lookalike address sent from an outside service are exactly what email security is built to flag before it reaches an inbox."
+            "note": "A failed sender check plus a lookalike address sent from an outside service are exactly what email security is built to flag before it reaches an inbox."
           },
           {
             "name": "MFA / Login Security",
@@ -229,7 +229,7 @@
             "initials": "⚙",
             "address": "WIN-HR-LT042 - PowerShell beacon"
           },
-          "text": "Macro runs → PowerShell → beacon to external C2. HR payroll lateral opportunity: crew PII + bank details from shared drive now reachable. No prompt shown to user beyond 'Document ready'.",
+          "text": "The macro runs a hidden script that quietly contacts the attacker's remote server. From there, the attacker can reach crew personal details and bank information stored on the shared drive. All you would see is a message saying 'Document ready'.",
           "meta": "HR/Payroll hold the most sensitive offshore docs - one enabled macro = fleet-wide PII risk.",
           "severity": "critical"
         }

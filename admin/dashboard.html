@@ -34,6 +34,28 @@
     .adm-mod-btn .adm-mod-label { font-family:'Orbitron',sans-serif; font-weight:800; font-size:var(--fs-badge); color:var(--navy); }
     .adm-mod-btn .adm-mod-desc { font-size:var(--fs-badge); color:var(--muted); line-height:1.4; }
     .adm-mod-btn .adm-mod-count { font-family:'Space Mono',monospace; font-size:var(--fs-badge); font-weight:800; color:var(--navy); background:var(--paper-2); padding:2px 6px; border-radius:6px; align-self:flex-start; }
+    /* Per-module accent colors - left-edge stripe + id-badge tint, so each of the 7 launchable
+       modules is distinguishable at a glance in the picker. Colors are drawn entirely from the
+       existing design tokens in styles/main.css (cyan/cyan-dark/sky/blue/amber/amber-2), plus one
+       literal hex for "teal" (#14b8a6) - not a new invention, it's the same teal already used for
+       Control Catch's bubble palette in console.css, just no named --teal token exists yet.
+       Uses border-left (not the border shorthand) so it layers under the existing .selected/.active
+       cyan ring instead of fighting it. */
+    .adm-mod-btn { border-left-width: 5px; }
+    .adm-mod-btn.mc-cyan { border-left-color: var(--cyan); }
+    .adm-mod-btn.mc-cyan .adm-mod-id { color: var(--cyan-dark); background: rgba(6,182,212,0.10); padding:1px 6px; border-radius:5px; }
+    .adm-mod-btn.mc-teal { border-left-color: #14b8a6; }
+    .adm-mod-btn.mc-teal .adm-mod-id { color: #0f766e; background: rgba(20,184,166,0.12); padding:1px 6px; border-radius:5px; }
+    .adm-mod-btn.mc-blue { border-left-color: var(--blue); }
+    .adm-mod-btn.mc-blue .adm-mod-id { color: var(--blue); background: rgba(0,98,255,0.10); padding:1px 6px; border-radius:5px; }
+    .adm-mod-btn.mc-sky { border-left-color: var(--sky); }
+    .adm-mod-btn.mc-sky .adm-mod-id { color: var(--sky); background: rgba(14,165,233,0.10); padding:1px 6px; border-radius:5px; }
+    .adm-mod-btn.mc-amber { border-left-color: var(--amber); }
+    .adm-mod-btn.mc-amber .adm-mod-id { color: #b45309; background: rgba(245,158,11,0.12); padding:1px 6px; border-radius:5px; }
+    .adm-mod-btn.mc-cyandark { border-left-color: var(--cyan-dark); }
+    .adm-mod-btn.mc-cyandark .adm-mod-id { color: var(--cyan-dark); background: rgba(8,145,178,0.12); padding:1px 6px; border-radius:5px; }
+    .adm-mod-btn.mc-amber2 { border-left-color: var(--amber-2); }
+    .adm-mod-btn.mc-amber2 .adm-mod-id { color: #b45309; background: rgba(240,165,0,0.14); padding:1px 6px; border-radius:5px; }
     .adm-items-list { display:grid; gap:10px; margin-top:12px; max-height:520px; overflow:auto; padding-right:4px; }
     .adm-item-row { display:flex; gap:12px; align-items:center; background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:10px 12px; }
     .adm-item-meta { flex:1; min-width:0; }
@@ -572,16 +594,26 @@
         els.pickerGrid.innerHTML = '<div class="adm-note">Failed to load modules: '+esc(e.message)+'</div>';
       }
     }
+    // Distinct accent color per module card - see the .adm-mod-btn.mc-* rules above.
+    const MOD_COLOR_CLASS = {
+      'fault-finding': 'mc-cyan',
+      'myth-vs-fact': 'mc-teal',
+      'decision-room': 'mc-blue',
+      'clue-quest': 'mc-sky',
+      'pass-phrase': 'mc-amber',
+      'crossword': 'mc-cyandark',
+      'control-catch': 'mc-amber2',
+    };
     function renderPicker(){
       if(!modulesCache.length){
         els.pickerGrid.innerHTML = '<div class="adm-note">No modules found</div>';
         return;
       }
       els.pickerGrid.innerHTML = modulesCache.map(m=>`
-        <button class="adm-mod-btn ${selectedModule===m.id?'selected':''}" data-module="${esc(m.id)}" type="button">
+        <button class="adm-mod-btn ${MOD_COLOR_CLASS[m.id]||''} ${selectedModule===m.id?'selected':''}" data-module="${esc(m.id)}" type="button">
           <span class="adm-mod-id">${esc(m.id)}</span>
           <span class="adm-mod-label">${esc(m.displayName)}</span>
-          <span class="adm-mod-desc">${esc(m.id)} - ${m.itemCount} ${m.itemCount===1?'item':'items'}${m.id==='crossword'?' · 1 grid, self-paced':(m.id==='control-catch'?' · 1 game, self-paced, 75s round':'')}</span>
+          <span class="adm-mod-desc">${esc(m.id)} - ${m.itemCount} ${m.itemCount===1?'item':'items'}${m.id==='crossword'?' · 1 grid, self-paced':(m.id==='control-catch'?' · 1 game, self-paced, 90s round':'')}</span>
           <span class="adm-mod-count">${m.itemCount} items</span>
         </button>
       `).join('');

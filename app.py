@@ -696,14 +696,12 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
 # _pp_generate_deck's own docstring for the exact per-difficulty composition.
 # Rebalanced 2026-09: deck tightened to 15 chunks (down from 20) with only 2-3 premium
 # chunks per type (upper/symbol/number) so Very Strong takes genuine thought. Char cap
-# stays at 20 (was described as "currently 20" in the rebalance brief; actual code was
-# 12 — now raised to 20 so length + variety trade-off matters while slot mechanics stay
-# identical). Deck (15) is still smaller than cap (20) only when counting single-char
-# chunks; with mixed 2-3 char fragments the deck's total char potential exceeds the cap,
-# so choice matters. See _pp_generate_deck docstring for the sharpened difficulty curve.
+# is now 15 (per request — was 12, briefly 20 during rebalance; set to 15). With mixed
+# 2-3 char fragments the deck's total char potential (~19-24) exceeds the 15 cap, so
+# choice matters but length+variety trade-off is tighter. See _pp_generate_deck docstring.
 PP_DECK_SIZE = 15
 PP_MAX_SLOTS = 12  # legacy tile-count cap, kept for backwards compat with old content
-PP_MAX_CHARS = 20  # chunk-aware cap: total characters reached, not tile count
+PP_MAX_CHARS = 15  # chunk-aware cap: total characters reached, not tile count
 PP_NAMES = ["Rahul", "Priya", "Amit", "Neha", "Arjun", "Sneha", "Vikram", "Ananya", "Rohan", "Isha", "Karan", "Meera"]
 PP_PLACES = ["Mumbai", "Delhi", "Chennai", "Kolkata", "Goa", "Pune", "Jaipur", "Kochi", "Hyderabad"]
 PP_YEARS = ["1998", "1999", "2000", "2001", "2002", "2003", "1995", "1990", "1992"]
@@ -1566,9 +1564,9 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
   font-size: var(--fs-body);
 }
 /* Deck tray: PP_DECK_SIZE (15) chunks - rebalanced 2026-09: scarce premium pool (2-3 per
-   type) so Very Strong takes choice, not tapping everything. 15 tiles = 3 full rows of 5
-   on phone (5-column grid), no dangling row — column count divides deck size evenly. Cap
-   is 20 chars, so total char potential exceeds tile count with 2-3 char fragments. */
+   type) so Very Strong takes choice. 15 tiles = 3 full rows of 5 on phone, no dangling
+   row. Cap is 15 chars — deck total ~19-24 chars exceeds cap with 2-3 char fragments,
+   so choice matters. */
 .pp-deck{
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -2723,7 +2721,7 @@ function ppComputeStrength(pw, weak){
 // and the row can never show a gap or have chunks render out of placement order.
 function ppEnsureState(item){
   if(item._ppSlots) return;
-  var maxChars = item.maxChars || item.maxSlots || 20;
+  var maxChars = item.maxChars || item.maxSlots || 15;
   var deck = item.deck || [];
   // Rebalanced: deck 15, cap 20 — with mixed 1-3 char chunks total char potential exceeds
   // cap, so choice matters. maxTiles is deck length capped by maxChars worst-case.
@@ -2807,7 +2805,7 @@ function renderPassPhrase(item){
   ppEnsureState(item);
   const built = item._ppSlots.join('');
   const result = ppComputeStrength(built, item.weakPassword||'');
-  const maxChars = item._ppMaxChars || item.maxChars || 20;
+  const maxChars = item._ppMaxChars || item.maxChars || 15;
   // tier pulse tracking
   var prevTier = item._ppPrevTier;
   var tierPulseClass = (prevTier && prevTier!==result.level) ? ' tier-pulse' : '';
@@ -2880,7 +2878,7 @@ function wirePassPhraseBuild(item){
         const idx = Number(btn.dataset.deckIdx);
         if(!item._ppDeckAvailable[idx]) return;
         // Enforce char cap even for selection preview - grey out if would exceed
-        const maxChars = item._ppMaxChars || item.maxChars || 20;
+        const maxChars = item._ppMaxChars || item.maxChars || 15;
         const curChars = item._ppSlots.join('').length;
         const chunk = item.deck[idx];
         // Only prevent selection if already at cap; allow deselection
@@ -2917,7 +2915,7 @@ function wirePassPhraseBuild(item){
         if(item._ppSelectedDeckIdx==null) return; // nothing selected - tapping an empty slot alone does nothing
         const dIdx = item._ppSelectedDeckIdx;
         const chunk = item.deck[dIdx];
-        const maxChars = item._ppMaxChars || item.maxChars || 20;
+        const maxChars = item._ppMaxChars || item.maxChars || 15;
         const curChars = item._ppSlots.join('').length;
         if(curChars + String(chunk).length > maxChars) return;
         item._ppSlots.push(chunk);
@@ -5525,4 +5523,5 @@ if __name__ == "__main__":
 #   POST   /api/session/<code>/crossword/progress {participantId, filledCount, totalCount} -> debounced ping (free-text grid)
 #   GET    /api/admin/session/<code>/crossword/progress    -> per-participant X/Y for live progress panel (~1.5s)
 #   POST   /api/admin/session/<code>/reset                 -> wipes participants/responses/state for reuse by a new group
+
 

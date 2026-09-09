@@ -90,7 +90,7 @@
       "title": "MFA Prompt Flood",
       "imagePath": "../assets/fault-finding/mfa-fatigue.svg",
       "placeholder": true,
-      "whatIsWrong": "You get many MFA approval requests that you did not ask for. The attacker hopes you will tap Approve just to make them stop.",
+      "whatIsWrong": "You get many MFA (Multi-Factor Authentication - the extra approval step after your password) requests that you did not ask for. The attacker hopes you will tap Approve just to make them stop.",
       "whyItsSuspicious": "One unexpected MFA request is worth noticing. Many requests in a few minutes means someone already has your password. They are trying to wear you down until you approve by mistake. This can happen on shore or offshore."
     }
   ]

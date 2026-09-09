@@ -10,7 +10,7 @@
     "commonWrongAnswer": "The most common mistake is stopping as soon as the meter turns green. People add just one symbol or number instead of making it longer. Many people do not value length enough over complexity."
   },
   "deckSize": 15,
-  "maxChars": 20,
+  "maxChars": 15,
   "slots": 12,
   "rounds": [
     {

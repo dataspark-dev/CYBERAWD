@@ -20,7 +20,7 @@
     },
     {
       "answer": "RANSOMWARE",
-      "clue": "Malware that locks your files and asks for payment before you can get them back"
+      "clue": "Harmful software that locks your files and asks for payment before you can get them back"
     },
     {
       "answer": "MFA",
@@ -40,7 +40,7 @@
     },
     {
       "answer": "BACKUP",
-      "clue": "A saved copy of your files that lets you recover after ransomware or a crash"
+      "clue": "A saved copy of your files that lets you recover after an attack or a crash"
     },
     {
       "answer": "FIREWALL",
@@ -85,7 +85,7 @@
       },
       {
         "answer": "RANSOMWARE",
-        "clue": "Malware that locks your files and asks for payment before you can get them back",
+        "clue": "Harmful software that locks your files and asks for payment before you can get them back",
         "row": 4,
         "col": 0,
         "direction": "across",
@@ -117,7 +117,7 @@
       },
       {
         "answer": "BACKUP",
-        "clue": "A saved copy of your files that lets you recover after ransomware or a crash",
+        "clue": "A saved copy of your files that lets you recover after an attack or a crash",
         "row": 8,
         "col": 0,
         "direction": "across",

@@ -29,7 +29,7 @@ pushed to phones.
 | 3 | Myth vs Fact | ✅ | 10 | Busts common phishing/password/social-engineering misconceptions as a True/False poll (half the items show the myth, half show the fact restated — see §7 below). |
 | 4 | Decision Room | ✅ | 10 (10 cases, each exactly one scenario → one decision → one debrief) | Incident-response scenarios — pick a response, see the consequence and the debrief, across HR/Recruitment, HR/Payroll, Finance/Accounts, Offshore Crew, and Operations personas. Merged with the former standalone "Closing Quiz"/Rapid Fire module (2026-09-08), then flattened and trimmed from 34 items/16 cases down to 10 for live facilitation (2026-09-08) — see the two notes below. |
 | 5 | Clue Quest | ✅ | 9 | Riddle → guess-the-term recall game covering terminology from earlier modules. |
-| 6 | Pass-Phrase | ✅ | 5 | Build a strong password from a rebalanced 15-chunk themed deck (scarce premium: 2-3 upper/symbol/number chunks) into a 20-char password row (chunk-aware cap, slot mechanics preserved), watching a live strength meter. Console: drag-and-drop + facilitator-only ceiling hint + once-per-round shuffle + tier-pulse animation. Phone: tap-to-place (tap deck tile, then tap slot) + same shuffle/pulse — same mechanic, touch-appropriate; see §5 for deck relation and §5a for quality ranking. |
+| 6 | Pass-Phrase | ✅ | 5 | Build a strong password from a rebalanced 15-chunk themed deck (scarce premium: 2-3 upper/symbol/number chunks) into a 15-char password row (chunk-aware cap, slot mechanics preserved), watching a live strength meter. Console: drag-and-drop + facilitator-only ceiling hint + once-per-round shuffle + tier-pulse animation. Phone: tap-to-place (tap deck tile, then tap slot) + same shuffle/pulse — same mechanic, touch-appropriate; see §5 for deck relation and §5a for quality ranking. |
 | 7 | Crossword | ✅ (self-paced) | 1 grid (11 clues / 73 letters) | Vocabulary recall, fill-in grid — no per-item push, participants (and the console) work the same 16×10 grid at their own pace. |
 | 8 | Control Catch | ✅ (self-paced) | 1 game (75s round) | Falling-bubble reflex game — tap the good security habits as they fall, let the bad ones pass; 3 lives, a personal score never shown to or compared with other participants. |
 
@@ -191,7 +191,7 @@ equivalent) onto its normalized items — `_compute_module_summary` already pick
 **Pass-Phrase is also a special case for ranking** — rebalanced 2026-09: keyed by
 `roundId` via `POST /passphrase/build` (`sess["passphraseBuilds"]`), but ranked by
 **average %-of-best**: for each round the server brute-forces the theoretical best
-achievable score from that round's specific 15-chunk deck+weak within the 20-char cap
+achievable score from that round's specific 15-chunk deck+weak within the 15-char cap
 (not a fixed 100) via `_pp_theoretical_best`, then tracks each participant's actual
 score as a % of that deck's best (e.g. "87% of best possible for this deck") in
 `admin/passphrase/progress` and `_compute_module_summary`. Admin dashboard shows
@@ -202,12 +202,12 @@ quality-based, not just completion time.
 
 **How the console's deck and the phone's deck relate:** the console (`pass-phrase.js`)
 procedurally generates a fresh random `weakPassword` + 15-chunk deck (scarce premium pool,
-cap 20) on every render via `generateWeakPassword()`/`generateDeck()` — never the same
+cap 15) on every render via `generateWeakPassword()`/`generateDeck()` — never the same
 twice, even for the same round. The phone instead reads a **fixed** `weakPassword` + `deck`
 per round from `content/pass-phrase.json`, generated **once** by
 `scripts/gen_passphrase_content.py` (which calls the Python ports of those same functions,
 `_pp_generate_weak_password`/`_pp_generate_deck` in `app.py`, using the same scarce-pool
-+ chunk-aware 20-char cap logic) so the deck stays fixed for the whole activity, like every
++ chunk-aware 15-char cap logic) so the deck stays fixed for the whole activity, like every
 other module's content, instead of reshuffling on every launch. The two surfaces will
 therefore show *different* weak passwords/decks from each other —
 by design, not a bug — but the same mechanic: a themed deck, a 12-slot password row, a live

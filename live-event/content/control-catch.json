@@ -125,7 +125,7 @@
       "text": "SMS Code Received",
       "good": true,
       "trick": true,
-      "note": "This is still real MFA. It is weaker than an app code because of SIM-swap risk. But it is far better than only a password. \"Better than nothing\" is a real upgrade."
+      "note": "This is still real MFA (Multi-Factor Authentication, a second check after your password). A text code is weaker than an app code because attackers can sometimes redirect your phone number to their own device and read the code. But it is far better than only a password. \"Better than nothing\" is a real upgrade."
     },
     {
       "id": "long-passphrase-no-symbols",

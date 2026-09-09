@@ -3,13 +3,13 @@
    chunks per deck so Very Strong takes genuine choice. Rounds provide difficulty; weak
    sample + deck (1-char singles, 2-char pairs like "Ka","Th", 3-char fragments like
    "Syn","Sec") are either static content (content/pass-phrase.json) or generated at
-   runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS = 20)
-   not tile count - a "Syn" tile counts as 3 toward the 20-char cap. Deck (15) still
+   runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS = 15)
+   not tile count - a "Syn" tile counts as 3 toward the 15-char cap. Deck (15) still
    offers real choice but no surplus. Strength meter only + facilitator hint + shuffle. */
 (function () {
   const TIMER_SECONDS = 45;
   const MAX_SLOTS = 12; // legacy tile-count cap, kept for old single-char content fallback
-  const MAX_CHARS = 20; // chunk-aware cap: total characters reached, not deck tiles (raised from 12 to 20)
+  const MAX_CHARS = 15; // chunk-aware cap: total characters reached, not deck tiles (now 15 per request)
   let rounds = [];
   let index = 0;
   let locked = false;
