@@ -37,6 +37,12 @@
   let gameOver = false;
   let startTs = 0;
   let spawnTimer = null;
+  // No-repeat spawning: ids of bubbles already popped GOOD (and thus scored) this round only -
+  // a bad pop or an untouched/fallen bubble does not retire its term, so it can still recur.
+  // This is deliberate, not an oversight: only 13 of the 28 terms are "good", so if untouched/
+  // bad terms retired too, the pool would run dry well before a 90s round ends. Reset fresh
+  // every startRound() call so a new round always has the full 28-term pool again.
+  let scoredIds = new Set();
 
   const els = {
     scoreVal: document.getElementById('ccScoreVal'),
@@ -214,6 +220,7 @@
     // no inline transform/opacity here, just add the class and let the keyframes take over.
     if (bubble.good) {
       score++;
+      scoredIds.add(bubble.id);
       el.classList.add('cc-pop-good');
     } else {
       badPops++;
@@ -225,9 +232,19 @@
     if (lives <= 0) endGame();
   }
 
+  // Draws from the not-yet-scored pool first so a term already caught correctly this round
+  // doesn't cycle back through; falls back to the full pool only if every term has been
+  // scored (28 terms / 13 good ones and ~90s round comfortably never hits this in practice -
+  // see the module doc comment at the top of this file).
+  function pickBubble() {
+    const remaining = bubblePool.filter((b) => !scoredIds.has(b.id));
+    const pool = remaining.length ? remaining : bubblePool;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
   function spawnBubble() {
     if (gameOver || !els.arena || !bubblePool.length) return;
-    const bubble = bubblePool[Math.floor(Math.random() * bubblePool.length)];
+    const bubble = pickBubble();
     const el = document.createElement('button');
     el.type = 'button';
     // Decorative color is random and independent of bubble.good - see CC_COLOR_CLASSES above.
@@ -293,6 +310,7 @@
     if (spawnTimer) clearTimeout(spawnTimer);
     els.arena.innerHTML = '';
     bubbles = [];
+    scoredIds = new Set();
     score = 0; badPops = 0; lives = 3; gameOver = false;
     if (els.gameOverWrap) els.gameOverWrap.classList.add('le-hidden');
     if (els.hint) els.hint.classList.remove('le-hidden');

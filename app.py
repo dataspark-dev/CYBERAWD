@@ -3349,6 +3349,13 @@ let ccHudTimer = null;
 let ccProgressTimer = null;
 let ccLastSentProgress = null;
 let ccFinalResult = null; // {score, badPops, livesLeft, survivedMs} - "your result" only, see showSubmittedFor
+// No-repeat spawning: ids of bubbles already popped GOOD (and thus scored) this round only - a
+// bad pop or an untouched/fallen bubble does not retire its term, so it can still recur. Only
+// 13 of the 28 terms are "good", so if untouched/bad terms retired too, the pool would run dry
+// well before a 90s round ends. Reset fresh every ccStartRound() call (see below) so a new
+// round always has the full 28-term pool again - purely client-side per participant, same as
+// the rest of this module's state, so this never needs to be synced or reset server-side.
+let ccScoredIds = new Set();
 
 // --- Audio: background music + SFX, scoped entirely to this module. Off by default; a
 // participant opts in with the mute button. Created/resumed only from a genuine tap (the
@@ -3521,6 +3528,7 @@ function ccPopBubble(el, bubble){
   // no inline transform/opacity here, just add the class and let the keyframes take over.
   if(bubble.good){
     ccScore++;
+    ccScoredIds.add(bubble.id);
     el.classList.add('cc-pop-good');
   } else {
     ccBadPops++;
@@ -3533,11 +3541,21 @@ function ccPopBubble(el, bubble){
   if(ccLives<=0) ccEndGame();
 }
 
+// Draws from the not-yet-scored pool first so a term already caught correctly this round
+// doesn't cycle back through; falls back to the full pool only if every term has been scored
+// (28 terms / 13 good ones and a ~90s round comfortably never hits this in practice - see the
+// ccScoredIds declaration above).
+function ccPickBubble(pool){
+  const remaining = pool.filter(b => !ccScoredIds.has(b.id));
+  return remaining.length ? remaining : pool;
+}
+
 function ccSpawnBubble(){
   if(ccGameOver || !els.ccArena) return;
   const pool = (ccContent && ccContent.bubbles) || [];
   if(!pool.length) return;
-  const bubble = pool[Math.floor(Math.random()*pool.length)];
+  const drawFrom = ccPickBubble(pool);
+  const bubble = drawFrom[Math.floor(Math.random()*drawFrom.length)];
   const el = document.createElement('button');
   el.type = 'button';
   // Decorative color is random and independent of bubble.good - see CC_COLOR_CLASSES above.
@@ -3643,7 +3661,7 @@ async function ensureControlCatch(){
   if(ccInitialized) return;
   ccInitialized = true;
   ccScore = 0; ccBadPops = 0; ccLives = 3; ccGameOver = false; ccFinalResult = null;
-  ccBubbles = []; ccLastSentProgress = null;
+  ccBubbles = []; ccLastSentProgress = null; ccScoredIds = new Set();
   if(els.ccGameOverWrap) els.ccGameOverWrap.classList.add('hidden');
   if(els.ccIntroHint) els.ccIntroHint.classList.remove('hidden');
   if(els.ccArena) els.ccArena.innerHTML = '';
