@@ -32,7 +32,7 @@
       <div class="le-item-counter" id="itemCounter">Round 1 of 5</div>
 
       <div class="ff-title-bar">
-        <div class="pp-theme-eyebrow">Weak to Strong - Live Builder - 20 tiles, 12-character limit</div>
+        <div class="pp-theme-eyebrow">Weak to Strong - Live Builder - 15 tiles, 20-character limit (scarce premium pool)</div>
       </div>
 
       <div class="pp-weak-row" id="weakRow">
@@ -50,13 +50,17 @@
 
       <div class="pp-stage">
         <section class="pp-password-section" aria-labelledby="ppPasswordLabel">
-          <div class="pp-section-label" id="ppPasswordLabel"><i class="fa-solid fa-lock"></i> Your Password <span id="slotCount">0 of 12 characters</span></div>
+          <div class="pp-section-label" id="ppPasswordLabel"><i class="fa-solid fa-lock"></i> Your Password <span id="slotCount">0 / 20 chars</span></div>
           <div class="pp-tiles" id="tilesContainer" aria-label="Password build row"></div>
         </section>
 
         <section class="pp-deck-section" aria-labelledby="ppDeckLabel">
-          <div class="pp-section-label" id="ppDeckLabel"><i class="fa-solid fa-layer-group"></i> Deck - 20 tiles (click a tile)</div>
+          <div class="pp-section-label" id="ppDeckLabel"><i class="fa-solid fa-layer-group"></i> Deck - 15 tiles (click a tile) <span style="margin-left:auto;font-weight:400;opacity:0.7">2-3 premium per type — choose well</span></div>
           <div class="pp-deck" id="deckContainer" aria-label="Deck tray"></div>
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;">
+            <button class="le-btn" id="shuffleBtn" type="button"><i class="fa-solid fa-shuffle"></i> Shuffle Deck (once per round)</button>
+            <span class="adm-note" style="align-self:center">Swap 3-4 unused tiles — strategic gamble</span>
+          </div>
         </section>
 
         <div class="pp-builder-card">
@@ -73,6 +77,10 @@
             </div>
             <div class="pp-crack" id="crackTime"> - </div>
           </div>
+        </div>
+        <!-- Facilitator-only ceiling hint: theoretical best with what's left — never shown to participants (phones use a different template without this element) -->
+        <div id="facilitatorHintBar" class="pp-facilitator-hint le-hidden" style="width:100%;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:10px 14px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#0c4a6e;text-align:center;">
+          <i class="fa-solid fa-eye" style="color:#0891b2;margin-right:6px;"></i><span id="hintBarText">Facilitator — ceiling with what's left: - </span> <span style="opacity:0.6;font-weight:400">— admin facilitator only, not participant-facing</span>
         </div>
 
         <div class="le-remember-card le-hidden" id="rememberCard">

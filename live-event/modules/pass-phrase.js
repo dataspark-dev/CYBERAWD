@@ -1,17 +1,21 @@
 /* Pass-Phrase - Build a Strong Password (mixed-length-chunk deck, difficulty ramp)
-   Rounds provide difficulty; weak sample + deck (1-char singles, 2-char pairs like "Ka","Th",
-   3-char fragments like "Syn","Sec") are either static content (content/pass-phrase.json) or
-   generated at runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS)
-   not tile count - a "Syn" tile counts as 3 characters toward the 12-char cap. Deck pool
-   (DECK_SIZE) is deliberately larger than that cap for real choice. Strength meter only. */
+   Rebalanced 15-chunk decks (was 20) with scarce premium pool: only 2-3 upper/symbol/number
+   chunks per deck so Very Strong takes genuine choice. Rounds provide difficulty; weak
+   sample + deck (1-char singles, 2-char pairs like "Ka","Th", 3-char fragments like
+   "Syn","Sec") are either static content (content/pass-phrase.json) or generated at
+   runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS = 20)
+   not tile count - a "Syn" tile counts as 3 toward the 20-char cap. Deck (15) still
+   offers real choice but no surplus. Strength meter only + facilitator hint + shuffle. */
 (function () {
   const TIMER_SECONDS = 45;
   const MAX_SLOTS = 12; // legacy tile-count cap, kept for old single-char content fallback
-  const MAX_CHARS = 12; // chunk-aware cap: total characters reached, not deck tiles
+  const MAX_CHARS = 20; // chunk-aware cap: total characters reached, not deck tiles (raised from 12 to 20)
   let rounds = [];
   let index = 0;
   let locked = false;
   let timer = null;
+  let prevTierLevel = null;
+  let shuffleUsed = false;
 
   let passwordChunks = []; // array of chunks (each is 1-3 char string) placed in password row
   let deckChunks = []; // array of remaining deck chunks
@@ -23,12 +27,11 @@
   let deckChars = deckChunks;
 
   // ----- Pools - meaningful weak templates + mixed-length chunk deck -----
-  // Deck is DECK_SIZE mixed chunks: some 3-char fragments ("Syn","Sec"), some 2-char
-  // syllable pairs ("Ka","Ri","Th","on"), some single letters, some 1-char symbols/numbers.
-  // Easy->hard progression shifts the length mix (see generateDeck below), and DECK_SIZE
-  // itself is deliberately larger than MAX_CHARS so the deck offers real choice rather than
-  // forcing near-every tile into the build row.
-  const DECK_SIZE = 20;
+  // Rebalanced deck is 15 mixed chunks: 1-3 char fragments + 2-char pairs + singles.
+  // Easy leans on more 3-char fragments (length fast), hard on fewer + weak-contaminated
+  // filler so Very Strong needs deliberate premium picks. Only 2-3 upper/symbol/number
+  // singles per deck — scarce by design (see app.py _pp_generate_deck docstring).
+  const DECK_SIZE = 15;
   const NAMES = ["Rahul","Priya","Amit","Neha","Arjun","Sneha","Vikram","Ananya","Rohan","Isha","Karan","Meera"];
   const PLACES = ["Mumbai","Delhi","Chennai","Kolkata","Goa","Pune","Jaipur","Kochi","Hyderabad"];
   const YEARS = ["1998","1999","2000","2001","2002","2003","1995","1990","1992"];
@@ -91,12 +94,10 @@
   }
 
   function generateDeck(difficulty, weak){
-    // Mixed-length-chunk deck (DECK_SIZE, larger than MAX_CHARS): 3-char fragments + 2-char
-    // pairs + 1-char singles/symbols/numbers. Difficulty shifts the LENGTH MIX: easy leans on
-    // more 2-3 char recognizable fragments, hard leans on more standalone 1-char symbol/digit
-    // chunks. lowerNeeded is always the remainder (DECK_SIZE - chunks so far), so every branch
-    // sums to exactly DECK_SIZE before the final shuffle+slice regardless of which random
-    // sub-branch fires - mirrors _pp_generate_deck in app.py exactly.
+    // Rebalanced 15-chunk deck - scarce premium pool (2-3 per type) + difficulty-shaped
+    // length mix. Easy: 3×3-char +3×2-char (length fast), Medium: 2×3+3×2, Hard:
+    // 1×3+2×2 plus weak-contaminated filler so optimal must dodge weak penalty.
+    // Mirrors _pp_generate_deck in app.py exactly.
     var hasUpper = /[A-Z]/.test(weak);
     var hasNum = /[0-9]/.test(weak);
     var hasSym = /[^A-Za-z0-9]/.test(weak);
@@ -105,29 +106,29 @@
     var missingSym = !hasSym;
     var threeCount, twoCount, upperCount, symCount, numCount, allowDup;
     if(difficulty === 'easy'){
-      threeCount = 4;
-      twoCount = 6;
-      upperCount = missingUpper ? 3 : 2;
-      symCount = missingSym ? 3 : 2;
-      numCount = 2;
-      allowDup = false;
-    } else if(difficulty === 'medium'){
       threeCount = 3;
-      twoCount = 5;
+      twoCount = 3;
       upperCount = 2;
       symCount = 2;
       numCount = 2;
-      allowDup = Math.random() < 0.2;
-    } else {
+      allowDup = false;
+    } else if(difficulty === 'medium'){
       threeCount = 2;
       twoCount = 3;
+      upperCount = 2;
+      symCount = 2;
+      numCount = 2;
+      allowDup = false;
+    } else {
+      threeCount = 1;
+      twoCount = 2;
       upperCount = 1;
-      if(missingSym && Math.random() < 0.5) upperCount = 2;
+      if(missingUpper && Math.random() < 0.4) upperCount = 2;
       symCount = 1;
       if(missingSym && Math.random() < 0.5) symCount = 2;
       numCount = 1;
-      if(missingNum && Math.random() < 0.4) numCount = 2;
-      allowDup = true;
+      if(missingNum && Math.random() < 0.35) numCount = 2;
+      allowDup = Math.random() < 0.3;
     }
     var deck = [];
     deck = deck.concat(randomChunks(CHUNK_THREE_POOL, threeCount, allowDup));
@@ -139,8 +140,6 @@
     lowerNeeded = Math.max(2, lowerNeeded);
 
     if(difficulty === 'hard'){
-      // Harder rounds pad out with more STANDALONE 1-char symbol/digit chunks (not just
-      // lowercase filler) so simply concatenating a couple of fragments isn't enough.
       var weakLowers = weak.split('').filter(function(c){ return /[a-z]/.test(c); });
       var lowers = [];
       for(var i=0;i<lowerNeeded;i++){
@@ -156,19 +155,29 @@
         }
       }
       for(var d=0; d<2; d++){
-        if(Math.random() < 0.6 && deck.length){
+        if(Math.random() < 0.5 && deck.length){
           var dup = deck[Math.floor(Math.random()*deck.length)];
           lowers[d % lowers.length] = dup;
         }
       }
       deck = deck.concat(lowers);
+    } else if(difficulty === 'medium'){
+      var weakLowersM = weak.split('').filter(function(c){ return /[a-z]/.test(c); });
+      var lowersM = [];
+      for(var i=0;i<lowerNeeded;i++){
+        if(weakLowersM.length && Math.random() < 0.18) lowersM.push(weakLowersM[Math.floor(Math.random()*weakLowersM.length)]);
+        else lowersM.push(LOWER_POOL[Math.floor(Math.random()*LOWER_POOL.length)]);
+      }
+      deck = deck.concat(lowersM);
     } else {
       deck = deck.concat(randomChars(LOWER_POOL, lowerNeeded, allowDup));
     }
-    // Ensure exactly DECK_SIZE and shuffle, but keep helpful chars visible
     deck = shuffled(deck).slice(0, DECK_SIZE);
-    // Guarantee at least one of each missing type is present for easy/medium
     if(difficulty !== 'hard'){
+      if(missingUpper && !deck.some(function(c){ return /[A-Z]/.test(c); })) deck[0] = pickRandom(UPPER_POOL);
+      if(missingSym && !deck.some(function(c){ return /[^A-Za-z0-9]/.test(c); })) deck[1] = pickRandom(SYM_POOL);
+      if(missingNum && !deck.some(function(c){ return /[0-9]/.test(c); })) deck[2] = pickRandom(NUM_POOL);
+    } else {
       if(missingUpper && !deck.some(function(c){ return /[A-Z]/.test(c); })) deck[0] = pickRandom(UPPER_POOL);
       if(missingSym && !deck.some(function(c){ return /[^A-Za-z0-9]/.test(c); })) deck[1] = pickRandom(SYM_POOL);
       if(missingNum && !deck.some(function(c){ return /[0-9]/.test(c); })) deck[2] = pickRandom(NUM_POOL);
@@ -196,7 +205,10 @@
     introScreen: document.getElementById('introScreen'),
     activityBody: document.getElementById('activityBody'),
     introText: document.getElementById('introText'),
-    introStartBtn: document.getElementById('introStartBtn')
+    introStartBtn: document.getElementById('introStartBtn'),
+    hintBar: document.getElementById('facilitatorHintBar'),
+    hintText: document.getElementById('hintBarText'),
+    shuffleBtn: document.getElementById('shuffleBtn')
   };
   let rememberThisText = '';
   let contentData = null;
@@ -264,6 +276,88 @@
     return {score:score, checks:checks, label:label, level:level, color:color, crack:crack};
   }
 
+  // Theoretical best for this round's deck (admin facilitator hint - brute force 2^15)
+  function computeTheoreticalBest(deck, weak){
+    var n = deck.length;
+    var best = {score:0, label:'Weak', level:'weak'};
+    if(n <= 16){
+      var totalMasks = 1 << n;
+      for(var mask=0; mask<totalMasks; mask++){
+        var pw = '';
+        var len = 0;
+        var ok = true;
+        for(var i=0;i<n;i++) if((mask>>i)&1){
+          var ch = String(deck[i]);
+          len += ch.length;
+          if(len > MAX_CHARS){ ok=false; break; }
+          pw += ch;
+        }
+        if(!ok) continue;
+        var res = computeStrength(pw, weak);
+        if(res.score > best.score){
+          best = res;
+          best.password = pw;
+          if(best.score===100) break;
+        }
+      }
+      return best;
+    }
+    // fallback sampling
+    var bestScore=0, bestRes={score:0,label:'Weak',level:'weak'};
+    for(var s=0;s<1200;s++){
+      var pw2='';
+      for(var i=0;i<n;i++) if(Math.random()<0.5) pw2+=String(deck[i]);
+      if(pw2.length>MAX_CHARS) pw2=pw2.slice(0,MAX_CHARS);
+      var r2=computeStrength(pw2, weak);
+      if(r2.score>bestScore){ bestScore=r2.score; bestRes=r2; bestRes.password=pw2; }
+    }
+    return bestRes;
+  }
+  function computeCeilingWithRemaining(currentPw, remainingDeck, weak){
+    var curLen = currentPw.length;
+    if(curLen >= MAX_CHARS) return computeStrength(currentPw, weak);
+    var best = computeStrength(currentPw, weak);
+    var n = remainingDeck.length;
+    if(n===0) return best;
+    if(n <= 15){
+      var totalMasks = 1 << n;
+      for(var mask=0; mask<totalMasks; mask++){
+        var add='';
+        var addLen=0;
+        var ok=true;
+        for(var i=0;i<n;i++) if((mask>>i)&1){
+          var ch=String(remainingDeck[i]);
+          addLen+=ch.length;
+          if(curLen+addLen > MAX_CHARS){ ok=false; break; }
+          add+=ch;
+        }
+        if(!ok) continue;
+        var pw = currentPw + add;
+        var res = computeStrength(pw, weak);
+        if(res.score > best.score){
+          best=res;
+          if(best.score===100) break;
+        }
+      }
+      return best;
+    }
+    return best;
+  }
+  function updateFacilitatorHint(){
+    if(!els.hintBar || !els.hintText) return;
+    // Admin-only hint: show theoretical ceiling given what's left (remaining deck + current)
+    var pw = getPasswordStr();
+    var ceiling = computeCeilingWithRemaining(pw, deckChunks.slice(), currentWeak);
+    var bestOverall = computeTheoreticalBest(deckChunks.concat(passwordChunks), currentWeak);
+    // deckChunks+passwordChunks is the full original deck for this round
+    var overallBestScore = bestOverall.score;
+    var pct = overallBestScore ? Math.round((ceiling.score / overallBestScore)*100) : 0;
+    var curScore = computeStrength(pw, currentWeak).score;
+    var curPct = overallBestScore ? Math.round((curScore / overallBestScore)*100) : 0;
+    els.hintText.textContent = 'Facilitator — ceiling with what\'s left: ' + ceiling.score + ' /100 (' + ceiling.label + ', ' + pct + '% of round best ' + overallBestScore + ') · current: ' + curScore + ' (' + curPct + '% of best) · overall best: ' + overallBestScore + ' (' + bestOverall.label + ')';
+    els.hintBar.classList.remove('le-hidden');
+  }
+
   function getPasswordStr(){ return passwordChunks.join(''); }
   function getTotalChars(){ return getPasswordStr().length; }
 
@@ -285,11 +379,33 @@
     els.tiles.style.background=result.level==='weak' ? '#fef2f2' : result.level==='fair' ? '#fffbeb' : result.level==='strong' || result.level==='very-strong' ? '#f0fdf4' : '#fff';
     if(getTotalChars()>=MAX_CHARS) els.tiles.classList.add('is-full');
     else els.tiles.classList.remove('is-full');
+    // Tier-crossing pulse animation — brief flash on the meter bar itself
+    if(prevTierLevel && prevTierLevel !== result.level){
+      els.meterFill.classList.remove('tier-pulse');
+      // force reflow to restart animation
+      void els.meterFill.offsetWidth;
+      els.meterFill.classList.add('tier-pulse');
+      els.tiles.classList.remove('tier-pulse');
+      void els.tiles.offsetWidth;
+      els.tiles.classList.add('tier-pulse');
+      setTimeout(function(){
+        if(els.meterFill) els.meterFill.classList.remove('tier-pulse');
+        if(els.tiles) els.tiles.classList.remove('tier-pulse');
+      }, 700);
+    }
+    prevTierLevel = result.level;
     var canSolve=(result.level==='strong' || result.level==='very-strong') && !locked;
     els.solvedBtn.disabled=!canSolve;
     if(canSolve) els.solvedBtn.classList.add('pulse-highlight');
     else els.solvedBtn.classList.remove('pulse-highlight');
     if(els.deck) els.deck.classList.toggle('deck-full', getTotalChars()>=MAX_CHARS);
+    // Facilitator-only ceiling hint (admin view, not participant-facing)
+    try{ updateFacilitatorHint(); }catch(e){}
+    // shuffle button state
+    if(els.shuffleBtn){
+      els.shuffleBtn.disabled = locked || shuffleUsed || deckChunks.length===0;
+      els.shuffleBtn.style.opacity = (locked || shuffleUsed) ? '0.45' : '1';
+    }
     return result;
   }
 
@@ -511,6 +627,45 @@
   }
   initDrops();
 
+  function doShuffle(){
+    if(locked || shuffleUsed) return;
+    if(deckChunks.length < 3) return;
+    // Swap 3-4 unused deck chunks for fresh ones (same difficulty pool mix)
+    var r = rounds[index];
+    var difficulty = (r && r.difficulty) || 'medium';
+    var count = Math.min(4, Math.max(3, Math.floor(Math.random()*2)+3));
+    count = Math.min(count, deckChunks.length);
+    // Preserve current deck's composition pools for shuffle: pick fresh random chunks
+    // from same pools (upper/symbol/num/lower) to keep difficulty curve intact.
+    var fresh = [];
+    // Use generateDeck helper pools: for simplicity, generate a fresh deck and take first `count`
+    // unused-like chunks that are not already in remaining deck to ensure variety.
+    var tmpWeak = currentWeak || generateWeakPassword(difficulty);
+    var tmpDeck = generateDeck(difficulty, tmpWeak);
+    // Filter tmpDeck to chunks not already abundant in current deck (avoid duplicate flood)
+    var available = tmpDeck.filter(function(ch){ return deckChunks.indexOf(ch)===-1; });
+    if(available.length < count) available = tmpDeck.slice();
+    available = shuffled(available);
+    fresh = available.slice(0, count);
+    // Replace: pick random indices in deckChunks to swap
+    var idxs = [];
+    while(idxs.length < count){
+      var rIdx = Math.floor(Math.random()*deckChunks.length);
+      if(idxs.indexOf(rIdx)===-1) idxs.push(rIdx);
+    }
+    idxs.forEach(function(idx, j){
+      deckChunks[idx] = fresh[j % fresh.length];
+    });
+    shuffleUsed = true;
+    if(els.shuffleBtn){
+      els.shuffleBtn.disabled = true;
+      els.shuffleBtn.innerHTML = '<i class="fa-solid fa-shuffle"></i> Shuffled (1/1 used)';
+    }
+    renderDeck();
+    updateStrength();
+  }
+  if(els.shuffleBtn) els.shuffleBtn.addEventListener('click', doShuffle);
+
   function renderRound(){
     var r=rounds[index];
     if(!r) return;
@@ -529,6 +684,12 @@
     passwordChunks=[];
     passwordChars = passwordChunks; deckChars = deckChunks;
     locked=false;
+    shuffleUsed=false;
+    prevTierLevel=null;
+    if(els.shuffleBtn){
+      els.shuffleBtn.disabled=false;
+      els.shuffleBtn.innerHTML='<i class="fa-solid fa-shuffle"></i> Shuffle Deck (once per round)';
+    }
     if(els.weakText) els.weakText.textContent=currentWeak;
     if(els.weakMeta){
       var hint = r.hint || '';

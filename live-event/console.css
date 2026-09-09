@@ -1924,6 +1924,22 @@ body {
   border-radius: 999px;
   transition: width var(--dur-panel) var(--ease-standard), background var(--dur-panel) var(--ease-standard);
 }
+@keyframes pp-tier-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(6,182,212,0.0); filter: brightness(1); }
+  30% { box-shadow: 0 0 0 8px rgba(6,182,212,0.28); filter: brightness(1.18); }
+  100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.0); filter: brightness(1); }
+}
+.pp-meter-fill.tier-pulse {
+  animation: pp-tier-pulse 0.62s ease-out;
+}
+@keyframes pp-tiles-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(6,182,212,0.0); }
+  35% { box-shadow: 0 0 0 6px rgba(6,182,212,0.22); }
+  100% { box-shadow: 0 0 0 0 rgba(6,182,212,0.0); }
+}
+.pp-tiles.tier-pulse {
+  animation: pp-tiles-pulse 0.62s ease-out;
+}
 .pp-meter-labels {
   display: flex;
   justify-content: space-between;
@@ -2542,30 +2558,47 @@ body {
   border: 2px solid rgba(6, 182, 212, 0.5); background: rgba(255,255,255,0.97); color: var(--navy);
   box-shadow: 0 4px 14px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -6px 10px rgba(15,23,42,0.05);
   cursor: pointer; user-select: none;
-  transition: top linear, transform 140ms ease, box-shadow 140ms ease;
+  /* `top` drives the actual fall (JS sets transition-duration + target per bubble) on a gentle
+     ease rather than linear, so the descent doesn't feel mechanical. `transform` is owned by
+     the idle wobble animation below at rest, and by the pop-burst keyframes the instant a
+     bubble is tapped — .cc-bubble.cc-pop-good/bad below is a more specific selector than the
+     bare .cc-bubble wobble rule, so it wins the `animation` property outright with no manual
+     hand-off needed in JS. */
+  transition: top cubic-bezier(0.4, 0, 0.6, 1), box-shadow 140ms ease;
+  animation: cc-wobble 2.6s ease-in-out infinite;
 }
-.cc-bubble:hover { transform: translateX(-50%) scale(1.06); box-shadow: 0 6px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -6px 10px rgba(15,23,42,0.05); }
+.cc-bubble:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -6px 10px rgba(15,23,42,0.05); }
+/* Idle drift — a small side-to-side sway + tilt while falling, so bubbles read as buoyant
+   rather than sliding down a rigid straight line. Purely decorative (transform only, no
+   layout cost); keeps the -50% centering baked into every keyframe step via calc() so it
+   never visually "jumps" back to center when the animation loops. */
+@keyframes cc-wobble {
+  0% { transform: translateX(calc(-50% - 7px)) rotate(-2deg); }
+  50% { transform: translateX(calc(-50% + 7px)) rotate(2deg); }
+  100% { transform: translateX(calc(-50% - 7px)) rotate(-2deg); }
+}
 /* Decorative color palette — purely cosmetic, assigned independently of the bubble's own
    good/bad field (see ccSpawnBubble in app.py and spawnBubble in control-catch.js: the color
    class is picked from this pool at random, with zero relationship to `bubble.good`). This is
    deliberate: if color ever correlated with correctness — even loosely — participants would
-   learn to tap by color instead of reading the label, which defeats the whole module. Reuses
-   the app's own brand hues (same family as the module-card v-blue/v-purple/v-sky/v-amber
-   variants); red/green are excluded from this pool on purpose since those are reserved
-   exclusively for the POST-tap outcome flash below (.cc-pop-good/.cc-pop-bad), never a pre-tap
-   hint. All six tints stay light (background is a near-white gradient with a faint tint, not a
-   saturated fill) so the single dark navy text color keeps solid contrast against every one. */
+   learn to tap by color instead of reading the label, which defeats the whole module. All six
+   stay within the app's cyan/teal/sky/amber family (no blue/purple outliers) so the bubbles
+   read as one cohesive set rather than a random assortment; red/green are excluded from this
+   pool on purpose since those are reserved exclusively for the POST-tap outcome flash below
+   (.cc-pop-good/.cc-pop-bad), never a pre-tap hint. All six tints stay light (background is a
+   near-white gradient with a faint tint, not a saturated fill) so the single dark navy text
+   color keeps solid contrast against every one. */
 .cc-bubble.cc-c1 { border-color: rgba(6,182,212,0.55); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(6,182,212,0.16)); }
-.cc-bubble.cc-c2 { border-color: rgba(0,98,255,0.5); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(0,98,255,0.14)); }
+.cc-bubble.cc-c2 { border-color: rgba(8,145,178,0.55); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(8,145,178,0.16)); }
 .cc-bubble.cc-c3 { border-color: rgba(14,165,233,0.55); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(14,165,233,0.16)); }
-.cc-bubble.cc-c4 { border-color: rgba(124,58,237,0.5); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(124,58,237,0.14)); }
+.cc-bubble.cc-c4 { border-color: rgba(20,184,166,0.55); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(20,184,166,0.16)); }
 .cc-bubble.cc-c5 { border-color: rgba(245,158,11,0.55); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(245,158,11,0.18)); }
-.cc-bubble.cc-c6 { border-color: rgba(8,145,178,0.55); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(8,145,178,0.16)); }
+.cc-bubble.cc-c6 { border-color: rgba(251,191,36,0.55); background: linear-gradient(155deg, rgba(255,255,255,0.98), rgba(251,191,36,0.18)); }
 /* Outcome feedback — ONLY ever applied after a tap, so color-as-signal here is fine (it's
    telling the participant what just happened, not hinting what to do next). Good = a bright
    green glow that blooms outward then fades, reading as a satisfying "catch". Bad = a red
    flash with a quick shake, reading as a "hit" — both fully replace whatever decorative cc-cN
-   color the bubble happened to be wearing. */
+   color (and the idle wobble) the bubble happened to be wearing, per the specificity note above. */
 @keyframes cc-burst-good {
   0% { transform: translateX(-50%) scale(1); box-shadow: 0 0 0 0 rgba(16,185,129,0); }
   35% { transform: translateX(-50%) scale(1.35); box-shadow: 0 0 26px 10px rgba(16,185,129,0.5); }
@@ -2586,6 +2619,32 @@ body {
   border-color: var(--red) !important; background: rgba(239,68,68,0.24) !important;
   animation: cc-burst-bad 320ms ease-out forwards;
 }
+/* Burst ring — a short-lived sibling element (not the bubble itself), spawned at the bubble's
+   own center the instant it's tapped, so the pop reads as more than a flat color change: a
+   thin ring expands outward and fades over ~250ms, then removes itself. transform+opacity
+   only (no layout properties), so it's cheap even if several pop in quick succession. */
+.cc-burst-ring {
+  position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%;
+  pointer-events: none; box-sizing: border-box;
+  animation: cc-ring-pop 260ms ease-out forwards;
+}
+.cc-burst-ring.cc-ring-good { border: 3px solid var(--green); box-shadow: 0 0 14px rgba(16,185,129,0.55); }
+.cc-burst-ring.cc-ring-bad { border: 3px solid var(--red); box-shadow: 0 0 14px rgba(239,68,68,0.55); }
+@keyframes cc-ring-pop {
+  0% { transform: scale(0.3); opacity: 0.9; }
+  100% { transform: scale(6.5); opacity: 0; }
+}
 .cc-console-gameover { padding: 14px 24px; border-radius: var(--r-lg); background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4); }
 .cc-console-gameover-title { font-family: 'Orbitron', sans-serif; font-weight: 900; letter-spacing: 1px; color: var(--green); }
 .cc-console-gameover-stats { margin-top: 6px; font-family: 'Space Mono', monospace; font-size: var(--fs-badge); color: var(--le-text, #fff); }
+/* Mute toggle — small icon-only button, same tappable-affordance conventions as the rest of the
+   HUD. Shared shape for both console (desktop) and phone (mobile-scale override lives in
+   app.py's own embedded CSS, matching the existing .cc-bubble split). */
+.cc-mute-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+  background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--muted);
+  cursor: pointer; font-size: var(--fs-body); transition: background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+.cc-mute-btn:hover { border-color: var(--cyan); color: var(--cyan-dark); }
+.cc-mute-btn.cc-sound-on { color: var(--cyan-dark); border-color: rgba(6,182,212,0.5); background: rgba(6,182,212,0.1); }

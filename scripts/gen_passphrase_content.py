@@ -25,6 +25,11 @@ def main():
     with open(CONTENT_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
 
+    # Keep top-level caps in sync with app.py's rebalanced constants (deck 15, cap 20)
+    data["deckSize"] = appmod.PP_DECK_SIZE
+    data["maxChars"] = appmod.PP_MAX_CHARS
+    data["slots"] = appmod.PP_MAX_SLOTS
+
     for r in data["rounds"]:
         difficulty = r["difficulty"]
         weak = appmod._pp_generate_weak_password(difficulty)

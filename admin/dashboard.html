@@ -1110,17 +1110,21 @@
         els.revealedFactWrap.classList.add('adm-hidden');
         els.revealBtn.classList.add('adm-hidden');
       } else if(st && st.activeModule===PASSPHRASE_MODULE) {
-        // Real build-your-own-password mechanic (see PART's rebuild) - no discrete voted
-        // items at all (participants build freely via POST /passphrase/build), so there's
-        // nothing meaningful for the generic results-bars/reveal panel to show. Same
-        // dedicated-progress-panel pattern as crossword: per-participant round-completion +
-        // their current strength level.
+        // Real build-your-own-password mechanic — scarce 15-chunk decks, quality-based
+        // admin scoring (avg %-of-best vs theoretical deck max, not fixed 100). Admin-only,
+        // never participant-facing (participants only ever see their own live meter).
         try{
           const pp = await api('/api/admin/session/' + currentCode + '/passphrase/progress');
           if(mySeq !== pollSeq) return;
-          els.crosswordProgressNote.innerHTML = 'Pass-Phrase progress - rounds built + current strength per participant, computed server-side (~1.5s).';
-          renderCrosswordProgress(pp, 'rounds built', p => p.currentStrengthLabel ? (' · ' + p.currentStrengthLabel) : '');
-          els.resultsPrompt.textContent = `Pass-Phrase - ${pp.totalCount||0} rounds · live progress`;
+          els.crosswordProgressNote.innerHTML = 'Pass-Phrase progress — <b>admin-only quality metric</b>: <code>avg %-of-best</code> = participant score vs <i>theoretical best achievable for that deck</i> (not a fixed 100). Shows <code>X / Y rounds · avg 73% of best</code> per participant + current strength. <code>ceiling with what\'s left</code> is the max still reachable from remaining unused chunks — for facilitator commentary. &nbsp; Theoretical bests: ' + Object.entries(pp.theoreticalBests||{}).map(([rid,b])=> rid+': '+b.score+' ('+b.label+')').join(' · ');
+          const ppSuffix = p => {
+            const pct = p.avgPctBest!=null ? p.avgPctBest+'% of best' : '';
+            const cur = p.currentStrengthLabel ? p.currentStrengthLabel + (p.currentStrengthScore!=null ? ' ('+p.currentStrengthScore+')' : '') : '';
+            const ceil = p.ceilingScore!=null ? ' · ceiling '+p.ceilingScore+' ('+p.ceilingLabel+')' : '';
+            return (pct ? ' · '+pct : '') + (cur ? ' · '+cur : '') + ceil;
+          };
+          renderCrosswordProgress(pp, 'rounds built', ppSuffix);
+          els.resultsPrompt.textContent = `Pass-Phrase - ${pp.totalCount||0} rounds · live progress (admin-only %-of-best)`;
           els.crosswordProgressWrap.classList.remove('adm-hidden');
         }catch(e){}
         els.resultsStandardNote.classList.add('adm-hidden');

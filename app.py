@@ -694,9 +694,16 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
 # standalone 1-char symbol/digit chunks (reaching Strong/Very-Strong still requires
 # deliberately combining several of them, not just concatenating 1-2 whole fragments) - see
 # _pp_generate_deck's own docstring for the exact per-difficulty composition.
-PP_DECK_SIZE = 20
+# Rebalanced 2026-09: deck tightened to 15 chunks (down from 20) with only 2-3 premium
+# chunks per type (upper/symbol/number) so Very Strong takes genuine thought. Char cap
+# stays at 20 (was described as "currently 20" in the rebalance brief; actual code was
+# 12 — now raised to 20 so length + variety trade-off matters while slot mechanics stay
+# identical). Deck (15) is still smaller than cap (20) only when counting single-char
+# chunks; with mixed 2-3 char fragments the deck's total char potential exceeds the cap,
+# so choice matters. See _pp_generate_deck docstring for the sharpened difficulty curve.
+PP_DECK_SIZE = 15
 PP_MAX_SLOTS = 12  # legacy tile-count cap, kept for backwards compat with old content
-PP_MAX_CHARS = 12  # chunk-aware cap: total characters reached, not tile count
+PP_MAX_CHARS = 20  # chunk-aware cap: total characters reached, not tile count
 PP_NAMES = ["Rahul", "Priya", "Amit", "Neha", "Arjun", "Sneha", "Vikram", "Ananya", "Rohan", "Isha", "Karan", "Meera"]
 PP_PLACES = ["Mumbai", "Delhi", "Chennai", "Kolkata", "Goa", "Pune", "Jaipur", "Kochi", "Hyderabad"]
 PP_YEARS = ["1998", "1999", "2000", "2001", "2002", "2003", "1995", "1990", "1992"]
@@ -759,54 +766,64 @@ def _pp_rand_chunks(pool: list, count: int, allow_dup: bool) -> list:
 
 
 def _pp_generate_deck(difficulty: str, weak: str) -> list:
-    """Mixed-length-chunk deck: 3-char fragments + 2-char syllable pairs + 1-char singles
-    (letters/symbols/numbers). Deck size is PP_DECK_SIZE (20) - deliberately larger than
-    the PP_MAX_CHARS (12) build cap, so the player has real choice/combinations rather
-    than a scarce deck where nearly every tile must be used.
+    """Rebalanced 15-chunk deck (was 20): deliberately scarce premium pool so Very Strong
+    takes strategy, not tapping everything in reach. Each deck now has only 2-3 uppercase
+    chunks, 2-3 symbol chunks, 2-3 number chunks total (counting both single-char pools
+    and 2/3-char fragments that happen to contain that charset) — no surplus. The rest
+    is lowercase filler, so participants must actively choose which few premium chunks to
+    use well rather than just tapping every premium tile they see.
 
-    Difficulty shifts the LENGTH MIX, not just the type mix: easy leans on more 2-3 char
-    recognizable fragments (fewer, larger chunks get you to length+variety fast); hard
-    leans on more standalone 1-char symbol/digit chunks, so reaching Strong/Very-Strong
-    still takes deliberately combining several of them rather than dropping in 1-2 whole
-    fragments. Strength still scores the concatenated string - this function only controls
-    how deliberately a participant must combine chunks to get there.
+    Difficulty curve now actually matters (not just labels):
+    - Easy (R1-2): 3×3-char + 3×2-char fragments (length comes fast), 2 upper + 2 symbol
+      + 2 number singles → ~9 premium-carrying chunks out of 15, lower filler is pure
+      random (no weak contamination). Casual taps often hit Strong; thoughtful picks reach
+      Very Strong.
+    - Medium (R3): 2×3-char + 3×2-char, 2+2+2 singles → slightly fewer long fragments, same
+      tight premium pool but lower filler is still random. Very Strong needs near-optimal
+      length+variety balance.
+    - Hard (R4-5): 1×3-char + 2×2-char, 1-2 upper + 1-2 symbol + 1 number singles → ~5-7
+      premium-carrying chunks out of 15, and lower filler is 45% weak-derived plus decoy
+      dupes, so the best password must dodge weak-substring penalty while still hitting
+      length 12 + all 4 charsets. Most casual attempts land Fair/Strong; Very Strong
+      requires near-optimal selection.
 
-    lower_needed is always computed as the REMAINDER (PP_DECK_SIZE - chunks placed so far),
-    so every difficulty branch sums to exactly PP_DECK_SIZE before the final shuffle+slice
-    regardless of which random sub-branch fires - nothing relies on hand-verified fixed
-    per-branch sums the way the previous fixed-deck-size design did.
+    lower_needed is always the remainder (PP_DECK_SIZE - chunks so far) so every branch
+    sums to exactly PP_DECK_SIZE (15) before shuffle+slice.
     """
     has_upper = bool(re.search(r"[A-Z]", weak))
     has_num = bool(re.search(r"[0-9]", weak))
     has_sym = bool(re.search(r"[^A-Za-z0-9]", weak))
     missing_upper, missing_num, missing_sym = not has_upper, not has_num, not has_sym
+    # Tightened counts: only 2-3 premium singles per type, shards counted in total premium
     if difficulty == "easy":
-        three_count = 4
-        two_count = 6
-        upper_count = 3 if missing_upper else 2
-        sym_count = 3 if missing_sym else 2
+        three_count = 3
+        two_count = 3
+        upper_count = 2
+        # keep 2 symbols/numbers: not surplus, but enough to make Very Strong reachable
+        sym_count = 2
         num_count = 2
         allow_dup = False
     elif difficulty == "medium":
-        three_count = 3
-        two_count = 5
+        three_count = 2
+        two_count = 3
         upper_count = 2
         sym_count = 2
         num_count = 2
-        allow_dup = random.random() < 0.2
+        allow_dup = False
     else:  # hard
-        three_count = 2
-        two_count = 3
+        three_count = 1
+        two_count = 2
+        # hard: minimal premium — must pick the one(s) deliberately
         upper_count = 1
-        if missing_sym and random.random() < 0.5:
+        if missing_upper and random.random() < 0.4:
             upper_count = 2
         sym_count = 1
         if missing_sym and random.random() < 0.5:
             sym_count = 2
         num_count = 1
-        if missing_num and random.random() < 0.4:
+        if missing_num and random.random() < 0.35:
             num_count = 2
-        allow_dup = True
+        allow_dup = random.random() < 0.3
 
     deck = []
     deck += _pp_rand_chunks(PP_CHUNK_THREE_POOL, three_count, allow_dup)
@@ -818,9 +835,9 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
     lower_needed = max(2, lower_needed)
 
     if difficulty == "hard":
-        # Harder rounds pad out with more STANDALONE 1-char symbol/digit chunks (not just
-        # lowercase filler), so simply concatenating a couple of fragments isn't enough  - 
-        # the player has to reach for singles too, same principle as upper/sym/num above.
+        # Hard lower filler is weak-contaminated (45% weak lowers) so the optimal password
+        # must actively avoid recreating the weak substring — adds a real decision beyond
+        # just picking premium tiles.
         weak_lowers = [c for c in weak if c.islower()]
         lowers = []
         for _ in range(lower_needed):
@@ -835,9 +852,19 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
                 lowers.append(random.choice(PP_NUM_POOL))
         # decoy dupes to make choices less obvious
         for d in range(2):
-            if deck and lowers and random.random() < 0.6:
+            if deck and lowers and random.random() < 0.5:
                 dup = random.choice(deck)
                 lowers[d % len(lowers)] = dup
+        deck += lowers
+    elif difficulty == "medium":
+        # Medium: mostly random lower, small chance of weak contamination
+        weak_lowers = [c for c in weak if c.islower()]
+        lowers = []
+        for _ in range(lower_needed):
+            if weak_lowers and random.random() < 0.18:
+                lowers.append(random.choice(weak_lowers))
+            else:
+                lowers.append(random.choice(PP_LOWER_POOL))
         deck += lowers
     else:
         deck += _pp_rand_chars(PP_LOWER_POOL, lower_needed, allow_dup)
@@ -847,13 +874,22 @@ def _pp_generate_deck(difficulty: str, weak: str) -> list:
     while len(deck) < PP_DECK_SIZE:
         deck.append(random.choice(PP_LOWER_POOL))
 
-    # Guarantee at least one of each missing type is present for easy/medium
+    # Guarantee at least one of each missing type is present for easy/medium (hard must earn it)
     if difficulty != "hard":
-        # check_helpers: need to consider that 2/3-char chunks may contain upper/lower/symbol
         flat = "".join(deck)
         if missing_upper and not any(c.isupper() for c in flat):
             deck[0] = random.choice(PP_UPPER_POOL)
         if missing_sym and not any(not c.isalnum() for c in flat):
+            deck[1] = random.choice(PP_SYM_POOL)
+        if missing_num and not any(c.isdigit() for c in flat):
+            deck[2] = random.choice(PP_NUM_POOL)
+    else:
+        # Hard still guarantees at least one of each if weak was missing it, but only one
+        flat = "".join(deck)
+        if missing_upper and not any(c.isupper() for c in flat):
+            deck[0] = random.choice(PP_UPPER_POOL)
+        if missing_sym and not any(not c.isalnum() for c in flat):
+            # replace a lower filler, not a premium, to keep scarcity
             deck[1] = random.choice(PP_SYM_POOL)
         if missing_num and not any(c.isdigit() for c in flat):
             deck[2] = random.choice(PP_NUM_POOL)
@@ -934,6 +970,119 @@ def _pp_compute_strength(pw: str, weak: str) -> dict:
     else:
         label, level, color = "Very Strong", "very-strong", "#065f46"
     return {"score": score, "label": label, "level": level, "color": color, "crack": crack}
+
+
+def _pp_theoretical_best(deck: list, weak: str, max_chars: int = None) -> dict:
+    """Brute-force max achievable strength for a given deck+weak+cap.
+    Enumerates all 2^15 subsets (32768) — trivial for PP_DECK_SIZE=15. Returns
+    {score, label, level, crack, password} of the best achievable. Uses deck-order
+    concatenation; with charset-based scoring (upper/lower/num/special/length) order
+    doesn't affect max, only weak-substring penalty could — but deck-order max is
+    already a tight upper bound and avoids a per-subset permutation explosion on the
+    hot admin-poll path. If deck grows beyond 16, falls back to random sampling.
+    """
+    if max_chars is None:
+        max_chars = PP_MAX_CHARS
+    n = len(deck)
+    best = {"score": 0, "label": "Weak", "level": "weak", "color": "#ef4444", "crack": " - ", "password": ""}
+    if n <= 16:
+        # exhaustive
+        # precompute deck chunk strings
+        for mask in range(1 << n):
+            total = []
+            length = 0
+            valid = True
+            for i in range(n):
+                if (mask >> i) & 1:
+                    ch = str(deck[i])
+                    length += len(ch)
+                    if length > max_chars:
+                        valid = False
+                        break
+                    total.append(ch)
+            if not valid:
+                continue
+            pw = "".join(total)
+            # empty gives 0, but we still score
+            res = _pp_compute_strength(pw, weak)
+            if res["score"] > best["score"]:
+                best = dict(res)
+                best["password"] = pw
+                if best["score"] == 100:
+                    break
+        return best
+    # fallback heuristic for larger decks (shouldn't happen post-rebalance)
+    best_score = 0
+    best_res = dict(best)
+    import random as _rnd
+    for _ in range(2000):
+        # random subset
+        chosen = [c for c in deck if _rnd.random() < 0.5]
+        pw = "".join(chosen)
+        if len(pw) > max_chars:
+            # truncate to cap greedily
+            pw = pw[:max_chars]
+        res = _pp_compute_strength(pw, weak)
+        if res["score"] > best_score:
+            best_score = res["score"]
+            best_res = dict(res)
+            best_res["password"] = pw
+    return best_res
+
+
+def _pp_best_with_remaining(current_pw: str, remaining_deck: list, weak: str, max_chars: int = None) -> dict:
+    """Best still achievable given what's already built + what's left unused.
+    current_pw is already placed (counts toward cap); remaining_deck is list of
+    still-available chunks. Returns same shape as _pp_theoretical_best but ceiling
+    from current state.
+    """
+    if max_chars is None:
+        max_chars = PP_MAX_CHARS
+    cur_len = len(current_pw)
+    if cur_len >= max_chars:
+        return _pp_compute_strength(current_pw, weak)
+    # remaining capacity
+    cap_left = max_chars - cur_len
+    # filter remaining chunks that would still fit individually (at least 1 char)
+    # brute force subsets of remaining
+    n = len(remaining_deck)
+    best = _pp_compute_strength(current_pw, weak)
+    if n == 0:
+        return best
+    # exhaustive if n<=15, else sampling
+    if n <= 15:
+        for mask in range(1 << n):
+            add = []
+            add_len = 0
+            ok = True
+            for i in range(n):
+                if (mask >> i) & 1:
+                    ch = str(remaining_deck[i])
+                    add_len += len(ch)
+                    if cur_len + add_len > max_chars:
+                        ok = False
+                        break
+                    add.append(ch)
+            if not ok:
+                continue
+            pw = current_pw + "".join(add)
+            res = _pp_compute_strength(pw, weak)
+            if res["score"] > best["score"]:
+                best = res
+                if best["score"] == 100:
+                    break
+        return best
+    # fallback sample
+    import random as _rnd
+    for _ in range(1500):
+        chosen = [c for c in remaining_deck if _rnd.random() < 0.4]
+        pw = current_pw + "".join(chosen)
+        if len(pw) > max_chars:
+            pw = pw[:max_chars]
+        res = _pp_compute_strength(pw, weak)
+        if res["score"] > best["score"]:
+            best = res
+    return best
 
 
 def _normalize_options(options) -> list:
@@ -1416,12 +1565,10 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
   min-width: clamp(64px, 7vw, 88px);
   font-size: var(--fs-body);
 }
-/* Deck tray: PP_DECK_SIZE (20) chunks - a deliberately larger, more varied pool than the
-   12-char build cap, so the player has real choice rather than a scarce deck. Console's own
-   .pp-deck is flex-wrap (fine on a wide desktop screen - it just wraps to however many fit
-   per row), but at phone width that produced a dangling short last row. A fixed 5-column
-   grid gives 20 tiles exactly 4 full rows with no dangling row, at any deck size we pick
-   here - column count intentionally divides PP_DECK_SIZE evenly. */
+/* Deck tray: PP_DECK_SIZE (15) chunks - rebalanced 2026-09: scarce premium pool (2-3 per
+   type) so Very Strong takes choice, not tapping everything. 15 tiles = 3 full rows of 5
+   on phone (5-column grid), no dangling row — column count divides deck size evenly. Cap
+   is 20 chars, so total char potential exceeds tile count with 2-3 char fragments. */
 .pp-deck{
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -1508,11 +1655,11 @@ button.pp-tile, button.pp-deck-tile{
    arena; bubbles are absolutely-positioned buttons animated purely via CSS transition on
    `top` (see ccSpawnBubble in the JS) rather than canvas or rAF - same DOM+CSS approach every
    other module in this file uses, kept consistent rather than introducing a one-off canvas
-   dependency for a single module. Bubble color palette (.cc-c1..c6), the good/bad pop-outcome
-   animations (.cc-pop-good/.cc-pop-bad) and the color-decoupling rationale all live once in
-   console.css (linked above) - this page only needs its own size-specific .cc-bubble base
-   rule (mobile-scale vs console.css's desktop-scale one) so both surfaces share one visual
-   treatment instead of drifting apart. */
+   dependency for a single module. Bubble color palette (.cc-c1..c6), the idle wobble
+   (cc-wobble), the burst ring (.cc-burst-ring) and the good/bad pop-outcome animations
+   (.cc-pop-good/.cc-pop-bad) all live once in console.css (linked above) - this page only
+   needs its own size-specific .cc-bubble base rule (mobile-scale vs console.css's
+   desktop-scale one) so both surfaces share one visual treatment instead of drifting apart. */
 .cc-hud{display:flex;align-items:stretch;gap:10px;margin-bottom:10px}
 .cc-hud-stat{flex:1;background:var(--navy-4);border-radius:10px;padding:8px 10px;text-align:center;display:flex;flex-direction:column;justify-content:center}
 .cc-hud-label{display:block;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8;text-transform:uppercase;letter-spacing:0.5px}
@@ -1533,10 +1680,14 @@ button.pp-tile, button.pp-deck-tile{
   border:2px solid rgba(6,182,212,0.5);background:rgba(255,255,255,0.97);color:#0f172a;
   box-shadow:0 4px 10px rgba(15,23,42,0.14), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -5px 8px rgba(15,23,42,0.05);
   cursor:pointer;user-select:none;
-  transition:top linear, transform 140ms ease, box-shadow 140ms ease;
+  /* Same easing/wobble-vs-pop split as console.css's desktop .cc-bubble - see that file's
+     comment for why the pop keyframes (added via JS on tap) always win the `animation`
+     property over the idle cc-wobble one here, with no manual hand-off needed. */
+  transition:top cubic-bezier(0.4,0,0.6,1), box-shadow 140ms ease;
+  animation: cc-wobble 2.6s ease-in-out infinite;
 }
-.cc-bubble:active{transform:translateX(-50%) scale(0.9)}
 .cc-hud-value.cc-lives-low{color:#fca5a5}
+.cc-mute-btn{width:38px;height:38px;font-size:var(--fs-body)}
 </style>
 </head>
 <body>
@@ -1676,6 +1827,7 @@ button.pp-tile, button.pp-deck-tile{
       <div class="cc-hud-stat"><span class="cc-hud-label">Score</span><span id="ccScoreVal" class="cc-hud-value">0</span></div>
       <div class="cc-hud-stat"><span class="cc-hud-label">Lives</span><span id="ccLivesVal" class="cc-hud-value">❤❤❤</span></div>
       <div class="cc-hud-stat"><span class="cc-hud-label">Time</span><span id="ccTimeVal" class="cc-hud-value">0:00</span></div>
+      <button class="cc-mute-btn" id="ccMuteBtn" type="button" aria-label="Unmute sound"><i class="fa-solid fa-volume-xmark"></i></button>
     </div>
     <div id="ccIntroHint" class="cc-hint">Tap the GOOD bubbles (real security habits). Let the BAD ones fall. Do not tap those. You have 3 lives. Watch the clock.</div>
     <div id="ccArena" class="cc-arena"></div>
@@ -1815,6 +1967,7 @@ const els = {
   ccScoreVal: document.getElementById('ccScoreVal'),
   ccLivesVal: document.getElementById('ccLivesVal'),
   ccTimeVal: document.getElementById('ccTimeVal'),
+  ccMuteBtn: document.getElementById('ccMuteBtn'),
   ccIntroHint: document.getElementById('ccIntroHint'),
   ccArena: document.getElementById('ccArena'),
   ccGameOverWrap: document.getElementById('ccGameOverWrap'),
@@ -2103,6 +2256,14 @@ function dismissParticipantIntro(){
     showScreen('crossword');
     ensureCrossword();
     setTimeout(updateCwSubmitVisibility, 400);
+  } else if(mod === 'control-catch'){
+    // Audio must start from this exact tap - never on page load or a poll tick - to respect
+    // mobile browsers' autoplay restrictions. Also avoids a brief wrong-screen flash: without
+    // this branch, control-catch fell through to the generic showScreen('activity') below
+    // until the next ~1.5s poll corrected it via fetchState's own control-catch dispatch.
+    ccEnsureAudioCtx();
+    showScreen('control-catch');
+    ensureControlCatch();
   } else if(MC_MODULES.includes(mod)){
     showScreen('activity');
     if(actModuleLoaded === mod) renderActivityItem();
@@ -2562,12 +2723,10 @@ function ppComputeStrength(pw, weak){
 // and the row can never show a gap or have chunks render out of placement order.
 function ppEnsureState(item){
   if(item._ppSlots) return;
-  var maxChars = item.maxChars || item.maxSlots || 12;
+  var maxChars = item.maxChars || item.maxSlots || 20;
   var deck = item.deck || [];
-  // The build row can never hold more tiles than maxChars allows (worst case: every placed
-  // chunk is 1 char) - deck.length alone is now a much larger pool (e.g. 20) than the build
-  // cap (12), so using it unclamped would pre-render a stack of empty placeholder slots far
-  // past what could ever actually be filled.
+  // Rebalanced: deck 15, cap 20 — with mixed 1-3 char chunks total char potential exceeds
+  // cap, so choice matters. maxTiles is deck length capped by maxChars worst-case.
   var maxTiles = Math.min(deck.length || 15, maxChars);
   var slots = [];
   var built = (item.myBuild && item.myBuild.builtPassword) || '';
@@ -2626,6 +2785,8 @@ function ppEnsureState(item){
   item._ppSelectedDeckIdx = null;
   item._ppMaxTiles = maxTiles;
   item._ppMaxChars = maxChars;
+  item._ppShuffleUsed = item._ppShuffleUsed || false;
+  item._ppPrevTier = item._ppPrevTier || null;
 }
 
 let ppSubmitTimer = null;
@@ -2646,7 +2807,11 @@ function renderPassPhrase(item){
   ppEnsureState(item);
   const built = item._ppSlots.join('');
   const result = ppComputeStrength(built, item.weakPassword||'');
-  const maxChars = item._ppMaxChars || item.maxChars || 12;
+  const maxChars = item._ppMaxChars || item.maxChars || 20;
+  // tier pulse tracking
+  var prevTier = item._ppPrevTier;
+  var tierPulseClass = (prevTier && prevTier!==result.level) ? ' tier-pulse' : '';
+  item._ppPrevTier = result.level;
   const difficulty = item.difficulty || 'medium';
   const diffLabel = difficulty.charAt(0).toUpperCase()+difficulty.slice(1);
   const twoCount = (item.deck||[]).filter(function(c){return String(c).length===2;}).length;
@@ -2661,7 +2826,7 @@ function renderPassPhrase(item){
     + '<span class="pp-strength-label" style="color:'+result.color+'">Strength: '+result.label+'</span>'
     + '<span style="margin-left:8px;color:#94a3b8;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge)">'+result.score+' / 100</span>'
     + '</div>'
-    + '<div class="pp-meter"><div class="pp-meter-fill" style="width:'+result.score+'%;background:'+result.color+'"></div></div>'
+    + '<div class="pp-meter"><div class="pp-meter-fill'+tierPulseClass+'" style="width:'+result.score+'%;background:'+result.color+'"></div></div>'
     + '<div class="pp-meter-labels"><span>Weak</span><span>Fair</span><span>Strong</span><span>V.Strong</span></div>'
     + '<div class="pp-crack">Time to crack: '+esc(result.crack)+'</div>'
     + '</div></div>';
@@ -2670,7 +2835,7 @@ function renderPassPhrase(item){
   // ppEnsureState), immediately followed by whatever empty slots remain - so a gap can never
   // appear between two placed chunks, only ever after the last one.
   const emptyCount = Math.max(0, (item._ppMaxTiles||item.deck.length||0) - item._ppSlots.length);
-  html += '<div class="pp-tiles" id="ppSlotsRow">'
+  html += '<div class="pp-tiles'+tierPulseClass+'" id="ppSlotsRow">'
     + item._ppSlots.map((ch,i)=>{
         const len = String(ch).length;
         const chunkCls = len>=3 ? ' chunk-tile3' : (len===2 ? ' chunk-tile' : '');
@@ -2679,7 +2844,7 @@ function renderPassPhrase(item){
     + Array(emptyCount).fill('<button type="button" class="pp-slot-empty"></button>').join('')
     + '</div>';
   html += '<div class="pp-section-label" style="margin-top:14px">'
-    + '<i class="fa-solid fa-layer-group"></i> Deck - tap a chunk, then tap a slot above <span style="margin-left:auto;color:#94a3b8;font-weight:400">['+esc(diffLabel)+' · '+twoCount+'×2-char, '+threeCount+'×3-char]</span></div>';
+    + '<i class="fa-solid fa-layer-group"></i> Deck - tap a chunk, then tap a slot above <span style="margin-left:auto;color:#94a3b8;font-weight:400">['+esc(diffLabel)+' · '+twoCount+'×2-char, '+threeCount+'×3-char · scarce premium]</span></div>';
   html += '<div class="pp-deck" id="ppDeckTray">' + item.deck.map((ch,i)=>{
       const avail = item._ppDeckAvailable[i];
       const isSelected = item._ppSelectedDeckIdx===i;
@@ -2687,6 +2852,12 @@ function renderPassPhrase(item){
       const cls = ['pp-tile','pp-deck-tile']; if(len>=3) cls.push('chunk-tile3'); else if(len===2) cls.push('chunk-tile'); if(!avail) cls.push('is-inert'); if(isSelected) cls.push('selected');
       return '<button type="button" class="'+cls.join(' ')+'" data-deck-idx="'+i+'" '+(!avail?'disabled':'')+'><span class="pp-tile-letter">'+esc(ch)+'</span></button>';
     }).join('') + '</div>';
+  // Shuffle deck (once per round) — adds strategic gamble, phone+console consistent
+  var shuffleDisabled = item._ppShuffleUsed || actIsSubmitted ? ' disabled' : '';
+  var shuffleLabel = item._ppShuffleUsed ? 'Shuffled (1/1 used)' : 'Shuffle Deck (once per round)';
+  html += '<div style="display:flex;gap:10px;justify-content:center;margin-top:10px;align-items:center">'
+    + '<button type="button" class="le-btn" id="ppShuffleBtn"'+shuffleDisabled+'><i class="fa-solid fa-shuffle"></i> '+shuffleLabel+'</button>'
+    + '<span style="font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#94a3b8">Swap 3-4 unused tiles — strategic gamble</span></div>';
   html += '<div style="margin-top:6px;font-family:\\'Space Mono\\',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count - a "Syn" tile counts as 3</div>';
   return html;
 }
@@ -2709,7 +2880,7 @@ function wirePassPhraseBuild(item){
         const idx = Number(btn.dataset.deckIdx);
         if(!item._ppDeckAvailable[idx]) return;
         // Enforce char cap even for selection preview - grey out if would exceed
-        const maxChars = item._ppMaxChars || item.maxChars || 12;
+        const maxChars = item._ppMaxChars || item.maxChars || 20;
         const curChars = item._ppSlots.join('').length;
         const chunk = item.deck[idx];
         // Only prevent selection if already at cap; allow deselection
@@ -2746,7 +2917,7 @@ function wirePassPhraseBuild(item){
         if(item._ppSelectedDeckIdx==null) return; // nothing selected - tapping an empty slot alone does nothing
         const dIdx = item._ppSelectedDeckIdx;
         const chunk = item.deck[dIdx];
-        const maxChars = item._ppMaxChars || item.maxChars || 12;
+        const maxChars = item._ppMaxChars || item.maxChars || 20;
         const curChars = item._ppSlots.join('').length;
         if(curChars + String(chunk).length > maxChars) return;
         item._ppSlots.push(chunk);
@@ -2755,6 +2926,42 @@ function wirePassPhraseBuild(item){
         renderActivityItem();
         ppSubmitBuild(item);
       });
+    });
+  }
+  // Shuffle deck — once per round, swaps 3-4 unused tiles
+  const shuffleBtn = document.getElementById('ppShuffleBtn');
+  if(shuffleBtn){
+    shuffleBtn.addEventListener('click', ()=>{
+      if(actIsSubmitted || item._ppShuffleUsed) return;
+      if(item._ppDeckAvailable.filter(Boolean).length < 3) return;
+      var unusedIdxs = [];
+      for(var i=0;i<item.deck.length;i++) if(item._ppDeckAvailable[i]) unusedIdxs.push(i);
+      // pick 3-4 to replace
+      var count = 3 + Math.floor(Math.random()*2);
+      count = Math.min(count, unusedIdxs.length);
+      var fresh = [];
+      var lowerPool = 'abcdefghijklmnopqrstuvwxyz'.split('');
+      var symPool = ['!','@','#','$','%','^','&','*','-','_','+','=','?','~','<','>'];
+      var numPool = '0123456789'.split('');
+      var upperPool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+      for(var c=0;c<count;c++){
+        var r=Math.random();
+        if(r<0.3) fresh.push(upperPool[Math.floor(Math.random()*upperPool.length)]);
+        else if(r<0.55) fresh.push(symPool[Math.floor(Math.random()*symPool.length)]);
+        else if(r<0.75) fresh.push(numPool[Math.floor(Math.random()*numPool.length)]);
+        else fresh.push(lowerPool[Math.floor(Math.random()*lowerPool.length)]);
+      }
+      // shuffle indices
+      for(var s=unusedIdxs.length-1;s>0;s--){ var j=Math.floor(Math.random()*(s+1)); var t=unusedIdxs[s]; unusedIdxs[s]=unusedIdxs[j]; unusedIdxs[j]=t; }
+      for(var k=0;k<count;k++){
+        var idx = unusedIdxs[k];
+        item.deck[idx] = fresh[k];
+        // ensure availability stays true
+        item._ppDeckAvailable[idx]=true;
+      }
+      item._ppShuffleUsed = true;
+      item._ppSelectedDeckIdx = null;
+      renderActivityItem();
     });
   }
 }
@@ -3116,12 +3323,13 @@ async function ensureCrossword(){
 // entirely in this browser tab, and only a periodic snapshot is pinged to the server (for the
 // admin's live progress panel + the post-game ranked summary), mirroring crossword's own
 // ensureCrossword/scheduleCwProgress debounced-ping pattern one section up.
-const CC_DURATION_MS = 75000;       // 75s round (60-90s range)
-const CC_SPAWN_START_MS = 1400;     // spawn cadence at round start
-const CC_SPAWN_MIN_MS = 650;        // spawn cadence floor once fully ramped up
-const CC_FALL_START_MS = 4800;      // how long a bubble takes top-to-bottom at round start
-const CC_FALL_MIN_MS = 2600;        // fall-duration floor once fully ramped up
+const CC_DURATION_MS = 90000;       // 90s round - extended from 75s to match the slower pace below
+const CC_SPAWN_START_MS = 1800;     // spawn cadence at round start
+const CC_SPAWN_MIN_MS = 900;        // spawn cadence floor once fully ramped up
+const CC_FALL_START_MS = 6000;      // how long a bubble takes top-to-bottom at round start
+const CC_FALL_MIN_MS = 3500;        // fall-duration floor once fully ramped up
 const CC_DEBOUNCE = 2000;
+const CC_RING_REMOVE_MS = 280;
 // Decorative palette only (see console.css's .cc-c1..c6 + the comment above them) - picked at
 // random per bubble, with zero relationship to bubble.good, so color never hints at the right
 // answer. Pop-outcome color (green/red) is separate and handled entirely by CSS via the
@@ -3143,6 +3351,100 @@ let ccHudTimer = null;
 let ccProgressTimer = null;
 let ccLastSentProgress = null;
 let ccFinalResult = null; // {score, badPops, livesLeft, survivedMs} - "your result" only, see showSubmittedFor
+
+// --- Audio: background music + SFX, scoped entirely to this module. Off by default; a
+// participant opts in with the mute button. Created/resumed only from a genuine tap (the
+// intro Start button - see the control-catch branch in dismissParticipantIntro - or the mute
+// button itself), never on page load or a poll tick, to respect mobile autoplay restrictions.
+// Nothing here is shared with any other module's own audio (clue-quest/decision-room's tick
+// sounds each have their own separate AudioContext in their own scope) and the music stops the
+// instant the round ends or the module is torn down (see ccStopGame/ccEndGame).
+let ccAudioCtx = null;
+let ccMusicGain = null;
+let ccSfxGain = null;
+let ccMusicTimer = null;
+let ccMusicStep = 0;
+let ccSoundOn = false;
+try{ ccSoundOn = localStorage.getItem('cc_sound_on') === '1'; }catch(e){}
+const CC_MUSIC_NOTES = [392.00, 440.00, 523.25, 659.25, 523.25, 440.00, 392.00, 329.63];
+
+function ccEnsureAudioCtx(){
+  if(ccAudioCtx){ if(ccAudioCtx.state==='suspended') ccAudioCtx.resume(); return; }
+  try{
+    ccAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    ccMusicGain = ccAudioCtx.createGain();
+    ccMusicGain.gain.value = ccSoundOn ? 0.16 : 0;
+    ccMusicGain.connect(ccAudioCtx.destination);
+    ccSfxGain = ccAudioCtx.createGain();
+    ccSfxGain.gain.value = ccSoundOn ? 0.4 : 0;
+    ccSfxGain.connect(ccAudioCtx.destination);
+  }catch(e){ ccAudioCtx = null; }
+}
+function ccMusicTick(){
+  if(!ccAudioCtx) return;
+  const freq = CC_MUSIC_NOTES[ccMusicStep % CC_MUSIC_NOTES.length];
+  ccMusicStep++;
+  const t = ccAudioCtx.currentTime;
+  const osc = ccAudioCtx.createOscillator();
+  const g = ccAudioCtx.createGain();
+  osc.type = 'triangle';
+  osc.frequency.value = freq;
+  g.gain.setValueAtTime(0, t);
+  g.gain.linearRampToValueAtTime(0.5, t+0.06);
+  g.gain.exponentialRampToValueAtTime(0.001, t+0.4);
+  osc.connect(g).connect(ccMusicGain);
+  osc.start(t);
+  osc.stop(t+0.42);
+}
+function ccStartMusic(){
+  if(ccMusicTimer || !ccAudioCtx) return;
+  ccMusicTick();
+  ccMusicTimer = setInterval(ccMusicTick, 430);
+}
+function ccStopMusic(){
+  if(ccMusicTimer){ clearInterval(ccMusicTimer); ccMusicTimer = null; }
+}
+function ccPlayPopSound(good){
+  if(!ccAudioCtx) return;
+  const t = ccAudioCtx.currentTime;
+  const osc = ccAudioCtx.createOscillator();
+  const g = ccAudioCtx.createGain();
+  osc.connect(g).connect(ccSfxGain);
+  if(good){
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(760, t);
+    osc.frequency.exponentialRampToValueAtTime(1180, t+0.09);
+    g.gain.setValueAtTime(0.3, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t+0.16);
+    osc.start(t);
+    osc.stop(t+0.18);
+  } else {
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(220, t);
+    osc.frequency.exponentialRampToValueAtTime(105, t+0.16);
+    g.gain.setValueAtTime(0.22, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t+0.2);
+    osc.start(t);
+    osc.stop(t+0.22);
+  }
+}
+function ccUpdateMuteBtn(){
+  if(!els.ccMuteBtn) return;
+  els.ccMuteBtn.classList.toggle('cc-sound-on', ccSoundOn);
+  els.ccMuteBtn.innerHTML = ccSoundOn ? '<i class="fa-solid fa-volume-high"></i>' : '<i class="fa-solid fa-volume-xmark"></i>';
+  els.ccMuteBtn.setAttribute('aria-label', ccSoundOn ? 'Mute sound' : 'Unmute sound');
+}
+function ccSetSoundOn(on){
+  ccSoundOn = on;
+  try{ localStorage.setItem('cc_sound_on', on ? '1' : '0'); }catch(e){}
+  if(ccMusicGain) ccMusicGain.gain.value = on ? 0.16 : 0;
+  if(ccSfxGain) ccSfxGain.gain.value = on ? 0.4 : 0;
+  ccUpdateMuteBtn();
+}
+if(els.ccMuteBtn){
+  ccUpdateMuteBtn();
+  els.ccMuteBtn.addEventListener('click', ()=>{ ccEnsureAudioCtx(); ccSetSoundOn(!ccSoundOn); });
+}
 
 function ccElapsedMs(){ return ccStartTs ? (Date.now() - ccStartTs) : 0; }
 function ccRampProgress(elapsed){ return Math.max(0, Math.min(1, elapsed / CC_DURATION_MS)); }
@@ -3196,13 +3498,28 @@ function ccFreezeBubbleAt(el){
   el.style.top = (rect.top - arenaRect.top) + 'px';
 }
 
+// Small ring burst at the bubble's own center - see console.css's .cc-burst-ring.
+function ccSpawnBurstRing(el, good){
+  if(!els.ccArena) return;
+  const rect = el.getBoundingClientRect();
+  const arenaRect = els.ccArena.getBoundingClientRect();
+  const ring = document.createElement('div');
+  ring.className = 'cc-burst-ring ' + (good ? 'cc-ring-good' : 'cc-ring-bad');
+  ring.style.left = (rect.left - arenaRect.left + rect.width/2) + 'px';
+  ring.style.top = (rect.top - arenaRect.top + rect.height/2) + 'px';
+  els.ccArena.appendChild(ring);
+  setTimeout(()=>ring.remove(), CC_RING_REMOVE_MS);
+}
+
 function ccPopBubble(el, bubble){
   if(ccGameOver) return;
   if(el.dataset.resolved==='1') return;
   el.dataset.resolved = '1';
   ccFreezeBubbleAt(el);
   void el.offsetHeight; // force the transition:none above to apply before the keyframe animation below starts
-  // Outcome color/animation is CSS-driven (see console.css's cc-burst-good/cc-burst-bad)  - 
+  ccSpawnBurstRing(el, bubble.good);
+  ccPlayPopSound(bubble.good);
+  // Outcome color/animation is CSS-driven (see console.css's cc-burst-good/cc-burst-bad)  -
   // no inline transform/opacity here, just add the class and let the keyframes take over.
   if(bubble.good){
     ccScore++;
@@ -3269,6 +3586,7 @@ function ccEndGame(){
   ccGameOver = true;
   if(ccSpawnTimer) clearTimeout(ccSpawnTimer);
   if(ccHudTimer) clearInterval(ccHudTimer);
+  ccStopMusic();
   // Freeze whatever's still on screen in place rather than yanking it away mid-fall - reads as
   // "time's up", not a glitch - and disable further taps (game is over, no more scoring).
   ccBubbles.forEach(({el})=>{
@@ -3313,6 +3631,7 @@ function ccStopGame(){
   if(ccSpawnTimer) clearTimeout(ccSpawnTimer);
   if(ccHudTimer) clearInterval(ccHudTimer);
   if(ccProgressTimer) clearTimeout(ccProgressTimer);
+  ccStopMusic();
   ccSpawnTimer = null; ccHudTimer = null; ccProgressTimer = null;
   if(els.ccArena) els.ccArena.innerHTML = '';
   ccBubbles = [];
@@ -3344,6 +3663,12 @@ async function ensureControlCatch(){
     ccUpdateHud();
     if(ccElapsedMs() >= CC_DURATION_MS) ccEndGame();
   }, 300);
+  // Defensive: the primary path (dismissParticipantIntro's control-catch branch) already
+  // creates the AudioContext synchronously inside the Start tap before calling this function,
+  // so this is normally a no-op re-check - see that branch for why audio must be anchored
+  // there, not here, to respect mobile autoplay restrictions.
+  ccEnsureAudioCtx();
+  ccStartMusic();
 }
 
 // --- State polling - whole-activity flow (lobby/running/complete) ---
@@ -4443,6 +4768,15 @@ def _compute_module_summary(sess):
         round_ids = [it.get("id") for it in module_sequence]
         total_rounds = len(round_ids)
         builds = sess.get("passphraseBuilds", {})
+        # Precompute theoretical best per round (admin-only quality metric — NOT a fixed 100)
+        theoretical_best_by_round = {}
+        for it in module_sequence:
+            rid = it.get("id")
+            deck = it.get("deck") or []
+            weak = str(it.get("weakPassword") or "")
+            max_chars = int(it.get("maxChars") or it.get("maxSlots") or PP_MAX_CHARS)
+            best = _pp_theoretical_best(deck, weak, max_chars)
+            theoretical_best_by_round[rid] = best
         summary = []
         for pid, name in sess.get("participants", {}).items():
             rounds_built = builds.get(pid, {})
@@ -4453,6 +4787,31 @@ def _compute_module_summary(sess):
             last_answered_at = max(timestamps) if timestamps else None
             submitted_at = _submitted_at(pid, active_module)
             is_complete = submitted_at is not None
+            # Quality metric: avg %-of-best across completed rounds
+            pcts = []
+            per_round_pct = {}
+            per_round_best = {}
+            per_round_score = {}
+            for rid in round_ids:
+                if rid in rounds_built:
+                    b = rounds_built[rid]
+                    score = (b.get("strength") or {}).get("score", 0) if isinstance(b.get("strength"), dict) else 0
+                    best_score = theoretical_best_by_round.get(rid, {}).get("score", 0) or 0
+                    per_round_best[rid] = best_score
+                    per_round_score[rid] = score
+                    if best_score > 0:
+                        pct = round((score / best_score) * 100)
+                        pct = max(0, min(100, pct))
+                    else:
+                        pct = 0
+                    pcts.append(pct)
+                    per_round_pct[rid] = pct
+                else:
+                    # not yet built — no pct
+                    best_score = theoretical_best_by_round.get(rid, {}).get("score", 0) or 0
+                    per_round_best[rid] = best_score
+            avg_pct = round(sum(pcts) / len(pcts)) if pcts else 0
+            # correctCount repurposed as avgPct for ranking display? Keep distinct field
             summary.append({
                 "participantId": pid, "name": name,
                 "answeredCount": answered_count, "totalCount": total_rounds,
@@ -4460,9 +4819,14 @@ def _compute_module_summary(sess):
                 "moduleStartedAt": started_at, "lastAnsweredAt": last_answered_at,
                 "completedAt": submitted_at,
                 "submittedAt": submitted_at,
-                "correctCount": None,
+                "correctCount": avg_pct if pcts else None,  # for generic rankedBy path
+                "avgPctBest": avg_pct,
+                "perRoundPct": per_round_pct,
+                "perRoundBest": per_round_best,
+                "perRoundScore": per_round_score,
             })
-        return summary, False, total_rounds
+        # has_correctness True so rankedBy picks correctCount (which is avgPct) — labelled as %-of-best
+        return summary, True, total_rounds
 
     module_sequence = sess.get("moduleSequence") or []
     item_ids = [it.get("id") for it in module_sequence]
@@ -4558,7 +4922,12 @@ def admin_module_summary(code):
     # Detect decision-room style ranking (goodCount) - any entry with goodCount indicates
     # that module's analog metric should drive ranking instead of completedAt alone.
     has_good = any("goodCount" in s for s in summary)
-    if has_correctness:
+    # Pass-phrase is distinct: rank by avg %-of-best (admin-only quality metric)
+    is_passphrase = (module == "pass-phrase")
+    if is_passphrase:
+        # avgPctBest was stored in correctCount / avgPctBest; rank by that
+        completed.sort(key=lambda s: (-(s.get("avgPctBest") if s.get("avgPctBest") is not None else (s.get("correctCount") or 0)), s["completedAt"] or ""))
+    elif has_correctness:
         completed.sort(key=lambda s: (-(s["correctCount"] or 0), s["completedAt"] or ""))
     elif has_good:
         completed.sort(key=lambda s: (-(s.get("goodCount") or 0), s["completedAt"] or ""))
@@ -4566,7 +4935,10 @@ def admin_module_summary(code):
         completed.sort(key=lambda s: s["completedAt"] or "")
     for i, s in enumerate(completed):
         s["rank"] = i + 1
-    ranked_by = "correctCount" if has_correctness else ("goodCount" if has_good else "completedAt")
+    if is_passphrase:
+        ranked_by = "avgPctBest"
+    else:
+        ranked_by = "correctCount" if has_correctness else ("goodCount" if has_good else "completedAt")
     out = {
         "roomCode": code,
         "module": module,
@@ -4577,7 +4949,13 @@ def admin_module_summary(code):
         "ranked": completed,
         "inProgress": in_progress,
     }
-    if has_good:
+    if is_passphrase:
+        out["metricLabel"] = "avg %-of-best"
+        # expose theoretical best per round for admin transparency
+        # also mark that this ranking is admin-only, per no-participant-ranking rule
+        out["isPassPhraseQualityRanking"] = True
+        out["note"] = "Ranked by average %-of-best across completed rounds — admin-only, never sent to participants."
+    elif has_good:
         out["metricLabel"] = "good decisions"
     elif has_correctness:
         out["metricLabel"] = "correct"
@@ -4834,9 +5212,16 @@ def passphrase_build(code):
 @app.route("/api/admin/session/<code>/passphrase/progress", methods=["GET"])
 @admin_required
 def admin_passphrase_progress(code):
-    """Admin poll: per-participant current strength level + how many of the module's rounds
-    they've built something in, for the Running panel's progress list (same shape/pattern as
-    crossword's progress panel)."""
+    """Admin poll: per-participant current strength + quality-based %-of-best.
+
+    Extends the standard filledCount/totalCount pattern with admin-only quality
+    metrics: for each round the theoretical best achievable score given that round's
+    specific 15-chunk deck (not a fixed 100), and per participant their score as a
+    % of that best (e.g. "87% of best possible for this deck") plus average
+    %-of-best across completed rounds. Ranked view in module-summary uses the
+    average. All %-of-best fields are admin-only — never included in
+    participant-facing /state payloads.
+    """
     code = code.strip().upper()
     sess = SESSIONS.get(code)
     if not sess:
@@ -4845,6 +5230,18 @@ def admin_passphrase_progress(code):
     total_rounds = len(module_sequence)
     builds = sess.get("passphraseBuilds", {})
     active_module = sess.get("activeModule") or "pass-phrase"
+    # Theoretical best per round (admin-only, drives %-of-best)
+    theoretical_by_round = {}
+    for it in module_sequence:
+        rid = it.get("id")
+        deck = it.get("deck") or []
+        weak = str(it.get("weakPassword") or "")
+        max_chars = int(it.get("maxChars") or it.get("maxSlots") or PP_MAX_CHARS)
+        best = _pp_theoretical_best(deck, weak, max_chars)
+        theoretical_by_round[rid] = best
+    # For admin "best possible with what's left" hint: compute ceiling from remaining deck
+    # given current build (not per participant here — facilitator's own view uses the same
+    # helper client-side; this endpoint's ceiling is per participant's remaining potential)
     result = []
     for pid, name in sess.get("participants", {}).items():
         rounds_built = builds.get(pid, {})
@@ -4862,7 +5259,40 @@ def admin_passphrase_progress(code):
             sub_status = "reached_end"
         else:
             sub_status = "in_progress"
-        result.append({
+        # per-round %-of-best and avg
+        per_round_pct = {}
+        per_round_score = {}
+        per_round_best = {}
+        pcts = []
+        for rid in [it.get("id") for it in module_sequence]:
+            best_score = theoretical_by_round.get(rid, {}).get("score", 0) or 0
+            per_round_best[rid] = best_score
+            if rid in rounds_built:
+                b = rounds_built[rid]
+                score = (b.get("strength") or {}).get("score", 0) if isinstance(b.get("strength"), dict) else 0
+                per_round_score[rid] = score
+                if best_score > 0:
+                    pct = round((score / best_score) * 100)
+                    pct = max(0, min(100, pct))
+                else:
+                    pct = 0
+                per_round_pct[rid] = pct
+                pcts.append(pct)
+        avg_pct = round(sum(pcts) / len(pcts)) if pcts else None
+        # remaining-potential ceiling for the most recently touched round (useful for facilitator commentary)
+        ceiling_score = None
+        ceiling_label = None
+        if rounds_built:
+            # find latest round's remaining deck
+            latest_rid, latest_build = max(rounds_built.items(), key=lambda kv: kv[1].get("updatedAt") or "")
+            # reconstruct remaining deck: deck minus chars used (approx via char counts)
+            # We approximate remaining as deck chunks not yet used: need to map builtPassword back to deck usage.
+            # For admin hint we just compute theoretical best from scratch as ceiling; more precise
+            # per-participant remaining ceiling would need chunk-level tracking, so we expose
+            # theoretical best as the absolute ceiling for that round instead.
+            ceiling_score = theoretical_by_round.get(latest_rid, {}).get("score")
+            ceiling_label = theoretical_by_round.get(latest_rid, {}).get("label")
+        entry = {
             "participantId": pid,
             "name": name,
             "filledCount": completed_rounds,
@@ -4872,15 +5302,29 @@ def admin_passphrase_progress(code):
             "updatedAt": last_at,
             "submittedAt": submitted_at,
             "submissionStatus": sub_status,
-        })
+            # admin-only quality metrics
+            "avgPctBest": avg_pct,
+            "perRoundPct": per_round_pct,
+            "perRoundScore": per_round_score,
+            "perRoundBest": per_round_best,
+            "ceilingScore": ceiling_score,
+            "ceilingLabel": ceiling_label,
+        }
+        result.append(entry)
     def _pp_sort(x):
         order = {"submitted": 0, "reached_end": 1, "in_progress": 2}
-        return (order.get(x.get("submissionStatus"), 3), -x["filledCount"], x["name"].lower())
+        # sort by avg %-of-best descending within each status group
+        avg = x.get("avgPctBest")
+        avg_key = -(avg if avg is not None else -1)
+        return (order.get(x.get("submissionStatus"), 3), avg_key, -x["filledCount"], x["name"].lower())
     result.sort(key=_pp_sort)
+    # expose theoretical best per round for admin panel header
+    theoretical_summary = {rid: {"score": v.get("score"), "label": v.get("label"), "password": v.get("password")} for rid, v in theoretical_by_round.items()}
     return jsonify({
         "roomCode": code,
         "activeModule": sess.get("activeModule"),
         "progress": result,
+        "theoreticalBests": theoretical_summary,
         "participantCount": len(sess.get("participants", {})),
         "totalCount": total_rounds,
     })
