@@ -11,6 +11,11 @@
   const MAX_SLOTS = 12; // legacy tile-count cap, kept for old single-char content fallback
   const MAX_CHARS = 15; // chunk-aware cap: total characters reached, not deck tiles (now 15 per request)
   let rounds = [];
+  // Each of the 5 rounds now expands into TWO steps - Choose (pick the compliant password
+  // among 4) then Build (existing tap-chunks mechanic) - so a 5-round content file drives a
+  // 10-step sequence: Choose1, Build1, Choose2, Build2, ... `index` below indexes into `steps`,
+  // not `rounds` directly - use `steps[index].round` wherever the old code read `rounds[index]`.
+  let steps = [];
   let index = 0;
   let locked = false;
   let timer = null;
@@ -205,19 +210,28 @@
     introScreen: document.getElementById('introScreen'),
     activityBody: document.getElementById('activityBody'),
     introText: document.getElementById('introText'),
+    introPolicy: document.getElementById('introPolicy'),
     introStartBtn: document.getElementById('introStartBtn'),
     hintBar: document.getElementById('facilitatorHintBar'),
     hintText: document.getElementById('hintBarText'),
-    shuffleBtn: document.getElementById('shuffleBtn')
+    shuffleBtn: document.getElementById('shuffleBtn'),
+    themeEyebrow: document.getElementById('themeEyebrow'),
+    weakViolates: document.getElementById('weakViolates'),
+    chooseWrap: document.getElementById('chooseWrap'),
+    choosePrompt: document.getElementById('choosePrompt'),
+    chooseOptions: document.getElementById('chooseOptions'),
+    chooseReveal: document.getElementById('chooseReveal'),
+    buildWrap: document.getElementById('buildWrap')
   };
   let rememberThisText = '';
   let contentData = null;
   let introDismissed = false;
 
   function renderDots(){
-    els.dots.innerHTML = rounds.map(function(_,i){
+    els.dots.innerHTML = steps.map(function(s,i){
       var cls = i===index ? 'dot current' : (i < index ? 'dot done' : 'dot');
-      return '<span class="'+cls+'"></span>';
+      cls += s.type === 'choose' ? ' dot-choose' : ' dot-build';
+      return '<span class="'+cls+'" title="'+(s.type==='choose'?'Choose':'Build')+'"></span>';
     }).join('');
   }
 
@@ -631,7 +645,7 @@
     if(locked || shuffleUsed) return;
     if(deckChunks.length < 3) return;
     // Swap 3-4 unused deck chunks for fresh ones (same difficulty pool mix)
-    var r = rounds[index];
+    var r = steps[index] && steps[index].round;
     var difficulty = (r && r.difficulty) || 'medium';
     var count = Math.min(4, Math.max(3, Math.floor(Math.random()*2)+3));
     count = Math.min(count, deckChunks.length);
@@ -666,10 +680,81 @@
   }
   if(els.shuffleBtn) els.shuffleBtn.addEventListener('click', doShuffle);
 
+  // Shared chrome (counter/timer/dots/Next label) for BOTH step types, then dispatches to
+  // whichever phase-specific renderer applies. External callers (goTo/next/prev/dismissIntro/
+  // LiveEvent.onAction) only ever call renderRound() - unchanged surface, so nothing else in
+  // this file needs to know steps vs rounds exists.
   function renderRound(){
-    var r=rounds[index];
+    var step = steps[index];
+    if(!step) return;
+    els.counter.textContent = 'Step ' + (index+1) + ' of ' + steps.length + (step.type==='choose' ? ' - Choose' : ' - Build');
+    if(els.rememberCard) els.rememberCard.classList.add('le-hidden');
+    var isLast = index === steps.length - 1;
+    els.nextBtn.innerHTML = isLast ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start' : '<i class="fa-solid fa-forward"></i> Next';
+    if(timer) timer.stop();
+    timer = LiveEvent.createTimer(els.timerEl, TIMER_SECONDS, { onExpire: function(){} });
+    timer.start();
+    renderDots();
+    if(step.type === 'choose') renderChoosePhase(step.round);
+    else renderBuildPhase(step.round);
+  }
+
+  // Choose phase - 4 candidate passwords, exactly one actually compliant with the stated
+  // policy (content's top-level "policy" string, shown on the intro screen). Select-then-reveal
+  // pattern matching clue-quest.js's own .cq-option mechanic (disable-after-pick, correct/
+  // incorrect coloring) - namespaced .pp-choice-* here since candidate strings run longer than
+  // clue-quest's short answers. Shuffled fresh each visit so replaying a round doesn't always
+  // put the compliant option in the same slot.
+  var choosePicked = false;
+  var currentChoices = null;
+  function renderChoosePhase(r){
+    if(els.themeEyebrow) els.themeEyebrow.textContent = 'Choose the Compliant Password - pick the one that actually meets the policy';
+    if(els.chooseWrap) els.chooseWrap.classList.remove('le-hidden');
+    if(els.buildWrap) els.buildWrap.classList.add('le-hidden');
+    els.solvedBtn.style.display = 'none';
+    choosePicked = false;
+    currentChoices = shuffled(r.choices || []);
+    if(els.chooseReveal){ els.chooseReveal.classList.add('le-hidden'); els.chooseReveal.innerHTML = ''; }
+    if(els.chooseOptions){
+      els.chooseOptions.innerHTML = currentChoices.map(function(c,i){
+        return '<button type="button" class="pp-choice-btn" data-choice-idx="'+i+'">'+LiveEvent.escapeHtml(c.text)+'</button>';
+      }).join('');
+      Array.from(els.chooseOptions.children).forEach(function(btn){
+        btn.addEventListener('click', function(){
+          if(choosePicked) return;
+          choosePicked = true;
+          var idx = parseInt(btn.dataset.choiceIdx, 10);
+          var picked = currentChoices[idx];
+          Array.from(els.chooseOptions.children).forEach(function(b, bi){
+            b.disabled = true;
+            var c = currentChoices[bi];
+            if(c.compliant) b.classList.add('correct');
+            else if(bi===idx) b.classList.add('incorrect');
+          });
+          if(els.chooseReveal){
+            var verdictLine = picked.compliant
+              ? '<div class="pp-choice-verdict correct"><i class="fa-solid fa-check"></i> Correct - that one is compliant.</div>'
+              : '<div class="pp-choice-verdict incorrect"><i class="fa-solid fa-xmark"></i> Not quite - that one breaks the policy too.</div>';
+            var lines = currentChoices.map(function(c){
+              return '<div>' + (c.compliant ? '✓ Compliant' : '✗ Violates') + ' — "' + LiveEvent.escapeHtml(c.text) + '": ' + LiveEvent.escapeHtml(c.reason||'') + '</div>';
+            }).join('');
+            els.chooseReveal.innerHTML = verdictLine + '<div class="pp-choice-reveal-lines">' + lines + '</div>';
+            els.chooseReveal.classList.remove('le-hidden');
+          }
+        });
+      });
+    }
+  }
+
+  // Build phase - unchanged tap-chunks-from-deck mechanic, just renamed from the old
+  // renderRound() and taking the round object as a param instead of reading rounds[index]
+  // directly (index now points into `steps`, not `rounds` - see renderRound above).
+  function renderBuildPhase(r){
     if(!r) return;
-    els.counter.textContent='Round '+(index+1)+' of '+rounds.length;
+    if(els.themeEyebrow) els.themeEyebrow.textContent = 'Weak to Strong - Live Builder - 15 tiles, 15-character limit (scarce premium pool)';
+    if(els.chooseWrap) els.chooseWrap.classList.add('le-hidden');
+    if(els.buildWrap) els.buildWrap.classList.remove('le-hidden');
+    els.solvedBtn.style.display = '';
     var difficulty=r.difficulty || 'medium';
     // If content already provides weakPassword/deck (new chunk deck), use those directly
     // so the console matches the static content the phone sees, rather than regenerating
@@ -691,6 +776,14 @@
       els.shuffleBtn.innerHTML='<i class="fa-solid fa-shuffle"></i> Shuffle Deck (once per round)';
     }
     if(els.weakText) els.weakText.textContent=currentWeak;
+    if(els.weakViolates){
+      if(r.violates){
+        els.weakViolates.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> Violates: ' + LiveEvent.escapeHtml(r.violates);
+        els.weakViolates.classList.remove('le-hidden');
+      } else {
+        els.weakViolates.classList.add('le-hidden');
+      }
+    }
     if(els.weakMeta){
       var hint = r.hint || '';
       var req = hint.indexOf(' - ')>-1 ? hint.split(' - ').slice(1).join(' - ').trim() : '';
@@ -706,25 +799,18 @@
     }
     els.solvedBtn.disabled=true;
     els.solvedBtn.classList.remove('pulse-highlight');
-    if(els.rememberCard) els.rememberCard.classList.add('le-hidden');
     renderTiles();
     renderDeck();
     updateStrength();
-    var isLast=index===rounds.length-1;
-    els.nextBtn.innerHTML=isLast ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start' : '<i class="fa-solid fa-forward"></i> Next Round';
-    if(timer) timer.stop();
-    timer=LiveEvent.createTimer(els.timerEl, TIMER_SECONDS, { onExpire: function(){} });
-    timer.start();
-    renderDots();
   }
 
   function goTo(newIndex){
-    if(newIndex<0 || newIndex>=rounds.length) return;
+    if(newIndex<0 || newIndex>=steps.length) return;
     index=newIndex;
     renderRound();
   }
   function next(){
-    if(index < rounds.length -1){ goTo(index+1); return; }
+    if(index < steps.length -1){ goTo(index+1); return; }
     index=0;
     renderRound();
   }
@@ -736,7 +822,7 @@
     els.solvedBtn.classList.remove('pulse-highlight');
     if(els.tiles){ els.tiles.style.borderColor='#10b981'; els.tiles.style.background='#ecfdf5'; }
     if(timer) timer.stop();
-    if(index===rounds.length-1 && els.rememberCard){
+    if(index===steps.length-1 && els.rememberCard){
       els.rememberText.textContent=rememberThisText;
       els.rememberCard.classList.remove('le-hidden');
     }
@@ -777,8 +863,16 @@
       rounds.forEach(function(rd){
         if(!rd.difficulty) rd.difficulty='medium';
       });
+      // Expand 5 rounds into 10 steps: Choose1, Build1, Choose2, Build2, ... - see the
+      // `steps` doc comment near its declaration.
+      steps = [];
+      rounds.forEach(function(rd){
+        steps.push({ type: 'choose', round: rd });
+        steps.push({ type: 'build', round: rd });
+      });
       rememberThisText = data.rememberThis || '';
       if(els.introText) els.introText.textContent = data.whyThisMatters || '';
+      if(els.introPolicy) els.introPolicy.textContent = data.policy || '';
       contentData = data;
       if(introDismissed) beginActivity();
     })

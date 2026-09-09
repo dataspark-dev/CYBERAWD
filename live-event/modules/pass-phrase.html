@@ -25,20 +25,33 @@
       <div class="le-intro-screen" id="introScreen">
         <div class="le-intro-eyebrow"><i class="fa-solid fa-circle-info"></i> Synergy Cyber Security Awareness Month · Why This Matters</div>
         <p class="le-intro-text" id="introText"> - </p>
+        <div class="pp-policy-card" id="introPolicy"> - </div>
         <button class="le-btn primary lg" id="introStartBtn" type="button"><i class="fa-solid fa-play"></i> Start</button>
       </div>
 
       <div id="activityBody" class="le-hidden">
-      <div class="le-item-counter" id="itemCounter">Round 1 of 5</div>
+      <div class="le-item-counter" id="itemCounter">Step 1 of 10</div>
 
       <div class="ff-title-bar">
-        <div class="pp-theme-eyebrow">Weak to Strong - Live Builder - 15 tiles, 15-character limit (scarce premium pool)</div>
+        <div class="pp-theme-eyebrow" id="themeEyebrow">Weak to Strong - Live Builder - 15 tiles, 15-character limit (scarce premium pool)</div>
       </div>
 
+      <!-- CHOOSE PHASE - "which of these 4 is actually policy-compliant" - visible only when
+           the current step is a choose phase; see pass-phrase.js's renderChoosePhase(). -->
+      <div class="pp-choose-wrap le-hidden" id="chooseWrap">
+        <div class="pp-choose-prompt" id="choosePrompt"><i class="fa-solid fa-circle-question"></i> Which of these actually meets Synergy's password policy?</div>
+        <div class="pp-choose-options" id="chooseOptions"></div>
+        <div class="pp-choose-reveal le-hidden" id="chooseReveal"></div>
+      </div>
+
+      <!-- BUILD PHASE - existing tap-chunks-from-deck mechanic, unchanged - visible only when
+           the current step is a build phase. -->
+      <div id="buildWrap">
       <div class="pp-weak-row" id="weakRow">
         <div class="pp-weak-card" id="weakCard">
           <div class="pp-weak-label"><i class="fa-solid fa-triangle-exclamation"></i> Weak Example - Do Not Reuse</div>
           <div class="pp-weak-text" id="weakText"> - </div>
+          <div class="pp-weak-violates le-hidden" id="weakViolates"> - </div>
           <div class="pp-weak-meta" id="weakMeta">name plus date of birth or place - easy to guess</div>
         </div>
         <div class="pp-weak-arrow"><i class="fa-solid fa-arrow-right"></i></div>
@@ -82,27 +95,28 @@
         <div id="facilitatorHintBar" class="pp-facilitator-hint le-hidden" style="width:100%;background:#f0f9ff;border:1px solid #bae6fd;border-radius:10px;padding:10px 14px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#0c4a6e;text-align:center;">
           <i class="fa-solid fa-eye" style="color:#0891b2;margin-right:6px;"></i><span id="hintBarText">Facilitator — ceiling with what's left: - </span> <span style="opacity:0.6;font-weight:400">— admin facilitator only, not participant-facing</span>
         </div>
-
-        <div class="le-remember-card le-hidden" id="rememberCard">
-          <i class="fa-solid fa-thumbtack"></i>
-          <div>
-            <div class="le-remember-eyebrow">Remember This</div>
-            <div class="le-remember-text" id="rememberText"> - </div>
-          </div>
-        </div>
-
-        <div class="le-timer" id="timer">
-          <div class="lt-digits">45</div>
-          <div class="lt-label">Seconds</div>
-        </div>
-
-        <div class="le-btn-row">
-          <button class="le-btn green lg" id="solvedBtn" type="button" disabled><i class="fa-solid fa-shield-halved"></i> Strong Password Ready</button>
-          <button class="le-btn primary lg" id="nextBtn" type="button"><i class="fa-solid fa-forward"></i> Next</button>
-        </div>
-
-        <div class="le-progress-dots" id="progressDots"></div>
       </div>
+      </div>
+
+      <div class="le-remember-card le-hidden" id="rememberCard">
+        <i class="fa-solid fa-thumbtack"></i>
+        <div>
+          <div class="le-remember-eyebrow">Remember This</div>
+          <div class="le-remember-text" id="rememberText"> - </div>
+        </div>
+      </div>
+
+      <div class="le-timer" id="timer">
+        <div class="lt-digits">45</div>
+        <div class="lt-label">Seconds</div>
+      </div>
+
+      <div class="le-btn-row">
+        <button class="le-btn green lg" id="solvedBtn" type="button" disabled><i class="fa-solid fa-shield-halved"></i> Strong Password Ready</button>
+        <button class="le-btn primary lg" id="nextBtn" type="button"><i class="fa-solid fa-forward"></i> Next</button>
+      </div>
+
+      <div class="le-progress-dots" id="progressDots"></div>
       </div>
     </main>
 

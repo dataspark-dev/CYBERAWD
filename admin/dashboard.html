@@ -1148,12 +1148,13 @@
         try{
           const pp = await api('/api/admin/session/' + currentCode + '/passphrase/progress');
           if(mySeq !== pollSeq) return;
-          els.crosswordProgressNote.innerHTML = 'Pass-Phrase progress — <b>admin-only quality metric</b>: <code>avg %-of-best</code> = participant score vs <i>theoretical best achievable for that deck</i> (not a fixed 100). Shows <code>X / Y rounds · avg 73% of best</code> per participant + current strength. <code>ceiling with what\'s left</code> is the max still reachable from remaining unused chunks — for facilitator commentary. &nbsp; Theoretical bests: ' + Object.entries(pp.theoreticalBests||{}).map(([rid,b])=> rid+': '+b.score+' ('+b.label+')').join(' · ');
+          els.crosswordProgressNote.innerHTML = 'Pass-Phrase progress — 5 Choose phases (plain correct/wrong, like an MC module) + 5 Build phases (<b>admin-only quality metric</b>: <code>avg %-of-best</code> = participant score vs <i>theoretical best achievable for that deck</i>, not a fixed 100). Shows <code>X / Y phases · N/5 choices correct · avg 73% of best</code> per participant + current strength. <code>ceiling with what\'s left</code> is the max still reachable from remaining unused chunks — for facilitator commentary. &nbsp; Theoretical bests: ' + Object.entries(pp.theoreticalBests||{}).map(([rid,b])=> rid+': '+b.score+' ('+b.label+')').join(' · ');
           const ppSuffix = p => {
+            const choose = p.chooseTotal!=null ? p.chooseCorrectCount+'/'+p.chooseTotal+' choices correct' : '';
             const pct = p.avgPctBest!=null ? p.avgPctBest+'% of best' : '';
             const cur = p.currentStrengthLabel ? p.currentStrengthLabel + (p.currentStrengthScore!=null ? ' ('+p.currentStrengthScore+')' : '') : '';
             const ceil = p.ceilingScore!=null ? ' · ceiling '+p.ceilingScore+' ('+p.ceilingLabel+')' : '';
-            return (pct ? ' · '+pct : '') + (cur ? ' · '+cur : '') + ceil;
+            return (choose ? ' · '+choose : '') + (pct ? ' · '+pct : '') + (cur ? ' · '+cur : '') + ceil;
           };
           renderCrosswordProgress(pp, 'rounds built', ppSuffix);
           els.resultsPrompt.textContent = `Pass-Phrase - ${pp.totalCount||0} rounds · live progress (admin-only %-of-best)`;

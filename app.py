@@ -331,7 +331,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             if correct_id:
                 out["correctOptionId"] = correct_id
             return out
-        if module_id == "pass-phrase":
+        if module_id == "pass-phrase-build":
             # Real build-your-own-password mechanic, matching the console (pass-phrase.js):
             # a themed deck of PP_DECK_SIZE CHUNKS (mixed 3-char fragments like "Syn","Sec",
             # 2-char pairs like "Ka","Th","on", and 1-char singles/symbols/numbers) that
@@ -356,9 +356,11 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             requirement = hint.split(" - ", 1)[1].strip() if " - " in hint else "Rebuild it stronger using the deck below."
             return {
                 "id": str(base_id),
+                "kind": "build",
                 "prompt": None,
                 "weakPassword": str(weak),
                 "weakRequirement": requirement,
+                "violates": raw.get("violates"),
                 "deck": list(deck),
                 "maxSlots": PP_MAX_SLOTS,
                 "maxChars": PP_MAX_CHARS,
@@ -366,6 +368,38 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
                 "options": [],
                 "revealed": False,
             }
+        if module_id == "pass-phrase-choose":
+            # "Choose the compliant one" phase, one per round, immediately BEFORE that round's
+            # own build phase (see _load_module_sequence) - 4 candidate passwords, exactly one
+            # actually meeting Synergy's stated policy (content/pass-phrase.json's top-level
+            # "policy" string). Modeled as a plain MC item (options + correctOptionId) so it
+            # rides the exact same generic correctness/reveal/admin infrastructure every other
+            # MC module (fault-finding, myth-vs-fact, clue-quest) already uses - nothing
+            # pass-phrase-specific needed in session_respond/admin_progress/admin_reveal for
+            # this phase. Shuffled once here (not per participant) so the compliant option isn't
+            # always in the same slot, same shuffle-once-at-load approach as everything else in
+            # this file (content is generated once per launch, not per request).
+            choices = list(raw.get("choices") or [])
+            random.shuffle(choices)
+            norm_opts = _normalize_options(choices)
+            correct_id = None
+            fact_lines = []
+            for c, opt in zip(choices, norm_opts):
+                verdict = "Compliant" if c.get("compliant") else "Violates"
+                fact_lines.append(f"{'✓' if c.get('compliant') else '✗'} {verdict} — \"{c.get('text')}\": {c.get('reason') or ''}")
+                if c.get("compliant") and correct_id is None:
+                    correct_id = opt["id"]
+            out = {
+                "id": str(base_id) + "_choose",
+                "kind": "choose",
+                "prompt": "Which of these actually meets Synergy's password policy?",
+                "options": norm_opts,
+                "fact": "\n".join(fact_lines),
+                "revealed": False,
+            }
+            if correct_id:
+                out["correctOptionId"] = correct_id
+            return out
         if module_id == "crossword":
             # Crossword is one grid, self-paced; no per-item poll. Represent as single grid item.
             return {"id": "crossword-grid", "prompt": "Crossword grid", "options": [], "fact": "", "revealed": False}
@@ -429,7 +463,14 @@ def _load_module_sequence(module_id: str):
         if module_id == "clue-quest":
             return [_normalize_module_item(module_id, r, i) for i, r in enumerate(data.get("riddles", []))]
         if module_id == "pass-phrase":
-            return [_normalize_module_item(module_id, r, i) for i, r in enumerate(data.get("rounds", []))]
+            # Each round is now TWO sequence items - a Choose phase (4-option MC: pick the
+            # actually-compliant password) immediately followed by that same round's existing
+            # Build phase - so 5 rounds -> 10 items: Choose1, Build1, Choose2, Build2, ...
+            seq = []
+            for i, r in enumerate(data.get("rounds", [])):
+                seq.append(_normalize_module_item("pass-phrase-choose", r, i))
+                seq.append(_normalize_module_item("pass-phrase-build", r, i))
+            return seq
         if module_id == "crossword":
             # One grid activity
             return [_normalize_module_item(module_id, {}, 0)]
@@ -635,7 +676,11 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
     # "give up and see it now" action), so gating that behind finishing all 9 riddles would
     # break the feature entirely. Scoped to clue-quest only; every other module keeps the
     # deferred-to-Submit review pattern unchanged.
-    if (is_submitted or (active_module == "clue-quest" and my_answer is not None)) and item.get("fact"):
+    if (
+        is_submitted
+        or (active_module == "clue-quest" and my_answer is not None)
+        or (active_module == "pass-phrase" and item.get("kind") == "choose" and my_answer is not None)
+    ) and item.get("fact"):
         safe["fact"] = str(item.get("fact"))
         safe["revealed"] = True
         # Fault-finding's console Reveal shows both "What's Wrong" and "Why It's Suspicious" as
@@ -1731,6 +1776,9 @@ button.pp-tile, button.pp-deck-tile{
   <div id="introScreen" class="card hidden" style="text-align:center">
     <div style="display:inline-flex;align-items:center;gap:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#0891b2;background:#ecfeff;border:1px solid #a5f3fc;padding:4px 10px;border-radius:999px;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-circle-info"></i> Why This Matters</div>
     <p id="introText" style="margin:16px 0;font-size:var(--fs-body);line-height:1.5;color:#0f172a"></p>
+    <!-- Pass-phrase-only: the explicit named policy statement (content's top-level "policy") -
+         hidden/empty for every other module, see showParticipantIntro's 3rd param. -->
+    <p id="introPolicy" class="hidden" style="margin:0 0 16px;padding:10px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:var(--fs-badge);line-height:1.5;color:#78350f;text-align:left"></p>
     <button id="introStartBtn" class="btn" style="width:100%;background:#06b6d4;color:white" type="button"><i class="fa-solid fa-play"></i> Start</button>
     <p style="margin-top:10px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8">Synergy Cyber Security Awareness Month</p>
   </div>
@@ -1928,6 +1976,7 @@ const els = {
   actSubmitMsg: document.getElementById('actSubmitMsg'),
   introScreen: document.getElementById('introScreen'),
   introText: document.getElementById('introText'),
+  introPolicy: document.getElementById('introPolicy'),
   introStartBtn: document.getElementById('introStartBtn'),
   submittedScreen: document.getElementById('submittedScreen'),
   submittedModule: document.getElementById('submittedModule'),
@@ -2088,9 +2137,11 @@ function ppRoundIsStrong(it){
 }
 function isActivityAllAnswered(){
   if(!actItems || !actItems.length) return false;
-  // pass-phrase: each round counts as answered once it reaches Strong+, matching console
+  // pass-phrase: Build phases count as answered once they reach Strong+ (matching console);
+  // Choose phases are plain MC, so they count as answered via the generic myAnswer!=null check
+  // below, same as every other MC module.
   if(actModuleLoaded === 'pass-phrase'){
-    return actItems.every(ppRoundIsStrong);
+    return actItems.every(it => it.kind === 'build' ? ppRoundIsStrong(it) : it.myAnswer!=null);
   }
   // MC modules with discrete options: every item has a myAnswer. Decision-room no longer
   // produces any debrief-only/no-option items (every one of its 10 items is a real decision -
@@ -2232,11 +2283,20 @@ async function doCwSubmit(){
   }
 }
 let pendingIntroModule = null;
-function showParticipantIntro(curMod, whyText){
+function showParticipantIntro(curMod, whyText, policyText){
   if(!whyText) return false;
   if(introDismissedFor === curMod) return false;
   pendingIntroModule = curMod;
   if(els.introText) els.introText.textContent = whyText;
+  if(els.introPolicy){
+    if(policyText){
+      els.introPolicy.textContent = policyText;
+      els.introPolicy.classList.remove('hidden');
+    } else {
+      els.introPolicy.textContent = '';
+      els.introPolicy.classList.add('hidden');
+    }
+  }
   showScreen('intro');
   return true;
 }
@@ -2339,9 +2399,10 @@ function updateActivityChrome(){
   els.actPrevBtn.disabled = actIndex<=0;
   els.actNextBtn.disabled = actIndex>=total-1;
   els.actDots.innerHTML = actItems.map((it,i)=>{
-    // pass-phrase has no single "answer" - a round's dot only turns "done" once it reaches
-    // Strong+, matching console's own Solved-button gate (ppRoundIsStrong).
-    const hasBuild = actModuleLoaded==='pass-phrase' ? ppRoundIsStrong(it)
+    // pass-phrase Build phases have no single "answer" - their dot only turns "done" once the
+    // build reaches Strong+, matching console's own Solved-button gate (ppRoundIsStrong).
+    // Choose phases are plain MC, so they fall through to the generic myAnswer!=null check.
+    const hasBuild = (actModuleLoaded==='pass-phrase' && it.kind==='build') ? ppRoundIsStrong(it)
       : (it._ppSlots && it._ppSlots.length>0) || (it.myBuild && it.myBuild.builtPassword && it.myBuild.builtPassword.length>0);
     const isDone = it.myAnswer!=null || hasBuild || it.kind==='svr' || it.kind==='debrief' || !it.options || it.options.length===0;
     const cls = ['dot']; if(isDone) cls.push('done'); if(i===actIndex) cls.push('current');
@@ -2372,9 +2433,11 @@ function renderActivityItem(){
   if(!item){ els.actMount.innerHTML = '<p style="color:#94a3b8">No items in this activity.</p>'; return; }
   const renderer = ACTIVITY_RENDERERS[actModuleLoaded] || renderGenericItem;
   els.actMount.innerHTML = renderer(item);
-  // Pass-phrase has no [data-answer-opt] vote at all - it's a free-build deck/slot
-  // interaction with its own wiring and its own debounced submit, not a single-answer lock.
-  if(actModuleLoaded === 'pass-phrase') wirePassPhraseBuild(item);
+  // Pass-phrase's Build phase has no [data-answer-opt] vote at all - it's a free-build
+  // deck/slot interaction with its own wiring and its own debounced submit, not a
+  // single-answer lock. Its Choose phase is plain MC though, so it wires like every other
+  // MC module's options.
+  if(actModuleLoaded === 'pass-phrase' && item.kind === 'build') wirePassPhraseBuild(item);
   else wireActivityOptions(item);
   // Clue-quest's 30s-per-riddle timer is its own mechanic, layered on top of the shared
   // [data-answer-opt] wiring above (which already handles a real tap).
@@ -2496,7 +2559,11 @@ function renderCorrectFeedback(item){
       : '<div class="feedback-badge incorrect"><i class="fa-solid fa-xmark"></i> Not quite</div>';
   }
   if(item.fact){
-    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:var(--fs-badge);line-height:1.5;color:#0c4a6e;text-align:left"><strong>Details - Identification & Recommendation:</strong><br>'+esc(item.fact)+'</div>';
+    // white-space:pre-line honors the newline separators pass-phrase's Choose-phase composes
+    // into its fact string (one line per option's verdict+reason) - a no-op for every other
+    // module, whose fact strings never contain a line break.
+    const factLabel = item.kind==='choose' ? 'Why each option passed or failed:' : 'Details - Identification & Recommendation:';
+    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:var(--fs-badge);line-height:1.5;color:#0c4a6e;text-align:left;white-space:pre-line"><strong>'+factLabel+'</strong><br>'+esc(item.fact)+'</div>';
   } else if(item.myAnswerCorrect==null && !item.fact){
     return '';
   }
@@ -2802,6 +2869,11 @@ function ppSubmitBuild(item){
 }
 
 function renderPassPhrase(item){
+  // Choose phase (pick the compliant password among 4) reuses the exact same generic MC
+  // renderer every other module's options use - only the Build phase below needs the
+  // deck/slots UI. See the matching branch in the wiring dispatch (wireActivityOptions vs
+  // wirePassPhraseBuild) and updateActivityChrome's per-dot done-check.
+  if(item.kind === 'choose') return renderGenericItem(item);
   ppEnsureState(item);
   const built = item._ppSlots.join('');
   const result = ppComputeStrength(built, item.weakPassword||'');
@@ -2817,6 +2889,7 @@ function renderPassPhrase(item){
   let html = '<div class="pp-weak-card">'
     + '<div class="pp-weak-label"><i class="fa-solid fa-triangle-exclamation"></i> Starting Sample - Weak <span style="margin-left:6px;font-weight:400;opacity:0.7">['+esc(diffLabel)+']</span></div>'
     + '<div class="pp-weak-text">'+esc(item.weakPassword||'')+'</div>'
+    + (item.violates ? '<div class="pp-weak-violates"><i class="fa-solid fa-circle-xmark"></i> Violates: '+esc(item.violates)+'</div>' : '')
     + (item.weakRequirement ? '<div class="pp-weak-meta">'+esc(diffLabel+' - '+item.weakRequirement+' - deck has '+item.deck.length+' chunks ('+twoCount+' ×2-char, '+threeCount+' ×3-char) to rebuild strong (cap '+maxChars+' chars)')+'</div>' : '')
     + '</div>';
   html += '<div class="pp-builder-card" style="margin-top:14px;padding:14px">'
@@ -3769,7 +3842,7 @@ async function fetchState(){
     // Flow parity with console: intro/whyThisMatters before items (console le-intro-screen)
     if(state==='running'){
       if(curMod==='crossword'){
-        if(showParticipantIntro(curMod, s.whyThisMatters)) return;
+        if(showParticipantIntro(curMod, s.whyThisMatters, s.policyStatement)) return;
         actModuleLoaded = null; const _as4=document.getElementById('activityScreen'); if(_as4) delete _as4.dataset.module;
         showScreen('crossword');
         ensureCrossword();
@@ -3787,7 +3860,7 @@ async function fetchState(){
         return;
       }
       if(curMod==='control-catch'){
-        if(showParticipantIntro(curMod, s.whyThisMatters)) return;
+        if(showParticipantIntro(curMod, s.whyThisMatters, s.policyStatement)) return;
         actModuleLoaded = null; const _as4b=document.getElementById('activityScreen'); if(_as4b) delete _as4b.dataset.module;
         showScreen('control-catch');
         ensureControlCatch();
@@ -3801,7 +3874,7 @@ async function fetchState(){
           document.getElementById('waitingSub').textContent = 'Running ' + displayName + ' - no items to show.';
           return;
         }
-        if(showParticipantIntro(curMod, s.whyThisMatters)) return;
+        if(showParticipantIntro(curMod, s.whyThisMatters, s.policyStatement)) return;
         showScreen('activity');
         // Review mode: keep activity visible with facts, hide Submit, show Back to Confirmation
         if(isReviewingAfterSubmit && actIsSubmitted){
@@ -4250,6 +4323,12 @@ def session_respond(code):
     if sess.get("activeModule") == "clue-quest" and target_item.get("fact"):
         resp["fact"] = str(target_item.get("fact"))
         resp["revealed"] = True
+    # Pass-phrase's Choose phase reveals all 4 options' verdict+reason the instant the tap
+    # lands, same "the tap itself waits on this" reasoning as clue-quest above - see the
+    # matching carve-out in _sanitize_item_for_participant.
+    if sess.get("activeModule") == "pass-phrase" and target_item.get("kind") == "choose" and target_item.get("fact"):
+        resp["fact"] = str(target_item.get("fact"))
+        resp["revealed"] = True
     # Decision-room reveals the chosen option's own outcome + feedback the instant it's picked
     # (console has no separate reveal step at all here) - same "the tap itself waits on this"
     # reasoning as clue-quest above, so it travels in the /respond reply, not just the next poll.
@@ -4446,6 +4525,9 @@ def session_state(code):
     content_data = _read_module_json(active_module) if active_module else None
     why_this = content_data.get("whyThisMatters") if content_data else None
     remember = content_data.get("rememberThis") if content_data else None
+    # Pass-phrase-only: the explicit named policy statement, shown alongside whyThisMatters on
+    # the intro screen. None for every other module (harmless, matches the why_this/remember pattern).
+    policy_statement = content_data.get("policy") if content_data and active_module == "pass-phrase" else None
     return jsonify({
         "roomCode": code,
         "activeModule": active_module,
@@ -4465,6 +4547,7 @@ def session_state(code):
         "submittedAt": my_submitted_at,
         "whyThisMatters": why_this,
         "rememberThis": remember,
+        "policyStatement": policy_statement,
     })
 
 
@@ -4644,6 +4727,13 @@ def admin_progress(code):
                 good += 1
             if at and (last_at is None or at > last_at):
                 last_at = at
+        # Pass-phrase's Build phases never post through /respond (they go through the dedicated
+        # /passphrase/build endpoint into sess["passphraseBuilds"] instead - see
+        # /passphrase/progress for their own dedicated %-of-best metric), so the loop above only
+        # ever counts Choose phases. Add build completions here too so filledCount/totalCount
+        # reflects both phase types, not just the 5 Choose items out of 10 total.
+        if active_module == "pass-phrase":
+            answered += len(sess.get("passphraseBuilds", {}).get(pid, {}))
         # Submission status - authoritative done signal
         _sub_raw = sess.get("submissions", {}).get(pid, {}).get(active_module)
         submitted_at = _sub_raw if isinstance(_sub_raw, str) else (_sub_raw.get("submittedAt") if isinstance(_sub_raw, dict) else _sub_raw)
@@ -4781,12 +4871,21 @@ def _compute_module_summary(sess):
 
     if active_module == "pass-phrase":
         module_sequence = sess.get("moduleSequence") or []
-        round_ids = [it.get("id") for it in module_sequence]
+        # Only Build-phase items are "rounds" for this metric - Choose-phase items (plain MC,
+        # interleaved before each Build item - see _load_module_sequence) get their own
+        # correctness computation below, added to each summary entry alongside the existing
+        # build quality fields rather than replacing them.
+        build_items = [it for it in module_sequence if it.get("kind") == "build"]
+        round_ids = [it.get("id") for it in build_items]
         total_rounds = len(round_ids)
         builds = sess.get("passphraseBuilds", {})
+        choose_items = [it for it in module_sequence if it.get("kind") == "choose"]
+        choose_ids = [it.get("id") for it in choose_items]
+        choose_correct_option = {it["id"]: it.get("correctOptionId") for it in choose_items}
+        responses = sess.get("responses", {})
         # Precompute theoretical best per round (admin-only quality metric — NOT a fixed 100)
         theoretical_best_by_round = {}
-        for it in module_sequence:
+        for it in build_items:
             rid = it.get("id")
             deck = it.get("deck") or []
             weak = str(it.get("weakPassword") or "")
@@ -4827,6 +4926,20 @@ def _compute_module_summary(sess):
                     best_score = theoretical_best_by_round.get(rid, {}).get("score", 0) or 0
                     per_round_best[rid] = best_score
             avg_pct = round(sum(pcts) / len(pcts)) if pcts else 0
+            # Choose-phase correctness - separate metric from the build quality above, computed
+            # the same way the generic admin_progress panel computes correctness for any MC
+            # module (match against each item's correctOptionId), just scoped to this
+            # participant's choose_ids instead of the whole sequence.
+            choose_correct = 0
+            choose_answered = 0
+            for cid in choose_ids:
+                entry = _response_entries_for_module(responses.get(cid, {}), active_module).get(pid)
+                if entry is None:
+                    continue
+                choose_answered += 1
+                oid = entry.get("optionId") if isinstance(entry, dict) else entry
+                if choose_correct_option.get(cid) is not None and str(oid) == str(choose_correct_option[cid]):
+                    choose_correct += 1
             # correctCount repurposed as avgPct for ranking display? Keep distinct field
             summary.append({
                 "participantId": pid, "name": name,
@@ -4840,6 +4953,9 @@ def _compute_module_summary(sess):
                 "perRoundPct": per_round_pct,
                 "perRoundBest": per_round_best,
                 "perRoundScore": per_round_score,
+                "chooseCorrectCount": choose_correct,
+                "chooseAnsweredCount": choose_answered,
+                "chooseTotal": len(choose_ids),
             })
         # has_correctness True so rankedBy picks correctCount (which is avgPct) — labelled as %-of-best
         return summary, True, total_rounds
@@ -5243,12 +5359,20 @@ def admin_passphrase_progress(code):
     if not sess:
         return jsonify({"error": "room not found"}), 404
     module_sequence = sess.get("moduleSequence") or []
-    total_rounds = len(module_sequence)
+    # Build phases only for this endpoint's %-of-best metric - Choose phases (interleaved
+    # before each Build item, see _load_module_sequence) get their own correctness block below,
+    # added to each entry rather than replacing the build fields this panel already reports.
+    build_items = [it for it in module_sequence if it.get("kind") == "build"]
+    total_rounds = len(build_items)
     builds = sess.get("passphraseBuilds", {})
     active_module = sess.get("activeModule") or "pass-phrase"
+    choose_items = [it for it in module_sequence if it.get("kind") == "choose"]
+    choose_ids = [it.get("id") for it in choose_items]
+    choose_correct_option = {it["id"]: it.get("correctOptionId") for it in choose_items}
+    responses = sess.get("responses", {})
     # Theoretical best per round (admin-only, drives %-of-best)
     theoretical_by_round = {}
-    for it in module_sequence:
+    for it in build_items:
         rid = it.get("id")
         deck = it.get("deck") or []
         weak = str(it.get("weakPassword") or "")
@@ -5280,7 +5404,7 @@ def admin_passphrase_progress(code):
         per_round_score = {}
         per_round_best = {}
         pcts = []
-        for rid in [it.get("id") for it in module_sequence]:
+        for rid in [it.get("id") for it in build_items]:
             best_score = theoretical_by_round.get(rid, {}).get("score", 0) or 0
             per_round_best[rid] = best_score
             if rid in rounds_built:
@@ -5308,6 +5432,19 @@ def admin_passphrase_progress(code):
             # theoretical best as the absolute ceiling for that round instead.
             ceiling_score = theoretical_by_round.get(latest_rid, {}).get("score")
             ceiling_label = theoretical_by_round.get(latest_rid, {}).get("label")
+        # Choose-phase correctness - same computation as the generic admin_progress panel
+        # (match each response against that item's correctOptionId), scoped to this
+        # participant's choose_ids. Additive to the build metrics above, not a replacement.
+        choose_correct = 0
+        choose_answered = 0
+        for cid in choose_ids:
+            resp_entry = _response_entries_for_module(responses.get(cid, {}), active_module).get(pid)
+            if resp_entry is None:
+                continue
+            choose_answered += 1
+            oid = resp_entry.get("optionId") if isinstance(resp_entry, dict) else resp_entry
+            if choose_correct_option.get(cid) is not None and str(oid) == str(choose_correct_option[cid]):
+                choose_correct += 1
         entry = {
             "participantId": pid,
             "name": name,
@@ -5325,6 +5462,9 @@ def admin_passphrase_progress(code):
             "perRoundBest": per_round_best,
             "ceilingScore": ceiling_score,
             "ceilingLabel": ceiling_label,
+            "chooseCorrectCount": choose_correct,
+            "chooseAnsweredCount": choose_answered,
+            "chooseTotal": len(choose_ids),
         }
         result.append(entry)
     def _pp_sort(x):
