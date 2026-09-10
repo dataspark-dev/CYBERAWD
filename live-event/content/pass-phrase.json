@@ -1,15 +1,15 @@
 {
-  "whyThisMatters": "A password made from a name and a birth year can be guessed in seconds. Length, randomness, and mixed types are what slow an attacker. It is not personal cleverness.",
-  "policy": "Synergy's password policy: 12+ characters, a mix of upper case, lower case, numbers and symbols, and NO personal information — no names, birth dates, months, or anything tied to who you are.",
-  "rememberThis": "12+ characters, mixed case, numbers, symbols, nothing personal — that's Synergy's policy, and now you've both spotted it and built it.",
+  "whyThisMatters": "A password made from your name or birth year can be guessed in seconds. What slows an attacker is length and mixing different types of characters — not being clever with one symbol.",
+  "policy": "Synergy's password policy: 12 or more characters, with big letters, small letters, numbers and a symbol, and no personal information — no names, birth dates, city names, or anything tied to you. For example, \"Rahul1998\" is not allowed, even with a symbol added.",
+  "rememberThis": "12+ characters, big + small letters, numbers, a symbol, nothing personal — that is Synergy's rule, and now you have both spotted it and built it.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the group to compare the password they built with how they make their own passwords. Is there anything that makes them think differently?",
-      "Ask why length matters more than adding one symbol. Can anyone explain it in their own words after watching the meter move?",
-      "Ask if anyone has reused a \"strong\" password on more than one account, and why that removes the strength.",
-      "For each Choose round, ask why the wrong options still \"look\" strong at a glance. What's the actual policy rule each one breaks?"
+      "Ask the group to compare the password they built with how they make their own passwords. Is there anything that makes them think differently now?",
+      "Ask why length matters more than adding one symbol. Can anyone explain it in their own words after watching the strength meter move?",
+      "Ask if anyone has reused a \"strong\" password on more than one account — for example, the same one for the crew portal and personal email — and why that removes the strength.",
+      "For each Choose round, ask why the wrong options still look strong at a glance. What is the actual rule each one breaks — is it too short, does it use a name or place, or is it just a common word with a symbol?"
     ],
-    "commonWrongAnswer": "The most common mistake is stopping as soon as the meter turns green. People add just one symbol or number instead of making it longer. On the Choose rounds, people often pick the option with a symbol in it without checking length or personal info first."
+    "commonWrongAnswer": "The most common mistake is stopping as soon as the meter turns green. People add just one symbol or number instead of making the password longer. In the Choose rounds, people often pick the option with a symbol in it without checking length or personal information first."
   },
   "deckSize": 15,
   "maxChars": 15,
@@ -19,14 +19,14 @@
       "id": "round-1",
       "label": "Round 1 - Easy",
       "difficulty": "easy",
-      "hint": "Weak: rahul1998 / mumbai123 - rebuild with upper + symbol + phrase",
+      "hint": "Weak: rahul1998 / mumbai123 - rebuild longer with big letters + a symbol + a phrase",
       "weakPassword": "priya92",
-      "violates": "no personal info (name + birth year)",
+      "violates": "uses your name and birth year — not allowed",
       "choices": [
-        {"id": "c0", "text": "Rahul1998", "compliant": false, "reason": "Violates: no personal info — a name plus birth year is exactly what the policy rules out, no matter how obvious it feels to type."},
-        {"id": "c1", "text": "River7Bridge#Kite", "compliant": true, "reason": "Meets policy: 18 characters, mixes upper/lower/number/symbol, nothing personal."},
-        {"id": "c2", "text": "P@ssw0rd1234", "compliant": false, "reason": "Violates: predictable pattern — it checks the length and symbol boxes, but swapping letters for lookalike symbols in a common word is the first thing attackers try."},
-        {"id": "c3", "text": "Xk9#mQ2", "compliant": false, "reason": "Violates: minimum length — only 7 characters. Mixing types doesn't make up for being short."}
+        {"id": "c0", "text": "Rahul1998", "compliant": false, "reason": "Not allowed: uses a name plus birth year. The policy says no personal information — no names, birth dates, or anything tied to you."},
+        {"id": "c1", "text": "River7Bridge#Kite", "compliant": true, "reason": "Meets the policy: 18 characters long, has big and small letters, a number and a symbol, and nothing personal."},
+        {"id": "c2", "text": "P@ssw0rd1234", "compliant": false, "reason": "Not allowed: it is a common word (\"password\") with letters swapped for lookalike symbols. That is the first thing attackers try, even though it looks clever."},
+        {"id": "c3", "text": "Xk9#mQ2", "compliant": false, "reason": "Not allowed: only 7 characters — too short. The policy needs 12 or more. Mixing types does not make up for being short."}
       ],
       "deck": [
         "Log",
@@ -50,14 +50,14 @@
       "id": "round-2",
       "label": "Round 2 - Easy",
       "difficulty": "easy",
-      "hint": "Weak: priya2001 - add place + symbols",
+      "hint": "Weak: priya2001 - add length + symbols, no month/year",
       "weakPassword": "pune979",
-      "violates": "no personal info (date pattern)",
+      "violates": "uses a place and number pattern — too guessable",
       "choices": [
-        {"id": "c0", "text": "March2024", "compliant": false, "reason": "Violates: no personal info — a month-plus-year pattern is still personal/predictable data, not a random phrase."},
-        {"id": "c1", "text": "TealAnchor58$Kite", "compliant": true, "reason": "Meets policy: 17 characters, mixes upper/lower/number/symbol, nothing personal."},
-        {"id": "c2", "text": "lighthousekeeper", "compliant": false, "reason": "Violates: mix of character types — 16 characters is plenty long, but it's all lowercase letters with no number or symbol at all."},
-        {"id": "c3", "text": "Ab3$xQ9", "compliant": false, "reason": "Violates: minimum length — only 7 characters, even though it has upper, lower, number and symbol."}
+        {"id": "c0", "text": "March2024", "compliant": false, "reason": "Not allowed: uses a month plus a year. That is personal and predictable, not a random phrase — the policy says no months, dates, or names."},
+        {"id": "c1", "text": "TealAnchor58$Kite", "compliant": true, "reason": "Meets the policy: 17 characters long, has big and small letters, a number and a symbol, and nothing personal."},
+        {"id": "c2", "text": "lighthousekeeper", "compliant": false, "reason": "Not allowed: it is 16 characters, which is long enough, but it is only small letters — it needs a big letter, a number and a symbol as well."},
+        {"id": "c3", "text": "Ab3$xQ9", "compliant": false, "reason": "Not allowed: only 7 characters — too short. The policy needs 12 or more, even though it has all four types."}
       ],
       "deck": [
         "Log",
@@ -81,14 +81,14 @@
       "id": "round-3",
       "label": "Round 3 - Medium",
       "difficulty": "medium",
-      "hint": "Weak: RahulMumbai98 - break the personal pattern, add phrase Ocean/Voyage",
+      "hint": "Weak: RahulMumbai98 - still uses name + place, break the personal pattern",
       "weakPassword": "meeraHyderabad95",
-      "violates": "predictable pattern (dictionary word)",
+      "violates": "uses name + city + year — personal information not allowed",
       "choices": [
-        {"id": "c0", "text": "P@ssword1234", "compliant": false, "reason": "Violates: predictable pattern — 12 characters with upper, lower, number and symbol, but it's a well-known word with letters swapped for symbols, which attackers check first."},
-        {"id": "c1", "text": "MarinaVoyage77&Delta", "compliant": true, "reason": "Meets policy: 20 characters, mixes upper/lower/number/symbol, nothing personal."},
-        {"id": "c2", "text": "rohan-anchor-99", "compliant": false, "reason": "Violates: no personal info — it opens with a first name, which ties the password back to a person."},
-        {"id": "c3", "text": "Xk4#nP", "compliant": false, "reason": "Violates: minimum length — only 6 characters despite the mixed types."}
+        {"id": "c0", "text": "P@ssword1234", "compliant": false, "reason": "Not allowed: it is 12 characters and looks mixed, but it is just the word \"password\" with swapped symbols — a common trick attackers try first."},
+        {"id": "c1", "text": "MarinaVoyage77&Delta", "compliant": true, "reason": "Meets the policy: 20 characters long, has big and small letters, a number and a symbol, and nothing personal."},
+        {"id": "c2", "text": "rohan-anchor-99", "compliant": false, "reason": "Not allowed: it starts with a person's name (Rohan). The policy says no names, even if the rest looks random."},
+        {"id": "c3", "text": "Xk4#nP", "compliant": false, "reason": "Not allowed: only 6 characters — too short. The policy needs 12 or more, even with a good mix."}
       ],
       "deck": [
         "@",
@@ -112,14 +112,14 @@
       "id": "round-4",
       "label": "Round 4 - Hard",
       "difficulty": "hard",
-      "hint": "Weak: Rahul_Mumbai1998 - still guessable, need 12+ random",
+      "hint": "Weak: Rahul_Mumbai1998 - looks mixed but still guessable, need 12+ random characters",
       "weakPassword": "Karan-Kolkata2002",
-      "violates": "minimum length (looks complex, too short)",
+      "violates": "uses name + city + year — personal, even with a symbol",
       "choices": [
-        {"id": "c0", "text": "Sunshine1!", "compliant": false, "reason": "Violates: minimum length — only 10 characters. It has upper, lower, number and symbol, but still falls short of 12."},
-        {"id": "c1", "text": "CopperTrail42#Bridge", "compliant": true, "reason": "Meets policy: 20 characters, mixes upper/lower/number/symbol, nothing personal."},
-        {"id": "c2", "text": "neha-mumbai-2001", "compliant": false, "reason": "Violates: no personal info — a name, a place, and a year together, even past 12 characters."},
-        {"id": "c3", "text": "sailorsailorsailor", "compliant": false, "reason": "Violates: mix of character types — 19 characters, but it's one repeated lowercase word with no number or symbol."}
+        {"id": "c0", "text": "Sunshine1!", "compliant": false, "reason": "Not allowed: only 10 characters — too short. It has big, small, number and symbol, but still does not reach 12."},
+        {"id": "c1", "text": "CopperTrail42#Bridge", "compliant": true, "reason": "Meets the policy: 20 characters long, has big and small letters, a number and a symbol, and nothing personal."},
+        {"id": "c2", "text": "neha-mumbai-2001", "compliant": false, "reason": "Not allowed: uses a name, a city, and a year together — even past 12 characters, personal information is not allowed."},
+        {"id": "c3", "text": "sailorsailorsailor", "compliant": false, "reason": "Not allowed: 19 characters, but it is one repeated small-letter word with no big letter, no number and no symbol."}
       ],
       "deck": [
         "_",
@@ -143,14 +143,14 @@
       "id": "round-5",
       "label": "Round 5 - Hard",
       "difficulty": "hard",
-      "hint": "Weak: Priya#Goa2001! - personal data even with symbols is weak",
+      "hint": "Weak: Priya#Goa2001! - personal data even with symbols is still not allowed",
       "weakPassword": "Amit#Kolkata92",
-      "violates": "no personal info (despite a symbol)",
+      "violates": "uses name + city + year — a symbol does not cancel out personal data",
       "choices": [
-        {"id": "c0", "text": "Amit#Kolkata92", "compliant": false, "reason": "Violates: no personal info — a name, a place and a year, even with a symbol mixed in. A symbol does not cancel out personal data."},
-        {"id": "c1", "text": "GraniteEcho19@Fathom", "compliant": true, "reason": "Meets policy: 20 characters, mixes upper/lower/number/symbol, nothing personal."},
-        {"id": "c2", "text": "Iloveyou1!", "compliant": false, "reason": "Violates: predictable pattern — one of the most common leaked passwords ever, and at 10 characters it's also short."},
-        {"id": "c3", "text": "monkeymonkeymonkey", "compliant": false, "reason": "Violates: mix of character types — 19 characters of one repeated lowercase word, no number or symbol."}
+        {"id": "c0", "text": "Amit#Kolkata92", "compliant": false, "reason": "Not allowed: it uses a name, a city and a year together. Adding a symbol does not cancel out personal information."},
+        {"id": "c1", "text": "GraniteEcho19@Fathom", "compliant": true, "reason": "Meets the policy: 20 characters long, has big and small letters, a number and a symbol, and nothing personal."},
+        {"id": "c2", "text": "Iloveyou1!", "compliant": false, "reason": "Not allowed: this is one of the most common leaked passwords in the world — and at 10 characters it is also too short."},
+        {"id": "c3", "text": "monkeymonkeymonkey", "compliant": false, "reason": "Not allowed: 19 characters of one repeated small-letter word, with no big letter, no number and no symbol."}
       ],
       "deck": [
         "+",

@@ -1,94 +1,94 @@
 {
-  "whyThisMatters": "A lot of what feels true about security is old advice or only partly right. A few minutes here will clear up what really matters.",
-  "rememberThis": "If a security rule sounds old, check it again before you follow it.",
+  "whyThisMatters": "A lot of what feels true about security is old advice or only partly right. A few minutes here will clear up what really matters for you at the office and on board.",
+  "rememberThis": "If a security rule sounds old — like \"change your password every month\" or \"only bad emails have typos\" — check it again before you follow it.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask if anyone has seen a phishing email that looked correct and professional, with no spelling mistakes. What helped them notice it was fake?",
-      "For the password questions, ask if anyone still changes their password every 30 to 90 days just because they always did. Ask where that habit came from.",
-      "For the reporting questions, ask the group honestly: would you report something you were not sure was harmful? What would make it easier to report?"
+      "Ask if anyone has seen a phishing email — a fake message trying to trick you — that looked clean and professional, with no spelling mistakes. What helped them notice it was fake?",
+      "For the password myths, ask if anyone still changes their password every 30–90 days just because they always did. Where did that habit come from? Does offshore life or a shared office computer make that harder?",
+      "For the reporting myths, ask honestly: would you report something you were not sure was harmful? What would make it easier to report — the way you report a safety near-miss?"
     ],
-    "commonWrongAnswer": "People most often get mf-04 wrong. \"P@ssw0rd!\" looks strong because a letter is swapped for a symbol. So many people say TRUE. But it is actually false. Attackers already expect this trick."
+    "commonWrongAnswer": "People most often get mf-04 wrong. \"P@ssw0rd!\" looks strong because a letter is swapped for a symbol, so many people say TRUE. But it is actually false. Attackers already expect that trick, and that password can be guessed in less than a second."
   },
   "items": [
     {
       "id": "mf-01",
       "topic": "Phishing",
       "isTrue": false,
-      "myth": "You can always tell a phishing email because of bad spelling and grammar.",
-      "fact": "Modern phishing emails often look clean and professional. Many are written or fixed with AI tools. So spelling mistakes are not a reliable warning sign.",
-      "detail": "The real clue is usually the sender's exact address, a request you did not expect, or pressure to act fast. It is not typos."
+      "myth": "You can always spot a fake message because it has bad spelling and grammar.",
+      "fact": "Today many fake messages look clean and professional. Attackers use AI tools to write them perfectly, so spelling mistakes are not a reliable warning sign.",
+      "detail": "Think of a crew rotation or crewing email that reads perfectly — the real clue is not typos. It is the sender's exact address, a request you did not expect, or pressure to act fast. On a shared office computer where you skim quickly, typos are easy to miss anyway."
     },
     {
       "id": "mf-02",
       "topic": "Phishing",
       "isTrue": true,
-      "myth": "If an email comes from someone I know, it's safe.",
-      "fact": "Attackers often fake or take over real accounts, including coworkers' accounts. A familiar name does not prove a message is real.",
-      "detail": "If a request feels strange, check using a different method, like a phone call, before you act on it."
+      "myth": "If a message comes from someone I know — like my crewing executive or vessel manager — it must be safe.",
+      "fact": "Attackers often fake or take over real accounts, including colleagues' accounts. A familiar name at the top of an email or Teams message (Teams is the work chat app) does not prove the message is really from that person.",
+      "detail": "If a familiar sender makes a strange request — for example, your vessel manager suddenly asking you to change bank details by email — pause and check using a different method, like a phone call to a number you already have, before you act."
     },
     {
       "id": "mf-03",
       "topic": "Phishing",
       "isTrue": false,
-      "myth": "Phishing only happens through email.",
-      "fact": "Phishing can now happen by text, phone call, QR code, or chat app like Teams. Any way to send a link or request can be used for an attack.",
-      "detail": "The pattern is always the same. It uses urgency, a request, and pressure to act now. The channel does not matter."
+      "myth": "Fake messages only come by email.",
+      "fact": "Fake messages can come by text (SMS) to your phone, by phone call, by QR code you are asked to scan at the port or office, or by chat app like Teams. Any way to send you a link or a request can be used.",
+      "detail": "For offshore crew this matters especially: a text about your rotation, a Teams message from an unknown \"Fleet Ops\" account, or a call to the ship's phone can all be fakes. The pattern is always the same — urgency, a request, and pressure to act now — no matter the channel."
     },
     {
       "id": "mf-04",
       "topic": "Passwords",
       "isTrue": true,
-      "myth": "A password with a special character like \"P@ssw0rd!\" is strong.",
-      "fact": "Length matters more than complexity. A longer plain phrase is harder to guess than a short password with symbol swaps that attackers already expect.",
-      "detail": "\"P@ssw0rd!\" can be guessed in less than a second. A random 16-character phrase can take hundreds of years."
+      "myth": "A password like \"P@ssw0rd!\" — where you swap a letter for a symbol — is strong.",
+      "fact": "Length matters more than swapping letters for symbols. A longer plain phrase is much harder to guess than a short password where attackers already expect the @-for-a trick.",
+      "detail": "\"P@ssw0rd!\" can be guessed in less than a second. A random 16-character phrase — like four unrelated words joined together — can take hundreds of years. Length, not clever symbols, is what slows an attacker."
     },
     {
       "id": "mf-05",
       "topic": "Passwords",
       "isTrue": false,
-      "myth": "You should change your password every 30-90 days.",
-      "fact": "Forcing you to change passwords often usually leads to weaker, easier-to-guess passwords. A strong, unique password is fine to keep. Change it only if you have a real reason to think it was leaked.",
-      "detail": "Most current advice no longer says to change passwords on a schedule. It focuses on three things: make it long, use a different password for each account, and watch for leaks."
+      "myth": "You should change your password every 30–90 days, even if nothing went wrong.",
+      "fact": "Forcing regular changes usually leads to weaker passwords people can remember — or to writing them on a sticky note on a shared desk. A strong, unique password is fine to keep. Change it only if you have a real reason to think it was leaked.",
+      "detail": "This is especially true offshore or on a shared office computer where changing often is hard. Most current guidance says: make your password long, use a different one for each place you log in (your crew portal, your email, your personal apps), and watch for leaks. Do not change on a schedule for its own sake."
     },
     {
       "id": "mf-06",
       "topic": "Passwords",
       "isTrue": true,
-      "myth": "Reusing one strong password across a few accounts is fine, since it's strong.",
-      "fact": "If one of those accounts is leaked, the same password will open every other account that uses it. A strong password does not protect you if you reuse it.",
-      "detail": "A password manager helps you use a different password for each account. You do not need to remember them all."
+      "myth": "Reusing one strong password for my crew portal and a few other places is fine, because at least it is strong.",
+      "fact": "If one of those places is ever leaked, that same password will open every other account that uses it. A strong password does not protect you if you reuse it elsewhere.",
+      "detail": "For example, if you use the same password for your crew portal and a shopping app, and the shopping app is leaked, attackers will try that password on your crew portal next. A password manager — an app that remembers a different password for each place — means you do not have to remember them all yourself."
     },
     {
       "id": "mf-07",
-      "topic": "Social Engineering",
+      "topic": "Social engineering",
       "isTrue": false,
-      "myth": "Social engineering just means lying.",
-      "fact": "It is the planned use of urgency, authority, and trust to make you skip your normal checks. The pressure is the point, not just the lie.",
-      "detail": "Attackers study how people act under pressure. Then they write a message to cause that reaction."
+      "myth": "Social engineering — tricking someone — just means lying.",
+      "fact": "Social engineering means attackers plan how to use urgency, authority, and trust to make you skip your normal checks. The pressure is the point, not just the lie itself.",
+      "detail": "For example, a message that says \"The captain said to skip the safety sign-off just this once, do it now\" is social engineering. It is not just a false sentence — it is pressure to bypass a step you would normally never skip, whether for safety or for a payment."
     },
     {
       "id": "mf-08",
-      "topic": "Social Engineering",
+      "topic": "Social engineering",
       "isTrue": true,
-      "myth": "Only careless or untrained people fall for social engineering.",
-      "fact": "Well-designed social engineering can trick careful people too. It targets normal human reactions to urgency and authority. It does not only work on people who lack training.",
-      "detail": "The goal of training is not to make you doubt everything. It is to help you pause before you act when you feel pressure."
+      "myth": "Only careless or untrained people get tricked by these pressure tactics.",
+      "fact": "Well-designed pressure tactics can trick careful, experienced people too — including crewing managers, finance staff, and senior officers. They target normal human reactions to urgency and authority, not just lack of training.",
+      "detail": "You would not blame someone for reacting quickly when told \"the vessel will be off-hired\" or \"payroll will be missed.\" The goal of training is not to make you doubt everyone. It is to help you pause when you feel that pressure — STOP, VERIFY through a channel you already trust, then REPORT."
     },
     {
       "id": "mf-09",
-      "topic": "Reporting Culture",
+      "topic": "Reporting",
       "isTrue": false,
-      "myth": "Reporting a mistake will get you in trouble.",
-      "fact": "Reporting quickly is what protects you and the company. The damage usually comes from waiting, not from the first click.",
-      "detail": "Security teams would rather check ten false alarms than learn about one real attack a week too late."
+      "myth": "If I clicked something I should not have, reporting it will get me in trouble.",
+      "fact": "Reporting quickly is what protects you and the company — just like reporting a safety near-miss. The damage usually comes from waiting, not from the first click.",
+      "detail": "The IT support team would rather check ten false alarms than learn about one real attack a week too late. On board or on shore, a quick report means they can lock accounts fast. Waiting lets the problem spread."
     },
     {
       "id": "mf-10",
-      "topic": "Reporting Culture",
+      "topic": "Reporting",
       "isTrue": true,
       "myth": "If I am not sure something is harmful, it is not worth reporting.",
-      "fact": "Security teams would rather check a false alarm than miss a real attack. If you are unsure, that is exactly when you should report.",
-      "detail": "A five-minute report takes far less time than the hours needed to fix an attack found too late."
+      "fact": "If you are unsure, that is exactly when you should report. The IT support team would rather check a false alarm than miss a real attack.",
+      "detail": "Maybe you opened an attachment from a manning agent, or a Teams message from someone you do not recognise asked for a file. You are not expected to decide alone. A five-minute report takes far less time than the hours needed to fix an attack found too late — especially with limited connectivity at sea."
     }
   ]
 }

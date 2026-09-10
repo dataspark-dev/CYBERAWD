@@ -1,58 +1,58 @@
 {
-  "whyThisMatters": "These are not just buzzwords. Knowing what phishing, MFA, or ransomware really mean helps you spot the real thing when it shows up in your inbox or on your screen.",
-  "rememberThis": "You do not need to learn a full glossary. Just learn enough of these words to spot the real thing when it shows up.",
+  "whyThisMatters": "These are not just buzzwords for the IT team. Knowing what phishing (a fake message that tries to trick you), MFA (the second check after your password), or ransomware (harmful software that locks your files for payment) really mean helps you spot the real thing — whether you are at your desk in Finance or on the bridge.",
+  "rememberThis": "You do not need a full glossary. Just learn enough of these words to spot the real thing when it shows up and to use the same words your colleagues use when you report it.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask which term people knew the clue for but forgot the exact word. Gaps in words are worth saying out loud.",
-      "Ask if anyone can explain the difference between malware, ransomware, and a trojan without looking at the clues.",
-      "Ask which of these terms shows up in their daily work and which ones are just good to know."
+      "Ask which word people knew the meaning of but forgot the exact term for. Gaps in words are worth saying out loud — for example, knowing \"the extra check after your password\" but not recalling \"MFA\".",
+      "Ask if anyone can explain the difference between harmful software in general (also called malware), ransomware (which locks files for payment), and pretexting (making up a false story) without looking at the clues.",
+      "Ask which of these words show up in their daily work — for example, a Crewing email, a crew portal login, or a finance approval — and which ones are just good to know."
     ],
-    "commonWrongAnswer": "People most often cannot recall PRETEXTING or mix it up with phishing. It is the least common word in the list."
+    "commonWrongAnswer": "People most often cannot recall PRETEXTING or mix it up with phishing. Phishing is the fake message itself; pretexting is the made-up story that makes the message believable — like pretending to be IT support or your vessel manager."
   },
   "wordlist": [
     {
       "answer": "PHISHING",
-      "clue": "A fake message that tries to trick you into clicking or sharing information"
+      "clue": "A fake crewing or finance message that tries to trick you into clicking a link or sharing your password"
     },
     {
       "answer": "MALWARE",
-      "clue": "General word for any software made to harm, spy on, or take over a device"
+      "clue": "General word for any harmful software made to damage, spy on, or take over a device"
     },
     {
       "answer": "RANSOMWARE",
-      "clue": "Harmful software that locks your files and asks for payment before you can get them back"
+      "clue": "Harmful software that locks your files and asks for payment before you can get them back — the countdown-screen attack"
     },
     {
       "answer": "MFA",
-      "clue": "You enter your password, then you approve a prompt on your phone. This second step is called this"
+      "clue": "You enter your password, then you approve a prompt on your phone. This second check after your password is called this (short for Multi-Factor Authentication)"
     },
     {
       "answer": "PASSWORD",
-      "clue": "The secret mix of letters and symbols that proves it is really you logging in"
+      "clue": "The secret mix of letters, numbers and symbols that proves it is really you logging in"
     },
     {
       "answer": "SPOOFING",
-      "clue": "Faking a sender address or caller ID so a message looks like it is from someone you trust"
+      "clue": "Faking a sender address or caller ID so a message looks like it is from Crewing, Finance, or someone you trust"
     },
     {
       "answer": "BREACH",
-      "clue": "What happens when private data is exposed or stolen from a system. A data ___"
+      "clue": "What happens when private data — like crew allotment or payroll files — is exposed or stolen. A data ___"
     },
     {
       "answer": "BACKUP",
-      "clue": "A saved copy of your files that lets you recover after an attack or a crash"
+      "clue": "A saved copy of your files that lets you recover after an attack or a crash — so you do not pay to get them back"
     },
     {
       "answer": "FIREWALL",
-      "clue": "The security layer that checks traffic in and out of a network and blocks what looks harmful"
+      "clue": "The security layer that checks what goes in and out of the company network and blocks what looks harmful — like a gate"
     },
     {
       "answer": "PRETEXTING",
-      "clue": "A trick where the attacker makes up a false story, like pretending to be IT support"
+      "clue": "A trick where the attacker makes up a false story — like \"I am IT support calling about your crew portal\" — to earn your trust"
     },
     {
       "answer": "ENCRYPTION",
-      "clue": "Scrambling data so only someone with the right key can read it"
+      "clue": "Scrambling your data so only someone with the right key can read it — what protects a file even if it is stolen"
     }
   ],
   "grid": {
@@ -61,7 +61,7 @@
     "placements": [
       {
         "answer": "PASSWORD",
-        "clue": "The secret mix of letters and symbols that proves it is really you logging in",
+        "clue": "The secret mix of letters, numbers and symbols that proves it is really you logging in",
         "row": 0,
         "col": 6,
         "direction": "down",
@@ -69,7 +69,7 @@
       },
       {
         "answer": "FIREWALL",
-        "clue": "The security layer that checks traffic in and out of a network and blocks what looks harmful",
+        "clue": "The security layer that checks what goes in and out of the company network and blocks what looks harmful — like a gate",
         "row": 1,
         "col": 1,
         "direction": "across",
@@ -77,7 +77,7 @@
       },
       {
         "answer": "PRETEXTING",
-        "clue": "A trick where the attacker makes up a false story, like pretending to be IT support",
+        "clue": "A trick where the attacker makes up a false story — like \"I am IT support calling about your crew portal\" — to earn your trust",
         "row": 2,
         "col": 9,
         "direction": "down",
@@ -85,7 +85,7 @@
       },
       {
         "answer": "RANSOMWARE",
-        "clue": "Harmful software that locks your files and asks for payment before you can get them back",
+        "clue": "Harmful software that locks your files and asks for payment before you can get them back — the countdown-screen attack",
         "row": 4,
         "col": 0,
         "direction": "across",
@@ -93,7 +93,7 @@
       },
       {
         "answer": "MALWARE",
-        "clue": "General word for any software made to harm, spy on, or take over a device",
+        "clue": "General word for any harmful software made to damage, spy on, or take over a device",
         "row": 6,
         "col": 1,
         "direction": "across",
@@ -101,7 +101,7 @@
       },
       {
         "answer": "MFA",
-        "clue": "You enter your password, then you approve a prompt on your phone. This second step is called this",
+        "clue": "You enter your password, then you approve a prompt on your phone. This second check after your password is called this (short for Multi-Factor Authentication)",
         "row": 6,
         "col": 1,
         "direction": "down",
@@ -109,7 +109,7 @@
       },
       {
         "answer": "BREACH",
-        "clue": "What happens when private data is exposed or stolen from a system. A data ___",
+        "clue": "What happens when private data — like crew allotment or payroll files — is exposed or stolen. A data ___",
         "row": 8,
         "col": 0,
         "direction": "down",
@@ -117,7 +117,7 @@
       },
       {
         "answer": "BACKUP",
-        "clue": "A saved copy of your files that lets you recover after an attack or a crash",
+        "clue": "A saved copy of your files that lets you recover after an attack or a crash — so you do not pay to get them back",
         "row": 8,
         "col": 0,
         "direction": "across",
@@ -125,7 +125,7 @@
       },
       {
         "answer": "PHISHING",
-        "clue": "A fake message that tries to trick you into clicking or sharing information",
+        "clue": "A fake crewing or finance message that tries to trick you into clicking a link or sharing your password",
         "row": 8,
         "col": 7,
         "direction": "down",
@@ -133,7 +133,7 @@
       },
       {
         "answer": "ENCRYPTION",
-        "clue": "Scrambling data so only someone with the right key can read it",
+        "clue": "Scrambling your data so only someone with the right key can read it — what protects a file even if it is stolen",
         "row": 10,
         "col": 0,
         "direction": "across",
@@ -141,7 +141,7 @@
       },
       {
         "answer": "SPOOFING",
-        "clue": "Faking a sender address or caller ID so a message looks like it is from someone you trust",
+        "clue": "Faking a sender address or caller ID so a message looks like it is from Crewing, Finance, or someone you trust",
         "row": 13,
         "col": 2,
         "direction": "across",

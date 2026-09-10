@@ -1,6 +1,6 @@
 {
   "title": "Live Social-Engineering Simulation - Virtual Environment",
-  "subtitle": "Follow the attacker's full flow: Public Research (OSINT) → Email → Teams/SMS → Portal → Fraud",
+  "subtitle": "Follow the attacker's full flow: Public LinkedIn Research → Fake Email → Fake Teams/SMS → Fake Portal → Fake Payment Request",
   "whyThisMatters": "Real attacks rarely start with hacking. They start with a public LinkedIn profile and a guessed email address. Watching the whole chain shows how normal each step looks on its own, and how dangerous they are together.",
   "rememberThis": "One convincing message is never proof. Check using a channel the sender does not control.",
   "facilitatorNotes": {
@@ -9,7 +9,7 @@
       "Ask how much of scenario 1's public data - name, role, ship - they could find about themselves on LinkedIn right now.",
       "For scenario 4, ask if anyone would feel able to say no to a \"CSO\" asking them to skip Finance checks."
     ],
-    "commonWrongAnswer": "Many people think Email Security or MFA alone would have stopped the whole chain. The reveal shows no single layer covers all 4 scenarios. People most often miss the human layer, which is the only one that helps in 3 of the 4 cases."
+    "commonWrongAnswer": "Many people think Email Security or the second login check on your phone (MFA — Multi-Factor Authentication) alone would have stopped the whole chain. The reveal shows no single layer covers all 4 stories. People most often miss the human layer — checking the address, the link, and the payment — which is the only layer that helps in 3 of the 4 cases."
   },
   "intro": {
     "title": "You are watching the attacker's screen",
@@ -19,10 +19,10 @@
     {
       "id": "osint-linkedin",
       "label": "01",
-      "title": "Public Research (OSINT) & Email Prediction",
+      "title": "Public Research & Email Guessing",
       "persona": "HR / Recruitment",
-      "vector": "LinkedIn Recon → Predictive Email",
-      "channelSummary": "LinkedIn • OSINT Tool • Email",
+      "vector": "LinkedIn Search → Guessed Email",
+      "channelSummary": "LinkedIn • Public Research • Email",
       "description": "Attacker has no inside access, only public LinkedIn. They collect crew and HR names and guess the Synergy email pattern.",
       "bridgeToNext": "That guessed email is what makes the next step possible. The same trusted HR inbox now gets a document.",
       "sender": {
@@ -38,7 +38,7 @@
           "channel": "linkedin",
           "timestamp": "Day 1 - 09:14",
           "sender": {
-            "name": "Attacker OSINT Tab",
+            "name": "Attacker Search Tab",
             "title": "linkedin.com/search",
             "initials": "LI",
             "address": "Search: \"Synergy Marine Group\" - 1,247 employees"
@@ -53,13 +53,13 @@
           "channel": "osint",
           "timestamp": "Day 1 - 10:02",
           "sender": {
-            "name": "Email Permutator",
-            "title": "OSINT Tool (Hunter-like)",
+            "name": "Email Lookup Tool",
+            "title": "Public lookup — guesses from public pattern",
             "initials": "EP",
-            "address": "firstname.lastname@synergymarinegroup.com"
+            "address": "firstname.lastname@synergymarinegroup.com — guessed pattern"
           },
-          "text": "Pattern confirmed from 3 known Synergy addresses in breach data: firstname.lastname@synergymarinegroup.com. Predicted: rajesh.kumar@synergymarinegroup.com, aisha.fernandes@synergymarinegroup.com, vikram.rao@synergymarinegroup.com - 92% confidence. HR inboxes are ideal: they expect CVs from strangers.",
-          "meta": "Attacker now has a valid-looking target list without ever contacting Synergy.",
+          "text": "Pattern spotted from public Synergy addresses: firstname.lastname@synergymarinegroup.com. Guessed: rajesh.kumar@synergymarinegroup.com, aisha.fernandes@synergymarinegroup.com, vikram.rao@synergymarinegroup.com — 92% confidence. HR inboxes are ideal: they expect CVs from strangers.",
+          "meta": "Attacker now has a valid-looking target list using only public information — no hack needed.",
           "severity": "normal"
         },
         {
@@ -71,10 +71,10 @@
             "name": "HR Recruitment",
             "title": "hr@synergymarine-group-careers.com - EXTERNAL",
             "initials": "HR",
-            "address": "hr@synergymarine-group-careers.com via amazonses.com"
+            "address": "hr@synergymarine-group-careers.com via outside email service (not Synergy)"
           },
           "text": "Subject: Offer Letter - 2nd Marine Engineer - MV Horizon | Crew Recruitment Drive 2025 - Please review the provisional offer & onboarding checklist attached and confirm via the HR portal link by 28 Nov. Warm regards, HR Recruitment - Synergy Marine Group",
-          "meta": "Identical to real HR mail - only the domain differs: hr@synergymarine-group-careers.com (−careers added). Sent from an outside email service that failed Synergy's sender check.",
+          "meta": "Looks identical to real HR mail — only the address differs: hr@synergymarine-group-careers.com (\"-careers\" added). Sent from an outside email service, not Synergy — sender check failed.",
           "severity": "critical"
         },
         {
@@ -103,8 +103,8 @@
         "redFlags": [
           {
             "icon": "fa-brands fa-linkedin",
-            "label": "LinkedIn OSINT",
-            "detail": "Synergy name, role, and ship are public. Filters can build a focused crew list in 10 minutes. No breach needed."
+            "label": "Public LinkedIn Research",
+            "detail": "Synergy name, role, and ship are public. A simple LinkedIn search can build a focused crew list in 10 minutes. No hack or breach needed — just public profiles."
           },
           {
             "icon": "fa-solid fa-at",
@@ -118,7 +118,7 @@
           },
           {
             "icon": "fa-solid fa-shield-halved",
-            "label": "STOP - VERIFY",
+            "label": "STOP, VERIFY, REPORT",
             "detail": "For HR: never accept onboarding documents sent to an outside address. Confirm with the known HR crewing line or portal."
           }
         ],
@@ -131,7 +131,7 @@
           {
             "name": "Email Security",
             "wouldStopIt": true,
-            "note": "A failed sender check plus a lookalike address sent from an outside service are exactly what email security is built to flag before it reaches an inbox."
+            "note": "A failed sender check plus a fake address sent from an outside service (not Synergy) are exactly what email security is built to flag before it reaches your inbox."
           },
           {
             "name": "MFA / Login Security",
@@ -160,10 +160,10 @@
     {
       "id": "attachment-vector",
       "label": "02",
-      "title": "Attachment & Document Lure",
+      "title": "Fake Payslip & Document Lure",
       "persona": "HR / Payroll",
-      "vector": "Weaponized Attachment",
-      "channelSummary": "Email • Attachment (PDF/XLS → EXE/ZIP)",
+      "vector": "Fake Attachment",
+      "channelSummary": "Email • Attachment (PDF/XLS versus fake app/ZIP)",
       "description": "Same HR trust, now the payload is a document crew expects: payslip, roster, or review.",
       "bridgeToNext": "HR trust is used up. Next the attacker moves to a channel with even less checking: offshore chat and SMS.",
       "sender": {
@@ -182,10 +182,10 @@
             "name": "HR Payroll",
             "title": "hr-payroll@synergymarinegroup.com - INTERNAL",
             "initials": "HP",
-            "address": "hr-payroll@synergymarinegroup.com (SPF pass, internal)"
+            "address": "hr-payroll@synergymarinegroup.com — sender check passed, internal"
           },
-          "text": "Subject: Payslip - Feb 2025 & Rotation Roster - MV Horizon | Hi Raj, attached: Payslip_Feb2025_RajKumar.pdf (480 KB) + Rotation_Roster_MV-Horizon_Feb-Apr.xlsx (210 KB) - both from HR system briefing. No macros needed. - HR Payroll",
-          "meta": "Expected files, matching icons (PDF red / XLS green), HR system tone. This is what crew *should* see.",
+          "text": "Subject: Payslip — Feb 2025 & Rotation Roster — MV Horizon | Hi Raj, attached: Payslip_Feb2025_RajKumar.pdf (480 KB) + Rotation_Roster_MV-Horizon_Feb-Apr.xlsx (210 KB) — both from the HR system. No extra clicks needed. — HR Payroll",
+          "meta": "Expected files, matching icons, HR system tone. This is what you should see — a real payslip as a PDF and a roster as a spreadsheet.",
           "severity": "normal"
         },
         {
@@ -199,8 +199,8 @@
             "initials": "HP",
             "address": "hr-payroll@synergymarine-group-secure.com (display masks as internal)"
           },
-          "text": "Subject: Updated Payslip - Please Review Immediately | Hi, Please find your updated payslip attached. Enable macros and click 'Enable Content' to view the appraisal section. - HR Payroll",
-          "meta": "Subject reused, body vague, display name identical - domain hidden behind display mask.",
+          "text": "Subject: Updated Payslip — Please Review Immediately | Hi, Please find your updated payslip attached. Click 'Enable Content' to view the appraisal section. — HR Payroll",
+          "meta": "Subject reused, body vague, display name looks identical to internal — but the address behind it is different.",
           "severity": "normal"
         },
         {
@@ -212,10 +212,10 @@
             "name": "Attachments",
             "title": "2 files - password prompt",
             "initials": "AT",
-            "address": "Payslip_March.pdf.exe (1.1 MB, Application) + Documents.zip (3.4 MB, pwd:1234)"
+            "address": "Payslip_March.pdf.exe (1.1 MB — actually an app, not a PDF) + Documents.zip (3.4 MB, password: 1234)"
           },
-          "text": "Icon: EXE blue + ZIP purple. Banner: 'Enable Content / Enter password to view files'. File names generic, sizes inconsistent with payslip, password supplied in mail body.",
-          "meta": "Double extension .pdf.exe, generic ZIP, macro request - all absent in the legitimate baseline.",
+          "text": "Icon: blue app icon + purple ZIP icon. Banner: 'Enable Content / Enter password to view files'. File names are generic, sizes do not match a real payslip, and a password is given in the email body.",
+          "meta": "Double ending .pdf.exe — the last part (.exe) means it is actually an app, not a PDF. Generic ZIP plus \"Enable Content\" was not in the real payslip email.",
           "severity": "critical"
         },
         {
@@ -224,13 +224,13 @@
           "channel": "portal",
           "timestamp": "Day 4 - 14:18",
           "sender": {
-            "name": "Endpoint",
-            "title": "Macro-enabled Document",
+            "name": "Office Computer",
+            "title": "If you clicked Enable Content",
             "initials": "⚙",
-            "address": "WIN-HR-LT042 - PowerShell beacon"
+            "address": "HR laptop — hidden script tries to contact outside server"
           },
-          "text": "The macro runs a hidden script that quietly contacts the attacker's remote server. From there, the attacker can reach crew personal details and bank information stored on the shared drive. All you would see is a message saying 'Document ready'.",
-          "meta": "HR/Payroll hold the most sensitive offshore docs - one enabled macro = fleet-wide PII risk.",
+          "text": "If you click Enable Content, the document runs a hidden script that quietly tries to contact the attacker's server on the internet. From there, the attacker could reach crew personal details and bank information stored on the shared drive. All you would see is a message saying 'Document ready'.",
+          "meta": "HR and Payroll hold the most sensitive crew documents — one enabled file can put many colleagues at risk.",
           "severity": "critical"
         }
       ],
@@ -255,11 +255,11 @@
           {
             "icon": "fa-solid fa-bolt",
             "label": "Enable Content Trap",
-            "detail": "\"Enable macros\" or \"Enter password 1234\" is what runs the attack. Real Synergy payslips say \"no macros needed\"."
+            "detail": "\"Enable Content\" or \"Enter password 1234\" is what runs the attack. Real Synergy payslips say \"No extra clicks needed\" and never ask for a password."
           },
           {
             "icon": "fa-solid fa-shield-halved",
-            "label": "STOP - VERIFY",
+            "label": "STOP, VERIFY, REPORT",
             "detail": "For HR: did you expect this file? Call HR on a known line. Do not reply to an outside address with documents."
           }
         ],
@@ -271,7 +271,7 @@
           {
             "name": "Email Security",
             "wouldStopIt": true,
-            "note": "Attachment scanning would flag a double ending like .pdf.exe or a password-locked ZIP before it reaches an inbox."
+            "note": "Attachment scanning would flag a double ending like .pdf.exe or a password-locked ZIP that hides its contents before it reaches your inbox."
           },
           {
             "name": "MFA / Login Security",
@@ -280,7 +280,7 @@
           {
             "name": "Device Protection",
             "wouldStopIt": true,
-            "note": "A macro that starts PowerShell and contacts an outside server is exactly what device protection is built to catch and block, even after the file is opened."
+            "note": "A file that tries to run a hidden script and contact an outside server is exactly what device protection (virus protection on the computer) is built to catch and block, even after the file is opened."
           },
           {
             "name": "Network Firewall",
@@ -400,7 +400,7 @@
           },
           {
             "icon": "fa-solid fa-shield-halved",
-            "label": "STOP - VERIFY",
+            "label": "STOP, VERIFY, REPORT",
             "detail": "For offshore: use a bookmarked portal, or message your vessel manager on a known number. Never use \"link only\"."
           }
         ],
@@ -417,7 +417,7 @@
           {
             "name": "MFA / Login Security",
             "wouldStopIt": true,
-            "note": "Even if crew portal login details were entered on the fake page, MFA would stop them from working on the real account."
+            "note": "Even if your crew portal password was entered on the fake page, the second check on your phone (MFA — Multi-Factor Authentication) would stop it from working on the real account."
           },
           {
             "name": "Device Protection",
@@ -442,16 +442,16 @@
     {
       "id": "cso-fraud-wire",
       "label": "04",
-      "title": "CSO Impersonation & Anomalous Wire",
+      "title": "Senior Leader Impersonation & Fake Vendor Payment",
       "persona": "Finance / Accounts + Offshore Crew",
-      "vector": "Authority → External Vendor → Fraud",
+      "vector": "Authority → Outside Vendor → Fraud",
       "channelSummary": "Teams • Email (External Vendor) • Portal",
       "description": "Last step: after collecting public data, attachments, and chat trust, the attacker uses a senior identity to ask to skip a check.",
       "sender": {
         "name": "Capt. Mehta",
-        "title": "Chief Security Officer (Spoofed CSO)",
+        "title": "Chief Security Officer — Synergy (name display is fake)",
         "initials": "CM",
-        "address": "cso@synergymarinegroup.com - actually cso-synergy@protonmail.ch via display-name spoof"
+        "address": "Display shows 'Capt. Mehta — CSO' but real address is cso-synergy@protonmail.ch (outside personal email, not @synergymarinegroup.com)"
       },
       "beats": [
         {
@@ -461,12 +461,12 @@
           "timestamp": "Day 6 - 08:47 - Teams",
           "sender": {
             "name": "Capt. Mehta",
-            "title": "Chief Security Officer - Synergy (Display spoof)",
+            "title": "Chief Security Officer — Synergy (display name is fake)",
             "initials": "CM",
-            "address": "Capt. Mehta <cso-synergy@protonmail.ch> - display shows 'Capt. Mehta - CSO'"
+            "address": "Real address: cso-synergy@protonmail.ch (outside personal email) — display pretends to be 'Capt. Mehta — CSO'"
           },
           "text": "Hey - sorry for the early ping. Confidential crew transfer - need your help before my 09:00 board call. Keep strictly between us for now.",
-          "meta": "Display-name spoof: name + title look internal, header reveals external ProtonMail. Sent before business hours.",
+          "meta": "The display name and title look internal, but the address behind it is an outside personal email (not Synergy). Sent before business hours to pressure you.",
           "severity": "normal"
         },
         {
@@ -476,9 +476,9 @@
           "timestamp": "Day 6 - 08:48",
           "sender": {
             "name": "Capt. Mehta (CSO)",
-            "title": "CSO - Synergy (spoofed)",
+            "title": "CSO — Synergy (fake display)",
             "initials": "CM",
-            "address": "Same ProtonMail - 'This comes directly from me. Keep between us - I'll explain once done.'"
+            "address": "Same outside personal email — 'This comes directly from me. Keep between us — I will explain once it is done.'"
           },
           "text": "This comes directly from me as CSO. Please keep it strictly between us for now - I'll explain everything once it's done. Don't loop in Finance until confirmed.",
           "meta": "Authority + secrecy: two classic social-engineering levers, especially effective on junior crew/Finance.",
@@ -508,10 +508,10 @@
             "name": "Capt. Mehta (CSO)",
             "title": "CSO - Urgent",
             "initials": "CM",
-            "address": "Same spoof - 'Wrap in next 10 min - board call then unreachable. Process wire $48,500 now - don't loop Finance until confirmed.'"
+            "address": "Same fake address — 'Wrap in next 10 min — board call then unreachable. Process payment $48,500 now — do not check with Finance until confirmed.'"
           },
           "text": "Please process a wire transfer of $48,500 to the account in the vendor mail right now - and don't loop in Finance until it's confirmed done. I'm about to go into a board call and won't be reachable after that.",
-          "meta": "Time pressure + off-channel financial ask + bypass verification - completes the chain started on Day 1 LinkedIn.",
+          "meta": "Time pressure + financial request outside normal channels + \"do not check\" — completes the chain that started with a public LinkedIn search on Day 1.",
           "severity": "critical"
         }
       ],
@@ -525,8 +525,8 @@
         "redFlags": [
           {
             "icon": "fa-solid fa-crown",
-            "label": "Display-Name Spoof",
-            "detail": "\"Capt. Mehta - CSO\" is display text. The real sender is cso-synergy@protonmail.ch, which is outside. It is not @synergymarinegroup.com. A real CSO never uses ProtonMail."
+            "label": "Fake Name Display",
+            "detail": "\"Capt. Mehta — CSO\" is just display text at the top. The real address behind it is cso-synergy@protonmail.ch — a free personal email, not @synergymarinegroup.com. A real Synergy leader never uses a personal email for a payment."
           },
           {
             "icon": "fa-solid fa-bolt",
@@ -535,12 +535,12 @@
           },
           {
             "icon": "fa-solid fa-building-columns",
-            "label": "Outside Bank Change",
-            "detail": "Vendor bank change sent via CC'd outside vendor mail. Real changes use the portal plus a call back on a known number. Never email plus Teams alone."
+            "label": "Outside Bank-Detail Change",
+            "detail": "A vendor bank-detail change was sent via an outside email copied to the fake leader. Real changes use the portal plus a call back to the vendor on a number you already have. Never email plus Teams chat alone."
           },
           {
             "icon": "fa-solid fa-shield-halved",
-            "label": "STOP - VERIFY - REPORT",
+            "label": "STOP, VERIFY, REPORT",
             "detail": "STOP: private plus urgent. VERIFY: call CSO and vendor on known numbers. REPORT: to Finance and IT. Do not pay."
           }
         ],
@@ -582,7 +582,7 @@
   ],
   "globalReveal": {
     "title": "FULL FLOW - How 4 scenarios become one fraud",
-    "subtitle": "OSINT (Day 1) to Attachment (Day 4) to Teams and SMS (Day 5) to Wire (Day 6) - same attacker, same guessed email",
+    "subtitle": "Public research (Day 1) to fake attachment (Day 4) to Teams/SMS (Day 5) to fake payment (Day 6) — same attacker, same guessed email",
     "redFlags": [
       {
         "icon": "fa-solid fa-diagram-project",
@@ -612,21 +612,21 @@
           1,
           2
         ],
-        "summary": "Flagged the fake sending address and SPF fail (S1) and would have blocked the harmful attachment (S2). But SMS, Teams, and the final wire never use email."
+        "summary": "Flagged the fake sending address and sender-check fail (S1) and would have blocked the fake attachment (S2). But SMS, Teams, and the final payment request never use email."
       },
       {
         "name": "MFA / Login Security",
         "hitScenarios": [
           3
         ],
-        "summary": "Would have stopped stolen crew portal logins from working (S3). This is the only point in the whole chain where a login step exists."
+        "summary": "Would have stopped stolen crew portal passwords from working on the real site because the second check on your phone was still needed (S3). Only one step in the whole chain involved logging in."
       },
       {
         "name": "Device Protection",
         "hitScenarios": [
           2
         ],
-        "summary": "Would have blocked the macro that started PowerShell before it reached an outside server (S2)."
+        "summary": "Would have blocked the hidden script that tried to contact an outside server after the attachment was opened (S2)."
       },
       {
         "name": "Network Firewall",
@@ -643,7 +643,7 @@
         "hitScenarios": [
           4
         ],
-        "summary": "Finance's own reporting step - flagging the request to skip checks instead of acting on it - is what stops the wire before it is sent (S4)."
+        "summary": "Finance's own reporting step — flagging the request to skip checks instead of acting on it — is what stops the payment before it is sent (S4)."
       }
     ],
     "callToAction": "For every role - HR, Finance, Offshore - STOP (private and urgent), VERIFY (known address, number, or portal), REPORT (IT and manager)."

@@ -1,33 +1,33 @@
 {
-  "whyThisMatters": "Real security moments are fast. You do not get time to research if a link, a login, or a habit is safe. This game trains you to spot bad habits quickly. It also helps you catch things that only sound safe.",
-  "rememberThis": "Fast instinct is good. But some controls only sound safe, like a short password with symbols, old antivirus, or a public charging cable. When you are not sure, slow down and check before you trust the label.",
+  "whyThisMatters": "Real security moments are fast — at your desk or on board. You do not get time to research if a link, a login, or a habit is safe. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
+  "rememberThis": "Fast instinct is good, but some things only sound safe — like a short password with a symbol, old virus protection, or a public charging cable at an airport. When you are not sure, slow down and check before you trust the label.",
   "facilitatorNotes": {
     "discussionPrompts": [
       "Ask the group which bubble tricked them. Most people get at least one of the 6 trick bubbles wrong on their first try.",
-      "Ask why \"SMS Code Received\" still counts as good, even though it sounds weaker than other MFA. What does \"better than nothing\" mean here?",
-      "Ask why a short password with symbols still looks strong to most people, and why that idea is wrong."
+      "Ask why \"SMS Code Received\" still counts as good, even though a code from an app is stronger than a text. What does \"better than nothing\" mean here — especially offshore where a text may be all you have?",
+      "Ask why a short password with symbols still looks strong to most people, and why that idea is wrong — long beats clever."
     ],
-    "commonWrongAnswer": "The most common mistake is tapping anything that looks related to security - like MFA, antivirus, or password - without checking if it is actually strong, current, or real. The 6 trick bubbles are there to catch that habit."
+    "commonWrongAnswer": "The most common mistake is tapping anything that sounds like security — like \"second check after password\" (also called MFA, Multi-Factor Authentication), virus protection, or password — without checking if it is actually strong, current, or real. The 6 trick bubbles are there to catch that habit."
   },
   "bubbles": [
     {
       "id": "mfa-enabled",
-      "text": "MFA Enabled",
+      "text": "Second-Step Login On",
       "good": true
     },
     {
       "id": "verified-sender",
-      "text": "Verified Sender",
+      "text": "Checked Sender Address",
       "good": true
     },
     {
       "id": "reported-phishing",
-      "text": "Reported Phishing",
+      "text": "Reported a Fake Message",
       "good": true
     },
     {
       "id": "encrypted-backup",
-      "text": "Encrypted Backup",
+      "text": "Backup Is Encrypted",
       "good": true
     },
     {
@@ -47,42 +47,42 @@
     },
     {
       "id": "vpn-public-wifi",
-      "text": "VPN On Public Wi-Fi",
+      "text": "Secure Connection On Public Wi-Fi",
       "good": true
     },
     {
       "id": "unique-password",
-      "text": "Unique Password Per Site",
+      "text": "Different Password Per Site",
       "good": true
     },
     {
       "id": "checked-url",
-      "text": "Checked Link First",
+      "text": "Checked Link Before Tapping",
       "good": true
     },
     {
       "id": "antivirus-active",
-      "text": "Antivirus Up To Date",
+      "text": "Virus Protection Up To Date",
       "good": true
     },
     {
       "id": "reused-password",
-      "text": "Reused Password",
+      "text": "Reused Same Password",
       "good": false
     },
     {
       "id": "clicked-unknown-link",
-      "text": "Clicked Unknown Link",
+      "text": "Tapped Unknown Link",
       "good": false
     },
     {
       "id": "disabled-antivirus",
-      "text": "Disabled Antivirus",
+      "text": "Turned Off Virus Protection",
       "good": false
     },
     {
       "id": "shared-password",
-      "text": "Shared Password",
+      "text": "Shared Your Password",
       "good": false
     },
     {
@@ -97,7 +97,7 @@
     },
     {
       "id": "cracked-software",
-      "text": "Used Cracked Software",
+      "text": "Used Cracked / Pirated Software",
       "good": false
     },
     {
@@ -112,7 +112,7 @@
     },
     {
       "id": "skipped-mfa",
-      "text": "Skipped MFA Setup",
+      "text": "Skipped Second-Step Setup",
       "good": false
     },
     {
@@ -125,42 +125,42 @@
       "text": "SMS Code Received",
       "good": true,
       "trick": true,
-      "note": "This is still real MFA (Multi-Factor Authentication, a second check after your password). A text code is weaker than an app code because attackers can sometimes redirect your phone number to their own device and read the code. But it is far better than only a password. \"Better than nothing\" is a real upgrade."
+      "note": "This is still a real second check after your password (MFA — Multi-Factor Authentication). A text code is weaker than an app code because attackers can sometimes redirect your phone number to their own device and read the code. But it is far better than only a password. \"Better than nothing\" is a real upgrade, especially where signal is limited."
     },
     {
       "id": "long-passphrase-no-symbols",
-      "text": "Long Passphrase",
+      "text": "Long Passphrase (No Symbols)",
       "good": true,
       "trick": true,
-      "note": "A long random phrase without symbols can still be stronger than a short \"complex\" password. Length matters more than adding symbols."
+      "note": "A long random phrase without symbols can still be stronger than a short \"complex\" password. Length matters more than adding symbols — a 16-character phrase beats an 8-character puzzle."
     },
     {
       "id": "8char-password-symbols",
       "text": "Short Password + Symbols",
       "good": false,
       "trick": true,
-      "note": "Symbols do not save a short password. Length matters more than complexity. An 8-character password can be guessed quickly, no matter how it looks."
+      "note": "Symbols do not save a short password. Length matters more than looking complex. An 8-character password can be guessed quickly, no matter how clever it looks."
     },
     {
       "id": "public-charging-cable",
       "text": "Public Charging Cable",
       "good": false,
       "trick": true,
-      "note": "\"Juice jacking\" - a public USB port or cable can push harmful software or take data through the same link that charges your phone."
+      "note": "A public USB port or cable at an airport or hotel can do more than charge — it can push harmful software or copy data through the same link that charges your phone. Use your own charger."
     },
     {
       "id": "urgent-ceo-request",
-      "text": "Urgent Request From CEO",
+      "text": "Urgent Request From Senior Leader",
       "good": false,
       "trick": true,
-      "note": "Authority plus urgency is the classic trick for Business Email Compromise. It is not proof that a request is real. It is designed to make you skip checks."
+      "note": "A senior title plus urgency is the classic trick. \"The captain said...\" or \"The director needs this now...\" is not proof a request is real. It is designed to make you skip your normal checks — such as calling back on a number you already trust."
     },
     {
       "id": "antivirus-installed-last-year",
-      "text": "Old, Unpatched Antivirus",
+      "text": "Old, Unpatched Virus Protection",
       "good": false,
       "trick": true,
-      "note": "Antivirus that was installed last year and never updated does not help much against new threats. \"Installed\" is not the same as \"up to date\"."
+      "note": "Virus protection (antivirus) that was installed last year and never updated does not help much against new threats. \"Installed\" is not the same as \"up to date\" — updates are what catch new harmful software."
     }
   ]
 }

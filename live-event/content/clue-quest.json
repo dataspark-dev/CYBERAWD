@@ -1,18 +1,18 @@
 {
-  "whyThisMatters": "Naming the trick helps you spot it. If the group cannot say \"urgency trap\" or \"domain spoofing\" out loud together, you will not catch it under pressure on your own.",
-  "rememberThis": "If you can name the trick, you can spot it next time. Put a word to what felt strange.",
+  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own — whether you are at your desk or on the bridge with limited time.",
+  "rememberThis": "If you can name the trick, you can spot it next time. Put a word to what felt strange — then STOP, VERIFY through a channel you already trust, and REPORT.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask someone to define one of these terms in their own words before you show the answer. Could they explain it to a coworker who missed today?",
-      "Ask which two terms are easiest to mix up and why. Fake link and fake portal are the most confused.",
-      "Ask for a real example from their own inbox or phone that matches one of these terms."
+      "Ask someone to explain one of these terms in their own words before you show the answer. Could they explain it to a colleague who missed today, without using jargon?",
+      "Ask which two terms are easiest to mix up and why. The fake link (the address shown in an email) and the fake portal (the whole login page being copied) are the most confused — both involve a wrong destination, but they are different checks.",
+      "Ask for a real example from their own inbox or phone that matches one of these terms — for example, a crewing email with an extra word in the address."
     ],
-    "commonWrongAnswer": "People most often mix up FAKE LINK and FAKE PORTAL. Both involve a wrong destination. So people pick one when the riddle points to the other."
+    "commonWrongAnswer": "People most often mix up FAKE LINK and FAKE PORTAL. Both involve a wrong destination, so people pick one when the riddle points to the other. The difference: a fake link is the clickable address inside a message; a fake portal is the entire login page that looks real but sits at a fake address."
   },
   "riddles": [
     {
       "id": "domain-spoofing",
-      "riddle": "I am a fake HR email. You see hr@synergymarine-group-careers.com. But the real one is hr@synergymarinegroup.com. I just added one extra word. What am I?",
+      "riddle": "You get an email that looks like it is from Crewing — hr@synergymarine-group-careers.com. But your real Crewing address is hr@synergymarinegroup.com. I just added one extra word with a hyphen. What trick am I?",
       "answer": "DOMAIN SPOOFING",
       "options": [
         "DOMAIN SPOOFING",
@@ -22,7 +22,7 @@
     },
     {
       "id": "urgency-trap",
-      "riddle": "I say \"ACT NOW or you will lose your pay!\" and \"Do not call your boss, just click here!\" I want you to hurry and not think. What am I?",
+      "riddle": "I am a message that says \"ACT NOW or your allotment will be delayed!\" and \"Do not call your vessel manager — just click here!\" I want you to hurry so you do not stop and check. What trick am I?",
       "answer": "URGENCY TRAP",
       "options": [
         "URGENCY TRAP",
@@ -32,7 +32,7 @@
     },
     {
       "id": "malicious-attachment",
-      "riddle": "You think I am a PDF payslip. But my name ends with .pdf.exe. I also say \"Enable Content\" to open me. What am I?",
+      "riddle": "You think I am your crew payslip as a PDF. But my file name ends with .pdf.exe — the last part is .exe, not .pdf. I also ask you to click \"Enable Content\" to see me. What trick am I?",
       "answer": "MALICIOUS ATTACHMENT",
       "options": [
         "MALICIOUS ATTACHMENT",
@@ -42,7 +42,7 @@
     },
     {
       "id": "fake-link",
-      "riddle": "You see portal.synergymarinegroup.com in blue. But when you hover, I go to a site with \"-secure\" in the name. What am I?",
+      "riddle": "In your rotation email you see the crew portal address portal.synergymarinegroup.com written in blue. But when you press and hold the link (or hover on a computer), it actually goes to a different place with \"-secure\" in the name. What trick am I?",
       "answer": "FAKE LINK",
       "options": [
         "FAKE LINK",
@@ -52,7 +52,7 @@
     },
     {
       "id": "fake-portal",
-      "riddle": "I look just like the real crew login page. But my address has one extra letter \"n\" - synergymanne. What am I?",
+      "riddle": "I look exactly like the real crew portal login page where you check your rotation and payslips. But my address at the top has one extra letter — synergymanne instead of synergymarine. What trick am I?",
       "answer": "FAKE PORTAL",
       "options": [
         "FAKE PORTAL",
@@ -62,7 +62,7 @@
     },
     {
       "id": "smishing",
-      "riddle": "I am a fake text message on your phone. I ask you to tap a short link about a package or an urgent account problem. What am I?",
+      "riddle": "I am a fake text message (SMS) on your phone. I say \"Your crew rotation portal link has changed — tap here to confirm your sign-off dates for MV Horizon.\" I use a short link like bit.ly to hide where I really go. What trick am I?",
       "answer": "SMISHING",
       "options": [
         "SMISHING",
@@ -72,7 +72,7 @@
     },
     {
       "id": "fake-popup",
-      "riddle": "A box pops up and says \"Type your password here to fix the error.\" Real IT never does this in a pop-up. What am I?",
+      "riddle": "A small box pops up on your screen and says \"Type your password here to fix the error.\" Whether you are at your desk or on a shared computer on board, the real IT support team never asks for your password this way. What trick am I?",
       "answer": "FAKE IT POP-UP",
       "options": [
         "FAKE IT POP-UP",
@@ -82,7 +82,7 @@
     },
     {
       "id": "mfa-fatigue",
-      "riddle": "I send you many \"Approve?\" messages again and again. I want to make you tired so you tap Approve by mistake. What am I?",
+      "riddle": "I send your phone many \"Approve this login?\" messages — the second check after your password — again and again. I hope you get tired and tap Approve just to make me stop. What trick am I?",
       "answer": "MFA FATIGUE",
       "options": [
         "MFA FATIGUE",
@@ -92,7 +92,7 @@
     },
     {
       "id": "stop-verify-report",
-      "riddle": "Remember 3 steps: 1. Stop, 2. Verify on a known number, 3. Report to IT. What is this rule called?",
+      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT support team. What is this rule called?",
       "answer": "STOP VERIFY REPORT",
       "options": [
         "STOP VERIFY REPORT",
