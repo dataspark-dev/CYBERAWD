@@ -136,51 +136,51 @@
 
         <div class="interact-hint center" style="margin:14px 0 4px;"><i class="fas fa-hand-pointer"></i> Click to compare</div>
 
-        <!-- Smishing pane -->
+        <!-- Smishing pane — rewritten for ship-management: crew rotation SMS, not parcel -->
         <div class="toggle-pane active" data-pane="0" data-dim-until-interact>
           <div class="scene">
             <div class="scene-media phone-frame">
-              <div class="sms-sender">Text Message &middot; +44 7700 900123</div>
-              <div class="sms-bubble">Your parcel could not be delivered. Pay a &pound;1.99 fee within 24 hours or it will be returned: gov-redelivery-uk.info</div>
-              <div class="hotspot flag" style="top:18%;left:78%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unexpected sender number marker">
+              <div class="sms-sender">Text Message &middot; Synergy Crew — +91 98xxx</div>
+              <div class="sms-bubble">Synergy Marine: Your Fleet Portal rotation link has changed. Confirm your MV Horizon sign-off dates here: bit.ly/CrewRotation-Horizon or your account will be delayed. — Fleet Ops</div>
+              <div class="hotspot flag" style="top:18%;left:78%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unexpected sender and short link marker">
                 <span class="hotspot-dot unrevealed"></span>
-                <div class="hotspot-tip"><strong>Unexpected sender number</strong><br>Real carriers use short codes, not personal-looking mobile numbers.</div>
+                <div class="hotspot-tip"><strong>Short link hides the real address</strong><br>Synergy never sends the crew portal as a bit.ly link by text. The short link hides where it really goes.</div>
               </div>
-              <div class="hotspot flag" style="top:58%;left:62%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Fake link marker">
+              <div class="hotspot flag" style="top:58%;left:62%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Fake urgency marker">
                 <span class="hotspot-dot unrevealed"></span>
-                <div class="hotspot-tip tip-above"><strong>Fake link</strong><br>Looks like a real government site but isn't. Never tap links in unexpected texts.</div>
+                <div class="hotspot-tip tip-above"><strong>Fake urgency</strong><br>"Or your account will be delayed" — pressure to tap before you stop and check.</div>
               </div>
-              <div class="hotspot flag" style="top:82%;left:38%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Small amount, short deadline marker">
+              <div class="hotspot flag" style="top:82%;left:38%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Do not call marker">
                 <span class="hotspot-dot unrevealed"></span>
-                <div class="hotspot-tip tip-above"><strong>Small amount, short deadline</strong><br>Designed to make you act without thinking.</div>
+                <div class="hotspot-tip tip-above"><strong>Told not to check</strong><br>A real Fleet Ops message would never say "use this link only — don't call."</div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Vishing pane -->
+        <!-- Vishing pane — rewritten for ship-management: IT Service Desk / crew portal -->
         <div class="toggle-pane" data-pane="1"><template>
           <div class="scene">
             <div class="scene-media">
               <div class="call-frame">
-                <div class="call-avatar-sm"><i class="fas fa-shield-halved" style="font-size:40px;color:var(--scene-red-accent);"></i></div>
-                <div class="call-id">"Bank Security"</div>
-                <div class="call-sub">Incoming Call</div>
+                <div class="call-avatar-sm"><i class="fas fa-headset" style="font-size:40px;color:var(--scene-red-accent);"></i></div>
+                <div class="call-id">"IT Service Desk — Fleet Portal"</div>
+                <div class="call-sub">Incoming Call — Ship Phone</div>
               </div>
               <div class="hotspot flag" style="top:16%;left:50%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Caller ID can be faked marker">
                 <span class="hotspot-dot"></span>
-                <div class="hotspot-tip"><strong>Caller ID can be faked</strong><br>The name and number shown can be fake — never trust caller ID alone.</div>
+                <div class="hotspot-tip"><strong>Caller name can be faked</strong><br>The display name can say "IT Service Desk" even when the number is not Synergy.</div>
               </div>
-              <div class="hotspot flag" style="top:60%;left:26%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Asking you to move money marker">
+              <div class="hotspot flag" style="top:60%;left:26%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Asking for password or code marker">
                 <span class="hotspot-dot"></span>
-                <div class="hotspot-tip tip-above"><strong>Asking you to move money</strong><br>Real banks never ask you to transfer funds to "protect" them.</div>
+                <div class="hotspot-tip tip-above"><strong>Asking for your password or code</strong><br>The real IT team will never ask you to say your password or a code on a call they made to you.</div>
               </div>
-              <div class="hotspot flag" style="top:60%;left:74%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="They want you to stay on the line marker">
+              <div class="hotspot flag" style="top:60%;left:74%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Stay on the line pressure marker">
                 <span class="hotspot-dot"></span>
-                <div class="hotspot-tip tip-above"><strong>They want you to stay on the line</strong><br>So you can't hang up and call a number you already know is real.</div>
+                <div class="hotspot-tip tip-above"><strong>"Stay on the line"</strong><br>So you don't hang up and call back on a number you already trust.</div>
               </div>
             </div>
-            <div class="call-caption2">"We've flagged unusual activity — to secure your account, transfer your balance to this safe holding account now."</div>
+            <div class="call-caption2">"Hi, this is IT Support about your Fleet Portal — please confirm your password and the code from your phone so we can fix your rotation access."</div>
           </div>
         </template></div>
 
