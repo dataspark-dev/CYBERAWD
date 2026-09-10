@@ -1731,6 +1731,45 @@ button.pp-tile, button.pp-deck-tile{
 }
 .cc-hud-value.cc-lives-low{color:#fca5a5}
 .cc-mute-btn{width:38px;height:38px;font-size:var(--fs-body)}
+
+/* ==============================================================
+   LONGER-COPY MOBILE-FIT & TOUCH MIRROR — phone participant page
+   Mirrors console.css's 2026-09 mobile-fit section above so both
+   surfaces (facilitator console + phone) handle the longer September
+   copy identically. Phone already had #actMount overflow-wrap:anywhere
+   and a 375px @media; this adds the specific card/panel fixes that
+   were added to console.css's new section and ensures touch parity.
+   ============================================================== */
+/* Longer policy/riddle/detail text must wrap unbroken tokens */
+#introPolicy, .prompt, .cq-riddle-text, .cw-clue-list li, .dr-prompt, .mf-myth, .mf-fact, .mf-detail {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+/* Pass-phrase Choose + weak-card labels on phone (same 1-col collapse) */
+.pp-choose-options{grid-template-columns: repeat(auto-fit, minmax(min(220px,100%),1fr));}
+.pp-choice-btn, .pp-weak-violates, .pp-weak-text {overflow-wrap:anywhere; word-break:break-word;}
+/* Fault-finding compare stacking already forced to column; ensure panel min-width */
+.ff-compare-panel{min-width: min(280px,100%);}
+/* Control Catch bubble: longer label needs taller pill on phone too */
+.cc-bubble{min-height:62px; height:auto; padding:8px 12px; line-height:1.35;}
+@media (max-width: 430px){
+  .cc-bubble{width:clamp(86px,28vw,135px); font-size:11px; min-height:60px; padding:7px 10px;}
+  .ff-compare-reveal{padding:14px 12px;}
+  .pp-policy-card{padding:10px 12px;}
+}
+@media (max-width: 375px){
+  .cc-bubble{width:clamp(80px,30vw,124px); font-size:10.5px; min-height:58px;}
+  .prompt{font-size:15px;}
+  .pp-choice-btn{padding:12px 14px;}
+}
+/* Touch parity for new surfaces: Choose-phase cards + Decision-Room
+   flattened options already in the touch block above, but ensure the
+   phone's generic .pp-choice-btn (if used) and mute are covered.
+   Burst ring must never block taps. */
+.pp-choice-btn, .cc-mute-btn{ touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.cc-burst-ring{ pointer-events:none; touch-action:none; }
+@media (max-width: 430px){ .act-topline{flex-direction:column; align-items:stretch;} }
 </style>
 </head>
 <body>

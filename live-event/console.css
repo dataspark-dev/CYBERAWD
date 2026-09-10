@@ -2751,3 +2751,289 @@ body {
 }
 .cc-mute-btn:hover { border-color: var(--cyan); color: var(--cyan-dark); }
 .cc-mute-btn.cc-sound-on { color: var(--cyan-dark); border-color: rgba(6,182,212,0.5); background: rgba(6,182,212,0.1); }
+
+/* ==========================================================================
+   LONGER-COPY MOBILE-FIT & TOUCH PASS — 2026-09 content alignment
+   The September non-technical rewrite added ~25-60% more characters in several
+   cards (expanded policy sentence, Choose-phase reasons, long email/domain
+   addresses, "Secure Connection On Public Wi-Fi" bubble label). The additions
+   are correct for the audience but push the previous short-copy sizing at
+   375/393/430. This section is additive only — no existing layout is changed
+   on desktop, only wrapping/overflow and narrow-width stacking are tightened
+   so the same content fits the phone widths that the rest of the app was
+   already tuned for, plus touch-affinity for the new Choose-phase cards.
+   Mirrored in app.py's embedded phone CSS (see #actMount touch block) so
+   both surfaces stay identical.
+   ========================================================================== */
+
+/* --- 1. Global long-text safety: unbroken tokens (emails, domains, long
+      passwords) must wrap anywhere, otherwise they drive horizontal scroll
+      at 375px. Scoped to card/panel content, not the whole page, so layout
+      chrome is untouched. --- */
+.pp-policy-card,
+.pp-weak-text,
+.pp-weak-violates,
+.pp-choice-btn,
+.pp-choose-reveal,
+.pp-choose-reveal-lines,
+.pp-choice-reveal-lines,
+.dr-scenario-context,
+.dr-opt-text,
+.dr-feedback,
+.dr-debrief-panel .ff-r-text,
+.mf-myth,
+.mf-fact,
+.mf-detail,
+.cq-riddle-text,
+.cq-feedback,
+.cw-clue-list li,
+.ls-text,
+.ls-detail,
+.ls-address,
+.ff-r-text,
+.ff-reveal-overlay .ff-r-text,
+.ff-compare-reveal .ff-r-text,
+.le-module-card p,
+.le-module-card h3,
+.adm-mod-btn .adm-mod-desc {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+/* Email/domain tokens specifically — allow break inside long single-token
+   addresses where normal word-wrap would keep them whole. Scoped narrowly
+   so normal English words (e.g. "allotment", "provisions") still break at
+   word boundaries, not mid-word. */
+.ls-address,
+.ff-r-text,
+.ff-compare-reveal .ff-r-text,
+.ff-reveal-overlay .ff-r-text {
+  word-break: break-all;
+}
+
+/* --- 2. Fault-finding compare cards: longer subject/sender lines need more
+      breathing room and must stack at narrow widths, not stay side-by-side. --- */
+.ff-compare-row {
+  flex-wrap: wrap;
+}
+.ff-compare-panel {
+  min-width: min(280px, 100%);
+}
+/* Narrow stacking: side-by-side is unreadable below ~640px, especially with
+   the new longer subjects like "UPDATED Bank Details — MV Horizon Provisions" */
+@media (max-width: 640px) {
+  .ff-compare-row { flex-direction: column; }
+  .ff-image-frame { aspect-ratio: auto; max-height: 52vh; }
+  .ff-reveal-overlay { max-height: 68%; padding: 16px 14px; }
+  .ff-compare-reveal { padding: 16px 14px; }
+}
+@media (max-width: 430px) {
+  .ff-category-tag { font-size: 10px; padding: 3px 10px; letter-spacing: 1px; }
+  .ff-title-bar h2 { font-size: 18px; line-height: 1.3; }
+}
+
+/* --- 3. Pass-phrase: policy statement + Choose-phase 4-option cards +
+      "violates: ..." labels are brand-new surfaces since the last mobile fit. --- */
+.pp-policy-card {
+  line-height: 1.55;
+  max-width: 100%;
+}
+.pp-weak-violates {
+  line-height: 1.45;
+  flex-wrap: wrap;
+}
+.pp-choose-options {
+  /* Was minmax(220px) — at 375px that still tries two columns with heavy
+     horizontal padding, making each card ~155px and truncating 18-char
+     passwords. Allow 1-col collapse cleanly at narrow widths. */
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+}
+.pp-choice-btn {
+  /* Long Choose reasons are ~90 chars; ensure they can grow vertically rather
+     than clipping. min-height + auto, not fixed height. */
+  min-height: 56px;
+  height: auto;
+  align-items: flex-start;
+  padding: 14px 16px;
+  line-height: 1.4;
+}
+.pp-choose-reveal,
+.pp-choose-reveal-lines,
+.pp-choice-reveal-lines {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+@media (max-width: 430px) {
+  .pp-choose-options { grid-template-columns: 1fr; }
+  .pp-policy-card { padding: 12px 14px; font-size: 14px; }
+  .pp-weak-card { padding: 12px 14px; }
+  .pp-weak-text { font-size: 14px; }
+  .pp-theme-eyebrow { font-size: 10px; letter-spacing: 0.8px; }
+}
+@media (max-width: 375px) {
+  .pp-choose-prompt { font-size: 16px; gap: 8px; }
+  .le-item-counter { font-size: 10px; }
+}
+
+/* --- 4. Decision Room: flattened single-decision cases must not retain
+      any legacy multi-decision spacing. Longer scenario text now wraps
+      cleanly at 375px. --- */
+.dr-scenario-context {
+  line-height: 1.55;
+  /* Remove italic clipping at narrow widths — allow normal wrapping */
+  font-style: normal;
+  padding: 0 8px;
+}
+.dr-option {
+  /* Longer option text like "End the call and check the request by
+     contacting that leader on a number or channel you already know is real"
+     (~18 words) needs generous line-height and vertical padding, not a
+     clipped single-line button. */
+  line-height: 1.45;
+  align-items: flex-start;
+}
+.dr-opt-letter {
+  margin-top: 2px;
+}
+.dr-feedback {
+  line-height: 1.5;
+}
+@media (max-width: 430px) {
+  .dr-scenario-context { font-size: 16px; }
+  .dr-prompt { font-size: 20px; }
+  .dr-option { padding: 14px 16px; gap: 12px; }
+}
+@media (max-width: 375px) {
+  .dr-scenario-context { font-size: 15px; padding: 0 4px; }
+}
+
+/* --- 5. Myth vs Fact / Clue Quest / Crossword: longer detail/clue text --- */
+.mf-card { overflow-wrap: anywhere; }
+.cq-riddle-card { overflow-wrap: anywhere; }
+.cw-clue-list li {
+  /* 40-60 word clues with em dashes — need wrapping, not ellipsis */
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+@media (max-width: 430px) {
+  .mf-card, .cq-riddle-card { padding: 20px 16px; }
+  .mf-myth { font-size: 20px; }
+  .cq-riddle-text { font-size: 18px; }
+  .cw-clues { flex-direction: column; }
+  .cw-clue-col { min-width: 0; }
+}
+@media (max-width: 375px) {
+  .mf-fact-wrap { padding-top: 16px; }
+}
+
+/* --- 6. Control Catch: longer bubble label "Secure Connection On Public Wi-Fi"
+      (31 chars) vs old "VPN On Public Wi-Fi" (19). Previous 64px min-height
+      was tuned for 2 lines; 3-4 lines need more height or it clips the pill.
+      Also the HUD (Score/Lives/Timer) overflowed at 393/430 with the old
+      120px min-width per stat — make it wrap and use a fluid min-width. --- */
+.cc-console-hud { flex-wrap: wrap; justify-content: center; }
+.cc-console-stat { min-width: clamp(88px, 22vw, 120px); }
+.cc-bubble {
+  min-height: 68px;
+  height: auto;
+  padding: 10px 14px;
+  line-height: 1.35;
+  /* Ensure long labels wrap inside the pill, not push width */
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+@media (max-width: 430px) {
+  .cc-bubble {
+    width: clamp(88px, 28vw, 140px);
+    font-size: 11px;
+    min-height: 62px;
+    padding: 8px 12px;
+  }
+  .cc-console-arena { height: min(52vh, 420px); }
+}
+@media (max-width: 375px) {
+  .cc-bubble { width: clamp(82px, 30vw, 126px); font-size: 10.5px; min-height: 60px; }
+  .cc-console-hud { gap: 10px; flex-wrap: wrap; }
+  .cc-console-stat { min-width: 96px; padding: 8px 14px; }
+}
+
+/* --- 7. Touch action re-verification: new interactive surfaces since last
+      touch pass (Choose-phase cards, flattened Decision-Room option buttons,
+      mute/volume toggle, burst ring). All get manipulation + tap highlight
+      removal; burst ring keeps pointer-events:none so it never blocks. --- */
+.pp-choice-btn,
+.dr-option,
+.cc-bubble,
+.cc-mute-btn,
+.adm-mod-btn,
+.le-btn,
+.cq-option,
+.pp-tile,
+.pp-deck-tile,
+.ff-compare-panel,
+.cw-clue-list li,
+.cw-input {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.cc-burst-ring { pointer-events: none; touch-action: none; }
+.pp-choice-btn:active:not(:disabled),
+.dr-option:active:not(:disabled),
+.cq-option:active:not(:disabled),
+.adm-mod-btn:active {
+  transform: scale(0.985);
+}
+.cc-mute-btn:active { transform: scale(0.94); }
+/* Containers stay scrollable — no touch-action lock there; only tappable
+   children are set to manipulation so vertical pan/pinch still work. */
+
+/* --- 8. Responsive re-check at 375 / 393 / 430 — targeted overrides
+      (standard mobile-fit widths used throughout this project). --- */
+@media (max-width: 430px) {
+  .le-main { padding: 12px 10px; }
+  .le-modules-grid { gap: 14px; }
+  .le-flow-arc { padding: 8px 12px; font-size: 10px; }
+  .le-topbar { flex-wrap: wrap; padding: 10px 12px; gap: 8px; }
+  .le-topbar .le-brand { gap: 8px; flex: 1 1 auto; min-width: 0; }
+  .le-topbar .le-brand img { height: 32px; }
+  .le-topbar .le-brand-text { font-size: 12px; overflow-wrap: anywhere; }
+  .le-topbar .le-brand-text small { font-size: 9px; letter-spacing: 1px; }
+  .le-topbar .le-topbar-right { margin-left: auto; flex-shrink: 0; }
+}
+@media (max-width: 393px) {
+  .le-topbar { padding: 10px 14px; gap: 10px; }
+  .le-topbar .le-brand img { height: 32px; }
+  .le-module-tag { padding: 4px 10px; font-size: 10px; }
+  .ff-reveal-overlay .ff-r-text,
+  .ff-compare-reveal .ff-r-text { font-size: 16px; }
+}
+@media (max-width: 375px) {
+  .le-topbar { padding: 8px 10px; gap: 8px; }
+  .le-topbar .le-brand img { height: 30px; }
+  .le-topbar .le-brand-text { font-size: 11px; }
+  .le-topbar .le-brand-text small { display: none; } /* save 16px at narrowest */
+  .le-keyhints { padding: 8px 12px; gap: 8px; }
+  .le-keyhint { font-size: 10px; }
+  .le-modules-grid { grid-template-columns: 1fr; }
+  .le-item-counter { letter-spacing: 1px; }
+}
+
+/* --- 9. Admin dashboard: colored module-picker cards at tablet (768px) ---
+      Previous color-coding pass added left-stripe + tinted badge but no
+      tablet-specific readability check. At 768px the grid collapses from
+      auto-fit to 2 columns — ensure left border and badge keep contrast.
+      At 430px and below, force single column so longer module descriptions
+      (e.g. "Fault Finding — 8 rounds. Covers HR, Finance, and Offshore") 
+      don't set at 2-across 160px-wide cards. --- */
+@media (max-width: 768px) {
+  .adm-launcher-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .adm-mod-btn { border-left-width: 5px; }
+  /* Slightly larger tap target at tablet — keeps colored left stripe visible */
+  .adm-mod-btn { padding: 14px 12px; }
+}
+@media (max-width: 430px) {
+  .adm-launcher-grid { grid-template-columns: 1fr; }
+}
