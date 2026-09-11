@@ -1475,10 +1475,13 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
    also fits. */
 .header{position:sticky;top:0;z-index:10;flex-wrap:wrap;row-gap:8px}
 .header .le-brand img{height:32px}
-.header .le-brand-div{height:24px}
+.header .le-brand.le-brand-mi img{height:28px;max-width:110px}
+.header .le-brand.le-brand-mi{padding:2px 6px;background:#fff;border:1px solid #e2e8f0;border-radius:6px}
+.header .le-brand-div.mi-divider{height:20px}
 .header .le-brand-text{font-size:var(--fs-badge)}
 .header .le-brand-text small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:44vw}
-.header .le-topbar-right{gap:8px}
+.header .le-topbar-right{gap:8px;align-items:center}
+@media (max-width:380px){ .header .le-brand.le-brand-mi img{height:24px;max-width:88px} }
 .header .room{font-family:'Space Mono',monospace;font-weight:800;font-size:var(--fs-badge);background:#0f172a;color:#e0f2fe;padding:6px 10px;border-radius:999px;letter-spacing:1px}
 .header .count{font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:6px 10px;border-radius:999px}
 .main{flex:1;display:flex;flex-direction:column;align-items:center;padding:16px;gap:16px;max-width:480px;width:100%;margin:0 auto}
@@ -1787,6 +1790,8 @@ button.pp-tile, button.pp-deck-tile{
   <div class="le-topbar-right">
     <span class="room">ROOM __ROOM_CODE__</span>
     <span id="headerCount" class="count"> - </span>
+    <div class="le-brand-div mi-divider" aria-hidden="true"></div>
+    <a class="le-brand le-brand-mi" href="#" aria-label="MIDevOps Services" title="MIDevOps Services"><img src="/assets/MI.png" alt="MIDevOps Services"/></a>
   </div>
 </header>
 <main class="main">
