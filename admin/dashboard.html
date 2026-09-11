@@ -14,18 +14,17 @@
     .adm-wrap { max-width: 1280px; margin: 0 auto; width: 100%; padding: 0 clamp(16px,3vw,40px) clamp(24px,3vw,40px); }
     .adm-login-card, .adm-card { background:#fff; border:1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow-md); padding: clamp(18px,2.2vw,28px); }
     .adm-login-card { max-width: 480px; margin: 36px auto; text-align:center; position:relative; overflow:hidden; animation: admLoginIn 0.5s cubic-bezier(0.16,1,0.3,1) both; border-top: 4px solid transparent; background-clip: padding-box; }
-    .adm-login-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--mi-gradient);opacity:0.95}
+    .adm-login-card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--grad-cyan);opacity:0.95}
     .adm-login-card h2 { font-family:'Orbitron',sans-serif; font-weight:900; font-size:var(--fs-subhead); color:var(--navy); margin-bottom:6px; letter-spacing:-0.2px; }
     .adm-login-card p { color:var(--muted); font-size:var(--fs-badge); margin-bottom:16px; line-height:1.5; }
     .adm-input { width:100%; padding:12px 14px; border:1.5px solid var(--line); border-radius:10px; font-size:var(--fs-body); box-sizing:border-box; background:#fff; transition:border-color 0.2s ease, box-shadow 0.2s ease; }
     .adm-input::placeholder{color:#94a3b8}
     .adm-input:hover{border-color:#94a3b8}
-    .adm-input:focus{outline:none;border-color:var(--mi-blue, #0E7BE5);box-shadow:0 0 0 4px rgba(14,123,229,0.12)}
-    .adm-login-brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px}
-    .adm-login-brand img{height:34px;object-fit:contain;display:block}
-    .adm-login-brand .adm-login-div{width:1px;height:24px;background:var(--line)}
-    .adm-login-brand .brand-mi img{height:28px;max-width:120px;background:#fff;border:1px solid var(--line);border-radius:6px;padding:2px 6px}
-    .adm-login-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#78350f;background:var(--mi-gradient-subtle);border:1px solid rgba(255,107,0,0.22);padding:5px 10px;border-radius:999px;margin-bottom:12px}
+    .adm-input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 4px rgba(6,182,212,0.12)}
+    .adm-login-brand{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+    .adm-login-brand img{height:clamp(28px, 3.2vw, 34px);max-height:34px;width:auto;max-width:140px;object-fit:contain;display:block;flex-shrink:0}
+    .adm-login-brand .adm-login-div{width:1px;height:clamp(22px, 2.6vw, 26px);background:var(--line);align-self:center}
+    .adm-login-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--cyan-dark);background:rgba(6,182,212,0.08);border:1px solid rgba(6,182,212,0.22);padding:5px 10px;border-radius:999px;margin-bottom:12px}
     .adm-login-label{display:block;text-align:left;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#334155;margin:0 0 6px}
     .adm-input-wrap{position:relative;display:flex;align-items:center}
     .adm-input-wrap i{position:absolute;left:12px;color:#94a3b8;font-size:14px;pointer-events:none}
@@ -171,8 +170,6 @@
       </div>
       <div class="le-topbar-right">
         <a class="le-home-link" href="/live-event/index.html"><i class="fa-solid fa-arrow-left"></i> Console</a>
-        <div class="le-brand-div mi-divider" aria-hidden="true"></div>
-        <a class="le-brand le-brand-mi" href="#" aria-label="MIDevOps Services" title="MIDevOps Services"><img src="/assets/MI.png" alt="MIDevOps Services"/></a>
       </div>
     </header>
 
@@ -181,13 +178,11 @@
       <!-- LOGIN - refined -->
       <div id="loginPanel" class="adm-login-card">
         <div class="adm-login-brand" aria-hidden="true">
-          <img src="/assets/SYN.png" alt="Synergy"/>
+          <img src="/assets/SYN.png" alt="Synergy Marine Group"/>
           <div class="adm-login-div"></div>
           <img src="/assets/AFT.png" alt="AFT"/>
-          <div class="adm-login-div"></div>
-          <span class="brand-mi"><img src="/assets/MI.png" alt="MIDevOps Services"/></span>
         </div>
-        <div class="adm-login-eyebrow"><i class="fa-solid fa-shield-halved"></i> MIDevOps · Facilitator Access</div>
+        <div class="adm-login-eyebrow"><i class="fa-solid fa-shield-halved"></i> Synergy · Facilitator Access</div>
         <h2><i class="fa-solid fa-lock"></i> Admin Login</h2>
         <p>Secure access to session controls, QR and live results. Credentials are per-event and encrypted.</p>
         <div style="display:grid; gap:12px; text-align:left;">
@@ -208,11 +203,11 @@
           </div>
           <button id="loginBtn" class="le-btn primary adm-login-btn" type="button" style="width:100%; justify-content:center;"><i class="fa-solid fa-right-to-bracket"></i> Login — Enter Dashboard</button>
           <div id="loginMsg" class="adm-note" style="text-align:center; min-height:18px;"></div>
-          <div style="display:flex;align-items:center;gap:8px;justify-content:center;color:#94a3b8;font-size:11px;font-family:'Space Mono',monospace"><i class="fa-solid fa-circle-info"></i> Need help? Contact MIDevOps Services · Synergy Cyber Month</div>
+          <div style="display:flex;align-items:center;gap:8px;justify-content:center;color:#94a3b8;font-size:11px;font-family:'Space Mono',monospace"><i class="fa-solid fa-circle-info"></i> Need help? Contact Synergy Marine Group · Cyber Month</div>
         </div>
         <div class="adm-login-foot">
           <span style="display:inline-flex;align-items:center;gap:6px"><i class="fa-solid fa-lock"></i> Encrypted session</span>
-          <span style="display:inline-flex;align-items:center;gap:6px"><img src="/assets/MI.png" alt="MIDevOps"> MIDevOps Services</span>
+          <span>Synergy Marine Group</span>
         </div>
       </div>
 

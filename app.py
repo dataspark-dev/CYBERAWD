@@ -1474,20 +1474,23 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;ba
    width; left as-is it overflows the viewport instead of wrapping. These overrides only touch
    sizing/wrapping, never color/border/shadow, so the visual TREATMENT still matches - it just
    also fits. */
-.header{position:sticky;top:0;z-index:10;flex-wrap:wrap;row-gap:8px}
-.header .le-brand img{height:32px}
-.header .le-brand.le-brand-mi img{height:28px;max-width:110px}
-.header .le-brand.le-brand-mi{padding:2px 6px;background:#fff;border:1px solid #e2e8f0;border-radius:6px}
-.header .le-brand-div.mi-divider{height:20px}
-.header .le-brand-text{font-size:var(--fs-badge)}
-.header .le-brand-text small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:44vw}
+.header{position:sticky;top:0;z-index:10;flex-wrap:wrap;row-gap:8px;align-items:center}
+.header .le-brand{gap:10px}
+.header .le-brand img{height:28px;max-height:28px;max-width:120px;object-fit:contain}
+.header .le-brand.le-brand-mi img{height:26px;max-height:26px;max-width:110px}
+.header .le-brand.le-brand-mi{padding:2px 6px;background:#fff;border:1px solid #e2e8f0;border-radius:6px;box-shadow:0 1px 2px rgba(15,23,42,0.06)}
+.header .le-brand-div{height:22px}
+.header .le-brand-div.mi-divider{height:22px;opacity:0.9}
+.header .le-brand-text{font-size:var(--fs-badge);line-height:1.15}
+.header .le-brand-text small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42vw;font-size:10px}
 .header .le-topbar-right{gap:8px;align-items:center}
-@media (max-width:380px){ .header .le-brand.le-brand-mi img{height:24px;max-width:88px} }
+@media (max-width:480px){ .header .le-brand img{height:26px;max-height:26px} .header .le-brand.le-brand-mi img{height:24px;max-height:24px;max-width:96px} .header .le-brand-div,.header .le-brand-div.mi-divider{height:20px} }
+@media (max-width:375px){ .header .le-brand img{height:24px;max-height:24px} .header .le-brand.le-brand-mi img{height:22px;max-height:22px;max-width:88px} .header .le-brand-text small{max-width:36vw} }
 .header .room{font-family:'Space Mono',monospace;font-weight:800;font-size:var(--fs-badge);background:#0f172a;color:#e0f2fe;padding:6px 10px;border-radius:999px;letter-spacing:1px}
 .header .count{font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:6px 10px;border-radius:999px}
 .main{flex:1;display:flex;flex-direction:column;align-items:center;padding:clamp(18px,4vw,28px) 16px;gap:18px;max-width:520px;width:100%;margin:0 auto;position:relative;z-index:1}
 .card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:clamp(20px,4vw,26px);width:100%;box-shadow:0 4px 16px rgba(15,23,42,0.06), 0 1px 0 rgba(255,255,255,0.6) inset;position:relative;overflow:hidden;animation:cardIn 0.45s cubic-bezier(0.16,1,0.3,1) both}
-.card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--mi-gradient, linear-gradient(90deg,#FF6B00,#FFD600,#0E7BE5));opacity:0.95}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--grad-cyan, linear-gradient(90deg, #06b6d4, #0ea5e9, #0062ff));opacity:0.95}
 .card h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(20px,5vw,24px);margin:0 0 6px;line-height:1.15;color:#0f172a;letter-spacing:-0.2px}
 .card h2{font-family:'Orbitron',sans-serif;font-weight:800;font-size:var(--fs-body);margin:0 0 10px;color:#0f172a}
 .card p{color:#475569;margin:0 0 14px;line-height:1.55;font-size:var(--fs-badge)}
@@ -1521,8 +1524,8 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;ba
    each render function inventing its own (unstyled) class name. */
 .persona-tag{font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.6px;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:#e0f2fe;border:1px solid #bae6fd;color:#075985;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px}
 .badge.live{background:#fef9c3;border-color:#fde68a;color:#854d0e}
-.waiting-icon{width:64px;height:64px;border-radius:50%;background:var(--mi-gradient);color:#0f172a;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 14px;box-shadow:0 8px 20px rgba(255,107,0,0.18), 0 4px 10px rgba(14,123,229,0.16);animation:waitPulse 2.2s ease-in-out infinite}
-@keyframes waitPulse{0%,100%{transform:scale(1);box-shadow:0 8px 20px rgba(255,107,0,0.18)}50%{transform:scale(1.04);box-shadow:0 12px 26px rgba(255,107,0,0.24)}}
+.waiting-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg, #06b6d4, #0891b2);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 14px;box-shadow:0 8px 20px rgba(6,182,212,0.22), 0 4px 10px rgba(14,123,229,0.16);animation:waitPulse 2.2s ease-in-out infinite}
+@keyframes waitPulse{0%,100%{transform:scale(1);box-shadow:0 8px 20px rgba(6,182,212,0.22)}50%{transform:scale(1.04);box-shadow:0 12px 26px rgba(6,182,212,0.28)}}
 .prompt{font-size:var(--fs-body);font-weight:800;line-height:1.35;margin:0 0 16px;color:#0f172a}
 .options{display:grid;gap:12px}
 .option-btn{width:100%;padding:16px 14px;border-radius:12px;border:2px solid #e2e8f0;background:white;color:#0f172a;font-weight:700;font-size:var(--fs-body);min-height:56px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px;line-height:1.3}
@@ -1807,14 +1810,12 @@ button.pp-tile, button.pp-deck-tile{
   <div class="le-topbar-right">
     <span class="room">ROOM __ROOM_CODE__</span>
     <span id="headerCount" class="count"> - </span>
-    <div class="le-brand-div mi-divider" aria-hidden="true"></div>
-    <a class="le-brand le-brand-mi" href="#" aria-label="MIDevOps Services" title="MIDevOps Services"><img src="/assets/MI.png" alt="MIDevOps Services"/></a>
   </div>
 </header>
 <main class="main">
-  <!-- Join - UX refined: hierarchy, helper, MI alignment, accessible label -->
+  <!-- Join - UX refined: hierarchy, helper, Synergy alignment, accessible label -->
   <div id="joinScreen" class="card join-card">
-    <div class="join-eyebrow mi"><i class="fa-solid fa-shield-halved"></i> MIDevOps · Secure Session</div>
+    <div class="join-eyebrow"><i class="fa-solid fa-shield-halved"></i> Synergy · Secure Session</div>
     <h1>Join session</h1>
     <p class="lead">Enter your name to join <strong style="color:#0f172a">Room __ROOM_CODE__</strong></p>
     <p style="color:#64748b;font-size:var(--fs-badge);margin:0 0 14px">The host will see your name in the live participant list. Use the name you want shown on screen.</p>
@@ -1825,7 +1826,7 @@ button.pp-tile, button.pp-deck-tile{
     <div id="joinErr" class="err hidden"></div>
     <div class="join-foot">
       <span><i class="fa-solid fa-users"></i> Room __ROOM_CODE__</span>
-      <span style="display:inline-flex;align-items:center;gap:6px"><img src="/assets/MI.png" alt="MIDevOps" style="height:14px;width:auto"> MIDevOps Services</span>
+      <span>Synergy Marine Group</span>
     </div>
     <p style="margin-top:10px;font-size:11px;color:#94a3b8;text-align:center"><i class="fa-solid fa-lock"></i> Synergy Cyber Security Awareness Month · Encrypted & monitored</p>
   </div>
@@ -1837,12 +1838,12 @@ button.pp-tile, button.pp-deck-tile{
     <p id="waitingSub" style="text-align:center;margin:0 0 14px">You are in. The host will start the next activity soon.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:8px">
       <span id="waitingCount" class="badge live"><i class="fa-solid fa-users"></i> 0 joined</span>
-      <span id="waitingModule" class="badge mi">—</span>
+      <span id="waitingModule" class="badge">—</span>
     </div>
     <div id="waitingNames" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center"></div>
     <div class="join-foot" style="margin-top:16px">
       <span style="color:#64748b"><i class="fa-solid fa-satellite-dish"></i> Live sync 1.5s</span>
-      <span style="display:inline-flex;align-items:center;gap:6px"><img src="/assets/MI.png" alt="MIDevOps" style="height:14px;width:auto"> MIDevOps</span>
+      <span>Synergy Marine Group</span>
     </div>
   </div>
   <!-- Participant intro - mirrors console's le-intro-screen (whyThisMatters) -->
