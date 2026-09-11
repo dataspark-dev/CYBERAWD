@@ -631,7 +631,7 @@
       els.qrImg.src = '/api/session/' + code + '/qr?ts=' + Date.now();
       els.openJoinLink.href = joinUrl;
       els.qrSection.classList.remove('adm-hidden');
-      els.sessionMsg.textContent = 'Lab ' + code + ' - QR ready (same code can be reused between activities);
+      els.sessionMsg.textContent = 'Lab ' + code + ' - QR ready (same code can be reused between activities)';
       renderStateUI(st);
       ensurePolling();
       loadModules();
