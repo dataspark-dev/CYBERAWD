@@ -3148,3 +3148,38 @@ body {
 @media (max-width: 430px) {
   .adm-launcher-grid { grid-template-columns: 1fr; }
 }
+
+/* --- 10. Mobile UX — refined 480/375 — fluid type, 44px touch, safe-area, no overflow --- */
+@media (max-width: 480px) {
+  .le-home-hero { padding: 18px 14px 8px; }
+  .le-home-hero h1 { font-size: clamp(22px, 7vw, 28px); line-height: 1.15; }
+  .le-home-hero .hh-eyebrow { font-size: 10px; letter-spacing: 2px; }
+  .le-modules-wrap { padding: 0 12px 20px; }
+  .le-flow-arc { font-size: 9px; padding: 8px 10px; gap: 6px; }
+  .le-module-card .mc-body { padding: 18px 16px 14px; }
+  .le-module-card .mc-icon { width: 46px; height: 46px; font-size: 20px; margin-bottom: 10px; }
+  .le-module-card h3 { font-size: 17px; line-height: 1.25; }
+  .le-module-card p { font-size: 13.5px; line-height: 1.5; }
+  .le-module-card .mc-footer { padding: 10px 16px; font-size: 10px; gap: 6px; }
+  .le-btn { min-height: 44px; padding: 12px 16px; font-size: 11px; gap: 8px; }
+  .le-btn.lg { min-height: 48px; padding: 14px 18px; font-size: 12px; }
+  .le-progress-dots { gap: 8px; margin: 12px 0; }
+  .le-progress-dots .dot { width: 10px; height: 10px; }
+  .le-item-counter { font-size: 10px; letter-spacing: 1px; }
+  .le-intro-screen { gap: 18px; padding: 16px 12px; }
+  .le-intro-text { font-size: 18px; line-height: 1.5; }
+  .le-remember-card { padding: 14px 16px; gap: 12px; }
+  .le-remember-text { font-size: 14px; line-height: 1.5; }
+  .le-topbar { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); }
+  .le-keyhints { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); gap: 6px; }
+}
+@media (max-width: 375px) {
+  .le-home-hero h1 { font-size: 22px; }
+  .le-module-card .mc-body { padding: 16px 14px 12px; }
+  .le-module-card .mc-icon { width: 42px; height: 42px; font-size: 18px; }
+  .le-btn { padding: 10px 14px; }
+  .le-main { padding: 10px 8px; padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .le-module-card, .le-btn, .pp-tile, .cc-bubble { transition: none !important; animation: none !important; }
+}

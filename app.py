@@ -1792,7 +1792,35 @@ button.pp-tile, button.pp-deck-tile{
    Burst ring must never block taps. */
 .pp-choice-btn, .cc-mute-btn{ touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .cc-burst-ring{ pointer-events:none; touch-action:none; }
-@media (max-width: 430px){ .act-topline{flex-direction:column; align-items:stretch;} }
+/* Mobile UX — 480/375 — header, card, inputs, buttons, safe-area */
+@media (max-width: 480px){
+  .header{padding:8px 10px; gap:8px}
+  .header .le-brand-text{font-size:11px}
+  .header .le-brand-text small{font-size:10px; max-width:38vw}
+  .main{padding:14px 12px; gap:14px}
+  .card{padding:18px 14px; border-radius:14px}
+  .card h1{font-size:20px}
+  .input{padding:13px 12px; font-size:16px}
+  .btn{min-height:44px; padding:12px 14px; font-size:15px}
+  .badge{padding:5px 8px; font-size:11px}
+  .join-foot{flex-direction:column; align-items:flex-start; gap:6px}
+  .act-topline{flex-direction:column; align-items:stretch}
+}
+@media (max-width: 375px){
+  .header{padding:6px 8px}
+  .header .room{padding:5px 8px; font-size:11px}
+  .header .count{padding:5px 8px}
+  .main{padding:10px 8px; padding-left:max(8px, env(safe-area-inset-left)); padding-right:max(8px, env(safe-area-inset-right))}
+  .card{padding:16px 12px}
+  .card::before{height:3px}
+  .input{font-size:16px}
+  .btn{font-size:14px}
+  .cw-grid-wrap{padding:6px}
+  .cc-arena{height:min(58vh, 460px)}
+}
+@media (prefers-reduced-motion: reduce){
+  .card, .btn, .option-btn, .cc-bubble{transition:none !important; animation:none !important}
+}
 </style>
 </head>
 <body>

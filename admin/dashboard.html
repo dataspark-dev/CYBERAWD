@@ -151,6 +151,31 @@
       .adm-cw-track{ flex:1 1 100%; order:3; margin-top:4px; }
       .adm-cw-count{ font-size:var(--fs-badge); }
       .adm-cw-name{ font-size:var(--fs-badge); }
+      .adm-launcher-grid{gap:14px}
+      .adm-mod-btn{padding:16px 14px; min-height:124px}
+    }
+    /* Mobile UX — 480/375 — touch, safe-area, stack */
+    @media (max-width: 480px){
+      .adm-login-card{margin:16px auto; padding:18px 14px}
+      .adm-input{padding:13px 12px; font-size:16px}
+      .adm-input-wrap .adm-input{padding-left:36px}
+      .adm-login-btn{min-height:44px}
+      .adm-row{gap:10px}
+      .adm-qr-img{width:180px;height:180px}
+      .adm-roomcode{font-size:clamp(28px, 10vw, 36px); letter-spacing:4px}
+      .adm-launcher-grid{grid-template-columns:1fr; gap:12px}
+      .adm-mod-btn{padding:16px 14px; min-height:auto}
+      .adm-section-title{font-size:13px}
+      .le-topbar{padding-left:max(10px, env(safe-area-inset-left)); padding-right:max(10px, env(safe-area-inset-right))}
+    }
+    @media (max-width: 375px){
+      .adm-wrap{padding:0 10px 16px}
+      .adm-login-card{padding:16px 12px}
+      .adm-card{padding:16px 12px}
+      .adm-roomcode{font-size:28px; letter-spacing:3px}
+      .adm-qr-img{width:160px;height:160px}
+      .adm-mod-btn .adm-mod-label{font-size:13px}
+      .adm-mod-btn .adm-mod-desc{font-size:11px}
     }
   </style>
 </head>

@@ -448,7 +448,8 @@ ul { list-style: none; }
   align-items: stretch;
 }
 @media (max-width: 768px){ .modules-grid{grid-template-columns:repeat(auto-fill, minmax(260px,1fr));gap:16px} }
-@media (max-width: 480px){ .modules-grid{grid-template-columns:1fr;gap:14px} }
+@media (max-width: 480px){ .modules-grid{grid-template-columns:1fr;gap:14px} .container{padding:20px 14px} .hero{padding:28px 14px 22px} .hero h1{font-size:28px} }
+@media (max-width: 375px){ .container{padding:16px 12px; padding-left:max(12px, env(safe-area-inset-left)); padding-right:max(12px, env(safe-area-inset-right))} .hero{padding:22px 12px 18px} .hero h1{font-size:24px} .hero p.lead{font-size:14px} .pillar-card{padding:18px 14px} .pillar-card h3{font-size:16px} .pillar-card p{font-size:13.5px} }
 .module-card {
   background: #fff;
   border: 1.5px solid var(--line);
