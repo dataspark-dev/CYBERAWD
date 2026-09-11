@@ -64,6 +64,32 @@ body {
 .le-module-card .mc-icon { transition: transform var(--dur-base) var(--ease-standard), background var(--dur-base) var(--ease-standard); }
 .le-module-card:hover .mc-icon, .le-module-card:focus-visible .mc-icon { transform: scale(1.08); }
 
+/* ---------- SVG Icons — refined: consistent 1em, alignment, Synergy palette, hover ---------- */
+.fa-solid, .fa-regular, .fa-brands { --fa-display: inline-flex; }
+.le-module-card .mc-icon i, .le-btn i, .le-topbar i, .le-keyhint i, .adm-section-title i, .adm-login-eyebrow i, .join-eyebrow i {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  vertical-align: middle;
+}
+.le-module-card .mc-icon i { font-size: 22px; width: 22px; height: 22px; }
+.le-btn i { font-size: 14px; width: 14px; height: 14px; flex-shrink: 0; }
+.le-topbar i { font-size: 14px; }
+.le-keyhint i { font-size: 12px; opacity: 0.9; }
+.adm-section-title i, .adm-login-eyebrow i, .join-eyebrow i { font-size: 12px; }
+.le-module-card.v-cyan .mc-icon i { color: var(--cyan-dark); }
+.le-module-card.v-red .mc-icon i { color: var(--red); }
+.le-module-card.v-purple .mc-icon i { color: var(--purple); }
+.le-module-card.v-amber .mc-icon i { color: #b45309; }
+.le-module-card.v-green .mc-icon i { color: var(--green-dark); }
+.le-module-card.v-blue .mc-icon i { color: var(--blue); }
+.le-module-card.v-orange .mc-icon i { color: var(--orange); }
+.le-module-card.v-slate .mc-icon i { color: var(--slate); }
+.le-module-card.v-sky .mc-icon i { color: var(--sky); }
+/* SVG fallback — if inline SVG is used instead of <i>, ensure same sizing */
+.mc-icon svg, .le-btn svg, .adm-section-title svg { width: 1em; height: 1em; display: block; flex-shrink: 0; }
+
 
 
 /* ---------- Ambient grid backdrop — light theme ---------- */

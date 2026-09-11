@@ -624,17 +624,23 @@ ul { list-style: none; }
   pointer-events: none;
 }
 .pillar-card .icon-wrap {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   background: var(--accent-soft);
+  border: 1px solid rgba(255,255,255,0.5);
   color: var(--accent, var(--cyan));
+  box-shadow: 0 2px 8px rgba(var(--accent-rgb), 0.08);
 }
+.pillar-card .icon-wrap i, .module-icon i, .site-topbar i, .hero-tag i, .callout-bar i { display:inline-flex; align-items:center; justify-content:center; line-height:1; vertical-align:middle; }
+.pillar-card .icon-wrap i{font-size:22px; width:22px; height:22px}
+.module-icon i{font-size:20px; width:20px; height:20px}
+.site-topbar i{font-size:14px}
 .pillar-card h3 {
   font-family: 'Orbitron', sans-serif;
   font-size: 18px;

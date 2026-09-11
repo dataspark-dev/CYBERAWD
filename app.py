@@ -1501,6 +1501,11 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;ba
 .join-eyebrow.mi{color:#78350f;background:var(--mi-gradient-subtle, rgba(255,214,0,0.12));border-color:rgba(255,107,0,0.22)}
 .join-foot{margin-top:14px;padding-top:12px;border-top:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:'Space Mono',monospace;font-size:11px;color:#94a3b8}
 .join-foot img{height:18px;opacity:0.9}
+.join-eyebrow i, .waiting-icon i, .join-foot i, .header i{ display:inline-flex; align-items:center; justify-content:center; line-height:1; vertical-align:middle; }
+.join-eyebrow i{font-size:12px}
+.waiting-icon i{font-size:22px}
+.join-foot i{font-size:12px}
+.header i{font-size:14px}
 .input{width:100%;padding:14px 14px;border:1.5px solid #cbd5e1;border-radius:12px;font-size:var(--fs-body);background:white;transition:border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease}
 .input::placeholder{color:#94a3b8}
 .input:hover{border-color:#94a3b8}
