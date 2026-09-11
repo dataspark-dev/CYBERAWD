@@ -1238,6 +1238,15 @@ def styles(filename):
     return send_from_directory(STYLES_DIR, filename)
 
 
+@app.route("/favicon.ico")
+def favicon():
+    # Browsers auto-request /favicon.ico at root; serve the SVG with correct mimetype
+    # to avoid 404 in production (https://securityiq.misecure.io/join/xxx) — favicon lives at /assets/favicon.svg
+    try:
+        return send_from_directory(ASSETS_DIR, "favicon.svg", mimetype="image/svg+xml")
+    except Exception:
+        abort(404)
+
 @app.route("/assets/<path:filename>")
 def assets(filename):
     return send_from_directory(ASSETS_DIR, filename)
