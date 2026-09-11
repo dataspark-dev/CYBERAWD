@@ -50,8 +50,11 @@
   function renderDots() {
     els.dots.innerHTML = items.map((_, i) => {
       const cls = i === index ? 'dot current' : (i < index ? 'dot done' : 'dot');
-      return `<span class="${cls}"></span>`;
+      return `<button type="button" class="${cls}" data-jump="${i}" aria-label="Go to item ${i + 1}" title="Item ${i + 1}${items[i] ? ' · ' + (items[i].category || items[i].persona || '') : ''}"></button>`;
     }).join('');
+    Array.from(els.dots.querySelectorAll('[data-jump]')).forEach((btn) => {
+      btn.addEventListener('click', () => goTo(Number(btn.dataset.jump)));
+    });
   }
 
   function renderSingleItem(item) {
@@ -100,6 +103,15 @@
       if (label) {
         els.category.textContent = label;
         els.category.classList.remove('le-hidden');
+        // Topic tint: map category/persona to a subtle accent class for legibility
+        els.category.className = 'ff-category-tag';
+        const cat = (item.category || '').toLowerCase();
+        if (cat.includes('sender') || cat.includes('domain')) els.category.classList.add('cat-cyan');
+        else if (cat.includes('urgency') || cat.includes('pressure')) els.category.classList.add('cat-red');
+        else if (cat.includes('attachment')) els.category.classList.add('cat-amber');
+        else if (cat.includes('link')) els.category.classList.add('cat-blue');
+        else if (cat.includes('login') || cat.includes('portal')) els.category.classList.add('cat-purple');
+        else els.category.classList.add('cat-slate');
       } else {
         els.category.textContent = '';
         els.category.classList.add('le-hidden');
@@ -189,7 +201,13 @@
   els.nextBtn.addEventListener('click', next);
 
   LiveEvent.onAction({
-    advance: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    // SPACE / Enter dual-action: first press reveals, second press advances — prevents
+    // accidental skip of the explanation, matching Myth vs Fact's proven flow.
+    advance: () => {
+      if (!introDismissed) { dismissIntro(); return; }
+      if (!revealed) { reveal(); return; }
+      next();
+    },
     next: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
     prev: () => { if (introDismissed) prev(); },
     reveal: () => { if (introDismissed) reveal(); }

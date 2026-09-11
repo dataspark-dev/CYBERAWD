@@ -231,8 +231,13 @@
     els.dots.innerHTML = steps.map(function(s,i){
       var cls = i===index ? 'dot current' : (i < index ? 'dot done' : 'dot');
       cls += s.type === 'choose' ? ' dot-choose' : ' dot-build';
-      return '<span class="'+cls+'" title="'+(s.type==='choose'?'Choose':'Build')+'"></span>';
+      var roundNum = Math.floor(i/2)+1;
+      var label = s.type==='choose' ? 'R'+roundNum+' Choose' : 'R'+roundNum+' Build';
+      return '<button type="button" class="'+cls+'" data-jump="'+i+'" aria-label="Go to '+label+'" title="'+label+' ('+(i+1)+'/'+steps.length+')"></button>';
     }).join('');
+    Array.from(els.dots.querySelectorAll('[data-jump]')).forEach(function(btn){
+      btn.addEventListener('click', function(){ goTo(Number(btn.dataset.jump)); });
+    });
   }
 
   function computeStrength(pw, weak){
@@ -687,10 +692,17 @@
   function renderRound(){
     var step = steps[index];
     if(!step) return;
-    els.counter.textContent = 'Step ' + (index+1) + ' of ' + steps.length + (step.type==='choose' ? ' - Choose' : ' - Build');
+    var roundNum = Math.floor(index/2)+1;
+    var totalRounds = rounds.length;
+    var phaseLabel = step.type==='choose' ? 'Choose' : 'Build';
+    els.counter.textContent = 'Round ' + roundNum + ' of ' + totalRounds + ' \u00b7 ' + phaseLabel + '  \u00b7  Step ' + (index+1) + ' of ' + steps.length;
     if(els.rememberCard) els.rememberCard.classList.add('le-hidden');
     var isLast = index === steps.length - 1;
     els.nextBtn.innerHTML = isLast ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start' : '<i class="fa-solid fa-forward"></i> Next';
+    // Gentle pulse on Next when Choose is already answered (so facilitator knows to move on)
+    if(step.type==='choose' && choosePicked) els.nextBtn.classList.add('pulse-highlight');
+    else if(step.type==='build' && locked) els.nextBtn.classList.add('pulse-highlight');
+    else els.nextBtn.classList.remove('pulse-highlight');
     if(timer) timer.stop();
     timer = LiveEvent.createTimer(els.timerEl, TIMER_SECONDS, { onExpire: function(){} });
     timer.start();
@@ -741,6 +753,8 @@
             els.chooseReveal.innerHTML = verdictLine + '<div class="pp-choice-reveal-lines">' + lines + '</div>';
             els.chooseReveal.classList.remove('le-hidden');
           }
+          // Nudge facilitator onward — pulse Next once Choose is resolved
+          if(els.nextBtn) els.nextBtn.classList.add('pulse-highlight');
         });
       });
     }
@@ -821,6 +835,7 @@
     els.solvedBtn.disabled=true;
     els.solvedBtn.classList.remove('pulse-highlight');
     if(els.tiles){ els.tiles.style.borderColor='#10b981'; els.tiles.style.background='#ecfdf5'; }
+    if(els.nextBtn) els.nextBtn.classList.add('pulse-highlight');
     if(timer) timer.stop();
     if(index===steps.length-1 && els.rememberCard){
       els.rememberText.textContent=rememberThisText;

@@ -52,13 +52,28 @@
   function renderDots() {
     els.dots.innerHTML = cases.map((_, i) => {
       const cls = i === caseIndex ? 'dot current' : (i < caseIndex ? 'dot done' : 'dot');
-      return `<span class="${cls}"></span>`;
+      const persona = cases[i] ? cases[i].persona.split(' ')[0] : '';
+      return `<button type="button" class="${cls}" data-jump="${i}" aria-label="Go to case ${i + 1}" title="Case ${i + 1}${persona ? ' · ' + persona : ''}"></button>`;
     }).join('');
+    Array.from(els.dots.querySelectorAll('[data-jump]')).forEach((btn) => {
+      btn.addEventListener('click', () => {
+        if (done) {
+          done = false;
+          els.btnRow.innerHTML = '<button class="le-btn primary lg" id="nextBtn" type="button" disabled><i class="fa-solid fa-forward"></i> Next Case</button>';
+          els.nextBtn = document.getElementById('nextBtn');
+          els.nextBtn.addEventListener('click', next);
+        }
+        caseIndex = Number(btn.dataset.jump);
+        startCase();
+      });
+    });
   }
 
   function updateNextButton() {
     const isLastCase = caseIndex === cases.length - 1;
-    els.nextBtn.disabled = !chosenId && !expiredNoPick;
+    const ready = !!(chosenId || expiredNoPick);
+    els.nextBtn.disabled = !ready;
+    els.nextBtn.classList.toggle('pulse-highlight', ready);
     els.nextBtn.innerHTML = isLastCase
       ? '<i class="fa-solid fa-flag-checkered"></i> Finish'
       : '<i class="fa-solid fa-forward"></i> Next Case';
@@ -84,8 +99,8 @@
       const isRevealed = revealedOpt && revealedOpt.id === opt.id;
       const cls = isRevealed ? ` selected ${opt.outcome}` : '';
       return `
-        <button class="dr-option${cls}" data-id="${opt.id}" type="button" ${answered ? 'disabled' : ''}>
-          <span class="dr-opt-letter">${letterFor(i)}</span>
+        <button class="dr-option${cls}" data-id="${opt.id}" type="button" ${answered ? 'disabled' : ''} title="Press ${i + 1} for ${letterFor(i)}">
+          <span class="dr-opt-letter">${letterFor(i)}<small style="opacity:0.6;font-size:0.7em;margin-left:4px;">${i + 1}</small></span>
           <span class="dr-opt-text">${LiveEvent.escapeHtml(opt.text)}</span>
         </button>`;
     }).join('');

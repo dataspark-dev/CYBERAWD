@@ -34,8 +34,11 @@
   function renderDots() {
     els.dots.innerHTML = items.map((_, i) => {
       const cls = i === index ? 'dot current' : (i < index ? 'dot done' : 'dot');
-      return `<span class="${cls}"></span>`;
+      return `<button type="button" class="${cls}" data-jump="${i}" aria-label="Go to myth ${i + 1}" title="${items[i] ? items[i].topic : ''} ${i + 1}"></button>`;
     }).join('');
+    Array.from(els.dots.querySelectorAll('[data-jump]')).forEach((btn) => {
+      btn.addEventListener('click', () => goTo(Number(btn.dataset.jump)));
+    });
   }
 
   function renderItem() {
@@ -43,6 +46,13 @@
     if (!item) return;
     els.counter.textContent = `Myth ${index + 1} of ${items.length}`;
     els.topic.textContent = item.topic;
+    // Topic tint — matches console.css .mf-topic-tag.topic-*
+    els.topic.className = 'mf-topic-tag';
+    const t = (item.topic || '').toLowerCase();
+    if (t.includes('phishing')) els.topic.classList.add('topic-phishing');
+    else if (t.includes('password')) els.topic.classList.add('topic-passwords');
+    else if (t.includes('social')) els.topic.classList.add('topic-social');
+    else if (t.includes('reporting')) els.topic.classList.add('topic-reporting');
     els.myth.textContent = item.myth;
     els.myth.classList.remove('busted');
     els.fact.textContent = item.fact;

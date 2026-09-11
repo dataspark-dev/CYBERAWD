@@ -75,7 +75,14 @@
 
   function updateHud() {
     if (els.scoreVal) els.scoreVal.textContent = String(score);
-    if (els.livesVal) els.livesVal.textContent = '❤'.repeat(lives) + '🖤'.repeat(Math.max(0, 3 - lives));
+    if (els.livesVal) {
+      els.livesVal.textContent = '❤'.repeat(lives) + '🖤'.repeat(Math.max(0, 3 - lives));
+      // Heartbeat pulse on every HUD update where lives changed — small shake
+      els.livesVal.classList.remove('cc-lives-pulse');
+      void els.livesVal.offsetWidth;
+      els.livesVal.classList.add('cc-lives-pulse');
+      setTimeout(() => { if (els.livesVal) els.livesVal.classList.remove('cc-lives-pulse'); }, 400);
+    }
   }
 
   // --- Audio: background music + SFX, scoped entirely to this module. Off by default; a
@@ -294,11 +301,14 @@
       el.style.opacity = '0.4';
     });
     const survivedMs = Math.min(elapsedMs(), CC_DURATION_MS);
+    const totalGood = bubblePool.filter(b => b.good).length;
+    const pct = totalGood ? Math.round((score / totalGood) * 100) : 0;
     if (els.gameOverStats) {
-      els.gameOverStats.textContent = score + ' good caught · ' + badPops + ' bad popped · ' + lives + '/3 lives left · survived ' + formatClock(survivedMs);
+      els.gameOverStats.textContent = score + ' good caught' + (totalGood ? ' (' + pct + '% of ' + totalGood + ' types)' : '') + ' · ' + badPops + ' bad popped · ' + lives + '/3 lives left · survived ' + formatClock(survivedMs);
     }
     if (els.gameOverWrap) els.gameOverWrap.classList.remove('le-hidden');
     if (els.hint) els.hint.classList.add('le-hidden');
+    if (els.restartBtn) els.restartBtn.classList.add('pulse-highlight');
     if (rememberThisText && els.rememberCard) {
       els.rememberText.textContent = rememberThisText;
       els.rememberCard.classList.remove('le-hidden');
@@ -316,6 +326,7 @@
     if (els.hint) els.hint.classList.remove('le-hidden');
     if (els.rememberCard) els.rememberCard.classList.add('le-hidden');
     if (els.upNextRow) els.upNextRow.classList.add('le-hidden');
+    if (els.restartBtn) els.restartBtn.classList.remove('pulse-highlight');
     updateHud();
     startTs = Date.now();
     if (timer) timer.stop();
@@ -348,7 +359,11 @@
   if (els.restartBtn) els.restartBtn.addEventListener('click', startRound);
 
   LiveEvent.onAction({
-    advance: () => { if (!introDismissed) { dismissIntro(); return; } },
+    advance: () => {
+      if (!introDismissed) { dismissIntro(); return; }
+      if (gameOver) { startRound(); return; }
+    },
+    next: () => { if (gameOver) startRound(); },
     reveal: () => { if (introDismissed) startRound(); }
   });
 

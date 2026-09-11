@@ -33,8 +33,11 @@
   function renderDots() {
     els.dots.innerHTML = riddles.map((_, i) => {
       const cls = i === index ? 'dot current' : (i < index ? 'dot done' : 'dot');
-      return `<span class="${cls}"></span>`;
+      return `<button type="button" class="${cls}" data-jump="${i}" aria-label="Go to riddle ${i + 1}" title="Riddle ${i + 1}"></button>`;
     }).join('');
+    Array.from(els.dots.querySelectorAll('[data-jump]')).forEach((btn) => {
+      btn.addEventListener('click', () => goTo(Number(btn.dataset.jump)));
+    });
   }
 
   function shuffle(arr) {
@@ -63,9 +66,11 @@
     els.nextBtn.innerHTML = isLast
       ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start'
       : '<i class="fa-solid fa-forward"></i> Next Riddle';
+    els.nextBtn.classList.remove('pulse-highlight');
 
     revealed = false;
     answered = false;
+    if (els.revealBtn) els.revealBtn.classList.remove('pulse-highlight');
 
     // Build 2-3 option buttons - shuffle so correct answer isn't always first
     els.optionsContainer.innerHTML = '';
@@ -92,6 +97,7 @@
           els.optionsContainer.querySelectorAll('.cq-option').forEach(b => b.disabled = true);
           els.feedback.textContent = 'Time up - click Reveal to see the answer';
           els.feedback.className = 'cq-feedback show timeout';
+          if (els.revealBtn) els.revealBtn.classList.add('pulse-highlight');
         }
       }
     });
@@ -124,6 +130,7 @@
     const isCorrect = opt === r.answer;
     highlightOptions(r.answer, btn);
     els.answerReveal.classList.add('show');
+    els.nextBtn.classList.add('pulse-highlight');
     if (isCorrect) {
       els.feedback.textContent = '✓ Correct - ' + r.answer;
       els.feedback.className = 'cq-feedback show correct';
@@ -154,9 +161,11 @@
     revealed = true;
     answered = true;
     if (timer) timer.stop();
+    if (els.revealBtn) els.revealBtn.classList.remove('pulse-highlight');
     const r = riddles[index];
     highlightOptions(r.answer, null);
     els.answerReveal.classList.add('show');
+    els.nextBtn.classList.add('pulse-highlight');
     els.feedback.textContent = 'Answer: ' + r.answer;
     els.feedback.className = 'cq-feedback show revealed';
     showRememberIfLast();
@@ -183,7 +192,13 @@
   els.nextBtn.addEventListener('click', next);
 
   LiveEvent.onAction({
-    advance: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
+    // SPACE dual-action: first press reveals the answer, second press advances — mirrors
+    // Myth vs Fact's proven flow and prevents skipping an unsolved riddle.
+    advance: () => {
+      if (!introDismissed) { dismissIntro(); return; }
+      if (!revealed && !answered) { reveal(); return; }
+      next();
+    },
     next: () => { if (!introDismissed) { dismissIntro(); return; } next(); },
     prev: () => { if (introDismissed) prev(); },
     reveal: () => { if (introDismissed) reveal(); }

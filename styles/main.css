@@ -62,6 +62,19 @@
   --scene-sky-tint-border: #bae6fd;
   --scene-sky-tint-text: #075985;
 
+  /* --- MIDevOps brand — extracted from assets/MI.png --- */
+  --mi-orange: #FF6B00;
+  --mi-orange-2: #FF8A1A;
+  --mi-yellow: #FFD600;
+  --mi-yellow-2: #FFE566;
+  --mi-blue: #0E7BE5;
+  --mi-blue-2: #1A9AE8;
+  --mi-ink: #1A1A1A;
+  --mi-muted: #7A7A7A;
+  --mi-gradient: linear-gradient(90deg, var(--mi-orange) 0%, var(--mi-yellow) 46%, var(--mi-blue) 100%);
+  --mi-gradient-subtle: linear-gradient(90deg, rgba(255,107,0,0.12) 0%, rgba(255,214,0,0.14) 46%, rgba(14,123,229,0.12) 100%);
+  --mi-ring: rgba(255,107,0,0.18);
+
   --r-sm: 4px;
   --r: 6px;
   --r-lg: 10px;
