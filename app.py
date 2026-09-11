@@ -2721,7 +2721,7 @@ function renderDecisionRoom(item){
   const caseProgress = `Case ${caseNum}/${caseTotal}`;
   if(item.persona || item.caseTitle){
     html += '<div class="ff-title-bar">';
-    html += '<div style="font-family:\'Space Mono\',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#64748b;margin-bottom:6px;">'+esc(caseProgress)+'</div>';
+    html += "<div style=\\\"font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#64748b;margin-bottom:6px;\\\">"+esc(caseProgress)+"</div>";
     if(item.persona) html += '<div class="dr-persona-tag">'+esc(item.persona)+'</div>';
     if(item.caseTitle) html += '<h2 style="margin:8px 0 4px;font-size:var(--fs-body);color:var(--navy,#001a4d)">'+esc(item.caseTitle)+'</h2>';
     if(item.caseScenario) html += '<div class="dr-scenario-context">'+esc(item.caseScenario)+'</div>';
@@ -3011,7 +3011,7 @@ function renderPassPhrase(item){
   html += '<div class="pp-builder-card" style="margin-top:14px;padding:14px">'
     + '<div class="pp-strength"><div class="pp-strength-head">'
     + '<span class="pp-strength-label" style="color:'+result.color+'">Strength: '+result.label+'</span>'
-    + '<span style="margin-left:8px;color:#94a3b8;font-family:\'Space Mono\',monospace;font-size:var(--fs-badge)">'+result.score+' / 100</span>'
+    + "<span style=\\\"margin-left:8px;color:#94a3b8;font-family:'Space Mono',monospace;font-size:var(--fs-badge)\\\">"+result.score+" / 100</span>"
     + '</div>'
     + '<div class="pp-meter"><div class="pp-meter-fill'+tierPulseClass+'" style="width:'+result.score+'%;background:'+result.color+'"></div></div>'
     + '<div class="pp-meter-labels"><span>Weak</span><span>Fair</span><span>Strong</span><span>V.Strong</span></div>'
@@ -3044,8 +3044,8 @@ function renderPassPhrase(item){
   var shuffleLabel = item._ppShuffleUsed ? 'Shuffled (1/1 used)' : 'Shuffle Deck (once per round)';
   html += '<div style="display:flex;gap:10px;justify-content:center;margin-top:10px;align-items:center">'
     + '<button type="button" class="le-btn" id="ppShuffleBtn"'+shuffleDisabled+'><i class="fa-solid fa-shuffle"></i> '+shuffleLabel+'</button>'
-    + '<span style="font-family:\'Space Mono\',monospace;font-size:var(--fs-badge);color:#94a3b8">Swap 3-4 unused tiles — strategic gamble</span></div>';
-  html += '<div style="margin-top:6px;font-family:\'Space Mono\',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center">Chunk-aware cap: '+maxChars+' total characters, not tile count - a "Syn" tile counts as 3</div>';
+    + "<span style=\\\"font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8\\\">Swap 3-4 unused tiles — strategic gamble</span></div>";
+  html += "<div style=\\\"margin-top:6px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;text-align:center\\\">Chunk-aware cap: "+maxChars+" total characters, not tile count - a \\"Syn\\" tile counts as 3</div>";
   return html;
 }
 
@@ -3928,7 +3928,7 @@ async function fetchState(){
       els.waitingModule.textContent = displayName + ' - lobby';
       document.getElementById('waitingSub').textContent = "You're in - waiting for the facilitator to start " + displayName;
       // Live joined count explicitly tied to chosen module
-      els.waitingNames.innerHTML = '<div style="font-size:var(--fs-badge);color:#0c4a6e;font-weight:700;margin-bottom:6px">' + esc(displayName) + ' - ' + (s.totalItems||0) + ' items</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' + ((s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">No one yet - share QR</span>') + '</div><div style="margin-top:8px;font-family:\'Space Mono\',monospace;font-size:var(--fs-badge);color:#64748b">' + (s.participantCount||0) + ' joined - waiting for Start</div>';
+      els.waitingNames.innerHTML = '<div style="font-size:var(--fs-badge);color:#0c4a6e;font-weight:700;margin-bottom:6px">' + esc(displayName) + ' - ' + (s.totalItems||0) + ' items</div><div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center">' + ((s.participantNames||[]).map(n=>'<span class="badge">'+esc(n)+'</span>').join('') || '<span style="font-size:var(--fs-badge);color:#94a3b8">No one yet - share QR</span>') + "</div><div style=\\\"margin-top:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b\\\">" + (s.participantCount||0) + ' joined - waiting for Start</div>';
       return;
     }
     // Capture per-participant submission status + rememberThis for submitted confirmation
