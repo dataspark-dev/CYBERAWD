@@ -1422,7 +1422,7 @@ def session_qr(code):
             # Simple placeholder with border
             draw.rectangle([10, 10, W-10, H-10], outline="black", width=4)
             # Center text: room code + URL
-            txt1 = f"ROOM: {code}"
+            txt1 = f"LAB: {code}"
             txt2 = join_url
             txt3 = "QR library missing - show URL"
             # Draw centered approximations
@@ -1446,9 +1446,9 @@ def join_page(code):
     if not sess:
         html_bad = """<!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/><title>Room __ROOM_CODE__ not found - Synergy</title>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/><title>Lab __ROOM_CODE__ not found - Synergy</title>
 <style>body{font-family:system-ui,-apple-system,Barlow,sans-serif;background:#f8fafc;color:#0f172a;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:16px} .card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;max-width:420px;width:100%;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08)} h1{font-size:1.25rem;margin:0 0 8px} p{color:#64748b;margin:0 0 16px;line-height:1.5} a{color:#0891b2;text-decoration:none;font-weight:700} .room{font-family:monospace;background:#e0f2fe;color:#0c4a6e;padding:4px 8px;border-radius:6px;letter-spacing:1px}</style>
-</head><body><div class="card"><h1>Room <span class="room">__ROOM_CODE__</span> not found</h1><p>This room code doesn't exist or has been closed. Check the code or ask the host for a new QR.</p><p><a href="/">- Go home</a></p><p style="font-size:12px;color:#94a3b8;margin-top:12px">Synergy Cyber Security Awareness Month</p></div></body></html>"""
+</head><body><div class="card"><h1>Lab <span class="room">__ROOM_CODE__</span> not found</h1><p>This lab code doesn't exist or has been closed. Check the code or ask the host for a new QR.</p><p><a href="/">- Go home</a></p><p style="font-size:12px;color:#94a3b8;margin-top:12px">Synergy Cyber Security Awareness Month</p></div></body></html>"""
         html_bad = html_bad.replace("__ROOM_CODE__", code)
         return Response(html_bad, status=404, mimetype="text/html")
     html_template = """<!doctype html>
@@ -1456,7 +1456,7 @@ def join_page(code):
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/>
-<title>Join __ROOM_CODE__ - Synergy Cyber Security Awareness Month</title>
+<title>Join Lab __ROOM_CODE__ - Synergy Cyber Security Awareness Month</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Barlow:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <!-- Reuses the same component classes as the facilitator console (mf-card, dr-option,
@@ -1841,7 +1841,7 @@ button.pp-tile, button.pp-deck-tile{
     <small><span class="le-dot" style="display:inline-block;"></span> Synergy Cyber Security Awareness Month</small>
   </div>
   <div class="le-topbar-right">
-    <span class="room">ROOM __ROOM_CODE__</span>
+    <span class="room">LAB __ROOM_CODE__</span>
     <span id="headerCount" class="count"> - </span>
   </div>
 </header>
@@ -1850,7 +1850,7 @@ button.pp-tile, button.pp-deck-tile{
   <div id="joinScreen" class="card join-card">
     <div class="join-eyebrow"><i class="fa-solid fa-shield-halved"></i> Synergy · Secure Session</div>
     <h1>Join session</h1>
-    <p class="lead">Enter your name to join <strong style="color:#0f172a">Room __ROOM_CODE__</strong></p>
+    <p class="lead">Enter your name to join <strong style="color:#0f172a">Lab __ROOM_CODE__</strong></p>
     <p style="color:#64748b;font-size:var(--fs-badge);margin:0 0 14px">The host will see your name in the live participant list. Use the name you want shown on screen.</p>
     <label for="nameInput" style="display:block;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#334155;margin:0 0 6px">Your name</label>
     <input id="nameInput" class="input" placeholder="e.g. Alex, Priya — 2–40 characters" autocomplete="name" maxlength="40" aria-label="Your name"/>
@@ -1858,7 +1858,7 @@ button.pp-tile, button.pp-deck-tile{
     <div id="joinOk" class="ok hidden"></div>
     <div id="joinErr" class="err hidden"></div>
     <div class="join-foot">
-      <span><i class="fa-solid fa-users"></i> Room __ROOM_CODE__</span>
+      <span><i class="fa-solid fa-users"></i> Lab __ROOM_CODE__</span>
       <span>Synergy Marine Group</span>
     </div>
     <p style="margin-top:10px;font-size:11px;color:#94a3b8;text-align:center"><i class="fa-solid fa-lock"></i> Synergy Cyber Security Awareness Month · Encrypted & monitored</p>
@@ -1918,7 +1918,7 @@ button.pp-tile, button.pp-deck-tile{
     <div style="font-size:var(--fs-heading)">✅</div>
     <h2 style="color:#065f46">Submitted - thanks!</h2>
     <p id="submittedMsg">Your answers for <span class="badge" id="submittedModule">-</span> have been saved and are now locked. You cannot change them.</p>
-    <p style="font-size:var(--fs-badge);color:#065f46; font-weight:600">Please wait for the host to start the next activity. Same room, no new QR needed.</p>
+    <p style="font-size:var(--fs-badge);color:#065f46; font-weight:600">Please wait for the host to start the next activity. Same lab, no new QR needed.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap; margin-top:8px">
       <span id="submittedCount" class="badge"> - </span>
       <span id="submittedModule2" class="badge" style="background:#ecfdf5; border-color:#6ee7b7; color:#065f46">locked</span>
@@ -2000,7 +2000,7 @@ button.pp-tile, button.pp-deck-tile{
   <div id="completeScreen" class="card hidden" style="text-align:center">
     <div style="font-size:var(--fs-heading)">🎉</div>
     <h2>Activity Complete</h2>
-    <p>Great work! Please wait for the host to choose the next activity. Same room, no new QR needed.</p>
+    <p>Great work! Please wait for the host to choose the next activity. Same lab, no new QR needed.</p>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
       <span id="completeCount" class="badge">0 joined</span>
       <span id="completeModule" class="badge"> - </span>
@@ -2189,7 +2189,7 @@ async function doJoin(){
     const r = await fetch('/api/session/' + ROOM_CODE + '/join', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name})});
     const j = await r.json().catch(()=>({}));
     if(!r.ok){
-      if(j.error === 'room not found') throw new Error('This session has ended or the room code is wrong. Please check with the host or ask for a new QR.');
+      if(j.error === 'room not found') throw new Error('This session has ended or the lab code is wrong. Please check with the host or ask for a new QR.');
       throw new Error('Could not join - please try again.');
     }
     participantId = j.participantId;
@@ -3884,7 +3884,7 @@ async function fetchState(){
         return;
       }
       showScreen('error');
-      els.errorMsg.textContent = 'This session has ended or the room code is wrong. Please check with the facilitator or ask for a new QR.';
+      els.errorMsg.textContent = 'This session has ended or the lab code is wrong. Please check with the facilitator or ask for a new QR.';
       stopPolling();
       return;
     }

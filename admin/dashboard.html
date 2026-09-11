@@ -249,29 +249,29 @@
 
         <!-- Session controls -->
         <div class="adm-card">
-          <div class="adm-section-title"><i class="fa-solid fa-satellite-dish"></i> Session</div>
+          <div class="adm-section-title"><i class="fa-solid fa-satellite-dish"></i> Lab</div>
           <div class="adm-row" style="margin-top:12px;">
-            <button id="createSessionBtn" class="le-btn primary" type="button"><i class="fa-solid fa-plus"></i> New Session</button>
-            <span class="adm-note">Creates a fresh room code and QR. No restart needed.</span>
-            <input id="roomInput" class="adm-input" style="max-width:160px;" placeholder="ROOM CODE" maxlength="12"/>
+            <button id="createSessionBtn" class="le-btn primary" type="button"><i class="fa-solid fa-plus"></i> New Lab</button>
+            <span class="adm-note">Creates a fresh lab code and QR. No restart needed.</span>
+            <input id="roomInput" class="adm-input" style="max-width:160px;" placeholder="LAB CODE" maxlength="12"/>
             <button id="loadSessionBtn" class="le-btn" type="button"><i class="fa-solid fa-arrow-right"></i> Load</button>
-            <button id="resetSessionBtn" class="le-btn amber" type="button" title="Clear participants/responses/activeModule for same code"><i class="fa-solid fa-rotate"></i> Reset This Room</button>
+            <button id="resetSessionBtn" class="le-btn amber" type="button" title="Clear participants/responses/activeModule for same lab"><i class="fa-solid fa-rotate"></i> Reset This Lab</button>
             <button id="logoutBtn" class="le-btn ghost" type="button"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
           </div>
           <div id="sessionMsg" class="adm-note"></div>
-          <div class="adm-note" style="margin-top:6px"><strong>New Session</strong> creates a fresh 6-character code and QR. Old rooms stay. <strong>Reset This Room</strong> clears the same code for the next group. No restart needed.</div>
+          <div class="adm-note" style="margin-top:6px"><strong>New Lab</strong> creates a fresh 6-character code and QR. Old labs stay. <strong>Reset This Lab</strong> clears the same code for the next group. No restart needed.</div>
         </div>
 
-        <!-- QR + Room Code - prominently at the top -->
+        <!-- QR + Lab Code - prominently at the top -->
         <div id="qrSection" class="adm-card adm-hidden" style="margin-top:18px;">
-          <div class="adm-section-title"><i class="fa-solid fa-qrcode"></i> Join - QR and Room Code</div>
+          <div class="adm-section-title"><i class="fa-solid fa-qrcode"></i> Join - QR and Lab Code</div>
           <div class="adm-qr-top" style="margin-top:14px;">
             <div style="display:flex; flex-direction:column; align-items:center; gap:10px;">
               <img id="qrImg" class="adm-qr-img" alt="QR for join URL" src=""/>
               <div class="adm-badge" style="font-size:var(--fs-badge);">Scans to <span id="qrUrlLabel"> - </span></div>
             </div>
             <div>
-              <div style="font-family:'Space Mono',monospace; font-size:var(--fs-badge); font-weight:800; color:var(--faint); letter-spacing:1px; text-transform:uppercase;">Room Code</div>
+              <div style="font-family:'Space Mono',monospace; font-size:var(--fs-badge); font-weight:800; color:var(--faint); letter-spacing:1px; text-transform:uppercase;">Lab Code</div>
               <div id="roomCodeBig" class="adm-roomcode"> - </div>
               <div class="adm-join-url" id="joinUrlDisplay"> - </div>
               <div class="adm-row" style="margin-top:10px;">
@@ -287,7 +287,7 @@
         <!-- Module picker - whole-activity flow -->
         <div id="pickerSection" class="adm-card" style="margin-top:18px;">
           <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose Activity - 8 modules (all items pre-loaded)</div>
-          <div class="adm-note">Counts come live from the content files. Select a module, then press <strong>Launch</strong> to create the lobby. The same room and participants stay joined between activities.</div>
+          <div class="adm-note">Counts come live from the content files. Select a module, then press <strong>Launch</strong> to create the lobby. The same lab and participants stay joined between activities.</div>
           <div id="pickerGrid" class="adm-launcher-grid"></div>
           <div class="adm-row" style="margin-top:14px;">
             <button id="launchBtn" class="le-btn primary" type="button" disabled><i class="fa-solid fa-paper-plane"></i> Launch - create lobby</button>
@@ -357,8 +357,8 @@
             <div style="font-family:'Orbitron',sans-serif; font-weight:900; font-size:var(--fs-body); color:#065f46">Activity Complete</div>
             <div id="completeModuleName" style="font-weight:700; margin-top:4px"> - </div>
             <div id="completeStats" class="adm-note" style="margin-top:8px"> - </div>
-            <button id="chooseNextBtn" class="le-btn primary" type="button" style="margin-top:14px"><i class="fa-solid fa-list"></i> Choose Next Activity - same room, no re-scan</button>
-            <div class="adm-note" style="margin-top:8px">Same room/participants stay joined - activeModule/state reset to lobby for next pick - no QR re-scan between activities in one event.</div>
+            <button id="chooseNextBtn" class="le-btn primary" type="button" style="margin-top:14px"><i class="fa-solid fa-list"></i> Choose Next Activity - same lab, no re-scan</button>
+            <div class="adm-note" style="margin-top:8px">Same lab/participants stay joined - activeModule/state reset to lobby for next pick - no QR re-scan between activities in one event.</div>
           </div>
 
           <!-- Fastest Overall - admin-only, never sent to participants (see GET /module-summary
@@ -631,7 +631,7 @@
       els.qrImg.src = '/api/session/' + code + '/qr?ts=' + Date.now();
       els.openJoinLink.href = joinUrl;
       els.qrSection.classList.remove('adm-hidden');
-      els.sessionMsg.textContent = 'Session ' + code + ' - QR ready (same code can be reused between activities)';
+      els.sessionMsg.textContent = 'Lab ' + code + ' - QR ready (same code can be reused between activities);
       renderStateUI(st);
       ensurePolling();
       loadModules();
@@ -647,13 +647,13 @@
     });
     els.loadSessionBtn.addEventListener('click', async ()=>{
       const code = els.roomInput.value.trim();
-      if(!code){ els.sessionMsg.textContent = 'Enter a room code'; return; }
+      if(!code){ els.sessionMsg.textContent = 'Enter a lab code'; return; }
       await setCurrentCode(code);
     });
     els.resetSessionBtn.addEventListener('click', async ()=>{
       const code = (currentCode || els.roomInput.value.trim()).toUpperCase();
       if(!code){ els.sessionMsg.textContent = 'Load or create a session first, then Reset'; return; }
-      if(!confirm('Reset room ' + code + '? Clears participants/responses/activeModule so SAME code can be reused for next group.')) return;
+      if(!confirm('Reset lab ' + code + '? Clears participants/responses/activeModule so SAME code can be reused for next group.')) return;
       els.sessionMsg.textContent = 'Resetting ' + code + '...';
       try{
         await api('/api/admin/session/' + code + '/reset', { method:'POST', body:{} });
@@ -725,12 +725,12 @@
       // If no currentCode, create a fresh room first (reuse flow: Launch generates room+QR)
       let code = currentCode;
       if(!code){
-        els.pickerMsg.textContent = 'No room - creating one...';
+        els.pickerMsg.textContent = 'No lab - creating one...';
         try{
           const j = await api('/api/session/create', { method:'POST', body:{} });
           code = j.roomCode;
           await setCurrentCode(code);
-          els.pickerMsg.textContent = 'Created room ' + code + ' - launching...';
+          els.pickerMsg.textContent = 'Created lab ' + code + ' - launching...';
         }catch(e){
           els.pickerMsg.textContent = 'Create failed: ' + e.message;
           return;
@@ -777,7 +777,7 @@
       }
     });
 
-    // Complete -> Choose Next Activity (same room, no re-scan)
+    // Complete -> Choose Next Activity (same lab, no re-scan)
     // This calls the server FIRST - state=="complete" only flips to "idle" once the
     // request succeeds, so we never show the picker optimistically. Previously this was
     // a client-only DOM toggle that never told the server, so the next 1.5s poll tick
@@ -791,7 +791,7 @@
         selectedModule = null;
         els.completeSection.classList.add('adm-hidden');
         els.pickerSection.classList.remove('adm-hidden');
-        els.pickerSelected.textContent = 'Pick next activity - same room ' + currentCode + ' stays, no re-scan needed';
+        els.pickerSelected.textContent = 'Pick next activity - same lab ' + currentCode + ' stays, no re-scan needed';
         renderPicker();
         els.launchBtn.disabled = true;
         await pollOnce();
@@ -865,11 +865,11 @@
           if(mod==='crossword'){
             els.runningPrompt.textContent = 'Crossword grid unlocked';
             els.runningMsg.textContent = 'Crossword is self-paced - progress below (participants tap Done - Submit Grid when finished)';
-            els.runningHint.textContent = 'Crossword: Start unlocked the grid for every phone at once - no Next sequence. Participants hit Done - Submit Grid when they consider it finished (not when grid is full). Progress below shows ✓ submitted / ○ in progress - Mark Complete (Next → Complete) ends the room for everyone regardless.';
+            els.runningHint.textContent = 'Crossword: Start unlocked the grid for every phone at once - no Next sequence. Participants hit Done - Submit Grid when they consider it finished (not when grid is full). Progress below shows ✓ submitted / ○ in progress - Mark Complete (Next → Complete) ends the lab for everyone regardless.';
           } else {
             els.runningPrompt.textContent = 'Control Catch unlocked';
             els.runningMsg.textContent = 'Control Catch is self-paced - each participant plays their own 75s round (progress below)';
-            els.runningHint.textContent = 'Control Catch: Start unlocked the game for every phone at once - each participant plays their own timed round (3 lives) independently and submits their own final score when their round ends, no Next sequence. Scores are personal - never shown to or compared with other participants. Progress below shows ✓ submitted / ● round over, not submitted / ○ still playing - Mark Complete ends the room for everyone regardless of whether every participant has finished their round.';
+            els.runningHint.textContent = 'Control Catch: Start unlocked the game for every phone at once - each participant plays their own timed round (3 lives) independently and submits their own final score when their round ends, no Next sequence. Scores are personal - never shown to or compared with other participants. Progress below shows ✓ submitted / ● round over, not submitted / ○ still playing - Mark Complete ends the lab for everyone regardless of whether every participant has finished their round.';
           }
         } else {
           els.runningProgress.textContent = 'self-paced';
@@ -879,7 +879,7 @@
           const picked = (st.items||[]).find(it=>it.id===selectedItemId) || (st.items||[])[0];
           els.runningPrompt.textContent = picked ? picked.prompt : '';
           els.runningMsg.textContent = '';
-          els.runningHint.textContent = 'Self-paced - every phone already has the full ' + total + '-item sequence and is answering at its own pace. Pick an item above to view its results or reveal it on this screen. Progress below shows ✓ submitted / ● reached end / ○ in progress per participant - Mark Complete ends the room for everyone (non-submitted stay not submitted) whenever you\'re ready.';
+          els.runningHint.textContent = 'Self-paced - every phone already has the full ' + total + '-item sequence and is answering at its own pace. Pick an item above to view its results or reveal it on this screen. Progress below shows ✓ submitted / ● reached end / ○ in progress per participant - Mark Complete ends the lab for everyone (non-submitted stay not submitted) whenever you\'re ready.';
         }
         // Show live results
         pollResultsForRunning(st);
@@ -894,7 +894,7 @@
         els.liveRow.classList.add('adm-hidden');
         els.completeSection.classList.remove('adm-hidden');
         els.completeModuleName.textContent = display;
-        els.completeStats.textContent = (st.participantCount||0) + ' participants · ' + (st.totalItems||0) + ' items - same room stays for next activity';
+        els.completeStats.textContent = (st.participantCount||0) + ' participants · ' + (st.totalItems||0) + ' items - same lab stays for next activity';
         // module-summary supports crossword too (see _compute_module_summary in app.py) - no
         // module exclusion needed here. Guarded so this fetches once per room+module, not on
         // every 1.5s poll tick while the complete panel stays up.
@@ -1337,8 +1337,8 @@
         renderParticipants(s);
       } catch(e){
         if(mySeq !== pollSeq) return;
-        if(String(e.message).includes('Room not found')){
-          els.sessionMsg.textContent = 'Room not found - create a new session';
+        if(String(e.message).includes('not found')){
+          els.sessionMsg.textContent = 'Lab not found - create a new session';
         }
       }
     }
