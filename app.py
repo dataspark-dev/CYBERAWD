@@ -1465,7 +1465,8 @@ def join_page(code):
 <link href="/live-event/console.css" rel="stylesheet"/>
 <style>
 *{box-sizing:border-box} html,body{height:100%}
-body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background:#f1f5f9;color:#0f172a;min-height:100dvh;display:flex;flex-direction:column}
+body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background:#f8fafc;color:#0f172a;min-height:100dvh;display:flex;flex-direction:column;position:relative}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:linear-gradient(rgba(0,26,77,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,26,77,0.03) 1px, transparent 1px), radial-gradient(ellipse 900px 520px at 90% 4%, rgba(255,107,0,0.07), transparent 58%), radial-gradient(ellipse 700px 420px at 6% 92%, rgba(14,123,229,0.06), transparent 60%);background-size:44px 44px,44px 44px,auto,auto;background-color:#f8fafc}
 /* Header reuses console.css's own .le-topbar/.le-brand classes verbatim (same SYN.png/AFT.png
    logo files, same colors/borders/blur) so the phone header matches the admin dashboard/console
    exactly - but .le-topbar's own sizing (clamp(42px,4.2vw,64px) logos, a 5-word subtitle with
@@ -1484,28 +1485,44 @@ body{margin:0;font-family:'Barlow',system-ui,-apple-system,sans-serif;background
 @media (max-width:380px){ .header .le-brand.le-brand-mi img{height:24px;max-width:88px} }
 .header .room{font-family:'Space Mono',monospace;font-weight:800;font-size:var(--fs-badge);background:#0f172a;color:#e0f2fe;padding:6px 10px;border-radius:999px;letter-spacing:1px}
 .header .count{font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#64748b;background:#f1f5f9;border:1px solid #e2e8f0;padding:6px 10px;border-radius:999px}
-.main{flex:1;display:flex;flex-direction:column;align-items:center;padding:16px;gap:16px;max-width:480px;width:100%;margin:0 auto}
-.card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:20px;width:100%;box-shadow:0 1px 3px rgba(0,0,0,0.06)}
-.card h1{font-size:var(--fs-subhead);margin:0 0 8px;line-height:1.2}
-.card h2{font-size:var(--fs-body);margin:0 0 12px}
-.card p{color:#475569;margin:0 0 14px;line-height:1.5;font-size:var(--fs-badge)}
+.main{flex:1;display:flex;flex-direction:column;align-items:center;padding:clamp(18px,4vw,28px) 16px;gap:18px;max-width:520px;width:100%;margin:0 auto;position:relative;z-index:1}
+.card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:clamp(20px,4vw,26px);width:100%;box-shadow:0 4px 16px rgba(15,23,42,0.06), 0 1px 0 rgba(255,255,255,0.6) inset;position:relative;overflow:hidden;animation:cardIn 0.45s cubic-bezier(0.16,1,0.3,1) both}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--mi-gradient, linear-gradient(90deg,#FF6B00,#FFD600,#0E7BE5));opacity:0.95}
+.card h1{font-family:'Orbitron',sans-serif;font-weight:900;font-size:clamp(20px,5vw,24px);margin:0 0 6px;line-height:1.15;color:#0f172a;letter-spacing:-0.2px}
+.card h2{font-family:'Orbitron',sans-serif;font-weight:800;font-size:var(--fs-body);margin:0 0 10px;color:#0f172a}
+.card p{color:#475569;margin:0 0 14px;line-height:1.55;font-size:var(--fs-badge)}
+.card p.lead{color:#334155;font-weight:600;font-size:var(--fs-body);margin:0 0 16px}
 .hidden{display:none !important}
-.input{width:100%;padding:14px 14px;border:1px solid #cbd5e1;border-radius:12px;font-size:var(--fs-body);background:white}
-.input:focus{outline:2px solid #06b6d4;outline-offset:2px;border-color:#06b6d4}
-.btn{width:100%;padding:14px 16px;border-radius:12px;border:0;background:#06b6d4;color:white;font-weight:800;font-size:var(--fs-body);min-height:52px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.join-eyebrow{display:inline-flex;align-items:center;gap:7px;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#0c4a6e;background:#e0f2fe;border:1px solid #bae6fd;padding:5px 10px;border-radius:999px;margin-bottom:12px}
+.join-eyebrow.mi{color:#78350f;background:var(--mi-gradient-subtle, rgba(255,214,0,0.12));border-color:rgba(255,107,0,0.22)}
+.join-foot{margin-top:14px;padding-top:12px;border-top:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:'Space Mono',monospace;font-size:11px;color:#94a3b8}
+.join-foot img{height:18px;opacity:0.9}
+.input{width:100%;padding:14px 14px;border:1.5px solid #cbd5e1;border-radius:12px;font-size:var(--fs-body);background:white;transition:border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease}
+.input::placeholder{color:#94a3b8}
+.input:hover{border-color:#94a3b8}
+.input:focus{outline:none;border-color:#0E7BE5;box-shadow:0 0 0 4px rgba(14,123,229,0.12), 0 0 0 1px rgba(14,123,229,0.18)}
+.btn{width:100%;padding:14px 16px;border-radius:12px;border:0;background:#06b6d4;color:white;font-weight:800;font-size:var(--fs-body);min-height:52px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;box-shadow:0 2px 8px rgba(6,182,212,0.22)}
+.btn:hover{background:#0891b2;box-shadow:0 4px 14px rgba(6,182,212,0.28)}
 .btn:active{transform:scale(0.99)}
-.btn:disabled{opacity:0.5;cursor:not-allowed}
-.btn.secondary{background:white;color:#0f172a;border:1px solid #cbd5e1}
-.btn.secondary:active{background:#f8fafc}
+.btn:disabled{opacity:0.5;cursor:not-allowed;box-shadow:none}
+.btn.secondary{background:white;color:#0f172a;border:1.5px solid #cbd5e1;box-shadow:0 1px 2px rgba(15,23,42,0.06)}
+.btn.secondary:hover{background:#f8fafc;border-color:#94a3b8;box-shadow:0 2px 8px rgba(15,23,42,0.08)}
+.btn.secondary:active{background:#f1f5f9}
+.btn.mi{background:var(--mi-gradient);color:#0f172a;border:1px solid rgba(255,107,0,0.22)}
+.btn.mi:hover{filter:brightness(1.02);box-shadow:0 4px 14px rgba(255,107,0,0.18), 0 2px 8px rgba(14,123,229,0.14)}
 .ok{background:#ecfdf5;border:1px solid #6ee7b7;color:#065f46;padding:12px;border-radius:12px;margin-top:12px;font-size:var(--fs-badge);word-break:break-word}
 .err{background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d;padding:12px;border-radius:12px;margin-top:12px;font-size:var(--fs-badge)}
-.badge{font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;display:inline-flex;align-items:center;gap:6px}
+.badge{font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:#f1f5f9;border:1px solid #e2e8f0;color:#475569;display:inline-flex;align-items:center;gap:6px;box-shadow:0 1px 0 rgba(15,23,42,0.04)}
+.badge.live{background:#fef9c3;border-color:#fde68a;color:#854d0e;box-shadow:0 1px 0 rgba(250,204,21,0.18)}
+.badge.mi{background:var(--mi-gradient-subtle);border-color:rgba(255,107,0,0.22);color:#78350f}
 /* Shared small context tag - who/what a scenario is about (persona) or its subject category
    (myth-vs-fact's topic). One styled class reused everywhere this pattern appears, instead of
    each render function inventing its own (unstyled) class name. */
 .persona-tag{font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.6px;text-transform:uppercase;padding:5px 10px;border-radius:999px;background:#e0f2fe;border:1px solid #bae6fd;color:#075985;display:inline-flex;align-items:center;gap:6px;margin-bottom:8px}
 .badge.live{background:#fef9c3;border-color:#fde68a;color:#854d0e}
-.waiting-icon{width:56px;height:56px;border-radius:50%;background:#e0f2fe;color:#0c4a6e;display:flex;align-items:center;justify-content:center;font-size:var(--fs-subhead);margin:0 auto 12px}
+.waiting-icon{width:64px;height:64px;border-radius:50%;background:var(--mi-gradient);color:#0f172a;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 14px;box-shadow:0 8px 20px rgba(255,107,0,0.18), 0 4px 10px rgba(14,123,229,0.16);animation:waitPulse 2.2s ease-in-out infinite}
+@keyframes waitPulse{0%,100%{transform:scale(1);box-shadow:0 8px 20px rgba(255,107,0,0.18)}50%{transform:scale(1.04);box-shadow:0 12px 26px rgba(255,107,0,0.24)}}
 .prompt{font-size:var(--fs-body);font-weight:800;line-height:1.35;margin:0 0 16px;color:#0f172a}
 .options{display:grid;gap:12px}
 .option-btn{width:100%;padding:16px 14px;border-radius:12px;border:2px solid #e2e8f0;background:white;color:#0f172a;font-weight:700;font-size:var(--fs-body);min-height:56px;text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px;line-height:1.3}
@@ -1795,26 +1812,38 @@ button.pp-tile, button.pp-deck-tile{
   </div>
 </header>
 <main class="main">
-  <!-- Join -->
-  <div id="joinScreen" class="card">
+  <!-- Join - UX refined: hierarchy, helper, MI alignment, accessible label -->
+  <div id="joinScreen" class="card join-card">
+    <div class="join-eyebrow mi"><i class="fa-solid fa-shield-halved"></i> MIDevOps · Secure Session</div>
     <h1>Join session</h1>
-    <p>Enter your name. The host will see it.</p>
-    <input id="nameInput" class="input" placeholder="Your name" autocomplete="name" maxlength="40"/>
-    <button id="joinBtn" class="btn" style="margin-top:12px">Join session</button>
+    <p class="lead">Enter your name to join <strong style="color:#0f172a">Room __ROOM_CODE__</strong></p>
+    <p style="color:#64748b;font-size:var(--fs-badge);margin:0 0 14px">The host will see your name in the live participant list. Use the name you want shown on screen.</p>
+    <label for="nameInput" style="display:block;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#334155;margin:0 0 6px">Your name</label>
+    <input id="nameInput" class="input" placeholder="e.g. Alex, Priya — 2–40 characters" autocomplete="name" maxlength="40" aria-label="Your name"/>
+    <button id="joinBtn" class="btn" style="margin-top:14px"><i class="fa-solid fa-right-to-bracket"></i> Join session</button>
     <div id="joinOk" class="ok hidden"></div>
     <div id="joinErr" class="err hidden"></div>
-    <p style="margin-top:14px;font-size:var(--fs-badge);color:#94a3b8;text-align:center">Room __ROOM_CODE__ · Synergy Cyber Security Awareness Month</p>
-  </div>
-  <!-- Waiting - lobby shows chosen module name -->
-  <div id="waitingScreen" class="card hidden">
-    <div class="waiting-icon">⏳</div>
-    <h2 style="text-align:center">Waiting for facilitator</h2>
-    <p id="waitingSub" style="text-align:center">You are in. The host will start the next activity soon.</p>
-    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:8px">
-      <span id="waitingCount" class="badge">0 joined</span>
-      <span id="waitingModule" class="badge"> - </span>
+    <div class="join-foot">
+      <span><i class="fa-solid fa-users"></i> Room __ROOM_CODE__</span>
+      <span style="display:inline-flex;align-items:center;gap:6px"><img src="/assets/MI.png" alt="MIDevOps" style="height:14px;width:auto"> MIDevOps Services</span>
     </div>
-    <div id="waitingNames" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center"></div>
+    <p style="margin-top:10px;font-size:11px;color:#94a3b8;text-align:center"><i class="fa-solid fa-lock"></i> Synergy Cyber Security Awareness Month · Encrypted & monitored</p>
+  </div>
+  <!-- Waiting - lobby shows chosen module name - refined UX -->
+  <div id="waitingScreen" class="card hidden" style="text-align:center">
+    <div class="waiting-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+    <div class="join-eyebrow" style="margin:0 auto 10px"><span class="le-dot" style="display:inline-block;width:6px;height:6px;background:#10b981;border-radius:50%"></span> You're in — waiting for host</div>
+    <h2 style="text-align:center;margin:0 0 6px">Waiting for facilitator</h2>
+    <p id="waitingSub" style="text-align:center;margin:0 0 14px">You are in. The host will start the next activity soon.</p>
+    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:8px">
+      <span id="waitingCount" class="badge live"><i class="fa-solid fa-users"></i> 0 joined</span>
+      <span id="waitingModule" class="badge mi">—</span>
+    </div>
+    <div id="waitingNames" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center"></div>
+    <div class="join-foot" style="margin-top:16px">
+      <span style="color:#64748b"><i class="fa-solid fa-satellite-dish"></i> Live sync 1.5s</span>
+      <span style="display:inline-flex;align-items:center;gap:6px"><img src="/assets/MI.png" alt="MIDevOps" style="height:14px;width:auto"> MIDevOps</span>
+    </div>
   </div>
   <!-- Participant intro - mirrors console's le-intro-screen (whyThisMatters) -->
   <div id="introScreen" class="card hidden" style="text-align:center">
