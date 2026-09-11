@@ -10,7 +10,6 @@
   let introDismissed = false;
   let currentRow = -1, currentCol = -1, currentDirection = 'across';
   let pendingFocusDirection = null;
-  let revealed = false;
 
   // --- Phone-synced lighter sync (additive): debounced progress ping ---
   // When opened via join flow, room code + participantId are in URL/localStorage.
@@ -114,10 +113,6 @@
     downList: document.getElementById('downList'),
     status: document.getElementById('cwStatus'),
     checkBtn: document.getElementById('checkBtn'),
-    revealBtn: document.getElementById('revealBtn'),
-    revealConfirm: document.getElementById('revealConfirm'),
-    revealConfirmYes: document.getElementById('revealConfirmYes'),
-    revealConfirmNo: document.getElementById('revealConfirmNo'),
     rememberCard: document.getElementById('rememberCard'),
     rememberText: document.getElementById('rememberText'),
     wrapRow: document.getElementById('wrapRow')
@@ -217,7 +212,6 @@
   }
 
   function handleKeydown(e, cell, input) {
-    if (revealed) { e.preventDefault(); return; }
 
     if (/^[a-zA-Z]$/.test(e.key)) {
       e.preventDefault();
@@ -400,7 +394,6 @@
   }
 
   function updateStatus() {
-    if (revealed) return;
     let filled = 0;
     cells.forEach((cell) => { if (cell.input.value) filled++; });
     els.status.textContent = `${filled} of ${cells.size} letters filled`;
@@ -446,38 +439,12 @@
     });
   }
 
-  function revealAll() {
-    revealed = true;
-    cells.forEach((cell) => {
-      cell.input.value = cell.solution;
-      cell.input.readOnly = true;
-      cell.el.classList.remove('correct', 'incorrect');
-      cell.el.classList.add('revealed');
-    });
-    document.querySelectorAll('.cw-clue-list li').forEach((li) => li.classList.add('solved'));
-    els.checkBtn.disabled = true;
-    els.revealBtn.disabled = true;
-    els.status.textContent = 'Answers revealed.';
-    showWrapUp();
-    scheduleCrosswordProgress();
-    // Immediate ping for reveal (full)
-    if (crosswordSyncEnabled) setTimeout(sendCrosswordProgress, 200);
-  }
-
   function showWrapUp() {
     if (els.rememberCard) {
       els.rememberText.textContent = rememberThisText;
       els.rememberCard.classList.remove('le-hidden');
     }
     if (els.wrapRow) els.wrapRow.classList.remove('le-hidden');
-  }
-
-  function openRevealConfirm() {
-    if (revealed) return;
-    els.revealConfirm.classList.remove('le-hidden');
-  }
-  function closeRevealConfirm() {
-    els.revealConfirm.classList.add('le-hidden');
   }
 
   function beginActivity() {
@@ -495,14 +462,10 @@
 
   if (els.introStartBtn) els.introStartBtn.addEventListener('click', dismissIntro);
   els.checkBtn.addEventListener('click', checkAnswers);
-  els.revealBtn.addEventListener('click', openRevealConfirm);
-  els.revealConfirmYes.addEventListener('click', () => { closeRevealConfirm(); revealAll(); });
-  els.revealConfirmNo.addEventListener('click', closeRevealConfirm);
 
   LiveEvent.onAction({
     advance: () => { if (!introDismissed) dismissIntro(); },
-    next: () => { if (!introDismissed) dismissIntro(); },
-    reveal: () => { if (introDismissed) openRevealConfirm(); }
+    next: () => { if (!introDismissed) dismissIntro(); }
   });
 
   fetch('../content/crossword.json')
