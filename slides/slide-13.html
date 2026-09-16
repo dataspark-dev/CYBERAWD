@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>See Something, Say Something — Synergy Cyber Security Awareness Month</title>
+  <title>Login Security — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,27 +14,29 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .callout-bar.stop-verify-report {
-      justify-content: center;
-      align-items: center;
-      gap: 22px;
-      padding: 18px 28px;
-      margin: 0;
-      background: var(--navy);
-      border-left-color: var(--cyan);
-      border-radius: var(--r);
-    }
-    .callout-bar.stop-verify-report .mono-tag { font-size: 20px; letter-spacing: 3px; font-weight: 800; }
-    .callout-bar.stop-verify-report i { font-size: 18px; color: var(--cyan-light); }
-    .callout-bar.stop-verify-report .stop-tag { color: var(--scene-red-accent); }
-    .callout-bar.stop-verify-report .verify-tag { color: var(--scene-amber-accent); }
-    .callout-bar.stop-verify-report .report-tag { color: var(--scene-green-accent); }
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
 
-    .card-grid { align-items: stretch; }
-    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family:'Orbitron',sans-serif; font-size: 15.5px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family:'Space Mono',monospace; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 13.5px; line-height: 1.4; color: var(--body-text); }
 
-    .slide .info-box { padding: 16px 20px; margin: 0; }
-    .slide .info-box p, .slide .info-box div { font-size: 16.5px; line-height: 1.55; }
+    .sim-static { display: flex; gap: 14px; align-items: center; padding: 14px 18px; border-radius: var(--r); background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.18); }
+    .sim-static i { font-size: 28px; color: var(--red); flex-shrink: 0; }
+    .sim-static h4 { font-family:'Orbitron',sans-serif; font-size: 15px; color: var(--navy); margin-bottom: 3px; }
+    .sim-static p { font-size: 13.5px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+    .info-box.danger { border-left-color: var(--red); background: rgba(239,68,68,0.06); }
+    .info-box.danger i { color: var(--red); }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   </style>
 </head>
 <body>
@@ -45,54 +47,51 @@
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">Speak Up</div>
-      <h1>SEE SOMETHING, <span>SAY SOMETHING</span></h1>
+      <div class="slide-eyebrow">Everyday Defence</div>
+      <h1>YOUR LOGIN IS PART OF THE <span>PERIMETER</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
-      <p class="section-lead full-width">Every warning sign we've covered comes down to three simple steps — and four places you can act on them.</p>
+      <p class="section-lead">What a well-protected account looks like — and what attackers hope you never fix.</p>
 
-      <div class="callout-bar stop-verify-report">
-        <span class="mono-tag stop-tag">STOP</span>
-        <i class="fas fa-arrow-right"></i>
-        <span class="mono-tag verify-tag">VERIFY</span>
-        <i class="fas fa-arrow-right"></i>
-        <span class="mono-tag report-tag">REPORT</span>
-      </div>
+      <div class="two-col">
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-key"></i></div><div><h4>Same Password, Reused <span class="tell-tag">Risk</span></h4><p>Using the same password on multiple sites means one leak unlocks all your accounts.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-mobile-screen-button"></i></div><div><h4>MFA Turned On <span class="tell-tag">Good Practice</span></h4><p>MFA stops a stolen password from getting in.</p></div></div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-clock-rotate-left"></i></div><div><h4>Unrecognised Sign-In Ignored <span class="tell-tag">Risk</span></h4><p>Dismissing a login alert from an unknown device or location is a mistake. Report it.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-shield-halved"></i></div><div><h4>Password Manager In Use <span class="tell-tag">Good Practice</span></h4><p>Creates and stores unique, strong passwords for every account.</p></div></div>
+        </div>
 
-      <div class="reveal-stagger card-grid cols-4 gap-lg">
-        <div class="pillar-card">
-          <div class="icon-wrap" style="background:rgba(6,182,212,0.1);color:var(--cyan-dark);"><i class="fas fa-headset"></i></div>
-          <h3>IT Service Desk</h3>
-          <p>First stop for anything technical — suspicious email, account issue, or unfamiliar device. Reach it 24/7 via Fleet Portal or phone.</p>
-        </div>
-        <div class="pillar-card">
-          <div class="icon-wrap" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-flag"></i></div>
-          <h3>Report-Phish Button</h3>
-          <p>Fastest for email: one click flags the message for review and removes it. No forwarding needed.</p>
-        </div>
-        <div class="pillar-card">
-          <div class="icon-wrap" style="background:rgba(239,68,68,0.1);color:var(--red);"><i class="fas fa-shield-halved"></i></div>
-          <h3>Security Hotline</h3>
-          <p>For urgent or sensitive cases — breach, lost device, or a payment that now feels wrong. Fastest when you need attention now.</p>
-        </div>
-        <div class="pillar-card">
-          <div class="icon-wrap" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-user-group"></i></div>
-          <h3>Your Line Manager</h3>
-          <p>If unsure who to contact, your manager is a safe default — on board, the Master or DPA. Wrong channel first is still better than late or never.</p>
+        <div>
+          <div class="sim-static">
+            <i class="fas fa-ban"></i>
+            <div><h4>MFA Push-Bombing</h4><p>A flood of approval requests you didn't trigger is an attack, not a glitch. Tap Deny, not Approve, and report it to IT immediately.</p></div>
+          </div>
+
+          <div class="info-box danger">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div><strong>If a prompt looks wrong, deny and report.</strong><br>
+            <strong>MFA fatigue:</strong> requests you didn't trigger — tap Deny, never Approve.<br>
+            <strong>Genuine vs fake:</strong> genuine matches your device and location; fake comes from an unfamiliar one, demanding immediate approval.<br>
+            <strong>Sign-in alert you don't recognise:</strong> change the password and report it.</div>
+          </div>
         </div>
       </div>
 
-      <div class="info-box success">
-        <i class="fas fa-circle-check"></i>
-        <div>Reporting quickly – even if it turns out to be nothing – is always the right thing to do. No blame, ever.</div>
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Use a password manager for every account</span>
+        <span class="impact-chip"><i class="fas fa-mobile-screen-button" style="color:var(--cyan);"></i> Turn on the second check (MFA) everywhere it's offered</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report sign-in alerts you don't recognise</span>
       </div>
 
-      <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.05);">
-        <i class="fas fa-clock" style="color:var(--navy);"></i>
-        <div><strong>GDPR:</strong> A data breach involving crew or customer information must be reported within strict deadlines — the sooner you flag something odd, the more of that window we keep.</div>
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[SECURE IT]</strong> <strong>GOLDEN RULE:</strong> Use a unique password for every account, plus MFA – together they block almost every account takeover attempt, even one that started with someone else's breach.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
+        <div class="info-expand-panel">Attackers don't need to guess your password if they already have it from an unrelated leak. A unique password and MFA break that chain even when a breach elsewhere exposes it.</div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> Do's &amp; Don'ts <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> See Something, Say Something <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

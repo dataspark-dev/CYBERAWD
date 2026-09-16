@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Do's &amp; Don'ts — Synergy Cyber Security Awareness Month</title>
+  <title>See Something, Say Something — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,27 +14,26 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .visual-compare { max-width: 100% !important; gap: 30px; width: 100%; margin: 0 auto; align-items: stretch; }
-    .visual-col { padding: 22px 24px; border-radius: var(--r-lg); display: flex; flex-direction: column; }
-    .visual-col.do-col { background: rgba(16, 185, 129, 0.08); border: 1.5px solid rgba(16, 185, 129, 0.3); }
-    .visual-col.dont-col { background: rgba(239, 68, 68, 0.06); border: 1.5px solid rgba(239, 68, 68, 0.25); }
-    .visual-col-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
-    .visual-col-head i { font-size: 26px; }
-    .visual-col-head span { font-size: 22px; letter-spacing: 0.5px; font-family:'Orbitron',sans-serif; font-weight: 800; }
-    .visual-col.do-col .visual-col-head i,
-    .visual-col.do-col .visual-col-head span { color: var(--green-dark); }
-    .visual-col.dont-col .visual-col-head i,
-    .visual-col.dont-col .visual-col-head span { color: var(--red-dark); }
+    .callout-bar.stop-verify-report {
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      padding: 18px 28px;
+      margin: 0;
+      background: var(--navy);
+      border-left-color: var(--cyan);
+      border-radius: var(--r);
+    }
+    .callout-bar.stop-verify-report .mono-tag { font-size: 20px; letter-spacing: 3px; font-weight: 800; }
+    .callout-bar.stop-verify-report i { font-size: 18px; color: var(--cyan-light); }
+    .callout-bar.stop-verify-report .stop-tag { color: var(--scene-red-accent); }
+    .callout-bar.stop-verify-report .verify-tag { color: var(--scene-amber-accent); }
+    .callout-bar.stop-verify-report .report-tag { color: var(--scene-green-accent); }
 
-    .static-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: stretch; }
-    .static-tile { display: flex; gap: 10px; padding: 12px 14px; background: var(--white); border-radius: var(--r); box-shadow: var(--shadow-sm); }
-    .static-tile i:first-child { font-size: 20px; margin-top: 2px; flex-shrink: 0; }
-    .visual-col.do-col .static-tile i:first-child { color: var(--green-dark); }
-    .visual-col.dont-col .static-tile i:first-child { color: var(--red); }
-    .static-tile strong { display: block; font-size: 14.5px; color: var(--navy); margin-bottom: 2px; }
-    .static-tile p { font-size: 12.5px; line-height: 1.4; }
-    .visual-col.do-col .static-tile p { color: var(--green-darker); }
-    .visual-col.dont-col .static-tile p { color: var(--red-darker); }
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+
+    .slide .info-box { padding: 16px 20px; margin: 0; }
   </style>
 </head>
 <body>
@@ -45,38 +44,54 @@
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">Quick Reference</div>
-      <h1>DO'S &amp; <span>DON'TS</span></h1>
+      <div class="slide-eyebrow">Speak Up</div>
+      <h1>SEE SOMETHING, <span>SAY SOMETHING</span></h1>
     </div>
-    <div class="slide-main reveal-stagger compact">
-      <p class="section-lead">No long lists — just the habits that stop nearly every attack. Every habit traces back to STOP → VERIFY → REPORT.</p>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead full-width">Every warning sign we've covered comes down to three simple steps — and four places you can act on them.</p>
 
-      <div class="visual-compare">
-        <div class="visual-col do-col">
-          <div class="visual-col-head"><i class="fas fa-circle-check"></i><span>DO</span></div>
-          <div class="static-grid reveal-stagger">
-            <div class="static-tile"><i class="fas fa-lock"></i><div><strong>Lock Your Screen</strong><p>The second you step away, even for a minute.</p></div></div>
-            <div class="static-tile"><i class="fas fa-shield-halved"></i><div><strong>Verify Requests</strong><p>Call back on a number you already have, not one they just gave you.</p></div></div>
-            <div class="static-tile"><i class="fas fa-key"></i><div><strong>Use MFA</strong><p>With MFA on, a stolen password alone can't get in.</p></div></div>
-            <div class="static-tile"><i class="fas fa-bullhorn"></i><div><strong>Report Fast</strong><p>Reporting something that turns out to be nothing is still the right call.</p></div></div>
-            <div class="static-tile"><i class="fas fa-plug"></i><div><strong>Use Approved USB Drives</strong><p>Unknown drives can install malware the moment they're plugged in.</p></div></div>
-            <div class="static-tile"><i class="fas fa-database"></i><div><strong>Keep Data in Approved Systems</strong><p>Approved tools have been checked for exactly this kind of risk.</p></div></div>
-          </div>
+      <div class="callout-bar stop-verify-report">
+        <span class="mono-tag stop-tag">STOP</span>
+        <i class="fas fa-arrow-right"></i>
+        <span class="mono-tag verify-tag">VERIFY</span>
+        <i class="fas fa-arrow-right"></i>
+        <span class="mono-tag report-tag">REPORT</span>
+      </div>
+
+      <div class="reveal-stagger card-grid cols-4 gap-lg">
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(6,182,212,0.1);color:var(--cyan-dark);"><i class="fas fa-headset"></i></div>
+          <h3>IT Service Desk</h3>
+          <p>First stop for anything technical — suspicious email, account issue, or unfamiliar device. Reach it 24/7 via Fleet Portal or phone.</p>
         </div>
-        <div class="visual-col dont-col">
-          <div class="visual-col-head"><i class="fas fa-circle-xmark"></i><span>DON'T</span></div>
-          <div class="static-grid reveal-stagger">
-            <div class="static-tile"><i class="fas fa-user-secret"></i><div><strong>Reuse Passwords</strong><p>One leaked site can unlock every other account that uses that password.</p></div></div>
-            <div class="static-tile"><i class="fas fa-link-slash"></i><div><strong>Click Unknown Links</strong><p>Go directly to the app or use a saved bookmark instead.</p></div></div>
-            <div class="static-tile"><i class="fas fa-triangle-exclamation"></i><div><strong>Plug In Unknown USB</strong><p>Treat any USB drive you didn't buy or verify as unsafe.</p></div></div>
-            <div class="static-tile"><i class="fas fa-robot"></i><div><strong>Paste Into Public AI</strong><p>That text can leave your control the moment you hit send.</p></div></div>
-            <div class="static-tile"><i class="fas fa-door-open"></i><div><strong>Leave Desk Unlocked</strong><p>An unlocked screen is an open door, even if you're gone for a minute.</p></div></div>
-            <div class="static-tile"><i class="fas fa-comment-slash"></i><div><strong>Stay Silent</strong><p>Silence is exactly what the attacker is counting on.</p></div></div>
-          </div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-flag"></i></div>
+          <h3>Report-Phish Button</h3>
+          <p>Fastest for email: one click flags the message for review and removes it. No forwarding needed.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(239,68,68,0.1);color:var(--red);"><i class="fas fa-shield-halved"></i></div>
+          <h3>Security Hotline</h3>
+          <p>For urgent or sensitive cases — breach, lost device, or a payment that now feels wrong. Fastest when you need attention now.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-user-group"></i></div>
+          <h3>Your Line Manager</h3>
+          <p>If unsure who to contact, your manager is a safe default — on board, the Master or DPA. Wrong channel first is still better than late or never.</p>
         </div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> Closing <i class="fas fa-arrow-right"></i></div>
+      <div class="info-box success">
+        <i class="fas fa-circle-check"></i>
+        <div>Reporting quickly – even if it turns out to be nothing – is always the right thing to do. No blame, ever.</div>
+      </div>
+
+      <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.05);">
+        <i class="fas fa-clock" style="color:var(--navy);"></i>
+        <div><strong>GDPR:</strong> A data breach involving crew or customer information must be reported within strict deadlines — the sooner you flag something odd, the more of that window we keep.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Do's &amp; Don'ts <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

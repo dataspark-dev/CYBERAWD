@@ -2663,7 +2663,7 @@ ul { list-style: none; }
 }
 .open-header img,
 .close-header img {
-  height: 76px;
+  height: 72px;
   object-fit: contain;
   filter: brightness(0) invert(1);
   opacity: 0.95;
@@ -2759,17 +2759,19 @@ ul { list-style: none; }
 
 /* --- Presentation-scale type bump (sized for distance/projector legibility) --- */
 .slide h2 { font-size: 30px; }
+/* Intro paragraph must sit BELOW the card titles it introduces (16.5px+),
+   not above them — at 28px it inverted the visual hierarchy deck-wide. */
 .slide .section-lead {
-  font-size: 28px;
-  line-height: 1.55;
+  font-size: 19px;
+  line-height: 1.5;
   max-width: 1650px;
   margin-bottom: var(--space-4);
 }
 .slide .section-lead.centered { text-align: center; margin-left: auto; margin-right: auto; }
 .slide .section-lead.full-width { max-width: 100%; }
 .slide .section-lead.tight { margin-bottom: var(--space-2); }
-.slide .section-lead.compact { font-size: 24px; line-height: 1.45; margin-bottom: var(--space-2); }
-.slide .impact-chip { font-size: 16px; padding: 8px 16px; }
+.slide .section-lead.compact { font-size: 18px; line-height: 1.45; margin-bottom: var(--space-2); }
+.slide .impact-chip { font-size: 15px; padding: 8px 16px; }
 .slide .flip-card { height: 260px; }
 .slide .flip-card-front .fc-icon { width: 62px; height: 62px; font-size: 27px; }
 .slide .flip-card-front h4 { font-size: 21px; }
@@ -2778,13 +2780,13 @@ ul { list-style: none; }
 .slide .flip-card.flip-lg .flip-card-front h4 { font-size: 24px; }
 .slide .card-grid.gap-lg { gap: 18px; }
 .slide .pillar-card { padding: 18px; margin-bottom: 0; }
-.slide .pillar-card h3 { font-size: 22px; margin-bottom: 5px; }
-.slide .pillar-card p { font-size: 18px; line-height: 1.45; }
+.slide .pillar-card h3 { font-size: 16.5px; margin-bottom: 5px; }
+.slide .pillar-card p { font-size: 13.5px; line-height: 1.45; }
 .slide .pillar-card .card-num { font-size: 72px; }
 .slide .icon-wrap { width: 52px; height: 52px; font-size: 24px; }
 .slide .info-box { padding: 14px 18px; margin: 0; }
 .slide .info-box p,
-.slide .info-box div { font-size: 18px; line-height: 1.45; }
+.slide .info-box div { font-size: 15px; line-height: 1.45; }
 .slide .fact-box { padding: 16px 22px; margin: 0; }
 .slide .fact-label { font-size: 13px; letter-spacing: 1.5px; }
 .slide .fact-text { font-size: 19px; line-height: 1.45; }

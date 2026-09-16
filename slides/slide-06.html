@@ -17,6 +17,7 @@
     .card-grid { align-items: stretch; }
     .scenario-card { height: 100%; display: flex; flex-direction: column; margin-bottom: 0; }
     .scenario-top { flex: 1; }
+    .sc-verdict { margin-top: 6px; font-weight: 700; color: var(--navy); }
 
     .action-row {
       display: flex;
@@ -46,7 +47,9 @@
             <div class="sc-icon lg"><i class="fas fa-user-tie"></i></div>
             <div class="sc-content">
               <h4>Fake Recruiter Interview</h4>
-              <p>A candidate is interviewed by a polished "hiring manager" who later asks for a deposit or bank details to "process relocation." AI-generated recruiters have stolen personal and banking data this way — HR should verify any recruiter call through official channels, never via a link in the invite.</p>
+              <p>A polished "hiring manager" asks for a deposit or bank details to "process relocation."</p>
+              <p class="sc-verdict">HR: verify through official channels, never a link in the invite.</p>
+              <!-- FACILITATOR: AI-generated recruiters have been used to steal personal and banking data outright. -->
             </div>
           </div>
         </div>
@@ -55,7 +58,9 @@
             <div class="sc-icon lg"><i class="fas fa-truck-field"></i></div>
             <div class="sc-content">
               <h4>Vendor Bank-Change Call</h4>
-              <p>A long-standing supplier calls — voice matches — to confirm a new bank account before the next payment. One call can clone a vendor's voice. Always confirm bank changes on the number already on file.</p>
+              <p>A long-standing supplier calls — voice matches — to confirm a new bank account.</p>
+              <p class="sc-verdict">Finance: confirm bank changes on the number already on file.</p>
+              <!-- FACILITATOR: a single recorded call is enough to clone a vendor's voice. -->
             </div>
           </div>
         </div>
@@ -64,7 +69,9 @@
             <div class="sc-icon lg"><i class="fas fa-ship"></i></div>
             <div class="sc-content">
               <h4>Crew Allotment Change Call</h4>
-              <p>Someone sounding like a seafarer calls crewing to urgently change bank details for a wage allotment. Allotment fraud steals seafarer wages — confirm any bank change directly with the seafarer on a known number.</p>
+              <p>Someone sounding like a seafarer urgently asks crewing to change allotment bank details.</p>
+              <p class="sc-verdict">Crewing: confirm directly with the seafarer on a known number.</p>
+              <!-- FACILITATOR: allotment fraud takes wages directly from the seafarer, not the company. -->
             </div>
           </div>
         </div>
@@ -73,7 +80,9 @@
             <div class="sc-icon lg"><i class="fas fa-headset"></i></div>
             <div class="sc-content">
               <h4>IT Support "Callback"</h4>
-              <p>Someone sounding like your IT contact asks you to read back your MFA code to "fix a login issue." Real IT never needs your MFA code — the trick bypasses the login screen entirely.</p>
+              <p>Someone sounding like IT asks you to read back your MFA code to "fix a login issue."</p>
+              <p class="sc-verdict">Everyone: real IT never needs your MFA code.</p>
+              <!-- FACILITATOR: reading the code aloud bypasses the login screen entirely. -->
             </div>
           </div>
         </div>

@@ -15,7 +15,6 @@
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
     .action-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .action-row .impact-chip { font-size: 14.5px; padding: 7px 15px; }
 
     .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .channel-card { display: flex; flex-direction: column; border-radius: var(--r-lg); overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
@@ -35,7 +34,7 @@
     .channel-tells { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
     .channel-tell { display: flex; gap: 8px; }
     .channel-tell i { color: var(--red); font-size: 12px; margin-top: 3px; flex-shrink: 0; }
-    .channel-tell strong { display: block; font-size: 12.5px; color: var(--navy); margin-bottom: 1px; }
+    .channel-tell strong { display: block; font-family:'Orbitron',sans-serif; font-size: 12.5px; color: var(--navy); margin-bottom: 1px; }
     .channel-tell p { font-size: 11.8px; line-height: 1.4; color: var(--body-text); }
   </style>
 </head>
@@ -51,7 +50,12 @@
       <h1>PHISHING GOES <span>MULTI-CHANNEL</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
-      <p class="section-lead">Email isn't the only way in. Three real examples — and the tells that give each one away.</p>
+      <p class="section-lead">Email isn't the only way in — the same trick lands by text, voice and chat.</p>
+      <!-- FACILITATOR NOTE (Phase E): tell descriptions were trimmed ~40%. Fuller wording if needed:
+           smishing - short links hide the real address and "your account will be delayed" is the pressure;
+           vishing - caller ID is trivially spoofed, and "stay on the line" exists purely to stop you
+           hanging up and calling a number you already trust;
+           work chat - a genuine payment request would be visible in the shared team channel. -->
 
       <div class="channel-grid">
         <div class="channel-card">
@@ -61,9 +65,9 @@
             <div class="sms-bubble">Synergy Marine: Your Fleet Portal rotation link has changed. Confirm your MV Horizon sign-off dates here: bit.ly/CrewRotation-Horizon or your account will be delayed. — Fleet Ops</div>
           </div>
           <div class="channel-tells">
-            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Short link hides the real address</strong><p>Synergy never sends the crew portal as a bit.ly link by text.</p></div></div>
-            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Fake urgency</strong><p>"Or your account will be delayed" — pressure to tap before you check.</p></div></div>
-            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Told not to check</strong><p>A real Fleet Ops message would never say "use this link only — don't call."</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Short link hides the real address</strong><p>Synergy never sends the crew portal as a bit.ly link.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Fake urgency</strong><p>Pressure to tap before you check.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Told not to check</strong><p>Real Fleet Ops never says "don't call."</p></div></div>
           </div>
         </div>
 
@@ -76,9 +80,9 @@
           </div>
           <div class="call-caption2">"Hi, this is IT Support about your Fleet Portal — please confirm your password and the code from your phone so we can fix your rotation access."</div>
           <div class="channel-tells">
-            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Caller name can be faked</strong><p>The display name can say "IT Service Desk" even when the number isn't Synergy's.</p></div></div>
-            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Asking for your password or code</strong><p>Real IT never asks you to say your password or a code on a call they made to you.</p></div></div>
-            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>"Stay on the line"</strong><p>So you don't hang up and call back on a number you already trust.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Caller name can be faked</strong><p>Display name can say "IT Service Desk" on any number.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Asking for your password or code</strong><p>Real IT never asks for your password or code.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>"Stay on the line"</strong><p>Stops you calling back on a trusted number.</p></div></div>
           </div>
         </div>
 
@@ -89,8 +93,8 @@
             <div class="sms-bubble">Hi, this is Priya from Finance — can you approve this payment via the new link before the call? Don't mention it in the group chat yet.</div>
           </div>
           <div class="channel-tells">
-            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Private message bypasses the team channel</strong><p>Everyone else would see a request like this in the shared channel.</p></div></div>
-            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Urgency and secrecy together</strong><p>A classic pressure tactic — legitimate requests don't need silence.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Private message bypasses the team channel</strong><p>A real request would be in the shared channel.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Urgency and secrecy together</strong><p>Legitimate requests don't need silence.</p></div></div>
           </div>
         </div>
       </div>
@@ -109,7 +113,7 @@
         <div class="info-expand-panel">Attackers switch channels to lower your guard — but the tells stay the same.</div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> AI &amp; Chatbot Risks: Pasting Data &amp; Shadow AI <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> Pasting Data Into Public AI <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

@@ -1,8 +1,8 @@
 # Deck Manifest
 
-Generated: 2026-09-16T22:25:46  
-Total slides (deck.js): 15  
-Slide files on disk: 15
+Generated: 2026-09-16T22:57:33  
+Total slides (deck.js): 16  
+Slide files on disk: 16
 
 ## Slide-by-Slide
 
@@ -16,13 +16,14 @@ Slide files on disk: 15
 | 6 | Deepfakes: Who's Targeted | Deepfake Attacks | scenario-card | — |
 | 7 | Phishing Has Evolved | Phishing Evolution | _static_ | — |
 | 8 | Phishing Beyond Email — Every Channel | Phishing Evolution | _static_ | — |
-| 9 | AI & Chatbot Risks: Pasting Data & Shadow AI | AI & Chatbot Risks | checklist-grid, flow-scene | — |
-| 10 | When Attackers Use AI Too | AI & Chatbot Risks | _static_ | — |
-| 11 | Workplace Security | Workplace & Login Security | _static_ | 1 ⚠ |
-| 12 | Login Security | Workplace & Login Security | _static_ | — |
-| 13 | See Something, Say Something | Do's & Don'ts | _static_ | — |
-| 14 | Do's & Don'ts | Do's & Don'ts | _static_ | — |
-| 15 | Closing | Closing | _static_ | 1 ⚠ |
+| 9 | Pasting Data Into Public AI | AI & Chatbot Risks | flow-scene | — |
+| 10 | Shadow AI — Unapproved Tools | AI & Chatbot Risks | checklist-grid | — |
+| 11 | When Attackers Use AI Too | AI & Chatbot Risks | _static_ | — |
+| 12 | Workplace Security | Workplace & Login Security | _static_ | 1 ⚠ |
+| 13 | Login Security | Workplace & Login Security | _static_ | — |
+| 14 | See Something, Say Something | Do's & Don'ts | _static_ | — |
+| 15 | Do's & Don'ts | Do's & Don'ts | _static_ | — |
+| 16 | Closing | Closing | _static_ | 1 ⚠ |
 
 ## Flow Map
 
@@ -30,10 +31,10 @@ Slide files on disk: 15
 - **Threat Landscape** (slides 3): Modern Threat Landscape
 - **Deepfake Attacks** (slides 4–6): Deepfake Attacks: The Concept → Deepfakes: Spot the Signs → Deepfakes: Who's Targeted
 - **Phishing Evolution** (slides 7–8): Phishing Has Evolved → Phishing Beyond Email — Every Channel
-- **AI & Chatbot Risks** (slides 9–10): AI & Chatbot Risks: Pasting Data & Shadow AI → When Attackers Use AI Too
-- **Workplace & Login Security** (slides 11–12): Workplace Security → Login Security
-- **Do's & Don'ts** (slides 13–14): See Something, Say Something → Do's & Don'ts
-- **Closing** (slides 15): Closing
+- **AI & Chatbot Risks** (slides 9–11): Pasting Data Into Public AI → Shadow AI — Unapproved Tools → When Attackers Use AI Too
+- **Workplace & Login Security** (slides 12–13): Workplace Security → Login Security
+- **Do's & Don'ts** (slides 14–15): See Something, Say Something → Do's & Don'ts
+- **Closing** (slides 16): Closing
 
 ## Interactive Component Inventory
 
@@ -45,11 +46,11 @@ Slide files on disk: 15
 - `flip-card`: 0 slide(s) — none
 - `scenario-card`: 1 slide(s) — [6]
 - `spot-grid`: 0 slide(s) — none
-- `checklist-grid`: 1 slide(s) — [9]
+- `checklist-grid`: 1 slide(s) — [10]
 - `count-up`: 0 slide(s) — none
 - `reveal-click-zone`: 0 slide(s) — none
 
-**Static / reading-only slides (no known interactive component):** ['slide-01.html', 'slide-02.html', 'slide-05.html', 'slide-07.html', 'slide-08.html', 'slide-10.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html', 'slide-15.html']
+**Static / reading-only slides (no known interactive component):** ['slide-01.html', 'slide-02.html', 'slide-05.html', 'slide-07.html', 'slide-08.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html', 'slide-15.html', 'slide-16.html']
 
 ## Theme Audit
 
@@ -137,8 +138,8 @@ Root palette (main.css `:root`):
 - `--accent-border`: `rgba(6, 182, 212, 0.35)`
 
 Theme usage per slide:
-- **dark**: ['slide-01.html', 'slide-15.html']
-- **light**: ['slide-02.html', 'slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-09.html', 'slide-10.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html']
+- **dark**: ['slide-01.html', 'slide-16.html']
+- **light**: ['slide-02.html', 'slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-09.html', 'slide-10.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html', 'slide-15.html']
 
 Hex colors used that are **not** a defined `:root` variable value:
 - `#fff` — used in: ['slide-03.html', 'slide-04.html', 'slide-08.html']
@@ -146,5 +147,5 @@ Hex colors used that are **not** a defined `:root` variable value:
 ## Issues Flagged
 
 - 🔵 **INFO** [title-drift] `slide-01.html`: deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-11.html`: deck.js title 'Workplace Security' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-15.html`: deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift — verify manually.
+- 🔵 **INFO** [title-drift] `slide-12.html`: deck.js title 'Workplace Security' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift — verify manually.
+- 🔵 **INFO** [title-drift] `slide-16.html`: deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift — verify manually.

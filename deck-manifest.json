@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-16T22:25:46",
+  "generated_at": "2026-09-16T22:57:33",
   "root": "C:\\Users\\SRIDHAR\\Documents\\TRININGPPT\\AWRCNTCS",
-  "total_slides_in_deckjs": 15,
+  "total_slides_in_deckjs": 16,
   "slide_files_on_disk": [
     "slide-01.html",
     "slide-02.html",
@@ -17,7 +17,8 @@
     "slide-12.html",
     "slide-13.html",
     "slide-14.html",
-    "slide-15.html"
+    "slide-15.html",
+    "slide-16.html"
   ],
   "missing_files": [],
   "orphan_files": [],
@@ -86,26 +87,29 @@
       "group": "AI & Chatbot Risks",
       "slide_indexes": [
         9,
-        10
+        10,
+        11
       ],
       "files": [
         "slide-09.html",
-        "slide-10.html"
+        "slide-10.html",
+        "slide-11.html"
       ],
       "titles": [
-        "AI & Chatbot Risks: Pasting Data & Shadow AI",
+        "Pasting Data Into Public AI",
+        "Shadow AI \u2014 Unapproved Tools",
         "When Attackers Use AI Too"
       ]
     },
     {
       "group": "Workplace & Login Security",
       "slide_indexes": [
-        11,
-        12
+        12,
+        13
       ],
       "files": [
-        "slide-11.html",
-        "slide-12.html"
+        "slide-12.html",
+        "slide-13.html"
       ],
       "titles": [
         "Workplace Security",
@@ -115,12 +119,12 @@
     {
       "group": "Do's & Don'ts",
       "slide_indexes": [
-        13,
-        14
+        14,
+        15
       ],
       "files": [
-        "slide-13.html",
-        "slide-14.html"
+        "slide-14.html",
+        "slide-15.html"
       ],
       "titles": [
         "See Something, Say Something",
@@ -130,10 +134,10 @@
     {
       "group": "Closing",
       "slide_indexes": [
-        15
+        16
       ],
       "files": [
-        "slide-15.html"
+        "slide-16.html"
       ],
       "titles": [
         "Closing"
@@ -146,12 +150,12 @@
     "slide-05.html",
     "slide-07.html",
     "slide-08.html",
-    "slide-10.html",
     "slide-11.html",
     "slide-12.html",
     "slide-13.html",
     "slide-14.html",
-    "slide-15.html"
+    "slide-15.html",
+    "slide-16.html"
   ],
   "theme_root_vars": {
     "--navy": "#001a4d",
@@ -239,7 +243,7 @@
   "theme_usage": {
     "dark": [
       "slide-01.html",
-      "slide-15.html"
+      "slide-16.html"
     ],
     "light": [
       "slide-02.html",
@@ -254,7 +258,8 @@
       "slide-11.html",
       "slide-12.html",
       "slide-13.html",
-      "slide-14.html"
+      "slide-14.html",
+      "slide-15.html"
     ]
   },
   "off_palette_colors": {
@@ -323,17 +328,8 @@
       "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
-        "--amber",
         "--cyan",
-        "--faint",
-        "--green",
-        "--muted",
-        "--orange",
-        "--paper-2",
-        "--red",
-        "--red-dark",
-        "--w",
-        "--white"
+        "--faint"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -363,22 +359,22 @@
         {
           "tag": "h3",
           "heading": "Ransomware",
-          "body": "Double extortion: attackers copy files \u2014 e.g. crew records \u2014 then threaten to publish before locking them. A backup restores access, but the stolen copy stays theirs. Rental models (Ransomware-as-a-Service \u2014 gangs rent the malware for a cut) mean attacks keep growing."
+          "body": "They copy your files first, then lock them. A backup restores access \u2014 the stolen copy is still theirs."
         },
         {
           "tag": "h3",
           "heading": "Social Engineering",
-          "body": "Manipulates people, not systems, and drives most attacks in this deck. AI makes it cheap to clone voices and personalise messages at scale. The old tells are disappearing \u2014 use a second, trusted channel to confirm."
+          "body": "Targets people, not systems \u2014 and drives most attacks in this deck."
         },
         {
           "tag": "h3",
           "heading": "Insider Threats",
-          "body": "Most insider incidents start as honest mistakes \u2014 a misdirected record, a reused password, or leftover access after a role change. They bypass external defences by design. Reporting quickly and without blame limits the damage."
+          "body": "Most start as honest mistakes \u2014 a misdirected record, a reused password, leftover access."
         },
         {
           "tag": "h3",
           "heading": "Cloud Risks",
-          "body": "Most cloud exposure is a shared folder left open by mistake \u2014 e.g. crew records anyone with the link can see. It can sit unnoticed for months. Double-check permissions when you share."
+          "body": "Usually just a shared folder left open by mistake \u2014 and it can sit unnoticed for months."
         }
       ],
       "components": [
@@ -418,23 +414,7 @@
       "section_lead": [
         "A 10-second clip can clone a colleague's voice and face for a live call. This is senior-leader impersonation \u2014 here's how a real person becomes a live clone."
       ],
-      "cards": [
-        {
-          "tag": "h3",
-          "heading": "Voice Cloning",
-          "body": "A short clip \u2014 voicemail, recorded call, or public video \u2014 can generate a live synthetic voice. It adapts tone in real time. Sounding stressed is not proof a call is genuine."
-        },
-        {
-          "tag": "h3",
-          "heading": "Video / Face Swap",
-          "body": "Live face-swap can impersonate an executive with synced lip movements \u2014 as in the reported US$25M video-call fraud. A few seconds is enough to push an instruction. A second, trusted channel is the only certain test."
-        },
-        {
-          "tag": "h3",
-          "heading": "Synthetic Documents",
-          "body": "AI can now forge IDs, screenshots, and supporting documents to make a fake recruiter or vendor look legitimate. Often paired with a deepfake call. Treat attached documents with the same caution as the request itself."
-        }
-      ],
+      "cards": [],
       "components": [
         "flow-scene"
       ],
@@ -446,9 +426,16 @@
         "#fff"
       ],
       "var_colors": [
+        "--amber",
+        "--blue",
         "--cyan",
+        "--glass-bg",
+        "--glass-border",
         "--line",
-        "--navy"
+        "--navy",
+        "--purple",
+        "--r",
+        "--shadow-sm"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -517,22 +504,22 @@
         {
           "tag": "h4",
           "heading": "Fake Recruiter Interview",
-          "body": "A candidate is interviewed by a polished \"hiring manager\" who later asks for a deposit or bank details to \"process relocation.\" AI-generated recruiters have stolen personal and banking data this way \u2014 HR should verify any recruiter call through official channels, never via a link in the invite."
+          "body": "A polished \"hiring manager\" asks for a deposit or bank details to \"process relocation.\""
         },
         {
           "tag": "h4",
           "heading": "Vendor Bank-Change Call",
-          "body": "A long-standing supplier calls \u2014 voice matches \u2014 to confirm a new bank account before the next payment. One call can clone a vendor's voice. Always confirm bank changes on the number already on file."
+          "body": "A long-standing supplier calls \u2014 voice matches \u2014 to confirm a new bank account."
         },
         {
           "tag": "h4",
           "heading": "Crew Allotment Change Call",
-          "body": "Someone sounding like a seafarer calls crewing to urgently change bank details for a wage allotment. Allotment fraud steals seafarer wages \u2014 confirm any bank change directly with the seafarer on a known number."
+          "body": "Someone sounding like a seafarer urgently asks crewing to change allotment bank details."
         },
         {
           "tag": "h4",
           "heading": "IT Support \"Callback\"",
-          "body": "Someone sounding like your IT contact asks you to read back your MFA code to \"fix a login issue.\" Real IT never needs your MFA code \u2014 the trick bypasses the login screen entirely."
+          "body": "Someone sounding like IT asks you to read back your MFA code to \"fix a login issue.\""
         }
       ],
       "components": [
@@ -542,7 +529,8 @@
       "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
-        "--cyan"
+        "--cyan",
+        "--navy"
       ],
       "assets": [
         "https://fonts.googleapis.com",
@@ -615,7 +603,7 @@
       "eyebrow": "Email, SMS & Voice",
       "h1": "PHISHING GOES MULTI-CHANNEL",
       "section_lead": [
-        "Email isn't the only way in. Three real examples \u2014 and the tells that give each one away."
+        "Email isn't the only way in \u2014 the same trick lands by text, voice and chat."
       ],
       "cards": [],
       "components": [],
@@ -660,60 +648,22 @@
     {
       "index": 9,
       "file": "slide-09.html",
-      "deck_title": "AI & Chatbot Risks: Pasting Data & Shadow AI",
+      "deck_title": "Pasting Data Into Public AI",
       "group": "AI & Chatbot Risks",
       "slide_tag": null,
       "eyebrow": "Artificial Intelligence",
-      "h1": "PASTING DATA & SHADOW AI",
+      "h1": "PASTING DATA INTO PUBLIC AI",
       "section_lead": [
-        "Paste a crew list, contract, or payroll sheet into a public chatbot and it leaves your control immediately \u2014 and chatbots aren't the only unapproved AI risk on the team."
+        "Paste a crew list, contract, or payroll sheet into a public chatbot and it leaves your control immediately."
       ],
-      "cards": [
-        {
-          "tag": "h4",
-          "heading": "Browser AI Extensions",
-          "body": "Free \"AI assistant\" add-ons that read and summarise every page you visit, including internal systems \u2014 some log what they read. If unapproved, remove it."
-        },
-        {
-          "tag": "h4",
-          "heading": "Personal AI Accounts",
-          "body": "A personal chatbot account instead of the company-approved one sits outside company data agreements \u2014 no protection, no oversight."
-        },
-        {
-          "tag": "h4",
-          "heading": "AI Meeting Note-Takers",
-          "body": "Bots that auto-transcribe calls send everything said \u2014 including confidential discussion \u2014 to a third-party server."
-        },
-        {
-          "tag": "h4",
-          "heading": "AI R\u00e9sum\u00e9 / Interview Tools",
-          "body": "Writing helpers often store what you type \u2014 including company details \u2014 to train models. You can't delete it once sent."
-        },
-        {
-          "tag": "h4",
-          "heading": "Unapproved Voyage-Planning AI",
-          "body": "Free routing tools send vessel position and cargo to a third party outside the approved system."
-        },
-        {
-          "tag": "h4",
-          "heading": "Translation & Summariser Plugins",
-          "body": "Free \"summarise this doc\" tools upload the whole document to a third-party server \u2014 it then sits outside company control."
-        },
-        {
-          "tag": "h4",
-          "heading": "AI Image/Deepfake Generators",
-          "body": "Free tools generate fake images of colleagues, vessels, or documents. GDPR: uploading crew or customer images to a public tool can itself be a breach."
-        }
-      ],
+      "cards": [],
       "components": [
-        "checklist-grid",
         "flow-scene"
       ],
       "theme": "light",
       "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
-        "--body-text",
         "--cyan",
         "--navy"
       ],
@@ -733,6 +683,61 @@
     {
       "index": 10,
       "file": "slide-10.html",
+      "deck_title": "Shadow AI \u2014 Unapproved Tools",
+      "group": "AI & Chatbot Risks",
+      "slide_tag": null,
+      "eyebrow": "Artificial Intelligence",
+      "h1": "SHADOW AI \u2014 THE UNAPPROVED TOOLS",
+      "section_lead": [
+        "Shadow AI \u2014 any AI tool used for work that IT hasn't reviewed or approved. Chatbots aren't the only one."
+      ],
+      "cards": [
+        {
+          "tag": "h4",
+          "heading": "Browser AI Extensions",
+          "body": "Free \"AI assistant\" add-ons read every page you open \u2014 including internal systems. If it isn't approved, remove it."
+        },
+        {
+          "tag": "h4",
+          "heading": "Personal AI Accounts",
+          "body": "A personal account instead of the company one sits outside our data agreements \u2014 no protection, no oversight."
+        },
+        {
+          "tag": "h4",
+          "heading": "AI Meeting Note-Takers",
+          "body": "Bots that auto-transcribe send everything said \u2014 including confidential discussion \u2014 to a third-party server."
+        },
+        {
+          "tag": "h4",
+          "heading": "AI Image/Deepfake Generators",
+          "body": "Free tools make fake images of colleagues, vessels or documents. GDPR: uploading crew or customer images to a public tool can itself be a breach."
+        }
+      ],
+      "components": [
+        "checklist-grid"
+      ],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--cyan"
+      ],
+      "assets": [
+        "https://fonts.googleapis.com",
+        "https://cdnjs.cloudflare.com",
+        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/favicon.svg",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 11,
+      "file": "slide-11.html",
       "deck_title": "When Attackers Use AI Too",
       "group": "AI & Chatbot Risks",
       "slide_tag": null,
@@ -807,8 +812,8 @@
       "flags": []
     },
     {
-      "index": 11,
-      "file": "slide-11.html",
+      "index": 12,
+      "file": "slide-12.html",
       "deck_title": "Workplace Security",
       "group": "Workplace & Login Security",
       "slide_tag": null,
@@ -880,8 +885,8 @@
       ]
     },
     {
-      "index": 12,
-      "file": "slide-12.html",
+      "index": 13,
+      "file": "slide-13.html",
       "deck_title": "Login Security",
       "group": "Workplace & Login Security",
       "slide_tag": null,
@@ -947,8 +952,8 @@
       "flags": []
     },
     {
-      "index": 13,
-      "file": "slide-13.html",
+      "index": 14,
+      "file": "slide-14.html",
       "deck_title": "See Something, Say Something",
       "group": "Do's & Don'ts",
       "slide_tag": null,
@@ -1010,8 +1015,8 @@
       "flags": []
     },
     {
-      "index": 14,
-      "file": "slide-14.html",
+      "index": 15,
+      "file": "slide-15.html",
       "deck_title": "Do's & Don'ts",
       "group": "Do's & Don'ts",
       "slide_tag": null,
@@ -1051,8 +1056,8 @@
       "flags": []
     },
     {
-      "index": 15,
-      "file": "slide-15.html",
+      "index": 16,
+      "file": "slide-16.html",
       "deck_title": "Closing",
       "group": "Closing",
       "slide_tag": null,
@@ -1100,13 +1105,13 @@
       "message": "deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
-      "file": "slide-11.html",
+      "file": "slide-12.html",
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Workplace Security' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
-      "file": "slide-15.html",
+      "file": "slide-16.html",
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."

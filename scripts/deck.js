@@ -13,13 +13,14 @@ const SLIDES = [
   { file: 'slide-06.html', title: "Deepfakes: Who's Targeted", group: 'Deepfake Attacks' },
   { file: 'slide-07.html', title: 'Phishing Has Evolved', group: 'Phishing Evolution' },
   { file: 'slide-08.html', title: 'Phishing Beyond Email — Every Channel', group: 'Phishing Evolution' },
-  { file: 'slide-09.html', title: 'AI & Chatbot Risks: Pasting Data & Shadow AI', group: 'AI & Chatbot Risks' },
-  { file: 'slide-10.html', title: 'When Attackers Use AI Too', group: 'AI & Chatbot Risks' },
-  { file: 'slide-11.html', title: 'Workplace Security', group: 'Workplace & Login Security' },
-  { file: 'slide-12.html', title: 'Login Security', group: 'Workplace & Login Security' },
-  { file: 'slide-13.html', title: 'See Something, Say Something', group: "Do's & Don'ts" },
-  { file: 'slide-14.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
-  { file: 'slide-15.html', title: 'Closing', group: 'Closing' }
+  { file: 'slide-09.html', title: 'Pasting Data Into Public AI', group: 'AI & Chatbot Risks' },
+  { file: 'slide-10.html', title: 'Shadow AI — Unapproved Tools', group: 'AI & Chatbot Risks' },
+  { file: 'slide-11.html', title: 'When Attackers Use AI Too', group: 'AI & Chatbot Risks' },
+  { file: 'slide-12.html', title: 'Workplace Security', group: 'Workplace & Login Security' },
+  { file: 'slide-13.html', title: 'Login Security', group: 'Workplace & Login Security' },
+  { file: 'slide-14.html', title: 'See Something, Say Something', group: "Do's & Don'ts" },
+  { file: 'slide-15.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
+  { file: 'slide-16.html', title: 'Closing', group: 'Closing' }
 ];
 
 let currentIndex = 0;
