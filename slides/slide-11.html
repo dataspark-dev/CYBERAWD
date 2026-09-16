@@ -14,9 +14,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .mono-tag { font-size: 14px; }
-    .interact-hint { font-size: 13px; }
-
     .spot-outcome {
       display: none;
       margin-top: 12px;
@@ -56,6 +53,12 @@
     .toggle-pane .card-grid .pillar-card:hover {
       transform: translateY(-2px);
     }
+    /* Equal-height for 3-pillar and spot-grid rows at 1920px */
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+    .spot-grid { align-items: stretch; }
+    .spot-card { height: 100%; display: flex; flex-direction: column; }
+    .spot-body { flex: 1; }
   </style>
 </head>
 <body>
@@ -69,7 +72,7 @@
       <div class="slide-eyebrow">Artificial Intelligence</div>
       <h1>WHEN ATTACKERS USE <span>AI TOO</span></h1>
     </div>
-    <div class="slide-main reveal-stagger">
+    <div class="slide-main reveal-stagger compact">
       <p class="section-lead">Every AI tool that helps you can also help an attacker. Toggle to see the difference.</p>
 
       <div class="toggle-group">
@@ -85,7 +88,7 @@
 
         <!-- Before AI -->
         <div class="toggle-pane active" data-pane="0">
-          <div class="card-grid cols-3">
+          <div class="card-grid cols-4">
             <div class="pillar-card">
               <div class="icon-wrap"><i class="fas fa-spell-check"></i></div>
               <h3>Generic Lures</h3>
@@ -101,12 +104,17 @@
               <h3>Hand-Written Malware</h3>
               <p>Code written manually — slower to make and easier for security tools to detect.</p>
             </div>
+            <div class="pillar-card">
+              <div class="icon-wrap"><i class="fas fa-file-lines"></i></div>
+              <h3>Manually Forged Paperwork</h3>
+              <p>Hand-crafted fake IDs, invoices, or approval forms — time-consuming and often contains visible errors.</p>
+            </div>
           </div>
         </div>
 
         <!-- With AI -->
         <div class="toggle-pane" data-pane="1"><template>
-          <div class="card-grid cols-3">
+          <div class="card-grid cols-4">
             <div class="pillar-card v-red">
               <div class="icon-wrap"><i class="fas fa-wand-magic-sparkles"></i></div>
               <h3>Personalised at Scale</h3>
@@ -121,6 +129,11 @@
               <div class="icon-wrap"><i class="fas fa-virus"></i></div>
               <h3>Self-Mutating Malware</h3>
               <p>AI rewrites malicious code automatically so each copy looks different to detection tools.</p>
+            </div>
+            <div class="pillar-card v-red">
+              <div class="icon-wrap"><i class="fas fa-file-circle-exclamation"></i></div>
+              <h3>AI-Generated Fake Documents</h3>
+              <p>Forged IDs, invoices, or approval forms generated instantly with AI image tools — no visible errors.</p>
             </div>
           </div>
         </template></div>
@@ -161,7 +174,7 @@
 
       <div class="callout-bar" style="border-left-color:var(--red);">
         <i class="fas fa-triangle-exclamation" style="color:var(--scene-red-accent);"></i>
-        <div class="callout-text"><strong>WHY IT MATTERS:</strong> The old mistakes you were taught to spot are disappearing. Verifying, pausing, and reporting matter more than ever — and a second channel is still the best defence.</div>
+        <div class="callout-text"><strong>WHY IT MATTERS:</strong> Old tells are disappearing. Pausing, checking on a separate channel, and reporting matter more than ever.</div>
       </div>
 
       <div class="slide-bridge"><strong>Next</strong> Workplace Security Behavior <i class="fas fa-arrow-right"></i></div>

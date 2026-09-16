@@ -14,8 +14,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .interact-hint { font-size: 13px; }
-
     .action-row {
       display: flex;
       align-items: center;
@@ -163,7 +161,7 @@
       <h1>PHISHING HAS <span>EVOLVED</span></h1>
     </div>
     <div class="slide-main reveal-stagger compact">
-      <p class="section-lead tight">Phishing today looks very different from the old scams. Drag to compare, then click the flags.</p>
+      <p class="section-lead">Phishing today looks nothing like the old scams. Drag to compare, then click the flags.</p>
 
       <!-- Drag‑compare slider -->
       <div>
@@ -213,7 +211,7 @@
           <!-- Hotspots -->
           <div class="hotspot flag" style="top:16%;left:58%;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Lookalike domain marker"
                data-icon="fas fa-magnifying-glass" data-title="Look-Alike Domains"
-               data-body="Attackers register domains that differ from the real one by a single swapped character — here a &quot;0&quot; in place of an &quot;o&quot; in synergymarinegroup.com. At a glance, in a busy inbox, it reads exactly like the genuine address. Because it's a real, working domain rather than a link to a known-bad site, most spam filters won't flag it. The only reliable check is reading the full address character-by-character — or better, going to the app directly instead of trusting the sender field at all.">
+               data-body="Attackers swap one character — a '0' for 'o' in synergymarinegroup.com — so it looks genuine at a glance. Filters often miss it because the domain is valid. Go directly to the app instead of trusting the sender line.">
             <span class="hotspot-dot"></span>
           </div>
           <div class="hotspot flag" style="top:56%;left:46%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Urgency marker">
@@ -229,14 +227,13 @@
 
       <div class="action-row">
         <span class="mono-tag">Before you click:</span>
-        <span class="impact-chip"><i class="fas fa-magnifying-glass" style="color:var(--cyan);"></i> Check the full sender address</span>
-        <span class="impact-chip"><i class="fas fa-bookmark" style="color:var(--cyan);"></i> Use a saved bookmark or app, not the link</span>
-        <span class="impact-chip"><i class="fas fa-stopwatch" style="color:var(--cyan);"></i> Treat urgency itself as a warning sign</span>
+        <span class="impact-chip"><i class="fas fa-magnifying-glass" style="color:var(--cyan);"></i> Check the sender address</span>
+        <span class="impact-chip"><i class="fas fa-stopwatch" style="color:var(--cyan);"></i> Treat urgency as a warning sign</span>
       </div>
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Good grammar is no longer a reliable sign of safety. Always go directly to the official website or app instead of clicking any link.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Good grammar no longer means safe. Go directly to the official app — don't click links.</div>
         <div class="key-principle"><div class="kp-val" style="font-weight:900;">0</div><div class="kp-label">Clicks From Email</div></div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
         <div class="info-expand-panel">Fake addresses are often hard to spot, even for careful readers. Going to the app directly removes the risk of clicking a bad link.</div>

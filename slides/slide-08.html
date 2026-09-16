@@ -14,8 +14,10 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .interact-hint { font-size: 13px; }
-
+    /* Equal-height fix: spot grids stretch at 1920px */
+    .spot-grid { align-items: stretch; }
+    .spot-card { height: 100%; display: flex; flex-direction: column; }
+    .spot-body { flex: 1; }
     .spot-outcome {
       display: none;
       margin-top: 6px;
@@ -78,8 +80,8 @@
       <div class="slide-eyebrow">Put It Into Practice</div>
       <h1>KNOWLEDGE CHECK — <span>SPOT THE REAL THREAT</span></h1>
     </div>
-    <div class="slide-main reveal-stagger">
-      <p class="section-lead compact">Three quick pairs – email, second-check prompt (MFA — the code or app approval after your password), and work chat. In each pair, one is fake. Click the one you think is the threat.</p>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">Three quick pairs — email, second-check prompt, and work chat. One in each pair is fake. Click the card you think is the threat.</p>
 
       <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click a card to choose</div>
 
@@ -178,9 +180,9 @@
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> If you have to check a domain name closely to see if it's real, that's already a red flag. When in doubt, don't click – go directly to the app or bookmark.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[GO DIRECT]</strong> <strong>GOLDEN RULE:</strong> If you must squint at a domain to tell, it's already a red flag. Skip the check — go directly to the app.</div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
-        <div class="info-expand-panel">Attackers know you might check the domain. Skipping the check entirely – going direct – removes the risk.</div>
+        <div class="info-expand-panel">Going direct removes the risk entirely — no link to evaluate.</div>
       </div>
 
       <div class="slide-bridge"><strong>Next</strong> AI &amp; Chatbot Risks <i class="fas fa-arrow-right"></i></div>

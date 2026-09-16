@@ -14,6 +14,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
+    /* Twinned with slide-15: keep two-col/scene/lock-demo metrics identical unless content justifies drift */
     .interact-hint {
       font-size: 14px;
       letter-spacing: 1.3px;
@@ -140,7 +141,7 @@
       <h1>YOUR DESK IS PART OF THE <span>PERIMETER</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
-      <p class="section-lead full-width">Click the markers to see the risks. Then watch what should happen when you step away from your desk.</p>
+      <p class="section-lead">Click the markers to see the risks. Then watch what should happen when you step away.</p>
 
       <div class="two-col">
         <div>
@@ -193,22 +194,22 @@
               <span class="lock-ring-num">6</span>
             </div>
             <div class="lock-overlay"><i class="fas fa-lock"></i><div class="lo-label">LOCKED</div></div>
-            <div class="lock-demo-body">
-              <h4>Simulate an Idle Desk</h4>
-              <p>Watch what should happen when you walk away – an unlocked screen is an open door.</p>
-              <button onclick="startLockDemo(this)" data-label-running="Watching for idle..." data-label-done="Replay Simulation" aria-label="Start idle desk simulation">Simulate Idle Desk</button>
+          <div class="lock-demo-body">
+                <h4>Simulate an Idle Desk</h4>
+                <p>Watch what should happen when you walk away.</p>
+                <button onclick="startLockDemo(this)" data-label-running="Watching for idle..." data-label-done="Replay Simulation" aria-label="Start idle desk simulation">Simulate Idle Desk</button>
+              </div>
             </div>
-          </div>
 
-          <div class="info-box warning">
-            <i class="fas fa-triangle-exclamation"></i>
-            <div>Locking your screen takes 2 seconds. Leaving it unlocked is an open invitation.</div>
-          </div>
+            <div class="info-box warning">
+              <i class="fas fa-triangle-exclamation"></i>
+              <div>Locking takes 2 seconds. Leaving it unlocked is an open invitation.</div>
+            </div>
 
-          <div class="info-box info">
-            <i class="fas fa-anchor"></i>
-            <div><strong>Same rule on board:</strong> the bridge, the ECDIS (the electronic chart system on the bridge), and engine-control computers are just as exposed as an office desk — lock them during a watch handover or whenever you step away.</div>
-          </div>
+            <div class="info-box info">
+              <i class="fas fa-anchor"></i>
+              <div><strong>Same rule on board:</strong> bridge, ECDIS, and engine-control computers are just as exposed as a desk — lock them on watch handover.</div>
+            </div>
         </div>
       </div>
 

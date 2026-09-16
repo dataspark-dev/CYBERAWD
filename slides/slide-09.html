@@ -51,6 +51,9 @@
       font-size: 13.5px !important;
       line-height: 1.5 !important;
     }
+    /* Equal-height for 3-branch row at 1920px */
+    .flow-branches { align-items: stretch; }
+    .flow-branch { display: flex; flex-direction: column; height: 100%; }
 
     .flow-branch .info-expand-btn { margin-top: 8px; }
 
@@ -73,8 +76,8 @@
       <!-- Nav title "AI & Chatbot Risks" intentionally mirrors this module's group name for wayfinding (module-opener pattern); on-slide keeps the rhetorical hook for audience engagement. -->
       <h1>WHAT HAPPENS WHEN YOU <span>PASTE DATA?</span></h1>
     </div>
-    <div class="slide-main reveal-stagger">
-      <p class="section-lead">When you paste something — a crew list, a contract, a voyage plan, or a payroll sheet — into a public AI chatbot, that data leaves your control immediately and is stored elsewhere.</p>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">Paste a crew list, contract, or payroll sheet into a public chatbot and it leaves your control immediately.</p>
 
       <div class="flow-scene">
         <div class="flow-row">
@@ -95,23 +98,23 @@
           <div class="flow-branch">
             <div class="fb-icon"><i class="fas fa-database"></i></div>
             <h5>Model Training Data</h5>
-            <p>Your text may be used to train future responses.</p>
+            <p>Your text may train future responses.</p>
             <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about model training data">Learn more &#9660;</button>
-            <div class="info-expand-panel">Some providers use free-tier chats to improve future responses by default — data you paste isn't just read once and forgotten.</div>
+            <div class="info-expand-panel">Some free-tier chats use your input to improve models — not just read and forget.</div>
           </div>
           <div class="flow-branch">
             <div class="fb-icon"><i class="fas fa-server"></i></div>
             <h5>Third-Party Servers</h5>
-            <p>Stored outside your company's control, under different policies.</p>
+            <p>Stored outside company control, under different policies.</p>
             <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about third-party servers">Learn more &#9660;</button>
-            <div class="info-expand-panel">That data now sits under a different company's retention policy and jurisdiction — completely outside the organisation's control.</div>
+            <div class="info-expand-panel">Data sits under another company's retention and jurisdiction — outside our control.</div>
           </div>
           <div class="flow-branch">
             <div class="fb-icon"><i class="fas fa-triangle-exclamation"></i></div>
             <h5>Potential Leak</h5>
-            <p>Logged data could be exposed in a breach or to another user.</p>
+            <p>Logged data could surface in a breach or to another user.</p>
             <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about potential leak">Learn more &#9660;</button>
-            <div class="info-expand-panel">AI providers have had real incidents where one user's chat history became visible to another. Assume anything pasted could resurface.</div>
+            <div class="info-expand-panel">Providers have exposed one user's history to another. Assume anything pasted could resurface.</div>
           </div>
         </div>
 
@@ -125,9 +128,15 @@
           <i class="fas fa-ban"></i>
           <div>Never paste crew records, allotment details, contracts, financial data, or passwords into a public chatbot — whether you are at your desk or on board.</div>
         </div>
-        <div class="info-box success">
-          <i class="fas fa-circle-check"></i>
-          <div>Use only company-approved AI tools — they're reviewed for exactly this risk.</div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div class="info-box success">
+            <i class="fas fa-circle-check"></i>
+            <div>Use only company-approved AI tools — they're reviewed for exactly this risk.</div>
+          </div>
+          <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.06);">
+            <i class="fas fa-file-shield" style="color:var(--navy);"></i>
+            <div><strong>GDPR:</strong> Crew and customer personal data must stay inside approved, contracted systems — pasting it into a public AI tool or unapproved app can itself be a data protection breach, regardless of intent.</div>
+          </div>
         </div>
       </div>
 

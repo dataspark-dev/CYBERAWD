@@ -14,8 +14,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .interact-hint { font-size: 13px; }
-
     .sc-content h4 { font-size: 19px; }
     .reveal-btn { font-size: 12.5px; padding: 8px 16px; }
     .verdict-badge { font-size: 15px; }
@@ -34,6 +32,10 @@
       left: auto;
       right: 0;
     }
+    /* Equal-height fix for 4-card row at 1920px */
+    .card-grid { align-items: stretch; }
+    .scenario-card { height: 100%; display: flex; flex-direction: column; }
+    .scenario-top { flex: 1; }
   </style>
 </head>
 <body>
@@ -73,13 +75,13 @@
             <div class="sc-icon lg"><i class="fas fa-truck-field"></i></div>
             <div class="sc-content">
               <h4>Vendor Bank‑Change Call</h4>
-              <p>A long‑standing supplier calls — voice matches perfectly — to confirm a new bank account before the next invoice payment.</p>
+              <p>A long‑standing supplier calls — voice matches — to confirm a new bank account before the next payment.</p>
             </div>
           </div>
           <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for supplier scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
           <div class="verdict verdict-no">
             <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
-            <p>One recorded call is enough to clone a vendor's voice. Finance and Accounts should always confirm bank‑detail changes through a second, independent channel — the number already on file, not the one they just gave you.</p>
+            <p>One call can clone a vendor's voice. Always confirm bank changes on the number already on file.</p>
           </div>
         </div>
 
@@ -88,13 +90,13 @@
             <div class="sc-icon lg"><i class="fas fa-ship"></i></div>
             <div class="sc-content">
               <h4>Crew Allotment Change Call</h4>
-              <p>Someone sounding exactly like a seafarer (or a family member) calls crewing or payroll asking to urgently change the bank details for a monthly wage allotment.</p>
+              <p>Someone sounding like a seafarer calls crewing to urgently change bank details for a wage allotment.</p>
             </div>
           </div>
           <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for crew allotment scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
           <div class="verdict verdict-no">
             <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
-            <p>Allotment fraud is a known route for stealing seafarer wages. Never action a bank-detail change from one call alone — verify directly with the seafarer through a second, independent channel.</p>
+            <p>Allotment fraud steals seafarer wages. Confirm any bank change directly with the seafarer on a known number.</p>
           </div>
         </div>
 
@@ -103,28 +105,28 @@
             <div class="sc-icon lg"><i class="fas fa-headset"></i></div>
             <div class="sc-content">
               <h4>IT Support "Callback"</h4>
-              <p>Someone who sounds exactly like your usual IT contact calls and asks you to read back a one‑time <span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button">MFA<span class="glossary-popup">A second proof of identity beyond your password — a code, app approval, or key.</span></span> code to "fix a login issue."</p>
+              <p>Someone sounding like your IT contact asks you to read back your MFA code to "fix a login issue."</p>
             </div>
           </div>
           <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for IT support scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
           <div class="verdict verdict-no">
             <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
-            <p>Real IT support never needs your MFA code. This trick is growing because it bypasses the login screen entirely.</p>
+            <p>Real IT never needs your MFA code. The trick bypasses the login screen entirely.</p>
           </div>
         </div>
       </div>
 
       <div class="action-row">
-        <span class="mono-tag">Whoever you are, the rule stays the same:</span>
-        <span class="impact-chip"><i class="fas fa-building-user" style="color:var(--cyan);"></i> HR: verify recruiters through official channels</span>
-        <span class="impact-chip"><i class="fas fa-university" style="color:var(--cyan);"></i> Finance/Accounts: confirm bank changes on file, not by phone</span>
-        <span class="impact-chip"><i class="fas fa-ship" style="color:var(--cyan);"></i> Crewing: verify allotment changes with the seafarer directly</span>
-        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Never read back an MFA code</span>
+        <span class="mono-tag">Same rule, every role:</span>
+        <span class="impact-chip"><i class="fas fa-building-user" style="color:var(--cyan);"></i> HR: use official channels</span>
+        <span class="impact-chip"><i class="fas fa-university" style="color:var(--cyan);"></i> Finance: check bank changes on file</span>
+        <span class="impact-chip"><i class="fas fa-ship" style="color:var(--cyan);"></i> Crewing: confirm with the seafarer</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Never share codes</span>
       </div>
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[VERIFY]</strong> <strong>GOLDEN RULE, RECAPPED:</strong> Money, credentials, or a process change — verify through a second, independent channel first. On ship or on shore, it's not just a finance problem.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[VERIFY — EVERY ROLE]</strong> <strong>GOLDEN RULE:</strong> Money, credentials, or a shortcut — confirm via a trusted contact you already have. Ship or shore, it's not just finance.</div>
         <div class="key-principle"><div class="kp-val">4</div><div class="kp-label">Roles Just Like Yours</div></div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
         <div class="info-expand-panel">The same manipulation works on any role — HR, Finance, Accounts, crewing, or shipboard teams — because it targets urgency and trust, not technology.</div>

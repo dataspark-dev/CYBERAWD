@@ -45,8 +45,11 @@
       margin-top: 14px;
     }
     .flip-card-front .interact-hint i { font-size: 13px; }
+    /* Keep 4-card row equal-height at 1920px — matches slide-12 */
+    .card-grid { align-items: stretch; }
+    .flip-card { height: 100%; }
     .flip-card-front,
-    .flip-card-back { padding: 28px 24px; }
+    .flip-card-back { padding: 24px 20px; }
     .flip-card-back i {
       font-size: 26px;
       margin-bottom: 14px;
@@ -98,7 +101,7 @@
       <div class="reveal-stagger card-grid cols-4 gap-lg">
         <div class="flip-card flip-lg" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="IT Service Desk reporting option"
              data-icon="fas fa-desktop" data-title="IT Service Desk"
-             data-body="Your first stop for anything technical: a suspicious email you're not sure about, a locked or compromised account, an unfamiliar device signed into your account, or a tool you're not sure is approved. Available 24/7 through the Fleet Portal or by phone, so there's no need to wait for your next shift to report something that feels off. You don't need to be certain it's a real problem — flagging it for a quick check costs far less time than a missed incident does.">
+             data-body="First stop for anything technical — suspicious email, account issue, or unfamiliar device. Reach it 24/7 via Fleet Portal or phone. A quick check beats a missed incident.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(6,182,212,0.1);color:var(--cyan-dark);"><i class="fas fa-headset"></i></div>
             <h4>IT Service Desk</h4>
@@ -107,7 +110,7 @@
         </div>
         <div class="flip-card flip-lg" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Report-Phish button option"
              data-icon="fas fa-bolt" data-title="Report-Phish Button"
-             data-body="The fastest option for a suspicious email: the &quot;Report Phish&quot; button built into your email client flags the message for the security team's review instantly, and removes it from your inbox at the same time. It takes one click — no need to forward the email or explain what looked wrong — and every report helps the team spot patterns across the fleet faster. If in doubt about an email, this should be your default first move before you consider clicking anything in it.">
+             data-body="Fastest for email: one click flags the message for review and removes it. No forwarding needed. It helps the team spot patterns faster.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-flag"></i></div>
             <h4>Report-Phish Button</h4>
@@ -116,7 +119,7 @@
         </div>
         <div class="flip-card flip-lg" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Security Hotline option"
              data-icon="fas fa-triangle-exclamation" data-title="Security Hotline"
-             data-body="For anything urgent or sensitive: a suspected breach, a lost or stolen device, a payment you've already approved that now feels wrong, or a call or message you're genuinely unsure about. This is the fastest route when something needs attention right now, rather than waiting for a routine ticket to be picked up. No question is too small and no concern is a waste of anyone's time — reporting early, even if it turns out to be nothing, is always the right call.">
+             data-body="For urgent or sensitive cases — breach, lost device, or a payment that now feels wrong. Fastest when you need attention now. Reporting early is always the right call.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(239,68,68,0.1);color:var(--red);"><i class="fas fa-shield-halved"></i></div>
             <h4>Security Hotline</h4>
@@ -125,7 +128,7 @@
         </div>
         <div class="flip-card flip-lg" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Your Line Manager option"
              data-icon="fas fa-route" data-title="Your Line Manager"
-             data-body="If you're not sure who to contact, your manager is always a safe default — they'll make sure it reaches the right team, so you don't need to know the exact right channel before you speak up. Onboard, that's your Master or the Company's Designated Person Ashore (DPA), both of whom exist partly for exactly this kind of reporting. There's no downside to reporting through the 'wrong' channel first; reporting late, or to the wrong person initially, is still far better than not reporting at all.">
+             data-body="If unsure who to contact, your manager is a safe default — on board, the Master or DPA. Wrong channel first is still better than late or never.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-user-group"></i></div>
             <h4>Your Line Manager</h4>
@@ -137,6 +140,11 @@
       <div class="info-box success">
         <i class="fas fa-circle-check"></i>
         <div>Reporting quickly – even if it turns out to be nothing – is always the right thing to do. No blame, ever.</div>
+      </div>
+
+      <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.05);">
+        <i class="fas fa-clock" style="color:var(--navy);"></i>
+        <div><strong>GDPR:</strong> A data breach involving crew or customer information must be reported within strict deadlines — the sooner you flag something odd, the more of that window we keep.</div>
       </div>
 
       <div class="slide-bridge"><strong>Next</strong> Do's &amp; Don'ts <i class="fas fa-arrow-right"></i></div>

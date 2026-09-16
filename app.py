@@ -1202,7 +1202,7 @@ def load_deck_file_list():
     if not DECK_JS.exists():
         return []
     text = DECK_JS.read_text(encoding="utf-8")
-    match = re.search(r"var\s+SLIDES\s*=\s*\[(.*?)\]\s*;", text, re.DOTALL)
+    match = re.search(r"(?:var|const)\s+SLIDES\s*=\s*\[(.*?)\]\s*;", text, re.DOTALL)
     if not match:
         return []
     return SLIDE_ENTRY_RE.findall(match.group(1))

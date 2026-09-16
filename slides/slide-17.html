@@ -52,9 +52,13 @@
     .visual-col.dont-col .visual-col-head i { color: var(--red-dark); }
     .visual-col.dont-col .visual-col-head span { color: var(--red-dark); }
 
-    .visual-grid { gap: 16px; }
+    /* Equal-height for DO/DON'T columns at 1920px */
+    .visual-compare { align-items: stretch; }
+    .visual-col { display: flex; flex-direction: column; }
+    .visual-grid { gap: 16px; align-items: stretch; }
+    .visual-tile { height: 100%; }
     .visual-tile {
-      padding: 22px 16px;
+      padding: 20px 16px;
       gap: 10px;
       background: var(--white);
       box-shadow: var(--shadow-sm);
@@ -117,9 +121,8 @@
       <div class="slide-eyebrow">Quick Reference</div>
       <h1>DO'S &amp; <span>DON'TS</span></h1>
     </div>
-    <div class="slide-main reveal-stagger compact" style="justify-content:center;">
-      <p class="section-lead compact">No long lists. Just the habits that stop nearly every attack.</p>
-      <p class="section-lead compact">Every habit here traces back to one simple rule: STOP → VERIFY → REPORT.</p>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">No long lists — just the habits that stop nearly every attack. Every habit traces back to STOP → VERIFY → REPORT.</p>
       <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click a tile to learn why it matters</div>
 
       <div class="visual-compare">
@@ -135,8 +138,8 @@
               <div class="tile-detail">Call back on a number you already have, not one they just gave you.</div>
             </div>
             <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
-              <i class="fas fa-key"></i><span>Use the Second Check (MFA)</span><i class="fas fa-chevron-down tile-caret"></i>
-              <div class="tile-detail">With the second check after your password (MFA — a code or app approval) turned on, a stolen password alone can't get in.</div>
+              <i class="fas fa-key"></i><span>Use MFA</span><i class="fas fa-chevron-down tile-caret"></i>
+              <div class="tile-detail">With MFA on, a stolen password alone can't get in.</div>
             </div>
             <div class="visual-tile" onclick="toggleTileDetail(this)" tabindex="0" role="button" aria-expanded="false">
               <i class="fas fa-bullhorn"></i><span>Report Fast</span><i class="fas fa-chevron-down tile-caret"></i>

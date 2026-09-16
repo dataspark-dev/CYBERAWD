@@ -13,6 +13,9 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
+    /* Equal-height for 4-card row at 1920px */
+    .card-grid { align-items: stretch; }
+    .flip-card { height: 100%; min-height: 270px; }
   </style>
 </head>
 <body>
@@ -32,7 +35,7 @@
       <div class="reveal-stagger card-grid cols-4">
         <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
              data-icon="fas fa-display" data-title="Digital Platform: Cybersecurity Game"
-             data-body="Hosted on InfosecIQ. Scan or click the shared link and a short (~30 second) animated video plays out a real workplace scenario. A quick follow-up question checks whether you caught the risk — answer it to complete the station.">
+             data-body="On InfosecIQ. Scan the link — a 30-second video plays a real scenario. Answer the follow-up to complete the station.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(6,182,212,0.1);color:var(--cyan-dark);"><i class="fas fa-display"></i></div>
             <h4>Cybersecurity Game</h4>
@@ -42,7 +45,7 @@
 
         <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
              data-icon="fas fa-magnifying-glass" data-title="Fault Finding — Spot the Fake"
-             data-body="A screen shows real vs fake pairs — a crewing email, a Fleet Portal link, a rotation text. Your team has to spot which one is fake and explain why — sender address, link, or attachment.">
+             data-body="Real vs fake pairs — crewing email, Fleet Portal link, rotation text. Spot the fake and name the tell: sender, link, or attachment.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-magnifying-glass"></i></div>
             <h4>Fault Finding</h4>
@@ -52,7 +55,7 @@
 
         <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
              data-icon="fas fa-puzzle-piece" data-title="Cyber Clue Quest"
-             data-body="Split into small groups and solve a cybersecurity riddle. The answer is spelled out using letter stencils — you have 30 seconds on the clock. First team to lock in the correct word wins the round.">
+             data-body="Small groups solve a riddle and spell the answer with letter stencils. You have 30 seconds — first correct word wins the round.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-puzzle-piece"></i></div>
             <h4>Cyber Clue Quest</h4>
@@ -62,7 +65,7 @@
 
         <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
              data-icon="fas fa-key" data-title="Pass-Phrase — Build a Strong Password"
-             data-body="Start from a weak password like 'rahul1998'. Use the tiles from the deck to build a strong one — 12+ characters, big and small letters, numbers and a symbol. Watch the strength meter go up as you build.">
+             data-body="Start from a weak password like 'rahul1998'. Use tiles to build a strong one — 12+ characters, mixed case, numbers, and a symbol. Watch the meter rise.">
           <div class="flip-card-front">
             <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:var(--amber);"><i class="fas fa-key"></i></div>
             <h4>Pass-Phrase</h4>

@@ -177,6 +177,13 @@
       opacity: 1;
       transform: translateX(-50%) translateY(0);
     }
+    /* Keep edge tips inside viewport at 1920px — prevents clipping for 01/08 */
+    .j-node:first-child .j-tip { left: 0; transform: translateX(0) translateY(4px); }
+    .j-node:first-child .j-tip::after { left: 32px; transform: none; }
+    .j-node:first-child:hover .j-tip { transform: translateX(0) translateY(0); }
+    .j-node:last-child .j-tip { left: auto; right: 0; transform: translateX(0) translateY(4px); }
+    .j-node:last-child .j-tip::after { left: auto; right: 32px; transform: none; }
+    .j-node:last-child:hover .j-tip { transform: translateX(0) translateY(0); }
     .j-node.active .j-icon {
       background: rgba(6, 182, 212, 0.25);
       border-color: var(--cyan);
@@ -317,10 +324,10 @@
 
         <div>
           <div class="op-rule"></div>
-          <p class="op-lead">Whether you work in Crewing, Finance, Accounts, Operations or on board — this short, practical walk shows today's most common tricks, how to spot them, and what to do next. No exams, no jargon — just simple habits you can use straight away at your desk or on the ship.</p>
+          <p class="op-lead">A short, practical walk through today's most common tricks — how to spot them and what to do next. No jargon, just habits for desk or ship.</p>
         </div>
 
-        <div class="op-hint"><i class="fa-solid fa-hand-pointer"></i> Hover or tap any icon for more detail</div>
+        <div class="op-hint"><i class="fa-solid fa-hand-pointer"></i> Hover any icon for a 10-second preview — then explore the full deck</div>
 
         <div class="journey">
           <div class="journey-track">
@@ -374,10 +381,11 @@
             </div>
           </div>
         </div>
+        <div class="slide-bridge"><strong>Next</strong> Why Cybersecurity Matters <i class="fas fa-arrow-right"></i></div>
       </div>
     </div>
 
-    <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.25);border-top:1px solid rgba(255,255,255,0.12);padding:16px 64px;display:flex;align-items:center;justify-content:center;gap:24px;z-index:2;font-family:'Space Mono',monospace;font-size:16px;color:rgba(255,255,255,0.45);letter-spacing:1px;">
+    <div style="position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,0.25);border-top:1px solid rgba(255,255,255,0.12);padding:16px 48px;display:flex;align-items:center;justify-content:center;gap:20px;z-index:2;font-family:'Space Mono',monospace;font-size:15px;color:rgba(255,255,255,0.45);letter-spacing:0.8px;flex-wrap:wrap;">
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">THREAT LANDSCAPE</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">DEEPFAKES</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">PHISHING</span><span style="color:rgba(6,182,212,0.4);">·</span>
@@ -409,7 +417,7 @@
           icon: 'fa-solid fa-house-signal',
           eyebrow: 'Module 01',
           title: 'Welcome',
-          body: 'Sets the scene for why this matters right now, and what you can expect in the next 20 minutes.',
+          body: 'A 20-minute overview — why we run this month and what is at stake for every role.',
           list: ['Opening', 'Why Cybersecurity Matters']
         },
         'j-deepfake': {
@@ -423,7 +431,7 @@
           icon: 'fa-solid fa-envelope-open-text',
           eyebrow: 'Module 04',
           title: 'Phishing Evolution',
-          body: 'Phishing has moved well beyond the old typo-riddled emails — into texts, calls, and near-perfect fakes.',
+          body: 'From typo-filled relics to polished texts, calls, and near-perfect lures — phishing today is multi-channel.',
           list: ['Phishing Evolution', 'Beyond Email — Smishing & Vishing', 'Spot the Phish']
         },
         'j-ai': {

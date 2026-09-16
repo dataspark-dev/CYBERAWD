@@ -14,6 +14,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
+    /* Twinned with slide-14: same two-col/scene metrics — icon sizes intentionally differ for account vs desk visuals */
     .interact-hint {
       font-size: 14px;
       letter-spacing: 1.3px;
@@ -141,7 +142,7 @@
       <h1>YOUR LOGIN IS PART OF THE <span>PERIMETER</span></h1>
     </div>
     <div class="slide-main reveal-stagger">
-      <p class="section-lead full-width">Click the markers to see a well‑protected account – and what attackers hope you never fix.</p>
+      <p class="section-lead">Click the markers to see a well-protected account — and what attackers hope you never fix.</p>
 
       <div class="two-col">
         <div>
@@ -160,7 +161,7 @@
                 <i class="fas fa-mobile-screen-button" style="color:var(--green-dark);"></i>
                 <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Second check turned on marker">
                   <span class="hotspot-dot"></span>
-                  <div class="hotspot-tip"><strong>Second check turned on (MFA)</strong><br>MFA — the second check after your password (a code or app approval) — stops a stolen password from getting in.</div>
+                  <div class="hotspot-tip"><strong>MFA turned on</strong><br>MFA stops a stolen password from getting in.</div>
                 </div>
               </div>
 
@@ -190,22 +191,22 @@
               <span class="lock-ring-num">5</span>
             </div>
             <div class="lock-overlay"><i class="fas fa-ban"></i><div class="lo-label">DENY &amp; REPORT</div></div>
-            <div class="lock-demo-body">
-              <h4>Simulate an MFA Push-Bombing Attack</h4>
-              <p>Watch what a flood of approval requests you didn't trigger looks like – and what to do about it.</p>
-              <button onclick="startLockDemo(this)" data-label-running="Requests incoming..." data-label-done="Replay Simulation" aria-label="Start MFA push-bombing simulation">Simulate Approval Flood</button>
+              <div class="lock-demo-body">
+                <h4>Simulate an MFA Push-Bombing Attack</h4>
+                <p>Watch a flood of approval requests you didn't trigger — and what to do.</p>
+                <button onclick="startLockDemo(this)" data-label-running="Requests incoming..." data-label-done="Replay Simulation" aria-label="Start MFA push-bombing simulation">Simulate Approval Flood</button>
+              </div>
             </div>
-          </div>
 
-          <div class="info-box danger">
-            <i class="fas fa-triangle-exclamation"></i>
-            <div><strong>MFA fatigue — many "Approve?" requests to wear you down:</strong> If you get a flood of approval requests you didn't trigger, never tap Approve just to make them stop. Tap Deny and report it to IT right away.</div>
-          </div>
+            <div class="info-box danger">
+              <i class="fas fa-triangle-exclamation"></i>
+              <div><strong>MFA fatigue:</strong> If you get requests you didn't trigger, don't tap Approve to stop them. Tap Deny and report to IT.</div>
+            </div>
 
-          <div class="info-box warning">
-            <i class="fas fa-triangle-exclamation"></i>
-            <div>Got a sign‑in alert you don't recognise? Change that password and report it – don't just dismiss it.</div>
-          </div>
+            <div class="info-box warning">
+              <i class="fas fa-triangle-exclamation"></i>
+              <div>Sign-in alert you don't recognise? Change the password and report it.</div>
+            </div>
         </div>
       </div>
 
