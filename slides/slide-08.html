@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Spot the Phish: Interactive Challenge — Synergy Cyber Security Awareness Month</title>
+  <title>Phishing Beyond Email — Every Channel — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,59 +14,29 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    /* Equal-height fix: spot grids stretch at 1920px */
-    .spot-grid { align-items: stretch; }
-    .spot-card { height: 100%; display: flex; flex-direction: column; }
-    .spot-body { flex: 1; }
-    .spot-outcome {
-      display: none;
-      margin-top: 6px;
-      padding: 6px 15px;
-      border-radius: 6px;
-      border: 1px solid var(--line);
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      font-size: 13px;
-      text-align: center;
-    }
-    .spot-outcome.show { display: block; }
+    .action-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .action-row .impact-chip { font-size: 14.5px; padding: 7px 15px; }
 
-    .spot-media {
-      padding: 13px 15px;
-      min-height: 65px;
-      gap: 4px;
-    }
-    .spot-media i { font-size: 26px; }
-    .spot-media .spot-label { font-size: 12.5px; }
-    .spot-body { padding: 8px 13px; }
-    .slide .spot-body h4 {
-      font-size: 16px;
-      margin-bottom: 2px;
-    }
-    .slide .spot-body p {
-      font-size: 14.5px;
-      line-height: 1.3;
-    }
-    .spot-result {
-      padding: 5px 13px;
-      font-size: 13px;
-      line-height: 1.3;
-    }
+    .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .channel-card { display: flex; flex-direction: column; border-radius: var(--r-lg); overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .channel-head { font-family: 'Space Mono', monospace; font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 9px 14px; color: #fff; background: var(--navy); display: flex; align-items: center; gap: 8px; }
 
-    .spot-card {
-      transition: transform 0.1s ease, box-shadow 0.15s ease;
-    }
-    .spot-card:active {
-      transform: scale(0.97);
-    }
-    .spot-card.picked-correct {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
-    }
-    .spot-card.picked-wrong {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
-    }
+    .phone-frame { background: linear-gradient(160deg, var(--navy-4), var(--navy)); min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; }
+    .sms-sender { font-family: 'Space Mono', monospace; font-size: 10.5px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; text-align: center; }
+    .sms-bubble { background: var(--msg-bubble-bg); color: var(--msg-bubble-text); padding: 11px 14px; border-radius: 12px 12px 12px 4px; font-size: 13px; line-height: 1.5; }
+
+    .call-frame { background: linear-gradient(160deg, var(--scene-red-dark-2), var(--scene-red-dark-1)); min-height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 16px; }
+    .call-avatar-sm { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; }
+    .call-avatar-sm i { font-size: 26px !important; }
+    .call-id { font-family: 'Space Mono', monospace; color: var(--white); font-size: 13.5px; letter-spacing: .3px; }
+    .call-sub { font-family: 'Space Mono', monospace; color: rgba(255,255,255,0.5); font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .call-caption2 { padding: 10px 14px; background: var(--white); font-size: 12.5px; color: var(--body-text); border-top: 1px solid var(--line); line-height: 1.45; }
+
+    .channel-tells { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+    .channel-tell { display: flex; gap: 8px; }
+    .channel-tell i { color: var(--red); font-size: 12px; margin-top: 3px; flex-shrink: 0; }
+    .channel-tell strong { display: block; font-size: 12.5px; color: var(--navy); margin-bottom: 1px; }
+    .channel-tell p { font-size: 11.8px; line-height: 1.4; color: var(--body-text); }
   </style>
 </head>
 <body>
@@ -77,115 +47,69 @@
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">Put It Into Practice</div>
-      <h1>KNOWLEDGE CHECK — <span>SPOT THE REAL THREAT</span></h1>
+      <div class="slide-eyebrow">Email, SMS &amp; Voice</div>
+      <h1>PHISHING GOES <span>MULTI-CHANNEL</span></h1>
     </div>
-    <div class="slide-main reveal-stagger compact">
-      <p class="section-lead">Three quick pairs — email, second-check prompt, and work chat. One in each pair is fake. Click the card you think is the threat.</p>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Email isn't the only way in. Three real examples — and the tells that give each one away.</p>
 
-      <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click a card to choose</div>
-
-      <!-- Pair 1: Email -->
-      <div style="max-width:1300px;margin:0 auto;width:100%;">
-        <div class="spot-grid compact reveal-stagger" data-answered="false" data-threat-label="fake email">
-          <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
-            <div class="spot-verdict-tag">GENUINE</div>
-            <div class="spot-media">
-              <i class="fas fa-envelope-open-text"></i>
-              <div class="spot-label">Email A</div>
-            </div>
-            <div class="spot-body">
-              <h4>IT Service Desk — Password Expiry Notice</h4>
-              <p>From: it.support@synergymarinegroup.com — "Your password expires in 7 days. Reset it anytime from the Fleet Portal app.", signed with a standard footer.</p>
-            </div>
-            <div class="spot-result">Genuine — correct domain, no urgency, directs to the app, standard footer.</div>
+      <div class="channel-grid">
+        <div class="channel-card">
+          <div class="channel-head"><i class="fas fa-comment-sms"></i> Smishing (SMS)</div>
+          <div class="phone-frame">
+            <div class="sms-sender">Text Message &middot; Synergy Crew — +91 98xxx</div>
+            <div class="sms-bubble">Synergy Marine: Your Fleet Portal rotation link has changed. Confirm your MV Horizon sign-off dates here: bit.ly/CrewRotation-Horizon or your account will be delayed. — Fleet Ops</div>
           </div>
-          <div class="spot-card" data-fake="true" onclick="spotPick(this)" tabindex="0" role="button">
-            <div class="spot-verdict-tag">FAKE</div>
-            <div class="spot-media">
-              <i class="fas fa-envelope-open-text"></i>
-              <div class="spot-label">Email B</div>
-            </div>
-            <div class="spot-body">
-              <h4>IT Service Desk — Urgent: Access Suspended</h4>
-              <p>From: it.support@synergymarinegr<strong style="color:var(--red);">0</strong>up.com — "Your Fleet Portal access has been suspended. Click below within 2 hours to restore it."</p>
-            </div>
-            <div class="spot-result">Fake — lookalike domain (gr0up, not group), urgency, direct link.</div>
+          <div class="channel-tells">
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Short link hides the real address</strong><p>Synergy never sends the crew portal as a bit.ly link by text.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Fake urgency</strong><p>"Or your account will be delayed" — pressure to tap before you check.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Told not to check</strong><p>A real Fleet Ops message would never say "use this link only — don't call."</p></div></div>
           </div>
         </div>
-        <div class="spot-outcome"></div>
+
+        <div class="channel-card">
+          <div class="channel-head"><i class="fas fa-phone"></i> Vishing (Voice)</div>
+          <div class="call-frame">
+            <div class="call-avatar-sm"><i class="fas fa-headset" style="color:var(--scene-red-accent);"></i></div>
+            <div class="call-id">"IT Service Desk — Fleet Portal"</div>
+            <div class="call-sub">Incoming Call — Ship Phone</div>
+          </div>
+          <div class="call-caption2">"Hi, this is IT Support about your Fleet Portal — please confirm your password and the code from your phone so we can fix your rotation access."</div>
+          <div class="channel-tells">
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Caller name can be faked</strong><p>The display name can say "IT Service Desk" even when the number isn't Synergy's.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Asking for your password or code</strong><p>Real IT never asks you to say your password or a code on a call they made to you.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>"Stay on the line"</strong><p>So you don't hang up and call back on a number you already trust.</p></div></div>
+          </div>
+        </div>
+
+        <div class="channel-card">
+          <div class="channel-head"><i class="fas fa-comments"></i> Work Chat (Teams/WhatsApp)</div>
+          <div class="phone-frame">
+            <div class="sms-sender">Teams Chat &middot; "Priya Sharma" (Finance)</div>
+            <div class="sms-bubble">Hi, this is Priya from Finance — can you approve this payment via the new link before the call? Don't mention it in the group chat yet.</div>
+          </div>
+          <div class="channel-tells">
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Private message bypasses the team channel</strong><p>Everyone else would see a request like this in the shared channel.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Urgency and secrecy together</strong><p>A classic pressure tactic — legitimate requests don't need silence.</p></div></div>
+          </div>
+        </div>
       </div>
 
-      <!-- Pair 2: MFA Prompt -->
-      <div style="max-width:1100px;margin:0 auto;width:100%;">
-        <div class="spot-grid compact reveal-stagger" data-answered="false" data-threat-label="fake MFA prompt">
-          <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
-            <div class="spot-verdict-tag">GENUINE</div>
-            <div class="spot-media">
-              <i class="fas fa-mobile-screen-button"></i>
-              <div class="spot-label">MFA A</div>
-            </div>
-            <div class="spot-body">
-              <h4>Sign-In Approval — Fleet Portal</h4>
-              <p>Push from Chrome, Singapore — matches your current location and device.</p>
-            </div>
-            <div class="spot-result">Genuine — matches your sign‑in attempt, location, and device.</div>
-          </div>
-          <div class="spot-card" data-fake="true" onclick="spotPick(this)" tabindex="0" role="button">
-            <div class="spot-verdict-tag">FAKE</div>
-            <div class="spot-media">
-              <i class="fas fa-mobile-screen-button"></i>
-              <div class="spot-label">MFA B</div>
-            </div>
-            <div class="spot-body">
-              <h4>Sign-In Approval — Unknown Device</h4>
-              <p>Push from an unfamiliar country, unrecognised device: "Approve now or your account locks."</p>
-            </div>
-            <div class="spot-result">Fake — unfamiliar location, threat to force approval, no sign‑in attempt.</div>
-          </div>
-        </div>
-        <div class="spot-outcome"></div>
-      </div>
-
-      <!-- Pair 3: Work Chat -->
-      <div style="max-width:1100px;margin:0 auto;width:100%;">
-        <div class="spot-grid compact reveal-stagger" data-answered="false" data-threat-label="fake chat message">
-          <div class="spot-card" data-fake="false" onclick="spotPick(this)" tabindex="0" role="button">
-            <div class="spot-verdict-tag">GENUINE</div>
-            <div class="spot-media">
-              <i class="fas fa-comments"></i>
-              <div class="spot-label">Chat A</div>
-            </div>
-            <div class="spot-body">
-              <h4>Teams — Priya Sharma (Finance)</h4>
-              <p>"Can you re-send last month's invoice PDF? I'll log it in the Finance channel."</p>
-            </div>
-            <div class="spot-result">Genuine — routine ask, visible channel, no link or secrecy.</div>
-          </div>
-          <div class="spot-card" data-fake="true" onclick="spotPick(this)" tabindex="0" role="button">
-            <div class="spot-verdict-tag">FAKE</div>
-            <div class="spot-media">
-              <i class="fas fa-comments"></i>
-              <div class="spot-label">Chat B</div>
-            </div>
-            <div class="spot-body">
-              <h4>Teams — "Priya Sharma" (Finance)</h4>
-              <p>"Approve this payment via the new link before the call — don't mention it in the group chat yet."</p>
-            </div>
-            <div class="spot-result">Fake — private DM, payment link, request to stay quiet.</div>
-          </div>
-        </div>
-        <div class="spot-outcome"></div>
+      <div class="action-row">
+        <span class="mono-tag">Across every channel:</span>
+        <span class="impact-chip"><i class="fas fa-link-slash" style="color:var(--cyan);"></i> Don't tap links in unexpected texts</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Hang up, call a number you already have saved</span>
+        <span class="impact-chip"><i class="fas fa-users" style="color:var(--cyan);"></i> Use the visible team channel, not a DM</span>
       </div>
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[GO DIRECT]</strong> <strong>GOLDEN RULE:</strong> If you must squint at a domain to tell, it's already a red flag. Skip the check — go directly to the app.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[STOP — EVERY CHANNEL]</strong> <strong>GOLDEN RULE:</strong> Same tells on every channel — urgency, faked identity, pressure to act. Hang up, close the chat, use a number you already have.</div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
-        <div class="info-expand-panel">Going direct removes the risk entirely — no link to evaluate.</div>
+        <div class="info-expand-panel">Attackers switch channels to lower your guard — but the tells stay the same.</div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> AI &amp; Chatbot Risks <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> AI &amp; Chatbot Risks: Pasting Data &amp; Shadow AI <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

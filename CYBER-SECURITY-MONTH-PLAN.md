@@ -1,6 +1,6 @@
 # Cyber Security Awareness Month — Campaign Calendar, Alignment & Rehearsal Plan
 
-Companion to [LIVE-GAMES-EXECUTION-PLAN.md](LIVE-GAMES-EXECUTION-PLAN.md) (single-session run-of-show for the 2 live team games) and [slides/slide-19.html](slides/slide-19.html) (the deck's "Take It Further" announcement slide). This document answers a different question: **how do all 4 games fit into a month-long awareness campaign**, alongside the existing training deck, and how do organizers make sure each one actually works before real participants see it.
+Companion to [LIVE-GAMES-EXECUTION-PLAN.md](LIVE-GAMES-EXECUTION-PLAN.md) (single-session run-of-show for the 2 live team games) and [slides/slide-14.html](slides/slide-14.html) (the deck's closing slide — the dedicated "Take It Further" slide was consolidated into a one-line mention there when the deck was reduced from 19 slides to a low-interactivity static format; see `deck-manifest.md`). This document answers a different question: **how do all 4 games fit into a month-long awareness campaign**, alongside the existing training deck, and how do organizers make sure each one actually works before real participants see it.
 
 ## 1. Campaign overview
 
@@ -28,10 +28,10 @@ The original 4 rows, unchanged, with scheduling and traceability added so nothin
 
 | Game | Scenario | Requirement | Week | Delivery mode | Status | Cross-reference |
 |---|---|---|---|---|---|---|
-| Digital Platform — Cybersecurity Game | Share a link; a ~30s cartoon video runs, followed by a question | Initiated through the InfosecIQ platform | Week 1 | Company-wide link/email, self-paced | _(not started)_ | slide-19.html — "Cybersecurity Game" card |
-| Digital Platform — Fault Finding | An image of a scenario (phishing email, ransomware email, etc.) is shown; participant identifies and explains it | Display screen (TV or other mode) arranged to play the game | Week 2 | Walk-up display screen | _(not started)_ | slide-19.html — "Fault Finding" card |
-| Cyber Clue Quest | Gathering divided into groups; a riddle is framed; 30 seconds given; group finds the right answer | Letter stencils | Week 4 (Live Games Day) | In-person, team-based | _(not started)_ | `LIVE-GAMES-EXECUTION-PLAN.md` §4 "Station 3"; slide-19.html — "Cyber Clue Quest" card |
-| Pass-Phrase | Form a cybersecurity scenario/term; arrange letters into the correct word; 30 seconds given | Letter stencils | Week 4 (Live Games Day) | In-person, team-based | _(not started)_ | `LIVE-GAMES-EXECUTION-PLAN.md` §4 "Station 4"; slide-19.html — "Pass-Phrase" card |
+| Digital Platform — Cybersecurity Game | Share a link; a ~30s cartoon video runs, followed by a question | Initiated through the InfosecIQ platform | Week 1 | Company-wide link/email, self-paced | _(not started)_ | slide-14.html — closing-slide "live awareness games" mention (covers all 4 games; no longer a dedicated card per game) |
+| Digital Platform — Fault Finding | An image of a scenario (phishing email, ransomware email, etc.) is shown; participant identifies and explains it | Display screen (TV or other mode) arranged to play the game | Week 2 | Walk-up display screen | _(not started)_ | slide-14.html — closing-slide "live awareness games" mention (covers all 4 games; no longer a dedicated card per game) |
+| Cyber Clue Quest | Gathering divided into groups; a riddle is framed; 30 seconds given; group finds the right answer | Letter stencils | Week 4 (Live Games Day) | In-person, team-based | _(not started)_ | `LIVE-GAMES-EXECUTION-PLAN.md` §4 "Station 3"; slide-14.html — closing-slide "live awareness games" mention (covers all 4 games; no longer a dedicated card per game) |
+| Pass-Phrase | Form a cybersecurity scenario/term; arrange letters into the correct word; 30 seconds given | Letter stencils | Week 4 (Live Games Day) | In-person, team-based | _(not started)_ | `LIVE-GAMES-EXECUTION-PLAN.md` §4 "Station 4"; slide-14.html — closing-slide "live awareness games" mention (covers all 4 games; no longer a dedicated card per game) |
 
 Update the **Status** column as procurement/setup progresses (e.g., `procured`, `in progress`, `done`).
 

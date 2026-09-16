@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Phishing Evolution: Old vs Modern — Synergy Cyber Security Awareness Month</title>
+  <title>Deepfakes: Who's Targeted — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,138 +14,15 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
+    .card-grid { align-items: stretch; }
+    .scenario-card { height: 100%; display: flex; flex-direction: column; margin-bottom: 0; }
+    .scenario-top { flex: 1; }
+
     .action-row {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 12px;
       flex-wrap: wrap;
-    }
-    .action-row .impact-chip {
-      font-size: 14.5px;
-      padding: 7px 15px;
-    }
-
-    .mail-stage {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .mail-stage.legacy-bg { background: linear-gradient(160deg, var(--scene-red-tint-1), var(--scene-red-tint-2)); }
-    .mail-stage.modern-bg { background: linear-gradient(160deg, var(--scene-sky-tint-1), var(--scene-sky-tint-2)); }
-
-    .mail-mock {
-      width: 720px;
-      max-width: 88%;
-      background: var(--white);
-      border-radius: 8px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      overflow: hidden;
-    }
-    .mail-mock.legacy { border: 2px dashed var(--scene-red-accent); }
-    .mail-mock.modern { border: 1px solid var(--line); }
-
-    .mail-mock .mm-bar {
-      padding: 11px 23px;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-bottom: 2px solid;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .mail-mock.legacy .mm-bar {
-      background: var(--scene-red-tint-1);
-      color: var(--red-dark);
-      border-color: var(--scene-red-tint-border);
-    }
-    .mail-mock.modern .mm-bar {
-      background: var(--scene-sky-tint-1);
-      color: var(--scene-sky-tint-text);
-      border-color: var(--scene-sky-tint-border);
-    }
-
-    .mail-mock .mm-fields { padding: 12px 23px 0; }
-    .mail-mock .mm-subj {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--navy);
-      line-height: 1.3;
-    }
-    .mail-mock.legacy .mm-subj {
-      color: var(--scene-red-tint-text);
-      text-transform: uppercase;
-      font-family: Arial, sans-serif;
-      letter-spacing: .3px;
-    }
-
-    .mail-mock .mm-body {
-      padding: 9px 23px 18px;
-      font-size: 13.5px;
-      line-height: 1.55;
-      color: var(--body-text);
-    }
-    .mail-mock .mm-body strong { color: var(--navy); }
-    .mail-mock.legacy .mm-body { font-family: Arial, sans-serif; }
-
-    .mail-mock .mm-greet { display: block; margin-bottom: 5px; }
-
-    .mail-mock .mm-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 12px;
-      padding: 9px 20px;
-      border-radius: 4px;
-      font-weight: 800;
-      font-size: 12.5px;
-      color: var(--white);
-      border: none;
-      cursor: default;
-    }
-    .mail-mock.modern .mm-btn {
-      background: var(--navy);
-      letter-spacing: .2px;
-      font-family: 'Barlow', sans-serif;
-    }
-    .mail-mock.legacy .mm-btn {
-      background: var(--red-2);
-      text-transform: uppercase;
-      font-family: Arial, sans-serif;
-      letter-spacing: 0.8px;
-      border-radius: 2px;
-    }
-
-    .mail-mock.compact {
-      width: 600px;
-    }
-    .mail-mock.compact .mm-bar {
-      padding: 8px 20px;
-      font-size: 11px;
-    }
-    .mail-mock.compact .mm-fields { padding: 9px 20px 0; }
-    .mail-mock.compact .mm-subj { font-size: 14.5px; }
-    .mail-mock.compact .mm-body {
-      padding: 7px 20px 12px;
-      font-size: 12.5px;
-    }
-    .mail-mock.compact .mm-btn {
-      margin-top: 9px;
-      padding: 8px 16px;
-      font-size: 11.5px;
-    }
-
-    .mail-annotate-scene { max-width: 1780px; margin: 0 auto; }
-
-    .mail-annotate-scene .scene-media {
-      position: relative;
-      min-height: 195px;
-      padding: 10px;
     }
   </style>
 </head>
@@ -157,89 +34,68 @@
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">Email, SMS &amp; Voice</div>
-      <h1>PHISHING HAS <span>EVOLVED</span></h1>
+      <div class="slide-eyebrow">Identity &amp; Trust</div>
+      <h1>DEEPFAKES: <span>WHO'S TARGETED</span></h1>
     </div>
-    <div class="slide-main reveal-stagger compact">
-      <p class="section-lead">Phishing today looks nothing like the old scams. Drag to compare, then click the flags.</p>
+    <div class="slide-main reveal-stagger relaxed">
+      <p class="section-lead">The same deepfake trick works on more than a finance call — here's who else attackers are cloning, and why it works.</p>
 
-      <!-- Drag‑compare slider -->
-      <div>
-        <div class="compare-slider" style="height:182px;max-width:1780px;margin:0 auto;">
-          <div class="compare-after mail-stage modern-bg">
-            <div class="mail-mock modern">
-              <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: Meera Iyer — IT Service Desk &lt;it.support@synergymarinegr0up.com&gt;</div>
-              <div class="mm-fields"><div class="mm-subj">Project Poseidon — Fleet Portal Access Confirmation</div></div>
-              <div class="mm-body">
-                <span class="mm-greet">Hi Alex,</span>
-                As part of the Project Poseidon rollout, please confirm your Fleet Portal credentials before <strong>5:00&nbsp;PM today</strong> — access closes once tomorrow's audit window opens.
-                <div><button class="mm-btn" type="button">Confirm My Access&nbsp;<i class="fas fa-arrow-right"></i></button></div>
-              </div>
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon lg"><i class="fas fa-user-tie"></i></div>
+            <div class="sc-content">
+              <h4>Fake Recruiter Interview</h4>
+              <p>A candidate is interviewed by a polished "hiring manager" who later asks for a deposit or bank details to "process relocation." AI-generated recruiters have stolen personal and banking data this way — HR should verify any recruiter call through official channels, never via a link in the invite.</p>
             </div>
           </div>
-          <div class="compare-before mail-stage legacy-bg" style="clip-path:inset(0 50% 0 0);">
-            <div class="mail-mock legacy">
-              <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: security@paypa1-verify.net</div>
-              <div class="mm-fields"><div class="mm-subj pulse-highlight">URGENT!!! Your Account Has Been LIMITED</div></div>
-              <div class="mm-body">
-                <span class="mm-greet">Dear Customer,</span>
-                Your Account Has Been Limited, Click Now To Restore Access Immediate Before Suspend Permanent!!!
-                <div><button class="mm-btn" type="button">!! CLICK HERE NOW !!</button></div>
-              </div>
-            </div>
-          </div>
-          <div class="compare-handle" onpointerdown="startDrag(event,this)" role="slider" aria-label="Drag to compare old and new phishing emails"></div>
-          <span class="compare-label left">2015</span>
-          <span class="compare-label right">2026</span>
         </div>
-        <div class="interact-hint center" style="margin-top:8px;"><i class="fas fa-arrows-left-right"></i> Drag the handle to compare</div>
-      </div>
-
-      <!-- Annotated modern email scene -->
-      <div class="interact-hint" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click the flags to reveal the tells</div>
-      <div class="scene mail-annotate-scene">
-        <div class="scene-media mail-stage modern-bg">
-          <div class="mail-mock modern compact" style="margin:0 auto;">
-            <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: Meera Iyer — IT Service Desk &lt;it.support@synergymarinegr<strong style="color:var(--red);">0</strong>up.com&gt;</div>
-            <div class="mm-fields"><div class="mm-subj">Project Poseidon — Fleet Portal Access Confirmation</div></div>
-            <div class="mm-body">
-              <span class="mm-greet">Hi Alex,</span>
-              Please confirm your Fleet Portal credentials before <strong>5:00&nbsp;PM today</strong> — access closes once tomorrow's audit opens.
-              <div><button class="mm-btn" type="button">Confirm My Access&nbsp;<i class="fas fa-arrow-right"></i></button></div>
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon lg"><i class="fas fa-truck-field"></i></div>
+            <div class="sc-content">
+              <h4>Vendor Bank-Change Call</h4>
+              <p>A long-standing supplier calls — voice matches — to confirm a new bank account before the next payment. One call can clone a vendor's voice. Always confirm bank changes on the number already on file.</p>
             </div>
           </div>
-          <!-- Hotspots -->
-          <div class="hotspot flag" style="top:16%;left:58%;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Lookalike domain marker"
-               data-icon="fas fa-magnifying-glass" data-title="Look-Alike Domains"
-               data-body="Attackers swap one character — a '0' for 'o' in synergymarinegroup.com — so it looks genuine at a glance. Filters often miss it because the domain is valid. Go directly to the app instead of trusting the sender line.">
-            <span class="hotspot-dot"></span>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon lg"><i class="fas fa-ship"></i></div>
+            <div class="sc-content">
+              <h4>Crew Allotment Change Call</h4>
+              <p>Someone sounding like a seafarer calls crewing to urgently change bank details for a wage allotment. Allotment fraud steals seafarer wages — confirm any bank change directly with the seafarer on a known number.</p>
+            </div>
           </div>
-          <div class="hotspot flag" style="top:56%;left:46%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Urgency marker">
-            <span class="hotspot-dot"></span>
-            <div class="hotspot-tip tip-above"><strong>Artificial deadline</strong><br>Short, urgent time limits are designed to make you act without thinking.</div>
-          </div>
-          <div class="hotspot flag" style="top:80%;left:74%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Call-to-action marker">
-            <span class="hotspot-dot"></span>
-            <div class="hotspot-tip tip-above"><strong>The link you're asked to click</strong><br>Never click links in emails like this. Instead, go directly to the portal using a saved bookmark or the official app.</div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon lg"><i class="fas fa-headset"></i></div>
+            <div class="sc-content">
+              <h4>IT Support "Callback"</h4>
+              <p>Someone sounding like your IT contact asks you to read back your MFA code to "fix a login issue." Real IT never needs your MFA code — the trick bypasses the login screen entirely.</p>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="action-row">
-        <span class="mono-tag">Before you click:</span>
-        <span class="impact-chip"><i class="fas fa-magnifying-glass" style="color:var(--cyan);"></i> Check the sender address</span>
-        <span class="impact-chip"><i class="fas fa-stopwatch" style="color:var(--cyan);"></i> Treat urgency as a warning sign</span>
+        <span class="mono-tag">Same rule, every role:</span>
+        <span class="impact-chip"><i class="fas fa-building-user" style="color:var(--cyan);"></i> HR: use official channels</span>
+        <span class="impact-chip"><i class="fas fa-university" style="color:var(--cyan);"></i> Finance: check bank changes on file</span>
+        <span class="impact-chip"><i class="fas fa-ship" style="color:var(--cyan);"></i> Crewing: confirm with the seafarer</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Never share codes</span>
       </div>
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Good grammar no longer means safe. Go directly to the official app — don't click links.</div>
-        <div class="key-principle"><div class="kp-val" style="font-weight:900;">0</div><div class="kp-label">Clicks From Email</div></div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[VERIFY — EVERY ROLE]</strong> <strong>GOLDEN RULE:</strong> If a call asks you to move money, share login details, or break a normal process — hang up and confirm on a separate, trusted number before you act. Ship or shore, it's not just finance.</div>
+        <div class="key-principle"><div class="kp-val">2nd</div><div class="kp-label">Channel to Verify</div></div>
         <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
-        <div class="info-expand-panel">Fake addresses are often hard to spot, even for careful readers. Going to the app directly removes the risk of clicking a bad link.</div>
+        <div class="info-expand-panel">Attackers count on a familiar face and voice. A 30-second check on a number you already trust can save everything — the same manipulation works on any role because it targets urgency and trust, not technology.</div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> Beyond Email — Smishing &amp; Vishing <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> Phishing Has Evolved <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

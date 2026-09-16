@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Supply Chain &amp; Third-Party Risk: The Threat You Don't Control — Synergy Cyber Security Awareness Month</title>
+  <title>See Something, Say Something — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -13,166 +13,86 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
-    .reveal-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    .reveal-click-zone.chain { max-width: 100% !important; }
-
-    .chain-left { width: 68px; }
-    .chain-icon {
-      width: 54px;
-      height: 54px;
-      font-size: 21px;
-      border-width: 3px;
-    }
-    .chain-line {
-      width: 4px;
-      min-height: 30px;
-    }
-    .chain-content {
-      padding: 18px 24px;
-      margin-bottom: 20px;
-      border-left-width: 5px;
-      display: flex;
-      flex-direction: column;
+    .callout-bar.stop-verify-report {
       justify-content: center;
-      min-height: 54px;
-      background: var(--white);
-      border-radius: 0 4px 4px 0;
-      box-shadow: var(--shadow-sm);
-      transition: opacity 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
-    }
-    .chain-content[onclick] { cursor: pointer; }
-    .chain-content[onclick]:hover { box-shadow: var(--shadow-md); }
-    .chain-content h4 {
-      font-size: 20px;
-      margin-bottom: 6px;
-      letter-spacing: 0.2px;
-    }
-    .chain-content p {
-      font-size: 17px;
-      line-height: 1.55;
-    }
-
-    .interact-hint {
-      font-size: 14px;
-      letter-spacing: 1.3px;
-    }
-    .interact-hint i { font-size: 14px; }
-    .reveal-btn {
-      font-size: 14px;
-      padding: 11px 26px;
-      border-radius: 22px;
-      gap: 8px;
-      margin-top: 4px;
-    }
-    .reveal-btn i { font-size: 13px; }
-
-    .slide .fact-box {
-      padding: 20px 26px;
-      margin: 14px 0;
-    }
-    .slide .fact-label {
-      font-size: 13px;
-      letter-spacing: 1.8px;
-      margin-bottom: 3px;
-    }
-    .slide .fact-text {
-      font-size: 19px;
-      line-height: 1.55;
-    }
-    .slide .callout-bar {
+      align-items: center;
+      gap: 22px;
       padding: 18px 28px;
-      margin: 10px 0;
-      gap: 16px;
+      margin: 0;
+      background: var(--navy);
+      border-left-color: var(--cyan);
+      border-radius: var(--r);
     }
-    .slide .callout-text {
-      font-size: 18px;
-      line-height: 1.55;
-    }
-    .info-expand-btn {
-      font-size: 12.5px;
-      padding: 5px 12px;
-    }
-    .info-expand-panel {
-      font-size: 15.5px;
-      line-height: 1.65;
-    }
-    .glossary-popup {
-      font-size: 15px;
-    }
-    .slide-bridge {
-      font-size: 14px;
-      padding-top: 14px;
-    }
+    .callout-bar.stop-verify-report .mono-tag { font-size: 20px; letter-spacing: 3px; font-weight: 800; }
+    .callout-bar.stop-verify-report i { font-size: 18px; color: var(--cyan-light); }
+    .callout-bar.stop-verify-report .stop-tag { color: var(--scene-red-accent); }
+    .callout-bar.stop-verify-report .verify-tag { color: var(--scene-amber-accent); }
+    .callout-bar.stop-verify-report .report-tag { color: var(--scene-green-accent); }
+
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+
+    .slide .info-box { padding: 16px 20px; margin: 0; }
+    .slide .info-box p, .slide .info-box div { font-size: 16.5px; line-height: 1.55; }
   </style>
 </head>
 <body>
-  <div class="slide accent-threat">
+  <div class="slide accent-defense">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">2026 Threat Landscape</div>
-      <!-- Nav title stays topic-specific ("Supply Chain & Third-Party Risk") for wayfinding; on-slide uses a punchier rhetorical hook — matching them would make this nav item indistinguishable from its module sibling (slide-12). Intentional split, not drift. -->
-      <h1>THE THREAT YOU DON'T <span>CONTROL</span></h1>
+      <div class="slide-eyebrow">Speak Up</div>
+      <h1>SEE SOMETHING, <span>SAY SOMETHING</span></h1>
     </div>
-    <div class="slide-main reveal-stagger compact">
-      <p class="section-lead full-width">You can secure your own devices, but you can't control a vendor's security. See how one compromised update can affect us.</p>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead full-width">Every warning sign we've covered comes down to three simple steps — and four places you can act on them.</p>
 
-      <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click "Reveal Next Stage" to build the chain</div>
+      <div class="callout-bar stop-verify-report">
+        <span class="mono-tag stop-tag">STOP</span>
+        <i class="fas fa-arrow-right"></i>
+        <span class="mono-tag verify-tag">VERIFY</span>
+        <i class="fas fa-arrow-right"></i>
+        <span class="mono-tag report-tag">REPORT</span>
+      </div>
 
-      <div class="reveal-click-zone chain" id="scZone">
-        <div class="chain-node reveal-point shown" style="--node-color:var(--cyan);">
-          <div class="chain-left"><div class="chain-icon"><i class="fas fa-box-open"></i></div><div class="chain-line"></div></div>
-          <div class="chain-content"><h4>1 · Vendor Software Update</h4><p>A software vendor we trust — fleet management, payroll, or ship management systems — sends out a routine update to thousands of customers, including us.</p></div>
+      <div class="reveal-stagger card-grid cols-4 gap-lg">
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(6,182,212,0.1);color:var(--cyan-dark);"><i class="fas fa-headset"></i></div>
+          <h3>IT Service Desk</h3>
+          <p>First stop for anything technical — suspicious email, account issue, or unfamiliar device. Reach it 24/7 via Fleet Portal or phone.</p>
         </div>
-        <div class="chain-node reveal-point" style="--node-color:var(--amber);">
-          <div class="chain-left"><div class="chain-icon"><i class="fas fa-bug"></i></div><div class="chain-line"></div></div>
-          <div class="chain-content" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Malicious code inserted — details"
-               data-icon="fas fa-bug" data-title="Compromised Build Pipelines"
-               data-body="A build pipeline is how a vendor compiles and ships updates. Attackers who breach it can insert code before signing — so the update looks legitimate. Report anything odd right after an update.">
-            <h4>2 &middot; Malicious Code Inserted</h4>
-            <p>Attackers have already broken into the vendor's build pipeline and hidden malicious code inside that update. <span class="interact-hint" style="margin-top:4px;"><i class="fas fa-circle-info"></i> Click for details</span></p>
-          </div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-flag"></i></div>
+          <h3>Report-Phish Button</h3>
+          <p>Fastest for email: one click flags the message for review and removes it. No forwarding needed.</p>
         </div>
-        <div class="chain-node reveal-point" style="--node-color:var(--red);">
-          <div class="chain-left"><div class="chain-icon"><i class="fas fa-download"></i></div><div class="chain-line"></div></div>
-          <div class="chain-content"><h4>3 · Installed Automatically</h4><p>The tampered update installs through our usual update process – no phishing email required.</p></div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(239,68,68,0.1);color:var(--red);"><i class="fas fa-shield-halved"></i></div>
+          <h3>Security Hotline</h3>
+          <p>For urgent or sensitive cases — breach, lost device, or a payment that now feels wrong. Fastest when you need attention now.</p>
         </div>
-        <div class="chain-node reveal-point" style="--node-color:var(--red-dark);">
-          <div class="chain-left"><div class="chain-icon"><i class="fas fa-door-open"></i></div></div>
-          <div class="chain-content" style="margin-bottom:0;"><h4>4 · Hidden Access Inside Our Network</h4><p>Attackers now have a hidden way back in (often called a backdoor) — all through a vendor we already trusted.</p></div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-user-group"></i></div>
+          <h3>Your Line Manager</h3>
+          <p>If unsure who to contact, your manager is a safe default — on board, the Master or DPA. Wrong channel first is still better than late or never.</p>
         </div>
       </div>
 
-      <div style="display:flex;justify-content:center;">
-        <button class="reveal-btn" data-zone="scZone"
-                data-label-more='<i class="fas fa-forward-step"></i> Reveal Next Stage'
-                data-label-done='<i class="fas fa-rotate-right"></i> Replay Simulation'
-                onclick="advanceRevealChain(this)"
-                aria-label="Reveal next stage or replay simulation">
-          <i class="fas fa-forward-step"></i> Reveal Next Stage
-        </button>
+      <div class="info-box success">
+        <i class="fas fa-circle-check"></i>
+        <div>Reporting quickly – even if it turns out to be nothing – is always the right thing to do. No blame, ever.</div>
       </div>
 
-      <div class="fact-box">
-        <i class="fas fa-lightbulb fact-icon"></i>
-        <div>
-          <div class="fact-label">Did You Know?</div>
-          <div class="fact-text">Most supply-chain breaches are found <strong>months</strong> after the update — that's why they spread so far.</div>
-        </div>
+      <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.05);">
+        <i class="fas fa-clock" style="color:var(--navy);"></i>
+        <div><strong>GDPR:</strong> A data breach involving crew or customer information must be reported within strict deadlines — the sooner you flag something odd, the more of that window we keep.</div>
       </div>
 
-      <div class="callout-bar">
-        <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[REPORT]</strong> <strong>GOLDEN RULE:</strong> You can't check every vendor's code — but if something behaves oddly right after an update, treat it as suspicious and report it.</div>
-        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
-        <div class="info-expand-panel">You can't inspect a vendor's internal code or process. But odd behaviour right after an update is still a visible, reportable signal – and reporting early limits the damage.</div>
-      </div>
-
-      <div class="slide-bridge"><strong>Next</strong> Deepfakes — The Concept <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> Do's &amp; Don'ts <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

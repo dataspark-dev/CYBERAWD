@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Deepfakes: Real vs Fake Simulation — Synergy Cyber Security Awareness Month</title>
+  <title>Deepfake Attacks: The Concept — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,57 +14,50 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .call-avatar {
-      width: 132px;
-      height: 132px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 2px solid rgba(255, 255, 255, 0.18);
+    /* Reclaim vertical space redundant with the flex gap on .slide-main.compact,
+       and trim .slide-main's own top/bottom padding locally — neither touches
+       font size or content, both are whitespace already duplicated elsewhere. */
+    .slide .section-lead { margin-bottom: 0; }
+    .slide-main.compact { padding-top: 6px; padding-bottom: 14px; }
+    .slide-bridge { padding-top: 8px; }
+
+    .df-flow-scene { padding: 8px 40px 6px; flex-shrink: 0; }
+    .df-flow-row .flow-node { width: 220px; }
+    .df-flow-row .fn-icon { width: 44px; height: 44px; font-size: 18px; }
+    .df-flow-captions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .df-flow-cap {
+      max-width: 260px;
+      justify-self: center;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.7);
+    }
+    .df-flow-cap strong { color: #fff; display: block; margin-bottom: 3px; font-family:'Space Mono',monospace; font-size: 11.5px; letter-spacing: 0.6px; text-transform: uppercase; }
+
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+
+    .action-row {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
-    .call-avatar i { font-size: 64px !important; }
-
-    .call-caption {
-      padding: 14px 20px;
-      background: var(--white);
-      font-size: 15.5px;
-      color: var(--body-text);
-      border-top: 1px solid var(--line);
-      line-height: 1.5;
+    .action-row .impact-chip {
+      font-size: 16px;
+      padding: 7px 16px;
     }
 
-    .toggle-opt {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 15px;
-    }
-
-    .think-prompt {
-      text-align: center;
-      font-family: 'Barlow', sans-serif;
-      font-size: 19px;
-      font-weight: 700;
-      color: var(--navy);
-      background: rgba(0, 98, 255, 0.05);
-      border: 1px solid rgba(0, 98, 255, 0.15);
-      border-radius: 6px;
-      padding: 10px 22px;
-      margin: 0 auto 8px;
-      max-width: 720px;
-    }
-    .think-prompt i { color: var(--blue); margin-right: 8px; }
-
-    .hotspot-dot.unrevealed { opacity: 0.3; }
-
-    /* Tightened so the slide still holds its full height with the callout's
-       detail panel open, instead of scrolling the golden rule out of view. */
-    .toggle-group { gap: 11px; }
-    .toggle-pane .scene { max-width: 720px !important; margin: 0 auto; }
-    .toggle-pane .hotspot-tip { width: 250px; font-size: 15px; }
+    .info-box.danger { font-size: 18px; line-height: 1.5; }
+    .info-box.danger p, .info-box.danger div { font-size: 18px; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -75,82 +68,64 @@
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">Try It Yourself</div>
-      <h1>REAL VS <span>FAKE</span> — TOGGLE TO COMPARE</h1>
+      <div class="slide-eyebrow">Identity &amp; Trust</div>
+      <h1>DEEPFAKE ATTACKS: <span>THE CONCEPT</span></h1>
     </div>
     <div class="slide-main reveal-stagger compact">
-      <p class="section-lead">Switch between a real call and a deepfake. Then click the markers to see what gives the fake away.</p>
+      <p class="section-lead">A 10-second clip can clone a colleague's voice and face for a live call. This is senior-leader impersonation — here's how a real person becomes a live clone.</p>
 
-      <div class="toggle-group">
-        <div class="think-prompt"><i class="fas fa-circle-question"></i>First — what would you check before trusting this call?</div>
-
-        <div style="display:flex;justify-content:center;">
-          <div class="toggle-switch" data-active="0">
-            <div class="toggle-indicator"></div>
-            <button class="toggle-opt active" onclick="toggleSwitchAndReveal(this,0)" aria-label="Show real call"><i class="fas fa-circle-check"></i> Real Call</button>
-            <button class="toggle-opt" onclick="toggleSwitchAndReveal(this,1)" aria-label="Show deepfake call"><i class="fas fa-user-secret"></i> Deepfake Call</button>
-          </div>
+      <div class="flow-scene df-flow-scene">
+        <div class="flow-row df-flow-row">
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-user"></i></div><div class="fn-label">Real Person</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-robot"></i></div><div class="fn-label">AI Generation</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-user-secret"></i></div><div class="fn-label">Live Clone</div></div>
         </div>
-
-        <div class="interact-hint center" style="margin:14px 0 4px;"><i class="fas fa-hand-pointer"></i> Click to compare</div>
-
-        <!-- Real Call Pane -->
-        <div class="toggle-pane active" data-pane="0" data-dim-until-interact>
-          <div class="scene">
-            <div class="scene-media" style="background:linear-gradient(160deg,var(--scene-green-dark-2),var(--scene-green-dark-1));min-height:260px;display:flex;align-items:center;justify-content:center;">
-              <div class="call-avatar"><i class="fas fa-user-tie" style="font-size:58px;color:var(--scene-green-accent);"></i></div>
-              <div class="hotspot safe" style="top:26%;left:44%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Natural blinking marker">
-                <span class="hotspot-dot unrevealed"></span>
-                <div class="hotspot-tip"><strong>Natural blinking &amp; movement</strong><br>The person blinks and moves their head in a normal, human way.</div>
-              </div>
-              <div class="hotspot safe" style="top:60%;left:52%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lip-sync marker">
-                <span class="hotspot-dot unrevealed"></span>
-                <div class="hotspot-tip tip-above"><strong>Perfect lip‑sync</strong><br>Mouth movements match the audio exactly, even with fast speech.</div>
-              </div>
-              <div class="hotspot safe" style="top:18%;left:78%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lighting marker">
-                <span class="hotspot-dot unrevealed"></span>
-                <div class="hotspot-tip"><strong>Consistent lighting</strong><br>Lighting changes naturally as the person moves and the background shifts.</div>
-              </div>
-            </div>
-            <div class="call-caption">"Can you route this through the usual approval process? I know it's tight, but let's not skip steps."</div>
-          </div>
+        <div class="df-flow-captions">
+          <div class="df-flow-cap"><strong>Real Person — 10s of audio/video</strong>A real voice or face taken from an ordinary clip — a call, voicemail, or social post. Even noisy, low-quality audio is enough. Mind what you post and record.</div>
+          <div class="df-flow-cap"><strong>AI Generation</strong>Free tools can clone a voice from 10&ndash;20 seconds of audio in minutes — no special skill needed. A few photos can do the same for video. Recognising the voice is no longer proof.</div>
+          <div class="df-flow-cap"><strong>Live Clone</strong>The clone can then run live on a call or video to mimic the real person. Attackers use it to authorise payments or request data. Always confirm via a second, trusted channel — never in the same call.</div>
         </div>
-
-        <!-- Deepfake Call Pane -->
-        <div class="toggle-pane" data-pane="1"><template>
-          <div class="scene">
-            <div class="scene-media" style="background:linear-gradient(160deg,var(--scene-red-dark-2),var(--scene-red-dark-1));min-height:260px;display:flex;align-items:center;justify-content:center;">
-              <div class="call-avatar"><i class="fas fa-user-secret" style="font-size:58px;color:var(--scene-red-accent);"></i></div>
-              <div class="hotspot flag" style="top:26%;left:44%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unnatural blinking marker">
-                <span class="hotspot-dot"></span>
-                <div class="hotspot-tip"><strong>Unnatural blinking</strong><br>Very long gaps without blinking — a common sign of a deepfake.</div>
-              </div>
-              <div class="hotspot flag" style="top:60%;left:52%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Lip-sync mismatch marker">
-                <span class="hotspot-dot"></span>
-                <div class="hotspot-tip tip-above"><strong>Lip‑sync mismatch</strong><br>Mouth shapes lag behind the audio, especially with hard consonant sounds.</div>
-              </div>
-              <div class="hotspot flag" style="top:18%;left:78%;" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Flat lighting marker">
-                <span class="hotspot-dot"></span>
-                <div class="hotspot-tip"><strong>Flat, even lighting</strong><br>The face lighting barely changes, even when the background moves.</div>
-              </div>
-            </div>
-            <div class="call-caption">"Pay this invoice by 5pm, don't loop in finance yet — I'll explain later."</div>
-          </div>
-        </template></div>
       </div>
 
-      <div class="callout-bar">
-        <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[VERIFY]</strong> <strong>GOLDEN RULE:</strong> If a call asks you to move money, share login details, or break a normal process — hang up and confirm on a separate, trusted number before you act.</div>
-        <div class="key-principle"><div class="kp-val">2nd</div><div class="kp-label">Channel to Verify</div></div>
-        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
-        <div class="info-expand-panel">Attackers count on a familiar face and voice. A 30-second check on a number you already trust can save everything.</div>
+      <div class="reveal-stagger card-grid cols-3">
+        <div class="pillar-card v-purple">
+          <div class="icon-wrap"><i class="fas fa-microphone-lines"></i></div>
+          <h3>Voice Cloning</h3>
+          <p>A short clip — voicemail, recorded call, or public video — can generate a live synthetic voice. It adapts tone in real time. Sounding stressed is not proof a call is genuine.</p>
+        </div>
+        <div class="pillar-card v-blue">
+          <div class="icon-wrap"><i class="fas fa-video"></i></div>
+          <h3>Video / Face Swap</h3>
+          <p>Live face-swap can impersonate an executive with synced lip movements — as in the reported US$25M video-call fraud. A few seconds is enough to push an instruction. A second, trusted channel is the only certain test.</p>
+        </div>
+        <div class="pillar-card v-amber">
+          <div class="icon-wrap"><i class="fas fa-id-card-clip"></i></div>
+          <h3>Synthetic Documents</h3>
+          <p>AI can now forge IDs, screenshots, and supporting documents to make a fake recruiter or vendor look legitimate. Often paired with a deepfake call. Treat attached documents with the same caution as the request itself.</p>
+        </div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> Deepfakes Beyond the Boardroom <i class="fas fa-arrow-right"></i></div>
+      <div class="info-box danger">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div>
+          <span class="mono-tag" style="margin-right:8px;">SENIOR-LEADER IMPERSONATION</span><strong>Widely reported case, 2024:</strong> A finance employee at a multinational firm's Hong Kong office joined what looked like a normal video call with senior leaders and colleagues — and authorised a transfer of <strong style="font-size:1.2em;">US$25M</strong>. Every person on that call, except the employee, was an AI‑generated fake.
+          <button class="info-expand-btn" onclick="toggleInfoExpand(this)" style="display:inline-block;margin:10px 0 0;border:1px solid var(--navy);color:var(--navy);">Read more &#9660;</button>
+          <div class="info-expand-panel" style="border-top-color:var(--line);">The call included what appeared to be the CFO and several colleagues — all AI-generated. The employee only grew suspicious after the transfer had already gone through. This is why verification must happen before acting, not after.</div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">If a call feels off:</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify via a 2nd channel</span>
+        <span class="impact-chip"><i class="fas fa-hourglass-half" style="color:var(--cyan);"></i> Pause before authorising</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report suspicious calls</span>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Deepfakes: Spot the Signs <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
-
   <script src="../scripts/main.js"></script>
 </body>
 </html>

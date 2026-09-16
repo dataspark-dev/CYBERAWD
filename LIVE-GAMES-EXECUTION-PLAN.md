@@ -1,6 +1,6 @@
 # Live Cybersecurity Awareness Games — Execution Plan
 
-Companion event to the *Synergy Cyber Security Awareness Month* slide deck (see [slide-19](slides/slide-19.html), "Take It Further"). Turns four planned activities into a runnable session.
+Companion event to the *Synergy Cyber Security Awareness Month* slide deck (see the closing slide, [slide-14](slides/slide-14.html) — the deck's former dedicated "Take It Further" slide was folded into a one-line closing mention when the deck was reduced from 19 slides to a low-interactivity static format). Turns four planned activities into a runnable session.
 
 ## 1. Overview
 

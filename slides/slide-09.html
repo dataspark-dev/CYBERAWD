@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI &amp; Chatbot Risks: What Happens When You Paste Data? — Synergy Cyber Security Awareness Month</title>
+  <title>AI &amp; Chatbot Risks: Pasting Data &amp; Shadow AI — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,54 +14,34 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .action-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .action-row .impact-chip {
-      font-size: 14.5px;
-      padding: 7px 15px;
-    }
+    .action-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .action-row .impact-chip { font-size: 13.5px; padding: 6px 13px; }
 
-    .flow-node .fn-icon {
-      width: 72px;
-      height: 72px;
-      font-size: 28px;
-    }
-    .flow-node .fn-label { font-size: 12.5px; }
+    .ai-flow-scene { padding: 14px 30px 12px; }
+    .ai-flow-row .flow-node { width: 130px; }
+    .ai-flow-row .fn-icon { width: 44px; height: 44px; font-size: 18px; }
+    .flow-branches { margin-top: 12px; gap: 12px; }
+    /* main.css ships .flow-branch at opacity:0 until runFlowSequence() adds
+       .visible — that JS mechanic was removed with the Replay Simulation button,
+       so pin these permanently visible or the three consequence cards render blank. */
+    .flow-branch { max-width: 100%; flex: 1 1 220px; padding: 10px 12px; opacity: 1; transform: none; }
+    .flow-branch .fb-icon { font-size: 18px; margin-bottom: 4px; }
+    .flow-branch h5 { font-size: 13px !important; margin-bottom: 3px !important; }
+    .flow-branch p { font-size: 12px !important; line-height: 1.4 !important; }
 
-    .flow-branch {
-      max-width: 440px !important;
-      flex: 1 1 240px;
-    }
-    .flow-branches {
-      gap: 20px !important;
-    }
-    .fb-icon {
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-    .flow-branch h5 {
-      font-size: 15px !important;
-      margin-bottom: 5px !important;
-    }
-    .flow-branch p {
-      font-size: 13.5px !important;
-      line-height: 1.5 !important;
-    }
-    /* Equal-height for 3-branch row at 1920px */
-    .flow-branches { align-items: stretch; }
-    .flow-branch { display: flex; flex-direction: column; height: 100%; }
+    .two-col { gap: 14px; }
+    .slide .info-box { padding: 10px 14px; margin: 0; }
+    .slide .info-box p, .slide .info-box div { font-size: 13.5px; line-height: 1.4; }
+    .info-box-stack { display: flex; flex-direction: column; gap: 8px; }
 
-    .flow-branch .info-expand-btn { margin-top: 8px; }
+    .shadow-heading { font-size: 14px; color: var(--body-text); line-height: 1.4; margin: 2px 0 0; }
+    .shadow-heading strong { color: var(--navy); }
 
-    .fact-box {
-      margin: 0;
-      border-left: 4px solid var(--cyan);
-    }
-    .fact-box .fact-icon { color: var(--cyan-light); }
+    .checklist-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }
+    .slide .cl-item { padding: 7px 10px; margin-bottom: 0; }
+    .slide .cl-item h4 { font-size: 13px; margin-bottom: 1px; }
+    .slide .cl-item p { font-size: 11.5px; line-height: 1.3; }
+    .cl-item .cl-icon { width: 26px; height: 26px; font-size: 12px; }
   </style>
 </head>
 <body>
@@ -73,101 +53,77 @@
     </div>
     <div class="slide-titleblock">
       <div class="slide-eyebrow">Artificial Intelligence</div>
-      <!-- Nav title "AI & Chatbot Risks" intentionally mirrors this module's group name for wayfinding (module-opener pattern); on-slide keeps the rhetorical hook for audience engagement. -->
-      <h1>WHAT HAPPENS WHEN YOU <span>PASTE DATA?</span></h1>
+      <h1>PASTING DATA &amp; <span>SHADOW AI</span></h1>
     </div>
     <div class="slide-main reveal-stagger compact">
-      <p class="section-lead">Paste a crew list, contract, or payroll sheet into a public chatbot and it leaves your control immediately.</p>
+      <p class="section-lead" style="font-size:19px;">Paste a crew list, contract, or payroll sheet into a public chatbot and it leaves your control immediately — and chatbots aren't the only unapproved AI risk on the team.</p>
 
-      <div class="flow-scene">
-        <div class="flow-row">
-          <div class="flow-node" data-flow="node" style="--pulse-color:0,98,255;">
-            <div class="fn-icon"><i class="fas fa-user"></i></div>
-            <div class="fn-label">You</div>
-          </div>
-          <div class="flow-track" data-flow="track" data-travel-ms="1100"><div class="flow-dot"></div></div>
-          <div class="flow-node" data-flow="node" style="--pulse-color:124,58,237;">
-            <div class="fn-icon"><i class="fas fa-robot"></i></div>
-            <div class="fn-label">Public AI Chatbot</div>
-          </div>
+      <div class="flow-scene ai-flow-scene">
+        <div class="flow-row ai-flow-row">
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-user"></i></div><div class="fn-label">You</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-robot"></i></div><div class="fn-label">Public AI Chatbot</div></div>
         </div>
-
-        <i class="fas fa-arrow-down" style="color:rgba(255,255,255,.4);font-size:20px;margin:14px auto;display:block;text-align:center;"></i>
-
         <div class="flow-branches">
           <div class="flow-branch">
             <div class="fb-icon"><i class="fas fa-database"></i></div>
             <h5>Model Training Data</h5>
-            <p>Your text may train future responses.</p>
-            <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about model training data">Learn more &#9660;</button>
-            <div class="info-expand-panel">Some free-tier chats use your input to improve models — not just read and forget.</div>
+            <p>Your text may train future responses — some free-tier chats use your input to improve models, not just read and forget.</p>
           </div>
           <div class="flow-branch">
             <div class="fb-icon"><i class="fas fa-server"></i></div>
             <h5>Third-Party Servers</h5>
-            <p>Stored outside company control, under different policies.</p>
-            <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about third-party servers">Learn more &#9660;</button>
-            <div class="info-expand-panel">Data sits under another company's retention and jurisdiction — outside our control.</div>
+            <p>Stored outside company control, under another company's retention and jurisdiction — outside our control.</p>
           </div>
           <div class="flow-branch">
             <div class="fb-icon"><i class="fas fa-triangle-exclamation"></i></div>
             <h5>Potential Leak</h5>
-            <p>Logged data could surface in a breach or to another user.</p>
-            <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about potential leak">Learn more &#9660;</button>
-            <div class="info-expand-panel">Providers have exposed one user's history to another. Assume anything pasted could resurface.</div>
+            <p>Providers have exposed one user's history to another. Assume anything pasted could resurface.</p>
           </div>
-        </div>
-
-        <div style="text-align:center;">
-          <button class="flow-replay-btn" id="flowSimBtn" onclick="runFlowSequence(this)" aria-label="Replay data flow animation"><i class="fas fa-rotate-right"></i> Replay Simulation</button>
         </div>
       </div>
 
       <div class="two-col">
         <div class="info-box danger">
           <i class="fas fa-ban"></i>
-          <div>Never paste crew records, allotment details, contracts, financial data, or passwords into a public chatbot — whether you are at your desk or on board.</div>
+          <div>Never paste crew records, allotment details, contracts, financial data, or passwords into a public chatbot — whether at your desk or on board.</div>
         </div>
-        <div style="display:flex; flex-direction:column; gap:12px;">
+        <div class="info-box-stack">
           <div class="info-box success">
             <i class="fas fa-circle-check"></i>
             <div>Use only company-approved AI tools — they're reviewed for exactly this risk.</div>
           </div>
           <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.06);">
             <i class="fas fa-file-shield" style="color:var(--navy);"></i>
-            <div><strong>GDPR:</strong> Crew and customer personal data must stay inside approved, contracted systems — pasting it into a public AI tool or unapproved app can itself be a data protection breach, regardless of intent.</div>
+            <div><strong>GDPR:</strong> Crew and customer personal data must stay inside approved, contracted systems — pasting it into a public AI tool can itself be a data protection breach. Sensitive data includes crew records, contracts, financial data, customer info, and vessel ops data.</div>
           </div>
         </div>
       </div>
 
+      <p class="shadow-heading"><strong>Shadow AI</strong> — any AI tool used for work that IT hasn't reviewed or approved. Have you seen any of these on your team?</p>
+
+      <div class="checklist-grid">
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-puzzle-piece"></i></div><div><h4>Browser AI Extensions</h4><p>Free "AI assistant" add-ons that read and summarise every page you visit, including internal systems — some log what they read. If unapproved, remove it.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-user-secret"></i></div><div><h4>Personal AI Accounts</h4><p>A personal chatbot account instead of the company-approved one sits outside company data agreements — no protection, no oversight.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-microphone-lines"></i></div><div><h4>AI Meeting Note-Takers</h4><p>Bots that auto-transcribe calls send everything said — including confidential discussion — to a third-party server.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-file-pen"></i></div><div><h4>AI Résumé / Interview Tools</h4><p>Writing helpers often store what you type — including company details — to train models. You can't delete it once sent.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-route"></i></div><div><h4>Unapproved Voyage-Planning AI</h4><p>Free routing tools send vessel position and cargo to a third party outside the approved system.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-language"></i></div><div><h4>Translation &amp; Summariser Plugins</h4><p>Free "summarise this doc" tools upload the whole document to a third-party server — it then sits outside company control.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-images"></i></div><div><h4>AI Image/Deepfake Generators</h4><p>Free tools generate fake images of colleagues, vessels, or documents. <strong>GDPR:</strong> uploading crew or customer images to a public tool can itself be a breach.</p></div></div>
+      </div>
+
       <div class="action-row">
-        <span class="mono-tag">Before you paste:</span>
+        <span class="mono-tag">Before you paste — or if you spot one:</span>
         <span class="impact-chip"><i class="fas fa-list-check" style="color:var(--cyan);"></i> Check the approved list first</span>
-        <span class="impact-chip"><i class="fas fa-eraser" style="color:var(--cyan);"></i> Remove names, numbers, and IDs</span>
-        <span class="impact-chip"><i class="fas fa-circle-question" style="color:var(--cyan);"></i> If unsure, don't paste</span>
+        <span class="impact-chip"><i class="fas fa-eraser" style="color:var(--cyan);"></i> Remove names, numbers &amp; IDs</span>
+        <span class="impact-chip"><i class="fas fa-pause" style="color:var(--cyan);"></i> Stop using unapproved tools on company data</span>
+        <span class="impact-chip"><i class="fas fa-circle-question" style="color:var(--cyan);"></i> Not sure? Ask IT — asking is safe</span>
       </div>
 
-      <div class="fact-box">
-        <i class="fas fa-shield-halved fact-icon"></i>
-        <div>
-          <div class="fact-label">Data Protection — Not Just Chatbots</div>
-          <div class="fact-text">Data protection applies to how you store, send, and share crew, financial, and customer data every day. <strong>Sensitive data includes:</strong> Crew Records &middot; Contracts &middot; Financial Data &middot; Customer Info &middot; Vessel Ops Data.</div>
-        </div>
-      </div>
-
-      <div class="slide-bridge"><strong>Next</strong> Shadow AI — Unapproved Tools <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> When Attackers Use AI Too <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 
   <script src="../scripts/main.js"></script>
-  <script>
-    (function() {
-      const btn = document.getElementById('flowSimBtn');
-      if (!btn) return;
-      const fire = () => window.runFlowSequence(btn);
-      document.addEventListener('DOMContentLoaded', fire);
-      if (window.SynergyUI) SynergyUI.onEntranceReset(fire);
-    })();
-  </script>
 </body>
 </html>

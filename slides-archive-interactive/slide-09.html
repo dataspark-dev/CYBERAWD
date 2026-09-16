@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI &amp; Chatbot Risks: What Happens When You Paste Data? — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .action-row .impact-chip {
+      font-size: 14.5px;
+      padding: 7px 15px;
+    }
+
+    .flow-node .fn-icon {
+      width: 72px;
+      height: 72px;
+      font-size: 28px;
+    }
+    .flow-node .fn-label { font-size: 12.5px; }
+
+    .flow-branch {
+      max-width: 440px !important;
+      flex: 1 1 240px;
+    }
+    .flow-branches {
+      gap: 20px !important;
+    }
+    .fb-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    .flow-branch h5 {
+      font-size: 15px !important;
+      margin-bottom: 5px !important;
+    }
+    .flow-branch p {
+      font-size: 13.5px !important;
+      line-height: 1.5 !important;
+    }
+    /* Equal-height for 3-branch row at 1920px */
+    .flow-branches { align-items: stretch; }
+    .flow-branch { display: flex; flex-direction: column; height: 100%; }
+
+    .flow-branch .info-expand-btn { margin-top: 8px; }
+
+    .fact-box {
+      margin: 0;
+      border-left: 4px solid var(--cyan);
+    }
+    .fact-box .fact-icon { color: var(--cyan-light); }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Artificial Intelligence</div>
+      <!-- Nav title "AI & Chatbot Risks" intentionally mirrors this module's group name for wayfinding (module-opener pattern); on-slide keeps the rhetorical hook for audience engagement. -->
+      <h1>WHAT HAPPENS WHEN YOU <span>PASTE DATA?</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">Paste a crew list, contract, or payroll sheet into a public chatbot and it leaves your control immediately.</p>
+
+      <div class="flow-scene">
+        <div class="flow-row">
+          <div class="flow-node" data-flow="node" style="--pulse-color:0,98,255;">
+            <div class="fn-icon"><i class="fas fa-user"></i></div>
+            <div class="fn-label">You</div>
+          </div>
+          <div class="flow-track" data-flow="track" data-travel-ms="1100"><div class="flow-dot"></div></div>
+          <div class="flow-node" data-flow="node" style="--pulse-color:124,58,237;">
+            <div class="fn-icon"><i class="fas fa-robot"></i></div>
+            <div class="fn-label">Public AI Chatbot</div>
+          </div>
+        </div>
+
+        <i class="fas fa-arrow-down" style="color:rgba(255,255,255,.4);font-size:20px;margin:14px auto;display:block;text-align:center;"></i>
+
+        <div class="flow-branches">
+          <div class="flow-branch">
+            <div class="fb-icon"><i class="fas fa-database"></i></div>
+            <h5>Model Training Data</h5>
+            <p>Your text may train future responses.</p>
+            <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about model training data">Learn more &#9660;</button>
+            <div class="info-expand-panel">Some free-tier chats use your input to improve models — not just read and forget.</div>
+          </div>
+          <div class="flow-branch">
+            <div class="fb-icon"><i class="fas fa-server"></i></div>
+            <h5>Third-Party Servers</h5>
+            <p>Stored outside company control, under different policies.</p>
+            <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about third-party servers">Learn more &#9660;</button>
+            <div class="info-expand-panel">Data sits under another company's retention and jurisdiction — outside our control.</div>
+          </div>
+          <div class="flow-branch">
+            <div class="fb-icon"><i class="fas fa-triangle-exclamation"></i></div>
+            <h5>Potential Leak</h5>
+            <p>Logged data could surface in a breach or to another user.</p>
+            <button class="info-expand-btn" onclick="toggleInfoExpand(this)" data-label-more="Learn more &#9660;" data-label-done="Hide detail &#9650;" aria-label="Learn more about potential leak">Learn more &#9660;</button>
+            <div class="info-expand-panel">Providers have exposed one user's history to another. Assume anything pasted could resurface.</div>
+          </div>
+        </div>
+
+        <div style="text-align:center;">
+          <button class="flow-replay-btn" id="flowSimBtn" onclick="runFlowSequence(this)" aria-label="Replay data flow animation"><i class="fas fa-rotate-right"></i> Replay Simulation</button>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="info-box danger">
+          <i class="fas fa-ban"></i>
+          <div>Never paste crew records, allotment details, contracts, financial data, or passwords into a public chatbot — whether you are at your desk or on board.</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div class="info-box success">
+            <i class="fas fa-circle-check"></i>
+            <div>Use only company-approved AI tools — they're reviewed for exactly this risk.</div>
+          </div>
+          <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.06);">
+            <i class="fas fa-file-shield" style="color:var(--navy);"></i>
+            <div><strong>GDPR:</strong> Crew and customer personal data must stay inside approved, contracted systems — pasting it into a public AI tool or unapproved app can itself be a data protection breach, regardless of intent.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Before you paste:</span>
+        <span class="impact-chip"><i class="fas fa-list-check" style="color:var(--cyan);"></i> Check the approved list first</span>
+        <span class="impact-chip"><i class="fas fa-eraser" style="color:var(--cyan);"></i> Remove names, numbers, and IDs</span>
+        <span class="impact-chip"><i class="fas fa-circle-question" style="color:var(--cyan);"></i> If unsure, don't paste</span>
+      </div>
+
+      <div class="fact-box">
+        <i class="fas fa-shield-halved fact-icon"></i>
+        <div>
+          <div class="fact-label">Data Protection — Not Just Chatbots</div>
+          <div class="fact-text">Data protection applies to how you store, send, and share crew, financial, and customer data every day. <strong>Sensitive data includes:</strong> Crew Records &middot; Contracts &middot; Financial Data &middot; Customer Info &middot; Vessel Ops Data.</div>
+        </div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Shadow AI — Unapproved Tools <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      const btn = document.getElementById('flowSimBtn');
+      if (!btn) return;
+      const fire = () => window.runFlowSequence(btn);
+      document.addEventListener('DOMContentLoaded', fire);
+      if (window.SynergyUI) SynergyUI.onEntranceReset(fire);
+    })();
+  </script>
+</body>
+</html>

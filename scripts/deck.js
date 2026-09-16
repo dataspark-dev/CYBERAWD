@@ -6,24 +6,20 @@
 
 const SLIDES = [
   { file: 'slide-01.html', title: 'Opening', group: 'Welcome' },
-  { file: 'slide-02.html', title: 'Why Cybersecurity Matters', group: 'Welcome' },
-  { file: 'slide-12.html', title: 'Modern Threat Landscape', group: 'Threat Landscape' },
-  { file: 'slide-13.html', title: 'Supply Chain & Third-Party Risk', group: 'Threat Landscape' },
-  { file: 'slide-03.html', title: 'Deepfakes — The Concept', group: 'Deepfake Attacks' },
-  { file: 'slide-04.html', title: 'Deepfakes — Real vs Fake Simulation', group: 'Deepfake Attacks' },
-  { file: 'slide-05.html', title: 'Deepfakes Beyond the Boardroom', group: 'Deepfake Attacks' },
-  { file: 'slide-06.html', title: 'Phishing Evolution', group: 'Phishing Evolution' },
-  { file: 'slide-07.html', title: 'Beyond Email — Smishing & Vishing', group: 'Phishing Evolution' },
-  { file: 'slide-08.html', title: 'Spot the Phish', group: 'Phishing Evolution' },
-  { file: 'slide-09.html', title: 'AI & Chatbot Risks', group: 'AI & Chatbot Risks' },
-  { file: 'slide-10.html', title: 'Shadow AI — Unapproved Tools', group: 'AI & Chatbot Risks' },
-  { file: 'slide-11.html', title: 'When Attackers Use AI Too', group: 'AI & Chatbot Risks' },
-  { file: 'slide-14.html', title: 'Workplace Security Behavior', group: 'Workplace Security' },
-  { file: 'slide-15.html', title: 'Passwords, MFA & Access Hygiene', group: 'Workplace Security' },
-  { file: 'slide-16.html', title: 'See Something, Say Something', group: "Do's & Don'ts" },
-  { file: 'slide-17.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
-  { file: 'slide-19.html', title: 'Live Awareness Games', group: 'Take It Further' },
-  { file: 'slide-18.html', title: 'Closing', group: 'Closing' }
+  { file: 'slide-02.html', title: 'Why Cybersecurity Matters Now', group: 'Welcome' },
+  { file: 'slide-03.html', title: 'Modern Threat Landscape', group: 'Threat Landscape' },
+  { file: 'slide-04.html', title: 'Deepfake Attacks: The Concept', group: 'Deepfake Attacks' },
+  { file: 'slide-05.html', title: 'Deepfakes: Spot the Signs', group: 'Deepfake Attacks' },
+  { file: 'slide-06.html', title: "Deepfakes: Who's Targeted", group: 'Deepfake Attacks' },
+  { file: 'slide-07.html', title: 'Phishing Has Evolved', group: 'Phishing Evolution' },
+  { file: 'slide-08.html', title: 'Phishing Beyond Email — Every Channel', group: 'Phishing Evolution' },
+  { file: 'slide-09.html', title: 'AI & Chatbot Risks: Pasting Data & Shadow AI', group: 'AI & Chatbot Risks' },
+  { file: 'slide-10.html', title: 'When Attackers Use AI Too', group: 'AI & Chatbot Risks' },
+  { file: 'slide-11.html', title: 'Workplace Security', group: 'Workplace & Login Security' },
+  { file: 'slide-12.html', title: 'Login Security', group: 'Workplace & Login Security' },
+  { file: 'slide-13.html', title: 'See Something, Say Something', group: "Do's & Don'ts" },
+  { file: 'slide-14.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
+  { file: 'slide-15.html', title: 'Closing', group: 'Closing' }
 ];
 
 let currentIndex = 0;

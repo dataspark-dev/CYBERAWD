@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shadow AI: Unapproved Tools &amp; Extensions — Synergy Cyber Security Awareness Month</title>
+  <title>When Attackers Use AI Too — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,47 +14,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .action-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-    .action-row .impact-chip {
-      font-size: 14.5px;
-      padding: 7px 15px;
-    }
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+    .cmp-row-label { font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin: 6px 0 8px; display: flex; align-items: center; gap: 8px; }
+    .cmp-row-label.after { color: var(--red-dark); }
+    .cmp-row-label i { font-size: 12px; }
 
-    .cl-item .cl-icon {
-      flex-shrink: 0;
-      position: relative;
-      cursor: pointer;
-      background: rgba(6, 182, 212, 0.08);
-      transition: background 0.15s;
-    }
-    .cl-item .cl-icon:hover {
-      background: rgba(6, 182, 212, 0.18);
-    }
-    .cl-item .cl-check { font-size: 19px; }
+    .slide .pillar-card { padding: 14px 14px 12px; }
+    .slide .pillar-card h3 { font-size: 16.5px; margin-bottom: 3px; }
+    .slide .pillar-card p { font-size: 13.5px; line-height: 1.4; }
+    .slide .icon-wrap { width: 40px; height: 40px; font-size: 18px; margin-bottom: 8px; }
 
-    .cl-icon:hover i,
-    .cl-icon:focus-visible i {
-      transform: scale(1.15);
-    }
-    .cl-icon i {
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .cl-icon:focus-visible {
-      outline: 2px solid var(--cyan);
-      outline-offset: 2px;
-    }
-
-    .progress-meta { font-size: 11px; }
-    .progress-track { height: 8px; }
-    /* Equal-height for checklist at 1920px */
-    .checklist-grid { align-items: stretch; }
-    .cl-item { height: 100%; }
+    .two-col { gap: 18px; }
   </style>
 </head>
 <body>
@@ -66,96 +37,77 @@
     </div>
     <div class="slide-titleblock">
       <div class="slide-eyebrow">Artificial Intelligence</div>
-      <h1><span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button" style="color:inherit;">SHADOW AI<span class="glossary-popup" style="color:var(--white);">Any AI tool used for work that IT hasn't reviewed or approved.</span></span>: THE <span>UNAPPROVED</span> TOOLS</h1>
+      <h1>WHEN ATTACKERS USE <span>AI TOO</span></h1>
     </div>
-    <div class="slide-main reveal-stagger relaxed">
-      <p class="section-lead">Not every AI risk is a chatbot. Click any tool you've seen used on your team – and check if it's actually approved for work.</p>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">Every AI tool that helps you can also help an attacker. Here's the same four attack types, before and after AI.</p>
 
-      <div class="section-block" style="margin-bottom:0;">
-        <div class="progress-meta"><span>Checklist Progress</span><span class="progress-pct">0%</span></div>
-        <div class="progress-track"><div class="progress-fill" style="width:0%;"></div></div>
-
-        <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click each item you've seen used — click an icon for why it matters</div>
-
-        <div class="checklist-grid reveal-stagger">
-          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
-            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
-                 data-icon="fas fa-puzzle-piece" data-title="Browser AI Extensions"
-                 data-body="These add-ons run on every page you open — including internal systems — not just public sites. Some free extensions log what they read. If it's not approved, remove it.">
-              <i class="fas fa-puzzle-piece"></i>
-            </div>
-            <div><h4>Browser AI Extensions</h4><p>Free "AI assistant" add-ons that read and summarise every page you visit – including internal systems.</p></div>
-            <i class="fas fa-circle cl-check"></i>
-          </div>
-          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
-            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
-                 data-icon="fas fa-user-secret" data-title="Personal AI Accounts"
-                 data-body="Personal accounts sit outside company data agreements — no protection and no oversight. They move customer data outside every safeguard. Use the company-approved account.">
-              <i class="fas fa-user-secret"></i>
-            </div>
-            <div><h4>Personal AI Accounts</h4><p>Using a personal chatbot account instead of the company-approved one to get work done faster.</p></div>
-            <i class="fas fa-circle cl-check"></i>
-          </div>
-          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
-            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
-                 data-icon="fas fa-microphone-lines" data-title="AI Meeting Note-Takers"
-                 data-body="Bots that auto-transcribe send everything said — including confidential discussion — to a third-party server. Use the company's approved tool or manual notes instead.">
-              <i class="fas fa-microphone-lines"></i>
-            </div>
-            <div><h4>AI Meeting Note-Takers</h4><p>Bots that join calls to auto-transcribe and summarise – sending your meeting content to a third-party server.</p></div>
-            <i class="fas fa-circle cl-check"></i>
-          </div>
-          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
-            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
-                 data-icon="fas fa-file-pen" data-title="AI Résumé / Interview Tools"
-                 data-body="Writing helpers often store what you type — including company details — to train models. Keep anything company-specific out. You can't delete it once sent.">
-              <i class="fas fa-file-pen"></i>
-            </div>
-            <div><h4>AI Résumé / Interview Tools</h4><p>AI writing helpers used on a CV, cover letter, or interview prep — on shore or on board — that ask for personal or company details.</p></div>
-            <i class="fas fa-circle cl-check"></i>
-          </div>
-          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
-            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
-                 data-icon="fas fa-route" data-title="Unapproved Voyage-Planning AI"
-                 data-body="Free routing tools send vessel position and cargo to a third party outside the approved system. That data can reveal schedule and cargo later. Use the company-approved planner.">
-              <i class="fas fa-route"></i>
-            </div>
-            <div><h4>Unapproved Voyage-Planning AI</h4><p>Free weather-routing or passage-planning tools used instead of the company-approved system, feeding vessel position and cargo details to a third party.</p></div>
-            <i class="fas fa-circle cl-check"></i>
-          </div>
-          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
-            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
-                 data-icon="fas fa-language" data-title="Translation &amp; Summariser Plugins"
-                 data-body="Free summarisers upload the whole document to a third-party server for a short summary. The entire file then sits outside company control. Check for an approved option first.">
-              <i class="fas fa-language"></i>
-            </div>
-            <div><h4>Translation &amp; Summariser Plugins</h4><p>Free "summarise this doc" or translation tools layered onto email or file-sharing apps.</p></div>
-            <i class="fas fa-circle cl-check"></i>
-          </div>
-          <div class="cl-item toggleable icon-lg" onclick="toggleChecklistItem(this)" tabindex="0" role="button">
-            <div class="cl-icon" onclick="event.stopPropagation(); openInfoModalFromEl(this)" aria-label="Why this matters" role="button" tabindex="0"
-                 data-icon="fas fa-images" data-title="AI Image/Deepfake Generators"
-                 data-body="Image generators can create fake photos of colleagues, vessels, or documents. Under GDPR, uploading crew or customer images to a public tool can be a breach. Use only approved tools for work imagery.">
-              <i class="fas fa-images"></i>
-            </div>
-            <div><h4>AI Image/Deepfake Generators</h4><p>Free tools to generate images of colleagues, vessels, or documents.</p></div>
-            <i class="fas fa-circle cl-check"></i>
-          </div>
+      <div class="cmp-row-label"><i class="fas fa-user-ninja"></i> Before AI</div>
+      <div class="card-grid cols-4">
+        <div class="pillar-card">
+          <div class="icon-wrap"><i class="fas fa-spell-check"></i></div>
+          <h3>Generic Lures</h3>
+          <p>Mass emails with poor writing, sent to thousands of addresses, hoping a few will click.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap"><i class="fas fa-microphone"></i></div>
+          <h3>One Voice, One Script</h3>
+          <p>A caller stuck with their own accent and a fixed script that doesn't adapt.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap"><i class="fas fa-bug"></i></div>
+          <h3>Hand-Written Malware</h3>
+          <p>Code written manually — slower to make and easier for security tools to detect.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap"><i class="fas fa-file-lines"></i></div>
+          <h3>Manually Forged Paperwork</h3>
+          <p>Hand-crafted fake IDs, invoices, or approval forms — time-consuming and often has visible errors.</p>
         </div>
       </div>
 
-      <div class="action-row">
-        <span class="mono-tag">Spotted one?</span>
-        <span class="impact-chip"><i class="fas fa-pause" style="color:var(--cyan);"></i> Stop using it on company data</span>
-        <span class="impact-chip"><i class="fas fa-comment-dots" style="color:var(--cyan);"></i> Asking is safe — unchecked use isn't</span>
+      <div class="cmp-row-label after"><i class="fas fa-robot"></i> With AI</div>
+      <div class="card-grid cols-4">
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-wand-magic-sparkles"></i></div>
+          <h3>Personalised at Scale</h3>
+          <p>Flawless, tailored messages generated instantly for each target, using real names and projects.</p>
+        </div>
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-user-secret"></i></div>
+          <h3>Any Voice, Any Accent</h3>
+          <p>A cloned voice — including yours or a colleague's — generated on demand for a live call.</p>
+        </div>
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-virus"></i></div>
+          <h3>Self-Mutating Malware</h3>
+          <p>AI rewrites malicious code automatically so each copy looks different to detection tools.</p>
+        </div>
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-file-circle-exclamation"></i></div>
+          <h3>AI-Generated Fake Documents</h3>
+          <p>Forged IDs, invoices, or approval forms generated instantly with AI image tools — no visible errors.</p>
+        </div>
       </div>
 
-      <div class="info-box warning">
-        <i class="fas fa-triangle-exclamation"></i>
-        <div>Not sure? Ask IT before using it with company or customer data.</div>
+      <div class="mono-tag" style="display:block;margin-top:4px;">Quick Check — Right Call vs. Risky Call</div>
+      <div class="two-col">
+        <div class="info-box success">
+          <i class="fas fa-circle-check"></i>
+          <div><strong>Right Call — Verify Through a Second Channel.</strong> A "vendor" message — perfectly written, mentioning your real project — asks you to approve a payment. You call the vendor back on the number you already have on file before doing anything. AI-written messages can be flawless now — a second, trusted channel still catches it.</div>
+        </div>
+        <div class="info-box danger">
+          <i class="fas fa-triangle-exclamation"></i>
+          <div><strong>Risky Call — Trust It, the Writing Is Perfect.</strong> The message has no errors, mentions your real project, and sounds just like the vendor. You approve the payment because it seems legitimate. Perfect wording is no longer proof of anything — AI can generate flawless, personalised lures instantly.</div>
+        </div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> When Attackers Use AI Too <i class="fas fa-arrow-right"></i></div>
+      <div class="callout-bar" style="border-left-color:var(--red);">
+        <i class="fas fa-triangle-exclamation" style="color:var(--scene-red-accent);"></i>
+        <div class="callout-text"><strong>WHY IT MATTERS:</strong> Old tells are disappearing. Pausing, checking on a second, trusted channel, and reporting matter more than ever.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Workplace Security <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

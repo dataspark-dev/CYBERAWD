@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>When Attackers Use AI Too — Synergy Cyber Security Awareness Month</title>
+  <title>Workplace Security — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,204 +14,90 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .spot-outcome {
-      display: none;
-      margin-top: 12px;
-      padding: 12px 18px;
-      border-radius: 6px;
-      border: 1px solid var(--line);
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      font-size: 15px;
-      text-align: center;
-      background: var(--paper);
-    }
-    .spot-outcome.show { display: block; }
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 12px; }
 
-    .spot-card.revealed.is-correct .spot-verdict-tag {
-      background: var(--green);
-      color: var(--white);
-    }
-    .spot-card.revealed.is-wrong .spot-verdict-tag {
-      background: var(--red);
-      color: var(--white);
-    }
-    .spot-verdict-tag { font-size: 11px; padding: 4px 10px; }
+    /* Metrics kept identical to slide-12's .tell-card — these two slides are a
+       twinned pair shown back to back, so any drift between them is visible. */
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family:'Orbitron',sans-serif; font-size: 15.5px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family:'Space Mono',monospace; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 13.5px; line-height: 1.4; color: var(--body-text); }
 
-    .toggle-opt {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-size: 15px;
-    }
+    .sim-static { display: flex; gap: 14px; align-items: center; padding: 16px 20px; border-radius: var(--r); background: rgba(0,26,77,0.05); border: 1px solid rgba(0,26,77,0.12); }
+    .sim-static i { font-size: 30px; color: var(--navy); flex-shrink: 0; }
+    .sim-static h4 { font-family:'Orbitron',sans-serif; font-size: 16px; color: var(--navy); margin-bottom: 3px; }
+    .sim-static p { font-size: 14px; line-height: 1.45; color: var(--body-text); }
 
-    .toggle-pane .card-grid .pillar-card {
-      box-shadow: var(--shadow-md);
-      transition: transform 0.15s ease;
-    }
-    .toggle-pane .card-grid .pillar-card:hover {
-      transform: translateY(-2px);
-    }
-    /* Equal-height for 3-pillar and spot-grid rows at 1920px */
-    .card-grid { align-items: stretch; }
-    .pillar-card { height: 100%; display: flex; flex-direction: column; }
-    .spot-grid { align-items: stretch; }
-    .spot-card { height: 100%; display: flex; flex-direction: column; }
-    .spot-body { flex: 1; }
+    .slide .info-box { padding: 14px 18px; }
+    .slide .info-box p, .slide .info-box div { font-size: 15.5px; line-height: 1.5; }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   </style>
 </head>
 <body>
-  <div class="slide accent-threat">
+  <div class="slide accent-defense">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">Artificial Intelligence</div>
-      <h1>WHEN ATTACKERS USE <span>AI TOO</span></h1>
+      <div class="slide-eyebrow">Everyday Defence</div>
+      <h1>YOUR DESK IS PART OF THE <span>PERIMETER</span></h1>
     </div>
-    <div class="slide-main reveal-stagger compact">
-      <p class="section-lead">Every AI tool that helps you can also help an attacker. Toggle to see the difference.</p>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Four things worth noticing at any desk — two risks, two good habits. Plus what should happen the moment you walk away.</p>
 
-      <div class="toggle-group">
-        <div style="display:flex;justify-content:center;">
-          <div class="toggle-switch" data-active="0">
-            <div class="toggle-indicator"></div>
-            <button class="toggle-opt active" onclick="toggleSwitch(this,0)" aria-label="Attacker without AI"><i class="fas fa-user-ninja"></i> Attacker, Before AI</button>
-            <button class="toggle-opt" onclick="toggleSwitch(this,1)" aria-label="Attacker with AI"><i class="fas fa-robot"></i> Attacker, With AI</button>
-          </div>
+      <div class="two-col">
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-note-sticky"></i></div><div><h4>Password on a Sticky Note <span class="tell-tag">Risk</span></h4><p>Never leave passwords written where others can see them. Use a password manager instead.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-desktop"></i></div><div><h4>Locked Screen <span class="tell-tag">Good Practice</span></h4><p>Lock your screen (Win+L / Cmd+Ctrl+Q) every time you leave, even for a moment.</p></div></div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-hard-drive"></i></div><div><h4>Unknown USB Drive <span class="tell-tag">Risk</span></h4><p>Never plug in a USB stick you don't own or haven't checked with IT. It can install harmful software silently the moment you plug it in.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-id-badge"></i></div><div><h4>Badge Worn Visibly <span class="tell-tag">Good Practice</span></h4><p>Keep your badge visible, and don't let anyone follow you through a secure door.</p></div></div>
         </div>
 
-        <div class="interact-hint center" style="margin:14px 0 4px;"><i class="fas fa-hand-pointer"></i> Click to compare</div>
+        <div>
+          <div class="sim-static">
+            <i class="fas fa-lock"></i>
+            <div><h4>What Should Happen When You Walk Away</h4><p>After a short idle period, the screen should lock automatically — no action needed from you. If it doesn't, lock it yourself before you go.</p></div>
+          </div>
 
-        <!-- Before AI -->
-        <div class="toggle-pane active" data-pane="0">
-          <div class="card-grid cols-4">
-            <div class="pillar-card">
-              <div class="icon-wrap"><i class="fas fa-spell-check"></i></div>
-              <h3>Generic Lures</h3>
-              <p>Mass emails with poor writing, sent to thousands of addresses, hoping a few will click.</p>
-            </div>
-            <div class="pillar-card">
-              <div class="icon-wrap"><i class="fas fa-microphone"></i></div>
-              <h3>One Voice, One Script</h3>
-              <p>A caller stuck with their own accent and a fixed script that doesn't adapt.</p>
-            </div>
-            <div class="pillar-card">
-              <div class="icon-wrap"><i class="fas fa-bug"></i></div>
-              <h3>Hand-Written Malware</h3>
-              <p>Code written manually — slower to make and easier for security tools to detect.</p>
-            </div>
-            <div class="pillar-card">
-              <div class="icon-wrap"><i class="fas fa-file-lines"></i></div>
-              <h3>Manually Forged Paperwork</h3>
-              <p>Hand-crafted fake IDs, invoices, or approval forms — time-consuming and often contains visible errors.</p>
-            </div>
+          <div class="info-box warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>Locking takes 2 seconds. Leaving it unlocked is an open invitation.</div>
+          </div>
+
+          <div class="info-box info">
+            <i class="fas fa-anchor"></i>
+            <div><strong>Same rule on board:</strong> bridge, ECDIS, and engine-control computers are just as exposed as a desk — lock them on watch handover.</div>
           </div>
         </div>
-
-        <!-- With AI -->
-        <div class="toggle-pane" data-pane="1"><template>
-          <div class="card-grid cols-4">
-            <div class="pillar-card v-red">
-              <div class="icon-wrap"><i class="fas fa-wand-magic-sparkles"></i></div>
-              <h3>Personalised at Scale</h3>
-              <p>Flawless, tailored messages generated instantly for each target, using real names and projects.</p>
-            </div>
-            <div class="pillar-card v-red">
-              <div class="icon-wrap"><i class="fas fa-user-secret"></i></div>
-              <h3>Any Voice, Any Accent</h3>
-              <p>A cloned voice — including yours or a colleague's — generated on demand for a live call.</p>
-            </div>
-            <div class="pillar-card v-red">
-              <div class="icon-wrap"><i class="fas fa-virus"></i></div>
-              <h3>Self-Mutating Malware</h3>
-              <p>AI rewrites malicious code automatically so each copy looks different to detection tools.</p>
-            </div>
-            <div class="pillar-card v-red">
-              <div class="icon-wrap"><i class="fas fa-file-circle-exclamation"></i></div>
-              <h3>AI-Generated Fake Documents</h3>
-              <p>Forged IDs, invoices, or approval forms generated instantly with AI image tools — no visible errors.</p>
-            </div>
-          </div>
-        </template></div>
       </div>
 
-      <div class="mono-tag" style="margin:8px 0 6px;display:block;text-align:center;">Quick Check</div>
-      <div class="interact-hint center" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click a card to choose</div>
-
-      <div style="max-width:1300px;margin:0 auto;width:100%;">
-        <div class="spot-grid compact" data-answered="false">
-          <div class="spot-card" data-correct="true" onclick="microScenarioPick(this)" tabindex="0" role="button">
-            <div class="spot-verdict-tag">RIGHT CALL</div>
-            <div class="spot-media">
-              <i class="fas fa-envelope-open-text"></i>
-              <div class="spot-label">Option A</div>
-            </div>
-            <div class="spot-body">
-              <h4>Verify Through a Second Channel</h4>
-              <p>A "vendor" message — perfectly written, mentioning your real project — asks you to approve a payment. You call the vendor back on the number you already have on file before doing anything.</p>
-            </div>
-            <div class="spot-result">Right call — AI-written messages can be flawless now. A second, independent channel still catches it.</div>
-          </div>
-          <div class="spot-card" data-correct="false" onclick="microScenarioPick(this)" tabindex="0" role="button">
-            <div class="spot-verdict-tag">RISKY CALL</div>
-            <div class="spot-media">
-              <i class="fas fa-envelope-open-text"></i>
-              <div class="spot-label">Option B</div>
-            </div>
-            <div class="spot-body">
-              <h4>Trust It – the Writing Is Perfect</h4>
-              <p>The message has no errors, mentions your real project, and sounds just like the vendor. You approve the payment because it seems legitimate.</p>
-            </div>
-            <div class="spot-result">Risky — perfect writing is no longer proof of anything. AI can generate flawless, personalised lures instantly.</div>
-          </div>
-        </div>
-        <div class="spot-outcome"></div>
+      <div class="action-row">
+        <span class="mono-tag">Before you step away — office or onboard:</span>
+        <span class="impact-chip"><i class="fas fa-lock" style="color:var(--cyan);"></i> Lock your screen (Win+L / Cmd+Ctrl+Q)</span>
+        <span class="impact-chip"><i class="fas fa-note-sticky" style="color:var(--cyan);"></i> Put away sticky notes &amp; USB drives</span>
+        <span class="impact-chip"><i class="fas fa-id-badge" style="color:var(--cyan);"></i> Wear your badge, don't tailgate others</span>
       </div>
 
-      <div class="callout-bar" style="border-left-color:var(--red);">
-        <i class="fas fa-triangle-exclamation" style="color:var(--scene-red-accent);"></i>
-        <div class="callout-text"><strong>WHY IT MATTERS:</strong> Old tells are disappearing. Pausing, checking on a separate channel, and reporting matter more than ever.</div>
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[LOCK IT]</strong> <strong>GOLDEN RULE:</strong> If you can see it, so can anyone walking past – lock your screen, secure loose items, and never plug in an unknown drive.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
+        <div class="info-expand-panel">Physical access bypasses almost every technical control. A locked screen and a secured desk close that gap in seconds – and it costs nothing.</div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> Workplace Security Behavior <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> Login Security <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 
   <script src="../scripts/main.js"></script>
-  <script>
-    (function() {
-      window.microScenarioPick = function(el) {
-        const group = el.closest('.spot-grid');
-        if (group.dataset.answered === 'true') return;
-        group.dataset.answered = 'true';
-
-        const pickedCorrect = el.dataset.correct === 'true';
-        const cards = group.querySelectorAll('.spot-card');
-        cards.forEach(c => {
-          const cIsCorrect = c.dataset.correct === 'true';
-          c.classList.add('revealed', cIsCorrect ? 'is-correct' : 'is-wrong');
-          c.style.cursor = 'default';
-          const result = c.querySelector('.spot-result');
-          if (result) result.classList.add('show');
-        });
-        el.classList.add(pickedCorrect ? 'picked-correct' : 'picked-wrong');
-
-        const msg = group.parentElement?.querySelector('.spot-outcome');
-        if (msg) {
-          msg.classList.add('show');
-          msg.textContent = pickedCorrect
-            ? '✓ Correct — verifying through a second channel still works, even against perfect AI-written lures.'
-            : '✗ Not quite — perfect wording is exactly what AI now makes easy to fake. A second channel would have caught it.';
-          msg.style.color = pickedCorrect ? 'var(--green-darker)' : 'var(--red-dark)';
-          msg.style.background = pickedCorrect ? 'var(--scene-green-tint-1)' : 'var(--scene-red-tint-1)';
-          msg.style.borderColor = pickedCorrect ? 'var(--scene-green-tint-border)' : 'var(--scene-red-tint-border)';
-        }
-      };
-    })();
-  </script>
 </body>
 </html>

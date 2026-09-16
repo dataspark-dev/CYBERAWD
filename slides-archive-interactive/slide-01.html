@@ -111,6 +111,7 @@
       flex-direction: column;
       align-items: center;
       gap: 9px;
+      cursor: pointer;
       z-index: 1;
     }
     .j-icon {
@@ -183,6 +184,121 @@
     .j-node:last-child .j-tip { left: auto; right: 0; transform: translateX(0) translateY(4px); }
     .j-node:last-child .j-tip::after { left: auto; right: 32px; transform: none; }
     .j-node:last-child:hover .j-tip { transform: translateX(0) translateY(0); }
+    .j-node.active .j-icon {
+      background: rgba(6, 182, 212, 0.25);
+      border-color: var(--cyan);
+    }
+
+    .op-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 13, 38, 0.70);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.18s;
+      z-index: 40;
+    }
+    .op-modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .op-modal {
+      width: 620px;
+      background: linear-gradient(160deg, var(--navy-4), var(--navy));
+      border: 1px solid rgba(6, 182, 212, 0.32);
+      border-radius: 14px;
+      padding: 32px 36px;
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.48);
+      transform: translateY(12px) scale(0.96);
+      transition: transform 0.2s;
+      position: relative;
+    }
+    .op-modal-backdrop.open .op-modal {
+      transform: translateY(0) scale(1);
+    }
+    .op-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.15s;
+    }
+    .op-modal-close:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+    .op-modal-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .op-modal-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      background: rgba(6, 182, 212, 0.16);
+      color: var(--cyan-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 21px;
+      flex-shrink: 0;
+    }
+    .op-modal-head h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.2;
+    }
+    .op-modal-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 11.5px;
+      color: var(--cyan-light);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 3px;
+    }
+    .op-modal-body {
+      font-size: 15.5px;
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.80);
+    }
+    .op-modal-body strong { color: var(--white); }
+    .op-modal-list {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .op-modal-list li {
+      display: flex;
+      gap: 9px;
+      align-items: flex-start;
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.5;
+    }
+    .op-modal-list li i {
+      color: var(--cyan-light);
+      font-size: 12px;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
   </style>
 </head>
 <body>
@@ -202,6 +318,7 @@
       <div class="open-stack reveal-stagger">
         <div class="op-title">
           <div class="op-eyebrow">Synergy Marine Group &times; AFT</div>
+          <!-- Nav title intentionally "Opening" — a short structural bookend label (mirrors slide-18's "Closing"); the full banner below is the on-slide hook, not the nav wayfinding text. -->
           <h1>SYNERGY CYBER SECURITY<br><span>AWARENESS MONTH</span></h1>
         </div>
 
@@ -210,53 +327,53 @@
           <p class="op-lead">A short, practical walk through today's most common tricks — how to spot them and what to do next. No jargon, just habits for desk or ship.</p>
         </div>
 
-        <div class="op-hint"><i class="fa-solid fa-hand-pointer"></i> Hover any icon for a 10-second preview</div>
+        <div class="op-hint"><i class="fa-solid fa-hand-pointer"></i> Hover any icon for a 10-second preview — then explore the full deck</div>
 
         <div class="journey">
           <div class="journey-track">
-            <div class="j-node" aria-label="Welcome module">
+            <div class="j-node" data-popup="j-welcome" tabindex="0" role="button" aria-label="Welcome module">
               <div class="j-tip">Why this month exists and what's at stake.</div>
               <div class="j-icon"><i class="fa-solid fa-house-signal"></i></div>
               <div class="j-num">01</div>
               <div class="j-label">Welcome</div>
             </div>
-            <div class="j-node" aria-label="Threat Landscape module">
+            <div class="j-node" data-popup="j-threat" tabindex="0" role="button" aria-label="Threat Landscape module">
               <div class="j-tip">Where today's real attacks are coming from.</div>
               <div class="j-icon"><i class="fa-solid fa-globe"></i></div>
               <div class="j-num">02</div>
               <div class="j-label">Threat Landscape</div>
             </div>
-            <div class="j-node" aria-label="Deepfake Attacks module">
+            <div class="j-node" data-popup="j-deepfake" tabindex="0" role="button" aria-label="Deepfake Attacks module">
               <div class="j-tip">Spot a cloned voice or video before it fools you.</div>
               <div class="j-icon"><i class="fa-solid fa-user-secret"></i></div>
               <div class="j-num">03</div>
               <div class="j-label">Deepfake Attacks</div>
             </div>
-            <div class="j-node" aria-label="Phishing Evolution module">
+            <div class="j-node" data-popup="j-phishing" tabindex="0" role="button" aria-label="Phishing Evolution module">
               <div class="j-tip">Email, SMS and voice scams — evolved beyond the classics.</div>
               <div class="j-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
               <div class="j-num">04</div>
               <div class="j-label">Phishing Evolution</div>
             </div>
-            <div class="j-node" aria-label="AI and Chatbot Risks module">
+            <div class="j-node" data-popup="j-ai" tabindex="0" role="button" aria-label="AI and Chatbot Risks module">
               <div class="j-tip">Chatbots, unapproved tools, and attackers using AI too.</div>
               <div class="j-icon"><i class="fa-solid fa-robot"></i></div>
               <div class="j-num">05</div>
               <div class="j-label">AI &amp; Chatbot Risks</div>
             </div>
-            <div class="j-node" aria-label="Workplace and Login Security module">
+            <div class="j-node" data-popup="j-workplace" tabindex="0" role="button" aria-label="Workplace Security module">
               <div class="j-tip">Everyday habits — passwords, MFA, and locking your screen.</div>
               <div class="j-icon"><i class="fa-solid fa-building-shield"></i></div>
               <div class="j-num">06</div>
-              <div class="j-label">Workplace &amp; Login Security</div>
+              <div class="j-label">Workplace Security</div>
             </div>
-            <div class="j-node" aria-label="Do's and Don'ts module">
+            <div class="j-node" data-popup="j-dos" tabindex="0" role="button" aria-label="Do's and Don'ts module">
               <div class="j-tip">The short list of do's, don'ts, and who to tell.</div>
               <div class="j-icon"><i class="fa-solid fa-check-double"></i></div>
               <div class="j-num">07</div>
               <div class="j-label">Do's &amp; Don'ts</div>
             </div>
-            <div class="j-node" aria-label="Closing module">
+            <div class="j-node" data-popup="j-closing" tabindex="0" role="button" aria-label="Closing module">
               <div class="j-tip">Wrap-up and what to carry forward.</div>
               <div class="j-icon"><i class="fa-solid fa-flag-checkered"></i></div>
               <div class="j-num">08</div>
@@ -264,7 +381,7 @@
             </div>
           </div>
         </div>
-        <div class="slide-bridge"><strong>Next</strong> Why Cybersecurity Matters Now <i class="fas fa-arrow-right"></i></div>
+        <div class="slide-bridge"><strong>Next</strong> Why Cybersecurity Matters <i class="fas fa-arrow-right"></i></div>
       </div>
     </div>
 
@@ -273,11 +390,145 @@
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">DEEPFAKES</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">PHISHING</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">AI &amp; CHATBOTS</span><span style="color:rgba(6,182,212,0.4);">·</span>
-      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">WORKPLACE &amp; LOGIN SECURITY</span><span style="color:rgba(6,182,212,0.4);">·</span>
+      <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">WORKPLACE SECURITY</span><span style="color:rgba(6,182,212,0.4);">·</span>
       <span style="text-shadow: 0 0 10px rgba(0,0,0,0.8);">DO'S &amp; DON'TS</span>
+    </div>
+
+    <div class="op-modal-backdrop" id="opModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="opModalTitle">
+      <div class="op-modal">
+        <button class="op-modal-close" id="opModalClose" aria-label="Close modal"><i class="fa-solid fa-xmark"></i></button>
+        <div class="op-modal-head">
+          <div class="op-modal-icon" id="opModalIcon"><i class="fa-solid fa-circle-info"></i></div>
+          <div>
+            <div class="op-modal-eyebrow" id="opModalEyebrow">Detail</div>
+            <h3 id="opModalTitle">Title</h3>
+          </div>
+        </div>
+        <div class="op-modal-body" id="opModalBody"></div>
+      </div>
     </div>
   </div>
 
   <script src="../scripts/main.js"></script>
+  <script>
+    (function() {
+      const POPUPS = {
+        'j-welcome': {
+          icon: 'fa-solid fa-house-signal',
+          eyebrow: 'Module 01',
+          title: 'Welcome',
+          body: 'A 20-minute overview — why we run this month and what is at stake for every role.',
+          list: ['Opening', 'Why Cybersecurity Matters']
+        },
+        'j-deepfake': {
+          icon: 'fa-solid fa-user-secret',
+          eyebrow: 'Module 03',
+          title: 'Deepfake Attacks',
+          body: 'AI-cloned voices and faces are now cheap and convincing enough to impersonate leadership.',
+          list: ['Deepfakes — The Concept', 'Real vs Fake Simulation', 'Deepfakes Beyond the Boardroom']
+        },
+        'j-phishing': {
+          icon: 'fa-solid fa-envelope-open-text',
+          eyebrow: 'Module 04',
+          title: 'Phishing Evolution',
+          body: 'From typo-filled relics to polished texts, calls, and near-perfect lures — phishing today is multi-channel.',
+          list: ['Phishing Evolution', 'Beyond Email — Smishing & Vishing', 'Spot the Phish']
+        },
+        'j-ai': {
+          icon: 'fa-solid fa-robot',
+          eyebrow: 'Module 05',
+          title: 'AI & Chatbot Risks',
+          body: 'Public AI tools are powerful — and easy to misuse without meaning to, on both sides of an attack.',
+          list: ['AI & Chatbot Risks', 'Shadow AI — Unapproved Tools', 'When Attackers Use AI Too']
+        },
+        'j-threat': {
+          icon: 'fa-solid fa-globe',
+          eyebrow: 'Module 02',
+          title: 'Threat Landscape',
+          body: 'A quick look at where real incidents are coming from today, including through your vendors.',
+          list: ['Modern Threat Landscape', 'Supply Chain & Third-Party Risk']
+        },
+        'j-workplace': {
+          icon: 'fa-solid fa-building-shield',
+          eyebrow: 'Module 06',
+          title: 'Workplace Security',
+          body: 'The unglamorous habits — passwords, MFA, locking your screen — that stop most attacks.',
+          list: ['Workplace Security Behavior', 'Passwords, MFA & Access Hygiene']
+        },
+        'j-dos': {
+          icon: 'fa-solid fa-check-double',
+          eyebrow: 'Module 07',
+          title: 'Do\'s & Don\'ts',
+          body: 'Who to tell, when to escalate, and the short list of rules that cover almost every situation.',
+          list: ['See Something, Say Something', 'Do\'s & Don\'ts']
+        },
+        'j-closing': {
+          icon: 'fa-solid fa-flag-checkered',
+          eyebrow: 'Module 08',
+          title: 'Closing',
+          body: 'A short recap of what to carry forward after this month ends.',
+          list: ['Closing']
+        }
+      };
+
+      const modalBackdrop = document.getElementById('opModalBackdrop');
+      const modalClose = document.getElementById('opModalClose');
+      const modalIcon = document.getElementById('opModalIcon');
+      const modalEyebrow = document.getElementById('opModalEyebrow');
+      const modalTitle = document.getElementById('opModalTitle');
+      const modalBody = document.getElementById('opModalBody');
+
+      function buildList(items) {
+        if (!items || !items.length) return '';
+        return '<ul class="op-modal-list">' + items.map(t =>
+          '<li><i class="fa-solid fa-chevron-right"></i><span>' + t + '</span></li>'
+        ).join('') + '</ul>';
+      }
+
+      function openPopup(id) {
+        const data = POPUPS[id];
+        if (!data) return;
+        modalIcon.innerHTML = '<i class="' + data.icon + '"></i>';
+        modalEyebrow.textContent = data.eyebrow;
+        modalTitle.textContent = data.title;
+        modalBody.innerHTML = '<p>' + data.body + '</p>' + buildList(data.list);
+        modalBackdrop.classList.add('open');
+        document.querySelectorAll('.j-node').forEach(n =>
+          n.classList.toggle('active', n.dataset.popup === id)
+        );
+      }
+
+      function closePopup() {
+        modalBackdrop.classList.remove('open');
+        document.querySelectorAll('.j-node').forEach(n => n.classList.remove('active'));
+      }
+
+      document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('[data-popup]');
+        if (trigger) {
+          e.preventDefault();
+          openPopup(trigger.dataset.popup);
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        const trigger = e.target.closest('[data-popup]');
+        if (trigger && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          openPopup(trigger.dataset.popup);
+        }
+        if (e.key === 'Escape' && modalBackdrop.classList.contains('open')) {
+          closePopup();
+        }
+      });
+
+      modalClose.addEventListener('click', closePopup);
+      modalBackdrop.addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closePopup();
+      });
+
+      if (window.SynergyUI) SynergyUI.onEntranceReset(closePopup);
+    })();
+  </script>
 </body>
 </html>

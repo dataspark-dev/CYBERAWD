@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Modern Threat Landscape: Four Threats Shaping 2026 — Synergy Cyber Security Awareness Month</title>
+  <title>Login Security — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,97 +14,92 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .flip-card-back p {
-      font-size: 15.5px;
-      line-height: 1.55;
-    }
-    .flip-card-back i { font-size: 22px; }
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
 
-    .fact-box {
-      overflow: visible;
-    }
-    .fact-box::before {
-      border-radius: var(--r);
-    }
-    /* [SAFE-FIX] A1: add explicit equal-height pattern for flip-card grid (was relying on implicit default) */
-    .card-grid { align-items: stretch; }
-    .flip-card { height: 100%; display: flex; flex-direction: column; }
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family:'Orbitron',sans-serif; font-size: 15.5px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family:'Space Mono',monospace; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 13.5px; line-height: 1.4; color: var(--body-text); }
+
+    .sim-static { display: flex; gap: 14px; align-items: center; padding: 14px 18px; border-radius: var(--r); background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.18); }
+    .sim-static i { font-size: 28px; color: var(--red); flex-shrink: 0; }
+    .sim-static h4 { font-family:'Orbitron',sans-serif; font-size: 15px; color: var(--navy); margin-bottom: 3px; }
+    .sim-static p { font-size: 13.5px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+    .slide .info-box p, .slide .info-box div { font-size: 14px; line-height: 1.42; }
+    .info-box.danger { border-left-color: var(--red); background: rgba(239,68,68,0.06); }
+    .info-box.danger i { color: var(--red); }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
   </style>
 </head>
 <body>
-  <div class="slide accent-threat">
+  <div class="slide accent-defense">
     <div class="grid-bg on-light"></div>
     <div class="slide-header">
       <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">2026 Threat Landscape</div>
-      <!-- Nav title "Modern Threat Landscape" intentionally mirrors this module's group name ("Threat Landscape") for wayfinding (module-opener pattern); on-slide keeps the punchier year-specific hook. -->
-      <h1>FOUR THREATS <span>SHAPING 2026</span></h1>
+      <div class="slide-eyebrow">Everyday Defence</div>
+      <h1>YOUR LOGIN IS PART OF THE <span>PERIMETER</span></h1>
     </div>
-    <div class="slide-main reveal-stagger relaxed">
-      <p class="section-lead">The threat landscape keeps shifting. Click each card to see how attackers are operating differently this year.</p>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">What a well-protected account looks like — and what attackers hope you never fix.</p>
 
-      <div class="reveal-stagger card-grid cols-4">
-        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
-             data-icon="fas fa-file-export" data-title="Ransomware — locks files for payment"
-             data-body="Ransomware now uses double extortion: attackers copy files — e.g., crew records — then threaten to publish before locking them. A backup restores access, but the stolen copy stays theirs. Rental models mean attacks keep growing.">
-          <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(239,68,68,0.1);color:var(--red);"><i class="fas fa-lock"></i></div>
-            <h4>Ransomware</h4>
-            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
-          </div>
+      <div class="two-col">
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-key"></i></div><div><h4>Same Password, Reused <span class="tell-tag">Risk</span></h4><p>Using the same password on multiple sites means one leak unlocks all your accounts.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-mobile-screen-button"></i></div><div><h4>MFA Turned On <span class="tell-tag">Good Practice</span></h4><p>MFA stops a stolen password from getting in.</p></div></div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-clock-rotate-left"></i></div><div><h4>Unrecognised Sign-In Ignored <span class="tell-tag">Risk</span></h4><p>Dismissing a login alert from an unknown device or location is a mistake. Report it.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-shield-halved"></i></div><div><h4>Password Manager In Use <span class="tell-tag">Good Practice</span></h4><p>Creates and stores unique, strong passwords for every account.</p></div></div>
         </div>
 
-        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
-             data-icon="fas fa-user-secret" data-title="Social Engineering"
-             data-body="Social engineering manipulates people, not systems, and drives most attacks in this deck. AI makes it cheap to clone voices and personalise messages at scale. The old tells are disappearing — use a separate, trusted channel to confirm.">
-          <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-masks-theater"></i></div>
-            <h4>Social Engineering</h4>
-            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+        <div>
+          <div class="sim-static">
+            <i class="fas fa-ban"></i>
+            <div><h4>MFA Push-Bombing</h4><p>A flood of approval requests you didn't trigger is an attack, not a glitch. Tap Deny, not Approve, and report it to IT immediately.</p></div>
           </div>
-        </div>
 
-        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
-             data-icon="fas fa-triangle-exclamation" data-title="Insider Threats"
-             data-body="Most insider incidents start as honest mistakes — a misdirected record, a reused password, or leftover access after a role change. They bypass external defences by design. Reporting quickly and without blame limits the damage.">
-          <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-user-group"></i></div>
-            <h4>Insider Threats</h4>
-            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          <div class="info-box danger">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div><strong>MFA fatigue:</strong> If you get requests you didn't trigger, don't tap Approve to stop them. Tap Deny and report to IT.</div>
           </div>
-        </div>
 
-        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
-             data-icon="fas fa-lock-open" data-title="Cloud Risks — open links and folders"
-             data-body="Most cloud exposure is a shared folder left open by mistake — e.g., crew records anyone with the link can see. It can sit unnoticed for months. Double-check permissions when you share.">
-          <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:var(--amber);"><i class="fas fa-cloud"></i></div>
-            <h4>Cloud Risks</h4>
-            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          <div class="info-box warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>Sign-in alert you don't recognise? Change the password and report it.</div>
+          </div>
+
+          <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.05);">
+            <i class="fas fa-mobile-screen-button" style="color:var(--navy);"></i>
+            <div><strong>Genuine vs. fake MFA prompt:</strong> Genuine — matches your device and location. Fake — an unfamiliar location demanding immediate approval. When in doubt, deny and report.</div>
           </div>
         </div>
       </div>
 
       <div class="action-row">
-        <span class="mono-tag">What this means for you:</span>
-        <span class="impact-chip"><i class="fas fa-database" style="color:var(--cyan);"></i> Back up critical data, test the restore</span>
-        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify unusual requests via a 2nd channel</span>
-        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report mistakes immediately — no blame</span>
-        <span class="impact-chip"><i class="fas fa-lock" style="color:var(--cyan);"></i> Double-check sharing and storage permissions</span>
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Use a password manager for every account</span>
+        <span class="impact-chip"><i class="fas fa-mobile-screen-button" style="color:var(--cyan);"></i> Turn on the second check (MFA) everywhere it's offered</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report sign-in alerts you don't recognise</span>
       </div>
 
-      <div class="fact-box">
-        <i class="fas fa-lightbulb fact-icon"></i>
-        <div>
-          <div class="fact-label">Did You Know?</div>
-          <div class="fact-text">Ransomware is now a <span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button">subscription business<span class="glossary-popup">Ransomware-as-a-Service (RaaS): attackers rent tools instead of building them.</span></span> — gangs rent malware for a cut. That's why attacks keep growing.</div>
-        </div>
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[SECURE IT]</strong> <strong>GOLDEN RULE:</strong> Use a unique password for every account, plus MFA – together they block almost every account takeover attempt, even one that started with someone else's breach.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
+        <div class="info-expand-panel">Attackers don't need to guess your password if they already have it from an unrelated leak. A unique password and MFA break that chain even when a breach elsewhere exposes it.</div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> Supply Chain &amp; Third-Party Risk <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> See Something, Say Something <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

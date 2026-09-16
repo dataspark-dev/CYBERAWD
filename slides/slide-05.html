@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Deepfakes Beyond the Boardroom — Synergy Cyber Security Awareness Month</title>
+  <title>Deepfakes: Spot the Signs — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,28 +14,44 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .sc-content h4 { font-size: 19px; }
-    .reveal-btn { font-size: 12.5px; padding: 8px 16px; }
-    .verdict-badge { font-size: 15px; }
-    .verdict i { font-size: 18px; }
-    .verdict p { font-size: 15.5px !important; }
-
-    .action-row {
+    .tell-compare { gap: 28px; align-items: stretch; }
+    .tell-col {
       display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 0;
+      flex-direction: column;
+      border-radius: var(--r-lg);
+      padding: 22px 28px;
     }
+    .tell-col.real { background: rgba(16, 185, 129, 0.07); border: 1.5px solid rgba(16, 185, 129, 0.28); }
+    .tell-col.fake { background: rgba(239, 68, 68, 0.06); border: 1.5px solid rgba(239, 68, 68, 0.25); }
+    .tell-col-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .tell-col-head i { font-size: 26px; }
+    .tell-col.real .tell-col-head i,
+    .tell-col.real .tell-col-head span { color: var(--green-dark); }
+    .tell-col.fake .tell-col-head i,
+    .tell-col.fake .tell-col-head span { color: var(--red-dark); }
+    .tell-col-head span { font-family: 'Orbitron', sans-serif; font-size: 20px; font-weight: 800; letter-spacing: 0.4px; }
+    .tell-item { display: flex; gap: 14px; margin-bottom: 18px; }
+    .tell-item i { font-size: 16px; margin-top: 3px; flex-shrink: 0; }
+    .tell-col.real .tell-item i { color: var(--green-dark); }
+    .tell-col.fake .tell-item i { color: var(--red-dark); }
+    .tell-item strong { display: block; font-size: 17px; color: var(--navy); margin-bottom: 2px; }
+    .tell-item p { font-size: 15.5px; color: var(--body-text); line-height: 1.5; }
+    .tell-caption { margin-top: auto; padding-top: 16px; font-size: 16px; font-style: italic; color: var(--muted); border-top: 1px dashed var(--line); }
 
-    .glossary-term .glossary-popup {
-      left: auto;
-      right: 0;
+    .think-prompt {
+      text-align: center;
+      font-family: 'Barlow', sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--navy);
+      background: rgba(0, 98, 255, 0.05);
+      border: 1px solid rgba(0, 98, 255, 0.15);
+      border-radius: 6px;
+      padding: 12px 22px;
+      margin: 0 auto;
+      max-width: 820px;
     }
-    /* Equal-height fix for 4-card row at 1920px */
-    .card-grid { align-items: stretch; }
-    .scenario-card { height: 100%; display: flex; flex-direction: column; }
-    .scenario-top { flex: 1; }
+    .think-prompt i { color: var(--blue); margin-right: 8px; }
   </style>
 </head>
 <body>
@@ -47,92 +63,31 @@
     </div>
     <div class="slide-titleblock">
       <div class="slide-eyebrow">Identity &amp; Trust</div>
-      <h1>DEEPFAKES BEYOND THE <span>BOARDROOM</span></h1>
+      <h1>DEEPFAKES: <span>SPOT THE SIGNS</span></h1>
     </div>
     <div class="slide-main reveal-stagger relaxed">
-      <p class="section-lead">The US$25M call wasn't a one‑off — it just made headlines. Click each card to see who else attackers are cloning, and why it works.</p>
+      <p class="section-lead">The US$25M call wasn't a one-off — it just made headlines. Here's what gives a deepfake away on a live call.</p>
 
-      <div class="interact-hint" style="margin-bottom:4px;"><i class="fas fa-hand-pointer"></i> Click "Reveal" on each card</div>
+      <div class="think-prompt"><i class="fas fa-circle-question"></i>What would you check before trusting an unexpected call like this?</div>
 
-      <div class="reveal-stagger card-grid cols-4">
-        <div class="scenario-card">
-          <div class="scenario-top">
-            <div class="sc-icon lg"><i class="fas fa-user-tie"></i></div>
-            <div class="sc-content">
-              <h4>Fake Recruiter Interview</h4>
-              <p>A candidate is interviewed by a polished "hiring manager" who later asks for a deposit or bank details to "process relocation."</p>
-            </div>
-          </div>
-          <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for hiring manager scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
-          <div class="verdict verdict-no">
-            <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
-            <p>AI‑generated recruiters have been used to steal personal and banking data. HR should always verify any recruiter or candidate call through official channels — never via a link in the interview invite.</p>
-          </div>
+      <div class="two-col tell-compare">
+        <div class="tell-col real">
+          <div class="tell-col-head"><i class="fas fa-circle-check"></i><span>Real Call — Genuine Signs</span></div>
+          <div class="tell-item"><i class="fas fa-check"></i><div><strong>Natural blinking &amp; movement</strong><p>The person blinks and moves their head in a normal, human way.</p></div></div>
+          <div class="tell-item"><i class="fas fa-check"></i><div><strong>Perfect lip-sync</strong><p>Mouth movements match the audio exactly, even with fast speech.</p></div></div>
+          <div class="tell-item"><i class="fas fa-check"></i><div><strong>Consistent lighting</strong><p>Lighting changes naturally as the person moves and the background shifts.</p></div></div>
+          <div class="tell-caption">"Can you route this through the usual approval process? I know it's tight, but let's not skip steps."</div>
         </div>
-
-        <div class="scenario-card">
-          <div class="scenario-top">
-            <div class="sc-icon lg"><i class="fas fa-truck-field"></i></div>
-            <div class="sc-content">
-              <h4>Vendor Bank‑Change Call</h4>
-              <p>A long‑standing supplier calls — voice matches — to confirm a new bank account before the next payment.</p>
-            </div>
-          </div>
-          <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for supplier scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
-          <div class="verdict verdict-no">
-            <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
-            <p>One call can clone a vendor's voice. Always confirm bank changes on the number already on file.</p>
-          </div>
-        </div>
-
-        <div class="scenario-card">
-          <div class="scenario-top">
-            <div class="sc-icon lg"><i class="fas fa-ship"></i></div>
-            <div class="sc-content">
-              <h4>Crew Allotment Change Call</h4>
-              <p>Someone sounding like a seafarer calls crewing to urgently change bank details for a wage allotment.</p>
-            </div>
-          </div>
-          <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for crew allotment scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
-          <div class="verdict verdict-no">
-            <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
-            <p>Allotment fraud steals seafarer wages. Confirm any bank change directly with the seafarer on a known number.</p>
-          </div>
-        </div>
-
-        <div class="scenario-card">
-          <div class="scenario-top">
-            <div class="sc-icon lg"><i class="fas fa-headset"></i></div>
-            <div class="sc-content">
-              <h4>IT Support "Callback"</h4>
-              <p>Someone sounding like your IT contact asks you to read back your MFA code to "fix a login issue."</p>
-            </div>
-          </div>
-          <button class="reveal-btn" onclick="revealVerdict(this)" aria-label="Reveal verdict for IT support scenario"><i class="fas fa-eye"></i> Reveal Verdict</button>
-          <div class="verdict verdict-no">
-            <div class="verdict-badge"><i class="fas fa-triangle-exclamation"></i></div>
-            <p>Real IT never needs your MFA code. The trick bypasses the login screen entirely.</p>
-          </div>
+        <div class="tell-col fake">
+          <div class="tell-col-head"><i class="fas fa-user-secret"></i><span>Deepfake Call — Warning Signs</span></div>
+          <div class="tell-item"><i class="fas fa-triangle-exclamation"></i><div><strong>Unnatural blinking</strong><p>Very long gaps without blinking — a common sign of a deepfake.</p></div></div>
+          <div class="tell-item"><i class="fas fa-triangle-exclamation"></i><div><strong>Lip-sync mismatch</strong><p>Mouth shapes lag behind the audio, especially with hard consonant sounds.</p></div></div>
+          <div class="tell-item"><i class="fas fa-triangle-exclamation"></i><div><strong>Flat, even lighting</strong><p>The face lighting barely changes, even when the background moves.</p></div></div>
+          <div class="tell-caption">"Pay this invoice by 5pm, don't loop in finance yet — I'll explain later."</div>
         </div>
       </div>
 
-      <div class="action-row">
-        <span class="mono-tag">Same rule, every role:</span>
-        <span class="impact-chip"><i class="fas fa-building-user" style="color:var(--cyan);"></i> HR: use official channels</span>
-        <span class="impact-chip"><i class="fas fa-university" style="color:var(--cyan);"></i> Finance: check bank changes on file</span>
-        <span class="impact-chip"><i class="fas fa-ship" style="color:var(--cyan);"></i> Crewing: confirm with the seafarer</span>
-        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Never share codes</span>
-      </div>
-
-      <div class="callout-bar">
-        <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[VERIFY — EVERY ROLE]</strong> <strong>GOLDEN RULE:</strong> Money, credentials, or a shortcut — confirm via a trusted contact you already have. Ship or shore, it's not just finance.</div>
-        <div class="key-principle"><div class="kp-val">4</div><div class="kp-label">Roles Just Like Yours</div></div>
-        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
-        <div class="info-expand-panel">The same manipulation works on any role — HR, Finance, Accounts, crewing, or shipboard teams — because it targets urgency and trust, not technology.</div>
-      </div>
-
-      <div class="slide-bridge"><strong>Next</strong> Phishing Evolution <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> Deepfakes: Who's Targeted <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 

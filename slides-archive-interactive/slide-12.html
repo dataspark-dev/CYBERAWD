@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Threat Landscape: Four Threats Shaping 2026 — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .flip-card-back p {
+      font-size: 15.5px;
+      line-height: 1.55;
+    }
+    .flip-card-back i { font-size: 22px; }
+
+    .fact-box {
+      overflow: visible;
+    }
+    .fact-box::before {
+      border-radius: var(--r);
+    }
+    /* [SAFE-FIX] A1: add explicit equal-height pattern for flip-card grid (was relying on implicit default) */
+    .card-grid { align-items: stretch; }
+    .flip-card { height: 100%; display: flex; flex-direction: column; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">2026 Threat Landscape</div>
+      <!-- Nav title "Modern Threat Landscape" intentionally mirrors this module's group name ("Threat Landscape") for wayfinding (module-opener pattern); on-slide keeps the punchier year-specific hook. -->
+      <h1>FOUR THREATS <span>SHAPING 2026</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger relaxed">
+      <p class="section-lead">The threat landscape keeps shifting. Click each card to see how attackers are operating differently this year.</p>
+
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-file-export" data-title="Ransomware — locks files for payment"
+             data-body="Ransomware now uses double extortion: attackers copy files — e.g., crew records — then threaten to publish before locking them. A backup restores access, but the stolen copy stays theirs. Rental models mean attacks keep growing.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(239,68,68,0.1);color:var(--red);"><i class="fas fa-lock"></i></div>
+            <h4>Ransomware</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-user-secret" data-title="Social Engineering"
+             data-body="Social engineering manipulates people, not systems, and drives most attacks in this deck. AI makes it cheap to clone voices and personalise messages at scale. The old tells are disappearing — use a separate, trusted channel to confirm.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-masks-theater"></i></div>
+            <h4>Social Engineering</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-triangle-exclamation" data-title="Insider Threats"
+             data-body="Most insider incidents start as honest mistakes — a misdirected record, a reused password, or leftover access after a role change. They bypass external defences by design. Reporting quickly and without blame limits the damage.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-user-group"></i></div>
+            <h4>Insider Threats</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+
+        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
+             data-icon="fas fa-lock-open" data-title="Cloud Risks — open links and folders"
+             data-body="Most cloud exposure is a shared folder left open by mistake — e.g., crew records anyone with the link can see. It can sit unnoticed for months. Double-check permissions when you share.">
+          <div class="flip-card-front">
+            <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:var(--amber);"><i class="fas fa-cloud"></i></div>
+            <h4>Cloud Risks</h4>
+            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">What this means for you:</span>
+        <span class="impact-chip"><i class="fas fa-database" style="color:var(--cyan);"></i> Back up critical data, test the restore</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify unusual requests via a 2nd channel</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report mistakes immediately — no blame</span>
+        <span class="impact-chip"><i class="fas fa-lock" style="color:var(--cyan);"></i> Double-check sharing and storage permissions</span>
+      </div>
+
+      <div class="fact-box">
+        <i class="fas fa-lightbulb fact-icon"></i>
+        <div>
+          <div class="fact-label">Did You Know?</div>
+          <div class="fact-text">Ransomware is now a <span class="glossary-term" onclick="toggleGlossary(this)" tabindex="0" role="button">subscription business<span class="glossary-popup">Ransomware-as-a-Service (RaaS): attackers rent tools instead of building them.</span></span> — gangs rent malware for a cut. That's why attacks keep growing.</div>
+        </div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Supply Chain &amp; Third-Party Risk <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

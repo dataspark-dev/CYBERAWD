@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Deepfake Attacks: The Concept — Synergy Cyber Security Awareness Month</title>
+  <title>Modern Threat Landscape — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,108 +14,44 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    .morph-diagram-wrap {
-      max-width: 1600px;
-      margin: 0 auto;
-      position: relative;
-      padding: 4px 0 16px;
-    }
-    .morph-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      width: 100%;
-    }
-    .morph-node {
-      width: 96px;
-      height: 96px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 36px;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 2;
-      cursor: pointer;
-    }
-    .morph-node.person { background: rgba(0, 98, 255, 0.1); color: var(--blue); }
-    .morph-node.ai { background: rgba(124, 58, 237, 0.1); color: var(--purple); }
-    .morph-node.clone { background: rgba(239, 68, 68, 0.1); color: var(--red); }
-    .morph-track {
-      flex: 1 1 auto;
-      min-width: 120px;
-      height: 4px;
-      background: linear-gradient(90deg, rgba(6, 182, 212, 0.55), rgba(6, 182, 212, 0.15));
-      position: relative;
-      margin: 0 -1px;
-      border-radius: 2px;
-      overflow: visible;
-      box-shadow: 0 0 8px rgba(6, 182, 212, 0.25);
-    }
-    .morph-track.t2 {
-      background: linear-gradient(90deg, rgba(239, 68, 68, 0.55), rgba(239, 68, 68, 0.15));
-      box-shadow: 0 0 8px rgba(239, 68, 68, 0.22);
-    }
-    .morph-dot {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--cyan);
-      transform: translateY(-50%);
-      box-shadow: 0 0 9px var(--cyan);
-      opacity: 0;
-    }
-    .morph-track.t2 .morph-dot {
-      background: var(--red);
-      box-shadow: 0 0 9px var(--red);
-    }
-    .morph-label {
-      position: absolute;
-      top: 106px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      color: var(--faint);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      white-space: nowrap;
-    }
-    .info-box .info-expand-btn:hover { background: rgba(0, 26, 77, 0.05); }
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
 
-    .morph-sim-btn { display: flex; justify-content: center; margin-top: 4px; }
+    /* Reclaim vertical space redundant with the flex gap on .slide-main.compact,
+       and trim .slide-main's own bottom padding locally — neither touches font
+       size or content, both are whitespace already duplicated elsewhere. */
+    .slide .section-lead { margin-bottom: 0; }
+    .slide-main.compact { padding-top: 6px; padding-bottom: 14px; }
+    .slide .callout-bar { padding-top: 10px; padding-bottom: 10px; }
+    .slide-bridge { padding-top: 8px; }
 
-    .info-box { font-size: 18px; line-height: 1.5; }
-    .info-box p,
-    .info-box div {
-      font-size: 18px;
-      line-height: 1.5;
+    .sc-flow-scene { padding: 10px 28px 8px; flex-shrink: 0; }
+    .sc-flow-row .flow-node { width: 190px; }
+    .sc-flow-row .fn-icon { width: 44px; height: 44px; font-size: 18px; }
+    .sc-flow-captions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+      position: relative;
+      z-index: 1;
     }
-    .info-box .info-expand-btn { font-size: 13px; }
-    .info-box .info-expand-panel {
-      font-size: 16px !important;
-      line-height: 1.55;
+    .sc-flow-cap {
+      max-width: 190px;
+      justify-self: center;
+      text-align: center;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.68);
     }
+    .sc-flow-cap strong { color: #fff; display: block; margin-bottom: 2px; font-family:'Space Mono',monospace; font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; }
 
     .action-row {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
       flex-wrap: wrap;
-      margin-top: 0;
     }
-    .action-row .impact-chip {
-      font-size: 16px;
-      padding: 7px 16px;
-    }
-    /* [SAFE-FIX] A1: add explicit equal-height pattern for flip-card grid (was relying on implicit default; now matches Phase 2/3 slides) */
-    .card-grid { align-items: stretch; }
-    .flip-card { height: 100%; display: flex; flex-direction: column; }
   </style>
 </head>
 <body>
@@ -126,95 +62,73 @@
       <img src="../assets/AFT.png" alt="AFT"/>
     </div>
     <div class="slide-titleblock">
-      <div class="slide-eyebrow">Identity &amp; Trust</div>
-      <h1>DEEPFAKE ATTACKS: <span>THE CONCEPT</span></h1>
+      <div class="slide-eyebrow">2026 Threat Landscape</div>
+      <h1>MODERN THREAT <span>LANDSCAPE</span></h1>
     </div>
     <div class="slide-main reveal-stagger compact">
-      <p class="section-lead">A 10-second clip can clone a colleague's voice and face for a live call. This is senior-leader impersonation. Watch how a real person becomes a live clone.</p>
+      <p class="section-lead">Four threats are shaping how attackers operate this year — plus one you can't fully control: your own vendors.</p>
 
-      <div class="morph-diagram-wrap">
-        <div class="morph-row">
-          <div class="morph-node person" data-flow="node" style="--pulse-color:0,98,255;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Real Person — details"
-               data-icon="fas fa-user" data-title="Real Person"
-               data-body="A real voice or face taken from an ordinary clip — a call, voicemail, or social post. Even noisy, low-quality audio is enough. Mind what you post and record.">
-            <i class="fas fa-user"></i>
-          </div>
-          <div class="morph-track" data-flow="track" data-travel-ms="1100"><div class="morph-dot"></div><div class="morph-label">10s of audio/video</div></div>
-          <div class="morph-node ai" data-flow="node" style="--pulse-color:124,58,237;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="AI Generation — details"
-               data-icon="fas fa-robot" data-title="AI Generation"
-               data-body="Free tools can clone a voice from 10–20 seconds of audio in minutes — no special skill needed. A few photos can do the same for video. Recognising the voice is no longer proof.">
-            <i class="fas fa-robot"></i>
-          </div>
-          <div class="morph-track t2" data-flow="track" data-travel-ms="1100"><div class="morph-dot"></div><div class="morph-label">AI generation</div></div>
-          <div class="morph-node clone" data-flow="node" style="--pulse-color:239,68,68;" onclick="openInfoModalFromEl(this)" tabindex="0" role="button" aria-label="Live Clone — details"
-               data-icon="fas fa-user-secret" data-title="Live Clone"
-               data-body="The clone can then run live on a call or video to mimic the real person. Attackers use it to authorise payments or request data. Always confirm via a different, trusted channel — never in the same call.">
-            <i class="fas fa-user-secret"></i>
-          </div>
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-lock"></i></div>
+          <h3>Ransomware</h3>
+          <p>Double extortion: attackers copy files — e.g. crew records — then threaten to publish before locking them. A backup restores access, but the stolen copy stays theirs. Rental models (Ransomware-as-a-Service — gangs rent the malware for a cut) mean attacks keep growing.</p>
         </div>
-        <div class="morph-sim-btn">
-          <button class="reveal-btn" id="morphSimBtn" onclick="runFlowSequence(this)" aria-label="Replay the deepfake creation simulation"><i class="fas fa-rotate-right"></i> Replay Simulation</button>
+        <div class="pillar-card v-purple">
+          <div class="icon-wrap"><i class="fas fa-masks-theater"></i></div>
+          <h3>Social Engineering</h3>
+          <p>Manipulates people, not systems, and drives most attacks in this deck. AI makes it cheap to clone voices and personalise messages at scale. The old tells are disappearing — use a second, trusted channel to confirm.</p>
+        </div>
+        <div class="pillar-card v-blue">
+          <div class="icon-wrap"><i class="fas fa-user-group"></i></div>
+          <h3>Insider Threats</h3>
+          <p>Most insider incidents start as honest mistakes — a misdirected record, a reused password, or leftover access after a role change. They bypass external defences by design. Reporting quickly and without blame limits the damage.</p>
+        </div>
+        <div class="pillar-card v-amber">
+          <div class="icon-wrap"><i class="fas fa-cloud"></i></div>
+          <h3>Cloud Risks</h3>
+          <p>Most cloud exposure is a shared folder left open by mistake — e.g. crew records anyone with the link can see. It can sit unnoticed for months. Double-check permissions when you share.</p>
         </div>
       </div>
 
-      <div class="reveal-stagger card-grid cols-3">
-        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
-             data-icon="fas fa-phone-volume" data-title="Voice Cloning"
-             data-body="A short clip — voicemail, recorded call, or public video — can generate a live synthetic voice. It adapts tone in real time. Sounding stressed is not proof a call is genuine.">
-          <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-microphone-lines"></i></div>
-            <h4>Voice Cloning</h4>
-            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
-          </div>
+      <div class="mono-tag" style="display:block;">The Threat You Don't Control — Supply Chain &amp; Third-Party Risk</div>
+      <div class="flow-scene sc-flow-scene">
+        <div class="flow-row sc-flow-row">
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-box-open"></i></div><div class="fn-label">Vendor Update</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-bug"></i></div><div class="fn-label">Code Inserted</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-download"></i></div><div class="fn-label">Installed</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-door-open"></i></div><div class="fn-label">Hidden Backdoor</div></div>
         </div>
-        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
-             data-icon="fas fa-user-secret" data-title="Video / Face Swap"
-             data-body="Live face-swap can impersonate an executive with synced lip movements — as in the reported US$25M video-call fraud. A few seconds is enough to push an instruction. Tells help, but a separate channel is the only certain test.">
-          <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-video"></i></div>
-            <h4>Video / Face Swap</h4>
-            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
-          </div>
-        </div>
-        <div class="flip-card" onclick="openInfoModalFromEl(this)" tabindex="0" role="button"
-             data-icon="fas fa-file-circle-exclamation" data-title="Synthetic Documents"
-             data-body="AI can now forge IDs, screenshots, and supporting documents to make a fake recruiter or vendor look legitimate. They are often paired with a deepfake call. Treat attached documents with the same caution as the request itself.">
-          <div class="flip-card-front">
-            <div class="fc-icon" style="background:rgba(245,158,11,0.1);color:var(--amber);"><i class="fas fa-id-card-clip"></i></div>
-            <h4>Synthetic Documents</h4>
-            <div class="interact-hint"><i class="fas fa-circle-info"></i> Click for details</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="info-box danger">
-        <i class="fas fa-triangle-exclamation"></i>
-        <div>
-          <span class="mono-tag" style="margin-right:8px;">SENIOR-LEADER IMPERSONATION</span><strong>Widely reported case, 2024:</strong> A finance employee at a multinational firm's Hong Kong office joined what looked like a normal video call with senior leaders and colleagues — and authorised a transfer of <strong style="font-size:1.2em;">US$25M</strong>. Every person on that call, except the employee, was an AI‑generated fake.
-          <button class="info-expand-btn" onclick="toggleInfoExpand(this)" style="display:inline-block;margin:10px 0 0;border:1px solid var(--navy);color:var(--navy);">Read more &#9660;</button>
-          <div class="info-expand-panel" style="border-top-color:var(--line);">The call included what appeared to be the CFO and several colleagues — all AI-generated. The employee only grew suspicious after the transfer had already gone through. This is why verification must happen before acting, not after.</div>
+        <div class="sc-flow-captions">
+          <div class="sc-flow-cap"><strong>1 &middot; Vendor Update</strong>A software vendor we trust — fleet management, payroll, or ship systems — sends a routine update to thousands of customers, including us.</div>
+          <div class="sc-flow-cap"><strong>2 &middot; Code Inserted</strong>Attackers have already breached the vendor's build pipeline and hidden malicious code inside that update before it was signed.</div>
+          <div class="sc-flow-cap"><strong>3 &middot; Installed Automatically</strong>The tampered update installs through our usual update process — no phishing email required.</div>
+          <div class="sc-flow-cap"><strong>4 &middot; Hidden Backdoor</strong>Attackers now have a hidden way back in, all through a vendor we already trusted. Report anything odd right after an update.</div>
         </div>
       </div>
 
       <div class="action-row">
-        <span class="mono-tag">If a call feels off:</span>
-        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify via a 2nd channel</span>
-        <span class="impact-chip"><i class="fas fa-hourglass-half" style="color:var(--cyan);"></i> Pause before authorising</span>
-        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report suspicious calls</span>
+        <span class="mono-tag">What this means for you:</span>
+        <span class="impact-chip"><i class="fas fa-database" style="color:var(--cyan);"></i> Back up critical data, test the restore</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify unusual requests via a 2nd channel</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report mistakes immediately — no blame</span>
+        <span class="impact-chip"><i class="fas fa-lock" style="color:var(--cyan);"></i> Double-check sharing &amp; permissions</span>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> Deepfakes — Real vs Fake Simulation <i class="fas fa-arrow-right"></i></div>
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[REPORT]</strong> <strong>GOLDEN RULE:</strong> You can't check every vendor's code — but if something behaves oddly right after an update, treat it as suspicious and report it. Most supply-chain breaches are found months later — that's why they spread so far.</div>
+        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
+        <div class="info-expand-panel">You can't inspect a vendor's internal code or process. But odd behaviour right after an update is still a visible, reportable signal — and reporting early limits the damage.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Deepfake Attacks: The Concept <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
+
   <script src="../scripts/main.js"></script>
-  <script>
-    (function() {
-      const btn = document.getElementById('morphSimBtn');
-      if (!btn) return;
-      const fire = () => window.runFlowSequence(btn);
-      document.addEventListener('DOMContentLoaded', fire);
-      if (window.SynergyUI) SynergyUI.onEntranceReset(fire);
-    })();
-  </script>
 </body>
 </html>

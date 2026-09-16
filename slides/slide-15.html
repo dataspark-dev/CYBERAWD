@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Passwords, MFA &amp; Access Hygiene: Your Login Is Part of the Perimeter — Synergy Cyber Security Awareness Month</title>
+  <title>Closing: Thank You — Synergy Cyber Security Awareness Month</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -14,217 +14,152 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body, html { width: 1920px; height: 1080px; overflow: hidden; }
 
-    /* Twinned with slide-14: same two-col/scene metrics — icon sizes intentionally differ for account vs desk visuals */
-    .interact-hint {
-      font-size: 14px;
-      letter-spacing: 1.3px;
-    }
-    .interact-hint i { font-size: 14px; }
-
-    .two-col {
-      gap: 24px;
-      align-items: stretch;
-    }
-    .two-col > div {
+    .close-chip {
+      position: relative;
       display: flex;
       flex-direction: column;
-    }
-    .two-col > div:last-child {
-      justify-content: center;
-      gap: 16px;
+      align-items: center;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 18px 20px;
+      width: 220px;
     }
 
-    .scene { flex: 1; display: flex; }
-    .scene-media {
-      flex: 1;
-      min-height: 400px !important;
+    .cc-icon {
       position: relative;
-    }
-    .scene-media i { font-size: 80px !important; }
-
-    .hotspot {
-      width: 42px;
-      height: 42px;
-    }
-    .hotspot-tip {
-      width: 300px;
-      font-size: 16px;
-      padding: 13px 16px;
-    }
-
-    .lock-demo {
-      padding: 26px 30px;
-      gap: 28px;
-    }
-    .lock-ring {
-      width: 120px;
-      height: 120px;
-    }
-    .lock-ring-num { font-size: 36px; }
-    .lock-overlay i { font-size: 36px; }
-    .lock-overlay .lo-label { font-size: 20px; }
-    .lock-demo-body h4 {
-      font-size: 19px;
-      margin-bottom: 6px;
-    }
-    .lock-demo-body p {
-      font-size: 16px;
-      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--cyan-light);
       margin-bottom: 10px;
     }
-    .lock-demo-body button {
-      font-size: 13px;
-      padding: 11px 24px;
-    }
-
-    .slide .info-box {
-      padding: 18px 22px;
-    }
-    .slide .info-box i { font-size: 19px; }
-    .slide .info-box p,
-    .slide .info-box div {
-      font-size: 17px;
-      line-height: 1.6;
-    }
-    .info-box.danger {
-      border-left-color: var(--red);
-      background: rgba(239, 68, 68, 0.06);
-    }
-    .info-box.danger i { color: var(--red); }
-
-    .action-row {
-      gap: 12px;
-      margin-top: 4px;
-    }
-    .mono-tag {
-      font-size: 14.5px;
-      letter-spacing: 1.8px;
-    }
-    .impact-chip {
-      font-size: 14.5px;
-      padding: 8px 16px;
-      gap: 8px;
-    }
-
-    .slide .callout-bar {
-      padding: 18px 28px;
-      margin: 10px 0;
-      gap: 16px;
-    }
-    .slide .callout-text {
-      font-size: 18px;
-      line-height: 1.55;
-    }
-    .info-expand-btn {
-      font-size: 12.5px;
-      padding: 5px 12px;
-    }
-    .info-expand-panel {
-      font-size: 15.5px;
-      line-height: 1.65;
-    }
-    .slide-bridge {
+    .cc-badge {
+      position: absolute;
+      top: -8px;
+      right: -12px;
       font-size: 14px;
-      padding-top: 14px;
+      color: var(--green);
+      background: var(--navy);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--navy);
     }
+
+    .cc-label {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .cc-note {
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .slide.slide-dark { align-items: center; justify-content: center; }
+    .opening-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(6, 182, 212, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
+      background-size: 36px 36px;
+      animation: driftGrid 12s linear infinite;
+    }
+    @keyframes driftGrid { from { background-position: 0 0; } to { background-position: 72px 72px; } }
+    .orbit-ring {
+      position: absolute; top: 50%; left: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px;
+      border: 1px solid rgba(6, 182, 212, 0.12); border-radius: 50%; animation: orbitSpin 40s linear infinite;
+    }
+    .orbit-ring.r2 {
+      width: 1160px; height: 1160px; margin: -580px 0 0 -580px; border-color: rgba(0, 98, 255, 0.08);
+      animation-duration: 60s; animation-direction: reverse;
+    }
+    .orbit-dot { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
+    @keyframes orbitSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .op-title { position: relative; z-index: 2; text-align: center; max-width: 1760px; margin: 0 auto; padding-top: 10px; }
+    .op-title h1 { font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 100px; line-height: 1.0; letter-spacing: -2px; color: var(--white); margin-bottom: 16px; }
+    .op-title h1 span { color: var(--cyan); }
+    .op-title .subhead { font-family: 'Space Mono', monospace; font-size: 17px; letter-spacing: 5px; color: var(--cyan-light); text-transform: uppercase; margin-bottom: 16px; }
+    .op-title .rule { width: 150px; height: 4px; background: var(--grad-cyan); margin: 0 auto 22px; }
+    .op-title .lead { font-size: 19px; color: rgba(255, 255, 255, 0.65); line-height: 1.5; max-width: 1140px; margin: 0 auto 26px; }
+    .close-chip-wrap { display: flex; justify-content: center; gap: 18px; margin-bottom: 22px; flex-wrap: wrap; }
+    .games-note {
+      font-family: 'Barlow', sans-serif;
+      font-size: 15.5px;
+      color: rgba(255, 255, 255, 0.72);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 8px;
+      padding: 10px 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .games-note i { color: var(--cyan-light); }
+    .op-title .final-call { font-family: 'Space Mono', monospace; font-size: 17px; color: rgba(255, 255, 255, .6); letter-spacing: 1.2px; }
   </style>
 </head>
 <body>
-  <div class="slide accent-defense">
-    <div class="grid-bg on-light"></div>
-    <div class="slide-header">
-      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
-      <img src="../assets/AFT.png" alt="AFT"/>
+  <div class="slide slide-dark accent-awareness">
+    <div class="opening-grid"></div>
+    <div class="orbit-ring"><span class="orbit-dot"></span></div>
+    <div class="orbit-ring r2"><span class="orbit-dot"></span></div>
+
+    <div class="close-header" style="position:absolute;top:56px;left:64px;right:64px;display:flex;align-items:center;justify-content:space-between;z-index:2;">
+      <img src="../assets/SYN3.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT3.png" alt="AFT"/>
     </div>
-    <div class="slide-titleblock">
-      <div class="slide-eyebrow">Everyday Defence</div>
-      <!-- Nav title stays topic-specific ("Passwords, MFA & Access Hygiene") for wayfinding; on-slide continues slide-14's "part of the perimeter" rhetorical pairing rather than repeating a generic module label. Intentional split, not drift. -->
-      <h1>YOUR LOGIN IS PART OF THE <span>PERIMETER</span></h1>
-    </div>
-    <div class="slide-main reveal-stagger">
-      <p class="section-lead">Click the markers to see a well-protected account — and what attackers hope you never fix.</p>
 
-      <div class="two-col">
-        <div>
-          <div class="interact-hint" style="margin-bottom:10px;"><i class="fas fa-hand-pointer"></i> Click to reveal</div>
-          <div class="scene">
-            <div class="scene-media" style="background:linear-gradient(160deg,var(--paper-2),var(--line));">
-              <div class="perimeter-marker" style="top:24%;left:22%;">
-                <i class="fas fa-key" style="color:var(--yellow);"></i>
-                <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Reused password marker">
-                  <span class="hotspot-dot"></span>
-                  <div class="hotspot-tip"><strong>Same password, reused</strong><br>Using the same password on multiple sites means one leak unlocks all your accounts.</div>
-                </div>
-              </div>
+    <div class="op-title">
+      <div class="subhead">Synergy Marine Group &times; AFT</div>
+      <h1>THANK<br><span>YOU</span></h1>
+      <div class="rule"></div>
+      <p class="lead">You've seen how deepfakes, phishing, AI risks, and everyday habits all connect. Security is a daily habit – not just a one‑month campaign.</p>
 
-              <div class="perimeter-marker" style="top:24%;left:72%;">
-                <i class="fas fa-mobile-screen-button" style="color:var(--green-dark);"></i>
-                <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Second check turned on marker">
-                  <span class="hotspot-dot"></span>
-                  <div class="hotspot-tip"><strong>MFA turned on</strong><br>MFA stops a stolen password from getting in.</div>
-                </div>
-              </div>
-
-              <div class="perimeter-marker" style="top:74%;left:22%;">
-                <i class="fas fa-clock-rotate-left" style="color:var(--red-2);"></i>
-                <div class="hotspot flag" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Unrecognised sign-in ignored marker">
-                  <span class="hotspot-dot"></span>
-                  <div class="hotspot-tip tip-above"><strong>Unrecognised sign‑in ignored</strong><br>Dismissing a login alert from an unknown device or location is a mistake. Report it.</div>
-                </div>
-              </div>
-
-              <div class="perimeter-marker" style="top:74%;left:72%;">
-                <i class="fas fa-shield-halved" style="color:var(--green-dark);"></i>
-                <div class="hotspot safe" onclick="revealHotspot(this)" tabindex="0" role="button" aria-label="Password manager in use marker">
-                  <span class="hotspot-dot"></span>
-                  <div class="hotspot-tip tip-above"><strong>Password manager in use</strong><br>A password manager creates and stores unique, strong passwords for every account.</div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="close-chip-wrap reveal-stagger">
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-diagram-project"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Threat Landscape</div>
+          <div class="cc-note">Ransomware, insider threats, and vendors you don't control all need the same alertness.</div>
         </div>
-
-        <div>
-          <div class="lock-demo danger" data-seconds="5">
-            <div class="lock-ring">
-              <svg viewBox="0 0 120 120"><circle class="lock-ring-track" cx="60" cy="60" r="52"></circle><circle class="lock-ring-bar" cx="60" cy="60" r="52"></circle></svg>
-              <span class="lock-ring-num">5</span>
-            </div>
-            <div class="lock-overlay"><i class="fas fa-ban"></i><div class="lo-label">DENY &amp; REPORT</div></div>
-              <div class="lock-demo-body">
-                <h4>Simulate an MFA Push-Bombing Attack</h4>
-                <p>Watch a flood of approval requests you didn't trigger — and what to do.</p>
-                <button onclick="startLockDemo(this)" data-label-running="Requests incoming..." data-label-done="Replay Simulation" aria-label="Start MFA push-bombing simulation">Simulate Approval Flood</button>
-              </div>
-            </div>
-
-            <div class="info-box danger">
-              <i class="fas fa-triangle-exclamation"></i>
-              <div><strong>MFA fatigue:</strong> If you get requests you didn't trigger, don't tap Approve to stop them. Tap Deny and report to IT.</div>
-            </div>
-
-            <div class="info-box warning">
-              <i class="fas fa-triangle-exclamation"></i>
-              <div>Sign-in alert you don't recognise? Change the password and report it.</div>
-            </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-user-secret"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Deepfakes</div>
+          <div class="cc-note">AI can clone voices and faces – always verify unusual calls through a second, trusted channel.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-envelope-open-text"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Phishing</div>
+          <div class="cc-note">Urgency and fake addresses are the warning signs – go direct instead of clicking links.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-robot"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">AI &amp; Chatbots</div>
+          <div class="cc-note">Only use company‑approved tools – public AI chats are not private.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-building-shield"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Workplace Security</div>
+          <div class="cc-note">Lock your screen and secure your login – the basics stop most attacks.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-list-check"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Do's &amp; Don'ts</div>
+          <div class="cc-note">When you're not sure: STOP → VERIFY → REPORT.</div>
         </div>
       </div>
 
-      <div class="action-row">
-        <span class="mono-tag">Starting today:</span>
-        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Use a password manager for every account</span>
-        <span class="impact-chip"><i class="fas fa-mobile-screen-button" style="color:var(--cyan);"></i> Turn on the second check (MFA) everywhere it's offered</span>
-        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report sign‑in alerts you don't recognise</span>
-      </div>
+      <div class="games-note"><i class="fas fa-trophy"></i> Keep practicing: live awareness games (4 rotating stations, ~30–45 min, team scoring) continue this training in person.</div>
 
-      <div class="callout-bar">
-        <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[SECURE IT]</strong> <strong>GOLDEN RULE:</strong> Use a unique password for every account, plus MFA – together they block almost every account takeover attempt, even one that started with someone else's breach.</div>
-        <button class="info-expand-btn" onclick="toggleInfoExpand(this)" aria-label="Explain why">Why? &#9660;</button>
-        <div class="info-expand-panel">Attackers don't need to guess your password if they already have it from an unrelated leak. A unique password and MFA break that chain even when a breach elsewhere exposes it.</div>
-      </div>
-
-      <div class="slide-bridge"><strong>Next</strong> See Something, Say Something <i class="fas fa-arrow-right"></i></div>
+      <div class="final-call">When in doubt: STOP → VERIFY → REPORT. Every single time.</div>
     </div>
   </div>
 

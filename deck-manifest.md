@@ -1,60 +1,55 @@
 # Deck Manifest
 
-Generated: 2026-08-19T18:10:52  
-Total slides (deck.js): 19  
-Slide files on disk: 19
+Generated: 2026-09-16T22:25:46  
+Total slides (deck.js): 15  
+Slide files on disk: 15
 
 ## Slide-by-Slide
 
 | # | Title (deck.js) | Group | Components | Flags |
 |---|---|---|---|---|
 | 1 | Opening | Welcome | _static_ | 1 ⚠ |
-| 2 | Why Cybersecurity Matters | Welcome | count-up | — |
-| 3 | Modern Threat Landscape | Threat Landscape | flip-card | 1 ⚠ |
-| 4 | Supply Chain & Third-Party Risk | Threat Landscape | reveal-click-zone | 1 ⚠ |
-| 5 | Deepfakes — The Concept | Deepfake Attacks | flip-card | — |
-| 6 | Deepfakes — Real vs Fake Simulation | Deepfake Attacks | hotspot, toggle-switch | — |
-| 7 | Deepfakes Beyond the Boardroom | Deepfake Attacks | scenario-card | — |
-| 8 | Phishing Evolution | Phishing Evolution | compare-slider, hotspot | — |
-| 9 | Beyond Email — Smishing & Vishing | Phishing Evolution | hotspot, toggle-switch | 1 ⚠ |
-| 10 | Spot the Phish | Phishing Evolution | spot-grid | — |
-| 11 | AI & Chatbot Risks | AI & Chatbot Risks | flow-scene | 1 ⚠ |
-| 12 | Shadow AI — Unapproved Tools | AI & Chatbot Risks | checklist-grid | — |
-| 13 | When Attackers Use AI Too | AI & Chatbot Risks | spot-grid, toggle-switch | — |
-| 14 | Workplace Security Behavior | Workplace Security | hotspot, lock-demo | 1 ⚠ |
-| 15 | Passwords, MFA & Access Hygiene | Workplace Security | hotspot, lock-demo | 1 ⚠ |
-| 16 | See Something, Say Something | Do's & Don'ts | flip-card | — |
-| 17 | Do's & Don'ts | Do's & Don'ts | _static_ | — |
-| 18 | Live Awareness Games | Take It Further | flip-card | 1 ⚠ |
-| 19 | Closing | Closing | _static_ | 1 ⚠ |
+| 2 | Why Cybersecurity Matters Now | Welcome | _static_ | — |
+| 3 | Modern Threat Landscape | Threat Landscape | flow-scene | — |
+| 4 | Deepfake Attacks: The Concept | Deepfake Attacks | flow-scene | — |
+| 5 | Deepfakes: Spot the Signs | Deepfake Attacks | _static_ | — |
+| 6 | Deepfakes: Who's Targeted | Deepfake Attacks | scenario-card | — |
+| 7 | Phishing Has Evolved | Phishing Evolution | _static_ | — |
+| 8 | Phishing Beyond Email — Every Channel | Phishing Evolution | _static_ | — |
+| 9 | AI & Chatbot Risks: Pasting Data & Shadow AI | AI & Chatbot Risks | checklist-grid, flow-scene | — |
+| 10 | When Attackers Use AI Too | AI & Chatbot Risks | _static_ | — |
+| 11 | Workplace Security | Workplace & Login Security | _static_ | 1 ⚠ |
+| 12 | Login Security | Workplace & Login Security | _static_ | — |
+| 13 | See Something, Say Something | Do's & Don'ts | _static_ | — |
+| 14 | Do's & Don'ts | Do's & Don'ts | _static_ | — |
+| 15 | Closing | Closing | _static_ | 1 ⚠ |
 
 ## Flow Map
 
-- **Welcome** (slides 1–2): Opening → Why Cybersecurity Matters
-- **Threat Landscape** (slides 3–4): Modern Threat Landscape → Supply Chain & Third-Party Risk
-- **Deepfake Attacks** (slides 5–7): Deepfakes — The Concept → Deepfakes — Real vs Fake Simulation → Deepfakes Beyond the Boardroom
-- **Phishing Evolution** (slides 8–10): Phishing Evolution → Beyond Email — Smishing & Vishing → Spot the Phish
-- **AI & Chatbot Risks** (slides 11–13): AI & Chatbot Risks → Shadow AI — Unapproved Tools → When Attackers Use AI Too
-- **Workplace Security** (slides 14–15): Workplace Security Behavior → Passwords, MFA & Access Hygiene
-- **Do's & Don'ts** (slides 16–17): See Something, Say Something → Do's & Don'ts
-- **Take It Further** (slides 18): Live Awareness Games
-- **Closing** (slides 19): Closing
+- **Welcome** (slides 1–2): Opening → Why Cybersecurity Matters Now
+- **Threat Landscape** (slides 3): Modern Threat Landscape
+- **Deepfake Attacks** (slides 4–6): Deepfake Attacks: The Concept → Deepfakes: Spot the Signs → Deepfakes: Who's Targeted
+- **Phishing Evolution** (slides 7–8): Phishing Has Evolved → Phishing Beyond Email — Every Channel
+- **AI & Chatbot Risks** (slides 9–10): AI & Chatbot Risks: Pasting Data & Shadow AI → When Attackers Use AI Too
+- **Workplace & Login Security** (slides 11–12): Workplace Security → Login Security
+- **Do's & Don'ts** (slides 13–14): See Something, Say Something → Do's & Don'ts
+- **Closing** (slides 15): Closing
 
 ## Interactive Component Inventory
 
-- `toggle-switch`: 3 slide(s) — [6, 9, 13]
-- `hotspot`: 5 slide(s) — [6, 8, 9, 14, 15]
-- `compare-slider`: 1 slide(s) — [8]
-- `flow-scene`: 1 slide(s) — [11]
-- `lock-demo`: 2 slide(s) — [14, 15]
-- `flip-card`: 4 slide(s) — [3, 5, 16, 18]
-- `scenario-card`: 1 slide(s) — [7]
-- `spot-grid`: 2 slide(s) — [10, 13]
-- `checklist-grid`: 1 slide(s) — [12]
-- `count-up`: 1 slide(s) — [2]
-- `reveal-click-zone`: 1 slide(s) — [4]
+- `toggle-switch`: 0 slide(s) — none
+- `hotspot`: 0 slide(s) — none
+- `compare-slider`: 0 slide(s) — none
+- `flow-scene`: 3 slide(s) — [3, 4, 9]
+- `lock-demo`: 0 slide(s) — none
+- `flip-card`: 0 slide(s) — none
+- `scenario-card`: 1 slide(s) — [6]
+- `spot-grid`: 0 slide(s) — none
+- `checklist-grid`: 1 slide(s) — [9]
+- `count-up`: 0 slide(s) — none
+- `reveal-click-zone`: 0 slide(s) — none
 
-**Static / reading-only slides (no known interactive component):** ['slide-01.html', 'slide-17.html', 'slide-18.html']
+**Static / reading-only slides (no known interactive component):** ['slide-01.html', 'slide-02.html', 'slide-05.html', 'slide-07.html', 'slide-08.html', 'slide-10.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html', 'slide-15.html']
 
 ## Theme Audit
 
@@ -126,6 +121,11 @@ Root palette (main.css `:root`):
 - `--space-6`: `24px`
 - `--space-7`: `28px`
 - `--space-8`: `32px`
+- `--fs-badge`: `12px`
+- `--fs-body`: `16px`
+- `--fs-subhead`: `20px`
+- `--fs-heading`: `28px`
+- `--fs-display`: `clamp(90px, 13vw, 220px)`
 - `--glass-bg`: `rgba(255, 255, 255, 0.72)`
 - `--glass-bg-strong`: `rgba(255, 255, 255, 0.85)`
 - `--glass-border`: `rgba(255, 255, 255, 0.55)`
@@ -137,19 +137,14 @@ Root palette (main.css `:root`):
 - `--accent-border`: `rgba(6, 182, 212, 0.35)`
 
 Theme usage per slide:
-- **dark**: ['slide-01.html', 'slide-18.html']
-- **light**: ['slide-02.html', 'slide-12.html', 'slide-13.html', 'slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-09.html', 'slide-10.html', 'slide-11.html', 'slide-14.html', 'slide-15.html', 'slide-16.html', 'slide-17.html', 'slide-19.html']
+- **dark**: ['slide-01.html', 'slide-15.html']
+- **light**: ['slide-02.html', 'slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-09.html', 'slide-10.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html']
 
-No off-palette hex colors found — every hex color used matches a `:root` variable value.
+Hex colors used that are **not** a defined `:root` variable value:
+- `#fff` — used in: ['slide-03.html', 'slide-04.html', 'slide-08.html']
 
 ## Issues Flagged
 
 - 🔵 **INFO** [title-drift] `slide-01.html`: deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-12.html`: deck.js title 'Modern Threat Landscape' shares no significant words with this slide's <h1> 'FOUR THREATS SHAPING 2026'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-13.html`: deck.js title 'Supply Chain & Third-Party Risk' shares no significant words with this slide's <h1> 'THE THREAT YOU DON'T CONTROL'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-07.html`: deck.js title 'Beyond Email — Smishing & Vishing' shares no significant words with this slide's <h1> 'PHISHING GOES MULTI-CHANNEL'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-09.html`: deck.js title 'AI & Chatbot Risks' shares no significant words with this slide's <h1> 'WHAT HAPPENS WHEN YOU PASTE DATA?'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-14.html`: deck.js title 'Workplace Security Behavior' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-15.html`: deck.js title 'Passwords, MFA & Access Hygiene' shares no significant words with this slide's <h1> 'YOUR LOGIN IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-19.html`: deck.js title 'Live Awareness Games' shares no significant words with this slide's <h1> 'PUT IT INTO PRACTICE'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-18.html`: deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift — verify manually.
+- 🔵 **INFO** [title-drift] `slide-11.html`: deck.js title 'Workplace Security' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift — verify manually.
+- 🔵 **INFO** [title-drift] `slide-15.html`: deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift — verify manually.
