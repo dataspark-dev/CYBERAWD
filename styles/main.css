@@ -2645,7 +2645,7 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 28px 64px 16px;
+  padding: 16px 64px 8px;
   border-bottom: 1.5px solid var(--line);
   position: relative;
   z-index: 2;
@@ -2655,7 +2655,7 @@ ul { list-style: none; }
   border-bottom-color: rgba(255, 255, 255, 0.15);
 }
 .slide-header img {
-  height: 72px;
+  height: 92px;
   object-fit: contain;
 }
 .slide.slide-dark .slide-header img {
@@ -2663,7 +2663,7 @@ ul { list-style: none; }
 }
 .open-header img,
 .close-header img {
-  height: 72px;
+  height: 92px;
   object-fit: contain;
   filter: brightness(0) invert(1);
   opacity: 0.95;
