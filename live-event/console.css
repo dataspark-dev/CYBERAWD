@@ -311,6 +311,19 @@ body {
   color: var(--muted);
   letter-spacing: 0.5px;
 }
+/* On an actual touch device (no keyboard) these SPACE/ESC/F hints are dead
+   instructions a participant can't act on - reclaim the strip entirely
+   rather than just re-flowing it. Width-based breakpoints alone would also
+   hide this on a narrow desktop window where the keyboard still works, so
+   this checks for touch-only input specifically instead. Every primary
+   action already has an on-screen button equivalent, so nothing is lost. */
+@media (hover: none) and (pointer: coarse) {
+  .le-keyhints { display: none; }
+  /* Same reasoning for the few buttons that echo their own shortcut inline
+     (e.g. "Reveal (R)", "Restart (R)") - the button itself still works by
+     tap, only the now-meaningless key label needs to go. */
+  .le-kbd-hint { display: none; }
+}
 .le-keyhint kbd {
   font-family: 'Space Mono', monospace;
   font-size: var(--fs-badge);
