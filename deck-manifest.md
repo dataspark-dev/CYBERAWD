@@ -1,6 +1,6 @@
 # Deck Manifest
 
-Generated: 2026-09-18T10:16:24  
+Generated: 2026-09-18T10:40:24  
 Total slides (deck.js): 17  
 Slide files on disk: 17
 
@@ -15,12 +15,12 @@ Slide files on disk: 17
 | 5 | Deepfakes: Spot the Signs | Deepfake Attacks | _static_ | — |
 | 6 | Deepfakes: Who's Targeted | Deepfake Attacks | scenario-card | — |
 | 7 | Phishing Has Evolved | Phishing Evolution | _static_ | — |
-| 8 | Phishing Beyond Email — Every Channel | Phishing Evolution | _static_ | — |
+| 8 | Phishing Goes Multi-Channel | Phishing Evolution | _static_ | — |
 | 9 | Pasting Data Into Public AI | AI & Chatbot Risks | flow-scene | — |
-| 10 | Shadow AI — Unapproved Tools | AI & Chatbot Risks | checklist-grid | — |
+| 10 | Shadow AI — The Unapproved Tools | AI & Chatbot Risks | checklist-grid | — |
 | 11 | When Attackers Use AI Too | AI & Chatbot Risks | _static_ | — |
-| 12 | Workplace Security | Workplace & Login Security | _static_ | 1 ⚠ |
-| 13 | Login Security | Workplace & Login Security | _static_ | — |
+| 12 | Your Desk Is Part of the Perimeter | Workplace & Login Security | _static_ | — |
+| 13 | Your Login Is Part of the Perimeter | Workplace & Login Security | _static_ | — |
 | 14 | See Something, Say Something | Do's & Don'ts | _static_ | — |
 | 15 | Do's & Don'ts | Do's & Don'ts | _static_ | — |
 | 16 | The Laws Behind the Rules | Legal & Compliance | _static_ | — |
@@ -31,9 +31,9 @@ Slide files on disk: 17
 - **Welcome** (slides 1–2): Opening → Why Cybersecurity Matters Now
 - **Threat Landscape** (slides 3): Modern Threat Landscape
 - **Deepfake Attacks** (slides 4–6): Deepfake Attacks: The Concept → Deepfakes: Spot the Signs → Deepfakes: Who's Targeted
-- **Phishing Evolution** (slides 7–8): Phishing Has Evolved → Phishing Beyond Email — Every Channel
-- **AI & Chatbot Risks** (slides 9–11): Pasting Data Into Public AI → Shadow AI — Unapproved Tools → When Attackers Use AI Too
-- **Workplace & Login Security** (slides 12–13): Workplace Security → Login Security
+- **Phishing Evolution** (slides 7–8): Phishing Has Evolved → Phishing Goes Multi-Channel
+- **AI & Chatbot Risks** (slides 9–11): Pasting Data Into Public AI → Shadow AI — The Unapproved Tools → When Attackers Use AI Too
+- **Workplace & Login Security** (slides 12–13): Your Desk Is Part of the Perimeter → Your Login Is Part of the Perimeter
 - **Do's & Don'ts** (slides 14–15): See Something, Say Something → Do's & Don'ts
 - **Legal & Compliance** (slides 16): The Laws Behind the Rules
 - **Closing** (slides 17): Closing
@@ -149,5 +149,4 @@ Hex colors used that are **not** a defined `:root` variable value:
 ## Issues Flagged
 
 - 🔵 **INFO** [title-drift] `slide-01.html`: deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-12.html`: deck.js title 'Workplace Security' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift — verify manually.
 - 🔵 **INFO** [title-drift] `slide-17.html`: deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift — verify manually.

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-18T10:16:24",
+  "generated_at": "2026-09-18T10:40:24",
   "root": "C:\\Users\\SRIDHAR\\Documents\\TRININGPPT\\AWRCNTCS",
   "total_slides_in_deckjs": 17,
   "slide_files_on_disk": [
@@ -81,7 +81,7 @@
       ],
       "titles": [
         "Phishing Has Evolved",
-        "Phishing Beyond Email \u2014 Every Channel"
+        "Phishing Goes Multi-Channel"
       ]
     },
     {
@@ -98,7 +98,7 @@
       ],
       "titles": [
         "Pasting Data Into Public AI",
-        "Shadow AI \u2014 Unapproved Tools",
+        "Shadow AI \u2014 The Unapproved Tools",
         "When Attackers Use AI Too"
       ]
     },
@@ -113,8 +113,8 @@
         "slide-13.html"
       ],
       "titles": [
-        "Workplace Security",
-        "Login Security"
+        "Your Desk Is Part of the Perimeter",
+        "Your Login Is Part of the Perimeter"
       ]
     },
     {
@@ -597,7 +597,7 @@
     {
       "index": 8,
       "file": "slide-08.html",
-      "deck_title": "Phishing Beyond Email \u2014 Every Channel",
+      "deck_title": "Phishing Goes Multi-Channel",
       "group": "Phishing Evolution",
       "slide_tag": null,
       "eyebrow": "Email, SMS & Voice",
@@ -679,7 +679,7 @@
     {
       "index": 10,
       "file": "slide-10.html",
-      "deck_title": "Shadow AI \u2014 Unapproved Tools",
+      "deck_title": "Shadow AI \u2014 The Unapproved Tools",
       "group": "AI & Chatbot Risks",
       "slide_tag": null,
       "eyebrow": "Artificial Intelligence",
@@ -811,7 +811,7 @@
     {
       "index": 12,
       "file": "slide-12.html",
-      "deck_title": "Workplace Security",
+      "deck_title": "Your Desk Is Part of the Perimeter",
       "group": "Workplace & Login Security",
       "slide_tag": null,
       "eyebrow": "Everyday Defence",
@@ -871,18 +871,12 @@
         "../assets/AFT.png",
         "../scripts/main.js"
       ],
-      "flags": [
-        {
-          "severity": "info",
-          "check": "title-drift",
-          "message": "deck.js title 'Workplace Security' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
-        }
-      ]
+      "flags": []
     },
     {
       "index": 13,
       "file": "slide-13.html",
-      "deck_title": "Login Security",
+      "deck_title": "Your Login Is Part of the Perimeter",
       "group": "Workplace & Login Security",
       "slide_tag": null,
       "eyebrow": "Everyday Defence",
@@ -974,7 +968,7 @@
         {
           "tag": "h3",
           "heading": "Your Line Manager",
-          "body": "If unsure who to contact, your manager is a safe default \u2014 on board, the Master or DPA. Wrong channel first is still better than late or never."
+          "body": "If unsure who to contact, your manager is a safe default \u2014 on board, the Master or DPA (Designated Person Ashore). Wrong channel first is still better than late or never."
         }
       ],
       "components": [],
@@ -1131,12 +1125,6 @@
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
-    },
-    {
-      "file": "slide-12.html",
-      "severity": "info",
-      "check": "title-drift",
-      "message": "deck.js title 'Workplace Security' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
       "file": "slide-17.html",
