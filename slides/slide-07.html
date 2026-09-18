@@ -21,7 +21,7 @@
 
     .mail-compare { display: flex; gap: 24px; align-items: stretch; justify-content: center; }
     .mail-col { flex: 1; max-width: 860px; display: flex; flex-direction: column; align-items: center; }
-    .mail-era { font-family: 'Times New Roman', Times, serif; font-size: 13px; font-weight: 800; letter-spacing: 2px; color: var(--faint); margin-bottom: 8px; text-transform: uppercase; }
+    .mail-era { font-family: 'Times New Roman', Times, serif; font-size: 16px; font-weight: 800; letter-spacing: 2px; color: var(--faint); margin-bottom: 8px; text-transform: uppercase; }
     .mail-stage { width: 100%; border-radius: 8px; padding: 22px; display: flex; align-items: center; justify-content: center; }
     .mail-stage.legacy-bg { background: linear-gradient(160deg, var(--scene-red-tint-1), var(--scene-red-tint-2)); }
     .mail-stage.modern-bg { background: linear-gradient(160deg, var(--scene-sky-tint-1), var(--scene-sky-tint-2)); }
@@ -29,13 +29,13 @@
     .mail-mock { width: 100%; background: var(--white); border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); overflow: hidden; }
     .mail-mock.legacy { border: 2px dashed var(--scene-red-accent); }
     .mail-mock.modern { border: 1px solid var(--line); }
-    .mail-mock .mm-bar { padding: 11px 20px; font-family: 'Times New Roman', Times, serif; font-size: 11.5px; font-weight: 800; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mail-mock .mm-bar { padding: 11px 20px; font-family: 'Times New Roman', Times, serif; font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .mail-mock.legacy .mm-bar { background: var(--scene-red-tint-1); color: var(--red-dark); border-color: var(--scene-red-tint-border); }
     .mail-mock.modern .mm-bar { background: var(--scene-sky-tint-1); color: var(--scene-sky-tint-text); border-color: var(--scene-sky-tint-border); }
     .mail-mock .mm-fields { padding: 12px 20px 0; }
-    .mail-mock .mm-subj { font-size: 15.5px; font-weight: 800; color: var(--navy); line-height: 1.3; }
+    .mail-mock .mm-subj { font-size: 18px; font-weight: 800; color: var(--navy); line-height: 1.3; }
     .mail-mock.legacy .mm-subj { color: var(--scene-red-tint-text); text-transform: uppercase; font-family: Arial, sans-serif; letter-spacing: .3px; }
-    .mail-mock .mm-body { padding: 9px 20px 18px; font-size: 13px; line-height: 1.55; color: var(--body-text); }
+    .mail-mock .mm-body { padding: 9px 20px 18px; font-size: 16px; line-height: 1.55; color: var(--body-text); }
     .mail-mock .mm-body strong { color: var(--navy); }
     .mail-mock.legacy .mm-body { font-family: Arial, sans-serif; }
     .mail-mock .mm-greet { display: block; margin-bottom: 5px; }
@@ -109,10 +109,8 @@
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Good grammar no longer means safe. Go directly to the official app — don't click links.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Good grammar no longer means safe. Go directly to the official app — don't click links. Fake addresses are often hard to spot, even for careful readers — going direct removes that risk completely.</div>
         <div class="key-principle"><div class="kp-val" style="font-weight:900;">0</div><div class="kp-label">Clicks From Email</div></div>
-        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
-        <div class="info-expand-panel">Fake addresses are often hard to spot, even for careful readers. Going to the app directly removes the risk of clicking a bad link.</div>
       </div>
 
       <div class="slide-bridge"><strong>Next</strong> Phishing Goes Multi-Channel <i class="fas fa-arrow-right"></i></div>

@@ -132,22 +132,6 @@ const SynergyUI = {
     if (!wasOpen) el.classList.add('open');
   },
 
-  // ---- Info expand ----
-  // Container list intentionally includes .flow-branch so the flow-scene
-  // "learn more" buttons share this same toggle/reset logic instead of a
-  // slide-local reimplementation. data-label-more/data-label-done let a
-  // caller override the default "Why?" wording (e.g. "Learn more").
-  toggleInfoExpand(btn) {
-    const panel = btn.closest('.callout-bar, .info-box, .fact-box, .figure-note, .flow-branch')?.querySelector('.info-expand-panel');
-    if (!panel) return;
-    const isOpen = panel.classList.toggle('open');
-    if (!btn.children.length) {
-      const moreLabel = btn.dataset.labelMore || 'Why? ▼';
-      const doneLabel = btn.dataset.labelDone || 'Hide why ▲';
-      btn.textContent = isOpen ? doneLabel : moreLabel;
-    }
-  },
-
   // ---- Drag comparison slider ----
   _dragState: null,
 
@@ -505,7 +489,6 @@ window.toggleSwitch = (el, i) => SynergyUI.toggleSwitch(el, i);
 window.toggleSwitchAndReveal = (el, i) => SynergyUI.toggleSwitchAndReveal(el, i);
 window.revealHotspot = el => SynergyUI.revealHotspot(el);
 window.toggleGlossary = el => SynergyUI.toggleGlossary(el);
-window.toggleInfoExpand = btn => SynergyUI.toggleInfoExpand(btn);
 window.startDrag = (evt, handle) => SynergyUI.startDrag(evt, handle);
 window.replayFlow = btn => SynergyUI.replayFlow(btn);
 window.runFlowSequence = btn => SynergyUI.runFlowSequence(btn);

@@ -774,7 +774,7 @@ ul { list-style: none; }
 }
 .callout-bar .kp-label {
   font-family: 'Times New Roman', Times, serif;
-  font-size: 12.5px;
+  font-size: 15px;
   font-weight: 800;
   color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
@@ -904,47 +904,6 @@ ul { list-style: none; }
 .glossary-term.open .glossary-popup { display: block; }
 .glossary-popup.wide { width: 320px; }
 
-/* ---------- INFO EXPAND ---------- */
-.info-expand-btn {
-  background: none;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.75);
-  font-family: 'Times New Roman', Times, serif;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 5px 12px;
-  border-radius: 14px;
-  cursor: pointer;
-  margin-left: auto;
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-.info-expand-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-}
-.info-expand-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  overflow: hidden;
-  margin-top: 0;
-  padding-top: 0;
-  border-top: 1px solid transparent;
-  transition: grid-template-rows 0.35s ease, opacity 0.3s ease,
-              margin-top 0.35s ease, padding-top 0.35s ease, border-color 0.35s ease;
-  font-size: 16px;
-  line-height: 1.55;
-  color: var(--cyan-pale);
-  width: 100%;
-}
-.info-expand-panel > * { min-height: 0; }
-.info-expand-panel.open {
-  grid-template-rows: 1fr;
-  opacity: 1;
-  margin-top: 10px;
-  padding-top: 10px;
-  border-top-color: rgba(255, 255, 255, 0.15);
-}
 
 /* ---------- DO / DON'T LISTS ---------- */
 .dodont-grid {

@@ -21,15 +21,15 @@
     .channel-head { font-family: 'Times New Roman', Times, serif; font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 9px 14px; color: #fff; background: var(--navy); display: flex; align-items: center; gap: 8px; }
 
     .phone-frame { background: linear-gradient(160deg, var(--navy-4), var(--navy)); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
-    .sms-sender { font-family: 'Times New Roman', Times, serif; font-size: 10.5px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; text-align: center; }
-    .sms-bubble { background: var(--msg-bubble-bg); color: var(--msg-bubble-text); padding: 11px 14px; border-radius: 12px 12px 12px 4px; font-size: 13px; line-height: 1.5; }
+    .sms-sender { font-family: 'Times New Roman', Times, serif; font-size: 13px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; text-align: center; }
+    .sms-bubble { background: var(--msg-bubble-bg); color: var(--msg-bubble-text); padding: 11px 14px; border-radius: 12px 12px 12px 4px; font-size: 16px; line-height: 1.5; }
 
     .call-frame { background: linear-gradient(160deg, var(--scene-red-dark-2), var(--scene-red-dark-1)); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 15px; }
     .call-avatar-sm { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; }
     .call-avatar-sm i { font-size: 26px !important; }
-    .call-id { font-family: 'Times New Roman', Times, serif; color: var(--white); font-size: 13.5px; letter-spacing: .3px; }
-    .call-sub { font-family: 'Times New Roman', Times, serif; color: rgba(255,255,255,0.5); font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; }
-    .call-caption2 { padding: 10px 14px; background: var(--white); font-size: 12.5px; color: var(--body-text); border-top: 1px solid var(--line); line-height: 1.45; }
+    .call-id { font-family: 'Times New Roman', Times, serif; color: var(--white); font-size: 17px; letter-spacing: .3px; }
+    .call-sub { font-family: 'Times New Roman', Times, serif; color: rgba(255,255,255,0.5); font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .call-caption2 { padding: 10px 14px; background: var(--white); font-size: 16px; color: var(--body-text); border-top: 1px solid var(--line); line-height: 1.45; }
 
     .channel-tells { padding: 10px 14px 10px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
     .channel-tell { display: flex; gap: 8px; }
@@ -120,9 +120,7 @@
 
       <div class="callout-bar">
         <i class="fas fa-shield-halved"></i>
-        <div class="callout-text"><strong style="color:var(--cyan);">[STOP — EVERY CHANNEL]</strong> <strong>GOLDEN RULE:</strong> Same tells on every channel — urgency, faked identity, pressure to act. Hang up, close the chat, use a number you already have.</div>
-        <button class="info-expand-btn" onclick="toggleInfoExpand(this)">Why? &#9660;</button>
-        <div class="info-expand-panel">Attackers switch channels to lower your guard — but the tells stay the same.</div>
+        <div class="callout-text"><strong style="color:var(--cyan);">[STOP — EVERY CHANNEL]</strong> <strong>GOLDEN RULE:</strong> Same tells on every channel — urgency, faked identity, pressure to act. Hang up, close the chat, use a number you already have. Attackers switch channels to lower your guard, but the tells stay the same.</div>
       </div>
 
       <div class="slide-bridge"><strong>Next</strong> Pasting Data Into Public AI <i class="fas fa-arrow-right"></i></div>
