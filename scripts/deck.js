@@ -20,7 +20,8 @@ const SLIDES = [
   { file: 'slide-13.html', title: 'Login Security', group: 'Workplace & Login Security' },
   { file: 'slide-14.html', title: 'See Something, Say Something', group: "Do's & Don'ts" },
   { file: 'slide-15.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
-  { file: 'slide-16.html', title: 'Closing', group: 'Closing' }
+  { file: 'slide-16.html', title: 'The Laws Behind the Rules', group: 'Legal & Compliance' },
+  { file: 'slide-17.html', title: 'Closing', group: 'Closing' }
 ];
 
 let currentIndex = 0;

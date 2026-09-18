@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-16T22:57:33",
+  "generated_at": "2026-09-18T10:16:24",
   "root": "C:\\Users\\SRIDHAR\\Documents\\TRININGPPT\\AWRCNTCS",
-  "total_slides_in_deckjs": 16,
+  "total_slides_in_deckjs": 17,
   "slide_files_on_disk": [
     "slide-01.html",
     "slide-02.html",
@@ -18,7 +18,8 @@
     "slide-13.html",
     "slide-14.html",
     "slide-15.html",
-    "slide-16.html"
+    "slide-16.html",
+    "slide-17.html"
   ],
   "missing_files": [],
   "orphan_files": [],
@@ -132,12 +133,24 @@
       ]
     },
     {
-      "group": "Closing",
+      "group": "Legal & Compliance",
       "slide_indexes": [
         16
       ],
       "files": [
         "slide-16.html"
+      ],
+      "titles": [
+        "The Laws Behind the Rules"
+      ]
+    },
+    {
+      "group": "Closing",
+      "slide_indexes": [
+        17
+      ],
+      "files": [
+        "slide-17.html"
       ],
       "titles": [
         "Closing"
@@ -155,7 +168,8 @@
     "slide-13.html",
     "slide-14.html",
     "slide-15.html",
-    "slide-16.html"
+    "slide-16.html",
+    "slide-17.html"
   ],
   "theme_root_vars": {
     "--navy": "#001a4d",
@@ -243,7 +257,7 @@
   "theme_usage": {
     "dark": [
       "slide-01.html",
-      "slide-16.html"
+      "slide-17.html"
     ],
     "light": [
       "slide-02.html",
@@ -259,7 +273,8 @@
       "slide-12.html",
       "slide-13.html",
       "slide-14.html",
-      "slide-15.html"
+      "slide-15.html",
+      "slide-16.html"
     ]
   },
   "off_palette_colors": {
@@ -288,13 +303,10 @@
         "--cyan",
         "--cyan-light",
         "--grad-cyan",
-        "--navy",
         "--white"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -332,9 +344,7 @@
         "--faint"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -391,9 +401,7 @@
         "--cyan"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -438,9 +446,7 @@
         "--shadow-sm"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -477,9 +483,7 @@
         "--red-dark"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -533,9 +537,7 @@
         "--navy"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -582,9 +584,7 @@
         "--white"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -633,9 +633,7 @@
         "--white"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -668,9 +666,7 @@
         "--navy"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -709,6 +705,11 @@
         },
         {
           "tag": "h4",
+          "heading": "Translation & Summariser Plugins",
+          "body": "Free \"summarise this doc\" tools upload the whole document to a third-party server \u2014 it then sits outside company control."
+        },
+        {
+          "tag": "h4",
           "heading": "AI Image/Deepfake Generators",
           "body": "Free tools make fake images of colleagues, vessels or documents. GDPR: uploading crew or customer images to a public tool can itself be a breach."
         }
@@ -723,9 +724,7 @@
         "--cyan"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -799,9 +798,7 @@
         "--scene-red-accent"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -866,9 +863,7 @@
         "--shadow-sm"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -939,9 +934,7 @@
         "--shadow-sm"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -1002,9 +995,7 @@
         "--scene-red-accent"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -1043,9 +1034,7 @@
         "--white"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -1058,6 +1047,47 @@
     {
       "index": 16,
       "file": "slide-16.html",
+      "deck_title": "The Laws Behind the Rules",
+      "group": "Legal & Compliance",
+      "slide_tag": null,
+      "eyebrow": "Legal & Compliance",
+      "h1": "THE LAWS BEHIND THE RULES",
+      "section_lead": [
+        "GDPR and DPDPA are the two laws behind every \"keep it in an approved system\" rule in this deck \u2014 here's what they actually mean for your daily work."
+      ],
+      "cards": [
+        {
+          "tag": "h3",
+          "heading": "GDPR \u2014 EU Data Protection",
+          "body": "Protects the personal data of anyone in the EU or EEA \u2014 names, emails, even location data. If we handle data for EU crew, customers, or partners, GDPR applies, no matter where we're based. Any breach must be reported within 72 hours."
+        },
+        {
+          "tag": "h3",
+          "heading": "DPDPA \u2014 India's Data Law",
+          "body": "India's own data protection law, built on the same idea: protect anyone's personal data, wherever we hold it. It covers any of our systems with Indian crew, customer, or staff data \u2014 and breaches follow that same fast reporting timeline."
+        }
+      ],
+      "components": [],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--cyan"
+      ],
+      "assets": [
+        "https://cdnjs.cloudflare.com",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/favicon.svg",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 17,
+      "file": "slide-17.html",
       "deck_title": "Closing",
       "group": "Closing",
       "slide_tag": null,
@@ -1078,9 +1108,7 @@
         "--white"
       ],
       "assets": [
-        "https://fonts.googleapis.com",
         "https://cdnjs.cloudflare.com",
-        "https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap",
         "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
         "../styles/main.css",
         "../assets/favicon.svg",
@@ -1111,7 +1139,7 @@
       "message": "deck.js title 'Workplace Security' shares no significant words with this slide's <h1> 'YOUR DESK IS PART OF THE PERIMETER'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
-      "file": "slide-16.html",
+      "file": "slide-17.html",
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."

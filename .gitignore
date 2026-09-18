@@ -32,3 +32,7 @@ desktop.ini
 
 # Persisted live-session state (see app.py SESSIONS_FILE) — runtime data, not source
 data/
+
+# Generated deck export (see export_slides.py) — build output, not source
+temp_slides/
+*.pptx
