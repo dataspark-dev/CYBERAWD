@@ -195,6 +195,9 @@ body {
   animation: pulse-dot 2s ease-in-out infinite;
   flex-shrink: 0;
 }
+.le-module-tag:empty {
+  display: none;
+}
 .le-module-tag {
   font-family: 'Space Mono', monospace;
   font-size: var(--fs-badge);
