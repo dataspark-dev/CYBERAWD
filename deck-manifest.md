@@ -1,8 +1,8 @@
 # Deck Manifest
 
-Generated: 2026-09-18T10:40:24  
-Total slides (deck.js): 17  
-Slide files on disk: 17
+Generated: 2026-09-18T11:11:49  
+Total slides (deck.js): 18  
+Slide files on disk: 18
 
 ## Slide-by-Slide
 
@@ -22,9 +22,10 @@ Slide files on disk: 17
 | 12 | Your Desk Is Part of the Perimeter | Workplace & Login Security | _static_ | — |
 | 13 | Your Login Is Part of the Perimeter | Workplace & Login Security | _static_ | — |
 | 14 | See Something, Say Something | Do's & Don'ts | _static_ | — |
-| 15 | Do's & Don'ts | Do's & Don'ts | _static_ | — |
-| 16 | The Laws Behind the Rules | Legal & Compliance | _static_ | — |
-| 17 | Closing | Closing | _static_ | 1 ⚠ |
+| 15 | GDPR — EU Data Protection | Legal & Compliance | _static_ | — |
+| 16 | DPDPA — India's Data Law | Legal & Compliance | _static_ | — |
+| 17 | Do's & Don'ts | Do's & Don'ts | _static_ | — |
+| 18 | Closing | Closing | _static_ | 1 ⚠ |
 
 ## Flow Map
 
@@ -34,9 +35,9 @@ Slide files on disk: 17
 - **Phishing Evolution** (slides 7–8): Phishing Has Evolved → Phishing Goes Multi-Channel
 - **AI & Chatbot Risks** (slides 9–11): Pasting Data Into Public AI → Shadow AI — The Unapproved Tools → When Attackers Use AI Too
 - **Workplace & Login Security** (slides 12–13): Your Desk Is Part of the Perimeter → Your Login Is Part of the Perimeter
-- **Do's & Don'ts** (slides 14–15): See Something, Say Something → Do's & Don'ts
-- **Legal & Compliance** (slides 16): The Laws Behind the Rules
-- **Closing** (slides 17): Closing
+- **Do's & Don'ts** (slides 14–17): See Something, Say Something → Do's & Don'ts
+- **Legal & Compliance** (slides 15–16): GDPR — EU Data Protection → DPDPA — India's Data Law
+- **Closing** (slides 18): Closing
 
 ## Interactive Component Inventory
 
@@ -52,7 +53,7 @@ Slide files on disk: 17
 - `count-up`: 0 slide(s) — none
 - `reveal-click-zone`: 0 slide(s) — none
 
-**Static / reading-only slides (no known interactive component):** ['slide-01.html', 'slide-02.html', 'slide-05.html', 'slide-07.html', 'slide-08.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html', 'slide-15.html', 'slide-16.html', 'slide-17.html']
+**Static / reading-only slides (no known interactive component):** ['slide-01.html', 'slide-02.html', 'slide-05.html', 'slide-07.html', 'slide-08.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html', 'slide-15.html', 'slide-16.html', 'slide-17.html', 'slide-18.html']
 
 ## Theme Audit
 
@@ -79,8 +80,8 @@ Root palette (main.css `:root`):
 - `--yellow`: `#eab308`
 - `--slate`: `#475569`
 - `--red-darker`: `#7f1d1d`
-- `--ink`: `#1e293b`
-- `--body-text`: `#374151`
+- `--ink`: `#000000`
+- `--body-text`: `#000000`
 - `--muted`: `#64748b`
 - `--faint`: `#94a3b8`
 - `--line`: `#e2e8f0`
@@ -140,8 +141,8 @@ Root palette (main.css `:root`):
 - `--accent-border`: `rgba(6, 182, 212, 0.35)`
 
 Theme usage per slide:
-- **dark**: ['slide-01.html', 'slide-17.html']
-- **light**: ['slide-02.html', 'slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-09.html', 'slide-10.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html', 'slide-15.html', 'slide-16.html']
+- **dark**: ['slide-01.html', 'slide-18.html']
+- **light**: ['slide-02.html', 'slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-09.html', 'slide-10.html', 'slide-11.html', 'slide-12.html', 'slide-13.html', 'slide-14.html', 'slide-15.html', 'slide-16.html', 'slide-17.html']
 
 Hex colors used that are **not** a defined `:root` variable value:
 - `#fff` — used in: ['slide-03.html', 'slide-04.html', 'slide-08.html']
@@ -149,4 +150,4 @@ Hex colors used that are **not** a defined `:root` variable value:
 ## Issues Flagged
 
 - 🔵 **INFO** [title-drift] `slide-01.html`: deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift — verify manually.
-- 🔵 **INFO** [title-drift] `slide-17.html`: deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift — verify manually.
+- 🔵 **INFO** [title-drift] `slide-18.html`: deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift — verify manually.

@@ -19,9 +19,10 @@ const SLIDES = [
   { file: 'slide-12.html', title: 'Your Desk Is Part of the Perimeter', group: 'Workplace & Login Security' },
   { file: 'slide-13.html', title: 'Your Login Is Part of the Perimeter', group: 'Workplace & Login Security' },
   { file: 'slide-14.html', title: 'See Something, Say Something', group: "Do's & Don'ts" },
-  { file: 'slide-15.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
-  { file: 'slide-16.html', title: 'The Laws Behind the Rules', group: 'Legal & Compliance' },
-  { file: 'slide-17.html', title: 'Closing', group: 'Closing' }
+  { file: 'slide-15.html', title: 'GDPR — EU Data Protection', group: 'Legal & Compliance' },
+  { file: 'slide-16.html', title: "DPDPA — India's Data Law", group: 'Legal & Compliance' },
+  { file: 'slide-17.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
+  { file: 'slide-18.html', title: 'Closing', group: 'Closing' }
 ];
 
 let currentIndex = 0;

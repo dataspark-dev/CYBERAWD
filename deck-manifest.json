@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-18T10:40:24",
+  "generated_at": "2026-09-18T11:11:49",
   "root": "C:\\Users\\SRIDHAR\\Documents\\TRININGPPT\\AWRCNTCS",
-  "total_slides_in_deckjs": 17,
+  "total_slides_in_deckjs": 18,
   "slide_files_on_disk": [
     "slide-01.html",
     "slide-02.html",
@@ -19,7 +19,8 @@
     "slide-14.html",
     "slide-15.html",
     "slide-16.html",
-    "slide-17.html"
+    "slide-17.html",
+    "slide-18.html"
   ],
   "missing_files": [],
   "orphan_files": [],
@@ -121,11 +122,11 @@
       "group": "Do's & Don'ts",
       "slide_indexes": [
         14,
-        15
+        17
       ],
       "files": [
         "slide-14.html",
-        "slide-15.html"
+        "slide-17.html"
       ],
       "titles": [
         "See Something, Say Something",
@@ -135,22 +136,25 @@
     {
       "group": "Legal & Compliance",
       "slide_indexes": [
+        15,
         16
       ],
       "files": [
+        "slide-15.html",
         "slide-16.html"
       ],
       "titles": [
-        "The Laws Behind the Rules"
+        "GDPR \u2014 EU Data Protection",
+        "DPDPA \u2014 India's Data Law"
       ]
     },
     {
       "group": "Closing",
       "slide_indexes": [
-        17
+        18
       ],
       "files": [
-        "slide-17.html"
+        "slide-18.html"
       ],
       "titles": [
         "Closing"
@@ -169,7 +173,8 @@
     "slide-14.html",
     "slide-15.html",
     "slide-16.html",
-    "slide-17.html"
+    "slide-17.html",
+    "slide-18.html"
   ],
   "theme_root_vars": {
     "--navy": "#001a4d",
@@ -194,8 +199,8 @@
     "--yellow": "#eab308",
     "--slate": "#475569",
     "--red-darker": "#7f1d1d",
-    "--ink": "#1e293b",
-    "--body-text": "#374151",
+    "--ink": "#000000",
+    "--body-text": "#000000",
     "--muted": "#64748b",
     "--faint": "#94a3b8",
     "--line": "#e2e8f0",
@@ -257,7 +262,7 @@
   "theme_usage": {
     "dark": [
       "slide-01.html",
-      "slide-17.html"
+      "slide-18.html"
     ],
     "light": [
       "slide-02.html",
@@ -274,7 +279,8 @@
       "slide-13.html",
       "slide-14.html",
       "slide-15.html",
-      "slide-16.html"
+      "slide-16.html",
+      "slide-17.html"
     ]
   },
   "off_palette_colors": {
@@ -1002,6 +1008,98 @@
     {
       "index": 15,
       "file": "slide-15.html",
+      "deck_title": "GDPR \u2014 EU Data Protection",
+      "group": "Legal & Compliance",
+      "slide_tag": null,
+      "eyebrow": "Legal & Compliance",
+      "h1": "GDPR \u2014 EU DATA PROTECTION",
+      "section_lead": [
+        "GDPR is the law behind every \"keep it in an approved system\" rule involving EU crew, customers, or partners \u2014 here's what it actually means for your daily work."
+      ],
+      "cards": [
+        {
+          "tag": "h3",
+          "heading": "Who It Covers",
+          "body": "Anyone in the EU or EEA \u2014 crew, customers, partners. If we hold their data, GDPR applies, no matter where we're based."
+        },
+        {
+          "tag": "h3",
+          "heading": "What Counts as Personal Data",
+          "body": "Names, emails, passport numbers, even location data. If it can identify a person, GDPR treats it as personal data."
+        },
+        {
+          "tag": "h3",
+          "heading": "The 72-Hour Rule",
+          "body": "Any breach involving this data must be reported within 72 hours \u2014 that's why reporting fast matters more than reporting perfectly."
+        }
+      ],
+      "components": [],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--cyan"
+      ],
+      "assets": [
+        "https://cdnjs.cloudflare.com",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/favicon.svg",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 16,
+      "file": "slide-16.html",
+      "deck_title": "DPDPA \u2014 India's Data Law",
+      "group": "Legal & Compliance",
+      "slide_tag": null,
+      "eyebrow": "Legal & Compliance",
+      "h1": "DPDPA \u2014 INDIA'S DATA LAW",
+      "section_lead": [
+        "India's own data protection law follows the same idea as GDPR \u2014 here's what it means for our Indian crew, customers, and staff data."
+      ],
+      "cards": [
+        {
+          "tag": "h3",
+          "heading": "Who It Covers",
+          "body": "Anyone in India \u2014 crew, customers, staff. Any system holding their data falls under it, wherever that system sits."
+        },
+        {
+          "tag": "h3",
+          "heading": "Built on the Same Idea",
+          "body": "Collect only what's needed, keep it secure, and give people control over their own data \u2014 the same principles as GDPR."
+        },
+        {
+          "tag": "h3",
+          "heading": "Fast Reporting, Same Timeline",
+          "body": "Breaches involving Indian personal data follow that same fast-reporting expectation \u2014 the sooner it's flagged, the better."
+        }
+      ],
+      "components": [],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--cyan"
+      ],
+      "assets": [
+        "https://cdnjs.cloudflare.com",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/favicon.svg",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 17,
+      "file": "slide-17.html",
       "deck_title": "Do's & Don'ts",
       "group": "Do's & Don'ts",
       "slide_tag": null,
@@ -1039,49 +1137,8 @@
       "flags": []
     },
     {
-      "index": 16,
-      "file": "slide-16.html",
-      "deck_title": "The Laws Behind the Rules",
-      "group": "Legal & Compliance",
-      "slide_tag": null,
-      "eyebrow": "Legal & Compliance",
-      "h1": "THE LAWS BEHIND THE RULES",
-      "section_lead": [
-        "GDPR and DPDPA are the two laws behind every \"keep it in an approved system\" rule in this deck \u2014 here's what they actually mean for your daily work."
-      ],
-      "cards": [
-        {
-          "tag": "h3",
-          "heading": "GDPR \u2014 EU Data Protection",
-          "body": "Protects the personal data of anyone in the EU or EEA \u2014 names, emails, even location data. If we handle data for EU crew, customers, or partners, GDPR applies, no matter where we're based. Any breach must be reported within 72 hours."
-        },
-        {
-          "tag": "h3",
-          "heading": "DPDPA \u2014 India's Data Law",
-          "body": "India's own data protection law, built on the same idea: protect anyone's personal data, wherever we hold it. It covers any of our systems with Indian crew, customer, or staff data \u2014 and breaches follow that same fast reporting timeline."
-        }
-      ],
-      "components": [],
-      "theme": "light",
-      "hex_colors": [],
-      "off_palette_colors": [],
-      "var_colors": [
-        "--cyan"
-      ],
-      "assets": [
-        "https://cdnjs.cloudflare.com",
-        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
-        "../styles/main.css",
-        "../assets/favicon.svg",
-        "../assets/SYN.png",
-        "../assets/AFT.png",
-        "../scripts/main.js"
-      ],
-      "flags": []
-    },
-    {
-      "index": 17,
-      "file": "slide-17.html",
+      "index": 18,
+      "file": "slide-18.html",
       "deck_title": "Closing",
       "group": "Closing",
       "slide_tag": null,
@@ -1127,7 +1184,7 @@
       "message": "deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
-      "file": "slide-17.html",
+      "file": "slide-18.html",
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
