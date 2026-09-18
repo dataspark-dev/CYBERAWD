@@ -230,7 +230,7 @@
         </div>
       </div>
     `;
-    els.btnRow.innerHTML = '<a class="le-btn primary lg" href="clue-quest.html"><i class="fa-solid fa-forward"></i> Up Next: Cyber Clue Quest - Recall</a><a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>';
+    els.btnRow.innerHTML = '<a class="le-btn primary lg" href="clue-quest.html"><i class="fa-solid fa-forward"></i> Next: Cyber Clue Quest - Recall</a><a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>';
     els.dots.innerHTML = '';
   }
 

@@ -410,7 +410,7 @@
           </div>
         </div>
         <div class="ls-final-actions">
-          <a class="le-btn primary lg" href="myth-vs-fact.html"><i class="fa-solid fa-forward"></i> Up Next: Myth vs Fact - Correct</a>
+          <a class="le-btn primary lg" href="myth-vs-fact.html"><i class="fa-solid fa-forward"></i> Next: Myth vs Fact - Correct</a>
           <button class="le-btn ghost lg" id="restartAllBtnGlobal" type="button"><i class="fa-solid fa-arrows-rotate"></i> Restart All</button>
           <a class="le-btn ghost lg" href="../index.html"><i class="fa-solid fa-house"></i> Back to Console</a>
         </div>

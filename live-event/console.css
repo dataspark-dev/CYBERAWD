@@ -2774,6 +2774,12 @@ body {
 .cc-stage { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: clamp(14px, 1.8vw, 22px); text-align: center; width: 100%; }
 .cc-console-hud { display: flex; align-items: center; justify-content: center; gap: clamp(16px, 2vw, 32px); }
 .cc-console-stat { background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--r-lg); padding: 10px 22px; min-width: 120px; }
+/* The shared countdown timer (--fs-display, 90-220px) is sized for its own isolated
+   section on Clue Quest/Pass-Phrase — inline in this compact HUD row next to the
+   28px Score/Lives chips it overwhelms the strip, so scale it to match here instead. */
+.cc-console-hud .le-timer { gap: 0; }
+.cc-console-hud .le-timer .lt-digits { font-size: clamp(32px, 4vw, 48px); text-shadow: none; }
+.cc-console-hud .le-timer .lt-label { font-size: 10px; letter-spacing: 2px; }
 .cc-console-label { display: block; font-family: 'Space Mono', monospace; font-size: var(--fs-badge); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 .cc-console-value { display: block; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: var(--fs-heading); color: var(--cyan-light); margin-top: 2px; }
 .cc-console-hint { font-family: 'Barlow', sans-serif; font-size: var(--fs-body); color: var(--muted); max-width: 720px; }

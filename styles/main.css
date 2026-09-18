@@ -141,7 +141,7 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  font-family: 'Times New Roman', Times, serif;
+  font-family: 'Barlow', sans-serif;
   background: var(--paper);
   color: var(--navy);
   line-height: 1.5;
