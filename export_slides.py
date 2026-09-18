@@ -52,7 +52,7 @@ VIEWPORT_HEIGHT = 1080
 # 2 → 3840 x 2160 px per slide (~288 DPI in PPTX). Crisp on projectors/screens.
 # 3 → 5760 x 3240 px per slide (~432 DPI). Use if you need ultra-sharp print.
 # NOTE: scale=3 increases RAM usage and export time significantly.
-SCALE           = 2
+SCALE           = 3
 
 # ── Derived constants (do not edit) ──────────────────────────────────────────
 # True 16:9 widescreen standard for PowerPoint / Google Slides
