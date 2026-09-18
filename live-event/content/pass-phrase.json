@@ -1,5 +1,5 @@
 {
-  "whyThisMatters": "A password made from your name or birth year can be guessed in seconds. What slows an attacker is length and mixing different types of characters — not being clever with one symbol.",
+  "whyThisMatters": "A password made from your name or birth year can be guessed in seconds. What slows an attacker is length and mixing different types of characters — not being clever with one symbol. The same rule applies whether you are logging in from an office desk or a shared computer on board.",
   "policy": "Synergy's password policy: 12 or more characters, with big letters, small letters, numbers and a symbol, and no personal information — no names, birth dates, city names, or anything tied to you. For example, \"Rahul1998\" is not allowed, even with a symbol added.",
   "rememberThis": "12+ characters, big + small letters, numbers, a symbol, nothing personal — that is Synergy's rule, and now you have both spotted it and built it.",
   "facilitatorNotes": {

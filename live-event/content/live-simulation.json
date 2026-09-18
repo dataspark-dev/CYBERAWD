@@ -1,7 +1,7 @@
 {
   "title": "Live Social-Engineering Simulation - Virtual Environment",
   "subtitle": "Follow the attacker's full flow: Public LinkedIn Research → Fake Email → Fake Teams/SMS → Fake Portal → Fake Payment Request",
-  "whyThisMatters": "Real attacks rarely start with hacking. They start with a public LinkedIn profile and a guessed email address. Watching the whole chain shows how normal each step looks on its own, and how dangerous they are together.",
+  "whyThisMatters": "Real attacks rarely start with hacking. They start with a public LinkedIn profile and a guessed email address. Watching the whole chain shows how normal each step looks on its own, and how dangerous they are together — whether the target is in an office or on a ship.",
   "rememberThis": "One convincing message is never proof. Check using a channel the sender does not control.",
   "facilitatorNotes": {
     "discussionPrompts": [
