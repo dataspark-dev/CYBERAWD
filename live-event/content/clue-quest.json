@@ -72,7 +72,7 @@
     },
     {
       "id": "fake-popup",
-      "riddle": "A small box pops up on your screen and says \"Type your password here to fix the error.\" Whether you are at your desk or on a shared computer on board, the real IT support team never asks for your password this way. What trick am I?",
+      "riddle": "A small box pops up on your screen and says \"Type your password here to fix the error.\" Whether you are at your desk or on a shared computer on board, the real IT Service Desk never asks for your password this way. What trick am I?",
       "answer": "FAKE IT POP-UP",
       "options": [
         "FAKE IT POP-UP",
@@ -92,7 +92,7 @@
     },
     {
       "id": "stop-verify-report",
-      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT support team. What is this rule called?",
+      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT Service Desk. What is this rule called?",
       "answer": "STOP VERIFY REPORT",
       "options": [
         "STOP VERIFY REPORT",

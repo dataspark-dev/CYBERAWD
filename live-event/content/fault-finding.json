@@ -89,7 +89,7 @@
       "imagePath": "../assets/fault-finding/fake-it-popup.svg",
       "placeholder": true,
       "whatIsWrong": "A small box pops up on a shared office computer — or on the bridge computer — claiming to be IT support. It says \"Your crew portal session has expired. Type your password here to fix the error and continue.\"",
-      "whyItsSuspicious": "The real IT support team will never ask for your password in a pop-up box, whether you are on shore or on board. This box is a trick to steal your login, dressed up to look like a normal system message. If you see this, close it, do not type anything, and report it to the IT support team. On a shared computer, also let the next user know not to use it until IT has checked it."
+      "whyItsSuspicious": "The real IT Service Desk will never ask for your password in a pop-up box, whether you are on shore or on board. This box is a trick to steal your login, dressed up to look like a normal system message. If you see this, close it, do not type anything, and report it to the IT Service Desk. On a shared computer, also let the next user know not to use it until IT has checked it."
     },
     {
       "id": "mfa-fatigue",
@@ -100,7 +100,7 @@
       "imagePath": "../assets/fault-finding/mfa-fatigue.svg",
       "placeholder": true,
       "whatIsWrong": "You get many login approval requests on your phone that you did not ask for — the second check after your password (sometimes called MFA, Multi-Factor Authentication — the extra approval step after your password, like a code or an \"Approve\" button). The attacker already has your password and hopes you will tap Approve just to make the messages stop.",
-      "whyItsSuspicious": "One unexpected approval request is already worth noticing. Many requests in a few minutes means someone already knows your password and is trying to wear you down until you approve by mistake. This can happen on shore or offshore, on your personal phone or a vessel phone. If this happens, do not tap Approve, do not tap Deny repeatedly — report it to the IT support team right away and change your password from a device you trust."
+      "whyItsSuspicious": "One unexpected approval request is already worth noticing. Many requests in a few minutes means someone already knows your password and is trying to wear you down until you approve by mistake. This can happen on shore or offshore, on your personal phone or a vessel phone. If this happens, do not tap Approve, do not tap Deny repeatedly — report it to the IT Service Desk right away and change your password from a device you trust."
     }
   ]
 }

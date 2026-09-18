@@ -10,7 +10,7 @@
       "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
       "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
     ],
-    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT support team needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
   },
   "cases": [
     {
@@ -33,18 +33,18 @@
               "id": "b",
               "text": "Close the tab without typing anything and leave the device alone",
               "outcome": "good",
-              "feedback": "Right choice. Not typing anything stops the attack. Leaving the device as it is keeps what the IT support team needs to see."
+              "feedback": "Right choice. Not typing anything stops the attack. Leaving the device as it is keeps what the IT Service Desk needs to see."
             },
             {
               "id": "c",
               "text": "Take a screenshot to show a crewing colleague before you do anything else",
               "outcome": "consequence",
-              "feedback": "Sharing it with colleagues first slows you down. The most important step is to tell the IT support team fast, not to ask others first."
+              "feedback": "Sharing it with colleagues first slows you down. The most important step is to tell the IT Service Desk fast, not to ask others first."
             }
           ]
         }
       ],
-      "debrief": "Whether it is a link, an attachment, or anything unexpected, the steps are the same. STOP before you do more. Do not touch the device more than you need to. REPORT right away with details. Every minute you wait is a minute the IT support team does not have."
+      "debrief": "Whether it is a link, an attachment, or anything unexpected, the steps are the same. STOP before you do more. Do not touch the device more than you need to. REPORT right away with details. Every minute you wait is a minute the IT Service Desk does not have."
     },
     {
       "id": "svr-1",
@@ -64,7 +64,7 @@
             },
             {
               "id": "b",
-              "text": "Do not tap the link — open the official crew/HR portal from your bookmark and report the text to the IT support team",
+              "text": "Do not tap the link — open the official crew/HR portal from your bookmark and report the text to the IT Service Desk",
               "outcome": "good",
               "feedback": "Right call. Going straight to a place you already trust removes the attacker's link completely, and reporting it helps flag the pattern for others."
             },
@@ -77,7 +77,7 @@
           ]
         }
       ],
-      "debrief": "STOP — do not tap the link. VERIFY by opening the official HR or crew portal yourself (from a bookmark you already have) or by calling HR on a number you already know. REPORT the text to the IT support team."
+      "debrief": "STOP — do not tap the link. VERIFY by opening the official HR or crew portal yourself (from a bookmark you already have) or by calling HR on a number you already know. REPORT the text to the IT Service Desk."
     },
     {
       "id": "unknown-usb-drive",
@@ -97,20 +97,20 @@
             },
             {
               "id": "b",
-              "text": "Leave it unplugged and tell the IT support team — do not try to find the owner yourself",
+              "text": "Leave it unplugged and tell the IT Service Desk — do not try to find the owner yourself",
               "outcome": "good",
-              "feedback": "Correct. Not plugging it in removes the risk. It is not your job to find out who owns it — let the IT support team handle it safely."
+              "feedback": "Correct. Not plugging it in removes the risk. It is not your job to find out who owns it — let the IT Service Desk handle it safely."
             },
             {
               "id": "c",
               "text": "Ask around the crew mess if anyone is missing a USB stick",
               "outcome": "consequence",
-              "feedback": "This feels helpful, but it wastes time. Word can also reach the person who left it there before the IT support team sees it."
+              "feedback": "This feels helpful, but it wastes time. Word can also reach the person who left it there before the IT Service Desk sees it."
             }
           ]
         }
       ],
-      "debrief": "An unknown USB stick is an easy way for harmful software to get into a system. STOP before you plug anything in. REPORT it directly to the IT support team so it is checked properly — do not leave it in a drawer or pass it around."
+      "debrief": "An unknown USB stick is an easy way for harmful software to get into a system. STOP before you plug anything in. REPORT it directly to the IT Service Desk so it is checked properly — do not leave it in a drawer or pass it around."
     },
     {
       "id": "q1-cfo-video-call",
@@ -126,13 +126,13 @@
               "id": "a",
               "text": "Approve the payment — the face and voice matched, so it must really be them",
               "outcome": "consequence",
-              "feedback": "A real-looking face and voice on a call is not proof of who someone is. Both can now be faked. An unusual, urgent payment is exactly when to STOP and VERIFY using a number or channel you already had before this call. Then REPORT anything strange."
+              "feedback": "A real-looking face and voice on a call is not proof of who someone is — both can now be faked. Approving because it “looked right” is exactly the mistake this kind of scam counts on."
             },
             {
               "id": "b",
               "text": "Quietly stall by saying you will do it after the call, hoping they forget",
               "outcome": "consequence",
-              "feedback": "A real-looking face and voice on a call is not proof of who someone is. Both can now be faked. An unusual, urgent payment is exactly when to STOP and VERIFY using a number or channel you already had before this call. Then REPORT anything strange."
+              "feedback": "Stalling doesn’t solve anything. If it really is the leader, you’ve delayed a legitimate payment for no reason; if it’s a scam, hoping they “forget” means you never verified or reported it. Staying quiet isn’t the same as checking."
             },
             {
               "id": "c",
@@ -144,7 +144,7 @@
               "id": "d",
               "text": "Ask a colleague in chat if they got the same request, then decide",
               "outcome": "consequence",
-              "feedback": "A real-looking face and voice on a call is not proof of who someone is. Both can now be faked. An unusual, urgent payment is exactly when to STOP and VERIFY using a number or channel you already had before this call. Then REPORT anything strange."
+              "feedback": "Asking a colleague doesn’t verify anything — they weren’t on the call either, and a scammer counts on you feeling reassured just because someone else is unsure too. The only real check is a channel you already trust for that specific leader."
             }
           ]
         }
@@ -165,18 +165,18 @@
               "id": "a",
               "text": "Go back to the jetty and the launch to search for it yourself",
               "outcome": "consequence",
-              "feedback": "Every minute you spend searching is a minute the IT support team is not locking your accounts or wiping the device. Speed matters more than searching."
+              "feedback": "Every minute you spend searching is a minute the IT Service Desk is not locking your accounts or wiping the device. Speed matters more than searching."
             },
             {
               "id": "b",
-              "text": "Report it to the IT support team and your manager immediately",
+              "text": "Report it to the IT Service Desk and your manager immediately",
               "outcome": "good",
-              "feedback": "Correct. Fast reporting lets the IT support team act while there is still time to lock things."
+              "feedback": "Correct. Fast reporting lets the IT Service Desk act while there is still time to lock things."
             }
           ]
         }
       ],
-      "debrief": "A missing device with company access is a race against time. STOP trying to find it yourself. REPORT right away to the IT support team and your manager with what you know. Check that the next steps happened, like locking the device remotely and changing your password."
+      "debrief": "A missing device with company access is a race against time. STOP trying to find it yourself. REPORT right away to the IT Service Desk and your manager with what you know. Check that the next steps happened, like locking the device remotely and changing your password."
     },
     {
       "id": "q2-candidate-attachment",
@@ -192,25 +192,25 @@
               "id": "a",
               "text": "Open the attachment quickly so you do not lose a strong candidate",
               "outcome": "consequence",
-              "feedback": "A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, and REPORT applies to a seafarer file just like any other email."
+              "feedback": "Opening an unexpected attachment from a slightly-off sender address is exactly how malware gets in — no candidate is worth that risk, and a genuine crewing agent won’t disappear over a short delay."
             },
             {
               "id": "b",
               "text": "Reply to the sender asking for more information",
               "outcome": "consequence",
-              "feedback": "A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, and REPORT applies to a seafarer file just like any other email."
+              "feedback": "Replying only confirms your address is active — it doesn’t verify anything, and a fake sender will happily reply back with more convincing details."
             },
             {
               "id": "c",
               "text": "STOP before opening anything, VERIFY the sender's exact email address and the crewing portal directly, then REPORT if it does not check out",
               "outcome": "good",
-              "feedback": "A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, and REPORT applies to a seafarer file just like any other email."
+              "feedback": "Correct. A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, and REPORT applies to a seafarer file just like any other email."
             },
             {
               "id": "d",
               "text": "Forward it to a crewing colleague and let them decide",
               "outcome": "consequence",
-              "feedback": "A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, and REPORT applies to a seafarer file just like any other email."
+              "feedback": "Forwarding it just passes the risk to someone else and wastes the time the urgency is counting on. The fix is to verify the sender yourself, not hand off the decision."
             }
           ]
         }
@@ -231,13 +231,13 @@
               "id": "a",
               "text": "Message a few colleagues to see if they have noticed it too",
               "outcome": "consequence",
-              "feedback": "Telling others, even inside the company, can spread sensitive details before the IT support team has checked what happened."
+              "feedback": "Telling others, even inside the company, can spread sensitive details before the IT Service Desk has checked what happened."
             },
             {
               "id": "b",
-              "text": "Do not tell colleagues widely and do not touch the files — report it to the IT support team right away",
+              "text": "Do not tell colleagues widely and do not touch the files — report it to the IT Service Desk right away",
               "outcome": "good",
-              "feedback": "Correct. Not talking about it widely and not touching the files keeps the evidence safe for the IT support team."
+              "feedback": "Correct. Not talking about it widely and not touching the files keeps the evidence safe for the IT Service Desk."
             }
           ]
         }
@@ -258,7 +258,7 @@
               "id": "a",
               "text": "It is fine — schedules matter, and you can sort out the paperwork later",
               "outcome": "consequence",
-              "feedback": "An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a required safety approval because an urgent, unreachable person said so is the red flag — the same trick as a fake-boss email asking for a wire transfer, just aimed at a safety step instead of money."
+              "feedback": "Treating a safety sign-off as paperwork you can “sort out later” is exactly the mistake this message is engineered to cause — the permit exists precisely for situations like this."
             },
             {
               "id": "b",
@@ -270,13 +270,13 @@
               "id": "c",
               "text": "It is a normal, routine reminder about the schedule",
               "outcome": "consequence",
-              "feedback": "An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a required safety approval because an urgent, unreachable person said so is the red flag — the same trick as a fake-boss email asking for a wire transfer, just aimed at a safety step instead of money."
+              "feedback": "This is not routine — an unrecognised sender asking you to bypass a signed safety approval is never a normal reminder, no matter how it is phrased."
             },
             {
               "id": "d",
               "text": "It is expected — supervisors often message from other accounts",
               "outcome": "consequence",
-              "feedback": "An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a required safety approval because an urgent, unreachable person said so is the red flag — the same trick as a fake-boss email asking for a wire transfer, just aimed at a safety step instead of money."
+              "feedback": "Real supervisors don’t ask you to bypass safety sign-offs from an unrecognised account with no history — that pattern is the red flag, not something to wave away as normal account-switching."
             }
           ]
         }
@@ -303,7 +303,7 @@
               "id": "b",
               "text": "Do not give out any passwords, codes, or personal details — offer to call back on a trusted number instead",
               "outcome": "good",
-              "feedback": "Correct. The real IT support team will never ask you to say your password on a call they made to you."
+              "feedback": "Correct. The real IT Service Desk will never ask you to say your password on a call they made to you."
             }
           ]
         }
@@ -324,24 +324,24 @@
               "id": "a",
               "text": "Try to pay quickly before the timer runs out",
               "outcome": "consequence",
-              "feedback": "Paying does not guarantee you get your files back. It also funds the next attack. And you skip reporting, which is what the IT support team needs most."
+              "feedback": "Paying does not guarantee you get your files back. It also funds the next attack. And you skip reporting, which is what the IT Service Desk needs most."
             },
             {
               "id": "b",
               "text": "Disconnect the computer from the network right away (unplug the cable or turn off Wi-Fi) and leave it alone",
               "outcome": "good",
-              "feedback": "Right idea. Disconnecting quickly can stop it from spreading to other computers before the IT support team steps in."
+              "feedback": "Right idea. Disconnecting quickly can stop it from spreading to other computers before the IT Service Desk steps in."
             },
             {
               "id": "c",
               "text": "Post about it in the team chat to warn others",
               "outcome": "consequence",
-              "feedback": "This is understandable, but it is not the fastest way to contain it. It can also cause panic before the IT support team knows how far it has spread."
+              "feedback": "This is understandable, but it is not the fastest way to contain it. It can also cause panic before the IT Service Desk knows how far it has spread."
             }
           ]
         }
       ],
-      "debrief": "Ransomware — harmful software that locks your files for payment — wants you to panic and pay. STOP by disconnecting the computer from the network right away (unplug the cable or turn off Wi-Fi). Do not try to pay or fix it yourself. REPORT fast to the IT support team so they can stop it from reaching other systems."
+      "debrief": "Ransomware — harmful software that locks your files for payment — wants you to panic and pay. STOP by disconnecting the computer from the network right away (unplug the cable or turn off Wi-Fi). Do not try to pay or fix it yourself. REPORT fast to the IT Service Desk so they can stop it from reaching other systems."
     }
   ]
 }
