@@ -1,6 +1,6 @@
 {
   "whyThisMatters": "A lot of what feels true about security is old advice or only partly right. A few minutes here will clear up what really matters for you at the office and on board.",
-  "rememberThis": "If a security rule sounds old — like \"change your password every month\" or \"only bad emails have typos\" — check it again before you follow it.",
+  "rememberThis": "This month's reminder: old security advice can be wrong. If a rule sounds outdated — like \"change your password every month\" or \"only bad emails have typos\" — check it again before you follow it.",
   "facilitatorNotes": {
     "discussionPrompts": [
       "Ask if anyone has seen a phishing email — a fake message trying to trick you — that looked clean and professional, with no spelling mistakes. What helped them notice it was fake?",
@@ -77,7 +77,7 @@
       "id": "mf-10",
       "topic": "Reporting",
       "myth": "If I am not sure something is harmful, it is not worth reporting.",
-      "fact": "If you are unsure, that is exactly when you should report. The IT Service Desk would rather check a false alarm than miss a real attack.",
+      "fact": "Being unsure is exactly the situation reporting exists for. You are not expected to already know the answer before you ask.",
       "detail": "Maybe you opened an attachment from a manning agent, or a Teams message from someone you do not recognise asked for a file. You are not expected to decide alone. A five-minute report takes far less time than the hours needed to fix an attack found too late — especially with limited connectivity at sea."
     }
   ]

@@ -53,6 +53,7 @@
     gameOverStats: document.getElementById('ccGameOverStats'),
     rememberCard: document.getElementById('rememberCard'),
     rememberText: document.getElementById('rememberText'),
+    campaignCloseCard: document.getElementById('campaignCloseCard'),
     restartBtn: document.getElementById('restartBtn'),
     upNextRow: document.getElementById('upNextRow'),
     timerEl: document.getElementById('timer'),
@@ -313,6 +314,7 @@
       els.rememberText.textContent = rememberThisText;
       els.rememberCard.classList.remove('le-hidden');
       if (els.upNextRow) els.upNextRow.classList.remove('le-hidden');
+      if (els.campaignCloseCard) els.campaignCloseCard.classList.remove('le-hidden');
     }
   }
 
@@ -326,6 +328,7 @@
     if (els.hint) els.hint.classList.remove('le-hidden');
     if (els.rememberCard) els.rememberCard.classList.add('le-hidden');
     if (els.upNextRow) els.upNextRow.classList.add('le-hidden');
+    if (els.campaignCloseCard) els.campaignCloseCard.classList.add('le-hidden');
     if (els.restartBtn) els.restartBtn.classList.remove('pulse-highlight');
     updateHud();
     startTs = Date.now();

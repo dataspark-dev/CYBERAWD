@@ -2,7 +2,7 @@
   "title": "Live Social-Engineering Simulation - Virtual Environment",
   "subtitle": "Follow the attacker's full flow: Public LinkedIn Research → Fake Email → Fake Teams/SMS → Fake Portal → Fake Payment Request",
   "whyThisMatters": "Real attacks rarely start with hacking. They start with a public LinkedIn profile and a guessed email address. Watching the whole chain shows how normal each step looks on its own, and how dangerous they are together — whether the target is in an office or on a ship.",
-  "rememberThis": "One convincing message is never proof. Check using a channel the sender does not control.",
+  "rememberThis": "Keep this after Awareness Month ends: one convincing message is never proof. Check using a channel the sender does not control.",
   "facilitatorNotes": {
     "discussionPrompts": [
       "Ask the group to spot, before you show the answer, which security layer would NOT have stopped this. One layer alone is not enough.",
@@ -495,7 +495,7 @@
             "initials": "VP",
             "address": "accounts@horizon-provisions.sg (external vendor) - CC: Capt. Mehta"
           },
-          "text": "Subject: UPDATED Bank Details - MV Horizon Provisions - INV-84271 | Hi, our bank details have changed for this month's settlement (USD 48,500). Please remit to A/C 987654 - ACME Bank SG by 15:00 today, or provisions will be delayed. - Horizon Provisions",
+          "text": "Subject: UPDATED Bank Details - MV Horizon Provisions - INV-84271 | Hi, our bank details have changed for this month's settlement (USD 63,750). Please remit to A/C 987654 - ACME Bank SG by 15:00 today, or provisions will be delayed. - Horizon Provisions",
           "meta": "External entity pivots here: vendor email supplies the fraudulent bank details, CSO provides the authority to use them.",
           "severity": "critical"
         },
@@ -508,9 +508,9 @@
             "name": "Capt. Mehta (CSO)",
             "title": "CSO - Urgent",
             "initials": "CM",
-            "address": "Same fake address — 'Wrap in next 10 min — board call then unreachable. Process payment $48,500 now — do not check with Finance until confirmed.'"
+            "address": "Same fake address — 'Wrap in next 10 min — board call then unreachable. Process payment $63,750 now — do not check with Finance until confirmed.'"
           },
-          "text": "Please process a wire transfer of $48,500 to the account in the vendor mail right now - and don't loop in Finance until it's confirmed done. I'm about to go into a board call and won't be reachable after that.",
+          "text": "Please process a wire transfer of $63,750 to the account in the vendor mail right now - and don't loop in Finance until it's confirmed done. I'm about to go into a board call and won't be reachable after that.",
           "meta": "Time pressure + financial request outside normal channels + \"do not check\" — completes the chain that started with a public LinkedIn search on Day 1.",
           "severity": "critical"
         }

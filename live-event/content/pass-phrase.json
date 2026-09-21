@@ -1,7 +1,7 @@
 {
   "whyThisMatters": "A password made from your name or birth year can be guessed in seconds. What slows an attacker is length and mixing different types of characters — not being clever with one symbol. The same rule applies whether you are logging in from an office desk or a shared computer on board.",
   "policy": "Synergy's password policy: 12 or more characters, with big letters, small letters, numbers and a symbol, and no personal information — no names, birth dates, city names, or anything tied to you. For example, \"Rahul1998\" is not allowed, even with a symbol added.",
-  "rememberThis": "12+ characters, big + small letters, numbers, a symbol, nothing personal — that is Synergy's rule, and now you have both spotted it and built it.",
+  "rememberThis": "Awareness Month's password rule, now built by you: 12+ characters, big and small letters, numbers, a symbol, nothing personal — that is Synergy's rule.",
   "facilitatorNotes": {
     "discussionPrompts": [
       "Ask the group to compare the password they built with how they make their own passwords. Is there anything that makes them think differently now?",
@@ -144,10 +144,10 @@
       "label": "Round 5 - Hard",
       "difficulty": "hard",
       "hint": "Weak: Priya#Goa2001! - personal data even with symbols is still not allowed",
-      "weakPassword": "Amit#Kolkata92",
+      "weakPassword": "Amit#Goa92",
       "violates": "uses name + city + year — a symbol does not cancel out personal data",
       "choices": [
-        {"id": "c0", "text": "Amit#Kolkata92", "compliant": false, "reason": "Not allowed: it uses a name, a city and a year together. Adding a symbol does not cancel out personal information."},
+        {"id": "c0", "text": "Amit#Goa92", "compliant": false, "reason": "Not allowed: it uses a name, a city and a year together. Adding a symbol does not cancel out personal information."},
         {"id": "c1", "text": "GraniteEcho19@Fathom", "compliant": true, "reason": "Meets the policy: 20 characters long, has big and small letters, a number and a symbol, and nothing personal."},
         {"id": "c2", "text": "Iloveyou1!", "compliant": false, "reason": "Not allowed: this is one of the most common leaked passwords in the world — and at 10 characters it is also too short."},
         {"id": "c3", "text": "monkeymonkeymonkey", "compliant": false, "reason": "Not allowed: 19 characters of one repeated small-letter word, with no big letter, no number and no symbol."}
