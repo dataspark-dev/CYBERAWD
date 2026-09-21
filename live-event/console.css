@@ -2658,11 +2658,23 @@ body {
 }
 .cw-input:focus { outline: none; }
 .cw-input:read-only { cursor: default; }
+/* Cell is select()-ed on focus so typing replaces a filled letter - hide the native
+   text-selection tint so it doesn't compete with the active-cell/active-word colors. */
+.cw-input::selection { background: transparent; }
+.cw-input::-moz-selection { background: transparent; }
 .cw-cell.active-word .cw-input { background: rgba(6, 182, 212, 0.12); }
-.cw-cell.active-cell .cw-input { background: var(--cyan-light); }
+.cw-cell.active-cell .cw-input { background: var(--cyan-light); box-shadow: inset 0 0 0 2px var(--cyan); }
 .cw-cell.correct .cw-input { background: rgba(16, 185, 129, 0.18); color: #065f46; }
 .cw-cell.incorrect .cw-input { background: rgba(239, 68, 68, 0.12); color: #991b1b; }
 .cw-cell.revealed .cw-input { background: rgba(245, 158, 11, 0.16); color: var(--navy-3); }
+/* Cells default to a 24px floor tuned for a mouse pointer - too small to tap
+   reliably with a finger. Raise the floor for touch only; the 10-column grid
+   still fits inside a 375px viewport with room to spare, so this never forces
+   the horizontal scroll fallback on .cw-grid-wrap. Placed after the base
+   .cw-cell rule above so it wins the cascade (equal specificity, later wins). */
+@media (hover: none) and (pointer: coarse) {
+  .cw-cell { width: clamp(28px, 2.6vw, 34px); height: clamp(28px, 2.6vw, 34px); }
+}
 
 .cw-clues {
   display: flex;

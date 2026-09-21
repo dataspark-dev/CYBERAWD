@@ -199,33 +199,41 @@
         selectCell(cell.row, cell.col, pendingFocusDirection);
       }
       pendingFocusDirection = null;
+      // Pre-select any existing letter so the next keystroke (physical key, mobile
+      // keyboard suggestion, autofill, IME) simply replaces it instead of being
+      // blocked by maxLength=1 - lets a filled cell be retyped without Backspace first.
+      input.select();
     });
 
     input.addEventListener('click', () => {
       reclick = false;
     });
 
+    // Letter entry is handled on 'input' rather than 'keydown' so it works no matter
+    // how the character arrives - physical keys, a mobile/tablet on-screen keyboard,
+    // autofill or predictive text. Those often deliver only an 'input' event (mobile
+    // keyboards frequently report e.key as "Unidentified" on keydown), so relying on
+    // keydown alone silently breaks typing/auto-advance on touch devices.
+    input.addEventListener('input', () => {
+      const letter = input.value.replace(/[^a-zA-Z]/g, '').slice(-1).toUpperCase();
+      input.value = letter;
+      clearMark(cell);
+      if (letter) {
+        // Live per-keystroke feedback: confirm correct immediately (green), but a wrong
+        // letter stays neutral rather than turning red - mid-puzzle typing shouldn't read
+        // as a penalty, only the explicit Check button marks wrong cells red.
+        if (letter === cell.solution) cell.el.classList.add('correct');
+        advance(cell, currentDirection);
+      }
+      updateStatus();
+    });
+
     input.addEventListener('blur', () => scheduleCrosswordProgress());
-    input.addEventListener('input', () => scheduleCrosswordProgress());
 
     input.addEventListener('keydown', (e) => handleKeydown(e, cell, input));
   }
 
   function handleKeydown(e, cell, input) {
-
-    if (/^[a-zA-Z]$/.test(e.key)) {
-      e.preventDefault();
-      input.value = e.key.toUpperCase();
-      clearMark(cell);
-      // Live per-keystroke feedback: confirm correct immediately (green), but a wrong letter
-      // stays neutral rather than turning red - mid-puzzle typing shouldn't read as a penalty,
-      // only the explicit Check button marks wrong cells red.
-      if (input.value === cell.solution) cell.el.classList.add('correct');
-      advance(cell, currentDirection);
-      updateStatus();
-      return;
-    }
-
     switch (e.key) {
       case 'Backspace': {
         e.preventDefault();
