@@ -533,7 +533,12 @@
         renderDeck();
         updateStrength();
       });
-      tile.addEventListener('dblclick', function(){
+      // Tap-to-remove: dblclick alone left touch with no way to remove a placed tile,
+      // since dragging a tile back to the deck relies on native HTML5 drag-and-drop,
+      // which does not fire from touch input at all. A single click/tap mirrors the
+      // deck tile's own tap-to-add behavior above, so the whole build flow works with
+      // taps only - no drag or double-tap required on a phone.
+      tile.addEventListener('click', function(){
         if(locked) return;
         var returned=passwordChunks.splice(i,1)[0];
         deckChunks.push(returned);
