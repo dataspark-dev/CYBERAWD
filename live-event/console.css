@@ -1295,7 +1295,10 @@ body {
   font-size: var(--fs-badge);
   color: var(--muted);
   margin-bottom: 8px;
-  word-break: break-all;
+  /* word-break: break-all is applied mobile-only, further down - see the
+     "Global long-text safety" section. Unconditional break-all here forced
+     mid-word splits in long addresses (e.g. "synergymarinegroup.co" / "m.")
+     even where the line had room to wrap the whole token instead. */
 }
 .ls-artifact {
   margin-top: 10px;
@@ -1389,7 +1392,7 @@ body {
   cursor: pointer;
   position: relative;
 }
-.ls-link-preview .ls-link-text { color: #1e40af; font-weight: 800; word-break: break-all; }
+.ls-link-preview .ls-link-text { color: #1e40af; font-weight: 800; overflow-wrap: break-word; }
 .ls-link-preview:hover { border-color: var(--cyan); }
 .ls-link-preview:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 /* Fix clipping: bubble must not hide tooltip - JS now sets overflow:visible inline, reinforce in CSS */
@@ -2974,12 +2977,19 @@ body {
 /* Email/domain tokens specifically — allow break inside long single-token
    addresses where normal word-wrap would keep them whole. Scoped narrowly
    so normal English words (e.g. "allotment", "provisions") still break at
-   word boundaries, not mid-word. */
-.ls-address,
-.ff-r-text,
-.ff-compare-reveal .ff-r-text,
-.ff-reveal-overlay .ff-r-text {
-  word-break: break-all;
+   word boundaries, not mid-word. Mobile-only (max-width below): on desktop
+   there is always room to wrap the whole address to the next line, and
+   break-all was splitting mid-domain (e.g. "synergymarinegroup.co" / "m.")
+   even with plenty of width to spare - exactly the address text this
+   module asks participants to read letter-by-letter. */
+@media (max-width: 480px) {
+  .ls-address,
+  .ls-link-preview .ls-link-text,
+  .ff-r-text,
+  .ff-compare-reveal .ff-r-text,
+  .ff-reveal-overlay .ff-r-text {
+    word-break: break-all;
+  }
 }
 
 /* --- 2. Fault-finding compare cards: longer subject/sender lines need more
