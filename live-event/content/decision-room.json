@@ -204,7 +204,7 @@
               "id": "c",
               "text": "STOP before opening anything, VERIFY the sender's exact email address and the crewing portal directly, then REPORT if it does not check out",
               "outcome": "good",
-              "feedback": "Correct. A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, and REPORT applies to a seafarer file just like any other email."
+              "feedback": "Correct. A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, REPORT applies to a seafarer file just like any other email."
             },
             {
               "id": "d",
@@ -221,7 +221,7 @@
       "id": "suspected-data-breach",
       "persona": "Finance / Accounts",
       "title": "You Suspect a Data Leak",
-      "scenario": "You are in the shared drive and notice that crew allotment and payroll files — which should only be visible to HR and Finance — are now in a folder anyone in the company can open.",
+      "scenario": "You are in the shared drive. You notice that crew allotment and payroll files — which should only be visible to HR and Finance — are now in a folder anyone in the company can open.",
       "decisions": [
         {
           "id": "d1",
@@ -308,7 +308,7 @@
           ]
         }
       ],
-      "debrief": "Urgency on a call is a trick, not a real deadline. STOP before you share anything. Hang up and call back on a number you already trust — for example, the IT helpdesk number in the crew portal or your handbook. REPORT the attempt so others can be warned."
+      "debrief": "Urgency on a call is a trick, not a real deadline. STOP before you share anything. Hang up and call back on a number you already trust — for example, the IT Service Desk number in the crew portal or your handbook. REPORT the attempt so others can be warned."
     },
     {
       "id": "ransomware-lockout",
