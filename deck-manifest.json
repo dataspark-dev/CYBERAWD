@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-09-18T11:11:49",
+  "generated_at": "2026-09-22T10:15:50",
   "root": "C:\\Users\\SRIDHAR\\Documents\\TRININGPPT\\AWRCNTCS",
-  "total_slides_in_deckjs": 18,
+  "total_slides_in_deckjs": 19,
   "slide_files_on_disk": [
     "slide-01.html",
     "slide-02.html",
@@ -20,7 +20,8 @@
     "slide-15.html",
     "slide-16.html",
     "slide-17.html",
-    "slide-18.html"
+    "slide-18.html",
+    "slide-19.html"
   ],
   "missing_files": [],
   "orphan_files": [],
@@ -122,15 +123,18 @@
       "group": "Do's & Don'ts",
       "slide_indexes": [
         14,
-        17
+        17,
+        18
       ],
       "files": [
         "slide-14.html",
-        "slide-17.html"
+        "slide-17.html",
+        "slide-18.html"
       ],
       "titles": [
         "See Something, Say Something",
-        "Do's & Don'ts"
+        "Do's & Don'ts",
+        "True or False"
       ]
     },
     {
@@ -151,10 +155,10 @@
     {
       "group": "Closing",
       "slide_indexes": [
-        18
+        19
       ],
       "files": [
-        "slide-18.html"
+        "slide-19.html"
       ],
       "titles": [
         "Closing"
@@ -174,7 +178,8 @@
     "slide-15.html",
     "slide-16.html",
     "slide-17.html",
-    "slide-18.html"
+    "slide-18.html",
+    "slide-19.html"
   ],
   "theme_root_vars": {
     "--navy": "#001a4d",
@@ -262,7 +267,7 @@
   "theme_usage": {
     "dark": [
       "slide-01.html",
-      "slide-18.html"
+      "slide-19.html"
     ],
     "light": [
       "slide-02.html",
@@ -280,7 +285,8 @@
       "slide-14.html",
       "slide-15.html",
       "slide-16.html",
-      "slide-17.html"
+      "slide-17.html",
+      "slide-18.html"
     ]
   },
   "off_palette_colors": {
@@ -445,7 +451,6 @@
         "--cyan",
         "--glass-bg",
         "--glass-border",
-        "--line",
         "--navy",
         "--purple",
         "--r",
@@ -798,6 +803,7 @@
       "hex_colors": [],
       "off_palette_colors": [],
       "var_colors": [
+        "--cyan",
         "--faint",
         "--red",
         "--red-dark",
@@ -1139,6 +1145,43 @@
     {
       "index": 18,
       "file": "slide-18.html",
+      "deck_title": "True or False",
+      "group": "Do's & Don'ts",
+      "slide_tag": null,
+      "eyebrow": "Quick Recap",
+      "h1": "TRUE OR FALSE",
+      "section_lead": [
+        "One statement from every topic we covered. Read it, decide TRUE or FALSE, then check the answer."
+      ],
+      "cards": [],
+      "components": [],
+      "theme": "light",
+      "hex_colors": [],
+      "off_palette_colors": [],
+      "var_colors": [
+        "--green-darker",
+        "--muted",
+        "--navy",
+        "--paper-2",
+        "--r",
+        "--red-darker",
+        "--shadow-sm",
+        "--white"
+      ],
+      "assets": [
+        "https://cdnjs.cloudflare.com",
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css",
+        "../styles/main.css",
+        "../assets/favicon.svg",
+        "../assets/SYN.png",
+        "../assets/AFT.png",
+        "../scripts/main.js"
+      ],
+      "flags": []
+    },
+    {
+      "index": 19,
+      "file": "slide-19.html",
       "deck_title": "Closing",
       "group": "Closing",
       "slide_tag": null,
@@ -1184,7 +1227,7 @@
       "message": "deck.js title 'Opening' shares no significant words with this slide's <h1> 'SYNERGY CYBER SECURITY AWARENESS MONTH'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."
     },
     {
-      "file": "slide-18.html",
+      "file": "slide-19.html",
       "severity": "info",
       "check": "title-drift",
       "message": "deck.js title 'Closing' shares no significant words with this slide's <h1> 'THANK YOU'. Could be an intentional group-label-style title, or real drift \u2014 verify manually."

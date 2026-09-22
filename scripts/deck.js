@@ -22,7 +22,8 @@ const SLIDES = [
   { file: 'slide-15.html', title: 'GDPR — EU Data Protection', group: 'Legal & Compliance' },
   { file: 'slide-16.html', title: "DPDPA — India's Data Law", group: 'Legal & Compliance' },
   { file: 'slide-17.html', title: "Do's & Don'ts", group: "Do's & Don'ts" },
-  { file: 'slide-18.html', title: 'Closing', group: 'Closing' }
+  { file: 'slide-18.html', title: 'True or False', group: "Do's & Don'ts" },
+  { file: 'slide-19.html', title: 'Closing', group: 'Closing' }
 ];
 
 let currentIndex = 0;
