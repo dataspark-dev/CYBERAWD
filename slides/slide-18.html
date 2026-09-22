@@ -46,16 +46,13 @@
       font-weight: 700;
     }
     .tf-statement { flex: 1; font-size: 21px; line-height: 1.35; color: var(--navy); }
-    /* Both TRUE and FALSE are shown as equal, neutral options for every statement -
-       so the room actually has to pick one before the answer shows, rather than
-       reading the correct one off the slide at a glance. TRUE is always the first
-       column and FALSE always the second, so the two options line up into clean
-       columns down the whole list. The correct option only gets a small corner
-       checkmark, not a bold fill - visible on a closer look or when the facilitator
-       points to it, not something the back row can read from a distance. */
+    /* TRUE and FALSE are shown as equal, neutral options for every statement, with
+       no visual cue at all as to which is correct - the room has to actually answer.
+       TRUE is always the first column and FALSE always the second, so the two
+       options line up into clean columns down the whole list. The answer lives with
+       the facilitator, not on the slide. */
     .tf-options { flex-shrink: 0; display: flex; gap: 10px; }
     .tf-opt {
-      position: relative;
       width: 92px;
       text-align: center;
       font-family: 'Times New Roman', Times, serif;
@@ -67,22 +64,6 @@
       background: var(--paper-2);
       color: var(--muted);
       border: 1.5px solid var(--line);
-    }
-    .tf-opt.is-correct { color: var(--navy); }
-    .tf-opt-check {
-      position: absolute;
-      top: -6px;
-      right: -6px;
-      width: 17px;
-      height: 17px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      color: var(--white);
-      font-size: 9px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 0 2px var(--white);
     }
   </style>
 </head>
@@ -107,7 +88,7 @@
           <div class="tf-statement">Ransomware and phishing are only a risk for large companies, not individuals.</div>
           <div class="tf-options">
             <div class="tf-opt">TRUE</div>
-            <div class="tf-opt is-correct">FALSE<span class="tf-opt-check"><i class="fas fa-check"></i></span></div>
+            <div class="tf-opt">FALSE</div>
           </div>
         </div>
         <div class="tf-row">
@@ -116,7 +97,7 @@
           <div class="tf-statement">Seeing and hearing someone on a video call is enough to prove it is really them.</div>
           <div class="tf-options">
             <div class="tf-opt">TRUE</div>
-            <div class="tf-opt is-correct">FALSE<span class="tf-opt-check"><i class="fas fa-check"></i></span></div>
+            <div class="tf-opt">FALSE</div>
           </div>
         </div>
         <div class="tf-row">
@@ -124,7 +105,7 @@
           <div class="tf-topic">Phishing</div>
           <div class="tf-statement">A phishing message can have perfect grammar and a correct logo, and still be fake.</div>
           <div class="tf-options">
-            <div class="tf-opt is-correct">TRUE<span class="tf-opt-check"><i class="fas fa-check"></i></span></div>
+            <div class="tf-opt">TRUE</div>
             <div class="tf-opt">FALSE</div>
           </div>
         </div>
@@ -134,7 +115,7 @@
           <div class="tf-statement">It is safe to paste crew or company data into a public AI chatbot to save time.</div>
           <div class="tf-options">
             <div class="tf-opt">TRUE</div>
-            <div class="tf-opt is-correct">FALSE<span class="tf-opt-check"><i class="fas fa-check"></i></span></div>
+            <div class="tf-opt">FALSE</div>
           </div>
         </div>
         <div class="tf-row">
@@ -142,7 +123,7 @@
           <div class="tf-topic">Workplace &amp; Login</div>
           <div class="tf-statement">Turning on MFA can stop an attacker even if they already have your password.</div>
           <div class="tf-options">
-            <div class="tf-opt is-correct">TRUE<span class="tf-opt-check"><i class="fas fa-check"></i></span></div>
+            <div class="tf-opt">TRUE</div>
             <div class="tf-opt">FALSE</div>
           </div>
         </div>
@@ -151,7 +132,7 @@
           <div class="tf-topic">Legal &amp; Compliance</div>
           <div class="tf-statement">GDPR and DPDPA both expect a data breach to be reported within a set number of hours.</div>
           <div class="tf-options">
-            <div class="tf-opt is-correct">TRUE<span class="tf-opt-check"><i class="fas fa-check"></i></span></div>
+            <div class="tf-opt">TRUE</div>
             <div class="tf-opt">FALSE</div>
           </div>
         </div>
@@ -160,7 +141,7 @@
           <div class="tf-topic">Do's &amp; Don'ts</div>
           <div class="tf-statement">If a request feels urgent and unusual, it is always better to verify before you act.</div>
           <div class="tf-options">
-            <div class="tf-opt is-correct">TRUE<span class="tf-opt-check"><i class="fas fa-check"></i></span></div>
+            <div class="tf-opt">TRUE</div>
             <div class="tf-opt">FALSE</div>
           </div>
         </div>
