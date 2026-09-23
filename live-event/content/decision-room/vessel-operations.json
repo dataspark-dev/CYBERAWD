@@ -1,0 +1,176 @@
+{
+  "whyThisMatters": "An unknown USB stick on the bridge, a phone call demanding your password, or a gift-card request from a \"vessel manager\" all count on the same thing: limited time online and a familiar-sounding voice make it harder to pause and check. The habit that protects you is the same regardless of the channel — a call, a text, or an object left on a shared computer.",
+  "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. A caller who sounds official, an object left on a shared computer, or an urgent request for funds or documents is not proof — verify through a channel you already trust before you act, even with limited time online.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group what they would do in the first few seconds of each scenario. Ask before you show the good answer.",
+      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on — or would they need to look it up under pressure?",
+      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
+      "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
+      "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
+      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
+    ],
+    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+  },
+  "cases": [
+    {
+      "id": "unknown-usb-drive",
+      "persona": "Offshore Crew",
+      "title": "You Found an Unknown USB Stick",
+      "scenario": "You are on board MV Horizon and you find a small USB stick — a thumb drive — taped to a shared computer on the bridge. It has no label and no clear owner.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "No one says it is theirs and you are curious. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Plug it into the shared computer to check what is on it",
+              "outcome": "consequence",
+              "feedback": "An unknown stick can install harmful software the moment you plug it in. Plugging it in just to look is how it gets in."
+            },
+            {
+              "id": "b",
+              "text": "Leave it unplugged and tell the IT Service Desk — do not try to find the owner yourself",
+              "outcome": "good",
+              "feedback": "Correct. Not plugging it in removes the risk. It is not your job to find out who owns it — let the IT Service Desk handle it safely."
+            },
+            {
+              "id": "c",
+              "text": "Ask around the crew mess if anyone is missing a USB stick",
+              "outcome": "consequence",
+              "feedback": "This feels helpful, but it wastes time. Word can also reach the person who left it there before the IT Service Desk sees it."
+            }
+          ]
+        }
+      ],
+      "debrief": "An unknown USB stick is an easy way for harmful software to get into a system. STOP before you plug anything in. REPORT it directly to the IT Service Desk so it is checked properly — do not leave it in a drawer or pass it around."
+    },
+    {
+      "id": "vishing-call",
+      "persona": "Offshore Crew",
+      "title": "You Got a Suspicious Phone Call on Board",
+      "scenario": "The ship's phone rings on the bridge. Someone says they are from head-office IT support. They say there is a problem with your crew portal account and ask you to confirm your password and a code from your phone right now.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The caller wants you to say your password and a code right now. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Give a partial answer to seem cooperative without giving everything",
+              "outcome": "consequence",
+              "feedback": "Even a small hint can be enough. The caller only needs one true detail to build the rest."
+            },
+            {
+              "id": "b",
+              "text": "Do not give out any passwords, codes, or personal details — offer to call back on a trusted number instead",
+              "outcome": "good",
+              "feedback": "Correct. The real IT Service Desk will never ask you to say your password on a call they made to you."
+            }
+          ]
+        }
+      ],
+      "debrief": "Urgency on a call is a trick, not a real deadline. STOP before you share anything. Hang up and call back on a number you already trust — for example, the IT Service Desk number in the crew portal or your handbook. REPORT the attempt so others can be warned."
+    },
+    {
+      "id": "dr-vesselops-port-agent-docs",
+      "persona": "Offshore Crew",
+      "title": "The Urgent Request for Your Passport Scan",
+      "scenario": "An email claiming to be from the port agent says immigration requires your passport and CDC (Continuous Discharge Certificate) scan before arrival tomorrow, and asks you to reply directly with clear scans of both instead of using the usual agent portal.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Reply with the scans directly, since the deadline is tomorrow",
+              "outcome": "consequence",
+              "feedback": "Emailing sensitive identity documents directly, bypassing the secure portal, is exactly what this kind of request is designed to collect."
+            },
+            {
+              "id": "b",
+              "text": "Ask the sender to confirm which vessel and port call this is for before replying",
+              "outcome": "consequence",
+              "feedback": "A fake sender can answer any question you ask with details that sound plausible — this does not confirm the request is genuine."
+            },
+            {
+              "id": "c",
+              "text": "Use the known secure agent portal instead of replying to the email, and check with your vessel manager if unsure",
+              "outcome": "good",
+              "feedback": "Correct. Passport and CDC details should only ever go through the known secure portal — checking with your vessel manager confirms whether the request is real before you send anything."
+            }
+          ]
+        }
+      ],
+      "debrief": "Passport and CDC details are exactly the sensitive documents attackers want. STOP before emailing any scan directly. VERIFY through the known secure portal or your vessel manager. REPORT the email regardless of what you decide."
+    },
+    {
+      "id": "dr-vesselops-giftcard-portdues",
+      "persona": "Offshore Crew",
+      "title": "The Vessel Manager Asking for Gift Cards",
+      "scenario": "You get an urgent email that looks like it's from the Vessel Manager, saying there's an unexpected port due that must be paid right now — asking you to purchase gift cards and send the codes immediately, promising reimbursement next payroll.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buy the gift cards and send the codes — a port due sounds like a real operational risk",
+              "outcome": "consequence",
+              "feedback": "Port dues and official fees are never paid by gift card — sending the codes hands the money over with no way to trace or reverse it."
+            },
+            {
+              "id": "b",
+              "text": "Reply asking for more details about the port due before deciding",
+              "outcome": "consequence",
+              "feedback": "A fake sender can invent any detail you ask for — this doesn't confirm the request is genuine."
+            },
+            {
+              "id": "c",
+              "text": "Do not buy anything — call the Vessel Manager on a number you already have to verify the request",
+              "outcome": "good",
+              "feedback": "Correct. Verifying on a number you already have, rather than replying to the email, is the only real check — and no genuine port fee is ever paid by gift card."
+            }
+          ]
+        }
+      ],
+      "debrief": "A gift-card request combined with urgency and a promised reimbursement is a well-known impersonation pattern. STOP before purchasing anything. VERIFY by calling a number you already have. REPORT the email either way."
+    },
+    {
+      "id": "dr-vesselops-sea-renewal-link",
+      "persona": "Offshore Crew",
+      "title": "The 2-Hour Deadline to Sign Your SEA Renewal",
+      "scenario": "An email says your Seafarer Employment Agreement (SEA) renewal must be signed within 2 hours or you'll lose your confirmed sign-on date, with a \"Sign Now\" link straight in the message.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "You have limited time online. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Tap the link and sign quickly before the 2 hours run out",
+              "outcome": "consequence",
+              "feedback": "Tapping a link under a fabricated deadline, without checking where it really goes, is exactly the pressure this kind of message relies on."
+            },
+            {
+              "id": "b",
+              "text": "Wait until you're back online later and check then",
+              "outcome": "consequence",
+              "feedback": "This avoids tapping the link, but doesn't address whether the message itself is genuine, or report it so others are warned."
+            },
+            {
+              "id": "c",
+              "text": "Open the crew portal you already use directly, instead of the link, to check your SEA renewal status",
+              "outcome": "good",
+              "feedback": "Correct. A real SEA renewal is never so urgent that you have only 2 hours — checking the portal you already use, rather than tapping the email's link, sidesteps the trick entirely."
+            }
+          ]
+        }
+      ],
+      "debrief": "A real SEA renewal is never a 2-hour ultimatum, and Crewing never puts a sign-in link directly in the email. STOP before tapping any link. VERIFY through the portal you already use. REPORT the message when you're back online."
+    }
+  ]
+}

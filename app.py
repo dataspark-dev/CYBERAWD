@@ -160,33 +160,72 @@ def persist_after(f):
 
 _load_sessions_from_disk()
 
-# 7 live-poll modules - whole-activity, content pulled from existing content/*.json
+# 7 live-poll modules - whole-activity, content pulled from existing content/<module>/*.json
 # (counts read at request time, never hardcoded)
 MODULE_DEFS = [
-    {"id": "fault-finding", "displayName": "Fault Finding", "content": "fault-finding.json"},
-    {"id": "myth-vs-fact", "displayName": "Myth vs Fact", "content": "myth-vs-fact.json"},
-    {"id": "decision-room", "displayName": "Decision Room", "content": "decision-room.json"},
-    {"id": "clue-quest", "displayName": "Clue Quest", "content": "clue-quest.json"},
-    {"id": "pass-phrase", "displayName": "Pass-Phrase", "content": "pass-phrase.json"},
-    {"id": "crossword", "displayName": "Crossword", "content": "crossword.json"},
-    {"id": "control-catch", "displayName": "Control Catch", "content": "control-catch.json"},
+    {"id": "fault-finding", "displayName": "Fault Finding"},
+    {"id": "myth-vs-fact", "displayName": "Myth vs Fact"},
+    {"id": "decision-room", "displayName": "Decision Room"},
+    {"id": "clue-quest", "displayName": "Clue Quest"},
+    {"id": "pass-phrase", "displayName": "Pass-Phrase"},
+    {"id": "crossword", "displayName": "Crossword"},
+    {"id": "control-catch", "displayName": "Control Catch"},
 ]
 MODULE_IDS = {m["id"] for m in MODULE_DEFS}
 CONTENT_DIR = LIVE_EVENT_DIR / "content"
 
+# Audience-variant switching: admin picks which pre-built content variant loads per module,
+# per team, instead of every room always getting the same mixed-persona content. Canonical
+# audience ids map onto content/<module>/<audience>.json files (see _resolve_module_content_file).
+# Existing personas already embedded in some modules' content (Finance/Accounts, HR/Recruitment,
+# HR/Payroll, Operations, Offshore Crew) map onto Accounts, HR, Fleet Management and Vessel
+# Operations respectively. IT Support and Development now have authored content for
+# fault-finding, myth-vs-fact and decision-room (fake escalation tickets, vendor impersonation,
+# credential-reset social engineering, fake tool alerts for IT Support; fake dependency
+# requests, PR-comment phishing, fake recruiter outreach, CI/CD credential phishing for
+# Development) - crossword/control-catch stay general-only for every audience, no persona split.
+AUDIENCE_DEFS = [
+    {"id": "accounts", "displayName": "Accounts"},
+    {"id": "hr", "displayName": "HR"},
+    {"id": "fleet-management", "displayName": "Fleet Management"},
+    {"id": "it-support", "displayName": "IT Support"},
+    {"id": "development", "displayName": "Development"},
+    {"id": "vessel-operations", "displayName": "Vessel Operations"},
+]
+AUDIENCE_IDS = {a["id"] for a in AUDIENCE_DEFS}
+GENERAL_AUDIENCE = "general"
 
-def _read_module_json(module_id: str):
-    """Read content file for module_id at request time (no stale hardcoded counts)."""
-    for m in MODULE_DEFS:
-        if m["id"] == module_id:
-            p = CONTENT_DIR / m["content"]
-            if not p.exists():
-                return None
-            try:
-                return json.loads(p.read_text(encoding="utf-8"))
-            except Exception:
-                return None
-    return None
+
+def _resolve_module_content_file(module_id: str, audience: str | None):
+    """Resolve (path, resolved_audience, used_fallback) for module_id + a requested audience.
+
+    Falls back to content/<module_id>/general.json whenever the audience-specific file
+    doesn't exist yet for that module (e.g. every module for IT Support/Development today,
+    or Fleet Management for fault-finding, which has no Operations-persona content) - this is
+    the one place that fallback decision is made, so every caller (sequence loading, item
+    counts, facilitator notes, control-catch bubble totals) agrees on the same resolved file.
+    """
+    audience = str(audience or GENERAL_AUDIENCE).strip() or GENERAL_AUDIENCE
+    module_dir = CONTENT_DIR / module_id
+    if audience != GENERAL_AUDIENCE:
+        specific = module_dir / f"{audience}.json"
+        if specific.exists():
+            return specific, audience, False
+    general = module_dir / f"{GENERAL_AUDIENCE}.json"
+    return general, GENERAL_AUDIENCE, (audience != GENERAL_AUDIENCE)
+
+
+def _read_module_json(module_id: str, audience: str = GENERAL_AUDIENCE):
+    """Read content file for module_id + audience at request time (no stale hardcoded counts)."""
+    if module_id not in MODULE_IDS:
+        return None
+    p, _resolved, _fell_back = _resolve_module_content_file(module_id, audience)
+    if not p.exists():
+        return None
+    try:
+        return json.loads(p.read_text(encoding="utf-8"))
+    except Exception:
+        return None
 
 
 def _normalize_module_item(module_id: str, raw, idx: int = 0):
@@ -337,7 +376,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             # 2-char pairs like "Ka","Th","on", and 1-char singles/symbols/numbers) that
             # participants combine - not letter-by-letter - to assemble a password, capped by
             # total character count (PP_MAX_CHARS, smaller than the deck pool) not tile count.
-            # weakPassword/deck are static content (see content/pass-phrase.json), generated once
+            # weakPassword/deck are static content (see content/pass-phrase/<audience>.json), generated once
             # by scripts/gen_passphrase_content.py using the same pools/composition logic as
             # _pp_generate_weak_password/_pp_generate_deck below, rather than regenerated at
             # request time - this keeps the deck fixed for the whole activity, like every other
@@ -371,7 +410,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
         if module_id == "pass-phrase-choose":
             # "Choose the compliant one" phase, one per round, immediately BEFORE that round's
             # own build phase (see _load_module_sequence) - 4 candidate passwords, exactly one
-            # actually meeting Synergy's stated policy (content/pass-phrase.json's top-level
+            # actually meeting Synergy's stated policy (content/pass-phrase/<audience>.json's top-level
             # "policy" string). Modeled as a plain MC item (options + correctOptionId) so it
             # rides the exact same generic correctness/reveal/admin infrastructure every other
             # MC module (fault-finding, myth-vs-fact, clue-quest) already uses - nothing
@@ -407,7 +446,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             # Falling-bubble reflex game - one continuous timed round per participant, same
             # "single synthetic item" placeholder pattern as crossword (see there). The real
             # bubble pool (whyThisMatters/rememberThis/bubbles[]) is fetched by the client
-            # directly from content/control-catch.json, exactly like crossword fetches its own
+            # directly from content/control-catch/<audience>.json, exactly like crossword fetches its own
             # grid - this item exists only so the generic lobby/running/complete state machine
             # has something to point currentItemIndex/activeItem at.
             return {"id": "control-catch-game", "prompt": "Control Catch", "options": [], "fact": "", "revealed": False}
@@ -417,9 +456,13 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
     return {"id": str(base_id), "prompt": str(raw.get("prompt") or raw.get("title") or base_id).strip(), "options": _normalize_options(raw.get("options") or ["A","B"]), "fact": "", "revealed": False}
 
 
-def _load_module_sequence(module_id: str):
-    """Load and normalize full item sequence for module_id from its content file. Crossword returns 1 grid item."""
-    data = _read_module_json(module_id)
+def _load_module_sequence(module_id: str, audience: str = GENERAL_AUDIENCE):
+    """Load and normalize full item sequence for module_id + audience from its content file.
+
+    Crossword returns 1 grid item. audience defaults to the "general" fallback variant if a
+    specific audience file doesn't exist yet for that module - see _resolve_module_content_file.
+    """
+    data = _read_module_json(module_id, audience)
     if not data:
         return []
     try:
@@ -482,15 +525,27 @@ def _load_module_sequence(module_id: str):
     return []
 
 
-def _get_modules_with_counts():
-    """Return 7 modules with item counts read live from content/*.json."""
+def _get_modules_with_counts(audience: str = GENERAL_AUDIENCE):
+    """Return 7 modules with item counts read live from content/<module>/<audience>.json.
+
+    usedFallback tells the admin dashboard whether the requested audience actually has its own
+    content file for that module, or whether it silently fell back to general (e.g. every
+    module for IT Support/Development today).
+    """
     out = []
     for m in MODULE_DEFS:
-        seq = _load_module_sequence(m["id"])
+        seq = _load_module_sequence(m["id"], audience)
         # For crossword, count is 1 grid (not 18 placements)
         count = len(seq)
-        # Ensure count reflects file content, not hardcoded
-        out.append({"id": m["id"], "displayName": m["displayName"], "itemCount": count, "contentFile": m["content"]})
+        _path, resolved_audience, used_fallback = _resolve_module_content_file(m["id"], audience)
+        out.append({
+            "id": m["id"],
+            "displayName": m["displayName"],
+            "itemCount": count,
+            "contentFile": f"{m['id']}/{resolved_audience}.json",
+            "resolvedAudience": resolved_audience,
+            "usedFallback": used_fallback,
+        })
     return out
 
 
@@ -1208,17 +1263,48 @@ def load_deck_file_list():
     return SLIDE_ENTRY_RE.findall(match.group(1))
 
 
+AUDIENCE_CLOSING_ENTRY_RE = re.compile(r"['\"](?P<audience>[^'\"]+)['\"]\s*:\s*['\"](?P<file>[^'\"]+)['\"]")
+
+
+def load_audience_closing_file_map():
+    """Extract the {audience: file} pairs from deck.js's AUDIENCE_CLOSING_SLIDES map.
+
+    These files are never listed in SLIDES (they're swapped in client-side by
+    applyAudienceClosingSlide() based on ?audience=, see scripts/deck.js), so
+    check_deck_alignment()'s SLIDES-only check would never notice one going missing -
+    this is the separate check for that map, same "declared vs actually on disk" idea.
+    """
+    if not DECK_JS.exists():
+        return {}
+    text = DECK_JS.read_text(encoding="utf-8")
+    match = re.search(r"AUDIENCE_CLOSING_SLIDES\s*=\s*\{(.*?)\}\s*;", text, re.DOTALL)
+    if not match:
+        return {}
+    return dict(AUDIENCE_CLOSING_ENTRY_RE.findall(match.group(1)))
+
+
 def check_deck_alignment():
     files = load_deck_file_list()
     if not files:
         print("WARNING: could not read SLIDES array from scripts/deck.js", file=sys.stderr)
-        return
-    missing = [f for f in files if not (SLIDES_DIR / f).exists()]
-    print(f"deck.js declares {len(files)} slide(s): {files[0]} .. {files[-1]}")
-    if missing:
-        print(f"WARNING: deck.js references file(s) missing from slides/: {missing}", file=sys.stderr)
     else:
-        print("All slides referenced in deck.js exist on disk. OK.")
+        missing = [f for f in files if not (SLIDES_DIR / f).exists()]
+        print(f"deck.js declares {len(files)} slide(s): {files[0]} .. {files[-1]}")
+        if missing:
+            print(f"WARNING: deck.js references file(s) missing from slides/: {missing}", file=sys.stderr)
+        else:
+            print("All slides referenced in deck.js exist on disk. OK.")
+
+    audience_map = load_audience_closing_file_map()
+    if not audience_map:
+        print("WARNING: could not read AUDIENCE_CLOSING_SLIDES map from scripts/deck.js", file=sys.stderr)
+        return
+    missing_audience_files = {a: f for a, f in audience_map.items() if not (SLIDES_DIR / f).exists()}
+    print(f"deck.js declares {len(audience_map)} audience-specific Closing slide(s): {sorted(audience_map)}")
+    if missing_audience_files:
+        print(f"WARNING: AUDIENCE_CLOSING_SLIDES references file(s) missing from slides/: {missing_audience_files}", file=sys.stderr)
+    else:
+        print("All audience-specific Closing slides referenced in deck.js exist on disk. OK.")
 
 
 @app.route("/")
@@ -1270,7 +1356,7 @@ def live_event_index():
 @app.route("/live-event/<path:filename>")
 def live_event(filename):
     # Gate only the console's own HTML pages (index.html above + the 8 module pages here)  - 
-    # NOT the shared assets under this same path (console.css, console.js, content/*.json,
+    # NOT the shared assets under this same path (console.css, console.js, content/<module>/<audience>.json,
     # assets/*), which the phone-synced /join/<code> page also depends on (console.css's own
     # @import chain, fault-finding's real email images) and participants are never
     # admin-authenticated. Gating the whole path would silently break every participant's
@@ -3483,7 +3569,7 @@ async function ensureCrossword(){
   cwInitialized = true;
   els.cwStatus.textContent='Loading grid...';
   try{
-    const r=await fetch('/live-event/content/crossword.json',{cache:'no-store'});
+    const r=await fetch('/live-event/content/crossword/general.json',{cache:'no-store'});
     const data=await r.json();
     cwRememberText = data.rememberThis || '';
     cwBuildModel(data);
@@ -3856,7 +3942,7 @@ async function ensureControlCatch(){
   if(els.ccArena) els.ccArena.innerHTML = '';
   ccUpdateHud();
   try{
-    const r = await fetch('/live-event/content/control-catch.json', {cache:'no-store'});
+    const r = await fetch('/live-event/content/control-catch/general.json', {cache:'no-store'});
     ccContent = await r.json();
   }catch(e){
     ccContent = {bubbles: []};
@@ -4132,9 +4218,27 @@ def session_join(code):
 @app.route("/api/admin/modules", methods=["GET"])
 @admin_required
 def admin_modules():
-    """List 7 modules with item counts read live from content/*.json."""
-    mods = _get_modules_with_counts()
-    return jsonify({"modules": mods, "total": len(mods)})
+    """List 7 modules with item counts read live from content/<module>/<audience>.json.
+
+    ?audience= (optional, defaults to "general") lets the dashboard preview item counts and
+    fallback status for the audience currently selected in its picker, before Launch.
+    """
+    audience = request.args.get("audience") or GENERAL_AUDIENCE
+    mods = _get_modules_with_counts(audience)
+    return jsonify({"modules": mods, "total": len(mods), "audience": audience})
+
+
+@app.route("/api/admin/audiences", methods=["GET"])
+@admin_required
+def admin_audiences():
+    """List the 6 canonical audience variants an admin can switch a module's content to.
+
+    IT Support and Development now have authored content for fault-finding, myth-vs-fact and
+    decision-room; crossword/control-catch (no persona split in any audience) still fall back
+    to general for every audience (see _resolve_module_content_file). This is a static list
+    (switching mechanism only); it does not itself create content.
+    """
+    return jsonify({"audiences": AUDIENCE_DEFS, "total": len(AUDIENCE_DEFS)})
 
 
 @app.route("/api/admin/modules/<module_id>/facilitator-notes", methods=["GET"])
@@ -4142,15 +4246,16 @@ def admin_modules():
 def admin_facilitator_notes(module_id):
     """Admin-only talking points for a module: whyThisMatters plus facilitatorNotes (2-3
     discussion prompts + the one most commonly-missed item), read straight from that module's
-    own content/*.json. Static per-module content, not session state - keyed by module id alone
-    so the dashboard can show it as soon as a module starts running, no room-specific lookup
-    needed. Deliberately never referenced by any participant-facing route or template; the only
-    caller is the admin dashboard's own Facilitator Notes panel (see loadFacilitatorNotes in
-    admin/dashboard.html)."""
+    own content/<module>/<audience>.json. Static per-module content, not session state - keyed
+    by module id (+ optional ?audience=, defaulting to general) alone so the dashboard can show
+    it as soon as a module starts running, no room-specific lookup needed. Deliberately never
+    referenced by any participant-facing route or template; the only caller is the admin
+    dashboard's own Facilitator Notes panel (see loadFacilitatorNotes in admin/dashboard.html)."""
     module_id = str(module_id).strip()
     if module_id not in MODULE_IDS:
         return jsonify({"error": "unknown module", "valid": sorted(MODULE_IDS)}), 400
-    data = _read_module_json(module_id)
+    audience = request.args.get("audience") or GENERAL_AUDIENCE
+    data = _read_module_json(module_id, audience)
     if not data:
         return jsonify({"error": "content not found"}), 404
     return jsonify({
@@ -4164,11 +4269,16 @@ def admin_facilitator_notes(module_id):
 @admin_required
 @persist_after
 def admin_launch(code):
-    """Whole-activity launch: pick module, load its full sequence server-side, set lobby.
+    """Whole-activity launch: pick module + audience variant, load its full sequence
+    server-side, set lobby.
 
     Generates room+QR is handled by /api/session/create; this reuses existing room if open.
-    Sets state=lobby, activeModule chosen, sequence pre-loaded, not yet started.
+    Sets state=lobby, activeModule/activeAudience chosen, sequence pre-loaded, not yet started.
     Participants joining during lobby see 'waiting for host to start [Module]'.
+
+    audience (optional, defaults to "general") picks which pre-built content variant loads for
+    this module - see _resolve_module_content_file. This is switch-only: it never edits content,
+    it only chooses which already-existing file backs this session's sequence.
     """
     code = code.strip().upper()
     sess = SESSIONS.get(code)
@@ -4181,15 +4291,20 @@ def admin_launch(code):
         return jsonify({"error": "module required"}), 400
     if module not in MODULE_IDS:
         return jsonify({"error": "unknown module", "valid": sorted(MODULE_IDS)}), 400
-    seq = _load_module_sequence(module)
+    audience = data.get("audience") or data.get("activeAudience") or request.form.get("audience") or GENERAL_AUDIENCE
+    audience = str(audience).strip() or GENERAL_AUDIENCE
+    if audience != GENERAL_AUDIENCE and audience not in AUDIENCE_IDS:
+        return jsonify({"error": "unknown audience", "valid": sorted(AUDIENCE_IDS) + [GENERAL_AUDIENCE]}), 400
+    seq = _load_module_sequence(module, audience)
     # Backwards compat: ensure new state fields exist for old sessions
     sess.setdefault("moduleSequence", [])
     sess.setdefault("state", None)
     sess.setdefault("currentItemIndex", None)
-    # Drop the outgoing sequence's memoized sanitize-cache entries before replacing it  - 
+    # Drop the outgoing sequence's memoized sanitize-cache entries before replacing it  -
     # see _ITEM_SANITIZE_CACHE.
     _invalidate_item_cache(sess.get("moduleSequence"))
     sess["activeModule"] = module
+    sess["activeAudience"] = audience
     sess["state"] = "lobby"
     sess["moduleSequence"] = seq
     sess["currentItemIndex"] = None
@@ -4199,6 +4314,7 @@ def admin_launch(code):
         "ok": True,
         "roomCode": code,
         "activeModule": module,
+        "activeAudience": audience,
         "state": "lobby",
         "itemCount": len(seq),
         "joinUrl": _get_join_url(code),
@@ -4325,11 +4441,11 @@ def admin_return_to_picker(code):
 @app.route("/api/admin/session/<code>/item", methods=["POST"])
 @admin_required
 def admin_item(code):
-    """Deprecated: whole-activity flow now pulls items from content/*.json via launch/start/next.
+    """Deprecated: whole-activity flow now pulls items from content/<module>/<audience>.json via launch/start/next.
     Kept for backwards compatibility but returns 410. Use POST /launch {module} -> POST /start -> POST /next."""
     return jsonify({
         "error": "deprecated",
-        "message": "POST /item {prompt,options} is deprecated - items are now server-loaded from content/*.json. Use POST /launch {module} (lobby) -> POST /start -> POST /next to walk the pre-loaded sequence. See GET /api/admin/modules for counts.",
+        "message": "POST /item {prompt,options} is deprecated - items are now server-loaded from content/<module>/<audience>.json. Use POST /launch {module} (lobby) -> POST /start -> POST /next to walk the pre-loaded sequence. See GET /api/admin/modules for counts.",
         "useInstead": ["/api/admin/modules", "/api/admin/session/<code>/launch", "/api/admin/session/<code>/start", "/api/admin/session/<code>/next"],
     }), 410
 
@@ -4563,6 +4679,7 @@ def session_state(code):
     if not sess:
         return jsonify({"error": "room not found"}), 404
     active_module = sess.get("activeModule")
+    active_audience = sess.get("activeAudience") or GENERAL_AUDIENCE
     # Backwards compat: old sessions may not have state fields
     state = sess.get("state")
     # Normalize None -> no active module
@@ -4638,7 +4755,7 @@ def session_state(code):
     total = len(module_sequence)
     # Module display name
     display_name = next((m["displayName"] for m in MODULE_DEFS if m["id"] == active_module), active_module)
-    content_data = _read_module_json(active_module) if active_module else None
+    content_data = _read_module_json(active_module, active_audience) if active_module else None
     why_this = content_data.get("whyThisMatters") if content_data else None
     remember = content_data.get("rememberThis") if content_data else None
     # Pass-phrase-only: the explicit named policy statement, shown alongside whyThisMatters on
@@ -4647,6 +4764,7 @@ def session_state(code):
     return jsonify({
         "roomCode": code,
         "activeModule": active_module,
+        "activeAudience": active_audience,
         "displayName": display_name,
         "state": state,  # lobby|running|complete or None
         "currentItem": current_item,
@@ -4960,7 +5078,7 @@ def _compute_module_summary(sess):
 
     if active_module == "control-catch":
         cc = sess.get("controlCatchProgress", {})
-        content = _read_module_json("control-catch") or {}
+        content = _read_module_json("control-catch", sess.get("activeAudience") or GENERAL_AUDIENCE) or {}
         total_good = sum(1 for b in (content.get("bubbles") or []) if b.get("good"))
         summary = []
         for pid, name in sess.get("participants", {}).items():
@@ -5662,7 +5780,7 @@ def admin_control_catch_progress(code):
     sess = SESSIONS.get(code)
     if not sess:
         return jsonify({"error": "room not found"}), 404
-    content = _read_module_json("control-catch") or {}
+    content = _read_module_json("control-catch", sess.get("activeAudience") or GENERAL_AUDIENCE) or {}
     total_good = sum(1 for b in (content.get("bubbles") or []) if b.get("good"))
     sess.setdefault("controlCatchProgress", {})
     prog = sess["controlCatchProgress"]
@@ -5762,7 +5880,7 @@ if __name__ == "__main__":
 #   GET    /api/session/<code>/qr                         -> PNG QR for join URL (request.host_url)
 #   GET    /join/<code>                                    -> HTML join page (participant)
 #   POST   /api/session/<code>/join   {name}               -> {participantId}
-#   GET    /api/admin/modules                             -> 7 modules + live item counts from content/*.json
+#   GET    /api/admin/modules                             -> 7 modules + live item counts from content/<module>/<audience>.json
 #   POST   /api/session/<code>/control-catch/progress       -> {participantId, score, badPops, livesLeft, gameOver} -> participant's own live game snapshot (never another participant's)
 #   GET    /api/admin/session/<code>/control-catch/progress -> per-participant score/lives/game-over for live progress panel (~1.5s), admin-only
 #   POST   /api/admin/session/<code>/launch {module}       -> loads module's item sequence, sets state=lobby

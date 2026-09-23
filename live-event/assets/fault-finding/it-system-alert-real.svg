@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect x="220" y="130" width="1160" height="640" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="220" y="130" width="1160" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="250" y="174" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: Systems Monitoring &lt;noreply@synergymarinegroup.com&gt;</text>
+  <text x="250" y="245" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: Scheduled Notice — Admin Console session expires in 24 hours</text>
+  <text x="250" y="315" font-family="Barlow, sans-serif" font-size="18" fill="#1e293b">Hi,</text>
+  <text x="250" y="353" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Your Admin Console session will expire in 24 hours as part of the</text>
+  <text x="250" y="385" font-family="Barlow, sans-serif" font-size="18" fill="#374151">normal weekly refresh. No action is needed right away — when you</text>
+  <text x="250" y="417" font-family="Barlow, sans-serif" font-size="18" fill="#374151">are ready, sign back in from the console you already use:</text>
+  <text x="250" y="465" font-family="Space Mono, monospace" font-size="16" fill="#0369a1">portal.synergymarinegroup.com/admin</text>
+  <text x="250" y="520" font-family="Barlow, sans-serif" font-size="18" fill="#374151">This is an automated notice. It never asks for your password by</text>
+  <text x="250" y="552" font-family="Barlow, sans-serif" font-size="18" fill="#374151">email or link — always sign in directly through the bookmark you</text>
+  <text x="250" y="584" font-family="Barlow, sans-serif" font-size="18" fill="#374151">already saved.</text>
+  <text x="250" y="650" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#1e293b">Systems Monitoring — Synergy Marine Group</text>
+  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">SYSTEMS MONITORING — SCHEDULED NOTICE</text>
+</svg>

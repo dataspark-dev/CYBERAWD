@@ -1,0 +1,188 @@
+{
+  "whyThisMatters": "A text about a payroll deadline, a rushed reference-check attachment, or a payroll-system migration all lean on the same thing: HR handles people's pay and personal details, so a request that touches either one feels urgent by default. The habit that protects you is checking the channel, not the urgency.",
+  "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. A request that touches pay or a candidate's details is not more trustworthy for being urgent — verify through the portal or a number you already have before you act.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group what they would do in the first few seconds of each scenario. Ask before you show the good answer.",
+      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on — or would they need to look it up under pressure?",
+      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
+      "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
+      "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
+      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
+    ],
+    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+  },
+  "cases": [
+    {
+      "id": "phishing-link-clicked",
+      "persona": "HR / Recruitment",
+      "title": "You Clicked a Link in a Seafarer Follow-Up",
+      "scenario": "You work in Crewing. You are checking emails from seafarers and manning agents. You click a link in what looked like a normal follow-up — \"Re: Application — 2nd Engineer, MV Horizon\". After you click, the page looks wrong and a login box pops up.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The page that opened looks strange. It asks you to log in again. What do you do first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Type your work password to see if it is real",
+              "outcome": "consequence",
+              "feedback": "Do not type your password on a strange page. Even a quick test can give away your login to attackers."
+            },
+            {
+              "id": "b",
+              "text": "Close the tab without typing anything and leave the device alone",
+              "outcome": "good",
+              "feedback": "Right choice. Not typing anything stops the attack. Leaving the device as it is keeps what the IT Service Desk needs to see."
+            },
+            {
+              "id": "c",
+              "text": "Take a screenshot to show a crewing colleague before you do anything else",
+              "outcome": "consequence",
+              "feedback": "Sharing it with colleagues first slows you down. The most important step is to tell the IT Service Desk fast, not to ask others first."
+            }
+          ]
+        }
+      ],
+      "debrief": "Whether it is a link, an attachment, or anything unexpected, the steps are the same. STOP before you do more. Do not touch the device more than you need to. REPORT right away with details. Every minute you wait is a minute the IT Service Desk does not have."
+    },
+    {
+      "id": "svr-1",
+      "persona": "HR / Payroll",
+      "title": "The Payroll Details Text",
+      "scenario": "You get a text that looks like it is from HR Payroll: \"Synergy HR — click here to update your bank details for this month's allotment. Action needed today or your pay will be delayed.\" It includes a link you have never seen before.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Tap the link and update your details quickly so your pay is not delayed",
+              "outcome": "consequence",
+              "feedback": "Tapping an unknown link to \"update\" bank details is exactly how these texts steal your login — no real payroll deadline is worth that risk."
+            },
+            {
+              "id": "b",
+              "text": "Do not tap the link — open the official crew/HR portal from your bookmark and report the text to the IT Service Desk",
+              "outcome": "good",
+              "feedback": "Right call. Going straight to a place you already trust removes the attacker's link completely, and reporting it helps flag the pattern for others."
+            },
+            {
+              "id": "c",
+              "text": "Reply to the text asking if it is really from HR",
+              "outcome": "consequence",
+              "feedback": "Replying only confirms your number is active — it does not prove anything, because a fake text will simply say yes."
+            }
+          ]
+        }
+      ],
+      "debrief": "STOP — do not tap the link. VERIFY by opening the official HR or crew portal yourself (from a bookmark you already have) or by calling HR on a number you already know. REPORT the text to the IT Service Desk."
+    },
+    {
+      "id": "q2-candidate-attachment",
+      "persona": "HR / Recruitment",
+      "title": "The Seafarer CV Attachment",
+      "scenario": "A message looks like it is from your usual crewing portal. It forwards a seafarer CV as an attachment — \"2nd Engineer, MV Horizon — available immediately.\" But the sender address is spelled a little differently than normal (a missing letter or added word). It says the candidate needs an answer \"within the hour\" or they will take another offer.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What should you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Open the attachment quickly so you do not lose a strong candidate",
+              "outcome": "consequence",
+              "feedback": "Opening an unexpected attachment from a slightly-off sender address is exactly how malware gets in — no candidate is worth that risk, and a genuine crewing agent won’t disappear over a short delay."
+            },
+            {
+              "id": "b",
+              "text": "Reply to the sender asking for more information",
+              "outcome": "consequence",
+              "feedback": "Replying only confirms your address is active — it doesn’t verify anything, and a fake sender will happily reply back with more convincing details."
+            },
+            {
+              "id": "c",
+              "text": "STOP before opening anything, VERIFY the sender's exact email address and the crewing portal directly, then REPORT if it does not check out",
+              "outcome": "good",
+              "feedback": "Correct. A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, REPORT applies to a seafarer file just like any other email."
+            },
+            {
+              "id": "d",
+              "text": "Forward it to a crewing colleague and let them decide",
+              "outcome": "consequence",
+              "feedback": "Forwarding it just passes the risk to someone else and wastes the time the urgency is counting on. The fix is to verify the sender yourself, not hand off the decision."
+            }
+          ]
+        }
+      ],
+      "debrief": "A misspelled sender address plus made-up urgency is a classic lure — the Crewing inbox gets CVs from strangers every day, so STOP, VERIFY, REPORT applies here just like anywhere else."
+    },
+    {
+      "id": "dr-hr-payroll-migration-reset",
+      "persona": "HR / Payroll",
+      "title": "The Payroll Migration That Wants Your Bank Details",
+      "scenario": "An email claiming to be from HR Payroll Systems says a new payroll system migration requires everyone to re-enter their password and bank details via a link within 24 hours, or pay will be delayed.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Click the link and re-enter your password and bank details before the deadline",
+              "outcome": "consequence",
+              "feedback": "Re-entering your password and bank details through an emailed link is exactly what this phishing attempt is designed to collect."
+            },
+            {
+              "id": "b",
+              "text": "Forward the email to a colleague to see if they got the same one",
+              "outcome": "consequence",
+              "feedback": "This doesn't verify anything and risks spreading the phishing link further before it's confirmed real or fake."
+            },
+            {
+              "id": "c",
+              "text": "Do not click the link — check the known HR portal directly yourself for any real migration notice",
+              "outcome": "good",
+              "feedback": "Correct. A genuine migration is announced through the portal itself and known internal channels — never by asking you to re-enter your password and bank details through a link."
+            }
+          ]
+        }
+      ],
+      "debrief": "A deadline tied to your pay being delayed is designed to make you skip verification. STOP before clicking the link. VERIFY through the portal you already use. REPORT the email to the IT Service Desk."
+    },
+    {
+      "id": "dr-hr-reference-attachment",
+      "persona": "HR / Recruitment",
+      "title": "The Reference Check That Needs Macros Enabled",
+      "scenario": "A manning agent you've worked with before sends a reference-check request, but this time the attachment is a macro-enabled document and the email says the candidate starts Monday, so you need to open it and click \"Enable Content\" right away.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Open the attachment and click \"Enable Content\" so you don't delay the candidate's start date",
+              "outcome": "consequence",
+              "feedback": "Enabling macros on an unexpected document is exactly how this kind of attachment delivers malware — no candidate start date is worth that risk."
+            },
+            {
+              "id": "b",
+              "text": "Forward it to a recruitment colleague to open first",
+              "outcome": "consequence",
+              "feedback": "This just passes the same risk to someone else instead of checking the actual sender and file."
+            },
+            {
+              "id": "c",
+              "text": "Check the sender's exact domain against the agent's known address, and do not enable macros regardless",
+              "outcome": "good",
+              "feedback": "Correct. A reference form should never need macros enabled to view — checking the sender's exact domain first, and refusing to enable content either way, removes the risk."
+            }
+          ]
+        }
+      ],
+      "debrief": "A familiar-looking agent plus an unusual attachment format is the pattern here, not just the urgency. STOP before enabling any macros. VERIFY the sender's exact domain. REPORT it if anything doesn't match what you'd expect from this agent."
+    }
+  ]
+}

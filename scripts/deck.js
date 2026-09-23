@@ -26,6 +26,32 @@ const SLIDES = [
   { file: 'slide-19.html', title: 'Closing', group: 'Closing' }
 ];
 
+// Audience-specific Closing slide - mirrors the canonical audience ids used by the admin
+// dashboard's audience picker (admin/dashboard.html) and app.py's AUDIENCE_DEFS. Picking an
+// audience there and opening this deck with the matching ?audience= query param (e.g.
+// index.html?audience=hr) swaps ONLY the final Closing slide's file below, before the deck is
+// built - every other slide, and the deck for anyone opening it with no ?audience= param (or an
+// unrecognised one), is completely unaffected and still shows the shared general slide-19.html.
+const AUDIENCE_CLOSING_SLIDES = {
+  'accounts': 'slide-19-accounts.html',
+  'hr': 'slide-19-hr.html',
+  'fleet-management': 'slide-19-fleet-management.html',
+  'it-support': 'slide-19-it-support.html',
+  'development': 'slide-19-development.html',
+  'vessel-operations': 'slide-19-vessel-operations.html',
+};
+
+function applyAudienceClosingSlide() {
+  let audience = '';
+  try {
+    audience = new URLSearchParams(location.search).get('audience') || '';
+  } catch (_) { /* ignore */ }
+  const file = AUDIENCE_CLOSING_SLIDES[audience];
+  if (!file) return; // no audience, or not one of the 6 canonical ids - keep general slide-19.html
+  const closingSlide = SLIDES.find(s => s.group === 'Closing');
+  if (closingSlide) closingSlide.file = file;
+}
+
 let currentIndex = 0;
 let currentScale = 1;
 let scrollSyncTimeout = null;
@@ -191,6 +217,7 @@ window.addEventListener('resize', () => {
 window.addEventListener('DOMContentLoaded', () => {
   const hash = parseInt(location.hash.replace('#', ''), 10);
   const start = (hash >= 1 && hash <= SLIDES.length) ? hash - 1 : 0;
+  applyAudienceClosingSlide();
   buildDeck();
   loadAround(start);
   scaleFrames();

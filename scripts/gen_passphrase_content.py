@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""One-off content generator for live-event/content/pass-phrase.json's weakPassword/deck fields.
+"""One-off content generator for live-event/content/pass-phrase/general.json's weakPassword/deck fields.
 
 Run from the repo root: python scripts/gen_passphrase_content.py
 
@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 import app as appmod  # noqa: E402
 
-CONTENT_PATH = ROOT / "live-event" / "content" / "pass-phrase.json"
+CONTENT_PATH = ROOT / "live-event" / "content" / "pass-phrase" / "general.json"
 
 
 def main():

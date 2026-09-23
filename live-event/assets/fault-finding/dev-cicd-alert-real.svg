@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect x="220" y="130" width="1160" height="640" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="220" y="130" width="1160" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="250" y="174" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: CI/CD Pipeline &lt;ci-noreply@synergymarinegroup.com&gt;</text>
+  <text x="250" y="245" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: Build #1042 passed — ops-dashboard/main — deployed to staging</text>
+  <g transform="translate(250,300)">
+    <rect x="0" y="0" width="120" height="34" rx="6" fill="#16a34a"/>
+    <text x="60" y="23" font-family="Barlow, sans-serif" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">PASSED</text>
+  </g>
+  <text x="250" y="380" font-family="Barlow, sans-serif" font-size="18" fill="#374151">All 214 tests passed. Deployed to staging automatically. No</text>
+  <text x="250" y="412" font-family="Barlow, sans-serif" font-size="18" fill="#374151">action needed — production deploy still requires your manual</text>
+  <text x="250" y="444" font-family="Barlow, sans-serif" font-size="18" fill="#374151">approval in the usual dashboard.</text>
+  <text x="250" y="500" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Review the run any time in the dashboard you already use:</text>
+  <text x="250" y="534" font-family="Space Mono, monospace" font-size="16" fill="#0369a1">ci.synergymarinegroup.com/build/1042</text>
+  <text x="250" y="700" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#1e293b">CI/CD Pipeline — Synergy Marine Group</text>
+  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">CI/CD PIPELINE — BUILD NOTIFICATION</text>
+</svg>

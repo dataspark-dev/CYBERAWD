@@ -1,0 +1,182 @@
+{
+  "whyThisMatters": "An unreachable supervisor, a detention-fee demand, or an urgent cargo redirect all put the same pressure on Operations: act now, verify later. But a permit, a payment, or a vessel's course are exactly the kind of decisions that need the normal process followed, especially when someone is pushing you to skip it.",
+  "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. \"Just this once\" is never a real exception to a safety sign-off, a payment process, or a charter instruction — verify through your own known channel before you act, no matter who is asking.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group what they would do in the first few seconds of each scenario. Ask before you show the good answer.",
+      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on — or would they need to look it up under pressure?",
+      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
+      "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
+      "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
+      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
+    ],
+    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+  },
+  "cases": [
+    {
+      "id": "stolen-laptop",
+      "persona": "Operations",
+      "title": "Your Work Laptop Went Missing",
+      "scenario": "You just finished a vessel visit at the port. You travelled back on the launch, and when you get to the jetty you realise your work laptop is gone — it was in your bag during the transfer.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "You just noticed it is gone. What do you do first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Go back to the jetty and the launch to search for it yourself",
+              "outcome": "consequence",
+              "feedback": "Every minute you spend searching is a minute the IT Service Desk is not locking your accounts or wiping the device. Speed matters more than searching."
+            },
+            {
+              "id": "b",
+              "text": "Report it to the IT Service Desk and your manager immediately",
+              "outcome": "good",
+              "feedback": "Correct. Fast reporting lets the IT Service Desk act while there is still time to lock things."
+            }
+          ]
+        }
+      ],
+      "debrief": "A missing device with company access is a race against time. STOP trying to find it yourself. REPORT right away to the IT Service Desk and your manager with what you know. Check that the next steps happened, like locking the device remotely and changing your password."
+    },
+    {
+      "id": "q3-teams-bypass-permit",
+      "persona": "Operations",
+      "title": "Skip the Permit Sign-Off?",
+      "scenario": "You get a Teams message — Teams is the work chat app — from someone you do not recognise. No photo, no chat history. They say the site supervisor cannot be reached. They ask you to skip the permit-to-work sign-off — the signed safety approval before hot work or enclosed-space entry — \"just this once\" so the schedule does not slip.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What is the warning sign here?",
+          "options": [
+            {
+              "id": "a",
+              "text": "It is fine — schedules matter, and you can sort out the paperwork later",
+              "outcome": "consequence",
+              "feedback": "Treating a safety sign-off as paperwork you can “sort out later” is exactly the mistake this message is engineered to cause — the permit exists precisely for situations like this."
+            },
+            {
+              "id": "b",
+              "text": "Someone you cannot verify is pressuring you to skip a safety approval, using urgency and \"the boss is unreachable\" as the excuse",
+              "outcome": "good",
+              "feedback": "Correct. An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a required safety approval because an urgent, unreachable person said so is the red flag — the same trick as a fake-boss email asking for a wire transfer, just aimed at a safety step instead of money."
+            },
+            {
+              "id": "c",
+              "text": "It is a normal, routine reminder about the schedule",
+              "outcome": "consequence",
+              "feedback": "This is not routine — an unrecognised sender asking you to bypass a signed safety approval is never a normal reminder, no matter how it is phrased."
+            },
+            {
+              "id": "d",
+              "text": "It is expected — supervisors often message from other accounts",
+              "outcome": "consequence",
+              "feedback": "Real supervisors don’t ask you to bypass safety sign-offs from an unrecognised account with no history — that pattern is the red flag, not something to wave away as normal account-switching."
+            }
+          ]
+        }
+      ],
+      "debrief": "An unverified sender plus time pressure plus a request to skip a normal check is the same pattern as a fake-boss scam — just aimed at a safety process instead of a payment."
+    },
+    {
+      "id": "ransomware-lockout",
+      "persona": "Operations",
+      "title": "Your Screen Just Locked",
+      "scenario": "A message covers your office computer screen. It says your files are locked and you must pay to get them back. A countdown timer is running. This is ransomware — harmful software that locks your files until you pay.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Try to pay quickly before the timer runs out",
+              "outcome": "consequence",
+              "feedback": "Paying does not guarantee you get your files back. It also funds the next attack. And you skip reporting, which is what the IT Service Desk needs most."
+            },
+            {
+              "id": "b",
+              "text": "Disconnect the computer from the network right away (unplug the cable or turn off Wi-Fi) and leave it alone",
+              "outcome": "good",
+              "feedback": "Right idea. Disconnecting quickly can stop it from spreading to other computers before the IT Service Desk steps in."
+            },
+            {
+              "id": "c",
+              "text": "Post about it in the team chat to warn others",
+              "outcome": "consequence",
+              "feedback": "This is understandable, but it is not the fastest way to contain it. It can also cause panic before the IT Service Desk knows how far it has spread."
+            }
+          ]
+        }
+      ],
+      "debrief": "Ransomware — harmful software that locks your files for payment — wants you to panic and pay. STOP by disconnecting the computer from the network right away (unplug the cable or turn off Wi-Fi). Do not try to pay or fix it yourself. REPORT fast to the IT Service Desk so they can stop it from reaching other systems."
+    },
+    {
+      "id": "dr-fleet-psc-detention-fee",
+      "persona": "Operations",
+      "title": "The Detention Fee Demand",
+      "scenario": "An email claiming to be a Port Authority Notice says MV Horizon has an unpaid deficiency fee on record and must pay immediately via the account provided to avoid detention.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Pay the fee immediately to avoid the vessel being detained",
+              "outcome": "consequence",
+              "feedback": "Paying a fee straight from an unverified email, with a detention threat attached, is exactly how this authority-impersonation scam is designed to work."
+            },
+            {
+              "id": "b",
+              "text": "Reply to the email asking for more documentation of the deficiency",
+              "outcome": "consequence",
+              "feedback": "A fake sender can produce plausible-looking documentation — this does not confirm the request came through a genuine channel."
+            },
+            {
+              "id": "c",
+              "text": "Check with your own PSC liaison and port agent through their known channels before considering any payment",
+              "outcome": "good",
+              "feedback": "Correct. Real Port State Control deficiencies and any fees go through your own company's documented channels — verifying there, not with the email itself, confirms whether anything is actually owed."
+            }
+          ]
+        }
+      ],
+      "debrief": "A detention threat is designed to force a fast payment without verification. STOP before paying anything. VERIFY through your own PSC liaison and port agent. REPORT the email regardless of what you find."
+    },
+    {
+      "id": "dr-fleet-charter-redirect",
+      "persona": "Operations",
+      "title": "The Urgent Cargo Redirect Instruction",
+      "scenario": "An email that looks like it's from the charterer's operations desk says a commercial emergency requires you to redirect the vessel's discharge port and cargo instructions immediately — with no signed addendum, just the email itself.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Redirect the vessel as instructed, since commercial emergencies can move fast",
+              "outcome": "consequence",
+              "feedback": "Acting on a major operational change from an email alone, with no signed addendum, is exactly the gap this kind of Business Email Compromise attempt is designed to exploit."
+            },
+            {
+              "id": "b",
+              "text": "Reply asking the charterer to confirm the emergency before redirecting",
+              "outcome": "consequence",
+              "feedback": "A fake sender can simply confirm whatever you ask — this doesn't verify the request came through the real charter-desk process."
+            },
+            {
+              "id": "c",
+              "text": "Do not redirect anything without a signed addendum through the agreed charter-desk process, and verify with the charterer directly",
+              "outcome": "good",
+              "feedback": "Correct. A change as significant as redirecting a vessel always requires a signed addendum through the agreed process — verifying directly with the charterer, not just replying to the email, confirms whether it's genuine."
+            }
+          ]
+        }
+      ],
+      "debrief": "An instruction to redirect the vessel based on an email alone, with no signed addendum, is the red flag. STOP before acting on it. VERIFY through the agreed charter-desk process. REPORT the email regardless of the outcome."
+    }
+  ]
+}

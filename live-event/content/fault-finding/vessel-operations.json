@@ -1,0 +1,84 @@
+{
+  "whyThisMatters": "Limited time online and a message that sounds like routine crewing business are exactly what these tricks count on — a rotation link, a port-agent document request, or a fund request from a vessel manager. Today you will build the habit of checking the exact link or sender address before you tap, even when you're offshore and moving fast between watches.",
+  "rememberThis": "A rotation email, a document request, or a fund request is not proof by itself, however routine it looks. STOP before you tap a link or send a document — VERIFY through the portal you already use or a number you already have, then REPORT when you're back online.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which detail people noticed first — was it the sender address, the urgent wording, or the attachment name? Would they check the same thing on their own phone with limited internet?",
+      "For the rotation link card for offshore crew, ask how many people actually press and hold a link before they tap it. What makes that hard to do at sea with patchy internet and time pressure?",
+      "Ask if anyone has seen a text or a pop-up like the last three cards in real life — for example, a rotation SMS at 06:00 or a shared-computer pop-up. What did they do?"
+    ],
+    "commonWrongAnswer": "People most often miss the fake sender address and the fake crew portal. The real and fake images look almost identical, so people judge by which one looks neater. The habit to build is to check the exact address letter by letter in the sender line and in the address bar, not the body text."
+  },
+  "items": [
+    {
+      "id": "compare-link-url",
+      "type": "compare",
+      "category": "Link Check",
+      "persona": "Offshore Crew",
+      "title": "Real vs Fake Rotation Email",
+      "realImage": "../assets/fault-finding/link-url-email-real.svg",
+      "fakeImage": "../assets/fault-finding/link-url-email-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "Both rotation emails show the same blue link text: portal.synergymarinegroup.com. But the fake email goes somewhere else. If you press and hold the link (or hover on a computer), it shows https://portal-synergymarine-group-secure.net/crew/verify?id=42 and a short link http://bit.ly/CrewRotation-Horizon. The real email's link truly goes to portal.synergymarinegroup.com. Both messages are addressed to Rajesh Kumar, 3rd Officer, MV Horizon, so the name alone does not tell you.",
+      "whyItsSuspicious": "When you are offshore with limited time and internet, a quick tap is tempting. This check is about where the link really goes, not who the message says it is from. Always press and hold (or hover) to see the real address behind the blue text. Look for the exact address portal.synergymarinegroup.com — no hyphens, no \"-secure\". Do not trust short links like bit.ly in a rotation message. When you can, open the crew portal from a bookmark you saved yourself, or check with your vessel manager on a known number when you are back online."
+    },
+    {
+      "id": "compare-login-portal",
+      "type": "compare",
+      "persona": "Offshore Crew",
+      "title": "Real vs Fake Crew Portal Login",
+      "realImage": "../assets/fault-finding/login-portal-real.svg",
+      "fakeImage": "../assets/fault-finding/login-portal-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake crew portal address at the top of the browser is \"portal.synergymanne-group.com\" — it has an extra \"n\" (synergymanne). The real address is \"portal.synergymarinegroup.com\". The login screens otherwise look exactly the same, so the page design does not help you.",
+      "whyItsSuspicious": "Attackers can copy the look of the crew portal exactly, but they cannot fake the real address at the top of your browser. Always check the address bar letter by letter before you type your password. When you can, open the portal from a bookmark you saved yourself. This is the same habit as checking links in emails — the address, not the design, is the proof."
+    },
+    {
+      "id": "smishing-text",
+      "type": "single",
+      "persona": "Offshore Crew",
+      "category": "Text Message (SMS) Check",
+      "title": "Fake Rotation Text Message",
+      "imagePath": "../assets/fault-finding/smishing-text.svg",
+      "placeholder": true,
+      "whatIsWrong": "A text message (SMS) on your phone pretends to be from Fleet Ops: \"Synergy Marine: Your rotation portal link has changed. Confirm your MV Horizon sign-off dates here: bit.ly/CrewRotation-Horizon or your account will be delayed.\" It was sent at 06:12, when many crew check their phones after watch.",
+      "whyItsSuspicious": "Synergy never sends crew portal links by short text message at dawn, and never says \"use this link only — do not call your vessel manager.\" The short link (bit.ly) hides the real address, the sender name is spoofed (fake), and the pressure to act now is the clue. This is smishing — phishing by text message. If you get this, do not tap. Open your crew portal from a bookmark you already trust, or message your vessel manager on a known number when you have signal."
+    },
+    {
+      "id": "compare-vesselops-sea-renewal",
+      "type": "compare",
+      "category": "Link Check",
+      "persona": "Offshore Crew",
+      "title": "Real vs Fake SEA Renewal Email",
+      "realImage": "../assets/fault-finding/vesselops-sea-renewal-real.svg",
+      "fakeImage": "../assets/fault-finding/vesselops-sea-renewal-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (synergymarine-crewportal.com vs synergymarinegroup.com). It invents a 2-hour deadline tied to losing your rotation date, and puts a \"Sign Now\" link directly in the email instead of pointing you to the portal you already use.",
+      "whyItsSuspicious": "A real SEA renewal is never so urgent that you have only 2 hours to sign it, and Crewing never puts a sign-in link directly in the email — it always points you back to the portal you already have bookmarked. When offshore with limited time online, the pressure to tap fast is exactly what this trick counts on."
+    },
+    {
+      "id": "compare-vesselops-port-agent-docrequest",
+      "type": "compare",
+      "category": "Attachment & Link Check",
+      "persona": "Offshore Crew",
+      "title": "Real vs Fake Port Agent Document Request",
+      "realImage": "../assets/fault-finding/vesselops-port-agent-docrequest-real.svg",
+      "fakeImage": "../assets/fault-finding/vesselops-port-agent-docrequest-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (horizon-shipagents.net vs horizonshipping-agents.com). It asks for passport and CDC scans to be emailed directly instead of uploaded to the secure agent portal, and invents an immigration deadline to rush you.",
+      "whyItsSuspicious": "Passport and CDC details are exactly the kind of sensitive documents attackers want, and a fake port-agent request can look routine because you do send these documents sometimes. The check is always the same: does it go through the known secure portal, from the known agent domain — never a plain email attachment sent under time pressure."
+    },
+    {
+      "id": "compare-vesselops-urgent-fund-request",
+      "type": "compare",
+      "category": "Urgency & Pressure",
+      "persona": "Offshore Crew",
+      "title": "Real vs Fake Vessel Manager Fund Request",
+      "realImage": "../assets/fault-finding/vesselops-urgent-fund-request-real.svg",
+      "fakeImage": "../assets/fault-finding/vesselops-urgent-fund-request-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (synergy-fleetmanager.com vs synergymarinegroup.com). It asks for gift cards or a personal wire transfer to cover a supposed port fee — never how real port dues are paid — with urgency and a promise of reimbursement later.",
+      "whyItsSuspicious": "Port dues and official fees are never paid by gift card, and a genuine Vessel Manager never asks a crew member to front money personally and expect reimbursement later. This exact gift-card pattern is one of the most common impersonation scams — verify any unusual fund request by calling the Vessel Manager on a number you already have, never by replying to the email."
+    }
+  ]
+}

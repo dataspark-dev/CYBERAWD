@@ -1,0 +1,182 @@
+{
+  "whyThisMatters": "In the moments right after an unusual payment request lands — a vendor claiming overpayment, a director wanting a wire kept quiet, a gift-card ask — the pressure to just resolve it quickly is exactly what these attacks are built on. Your next move matters more than how convincing the request sounds, because reversing a payment after the fact is far harder than pausing before you send one.",
+  "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. A confident tone, a plausible amount, or a familiar vendor name is not proof — verify any unusual payment or bank-detail request on a number you already had before checking, every time.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group what they would do in the first few seconds of each scenario. Ask before you show the good answer.",
+      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on — or would they need to look it up under pressure?",
+      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
+      "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
+      "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
+      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
+    ],
+    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+  },
+  "cases": [
+    {
+      "id": "q1-cfo-video-call",
+      "persona": "Finance / Accounts",
+      "title": "The Video Call From a Senior Leader",
+      "scenario": "You are on a video call with someone who looks and sounds exactly like a senior finance leader. Their picture freezes for a second and the lighting looks a little off, but they speak with full confidence. They ask you to approve an unusual vendor payment — USD 48,500 for provisions — right now, before the call ends.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you check first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Approve the payment — the face and voice matched, so it must really be them",
+              "outcome": "consequence",
+              "feedback": "A real-looking face and voice on a call is not proof of who someone is — both can now be faked. Approving because it “looked right” is exactly the mistake this kind of scam counts on."
+            },
+            {
+              "id": "b",
+              "text": "Quietly stall by saying you will do it after the call, hoping they forget",
+              "outcome": "consequence",
+              "feedback": "Stalling doesn’t solve anything. If it really is the leader, you’ve delayed a legitimate payment for no reason; if it’s a scam, hoping they “forget” means you never verified or reported it. Staying quiet isn’t the same as checking."
+            },
+            {
+              "id": "c",
+              "text": "End the call and check the request by contacting that leader on a number or channel you already know is real",
+              "outcome": "good",
+              "feedback": "Correct. A real-looking face and voice is not proof. An unusual, urgent payment is exactly when to STOP and VERIFY using a number or channel you already had before this call. Then REPORT anything strange."
+            },
+            {
+              "id": "d",
+              "text": "Ask a colleague in chat if they got the same request, then decide",
+              "outcome": "consequence",
+              "feedback": "Asking a colleague doesn’t verify anything — they weren’t on the call either, and a scammer counts on you feeling reassured just because someone else is unsure too. The only real check is a channel you already trust for that specific leader."
+            }
+          ]
+        }
+      ],
+      "debrief": "A convincing face and voice is not proof of identity — treat an unusual, urgent request the same on video as you would over email: STOP, VERIFY through a number or channel you already had before this call, then REPORT."
+    },
+    {
+      "id": "suspected-data-breach",
+      "persona": "Finance / Accounts",
+      "title": "You Suspect a Data Leak",
+      "scenario": "You are in the shared drive. You notice that crew allotment and payroll files — which should only be visible to HR and Finance — are now in a folder anyone in the company can open.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "You just spotted this. What do you do first?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Message a few colleagues to see if they have noticed it too",
+              "outcome": "consequence",
+              "feedback": "Telling others, even inside the company, can spread sensitive details before the IT Service Desk has checked what happened."
+            },
+            {
+              "id": "b",
+              "text": "Do not tell colleagues widely and do not touch the files — report it to the IT Service Desk right away",
+              "outcome": "good",
+              "feedback": "Correct. Not talking about it widely and not touching the files keeps the evidence safe for the IT Service Desk."
+            }
+          ]
+        }
+      ],
+      "debrief": "A possible data leak is like a scene you should not touch. STOP before you talk about it more widely or try to fix it yourself. Note what you saw without changing anything. REPORT right away so the trained team can take over."
+    },
+    {
+      "id": "dr-accounts-vendor-overpayment",
+      "persona": "Finance / Accounts",
+      "title": "The Vendor Claiming an Overpayment",
+      "scenario": "A uniform supplier emails Accounts saying a duplicate invoice run caused an overpayment of USD 4,150, and asks you to refund the difference today to a \"corrected\" account — not the one already on file.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Process the refund today to the new account, to resolve it quickly",
+              "outcome": "consequence",
+              "feedback": "Sending money to an account you haven't verified is exactly how the overpayment scam works — the claimed overpayment may not even be real."
+            },
+            {
+              "id": "b",
+              "text": "Reply asking the vendor to confirm the overpayment amount before refunding",
+              "outcome": "consequence",
+              "feedback": "A fake vendor will happily confirm any amount you ask about — this doesn't verify anything against your own records."
+            },
+            {
+              "id": "c",
+              "text": "Check your own ledger for a real overpayment first, and if refunding, send it only to the account already on file",
+              "outcome": "good",
+              "feedback": "Correct. Checking your own records first, and never sending a refund to a new account supplied by email, removes the scam's entire mechanism."
+            }
+          ]
+        }
+      ],
+      "debrief": "The overpayment-refund scam counts on you trusting the vendor's own claim and account number. STOP before refunding anything. VERIFY against your own ledger and the account already on file. REPORT it if the numbers don't match."
+    },
+    {
+      "id": "dr-accounts-invoice-redirect",
+      "persona": "Finance / Accounts",
+      "title": "The Invoice With New Bank Details",
+      "scenario": "A regular bunker supplier emails a routine-looking invoice, but this time it says their bank details have changed due to an \"internal audit\" and asks you to update the vendor master file and pay today, skipping the usual PO match.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Update the bank details and pay today as asked, since the invoice itself looks correct",
+              "outcome": "consequence",
+              "feedback": "An invoice looking correct says nothing about who is really asking for the bank-detail change — this is exactly how invoice-redirection fraud works."
+            },
+            {
+              "id": "b",
+              "text": "Pay to the old account instead, to be safe, and let the vendor sort out the new one later",
+              "outcome": "consequence",
+              "feedback": "This avoids the immediate risk but doesn't verify anything — the request itself still needs to be checked before you decide either way."
+            },
+            {
+              "id": "c",
+              "text": "Do not change the bank details or skip PO matching — call the vendor back on a number you already have to verify first",
+              "outcome": "good",
+              "feedback": "Correct. Bank-detail changes only ever get verified through a callback on a number you already had, never through the email itself, no matter how routine the invoice looks."
+            }
+          ]
+        }
+      ],
+      "debrief": "A changed bank detail plus a request to skip PO matching is the clearest sign of invoice-redirection fraud. STOP before updating any vendor record. VERIFY on a number you already have. REPORT the email regardless of what you decide."
+    },
+    {
+      "id": "dr-accounts-giftcard-chat",
+      "persona": "Finance / Accounts",
+      "title": "The Chat Message Asking for Gift Cards",
+      "scenario": "You get a Teams message that appears to be from the Finance Director: \"I'm in a client meeting and can't talk — urgently need you to buy USD 500 in gift cards for a client gift and send me the codes. I'll explain later.\"",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buy the gift cards quickly and send the codes, since they said they'll explain later",
+              "outcome": "consequence",
+              "feedback": "Sending gift-card codes is the same as handing over cash with no way to trace or reverse it — a real Director would not ask for this over chat, urgently, with no explanation."
+            },
+            {
+              "id": "b",
+              "text": "Reply on the same chat asking for more details before deciding",
+              "outcome": "consequence",
+              "feedback": "If the account is compromised or spoofed, replying on the same channel only gets you a reassuring answer from the same fake source."
+            },
+            {
+              "id": "c",
+              "text": "Do not buy anything — verify the request by contacting the Director through a different, already-known channel",
+              "outcome": "good",
+              "feedback": "Correct. Gift-card requests over chat, especially from someone claiming to be unreachable, are a well-known scam pattern — verify through a separate channel you already trust before spending anything."
+            }
+          ]
+        }
+      ],
+      "debrief": "A gift-card request is one of the clearest signs of impersonation — genuine business expenses are never paid this way. STOP before buying anything. VERIFY through a channel you already know is theirs. REPORT the message either way."
+    }
+  ]
+}

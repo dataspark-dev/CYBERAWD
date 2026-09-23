@@ -1,0 +1,74 @@
+{
+  "whyThisMatters": "Crewing offers, payslips, and reference-check forms are routine work for HR — which is exactly why attackers copy them so closely. A slightly different domain or an attachment that needs \"Enable Content\" can hide inside a message that otherwise looks like any other day's work. Today you will build the habit of checking the sender's exact domain and the file type before you open or act on anything that touches pay or a candidate's details.",
+  "rememberThis": "A professional-looking offer letter, payslip, or reference form is not proof by itself. STOP before opening an attachment or updating any bank or candidate detail — VERIFY the sender's exact domain and, for anything financial, through the portal you already use — then REPORT anything that doesn't match.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which detail people noticed first — was it the sender address, the urgent wording, or the attachment name? Would they check the same thing on their own phone with limited internet?",
+      "For the rotation link card for offshore crew, ask how many people actually press and hold a link before they tap it. What makes that hard to do at sea with patchy internet and time pressure?",
+      "Ask if anyone has seen a text or a pop-up like the last three cards in real life — for example, a rotation SMS at 06:00 or a shared-computer pop-up. What did they do?"
+    ],
+    "commonWrongAnswer": "People most often miss the fake sender address and the fake crew portal. The real and fake images look almost identical, so people judge by which one looks neater. The habit to build is to check the exact address letter by letter in the sender line and in the address bar, not the body text."
+  },
+  "items": [
+    {
+      "id": "compare-domain-spoofing",
+      "type": "compare",
+      "category": "Sender Address Check",
+      "persona": "HR / Recruitment",
+      "title": "Real vs Fake Crewing Offer Email",
+      "realImage": "../assets/fault-finding/it-notice-real.svg",
+      "fakeImage": "../assets/fault-finding/it-notice-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake Crewing email comes from hr@synergymarine-group-careers.com — it adds a hyphen and the word \"-careers\". The real address is hr@synergymarinegroup.com. The subject line, logo, and body look almost identical — only the sender address is different.",
+      "whyItsSuspicious": "Crewing teams email people they have never met, so a small change in the address is easy to miss when you are working fast. This check is about reading the sender address letter by letter, not the message body. A fake offer letter with an extra word in the address is a common trick. Always check that the address ends with exactly synergymarinegroup.com — no hyphens or added words. If you are not sure, call the known HR crewing number you already have; do not reply to the address in the email."
+    },
+    {
+      "id": "compare-attachment-based",
+      "type": "compare",
+      "category": "Attachment Check",
+      "persona": "HR / Payroll",
+      "title": "Real vs Fake Payslip & Roster Email",
+      "realImage": "../assets/fault-finding/attachment-email-real.svg",
+      "fakeImage": "../assets/fault-finding/attachment-email-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake HR Payroll email has unexpected attachments. One is Payslip_March.pdf.exe — the name ends with .exe, which means it is actually an app, not a PDF. The other is a generic Documents.zip with a password \"1234\" given in the email. It asks you to \"Enable Content\" or enter the password. The real payslip email has expected files with clear names: Payslip_Feb2025_RajKumar.pdf and Rotation_Roster_MV-Horizon_Feb-Apr.xlsx, with matching icons and sensible file sizes.",
+      "whyItsSuspicious": "HR Payroll often sends payslips and rotation rosters, so fake attachments blend in. Ask yourself: did you expect this file? Does the name and type match what you were waiting for? A payslip should be a PDF; a roster should be a spreadsheet. You should never need to click \"Enable Content\" or enter a password to open them. Watch for double endings like .pdf.exe, generic ZIP files, or vague subjects like \"Updated Payslip — Please Review Immediately.\" If unsure, call HR Payroll on a known number before you open anything."
+    },
+    {
+      "id": "compare-hr-password-reset",
+      "type": "compare",
+      "category": "Credential Phishing",
+      "persona": "HR / Payroll",
+      "title": "Real vs Fake Payroll Password Reset Email",
+      "realImage": "../assets/fault-finding/hr-password-reset-real.svg",
+      "fakeImage": "../assets/fault-finding/hr-password-reset-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (synergymarine-payroll.com vs synergymarinegroup.com). It asks for both your password AND bank details through a link, and invents a 24-hour deadline tied to your pay being delayed.",
+      "whyItsSuspicious": "A genuine system migration is announced through the portal itself and known internal channels — it never asks you to re-enter your password and bank details through an emailed link. Threats about pay being delayed are designed to make you act before you check."
+    },
+    {
+      "id": "compare-hr-reference-check",
+      "type": "compare",
+      "category": "Attachment Check",
+      "persona": "HR / Recruitment",
+      "title": "Real vs Fake Reference Check Email",
+      "realImage": "../assets/fault-finding/hr-reference-check-real.svg",
+      "fakeImage": "../assets/fault-finding/hr-reference-check-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (crew-solutions-asia.net vs crewsolutions-asia.com). Its attachment is a macro-enabled document instead of a plain form, and it pressures you to \"Enable Content\" immediately because of a Monday start date.",
+      "whyItsSuspicious": "Recruitment routinely receives forms and CVs from agents, so a fake one blends in easily. The check is the same as any attachment: did you expect this exact file, from this exact domain, in this exact format? A reference form should never need \"Enable Content\" to open."
+    },
+    {
+      "id": "compare-hr-policy-bankdetails",
+      "type": "compare",
+      "category": "Credential Phishing",
+      "persona": "HR / Payroll",
+      "title": "Real vs Fake Bank-Details Confirmation Email",
+      "realImage": "../assets/fault-finding/hr-policy-bankdetails-real.svg",
+      "fakeImage": "../assets/fault-finding/hr-policy-bankdetails-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (synergy-payroll-update.com vs synergymarinegroup.com). It asks you to reply with your bank account number and IFSC/SWIFT code directly in an email, instead of using the portal, with an invented threat of \"payment failure\".",
+      "whyItsSuspicious": "Real HR Payroll processes only ever point you to update your own bank details yourself inside the portal — they never ask you to email your account number and IFSC/SWIFT code back to them. Replying with banking details by email is exactly the goal of this scam."
+    }
+  ]
+}

@@ -295,7 +295,7 @@
     selectOption(decision.options[idx].id);
   });
 
-  fetch('../content/decision-room.json')
+  fetch('../content/decision-room/general.json')
     .then((r) => r.json())
     .then((json) => {
       cases = json.cases;

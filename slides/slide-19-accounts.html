@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Closing: Accounts — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .close-chip {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 18px 20px;
+      width: 260px;
+    }
+
+    .cc-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--cyan-light);
+      margin-bottom: 10px;
+    }
+    .cc-badge {
+      position: absolute;
+      top: -8px;
+      right: -12px;
+      font-size: 14px;
+      color: var(--green);
+      background: var(--navy);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--navy);
+    }
+
+    .cc-label {
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .cc-note {
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .slide.slide-dark { align-items: center; justify-content: center; }
+    .opening-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(6, 182, 212, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
+      background-size: 36px 36px;
+      animation: driftGrid 12s linear infinite;
+    }
+    @keyframes driftGrid { from { background-position: 0 0; } to { background-position: 72px 72px; } }
+    .orbit-ring {
+      position: absolute; top: 50%; left: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px;
+      border: 1px solid rgba(6, 182, 212, 0.12); border-radius: 50%; animation: orbitSpin 40s linear infinite;
+    }
+    .orbit-ring.r2 {
+      width: 1160px; height: 1160px; margin: -580px 0 0 -580px; border-color: rgba(0, 98, 255, 0.08);
+      animation-duration: 60s; animation-direction: reverse;
+    }
+    .orbit-dot { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
+    @keyframes orbitSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .op-title { position: relative; z-index: 2; text-align: center; max-width: 1760px; margin: 0 auto; padding-top: 10px; }
+    .op-title h1 { font-family: 'Times New Roman', Times, serif; font-weight: 900; font-size: 96px; line-height: 1.0; letter-spacing: -0.7px; color: var(--white); margin-bottom: 16px; }
+    .op-title h1 span { color: var(--cyan); }
+    .op-title .subhead { font-family: 'Times New Roman', Times, serif; font-size: 17px; letter-spacing: 2px; color: var(--cyan-light); text-transform: uppercase; margin-bottom: 16px; }
+    .op-title .rule { width: 150px; height: 4px; background: var(--grad-cyan); margin: 0 auto 22px; }
+    .op-title .lead { font-size: 19px; color: rgba(255, 255, 255, 0.65); line-height: 1.5; max-width: 1500px; margin: 0 auto 26px; }
+    .close-chip-wrap { display: flex; justify-content: center; gap: 18px; margin-bottom: 22px; flex-wrap: wrap; }
+    .games-note {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 15.5px;
+      color: rgba(255, 255, 255, 0.72);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 8px;
+      padding: 10px 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+    .games-note i { color: var(--cyan-light); }
+    .op-title .final-call { font-family: 'Times New Roman', Times, serif; font-size: 17px; color: rgba(255, 255, 255, .6); letter-spacing: 0.6px; }
+  </style>
+</head>
+<body>
+  <div class="slide slide-dark accent-awareness">
+    <div class="opening-grid"></div>
+    <div class="orbit-ring"><span class="orbit-dot"></span></div>
+    <div class="orbit-ring r2"><span class="orbit-dot"></span></div>
+
+    <div class="close-header" style="position:absolute;top:40px;left:64px;right:64px;display:flex;align-items:center;justify-content:space-between;z-index:2;">
+      <img src="../assets/SYN3.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT3.png" alt="AFT"/>
+    </div>
+
+    <div class="op-title">
+      <div class="subhead">Synergy Marine Group &times; AFT — Closing: Accounts</div>
+      <h1>THANK<br><span>YOU</span></h1>
+      <div class="rule"></div>
+      <p class="lead">Every invoice, wire request, and vendor email you check is a moment attackers are counting on you to rush through. A convincing domain or a senior name is often the only thing standing between a normal payment and a fraudulent one.</p>
+
+      <div class="close-chip-wrap reveal-stagger">
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-file-invoice-dollar"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Vendor Bank-Detail Change</div>
+          <div class="cc-note">A bank-detail change is not confirmed by the email announcing it — verify on a number you already have before you pay.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-user-tie"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Business Email Compromise</div>
+          <div class="cc-note">A senior name and an urgent, confidential wire request is the pattern to catch, not proof of who's really asking.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-magnifying-glass-dollar"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Overpayment Refund Scam</div>
+          <div class="cc-note">Reversing a payment is far harder than pausing before you send one — check your own ledger first.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-paperclip"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Attachment Check</div>
+          <div class="cc-note">A statement needing “Enable Content” to open is the red flag — check the sender's exact domain before opening anything.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-clock"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Urgency &amp; Pressure</div>
+          <div class="cc-note">An urgent deadline is not proof a request is genuine — it's the lever attackers pull hardest.</div>
+        </div>
+      </div>
+
+      <div class="games-note"><i class="fas fa-trophy"></i> Keep practicing: live awareness games (4 rotating stations, ~30–45 min, team scoring) continue this training in person.</div>
+
+      <div class="final-call">A vendor invoice, a senior name, or an urgent deadline is not proof a payment request is genuine: STOP → VERIFY on a number you already have → REPORT. Every single time.</div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

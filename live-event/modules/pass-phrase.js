@@ -873,7 +873,7 @@
     prev: function(){ if(introDismissed) prev(); }
   });
 
-  fetch('../content/pass-phrase.json')
+  fetch('../content/pass-phrase/general.json')
     .then(function(r){ return r.json(); })
     .then(function(data){
       if(Array.isArray(data)) rounds=data;

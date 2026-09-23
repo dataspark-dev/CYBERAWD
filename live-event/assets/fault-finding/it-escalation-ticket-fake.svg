@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect x="220" y="120" width="1160" height="660" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="220" y="120" width="1160" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="250" y="164" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: IT Service Desk &lt;helpdesk@synergymarine-support.com&gt;</text>
+  <text x="250" y="235" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: URGENT ESCALATION — Ticket #48213-A — Action Required in 15 Min</text>
+  <text x="250" y="300" font-family="Barlow, sans-serif" font-size="18" fill="#1e293b">Team,</text>
+  <text x="250" y="336" font-family="Barlow, sans-serif" font-size="18" fill="#374151">The Fleet Ops Director has escalated this directly and needs it closed</text>
+  <text x="250" y="368" font-family="Barlow, sans-serif" font-size="18" fill="#374151">before the vessel sails. Install the attached RemoteAssist tool and</text>
+  <text x="250" y="400" font-family="Barlow, sans-serif" font-size="18" fill="#374151">grant admin access so we can resolve it now — skip the normal change</text>
+  <text x="250" y="432" font-family="Barlow, sans-serif" font-size="18" fill="#374151">ticket approval, there is no time.</text>
+  <g transform="translate(250,470)">
+    <rect x="0" y="0" width="420" height="64" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <rect x="14" y="16" width="32" height="32" rx="4" fill="#dc2626"/>
+    <text x="30" y="37" font-family="Barlow, sans-serif" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">EXE</text>
+    <text x="60" y="31" font-family="Space Mono, monospace" font-size="13" fill="#1e293b">RemoteAssist_Setup.exe</text>
+    <text x="60" y="50" font-family="Space Mono, monospace" font-size="12" fill="#64748b">4.8 MB · Application</text>
+  </g>
+  <text x="250" y="600" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Confirm once done — do not reply to the normal helpdesk queue,</text>
+  <text x="250" y="632" font-family="Barlow, sans-serif" font-size="18" fill="#374151">reply directly to this address only.</text>
+  <text x="250" y="690" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#1e293b">IT Service Desk — Synergy Marine Group</text>
+  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">IT SERVICE DESK — TICKET #48213-A</text>
+</svg>

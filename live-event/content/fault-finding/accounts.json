@@ -1,0 +1,74 @@
+{
+  "whyThisMatters": "Every invoice, wire request, and vendor email you check is a moment attackers are counting on you to rush through. They copy real vendors, real signatures, and real urgency because Accounts moves money — and a convincing domain or a senior name is often the only thing standing between a normal payment and a fraudulent one. Today you will build the habit of checking the sender's exact domain and verifying any bank-detail change on a number you already have, before you approve or pay anything.",
+  "rememberThis": "A vendor invoice, a senior name, or an urgent deadline is not proof a payment request is genuine. STOP before you update bank details or send a refund — VERIFY on a number you already have, never a contact detail the email itself supplies, then REPORT anything that pressured you to skip that check.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which detail people noticed first — was it the sender address, the urgent wording, or the attachment name? Would they check the same thing on their own phone with limited internet?",
+      "For the rotation link card for offshore crew, ask how many people actually press and hold a link before they tap it. What makes that hard to do at sea with patchy internet and time pressure?",
+      "Ask if anyone has seen a text or a pop-up like the last three cards in real life — for example, a rotation SMS at 06:00 or a shared-computer pop-up. What did they do?"
+    ],
+    "commonWrongAnswer": "People most often miss the fake sender address and the fake crew portal. The real and fake images look almost identical, so people judge by which one looks neater. The habit to build is to check the exact address letter by letter in the sender line and in the address bar, not the body text."
+  },
+  "items": [
+    {
+      "id": "compare-urgency-context",
+      "type": "compare",
+      "category": "Urgency & Pressure",
+      "persona": "Finance / Accounts",
+      "title": "Real vs Fake Vendor Bank-Detail Email",
+      "realImage": "../assets/fault-finding/urgency-email-real.svg",
+      "fakeImage": "../assets/fault-finding/urgency-email-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake Finance email uses the same vendor topic but adds false urgency. It says \"URGENT — Bank Detail Change — Action Required TODAY\" and \"miss this month's settlement or provisions will be delayed.\" It also tells you not to follow the normal approval steps and not to call back to check.",
+      "whyItsSuspicious": "The real Finance notice is calm. It says \"scheduled for the regular settlement on 28 Nov — no immediate action required\" and \"always call back on the known vendor number you already have before you change any bank details.\" For Finance, pressure to skip checks is the warning sign. Threats about deadlines, fear of a missed settlement, or orders to skip the normal approval process are the clue — not the address alone. Real bank-detail changes in shipping never come by email plus urgency alone; they use the portal and a call back to a number you already trust."
+    },
+    {
+      "id": "compare-accounts-invoice-bankdetails",
+      "type": "compare",
+      "category": "Vendor Bank-Detail Change",
+      "persona": "Finance / Accounts",
+      "title": "Real vs Fake Bunker Invoice Email",
+      "realImage": "../assets/fault-finding/accounts-invoice-bankdetails-real.svg",
+      "fakeImage": "../assets/fault-finding/accounts-invoice-bankdetails-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from accounts@oceanfuel-supply.com — missing the \"s\" in oceanfuel-supplies.com. It asks you to update the vendor's bank details and pay based on the email alone, and to skip the usual PO match, with an artificial same-day deadline.",
+      "whyItsSuspicious": "Real vendor bank-detail changes only ever go through your vendor master-file update process with a callback verification — never based on an email's own instruction. A slightly shortened domain plus pressure to skip PO matching is the classic invoice-redirection fraud pattern; always verify on a number you already have before changing any account."
+    },
+    {
+      "id": "compare-accounts-bec-wire",
+      "type": "compare",
+      "category": "Business Email Compromise",
+      "persona": "Finance / Accounts",
+      "title": "Real vs Fake Finance Director Payment Email",
+      "realImage": "../assets/fault-finding/accounts-bec-wire-real.svg",
+      "fakeImage": "../assets/fault-finding/accounts-bec-wire-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from cfo@synergymarine-group.co — a different domain and TLD from the real cfo@synergymarinegroup.com. It has no PO or reference number, asks for a new/unverified account, and explicitly instructs you not to call to confirm or discuss it with colleagues.",
+      "whyItsSuspicious": "Genuine payment approvals always reference an existing PO and go through the normal process. An instruction to stay quiet and skip verification is the single biggest tell of a Business Email Compromise attack — always verify an unusual or urgent payment request on a number you already had before this email, never a contact detail the email itself supplies."
+    },
+    {
+      "id": "compare-accounts-vendor-statement",
+      "type": "compare",
+      "category": "Attachment Check",
+      "persona": "Finance / Accounts",
+      "title": "Real vs Fake Vendor Statement Email",
+      "realImage": "../assets/fault-finding/accounts-vendor-statement-real.svg",
+      "fakeImage": "../assets/fault-finding/accounts-vendor-statement-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (horizon-marine-insure.net vs horizonmarine-ins.com) and its attachment is named Statement_Overdue.pdf.exe — a disguised program, not a PDF. It also asks you to \"Enable Content\" to see an updated remittance advice, with artificial urgency not typical of a routine statement.",
+      "whyItsSuspicious": "A routine statement never needs \"Enable Content\" or a login to view, and a real attachment is a plain PDF, not a disguised program with a double file ending. Check the exact vendor domain against your vendor master file before opening any attachment or acting on a statement's remittance details."
+    },
+    {
+      "id": "compare-accounts-overpayment-refund",
+      "type": "compare",
+      "category": "Overpayment Refund Scam",
+      "persona": "Finance / Accounts",
+      "title": "Real vs Fake Overpayment Refund Request",
+      "realImage": "../assets/fault-finding/accounts-overpayment-refund-real.svg",
+      "fakeImage": "../assets/fault-finding/accounts-overpayment-refund-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (crewuniform-supplies.net vs crewuniforms-supply.com). It invents an overpayment that was never checked against your own ledger, and asks for an urgent refund to a different, \"corrected\" account rather than the one already on file.",
+      "whyItsSuspicious": "This is the classic overpayment-refund scam — attackers claim you overpaid them so you willingly wire money to a new account you don't recognise. Any overpayment claim must be checked against your own ledger first, and any refund sent only to the account already on file, never a new one supplied in the email."
+    }
+  ]
+}

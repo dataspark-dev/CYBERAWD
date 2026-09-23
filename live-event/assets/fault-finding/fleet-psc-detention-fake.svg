@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect x="220" y="120" width="1160" height="660" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="220" y="120" width="1160" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="250" y="164" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: Port Authority Notice &lt;notice@port-stateauthority.net&gt;</text>
+  <text x="250" y="235" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: URGENT — Deficiency Fee Payment Required to Avoid Detention</text>
+  <text x="250" y="300" font-family="Barlow, sans-serif" font-size="18" fill="#374151">MV Horizon has an unpaid deficiency fee on record. Pay</text>
+  <text x="250" y="332" font-family="Barlow, sans-serif" font-size="18" fill="#374151">immediately via the account below to avoid detention and</text>
+  <text x="250" y="364" font-family="Barlow, sans-serif" font-size="18" fill="#374151">further port charges.</text>
+  <text x="250" y="700" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#1e293b">Port Authority Notice</text>
+  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">PORT AUTHORITY NOTICE — DETENTION WARNING</text>
+</svg>

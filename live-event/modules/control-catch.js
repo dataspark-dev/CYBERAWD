@@ -370,7 +370,7 @@
     reveal: () => { if (introDismissed) startRound(); }
   });
 
-  fetch('../content/control-catch.json')
+  fetch('../content/control-catch/general.json')
     .then((r) => r.json())
     .then((data) => {
       bubblePool = data.bubbles || [];

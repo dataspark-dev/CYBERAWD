@@ -1,4 +1,4 @@
-"""One-off generator for live-event/content/crossword.json's grid.
+"""One-off generator for live-event/content/crossword/general.json's grid.
 
 No crossword-grid generator previously existed in this repo (the original 20x20/18-word grid
 appears to have been hand-authored or generated ad hoc). This is a standard constructive
@@ -15,7 +15,7 @@ import random
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CONTENT_PATH = ROOT / "live-event" / "content" / "crossword.json"
+CONTENT_PATH = ROOT / "live-event" / "content" / "crossword" / "general.json"
 
 # Reduced wordlist (11 terms, down from 18) — kept: terms this app's other modules actually
 # reinforce elsewhere (PHISHING/SPOOFING/PRETEXTING across fault-finding, clue-quest,

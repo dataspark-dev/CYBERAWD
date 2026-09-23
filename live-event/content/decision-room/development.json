@@ -1,0 +1,180 @@
+{
+  "whyThisMatters": "Development work runs on trust signals you check quickly and move on from — a package name, a PR comment, a recruiter's message, a CI alert. Attackers know that, so they aim at exactly those signals instead of trying to break in directly. The habit that helps you is knowing your next step before you need it, especially when a request already looks like a normal part of shipping code.",
+  "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. A package that looks popular, a PR comment that reads like a real review, or a message that knows your stack is not proof by itself — verify through a channel you already trust before you install, merge, or run anything.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask how the team currently decides whether to add a new dependency — is there an actual review step, or does it come down to whoever is merging that day?",
+      "For the recruiter-outreach case, ask if anyone has run a coding challenge or take-home project from an unsolicited message — what would make them pause next time?",
+      "Ask what 'verify' would even look like for a CI/CD credential request — is there a real internal process people can name?",
+      "Ask the group to describe the last dependency or PR they merged without a second look — what made it feel safe?"
+    ],
+    "commonWrongAnswer": "The most common mistake is trusting a request because it is wrapped in familiar developer workflow — a PR comment, a package name, a CI notification — and treating that packaging as proof of legitimacy. People also tend to under-verify anything that appears to come from within their own tooling (GitHub, CI, package registries), because it feels like it can't be faked, when in fact it is one of the easiest things to imitate."
+  },
+  "cases": [
+    {
+      "id": "dev-fake-dependency-request",
+      "persona": "Development",
+      "title": "The Dependency Someone Wants Added Fast",
+      "scenario": "A contributor you don't recognise opens a PR against ops-dashboard adding a new npm package to handle date formatting, with the message: \"This fixes the timezone bug faster than writing it ourselves — can we merge today, client is waiting on the fix.\" The package has a plausible name but was published two weeks ago with very few downloads.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The PR looks reasonable and the ask is time-pressured. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Merge it — the code in the PR looks fine and the timezone bug really does need fixing",
+              "outcome": "consequence",
+              "feedback": "Reading the PR's own diff does not tell you what the package itself runs at install time or import time — a fresh, low-download package is exactly the kind of thing to check first, not merge on trust."
+            },
+            {
+              "id": "b",
+              "text": "Ask the contributor for more details about themselves before deciding",
+              "outcome": "consequence",
+              "feedback": "An attacker can invent any background — this does not verify the package's actual safety, only the story around it."
+            },
+            {
+              "id": "c",
+              "text": "Hold the merge, check the package's publish history and maintainer reputation yourself, and use an established alternative if it doesn't check out",
+              "outcome": "good",
+              "feedback": "Correct. A new, low-download package from an unfamiliar contributor is worth checking independently — publish history, maintainer track record, and whether an established library already does the same job safely."
+            }
+          ]
+        }
+      ],
+      "debrief": "A time-pressured request to merge a new dependency fast is the same pattern as any other urgency scam, just aimed at your build. STOP before merging. VERIFY the package's own history yourself, not just the PR's diff. REPORT anything that doesn't check out so others don't hit the same PR."
+    },
+    {
+      "id": "dev-phishing-pr-comment",
+      "persona": "Development",
+      "title": "The Build-Log Link in a PR Comment",
+      "scenario": "A comment appears on your open PR: \"CI is failing intermittently on this branch — full log and re-auth link here: [link], your token may have desynced.\" The commenter's account looks like a real reviewer's handle you've seen before, slightly misspelled.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The comment references a real-looking problem and a familiar-looking name. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Click the link and re-authenticate as suggested to see the full log",
+              "outcome": "consequence",
+              "feedback": "Re-authenticating through a link in a PR comment is exactly how this steals your credentials — CI systems don't ask you to do this, no matter how the comment is worded."
+            },
+            {
+              "id": "b",
+              "text": "Reply on the PR asking the commenter to explain more",
+              "outcome": "consequence",
+              "feedback": "Replying only tells an attacker you engaged — it does not verify the account or make the link any safer to click."
+            },
+            {
+              "id": "c",
+              "text": "Ignore the link, check the CI dashboard directly yourself, and report the comment along with the misspelled handle",
+              "outcome": "good",
+              "feedback": "Correct. Checking the CI system directly — never through a link in a comment — sidesteps the trick entirely, and reporting the near-identical handle helps flag the impersonation for the rest of the team."
+            }
+          ]
+        }
+      ],
+      "debrief": "A slightly-misspelled familiar name plus a login link in a PR comment is a classic lure — code review comments get this treatment just like email does. STOP before clicking. VERIFY through the CI dashboard you already use. REPORT the account so others recognise the pattern."
+    },
+    {
+      "id": "dev-fake-recruiter-outreach",
+      "persona": "Development",
+      "title": "The Recruiter With a Coding Challenge",
+      "scenario": "You get a LinkedIn message from someone claiming to be a recruiter for a well-known shipping-tech company, inviting you to a paid \"take-home coding challenge\" hosted in a private GitHub repo. The instructions say to clone the repo and run the included setup script to \"install the test harness\" before starting.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The opportunity looks appealing and the ask seems standard for a take-home test. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Clone the repo and run the setup script as instructed — take-home tests usually need setup",
+              "outcome": "consequence",
+              "feedback": "Running an unfamiliar setup script from an unsolicited outreach is exactly how this kind of lure delivers malware onto your machine — a real challenge doesn't need to run first."
+            },
+            {
+              "id": "b",
+              "text": "Clone the repo and read the code first before running anything",
+              "outcome": "consequence",
+              "feedback": "This is safer than running it blind, but obfuscated or staged malicious code can still slip past a quick read — the safer move is not running unknown code on your main machine at all."
+            },
+            {
+              "id": "c",
+              "text": "Verify the recruiter and company independently first, and if you proceed, only open the challenge in an isolated environment, never running the setup script on your main machine",
+              "outcome": "good",
+              "feedback": "Correct. Verifying the recruiter through the company's real careers page or LinkedIn presence first, and isolating anything you do run, protects your main machine even if the outreach turns out to be fake."
+            }
+          ]
+        }
+      ],
+      "debrief": "Unsolicited recruiter outreach with a script to run is a known way to deliver malware to developers specifically. STOP before running any setup script from an outreach you didn't seek out. VERIFY the recruiter and company independently. REPORT it if anything doesn't check out."
+    },
+    {
+      "id": "dev-cicd-credential-phishing",
+      "persona": "Development",
+      "title": "The CI System Asking for Your Token Again",
+      "scenario": "You get an email that looks like your CI/CD system, saying your deployment credentials have expired and you must re-enter your Git username and access token within 10 minutes or the last production deploy will be rolled back automatically.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The deadline is short and touches production. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Re-enter your credentials quickly at the link given, to avoid a rollback",
+              "outcome": "consequence",
+              "feedback": "Typing your Git username and access token into a link from an email is exactly how CI/CD credential phishing works — a real system never asks for this by email."
+            },
+            {
+              "id": "b",
+              "text": "Forward the email to a teammate to ask if they got one too",
+              "outcome": "consequence",
+              "feedback": "This spreads the phishing link further and doesn't verify anything — a fake alert can be sent to your whole team at once."
+            },
+            {
+              "id": "c",
+              "text": "Ignore the link, open the CI dashboard directly yourself to check for any real issue, and report the email",
+              "outcome": "good",
+              "feedback": "Correct. Your CI system authenticates you through the session you already have — opening the dashboard yourself confirms whether anything is actually wrong, without ever typing credentials into the email's link."
+            }
+          ]
+        }
+      ],
+      "debrief": "CI/CD credentials often unlock your production pipeline, which makes them a high-value target — the pattern here is identical to any other credential-phishing email, just aimed at your deploy process. STOP before re-entering anything through a link. VERIFY by opening the CI dashboard yourself. REPORT the email so the pattern is flagged."
+    },
+    {
+      "id": "dev-fake-github-app-permission-request",
+      "persona": "Development",
+      "title": "The Bot Comment Asking for More Permissions",
+      "scenario": "An automated-looking comment appears on your PR from a GitHub App named \"ci-helper-bot\": \"To fix this failing check, please grant ci-helper-bot admin access to this repository by clicking Authorize below.\" The app has a generic icon and only a handful of installs.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Grant admin access, since it's just a bot trying to help fix the check",
+              "outcome": "consequence",
+              "feedback": "Granting admin access to an unfamiliar app is exactly the kind of over-broad permission grant this scam relies on — a check-fixing bot has no legitimate reason to need admin rights."
+            },
+            {
+              "id": "b",
+              "text": "Ask a teammate in chat if they've seen this app before",
+              "outcome": "consequence",
+              "feedback": "A teammate not recognising it doesn't confirm anything either way — it doesn't replace actually checking the app's publisher and install history."
+            },
+            {
+              "id": "c",
+              "text": "Do not grant elevated permissions — check the app's publisher and install count independently first, and report the comment",
+              "outcome": "good",
+              "feedback": "Correct. An app requesting far more access than its stated job needs, via an automated-looking PR comment, is a known supply-chain attack pattern — verifying the publisher first, and reporting the comment, protects the whole repository."
+            }
+          ]
+        }
+      ],
+      "debrief": "An app asking for more access than it needs, delivered through a routine-looking PR comment, is a known supply-chain attack vector. STOP before authorizing any elevated permissions. VERIFY the app's publisher and install history independently. REPORT the comment so others don't grant it either."
+    }
+  ]
+}

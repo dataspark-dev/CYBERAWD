@@ -476,7 +476,7 @@
     next: () => { if (!introDismissed) dismissIntro(); }
   });
 
-  fetch('../content/crossword.json')
+  fetch('../content/crossword/general.json')
     .then((r) => r.json())
     .then((data) => {
       if (els.introText) els.introText.textContent = data.whyThisMatters || '';

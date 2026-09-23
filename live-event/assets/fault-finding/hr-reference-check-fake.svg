@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect x="220" y="120" width="1160" height="660" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="220" y="120" width="1160" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="250" y="164" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: Manning Agent — Crew Solutions Asia &lt;references@crew-solutions-asia.net&gt;</text>
+  <text x="250" y="235" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: URGENT Reference Check — Candidate Starts Monday</text>
+  <text x="250" y="300" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Our candidate starts Monday and we need this back today.</text>
+  <text x="250" y="332" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Open the attached form and click "Enable Content" so the</text>
+  <text x="250" y="364" font-family="Barlow, sans-serif" font-size="18" fill="#374151">macros can auto-fill the verification fields.</text>
+  <g transform="translate(250,406)">
+    <rect x="0" y="0" width="420" height="64" rx="8" fill="#f1f5f9" stroke="#cbd5e1"/>
+    <rect x="14" y="16" width="32" height="32" rx="4" fill="#7c3aed"/>
+    <text x="30" y="37" font-family="Barlow, sans-serif" font-size="11" font-weight="800" fill="#fff" text-anchor="middle">DOC</text>
+    <text x="60" y="31" font-family="Space Mono, monospace" font-size="13" fill="#1e293b">Background_Verification_Form.docm</text>
+    <text x="60" y="50" font-family="Space Mono, monospace" font-size="12" fill="#64748b">740 KB · Document (macros)</text>
+  </g>
+  <text x="250" y="700" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#1e293b">Crew Solutions Asia — Manning Agent</text>
+  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">CREW SOLUTIONS ASIA — URGENT REFERENCE REQUEST</text>
+</svg>

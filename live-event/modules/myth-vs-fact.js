@@ -142,7 +142,7 @@
     reveal: () => { if (introDismissed) reveal(); }
   });
 
-  fetch('../content/myth-vs-fact.json')
+  fetch('../content/myth-vs-fact/general.json')
     .then((r) => r.json())
     .then((data) => {
       items = data.items;

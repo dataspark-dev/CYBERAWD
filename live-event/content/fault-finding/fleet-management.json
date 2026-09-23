@@ -1,0 +1,74 @@
+{
+  "whyThisMatters": "Permits, dry-dock invoices, tracking-system alerts, and charter instructions are how Operations keeps the fleet moving — and exactly what attackers copy, because a request that looks like routine fleet paperwork rarely gets a second look. Today you will build the habit of checking the sender's exact domain and confirming any change to a payment, permit, or instruction through the process you already follow, not the email alone.",
+  "rememberThis": "A vendor invoice, a permit request, or a system alert that looks routine is not proof by itself. STOP before you approve a bank-detail change, skip a safety sign-off, or act on an urgent alert — VERIFY through your own known channel or console, then REPORT anything that pushed you to skip that step.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which detail people noticed first — was it the sender address, the urgent wording, or the attachment name? Would they check the same thing on their own phone with limited internet?",
+      "For the rotation link card for offshore crew, ask how many people actually press and hold a link before they tap it. What makes that hard to do at sea with patchy internet and time pressure?",
+      "Ask if anyone has seen a text or a pop-up like the last three cards in real life — for example, a rotation SMS at 06:00 or a shared-computer pop-up. What did they do?"
+    ],
+    "commonWrongAnswer": "People most often miss the fake sender address and the fake crew portal. The real and fake images look almost identical, so people judge by which one looks neater. The habit to build is to check the exact address letter by letter in the sender line and in the address bar, not the body text."
+  },
+  "items": [
+    {
+      "id": "compare-fleet-permit-bypass",
+      "type": "compare",
+      "category": "Safety Sign-Off Bypass",
+      "persona": "Operations",
+      "title": "Real vs Fake Permit-to-Work Email",
+      "realImage": "../assets/fault-finding/fleet-permit-bypass-real.svg",
+      "fakeImage": "../assets/fault-finding/fleet-permit-bypass-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (synergymarine-hse.net vs synergymarinegroup.com). It asks Ops to skip a required safety sign-off \"just this once\", and promises to \"backfill the paperwork later\" — never a legitimate safety process.",
+      "whyItsSuspicious": "An unreachable supervisor plus a request to skip a safety sign-off is the same social-engineering pattern as a fake-boss payment scam, just aimed at a safety process instead of money. A real permit-to-work process has no \"just this once\" exception, no matter who is claimed to be asking."
+    },
+    {
+      "id": "compare-fleet-drydock-invoice",
+      "type": "compare",
+      "category": "Vendor Bank-Detail Change",
+      "persona": "Operations",
+      "title": "Real vs Fake Dry-Dock Invoice Email",
+      "realImage": "../assets/fault-finding/fleet-drydock-invoice-real.svg",
+      "fakeImage": "../assets/fault-finding/fleet-drydock-invoice-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (fleet-drydockservices.net vs fleetdrydock-services.com). It asks to change payment details based on the email alone, with an artificial deadline tied to the vessel's departure from the yard.",
+      "whyItsSuspicious": "Real dry-dock and vendor payments only change through a verified update to the vendor master file, never a one-off email instruction. A schedule-based deadline like \"before the vessel departs\" is a classic pressure tactic used to make you skip that check."
+    },
+    {
+      "id": "compare-fleet-tracking-alert",
+      "type": "compare",
+      "category": "Fake Internal Tool Alert",
+      "persona": "Operations",
+      "title": "Real vs Fake Fleet Tracking Alert",
+      "realImage": "../assets/fault-finding/fleet-tracking-alert-real.svg",
+      "fakeImage": "../assets/fault-finding/fleet-tracking-alert-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake alert comes from a different domain (synergy-fleettrack.net vs synergymarinegroup.com). It invents an impossible 5-minute deadline tied to a scary claim of lost vessel-position data, with a direct login link instead of pointing to the dashboard you already use.",
+      "whyItsSuspicious": "A genuine fleet-tracking alert gives you time and points you to the dashboard you already have bookmarked — it never asks for your username and password through a link, and losing tracking data is not fixed by \"re-logging in\" through an email link anyway. The scary operational claim is designed to make you skip that check."
+    },
+    {
+      "id": "compare-fleet-psc-detention",
+      "type": "compare",
+      "category": "Authority Impersonation",
+      "persona": "Operations",
+      "title": "Real vs Fake Port State Control Notice",
+      "realImage": "../assets/fault-finding/fleet-psc-detention-real.svg",
+      "fakeImage": "../assets/fault-finding/fleet-psc-detention-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake notice comes from an external, generic-sounding domain (port-stateauthority.net) rather than your own internal PSC liaison or a documented official channel. It asks for a direct fee payment via email, which real Port State Control processes never do, with a detention threat attached.",
+      "whyItsSuspicious": "Real Port State Control deficiencies and any associated fees go through your own company's agent and documented official channels, verified against the actual inspection report — never a payment request that arrives cold by email with a detention threat. Verify any such notice with your own PSC liaison and port agent before any payment is considered."
+    },
+    {
+      "id": "compare-fleet-charter-amendment",
+      "type": "compare",
+      "category": "Business Email Compromise",
+      "persona": "Operations",
+      "title": "Real vs Fake Charter Party Amendment Email",
+      "realImage": "../assets/fault-finding/fleet-charter-amendment-real.svg",
+      "fakeImage": "../assets/fault-finding/fleet-charter-amendment-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (bluewave-charter-ops.net vs bluewave-charterers.com). It asks for a major operational change — redirecting the vessel — based on the email alone, with no signed addendum, citing an invented commercial emergency.",
+      "whyItsSuspicious": "A genuine charter-party amendment as significant as redirecting a vessel always comes with a signed addendum through the agreed charter-desk process — never a same-email instruction to act immediately. This is the same fake-authority pressure pattern as any other Business Email Compromise attempt, just aimed at operational instructions instead of a payment."
+    }
+  ]
+}

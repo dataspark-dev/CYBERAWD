@@ -217,7 +217,7 @@
     }
   });
 
-  fetch('../content/clue-quest.json')
+  fetch('../content/clue-quest/general.json')
     .then((r) => r.json())
     .then((data) => {
       riddles = data.riddles;

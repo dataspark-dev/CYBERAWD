@@ -213,7 +213,7 @@
     reveal: () => { if (introDismissed) reveal(); }
   });
 
-  fetch('../content/fault-finding.json')
+  fetch('../content/fault-finding/general.json')
     .then((r) => r.json())
     .then((data) => {
       items = data.items;

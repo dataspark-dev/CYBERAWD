@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#0f172a"/>
+  <rect x="220" y="130" width="1160" height="640" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
+  <rect x="220" y="130" width="1160" height="70" rx="12" fill="#f1f5f9"/>
+  <text x="250" y="174" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: Systems Monitoring &lt;alerts@synergymarine-monitor.net&gt;</text>
+  <text x="250" y="245" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: CRITICAL — Admin Console session terminating in 5 minutes</text>
+  <text x="250" y="315" font-family="Barlow, sans-serif" font-size="18" fill="#1e293b">Alert,</text>
+  <text x="250" y="353" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Your Admin Console access will be terminated in 5 minutes due to an</text>
+  <text x="250" y="385" font-family="Barlow, sans-serif" font-size="18" fill="#374151">unrecognised sign-in. Re-authenticate immediately below or you will</text>
+  <text x="250" y="417" font-family="Barlow, sans-serif" font-size="18" fill="#374151">lose admin access and must file a new access request.</text>
+  <g transform="translate(250,455)">
+    <rect x="0" y="0" width="360" height="46" rx="6" fill="#dc2626"/>
+    <text x="180" y="30" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#fff" text-anchor="middle">RE-AUTHENTICATE NOW</text>
+  </g>
+  <text x="250" y="545" font-family="Space Mono, monospace" font-size="15" fill="#0369a1">secure-login.synergymarine-monitor.net/reauth?admin=1</text>
+  <text x="250" y="600" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Enter your admin username and password on the page above to</text>
+  <text x="250" y="632" font-family="Barlow, sans-serif" font-size="18" fill="#374151">confirm it is really you.</text>
+  <text x="250" y="690" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#1e293b">Systems Monitoring — Security Team</text>
+  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">SYSTEMS MONITORING — CRITICAL ALERT</text>
+</svg>

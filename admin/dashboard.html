@@ -286,6 +286,13 @@
 
         <!-- Module picker - whole-activity flow -->
         <div id="pickerSection" class="adm-card" style="margin-top:18px;">
+          <div class="adm-section-title"><i class="fa-solid fa-users"></i> Audience</div>
+          <div class="adm-note">Pick which team's content variant to load. This only switches which pre-built file loads - it does not edit content. Modules with no variant authored yet for a team fall back to the shared General content.</div>
+          <div id="audienceTabs" class="adm-row" style="flex-wrap:wrap; gap:8px; margin:10px 0 10px;"></div>
+          <div class="adm-row" style="margin-bottom:18px;">
+            <a id="openDeckLink" class="le-btn ghost" target="_blank" rel="noopener"><i class="fa-solid fa-display"></i> Open Slide Deck for This Audience</a>
+            <span class="adm-note">Opens the main deck with its Closing slide set to the audience picked above (General shows the shared Closing slide).</span>
+          </div>
           <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose Activity - 8 modules (all items pre-loaded)</div>
           <div class="adm-note">Counts come live from the content files. Select a module, then press <strong>Launch</strong> to create the lobby. The same lab and participants stay joined between activities.</div>
           <div id="pickerGrid" class="adm-launcher-grid"></div>
@@ -443,6 +450,8 @@
       openJoinLink: document.getElementById('openJoinLink'),
       copyMsg: document.getElementById('copyMsg'),
       pickerSection: document.getElementById('pickerSection'),
+      audienceTabs: document.getElementById('audienceTabs'),
+      openDeckLink: document.getElementById('openDeckLink'),
       pickerGrid: document.getElementById('pickerGrid'),
       launchBtn: document.getElementById('launchBtn'),
       pickerMsg: document.getElementById('pickerMsg'),
@@ -502,8 +511,11 @@
     let currentCode = null;
     let csrfToken = null; // set on login / checkAuth - required as X-CSRF-Token on mutating /api/admin/* calls
     let selectedModule = null;
+    let selectedAudience = 'general'; // audience-variant switch - which team's content loads on Launch
+    let audiencesCache = [];
     let modulesCache = [];
     let activeModule = null;
+    let activeAudience = 'general'; // the audience actually running in the loaded room (from /state)
     let stateCache = null;
     let pollTimer = null;
     // Guards against a slow poll tick's response landing AFTER a later tick's and clobbering the
@@ -581,7 +593,7 @@
           ok=true;
         }
         if(loginRes && loginRes.csrfToken) csrfToken = loginRes.csrfToken;
-        if(ok){ els.loginMsg.textContent = 'Logged in'; els.loginPass.value = ''; showLoggedIn(true); loadModules(); }
+        if(ok){ els.loginMsg.textContent = 'Logged in'; els.loginPass.value = ''; showLoggedIn(true); loadAudiences(); loadModules(); }
       } catch(e){
         els.loginMsg.textContent = 'Login failed: ' + e.message;
       }
@@ -620,6 +632,7 @@
         st = await api('/api/session/' + code + '/state');
         joinUrl = st.joinUrl || (location.origin + '/join/' + code);
         activeModule = st.activeModule || null;
+        activeAudience = st.activeAudience || 'general';
         stateCache = st.state || null;
       } catch(e){
         els.sessionMsg.textContent = 'Note: ' + e.message;
@@ -670,10 +683,42 @@
       catch(e){ els.copyMsg.textContent = url; }
     });
 
+    // Audience picker - which pre-built content variant Launch will load per module.
+    async function loadAudiences(){
+      try{
+        const j = await api('/api/admin/audiences');
+        audiencesCache = j.audiences || [];
+        renderAudienceTabs();
+      }catch(e){
+        els.audienceTabs.innerHTML = '<div class="adm-note">Failed to load audiences: '+esc(e.message)+'</div>';
+      }
+    }
+    function renderAudienceTabs(){
+      const all = [{id:'general', displayName:'General (all roles)'}].concat(audiencesCache);
+      els.audienceTabs.innerHTML = all.map(a=>`
+        <button class="adm-badge audience-tab ${selectedAudience===a.id?'active':''}" data-audience="${esc(a.id)}" type="button" style="cursor:pointer;">
+          ${esc(a.displayName)}${a.isNew?' · new, no content yet':''}
+        </button>
+      `).join('');
+      els.audienceTabs.querySelectorAll('.audience-tab').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          selectedAudience = btn.dataset.audience;
+          renderAudienceTabs();
+          loadModules(); // refresh item counts / fallback flags for the newly picked audience
+        });
+      });
+      // Deck's Closing slide is picked by the same ?audience= id the live-event modules use
+      // (see scripts/deck.js's AUDIENCE_CLOSING_SLIDES) - "general" has no query param, which
+      // is exactly what makes the deck fall back to the shared slide-19.html Closing slide.
+      els.openDeckLink.href = selectedAudience === 'general'
+        ? '/'
+        : '/?audience=' + encodeURIComponent(selectedAudience);
+    }
+
     // Modules picker
     async function loadModules(){
       try{
-        const j = await api('/api/admin/modules');
+        const j = await api('/api/admin/modules?audience=' + encodeURIComponent(selectedAudience));
         modulesCache = j.modules || [];
         renderPicker();
       }catch(e){
@@ -699,25 +744,24 @@
         <button class="adm-mod-btn ${MOD_COLOR_CLASS[m.id]||''} ${selectedModule===m.id?'selected':''}" data-module="${esc(m.id)}" type="button">
           <span class="adm-mod-id">${esc(m.id)}</span>
           <span class="adm-mod-label">${esc(m.displayName)}</span>
-          <span class="adm-mod-desc">${esc(m.id)} - ${m.itemCount} ${m.itemCount===1?'item':'items'}${m.id==='crossword'?' · 1 grid, self-paced':(m.id==='control-catch'?' · 1 game, self-paced, 90s round':'')}</span>
+          <span class="adm-mod-desc">${esc(m.id)} - ${m.itemCount} ${m.itemCount===1?'item':'items'}${m.id==='crossword'?' · 1 grid, self-paced':(m.id==='control-catch'?' · 1 game, self-paced, 90s round':'')}${m.usedFallback?' · using General content':''}</span>
           <span class="adm-mod-count">${m.itemCount} items</span>
         </button>
       `).join('');
       els.pickerGrid.querySelectorAll('.adm-mod-btn').forEach(btn=>{
         btn.addEventListener('click', ()=>{
           selectedModule = btn.dataset.module;
-          const mod = modulesCache.find(x=>x.id===selectedModule);
-          els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' - ' + (mod?mod.itemCount:'?') + ' items - press Launch to create lobby';
           els.launchBtn.disabled = false;
           renderPicker();
         });
       });
       els.launchBtn.disabled = !selectedModule;
+      const audienceLabel = (all=>{ const a = all.find(x=>x.id===selectedAudience); return a?a.displayName:selectedAudience; })([{id:'general', displayName:'General (all roles)'}].concat(audiencesCache));
       if(selectedModule){
         const mod = modulesCache.find(x=>x.id===selectedModule);
-        els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' - ' + (mod?mod.itemCount:'?') + ' items';
+        els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' for ' + audienceLabel + ' - ' + (mod?mod.itemCount:'?') + ' items' + (mod&&mod.usedFallback?' (falling back to General content)':'') + ' - press Launch to create lobby';
       } else {
-        els.pickerSelected.textContent = 'Pick a module, then press Launch';
+        els.pickerSelected.textContent = 'Pick an audience and a module, then press Launch';
       }
     }
     els.launchBtn.addEventListener('click', async ()=>{
@@ -736,10 +780,11 @@
           return;
         }
       }
-      els.pickerMsg.textContent = 'Launching ' + selectedModule + '...';
+      els.pickerMsg.textContent = 'Launching ' + selectedModule + ' for ' + selectedAudience + '...';
       try{
-        const j = await api('/api/admin/session/' + code + '/launch', { method:'POST', body:{ module: selectedModule } });
-        els.pickerMsg.textContent = 'Launched ' + selectedModule + ' - lobby with ' + j.itemCount + ' items. Participants see waiting screen.';
+        const j = await api('/api/admin/session/' + code + '/launch', { method:'POST', body:{ module: selectedModule, audience: selectedAudience } });
+        activeAudience = j.activeAudience || 'general';
+        els.pickerMsg.textContent = 'Launched ' + selectedModule + ' (' + activeAudience + ') - lobby with ' + j.itemCount + ' items. Participants see waiting screen.';
         // State will be lobby; next poll will show lobby UI
         pollOnce();
       }catch(e){
@@ -815,6 +860,7 @@
       const state = st.state || null;
       const mod = st.activeModule || null;
       activeModule = mod;
+      activeAudience = st.activeAudience || 'general';
       stateCache = state;
       // Always update module display
       const display = st.displayName || mod || ' - ';
@@ -883,7 +929,7 @@
         }
         // Show live results
         pollResultsForRunning(st);
-        loadFacilitatorNotes(mod);
+        loadFacilitatorNotes(mod, activeAudience);
         return;
       }
       if(state==='complete'){
@@ -1137,11 +1183,13 @@
       if(stateCache==='running') pollResultsForRunning({activeModule: activeModule});
     });
 
-    async function loadFacilitatorNotes(mod){
-      if(facilitatorNotesLoadedFor === mod) return; // static per-module content - fetch once per module, not every poll tick
-      facilitatorNotesLoadedFor = mod;
+    async function loadFacilitatorNotes(mod, audience){
+      audience = audience || 'general';
+      const cacheKey = mod + '::' + audience;
+      if(facilitatorNotesLoadedFor === cacheKey) return; // static per-module+audience content - fetch once per combo, not every poll tick
+      facilitatorNotesLoadedFor = cacheKey;
       try{
-        const j = await api('/api/admin/modules/' + encodeURIComponent(mod) + '/facilitator-notes');
+        const j = await api('/api/admin/modules/' + encodeURIComponent(mod) + '/facilitator-notes?audience=' + encodeURIComponent(audience));
         const notes = j.facilitatorNotes;
         if(!notes || (!notes.discussionPrompts?.length && !notes.commonWrongAnswer)){
           els.facilitatorNotesPanel.classList.add('adm-hidden');
@@ -1370,6 +1418,7 @@
       const stored = localStorage.getItem('admin_currentCode') || '';
       const initial = urlCode || stored || '';
       if(initial) { els.roomInput.value = initial.toUpperCase(); if(ok) await setCurrentCode(initial); }
+      loadAudiences();
       loadModules();
       if(!ok) els.loginUser.focus(); else els.loginPass.focus();
     })();
