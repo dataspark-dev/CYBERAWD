@@ -3,11 +3,12 @@
   "rememberThis": "A professional-looking offer letter, payslip, or reference form is not proof by itself. STOP before opening an attachment or updating any bank or candidate detail — VERIFY the sender's exact domain and, for anything financial, through the portal you already use — then REPORT anything that doesn't match.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask which detail people noticed first — was it the sender address, the urgent wording, or the attachment name? Would they check the same thing on their own phone with limited internet?",
-      "For the rotation link card for offshore crew, ask how many people actually press and hold a link before they tap it. What makes that hard to do at sea with patchy internet and time pressure?",
-      "Ask if anyone has seen a text or a pop-up like the last three cards in real life — for example, a rotation SMS at 06:00 or a shared-computer pop-up. What did they do?"
+      "Ask which detail people noticed first on the spear-phishing card — the sender's exact domain, or did the personal name and real detail make them skip that check?",
+      "For the fake login portal, ask how many people actually check the address bar before typing a password on a page that already looks exactly right.",
+      "For the QR-code notice, ask who has ever scanned a printed code without checking where it led afterward — what would make that habit stick?",
+      "Ask why a 'confidential, don't discuss' instruction from a senior title is the actual warning sign, not a reason to comply faster."
     ],
-    "commonWrongAnswer": "People most often miss the fake sender address and the fake crew portal. The real and fake images look almost identical, so people judge by which one looks neater. The habit to build is to check the exact address letter by letter in the sender line and in the address bar, not the body text."
+    "commonWrongAnswer": "People most often miss the spear-phishing and fake-login-portal cards, because a real name/detail or an exact visual copy both feel like proof on their own. The habit to build is the same one used everywhere else: check the exact sending domain or address bar letter by letter — personalisation, visual accuracy, and seniority are all things attackers can fake, none of them are the actual proof."
   },
   "items": [
     {
@@ -69,6 +70,54 @@
       "placeholder": true,
       "whatIsWrong": "The fake email comes from a different domain (synergy-payroll-update.com vs synergymarinegroup.com). It asks you to reply with your bank account number and IFSC/SWIFT code directly in an email, instead of using the portal, with an invented threat of \"payment failure\".",
       "whyItsSuspicious": "Real HR Payroll processes only ever point you to update your own bank details yourself inside the portal — they never ask you to email your account number and IFSC/SWIFT code back to them. Replying with banking details by email is exactly the goal of this scam."
+    },
+    {
+      "id": "compare-hr-spear-phishing",
+      "type": "compare",
+      "category": "Targeted Spear-Phishing",
+      "persona": "HR / Recruitment",
+      "title": "Real vs Fake Personalized Follow-Up Email",
+      "realImage": "../assets/fault-finding/hr-spear-phishing-real.svg",
+      "fakeImage": "../assets/fault-finding/hr-spear-phishing-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (synergymarine-hr.com vs synergymarinegroup.com). It uses the recipient's real first name and a genuine recent event (a transfer request) to feel personal, then pivots straight to an urgent bank-detail request via a link.",
+      "whyItsSuspicious": "Personalising an email with your real name and a real recent event is called spear-phishing — attackers gather these details from a previous breach, LinkedIn, or a prior compromised account, specifically to lower your guard. A message being personal is not proof it's genuine; the sender's exact domain is still the only real check, and any bank-detail request still needs a callback on a number you already have."
+    },
+    {
+      "id": "compare-hr-fake-sso-portal",
+      "type": "compare",
+      "category": "Fake Login Portal",
+      "persona": "HR / Payroll",
+      "title": "Real vs Fake HR Self-Service Login Portal",
+      "realImage": "../assets/fault-finding/hr-fake-sso-portal-real.svg",
+      "fakeImage": "../assets/fault-finding/hr-fake-sso-portal-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake portal's address is portal.synergymarine-selfservice.com/hr — a different domain from the real portal.synergymarinegroup.com/hr. The login page itself is copied exactly, down to the layout and colours, so only the address bar gives it away.",
+      "whyItsSuspicious": "Attackers can clone an HR portal's look pixel-for-pixel, but they cannot fake the real address shown in your browser's address bar. Always check the address letter by letter before typing your password, and open the portal from a bookmark you saved yourself rather than a link in an email or message."
+    },
+    {
+      "id": "compare-hr-qr-code-notice",
+      "type": "compare",
+      "category": "QR-Code Phishing (Quishing)",
+      "persona": "HR / Payroll",
+      "title": "Real vs Fake Printed Benefits Enrolment Notice",
+      "realImage": "../assets/fault-finding/hr-qr-code-notice-real.svg",
+      "fakeImage": "../assets/fault-finding/hr-qr-code-notice-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake notice's QR code has been swapped — a sticker placed over the original — and it leads to synergy-benefits-enrol.net, not the real portal.synergymarinegroup.com/benefits. It also invents a same-day deadline (\"closes TODAY\") the real notice never had.",
+      "whyItsSuspicious": "A QR code hides its destination until you scan it — you can't press and hold a printed code the way you can a link in an email. This is quishing (QR-code phishing), and it works precisely because people don't apply the same suspicion to a printed code that they would to a link. Always check the address your phone shows before you continue past the scan, and type the known portal address directly when in doubt."
+    },
+    {
+      "id": "compare-hr-executive-impersonation",
+      "type": "compare",
+      "category": "Executive Impersonation (Whaling)",
+      "persona": "HR / Payroll",
+      "title": "Real vs Fake HR Director Payroll Instruction",
+      "realImage": "../assets/fault-finding/hr-executive-impersonation-real.svg",
+      "fakeImage": "../assets/fault-finding/hr-executive-impersonation-fake.svg",
+      "placeholder": true,
+      "whatIsWrong": "The fake email comes from a different domain (synergymarine-group.net vs synergymarinegroup.com). It has no reference number tying it to the normal payroll batch process, and it explicitly instructs you to process it personally, outside the usual system, and keep it confidential.",
+      "whyItsSuspicious": "This is a whaling attack — a senior-title email aimed specifically at HR Payroll staff, using seniority and confidentiality as pressure to bypass a normal process, the same pattern as any Business Email Compromise attempt just aimed at payroll instead of Accounts. A genuine payroll change always references the existing batch/approval process; \"confidential, don't discuss\" is the red flag, not proof of a special exception."
     }
   ]
 }
