@@ -1,0 +1,142 @@
+{
+  "whyThisMatters": "Real security moments offshore are fast, with limited time online — you don't get time to research if a link, a call, or a request is safe. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
+  "rememberThis": "This month's habit to carry forward: fast instinct is good, but some things only sound safe — a familiar-sounding voice, correct vessel details, an urgent deadline. When you are not sure, slow down and check before you trust the label.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group which bubble tricked them. Most people get at least one of the trick bubbles wrong on their first try.",
+      "Ask why a familiar-sounding voice on a call isn't proof of who's really calling.",
+      "Ask why taking longer to respond with limited signal is listed as a good habit here, not a delay to worry about."
+    ],
+    "commonWrongAnswer": "The most common mistake is tapping anything that sounds confident or familiar — a voice that sounds official, correct vessel details, an urgent deadline — without checking it through a channel you already trust. The trick bubbles are there to catch that habit."
+  },
+  "bubbles": [
+    {
+      "id": "pressed-and-held-link-before-tapping",
+      "text": "Pressed And Held Link Before Tapping",
+      "good": true
+    },
+    {
+      "id": "reported-unknown-usb-stick",
+      "text": "Reported Unknown USB Stick",
+      "good": true
+    },
+    {
+      "id": "hung-up-and-called-back-on-known-number",
+      "text": "Hung Up And Called Back On Known Number",
+      "good": true
+    },
+    {
+      "id": "used-known-secure-agent-portal",
+      "text": "Used Known Secure Agent Portal",
+      "good": true
+    },
+    {
+      "id": "verified-fund-request-by-known-number",
+      "text": "Verified Fund Request By Known Number",
+      "good": true
+    },
+    {
+      "id": "checked-sender-domain-on-rotation-email",
+      "text": "Checked Sender Domain On Rotation Email",
+      "good": true
+    },
+    {
+      "id": "left-unknown-device-unplugged",
+      "text": "Left Unknown Device Unplugged",
+      "good": true
+    },
+    {
+      "id": "opened-crew-portal-from-bookmark",
+      "text": "Opened Crew Portal From Bookmark",
+      "good": true
+    },
+    {
+      "id": "reported-suspicious-text-message",
+      "text": "Reported Suspicious Text Message",
+      "good": true
+    },
+    {
+      "id": "escalated-unverified-urgent-request",
+      "text": "Escalated Unverified Urgent Request",
+      "good": true
+    },
+    {
+      "id": "tapped-rotation-link-without-checking",
+      "text": "Tapped Rotation Link Without Checking",
+      "good": false
+    },
+    {
+      "id": "plugged-in-unknown-usb-stick",
+      "text": "Plugged In Unknown USB Stick",
+      "good": false
+    },
+    {
+      "id": "gave-password-over-phone-call",
+      "text": "Gave Password Over Phone Call",
+      "good": false
+    },
+    {
+      "id": "emailed-passport-scan-directly",
+      "text": "Emailed Passport Scan Directly",
+      "good": false
+    },
+    {
+      "id": "bought-gift-cards-for-port-dues",
+      "text": "Bought Gift Cards For Port Dues",
+      "good": false
+    },
+    {
+      "id": "signed-sea-renewal-under-deadline-pressure",
+      "text": "Signed SEA Renewal Under Deadline Pressure",
+      "good": false
+    },
+    {
+      "id": "trusted-caller-who-sounded-official",
+      "text": "Trusted Caller Who Sounded Official",
+      "good": false
+    },
+    {
+      "id": "ignored-domain-mismatch-on-crew-portal",
+      "text": "Ignored Domain Mismatch On Crew Portal",
+      "good": false
+    },
+    {
+      "id": "shared-verification-code-with-caller",
+      "text": "Shared Verification Code With Caller",
+      "good": false
+    },
+    {
+      "id": "skipped-checking-link-destination",
+      "text": "Skipped Checking Link Destination",
+      "good": false
+    },
+    {
+      "id": "checked-vessel-name-was-correct",
+      "text": "Checked Vessel Name Was Correct",
+      "good": true,
+      "trick": true,
+      "note": "Correct vessel or rotation details are a reasonable first check, but not proof of identity by themselves — this information isn't always private, and attackers use it specifically to sound credible."
+    },
+    {
+      "id": "slower-to-respond-with-limited-signal",
+      "text": "Slower To Respond With Limited Signal",
+      "good": true,
+      "trick": true,
+      "note": "Taking longer to respond because of limited connectivity is a genuine safety net, not a delay to feel bad about — it gives you more time to notice something's wrong before you act."
+    },
+    {
+      "id": "recognised-callers-voice-as-familiar",
+      "text": "Recognised Caller's Voice As Familiar",
+      "good": false,
+      "trick": true,
+      "note": "A voice sounding familiar or confident is not proof of identity — the real check is calling back on a number you already have, not how the caller sounds."
+    },
+    {
+      "id": "called-the-number-in-the-text",
+      "text": "Called The Number In The Text",
+      "good": false,
+      "trick": true,
+      "note": "A number given inside a suspicious text may connect straight to the attacker — only a number you already had counts."
+    }
+  ]
+}

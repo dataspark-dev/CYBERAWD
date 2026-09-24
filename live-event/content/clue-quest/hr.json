@@ -1,0 +1,74 @@
+{
+  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own — whether it shows up in a crewing offer, a payslip, or a reference-check form. Today's riddles use the same patterns HR sees every day.",
+  "rememberThis": "This month gave these tricks a name — keep using them. STOP before you open an attachment or update a bank detail, VERIFY the sender's exact domain, then REPORT.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask someone to spot the difference between two similar-looking crewing domains without being told which is fake.",
+      "Ask which two terms are easiest to mix up — DOMAIN SPOOFING and CREDENTIAL PHISHING both involve a fake address, but the goal is different.",
+      "Ask for a real example from their own inbox that matches one of these terms."
+    ],
+    "commonWrongAnswer": "People most often mix up DOMAIN SPOOFING and CREDENTIAL PHISHING. Both involve a fake sending address, so people pick one when the riddle points to the other. The difference: domain spoofing is about the sender's address being slightly wrong; credential phishing is about the message asking you to type your password or bank details somewhere."
+  },
+  "riddles": [
+    {
+      "id": "domain-spoofing-hr",
+      "riddle": "I look like a crewing offer email, but my address has one extra word with a hyphen compared to the real one. What trick am I?",
+      "answer": "DOMAIN SPOOFING",
+      "options": [
+        "DOMAIN SPOOFING",
+        "MALICIOUS ATTACHMENT",
+        "SMISHING"
+      ]
+    },
+    {
+      "id": "malicious-attachment-hr",
+      "riddle": "I look like your payslip attachment, but \"Enable Content\" has to be clicked to open me, and I might be a reference form instead. What trick am I?",
+      "answer": "MALICIOUS ATTACHMENT",
+      "options": [
+        "MALICIOUS ATTACHMENT",
+        "DOMAIN SPOOFING",
+        "CREDENTIAL PHISHING"
+      ]
+    },
+    {
+      "id": "credential-phishing-hr",
+      "riddle": "I ask you to re-enter your password and bank details together through a link, claiming a new payroll system needs it. What trick am I?",
+      "answer": "CREDENTIAL PHISHING",
+      "options": [
+        "CREDENTIAL PHISHING",
+        "DOMAIN SPOOFING",
+        "SMISHING"
+      ]
+    },
+    {
+      "id": "smishing-hr",
+      "riddle": "I am a text message about updating your bank details for this month's allotment, with a link you've never seen before. What trick am I?",
+      "answer": "SMISHING",
+      "options": [
+        "SMISHING",
+        "CREDENTIAL PHISHING",
+        "MALICIOUS ATTACHMENT"
+      ]
+    },
+    {
+      "id": "urgency-trap-hr",
+      "riddle": "I say the candidate starts Monday and you must open my attachment right now to keep recruitment on schedule. What trick am I?",
+      "answer": "URGENCY TRAP",
+      "options": [
+        "URGENCY TRAP",
+        "MALICIOUS ATTACHMENT",
+        "DOMAIN SPOOFING"
+      ]
+    },
+    {
+      "id": "stop-verify-report",
+      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT Service Desk. What is this rule called?",
+      "answer": "STOP VERIFY REPORT",
+      "options": [
+        "STOP VERIFY REPORT",
+        "SMISHING",
+        "CREDENTIAL PHISHING"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "whyThisMatters": "A lot of what feels true about staying safe offshore is only partly right — and limited time online makes it harder to pause and check when a rotation link, a call, or a request already sounds routine. A few minutes here will clear up what really matters when a message already looks familiar.",
+  "rememberThis": "This month's reminder: familiar packaging is not proof. A rotation email, a confident-sounding caller, or an urgent fund request can all be faked — verify through the portal you already use or a number you already have, every time.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask how much slower it actually is to press and hold a link before tapping it, versus the risk of tapping a fake one.",
+      "For the USB-stick myth, ask what people would actually do if they found one on the bridge right now.",
+      "Ask the group to describe their own trusted way to verify an urgent call or text with limited time online."
+    ],
+    "commonWrongAnswer": "People most often get the phone-call myth wrong. A caller who sounds official and uses the right internal terms feels trustworthy, so many people say it's fine to answer their questions. But a voice and correct terminology can both be faked — hanging up and calling back on a known number is the only real check."
+  },
+  "items": [
+    {
+      "id": "mf-vo-01",
+      "topic": "Link Check",
+      "myth": "A rotation or crew-portal link is safe to tap as long as the blue text shows the correct address.",
+      "fact": "The visible text of a link can say anything — only pressing and holding it (or hovering on a computer) reveals where it actually goes, which is the only real check.",
+      "detail": "Limited time online makes a quick tap tempting, but that pressure is exactly what this trick counts on — press and hold before you tap, every time."
+    },
+    {
+      "id": "mf-vo-02",
+      "topic": "Unknown Devices",
+      "myth": "An unlabelled USB stick found on the bridge is fine to plug in just to check who it belongs to.",
+      "fact": "An unknown USB stick can install harmful software the moment it's plugged in — it is never your job to identify the owner yourself.",
+      "detail": "Leave it unplugged and report it to the IT Service Desk directly, rather than asking around the crew mess first."
+    },
+    {
+      "id": "mf-vo-03",
+      "topic": "Phone Calls",
+      "myth": "A caller who sounds official and uses the right internal terms for the crew portal or IT systems is safe to give information to.",
+      "fact": "A confident voice and familiar terminology prove nothing about who's really calling — the real IT Service Desk never asks for your password or a code over a call they made to you.",
+      "detail": "Hang up and call back on a number you already trust, such as the one in the crew portal or your handbook, rather than continuing the call."
+    },
+    {
+      "id": "mf-vo-04",
+      "topic": "Urgent Requests",
+      "myth": "A request for documents or funds from someone claiming to be a port agent or vessel manager is safe to act on quickly if it references your actual vessel and rotation.",
+      "fact": "Referencing real details like your vessel name or rotation doesn't prove who's asking — that information isn't always private, and attackers use it specifically to sound credible.",
+      "detail": "Passport and CDC scans go through the known secure agent portal, and port dues are never paid in gift cards — verify any such request through a channel you already trust."
+    },
+    {
+      "id": "mf-vo-05",
+      "topic": "Deadlines",
+      "myth": "A short deadline to sign a Seafarer Employment Agreement (SEA) renewal, like 2 hours, is a real scheduling constraint you need to act on fast.",
+      "fact": "A real SEA renewal is never so urgent that you have only a couple of hours to sign it — Crewing always leaves it waiting for you in the portal.",
+      "detail": "Open the crew portal you already use directly, instead of any link in the message, to check your actual renewal status."
+    }
+  ]
+}

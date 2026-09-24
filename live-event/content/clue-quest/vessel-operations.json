@@ -1,0 +1,74 @@
+{
+  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own — whether it shows up in a rotation link, a phone call, or a fund request, even with limited time online. Today's riddles use the same patterns Offshore Crew sees every day.",
+  "rememberThis": "This month gave these tricks a name — keep using them. STOP before you tap a link or hand over anything, VERIFY through a channel you already trust, then REPORT.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which two terms are easiest to mix up — VISHING and GIFT-CARD SCAM often happen in the same call, but the ask is different.",
+      "Ask for a real example from their own phone or inbox that matches one of these terms.",
+      "Ask someone to explain UNKNOWN USB STICK in their own words, without using the term itself."
+    ],
+    "commonWrongAnswer": "People most often mix up VISHING and GIFT-CARD SCAM. Both can arrive as an urgent phone request, so people pick one when the riddle points to the other. The difference: vishing is about a caller trying to get your password or a code; a gift-card scam is about a caller trying to get you to spend money and hand over the codes."
+  },
+  "riddles": [
+    {
+      "id": "fake-link-vo",
+      "riddle": "In your rotation email the blue text shows the real crew-portal address, but pressing and holding it sends you somewhere with an extra word in the name. What trick am I?",
+      "answer": "FAKE LINK",
+      "options": [
+        "FAKE LINK",
+        "VISHING",
+        "UNKNOWN USB STICK"
+      ]
+    },
+    {
+      "id": "unknown-usb-stick",
+      "riddle": "I am a small device with no label, taped to a shared bridge computer. Plugging me in to check whose I am is exactly what I'm hoping for. What trick am I?",
+      "answer": "UNKNOWN USB STICK",
+      "options": [
+        "UNKNOWN USB STICK",
+        "FAKE LINK",
+        "VISHING"
+      ]
+    },
+    {
+      "id": "vishing",
+      "riddle": "I call the ship's phone claiming to be IT support, and ask you to say your password and a code out loud right now. What trick am I (a voice-call phishing attempt)?",
+      "answer": "VISHING",
+      "options": [
+        "VISHING",
+        "UNKNOWN USB STICK",
+        "GIFT-CARD SCAM"
+      ]
+    },
+    {
+      "id": "gift-card-scam",
+      "riddle": "I am an urgent message from your \"vessel manager\" asking you to buy gift cards for a port due and send me the codes. What trick am I?",
+      "answer": "GIFT-CARD SCAM",
+      "options": [
+        "GIFT-CARD SCAM",
+        "VISHING",
+        "URGENCY TRAP"
+      ]
+    },
+    {
+      "id": "urgency-trap-vo",
+      "riddle": "I give you only 2 hours to sign your Seafarer Employment Agreement renewal or I say you'll lose your sign-on date. What trick am I?",
+      "answer": "URGENCY TRAP",
+      "options": [
+        "URGENCY TRAP",
+        "GIFT-CARD SCAM",
+        "FAKE LINK"
+      ]
+    },
+    {
+      "id": "stop-verify-report",
+      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT Service Desk. What is this rule called?",
+      "answer": "STOP VERIFY REPORT",
+      "options": [
+        "STOP VERIFY REPORT",
+        "VISHING",
+        "FAKE LINK"
+      ]
+    }
+  ]
+}

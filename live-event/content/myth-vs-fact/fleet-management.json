@@ -1,0 +1,49 @@
+{
+  "whyThisMatters": "A lot of what feels true about permits, vendor invoices, and tracking alerts is only partly right — and Operations is targeted precisely because routine fleet paperwork rarely gets a second look. A few minutes here will clear up what really matters when a permit, an invoice, or an alert already looks normal.",
+  "rememberThis": "This month's reminder: familiar packaging is not proof. A matching PO number, an official-looking notice, or a tool's familiar alert style can all be faked — verify through your own known channel or console every time, no matter how routine it looks.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask if anyone has ever let a safety step slide because the person asking sounded senior or the schedule was tight.",
+      "For the vendor-invoice myth, ask what the team's actual process is for a dry-dock or vendor bank-detail change — is it always followed under time pressure?",
+      "Ask how the group would tell a genuine fleet-tracking alert from a fake one, without clicking anything in the alert itself."
+    ],
+    "commonWrongAnswer": "People most often get the safety sign-off myth wrong. \"Just this once\" feels like a reasonable exception when a senior person or an unreachable supervisor is involved, so many people say it's fine to proceed. But a real permit-to-work process has no exception for who is asking."
+  },
+  "items": [
+    {
+      "id": "mf-fleet-01",
+      "topic": "Safety Sign-Off",
+      "myth": "Skipping a permit-to-work sign-off is acceptable \"just this once\" if the supervisor is unreachable and the schedule is tight.",
+      "fact": "A real permit-to-work process has no exception for who is asking or how urgent the schedule feels — \"just this once\" is the same pressure tactic used in every other social-engineering attempt, aimed at a safety step instead of a payment.",
+      "detail": "An unreachable supervisor plus urgency is the pattern to flag, not a reason to proceed — verify through your own known channel before any sign-off is skipped."
+    },
+    {
+      "id": "mf-fleet-02",
+      "topic": "Vendor Payments",
+      "myth": "A dry-dock or maintenance invoice with new bank details is fine to pay if it references the right PO and vessel.",
+      "fact": "A correct PO reference proves the invoice matches a real job, not that the new bank details are genuine — those still need a callback verification regardless of how accurate the rest of the invoice looks.",
+      "detail": "A departure or schedule deadline attached to the bank-detail change is designed to make you skip that callback — treat it as the reason to check, not the reason to rush."
+    },
+    {
+      "id": "mf-fleet-03",
+      "topic": "System Alerts",
+      "myth": "A fleet-tracking or monitoring alert that looks exactly like your own tool's style must be from that tool.",
+      "fact": "The visual style of an internal tool is easy to copy — a genuine alert gives you time and points you to the console you already use, never a 5-minute login link.",
+      "detail": "Verify any urgent-looking tracking or monitoring alert by opening the console directly yourself, rather than clicking through the alert."
+    },
+    {
+      "id": "mf-fleet-04",
+      "topic": "Authority Impersonation",
+      "myth": "A port authority or Port State Control notice demanding an urgent fee payment should be paid quickly to avoid detention.",
+      "fact": "Real Port State Control deficiencies and any associated fees go through your own company's agent and documented channels, verified against the actual inspection report — never a cold email with a payment link and a detention threat.",
+      "detail": "Check any such notice with your own PSC liaison and port agent before any payment is considered, regardless of how official the notice looks."
+    },
+    {
+      "id": "mf-fleet-05",
+      "topic": "Charter Instructions",
+      "myth": "An urgent email from the charterer's desk asking to redirect the vessel or cargo should be actioned immediately to avoid a commercial problem.",
+      "fact": "A change as significant as redirecting a vessel always requires a signed addendum through the agreed charter-desk process — an email alone, however urgent, is never enough on its own.",
+      "detail": "Verify directly with the charterer through the agreed process before acting on any redirect instruction, no matter how time-sensitive it's framed."
+    }
+  ]
+}

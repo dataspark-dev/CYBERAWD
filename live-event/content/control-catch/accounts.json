@@ -1,0 +1,142 @@
+{
+  "whyThisMatters": "Real payment decisions are fast — an invoice lands, a deadline looms, and you don't always get time to research whether a request is safe. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
+  "rememberThis": "This month's habit to carry forward: fast instinct is good, but some things only sound safe — a matching PO number, a reply that confirms an address is active, a confident senior name. When you are not sure, slow down and check before you trust the label.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group which bubble tricked them. Most people get at least one of the trick bubbles wrong on their first try.",
+      "Ask why \"Checked PO Reference Number\" still only counts as a partial check, even though it's a real and useful habit.",
+      "Ask why replying to an email to confirm a bank change feels like verification but isn't."
+    ],
+    "commonWrongAnswer": "The most common mistake is tapping anything that sounds like a check — like a matching PO number, a reply confirming receipt, or a number printed in the email itself — without realising none of these actually verify who is asking. The trick bubbles are there to catch that habit."
+  },
+  "bubbles": [
+    {
+      "id": "verified-bank-change-by-callback",
+      "text": "Verified Bank Change By Callback",
+      "good": true
+    },
+    {
+      "id": "checked-sender-domain",
+      "text": "Checked Sender Domain",
+      "good": true
+    },
+    {
+      "id": "reported-suspicious-invoice",
+      "text": "Reported Suspicious Invoice",
+      "good": true
+    },
+    {
+      "id": "used-approved-payment-portal",
+      "text": "Used Approved Payment Portal",
+      "good": true
+    },
+    {
+      "id": "checked-vendor-master-file",
+      "text": "Checked Vendor Master File",
+      "good": true
+    },
+    {
+      "id": "held-payment-to-verify",
+      "text": "Held Payment To Verify",
+      "good": true
+    },
+    {
+      "id": "matched-invoice-to-po",
+      "text": "Matched Invoice To PO",
+      "good": true
+    },
+    {
+      "id": "flagged-mismatched-bank-details",
+      "text": "Flagged Mismatched Bank Details",
+      "good": true
+    },
+    {
+      "id": "confirmed-refund-against-ledger",
+      "text": "Confirmed Refund Against Ledger",
+      "good": true
+    },
+    {
+      "id": "escalated-unusual-payment-request",
+      "text": "Escalated Unusual Payment Request",
+      "good": true
+    },
+    {
+      "id": "updated-bank-details-from-email-alone",
+      "text": "Updated Bank Details From Email Alone",
+      "good": false
+    },
+    {
+      "id": "skipped-approval-for-urgency",
+      "text": "Skipped Approval For Urgency",
+      "good": false
+    },
+    {
+      "id": "opened-unexpected-invoice-attachment",
+      "text": "Opened Unexpected Invoice Attachment",
+      "good": false
+    },
+    {
+      "id": "wired-funds-to-new-account-same-day",
+      "text": "Wired Funds To New Account Same Day",
+      "good": false
+    },
+    {
+      "id": "ignored-domain-mismatch",
+      "text": "Ignored Domain Mismatch",
+      "good": false
+    },
+    {
+      "id": "refunded-overpayment-without-checking",
+      "text": "Refunded Overpayment Without Checking",
+      "good": false
+    },
+    {
+      "id": "shared-banking-details-by-email",
+      "text": "Shared Banking Details By Email",
+      "good": false
+    },
+    {
+      "id": "paid-without-po-match",
+      "text": "Paid Without PO Match",
+      "good": false
+    },
+    {
+      "id": "trusted-urgent-senior-request",
+      "text": "Trusted Urgent Senior Request",
+      "good": false
+    },
+    {
+      "id": "skipped-second-approver",
+      "text": "Skipped Second Approver",
+      "good": false
+    },
+    {
+      "id": "dual-sign-off-on-payment",
+      "text": "Dual Sign-Off On Payment",
+      "good": true,
+      "trick": true,
+      "note": "A second approver is a real, strong control — but only if that person actually checks the bank details independently, rather than approving on trust because a colleague already signed off."
+    },
+    {
+      "id": "checked-po-reference-number",
+      "text": "Checked PO Reference Number",
+      "good": true,
+      "trick": true,
+      "note": "Matching the PO number is a genuinely useful first check, but it only confirms the invoice matches a real job — it does not by itself prove the bank details are genuine, since attackers can include a real PO number too."
+    },
+    {
+      "id": "called-the-number-in-the-email",
+      "text": "Called The Number In The Email",
+      "good": false,
+      "trick": true,
+      "note": "Calling back feels like verification, but a number supplied in the suspicious email itself may ring the attacker directly — only a number you already had before this request counts."
+    },
+    {
+      "id": "replied-to-confirm-bank-change",
+      "text": "Replied To Confirm Bank Change",
+      "good": false,
+      "trick": true,
+      "note": "Replying to the same email only confirms the address is active — it never proves who is actually behind it."
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own — whether it shows up in an invoice, a wire request, or a refund ask. Today's riddles use the same patterns Accounts sees every day.",
+  "rememberThis": "This month gave these tricks a name — keep using them. STOP before you act on a payment request, VERIFY on a number you already have, then REPORT.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which two terms are easiest to mix up and why — VENDOR BANK-DETAIL CHANGE and OVERPAYMENT SCAM both involve a bank account, but the trigger is different.",
+      "Ask for a real example from their own inbox that matches one of these terms — for example, a vendor invoice with a slightly different domain.",
+      "Ask someone to explain BUSINESS EMAIL COMPROMISE in their own words without using the term itself."
+    ],
+    "commonWrongAnswer": "People most often mix up VENDOR BANK-DETAIL CHANGE and OVERPAYMENT SCAM. Both involve a bank account changing hands, so people pick one when the riddle points to the other. The difference: a bank-detail change asks you to redirect a payment you were already going to make; an overpayment scam invents a payment you never actually owed."
+  },
+  "riddles": [
+    {
+      "id": "vendor-bank-detail-change",
+      "riddle": "I look like a real vendor invoice, but I say the bank details changed and ask you to pay today, skipping the usual approval. What trick am I?",
+      "answer": "VENDOR BANK-DETAIL CHANGE",
+      "options": [
+        "VENDOR BANK-DETAIL CHANGE",
+        "OVERPAYMENT SCAM",
+        "URGENCY TRAP"
+      ]
+    },
+    {
+      "id": "business-email-compromise",
+      "riddle": "I use a senior name and a confident tone to ask for an urgent wire transfer, and I tell you not to call to confirm or discuss it with anyone. What trick am I?",
+      "answer": "BUSINESS EMAIL COMPROMISE",
+      "options": [
+        "BUSINESS EMAIL COMPROMISE",
+        "VENDOR BANK-DETAIL CHANGE",
+        "MALICIOUS ATTACHMENT"
+      ]
+    },
+    {
+      "id": "overpayment-scam",
+      "riddle": "I am a vendor email claiming you paid too much, and I ask you to refund the difference today to a \"corrected\" account. What trick am I?",
+      "answer": "OVERPAYMENT SCAM",
+      "options": [
+        "OVERPAYMENT SCAM",
+        "VENDOR BANK-DETAIL CHANGE",
+        "URGENCY TRAP"
+      ]
+    },
+    {
+      "id": "malicious-attachment",
+      "riddle": "I look like a vendor statement, but you need to click \"Enable Content\" to open me, and my file name secretly ends in .exe. What trick am I?",
+      "answer": "MALICIOUS ATTACHMENT",
+      "options": [
+        "MALICIOUS ATTACHMENT",
+        "OVERPAYMENT SCAM",
+        "BUSINESS EMAIL COMPROMISE"
+      ]
+    },
+    {
+      "id": "urgency-trap",
+      "riddle": "I say \"pay today or the settlement will be delayed\" and tell you to skip the normal approval steps. What trick am I?",
+      "answer": "URGENCY TRAP",
+      "options": [
+        "URGENCY TRAP",
+        "VENDOR BANK-DETAIL CHANGE",
+        "OVERPAYMENT SCAM"
+      ]
+    },
+    {
+      "id": "stop-verify-report",
+      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT Service Desk. What is this rule called?",
+      "answer": "STOP VERIFY REPORT",
+      "options": [
+        "STOP VERIFY REPORT",
+        "URGENCY TRAP",
+        "BUSINESS EMAIL COMPROMISE"
+      ]
+    }
+  ]
+}

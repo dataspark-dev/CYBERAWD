@@ -1,0 +1,142 @@
+{
+  "whyThisMatters": "Real fleet decisions are fast — a permit, an invoice, an alert, and you don't always get time to research whether it's genuine. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
+  "rememberThis": "This month's habit to carry forward: fast instinct is good, but some things only sound safe — a matching PO number, an official-looking notice, a senior title attached to urgency. When you are not sure, slow down and check before you trust the label.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group which bubble tricked them. Most people get at least one of the trick bubbles wrong on their first try.",
+      "Ask why a matching PO number on a dry-dock invoice doesn't prove new bank details are genuine.",
+      "Ask why a number printed on a port-authority notice might not be trustworthy."
+    ],
+    "commonWrongAnswer": "The most common mistake is tapping anything official-looking — a matching PO number, a senior title, a notice with the right logo — without checking it through the company's own known channel. The trick bubbles are there to catch that habit."
+  },
+  "bubbles": [
+    {
+      "id": "followed-permit-to-work-process",
+      "text": "Followed Permit-To-Work Process",
+      "good": true
+    },
+    {
+      "id": "verified-vendor-bank-change-by-callback",
+      "text": "Verified Vendor Bank Change By Callback",
+      "good": true
+    },
+    {
+      "id": "checked-tracking-alert-via-console",
+      "text": "Checked Tracking Alert Via Console",
+      "good": true
+    },
+    {
+      "id": "verified-psc-notice-with-liaison",
+      "text": "Verified PSC Notice With Liaison",
+      "good": true
+    },
+    {
+      "id": "required-signed-charter-addendum",
+      "text": "Required Signed Charter Addendum",
+      "good": true
+    },
+    {
+      "id": "reported-suspicious-system-alert",
+      "text": "Reported Suspicious System Alert",
+      "good": true
+    },
+    {
+      "id": "checked-sender-domain-on-invoice",
+      "text": "Checked Sender Domain On Invoice",
+      "good": true
+    },
+    {
+      "id": "escalated-unverified-redirect-request",
+      "text": "Escalated Unverified Redirect Request",
+      "good": true
+    },
+    {
+      "id": "confirmed-vendor-through-known-contact",
+      "text": "Confirmed Vendor Through Known Contact",
+      "good": true
+    },
+    {
+      "id": "held-payment-to-verify-bank-change",
+      "text": "Held Payment To Verify Bank Change",
+      "good": true
+    },
+    {
+      "id": "skipped-permit-for-urgency",
+      "text": "Skipped Permit For Urgency",
+      "good": false
+    },
+    {
+      "id": "updated-vendor-bank-details-by-email",
+      "text": "Updated Vendor Bank Details By Email",
+      "good": false
+    },
+    {
+      "id": "clicked-tracking-alert-link",
+      "text": "Clicked Tracking Alert Link",
+      "good": false
+    },
+    {
+      "id": "paid-port-authority-fee-by-email-link",
+      "text": "Paid Port Authority Fee By Email Link",
+      "good": false
+    },
+    {
+      "id": "redirected-vessel-without-addendum",
+      "text": "Redirected Vessel Without Addendum",
+      "good": false
+    },
+    {
+      "id": "ignored-domain-mismatch-on-invoice",
+      "text": "Ignored Domain Mismatch On Invoice",
+      "good": false
+    },
+    {
+      "id": "trusted-unverified-chat-request",
+      "text": "Trusted Unverified Chat Request",
+      "good": false
+    },
+    {
+      "id": "skipped-change-approval-step",
+      "text": "Skipped Change-Approval Step",
+      "good": false
+    },
+    {
+      "id": "assumed-senior-title-was-proof",
+      "text": "Assumed Senior Title Was Proof",
+      "good": false
+    },
+    {
+      "id": "bypassed-safety-sign-off-for-schedule",
+      "text": "Bypassed Safety Sign-Off For Schedule",
+      "good": false
+    },
+    {
+      "id": "two-person-permit-sign-off",
+      "text": "Two-Person Permit Sign-Off",
+      "good": true,
+      "trick": true,
+      "note": "A second sign-off is a genuinely strong control, but only if that person actually checks the permit rather than approving because a colleague already did."
+    },
+    {
+      "id": "checked-po-on-dry-dock-invoice",
+      "text": "Checked PO On Dry-Dock Invoice",
+      "good": true,
+      "trick": true,
+      "note": "Matching the PO confirms the invoice is for a real job, but it doesn't by itself prove new bank details are genuine — that still needs a callback."
+    },
+    {
+      "id": "called-the-number-on-the-notice",
+      "text": "Called The Number On The Notice",
+      "good": false,
+      "trick": true,
+      "note": "A number printed on a suspicious notice may not belong to the real authority — verify through your own known liaison or agent instead."
+    },
+    {
+      "id": "assumed-alert-was-real-because-it-looked-right",
+      "text": "Assumed Alert Was Real Because It Looked Right",
+      "good": false,
+      "trick": true,
+      "note": "An internal tool's look and colours are easy to copy — a genuine alert never asks for your password through a link, however authentic it looks."
+    }
+  ]
+}

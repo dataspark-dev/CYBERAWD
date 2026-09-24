@@ -1,0 +1,142 @@
+{
+  "whyThisMatters": "Real payroll and recruitment decisions are fast — a form arrives, a deadline looms, and you don't always get time to research whether it's genuine. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
+  "rememberThis": "This month's habit to carry forward: fast instinct is good, but some things only sound safe — a familiar agent name, an urgent deadline, a portal migration notice. When you are not sure, slow down and check before you trust the label.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group which bubble tricked them. Most people get at least one of the trick bubbles wrong on their first try.",
+      "Ask why recognising an agent's name isn't the same as checking their domain.",
+      "Ask why checking despite a tight candidate deadline is included as a trick bubble here — it's not wrong, it's just the one people most often skip."
+    ],
+    "commonWrongAnswer": "The most common mistake is tapping anything that sounds familiar — a recognisable agent name, an urgent recruitment deadline, a portal-migration notice — without checking the exact domain or process behind it. The trick bubbles are there to catch that habit."
+  },
+  "bubbles": [
+    {
+      "id": "checked-sender-domain",
+      "text": "Checked Sender Domain",
+      "good": true
+    },
+    {
+      "id": "verified-bank-change-via-portal",
+      "text": "Verified Bank Change Via Portal",
+      "good": true
+    },
+    {
+      "id": "reported-suspicious-attachment",
+      "text": "Reported Suspicious Attachment",
+      "good": true
+    },
+    {
+      "id": "confirmed-candidate-through-known-agent",
+      "text": "Confirmed Candidate Through Known Agent",
+      "good": true
+    },
+    {
+      "id": "used-crew-portal-for-bank-updates",
+      "text": "Used Crew Portal For Bank Updates",
+      "good": true
+    },
+    {
+      "id": "checked-attachment-file-type",
+      "text": "Checked Attachment File Type",
+      "good": true
+    },
+    {
+      "id": "called-back-on-known-hr-number",
+      "text": "Called Back On Known HR Number",
+      "good": true
+    },
+    {
+      "id": "flagged-mismatched-domain",
+      "text": "Flagged Mismatched Domain",
+      "good": true
+    },
+    {
+      "id": "held-reference-form-to-verify",
+      "text": "Held Reference Form To Verify",
+      "good": true
+    },
+    {
+      "id": "escalated-unusual-payroll-request",
+      "text": "Escalated Unusual Payroll Request",
+      "good": true
+    },
+    {
+      "id": "opened-attachment-needing-enable-content",
+      "text": "Opened Attachment Needing Enable Content",
+      "good": false
+    },
+    {
+      "id": "replied-with-bank-details-by-email",
+      "text": "Replied With Bank Details By Email",
+      "good": false
+    },
+    {
+      "id": "skipped-verification-for-deadline",
+      "text": "Skipped Verification For Deadline",
+      "good": false
+    },
+    {
+      "id": "tapped-link-in-payroll-text",
+      "text": "Tapped Link In Payroll Text",
+      "good": false
+    },
+    {
+      "id": "ignored-domain-mismatch",
+      "text": "Ignored Domain Mismatch",
+      "good": false
+    },
+    {
+      "id": "shared-candidate-details-unverified",
+      "text": "Shared Candidate Details Unverified",
+      "good": false
+    },
+    {
+      "id": "trusted-urgent-recruitment-request",
+      "text": "Trusted Urgent Recruitment Request",
+      "good": false
+    },
+    {
+      "id": "enabled-macros-on-reference-form",
+      "text": "Enabled Macros On Reference Form",
+      "good": false
+    },
+    {
+      "id": "updated-bank-details-by-email",
+      "text": "Updated Bank Details By Email",
+      "good": false
+    },
+    {
+      "id": "skipped-standard-hr-process",
+      "text": "Skipped Standard HR Process",
+      "good": false
+    },
+    {
+      "id": "recognised-the-agents-name",
+      "text": "Recognised The Agent's Name",
+      "good": true,
+      "trick": true,
+      "note": "Recognising an agent's name is a reasonable first signal, but it isn't proof by itself — the exact sending domain is what actually confirms who sent it, since a familiar name can still come from a spoofed address."
+    },
+    {
+      "id": "candidate-starts-soon-checked-anyway",
+      "text": "Candidate Starts Soon, Checked Anyway",
+      "good": true,
+      "trick": true,
+      "note": "Checking despite time pressure is exactly the right habit — it's included here as a trick because it's the one people most often skip under a tight deadline, not because it's wrong."
+    },
+    {
+      "id": "called-the-number-in-the-text",
+      "text": "Called The Number In The Text",
+      "good": false,
+      "trick": true,
+      "note": "A number given inside a suspicious text may connect you straight to the attacker — only a number you already had counts as a real check."
+    },
+    {
+      "id": "assumed-portal-migration-was-real",
+      "text": "Assumed Portal Migration Was Real",
+      "good": false,
+      "trick": true,
+      "note": "A migration notice that asks for your password and bank details together through a link is exactly the pattern to distrust, however official it sounds."
+    }
+  ]
+}

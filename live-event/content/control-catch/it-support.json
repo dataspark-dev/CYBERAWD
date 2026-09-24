@@ -1,0 +1,142 @@
+{
+  "whyThisMatters": "Real help-desk moments are fast — a ticket, a call, an alert, and you don't always get time to research whether it's genuine. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
+  "rememberThis": "This month's habit to carry forward: fast instinct is good, but some things only sound safe — a plausible ticket number, a familiar tool's look, a caller who won't wait. When you are not sure, slow down and check before you trust the label.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask the group which bubble tricked them. Most people get at least one of the trick bubbles wrong on their first try.",
+      "Ask why asking a caller for a ticket reference number doesn't actually verify anything.",
+      "Ask why taking extra time despite a caller's urgency is listed as a good habit, even though it can feel like making their problem worse."
+    ],
+    "commonWrongAnswer": "The most common mistake is tapping anything that sounds like part of the job — a plausible ticket number, a tool's familiar look, an urgent caller — without checking the actual sending domain or console. The trick bubbles are there to catch that habit."
+  },
+  "bubbles": [
+    {
+      "id": "verified-caller-on-approved-contact-list",
+      "text": "Verified Caller On Approved Contact List",
+      "good": true
+    },
+    {
+      "id": "checked-ticket-in-real-queue",
+      "text": "Checked Ticket In Real Queue",
+      "good": true
+    },
+    {
+      "id": "refused-to-skip-identity-verification",
+      "text": "Refused To Skip Identity Verification",
+      "good": true
+    },
+    {
+      "id": "checked-sending-domain-on-ticket",
+      "text": "Checked Sending Domain On Ticket",
+      "good": true
+    },
+    {
+      "id": "opened-console-directly-instead-of-alert-link",
+      "text": "Opened Console Directly Instead Of Alert Link",
+      "good": true
+    },
+    {
+      "id": "reported-suspicious-escalation",
+      "text": "Reported Suspicious Escalation",
+      "good": true
+    },
+    {
+      "id": "verified-requester-through-known-channel",
+      "text": "Verified Requester Through Known Channel",
+      "good": true
+    },
+    {
+      "id": "declined-to-install-unapproved-tool",
+      "text": "Declined To Install Unapproved Tool",
+      "good": true
+    },
+    {
+      "id": "checked-vault-alert-via-console",
+      "text": "Checked Vault Alert Via Console",
+      "good": true
+    },
+    {
+      "id": "escalated-unverified-chat-request",
+      "text": "Escalated Unverified Chat Request",
+      "good": true
+    },
+    {
+      "id": "opened-remote-access-for-unverified-caller",
+      "text": "Opened Remote Access For Unverified Caller",
+      "good": false
+    },
+    {
+      "id": "reset-password-without-verification",
+      "text": "Reset Password Without Verification",
+      "good": false
+    },
+    {
+      "id": "installed-unapproved-remote-tool",
+      "text": "Installed Unapproved Remote Tool",
+      "good": false
+    },
+    {
+      "id": "granted-admin-access-from-chat-message",
+      "text": "Granted Admin Access From Chat Message",
+      "good": false
+    },
+    {
+      "id": "re-entered-password-via-alert-link",
+      "text": "Re-Entered Password Via Alert Link",
+      "good": false
+    },
+    {
+      "id": "skipped-change-approval-for-urgency",
+      "text": "Skipped Change-Approval For Urgency",
+      "good": false
+    },
+    {
+      "id": "trusted-ticket-number-alone",
+      "text": "Trusted Ticket Number Alone",
+      "good": false
+    },
+    {
+      "id": "read-back-one-time-code-to-caller",
+      "text": "Read Back One-Time Code To Caller",
+      "good": false
+    },
+    {
+      "id": "ignored-domain-mismatch-on-ticket",
+      "text": "Ignored Domain Mismatch On Ticket",
+      "good": false
+    },
+    {
+      "id": "assumed-senior-title-was-proof",
+      "text": "Assumed Senior Title Was Proof",
+      "good": false
+    },
+    {
+      "id": "two-person-approval-on-access-grant",
+      "text": "Two-Person Approval On Access Grant",
+      "good": true,
+      "trick": true,
+      "note": "A second approver is a strong control, but only if that person independently verifies the request rather than approving because someone else already did."
+    },
+    {
+      "id": "took-extra-time-despite-callers-urgency",
+      "text": "Took Extra Time Despite Caller's Urgency",
+      "good": true,
+      "trick": true,
+      "note": "Slowing down when a caller pushes urgency is exactly the right instinct, even though it feels like it's making the caller's problem worse."
+    },
+    {
+      "id": "asked-caller-for-ticket-reference-number",
+      "text": "Asked Caller For Ticket Reference Number",
+      "good": false,
+      "trick": true,
+      "note": "An attacker can invent any reference number that sounds plausible — asking for one feels like a check but doesn't verify anything on its own."
+    },
+    {
+      "id": "followed-instructions-from-familiar-tool-style",
+      "text": "Followed Instructions From Familiar Tool Style",
+      "good": false,
+      "trick": true,
+      "note": "A tool's look and branding are easy to copy — a genuine alert never asks for your password through a link, however authentic it looks."
+    }
+  ]
+}

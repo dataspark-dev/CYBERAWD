@@ -1,0 +1,74 @@
+{
+  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own — whether it shows up in a ticket, a vendor call, or a system alert. Today's riddles use the same patterns aimed at IT Support specifically.",
+  "rememberThis": "This month gave these tricks a name — keep using them. STOP before you install, grant access, or reset anything, VERIFY through a channel you already trust, then REPORT.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which two terms are easiest to mix up — FAKE ESCALATION TICKET and CREDENTIAL-RESET SOCIAL ENGINEERING can both involve urgency from a caller, but the goal is different.",
+      "Ask for a real example of a ticket or alert that matches one of these terms.",
+      "Ask someone to explain OTP RELAY ATTACK in their own words, without using the term itself."
+    ],
+    "commonWrongAnswer": "People most often mix up FAKE ESCALATION TICKET and CREDENTIAL-RESET SOCIAL ENGINEERING. Both can involve a senior name and urgency, so people pick one when the riddle points to the other. The difference: a fake escalation ticket asks you to skip change-approval or install something; credential-reset social engineering asks you to reset or reveal an account credential directly."
+  },
+  "riddles": [
+    {
+      "id": "fake-escalation-ticket",
+      "riddle": "I look like a real support ticket, but my sender domain has an extra word, and I ask you to skip change-approval to fix me fast. What trick am I?",
+      "answer": "FAKE ESCALATION TICKET",
+      "options": [
+        "FAKE ESCALATION TICKET",
+        "CREDENTIAL-RESET SOCIAL ENGINEERING",
+        "FAKE TOOL ALERT"
+      ]
+    },
+    {
+      "id": "vendor-impersonation-call",
+      "riddle": "I call the help desk claiming to be from a known vendor, asking for remote access to push an urgent patch right now. What trick am I?",
+      "answer": "VENDOR IMPERSONATION CALL",
+      "options": [
+        "VENDOR IMPERSONATION CALL",
+        "FAKE ESCALATION TICKET",
+        "OTP RELAY ATTACK"
+      ]
+    },
+    {
+      "id": "credential-reset-social-engineering",
+      "riddle": "I call demanding a password reset right now, and I refuse your standard identity-verification questions. What trick am I?",
+      "answer": "CREDENTIAL-RESET SOCIAL ENGINEERING",
+      "options": [
+        "CREDENTIAL-RESET SOCIAL ENGINEERING",
+        "VENDOR IMPERSONATION CALL",
+        "FAKE TOOL ALERT"
+      ]
+    },
+    {
+      "id": "fake-tool-alert",
+      "riddle": "I look exactly like your own monitoring tool's alert, but I give you only 5 minutes to re-enter your password through my link. What trick am I?",
+      "answer": "FAKE TOOL ALERT",
+      "options": [
+        "FAKE TOOL ALERT",
+        "CREDENTIAL-RESET SOCIAL ENGINEERING",
+        "FAKE ESCALATION TICKET"
+      ]
+    },
+    {
+      "id": "otp-relay-attack",
+      "riddle": "I text you right after you process a reset, asking you to read back the one-time code you just received to \"verify the action\". What trick am I?",
+      "answer": "OTP RELAY ATTACK",
+      "options": [
+        "OTP RELAY ATTACK",
+        "VENDOR IMPERSONATION CALL",
+        "FAKE TOOL ALERT"
+      ]
+    },
+    {
+      "id": "stop-verify-report",
+      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT Service Desk. What is this rule called?",
+      "answer": "STOP VERIFY REPORT",
+      "options": [
+        "STOP VERIFY REPORT",
+        "OTP RELAY ATTACK",
+        "FAKE ESCALATION TICKET"
+      ]
+    }
+  ]
+}

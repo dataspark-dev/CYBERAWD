@@ -1,0 +1,56 @@
+{
+  "whyThisMatters": "A lot of what feels true about crewing offers, payslips, and reference checks is only partly right — and HR is targeted precisely because so much correspondence about pay and candidates gets treated as routine. A few minutes here will clear up what really matters when an offer, a payslip, or a form already looks normal.",
+  "rememberThis": "This month's reminder: familiar packaging is not proof. A professional-looking offer letter, a payslip, or a reference form can all be faked — check the sender's exact domain and the file type every time, no matter how routine the request looks.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask if anyone has opened a reference form or payslip attachment quickly because the deadline felt tight — what check would take the least extra time?",
+      "For the sender-address myth, ask the group to spot the difference between two similar-looking crewing domains without being told which is fake.",
+      "Ask what the team's actual process is for a bank-detail or payroll change — does it always go through the portal, or does it sometimes happen by email under pressure?"
+    ],
+    "commonWrongAnswer": "People most often get the attachment myth wrong. A payslip or reference form from a recognisable process feels routine, so many people say any expected-looking file is safe to open. But the file type and whether it needs \"Enable Content\" matter more than how expected it feels."
+  },
+  "items": [
+    {
+      "id": "mf-hr-01",
+      "topic": "Sender Address",
+      "myth": "A crewing or recruitment email that reads professionally and uses the right names is genuine.",
+      "fact": "A professional tone and correct names prove nothing about the sender's actual domain — a single added word or hyphen in the address is the only reliable tell.",
+      "detail": "Always check the exact sending domain letter by letter, especially for crewing offers and candidate correspondence, which attackers copy closely because HR sends and receives so many of them."
+    },
+    {
+      "id": "mf-hr-02",
+      "topic": "Attachments",
+      "myth": "A payslip or reference-check attachment is safe to open if it's the file type you were expecting.",
+      "fact": "A payslip should be a plain PDF and a reference form a plain document — anything asking you to \"Enable Content\" or macros is the red flag, whatever the file extension claims to be.",
+      "detail": "A tight deadline, like a candidate starting Monday, is designed to make you skip that check — the deadline is the pressure, not the proof the file is safe."
+    },
+    {
+      "id": "mf-hr-03",
+      "topic": "Payroll Requests",
+      "myth": "HR Payroll sometimes needs you to confirm your bank details by replying directly to an email.",
+      "fact": "HR Payroll never asks for your password or bank details together through a link or a reply — any genuine bank-detail change happens only inside the portal, done by you.",
+      "detail": "A message claiming a payroll-system migration requires immediate reply is exactly the kind of urgency this scam uses — check the portal directly instead of replying."
+    },
+    {
+      "id": "mf-hr-04",
+      "topic": "Text Messages",
+      "myth": "A text message about a payroll deadline is a lower-risk channel than email, since it's short and easy to check.",
+      "fact": "A text is exactly as easy to spoof as an email, and its short length makes it harder to spot the tell — a link is still a link, wherever it arrives.",
+      "detail": "Go to the portal you already trust instead of tapping any link in a payroll text, regardless of how real the deadline sounds."
+    },
+    {
+      "id": "mf-hr-05",
+      "topic": "Recruitment",
+      "myth": "A CV or reference-check attachment from an agent you've worked with before doesn't need a second look.",
+      "fact": "A sender's domain can be spoofed even when the name and history feel familiar — the exact domain, not the relationship, is what proves the message is genuine.",
+      "detail": "A slightly different domain, like a missing or added character, is the same tell whether it's a crewing offer, a CV, or a reference-check request."
+    },
+    {
+      "id": "mf-hr-06",
+      "topic": "Verification",
+      "myth": "If a request touches pay or a candidate's details and sounds urgent, it's safer to act first and check later.",
+      "fact": "A request touching pay or personal details is not more trustworthy for being urgent — urgency is the lever, not the proof.",
+      "detail": "Verify through the portal you already use, or a number you already have, before acting on anything urgent that touches pay or a candidate's information."
+    }
+  ]
+}

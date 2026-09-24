@@ -289,10 +289,11 @@
           <div class="adm-section-title"><i class="fa-solid fa-users"></i> Audience</div>
           <div class="adm-note">Pick which team's content variant to load. This only switches which pre-built file loads - it does not edit content. Modules with no variant authored yet for a team fall back to the shared General content.</div>
           <div id="audienceTabs" class="adm-row" style="flex-wrap:wrap; gap:8px; margin:10px 0 10px;"></div>
-          <div class="adm-row" style="margin-bottom:18px;">
+          <div class="adm-row" style="margin-bottom:6px;">
             <a id="openDeckLink" class="le-btn ghost" target="_blank" rel="noopener"><i class="fa-solid fa-display"></i> Open Slide Deck for This Audience</a>
             <span class="adm-note">Opens the main deck with its Closing slide set to the audience picked above (General shows the shared Closing slide).</span>
           </div>
+          <div id="deckAudienceIndicator" class="adm-note" style="margin-bottom:18px;"></div>
           <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose Activity - 8 modules (all items pre-loaded)</div>
           <div class="adm-note">Counts come live from the content files. Select a module, then press <strong>Launch</strong> to create the lobby. The same lab and participants stay joined between activities.</div>
           <div id="pickerGrid" class="adm-launcher-grid"></div>
@@ -452,6 +453,7 @@
       pickerSection: document.getElementById('pickerSection'),
       audienceTabs: document.getElementById('audienceTabs'),
       openDeckLink: document.getElementById('openDeckLink'),
+      deckAudienceIndicator: document.getElementById('deckAudienceIndicator'),
       pickerGrid: document.getElementById('pickerGrid'),
       launchBtn: document.getElementById('launchBtn'),
       pickerMsg: document.getElementById('pickerMsg'),
@@ -511,7 +513,15 @@
     let currentCode = null;
     let csrfToken = null; // set on login / checkAuth - required as X-CSRF-Token on mutating /api/admin/* calls
     let selectedModule = null;
-    let selectedAudience = 'general'; // audience-variant switch - which team's content loads on Launch
+    let selectedAudience = 'general'; // audience-variant switch - which team's content loads on Launch AND the deck link's ?audience=
+    // Which audience a deck tab was last actually opened for, from THIS browser - tracked so we can
+    // warn if the admin switches audience afterward without re-opening the deck. A plain <a target="_blank">
+    // opens a brand-new tab on every click rather than refreshing one already open elsewhere, so an
+    // earlier tab keeps showing whatever audience it had when it was opened - there is no way to reach
+    // into that other tab and force it to reload, only to flag here that it's now stale. Persisted in
+    // localStorage (a per-viewer convenience, not shared state) so the hint survives a dashboard reload.
+    let lastOpenedDeckAudience = null;
+    try { lastOpenedDeckAudience = localStorage.getItem('admin_lastOpenedDeckAudience') || null; } catch (_) {}
     let audiencesCache = [];
     let modulesCache = [];
     let activeModule = null;
@@ -693,8 +703,15 @@
         els.audienceTabs.innerHTML = '<div class="adm-note">Failed to load audiences: '+esc(e.message)+'</div>';
       }
     }
+    function allAudiencesWithGeneral(){
+      return [{id:'general', displayName:'General (all roles)'}].concat(audiencesCache);
+    }
+    function audienceLabel(id){
+      const a = allAudiencesWithGeneral().find(x=>x.id===id);
+      return a ? a.displayName : id;
+    }
     function renderAudienceTabs(){
-      const all = [{id:'general', displayName:'General (all roles)'}].concat(audiencesCache);
+      const all = allAudiencesWithGeneral();
       els.audienceTabs.innerHTML = all.map(a=>`
         <button class="adm-badge audience-tab ${selectedAudience===a.id?'active':''}" data-audience="${esc(a.id)}" type="button" style="cursor:pointer;">
           ${esc(a.displayName)}${a.isNew?' · new, no content yet':''}
@@ -703,17 +720,40 @@
       els.audienceTabs.querySelectorAll('.audience-tab').forEach(btn=>{
         btn.addEventListener('click', ()=>{
           selectedAudience = btn.dataset.audience;
-          renderAudienceTabs();
+          renderAudienceTabs(); // updates the deck link's href + staleness indicator immediately, same click - no separate "set" step
           loadModules(); // refresh item counts / fallback flags for the newly picked audience
         });
       });
       // Deck's Closing slide is picked by the same ?audience= id the live-event modules use
       // (see scripts/deck.js's AUDIENCE_CLOSING_SLIDES) - "general" has no query param, which
       // is exactly what makes the deck fall back to the shared slide-19.html Closing slide.
+      // This href is kept live-updated here (not regenerated only on click) so the link is
+      // always ready to open the right variant the instant an audience tab is picked.
       els.openDeckLink.href = selectedAudience === 'general'
         ? '/'
         : '/?audience=' + encodeURIComponent(selectedAudience);
+      renderDeckAudienceIndicator();
     }
+    function renderDeckAudienceIndicator(){
+      const currentLabel = audienceLabel(selectedAudience);
+      if(!lastOpenedDeckAudience){
+        els.deckAudienceIndicator.innerHTML = 'Deck link ready for: <strong>' + esc(currentLabel) + '</strong> (not opened yet this session)';
+        return;
+      }
+      if(lastOpenedDeckAudience === selectedAudience){
+        els.deckAudienceIndicator.innerHTML = 'Deck link ready for: <strong>' + esc(currentLabel) + '</strong> - matches the last tab you opened';
+      } else {
+        const staleLabel = audienceLabel(lastOpenedDeckAudience);
+        els.deckAudienceIndicator.innerHTML = '⚠ Deck link ready for: <strong>' + esc(currentLabel) + '</strong>, but the tab you last opened was for <strong>' + esc(staleLabel) + '</strong> - reload that tab (or open a fresh one) before presenting.';
+      }
+    }
+    // Wired once - openDeckLink itself is a static element, never replaced by the innerHTML
+    // re-render above, so this listener does not need re-attaching on every renderAudienceTabs() call.
+    els.openDeckLink.addEventListener('click', ()=>{
+      lastOpenedDeckAudience = selectedAudience;
+      try { localStorage.setItem('admin_lastOpenedDeckAudience', selectedAudience); } catch (_) {}
+      renderDeckAudienceIndicator();
+    });
 
     // Modules picker
     async function loadModules(){
@@ -756,10 +796,9 @@
         });
       });
       els.launchBtn.disabled = !selectedModule;
-      const audienceLabel = (all=>{ const a = all.find(x=>x.id===selectedAudience); return a?a.displayName:selectedAudience; })([{id:'general', displayName:'General (all roles)'}].concat(audiencesCache));
       if(selectedModule){
         const mod = modulesCache.find(x=>x.id===selectedModule);
-        els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' for ' + audienceLabel + ' - ' + (mod?mod.itemCount:'?') + ' items' + (mod&&mod.usedFallback?' (falling back to General content)':'') + ' - press Launch to create lobby';
+        els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' for ' + audienceLabel(selectedAudience) + ' - ' + (mod?mod.itemCount:'?') + ' items' + (mod&&mod.usedFallback?' (falling back to General content)':'') + ' - press Launch to create lobby';
       } else {
         els.pickerSelected.textContent = 'Pick an audience and a module, then press Launch';
       }

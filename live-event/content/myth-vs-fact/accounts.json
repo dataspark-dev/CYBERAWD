@@ -1,0 +1,56 @@
+{
+  "whyThisMatters": "A lot of what feels true about invoices, wires, and vendor payments is only partly right — and Accounts is targeted precisely because so many checks get skipped when a request already looks routine. A few minutes here will clear up what really matters when an invoice, a refund ask, or a payment request already looks normal.",
+  "rememberThis": "This month's reminder: familiar packaging is not proof. A matching invoice format, a senior name, or an urgent deadline can all be faked — check the sender's exact domain and verify any bank-detail change on a number you already have, every time.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask if anyone has ever paid an invoice faster because the format and logo looked exactly right — what would make them check the bank details separately next time?",
+      "For the overpayment myth, ask how long it would actually take to check the claim against your own ledger versus just refunding it.",
+      "Ask the group to name their own trusted way to verify a bank-detail change — is it written down anywhere, or does everyone do it differently?"
+    ],
+    "commonWrongAnswer": "People most often get the overpayment myth wrong. Refunding quickly feels helpful and low-risk, so many people say it's fine to just send the difference back. But checking your own ledger first takes minutes, and skipping that check is exactly how the scam works."
+  },
+  "items": [
+    {
+      "id": "mf-acc-01",
+      "topic": "Vendor Payments",
+      "myth": "If an invoice looks correctly formatted and matches the usual layout, it's safe to pay as instructed.",
+      "fact": "A correctly-formatted invoice with changed bank details is the single most common invoice-fraud pattern — the layout being right proves nothing about who is really asking for payment.",
+      "detail": "Always verify a bank-detail change on a number you already have for that vendor, never a number or reply address the invoice itself supplies, no matter how routine the invoice looks."
+    },
+    {
+      "id": "mf-acc-02",
+      "topic": "Business Email Compromise",
+      "myth": "Fraudulent wire-transfer requests always come from obviously fake, poorly-written emails.",
+      "fact": "The most convincing requests come from domains that are nearly identical to the real one, written in polished, professional language — a senior name and a confident tone are what make them work, not sloppy writing.",
+      "detail": "A request that asks you to stay quiet or skip the normal approval process is the real warning sign — not typos, and not the amount involved."
+    },
+    {
+      "id": "mf-acc-03",
+      "topic": "Overpayments",
+      "myth": "If a vendor says you overpaid them, the fastest and safest thing to do is refund the difference right away.",
+      "fact": "A claimed overpayment should always be checked against your own ledger first — attackers invent overpayments specifically to get you to send money to a \"corrected\" account you don't recognise.",
+      "detail": "Reversing a payment after the fact is far harder than pausing before you send one, so the few minutes it takes to check your own records is always worth it."
+    },
+    {
+      "id": "mf-acc-04",
+      "topic": "Urgency",
+      "myth": "A tight deadline on a payment or bank-detail change request is just normal business pressure.",
+      "fact": "An artificial deadline is one of the most reliable signs of payment fraud — a genuine vendor or colleague rarely needs a same-day bank-detail change badly enough to skip your normal process.",
+      "detail": "Treat any request that pairs urgency with a bank-detail change or an unusual payment as the pattern to check first, before you act on the deadline."
+    },
+    {
+      "id": "mf-acc-05",
+      "topic": "Attachments",
+      "myth": "A financial statement attachment is safe to open as long as it's from a vendor you already recognise.",
+      "fact": "An attachment needing \"Enable Content\" to open, or with a double file ending like .pdf.exe, should never be opened — regardless of how familiar the sender's name looks.",
+      "detail": "Check the sender's exact domain letter by letter before opening anything financial, since a familiar vendor name is easy to spoof alongside a malicious attachment."
+    },
+    {
+      "id": "mf-acc-06",
+      "topic": "Verification",
+      "myth": "Replying to the same email to confirm a bank-detail change is a reasonable way to double-check it.",
+      "fact": "Replying to the same email only confirms the address is active — it never verifies who is actually behind it, since an attacker controlling that inbox will simply reply back to confirm.",
+      "detail": "The only real check is a callback on a number you already had for that vendor or colleague before this request, never a contact detail the request itself supplies."
+    }
+  ]
+}
