@@ -3,11 +3,11 @@
   "rememberThis": "A rotation email, a document request, or a fund request is not proof by itself, however routine it looks. STOP before you tap a link or send a document — VERIFY through the portal you already use or a number you already have, then REPORT when you're back online.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask which detail people noticed first — was it the sender address, the urgent wording, or the attachment name? Would they check the same thing on their own phone with limited internet?",
-      "For the rotation link card for offshore crew, ask how many people actually press and hold a link before they tap it. What makes that hard to do at sea with patchy internet and time pressure?",
-      "Ask if anyone has seen a text or a pop-up like the last three cards in real life — for example, a rotation SMS at 06:00 or a shared-computer pop-up. What did they do?"
+      "Ask how many people actually press and hold a link before tapping it, especially with limited time online between watches.",
+      "For the SEA renewal card, ask why a 2-hour signing deadline is fake urgency, not a real scheduling constraint.",
+      "For the port-agent document request, ask what the team's actual verification channel is for passport/CDC requests — does everyone know the real secure portal?"
     ],
-    "commonWrongAnswer": "People most often miss the fake sender address and the fake crew portal. The real and fake images look almost identical, so people judge by which one looks neater. The habit to build is to check the exact address letter by letter in the sender line and in the address bar, not the body text."
+    "commonWrongAnswer": "People most often miss the fake crew portal and rotation link cards, because the real and fake pages look almost identical — people judge by which one looks neater rather than checking the exact address. The habit to build is to check the exact address letter by letter, in the sender line and the address bar, not the body text or how urgent the message sounds."
   },
   "items": [
     {

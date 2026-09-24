@@ -3,11 +3,11 @@
   "rememberThis": "A vendor invoice, a permit request, or a system alert that looks routine is not proof by itself. STOP before you approve a bank-detail change, skip a safety sign-off, or act on an urgent alert — VERIFY through your own known channel or console, then REPORT anything that pushed you to skip that step.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask which detail people noticed first — was it the sender address, the urgent wording, or the attachment name? Would they check the same thing on their own phone with limited internet?",
-      "For the rotation link card for offshore crew, ask how many people actually press and hold a link before they tap it. What makes that hard to do at sea with patchy internet and time pressure?",
-      "Ask if anyone has seen a text or a pop-up like the last three cards in real life — for example, a rotation SMS at 06:00 or a shared-computer pop-up. What did they do?"
+      "Ask what the team's actual permit-to-work process is — is there ever a real exception for \"just this once\", and who would actually be allowed to grant it?",
+      "For the dry-dock invoice card, ask how the team would verify a changed bank detail without using any contact information supplied in the email itself.",
+      "For the fleet-tracking alert, ask what a genuine urgent alert from your own monitoring tool actually looks like — does it ever ask for a password through a link?"
     ],
-    "commonWrongAnswer": "People most often miss the fake sender address and the fake crew portal. The real and fake images look almost identical, so people judge by which one looks neater. The habit to build is to check the exact address letter by letter in the sender line and in the address bar, not the body text."
+    "commonWrongAnswer": "People most often miss the safety sign-off bypass and PSC detention cards, because an unreachable supervisor or an official-sounding notice both feel like a reason to act fast rather than check. The habit to build is the same one every card points to: verify through your own known channel — a callback, your PSC liaison, your port agent — before you skip a step or pay anything."
   },
   "items": [
     {

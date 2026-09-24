@@ -3,14 +3,11 @@
   "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. A caller who sounds official, an object left on a shared computer, or an urgent request for funds or documents is not proof — verify through a channel you already trust before you act, even with limited time online.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the group what they would do in the first few seconds of each scenario. Ask before you show the good answer.",
-      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on — or would they need to look it up under pressure?",
-      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
-      "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
-      "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
-      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
+      "Ask what people would actually do right now if they found an unlabelled USB stick on the bridge.",
+      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on, or would need to look it up under pressure.",
+      "For the gift-card and passport-request cases, ask why a request referencing real vessel or rotation details still isn't proof of who's asking."
     ],
-    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+    "commonWrongAnswer": "People most often get the phone-call and gift-card cases wrong, trusting a confident voice or a request that references real vessel details as enough proof on its own. The habit to build is the same one every case points to: hang up and verify on a number you already trust, and remember port dues and official requests are never paid or confirmed through a call or message alone."
   },
   "cases": [
     {

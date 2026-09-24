@@ -3,14 +3,11 @@
   "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. \"Just this once\" is never a real exception to a safety sign-off, a payment process, or a charter instruction — verify through your own known channel before you act, no matter who is asking.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the group what they would do in the first few seconds of each scenario. Ask before you show the good answer.",
-      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on — or would they need to look it up under pressure?",
-      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
-      "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
-      "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
-      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
+      "Ask what the team's actual process is when a laptop goes missing — does everyone know to report immediately rather than search for it first?",
+      "For the permit sign-off case, ask why an unreachable supervisor plus urgency is the pattern to catch, not a reason to proceed.",
+      "For the ransomware case, ask if everyone actually knows how to disconnect their own machine from the network quickly."
     ],
-    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+    "commonWrongAnswer": "People most often get the permit sign-off and charter redirect cases wrong, treating a senior title or a claimed emergency as enough reason to skip the normal process. The habit to build is the same one every case points to: verify through your own known channel — your own PSC liaison, port agent, or the agreed charter-desk process — before you skip a step, redirect anything, or pay a fee."
   },
   "cases": [
     {

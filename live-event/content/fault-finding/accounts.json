@@ -3,11 +3,11 @@
   "rememberThis": "A vendor invoice, a senior name, or an urgent deadline is not proof a payment request is genuine. STOP before you update bank details or send a refund — VERIFY on a number you already have, never a contact detail the email itself supplies, then REPORT anything that pressured you to skip that check.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask which detail people noticed first — was it the sender address, the urgent wording, or the attachment name? Would they check the same thing on their own phone with limited internet?",
-      "For the rotation link card for offshore crew, ask how many people actually press and hold a link before they tap it. What makes that hard to do at sea with patchy internet and time pressure?",
-      "Ask if anyone has seen a text or a pop-up like the last three cards in real life — for example, a rotation SMS at 06:00 or a shared-computer pop-up. What did they do?"
+      "Ask which detail people noticed first on the vendor invoice cards — the sender's exact domain, or did a matching PO number and normal-looking layout make them skip that check?",
+      "For the Business Email Compromise card, ask why a senior name plus an instruction to stay quiet is the actual warning sign, not the amount being requested.",
+      "For the overpayment card, ask how long it would really take to check the claim against the ledger before refunding anything."
     ],
-    "commonWrongAnswer": "People most often miss the fake sender address and the fake crew portal. The real and fake images look almost identical, so people judge by which one looks neater. The habit to build is to check the exact address letter by letter in the sender line and in the address bar, not the body text."
+    "commonWrongAnswer": "People most often miss the vendor bank-detail change cards, because a correctly-formatted invoice with the right PO number feels like proof on its own. The habit to build is the same one every card points to: a changed bank detail is verified with a callback on a number you already had, never a number or contact the request itself supplies."
   },
   "items": [
     {

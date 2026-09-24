@@ -3,14 +3,11 @@
   "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. A confident tone, a plausible amount, or a familiar vendor name is not proof — verify any unusual payment or bank-detail request on a number you already had before checking, every time.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the group what they would do in the first few seconds of each scenario. Ask before you show the good answer.",
-      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on — or would they need to look it up under pressure?",
-      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
-      "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
-      "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
-      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
+      "Ask what the group would check first in the video-call case — does a face and voice matching feel like enough proof, and why isn't it?",
+      "For the overpayment and invoice cases, ask how the team would tell the two apart — one invents a payment you never owed, the other tries to redirect one you already do.",
+      "Ask why ending a call with a senior leader to go and verify feels uncomfortable, and what would make that easier to do live."
     ],
-    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+    "commonWrongAnswer": "People most often get the video-call case wrong, choosing to approve the payment because the face and voice matched — a live call feels harder to fake than an email, but a convincing appearance is still not proof. The habit to build is the same one every case points to: verify through a channel or number you already had before the request, never one supplied during it."
   },
   "cases": [
     {
