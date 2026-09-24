@@ -41,15 +41,55 @@ const AUDIENCE_CLOSING_SLIDES = {
   'vessel-operations': 'slide-19-vessel-operations.html',
 };
 
-function applyAudienceClosingSlide() {
-  let audience = '';
+// Resolved once and reused by every audience-aware piece of this file (slide swap, slide
+// insertion, and the iframe query string below) so they all agree on the same value instead of
+// each re-parsing location.search separately.
+let CURRENT_AUDIENCE = '';
+function resolveCurrentAudience() {
   try {
-    audience = new URLSearchParams(location.search).get('audience') || '';
-  } catch (_) { /* ignore */ }
-  const file = AUDIENCE_CLOSING_SLIDES[audience];
+    return new URLSearchParams(location.search).get('audience') || '';
+  } catch (_) {
+    return '';
+  }
+}
+
+function applyAudienceClosingSlide() {
+  const file = AUDIENCE_CLOSING_SLIDES[CURRENT_AUDIENCE];
   if (!file) return; // no audience, or not one of the 6 canonical ids - keep general slide-19.html
   const closingSlide = SLIDES.find(s => s.group === 'Closing');
   if (closingSlide) closingSlide.file = file;
+}
+
+// Audience-specific topic slides (secure development practice / key & credential management),
+// inserted into the deck rather than swapped in place - unlike the Closing slide, these don't
+// replace anything that already exists for other audiences, they add extra ground only IT
+// Support/Development need. Inserted right after 'slide-13.html' (the last Workplace & Login
+// Security slide) and before 'slide-14.html' (See Something, Say Something): general login/
+// workplace hygiene naturally leads into each technical audience's own deeper practice before
+// the shared reporting-culture message resumes. For every other audience (or no ?audience=),
+// SLIDES is left at its original 19 entries - no regression. slide-13.html's own "Next" bridge
+// text is audience-aware too (see its own inline script) via the ?audience= query string
+// buildDeck() below appends to every iframe's src - so its bridge accurately names whichever
+// slide is actually next for the viewer, instead of always saying "See Something, Say Something".
+const AUDIENCE_TOPIC_SLIDES = {
+  'it-support': [
+    { file: 'slide-it-fundamentals.html', title: 'Privileged Credentials — Foundations', group: 'Secure IT Practice' },
+    { file: 'slide-it-vault.html', title: 'Vaults, Not Inboxes', group: 'Secure IT Practice' },
+    { file: 'slide-it-rotation.html', title: 'Rotate, Review, Remove', group: 'Secure IT Practice' },
+  ],
+  'development': [
+    { file: 'slide-dev-fundamentals.html', title: 'Secure Coding — Foundations', group: 'Secure Development Practice' },
+    { file: 'slide-dev-pipeline.html', title: 'Pipeline Integrity', group: 'Secure Development Practice' },
+    { file: 'slide-dev-trust.html', title: 'Verified Trust', group: 'Secure Development Practice' },
+  ],
+};
+
+function applyAudienceTopicSlides() {
+  const topics = AUDIENCE_TOPIC_SLIDES[CURRENT_AUDIENCE];
+  if (!topics || !topics.length) return; // no audience, or one with no topic slides defined - deck stays at its original sequence
+  const afterIndex = SLIDES.findIndex(s => s.file === 'slide-13.html');
+  if (afterIndex === -1) return;
+  SLIDES.splice(afterIndex + 1, 0, ...topics);
 }
 
 let currentIndex = 0;
@@ -63,11 +103,16 @@ function escapeAttr(str) {
 
 function buildDeck() {
   const container = document.getElementById('deckContainer');
+  // Forwarded into every iframe's own src so an individual slide (e.g. slide-13.html's own
+  // inline script) can read location.search inside its own frame and be audience-aware too,
+  // the same way the parent page already is - iframes don't inherit the parent's query string
+  // on their own, it has to be appended here. Harmless for slides that don't look at it.
+  const audienceQuery = CURRENT_AUDIENCE ? ('?audience=' + encodeURIComponent(CURRENT_AUDIENCE)) : '';
   let html = '';
   SLIDES.forEach((s, i) => {
     html += `<section class="slide-page" data-index="${i}">
               <div class="slide-frame-wrap">
-                <iframe class="slide-iframe" data-src="slides/${s.file}" data-index="${i}" title="${escapeAttr(s.title)}"></iframe>
+                <iframe class="slide-iframe" data-src="slides/${s.file}${audienceQuery}" data-index="${i}" title="${escapeAttr(s.title)}"></iframe>
               </div>
             </section>`;
   });
@@ -215,9 +260,14 @@ window.addEventListener('resize', () => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
+  CURRENT_AUDIENCE = resolveCurrentAudience();
+  // Both apply* calls run before SLIDES.length is read for the hash calculation below -
+  // applyAudienceTopicSlides() can change the array's length (it inserts, not just swaps),
+  // so the hash-based deep link needs to be computed against the final array, not the base 19.
+  applyAudienceTopicSlides();
+  applyAudienceClosingSlide();
   const hash = parseInt(location.hash.replace('#', ''), 10);
   const start = (hash >= 1 && hash <= SLIDES.length) ? hash - 1 : 0;
-  applyAudienceClosingSlide();
   buildDeck();
   loadAround(start);
   scaleFrames();

@@ -1283,6 +1283,53 @@ def load_audience_closing_file_map():
     return dict(AUDIENCE_CLOSING_ENTRY_RE.findall(match.group(1)))
 
 
+AUDIENCE_TOPIC_KEY_RE = re.compile(r"['\"](?P<audience>[^'\"]+)['\"]\s*:\s*\[")
+
+
+def load_audience_topic_file_map():
+    """Extract {audience: [files...]} from deck.js's AUDIENCE_TOPIC_SLIDES map.
+
+    Same "declared vs actually on disk" idea as load_audience_closing_file_map(), but for the
+    topic slides applyAudienceTopicSlides() *inserts* into the deck (see scripts/deck.js) rather
+    than swaps in place - also never listed in SLIDES, so the base check above would never
+    notice one going missing either. Each audience's own array is bracket-counted (not matched
+    with a single regex) since the arrays contain nested {..} objects a lazy regex can't safely
+    skip over.
+    """
+    if not DECK_JS.exists():
+        return {}
+    text = DECK_JS.read_text(encoding="utf-8")
+    outer = re.search(r"AUDIENCE_TOPIC_SLIDES\s*=\s*\{", text)
+    if not outer:
+        return {}
+    result = {}
+    for key_match in AUDIENCE_TOPIC_KEY_RE.finditer(text, outer.end()):
+        # Stop scanning once we've moved past the AUDIENCE_TOPIC_SLIDES object's own closing
+        # brace - a later '...': [ elsewhere in the file must not be picked up as an audience.
+        depth = 1
+        i = outer.end()
+        while depth > 0 and i < len(text):
+            if text[i] == "{":
+                depth += 1
+            elif text[i] == "}":
+                depth -= 1
+            i += 1
+        if key_match.start() >= i:
+            break
+        array_start = key_match.end()
+        depth = 1
+        j = array_start
+        while depth > 0 and j < len(text):
+            if text[j] == "[":
+                depth += 1
+            elif text[j] == "]":
+                depth -= 1
+            j += 1
+        body = text[array_start:j - 1]
+        result[key_match.group("audience")] = SLIDE_ENTRY_RE.findall(body)
+    return result
+
+
 def check_deck_alignment():
     files = load_deck_file_list()
     if not files:
@@ -1305,6 +1352,19 @@ def check_deck_alignment():
         print(f"WARNING: AUDIENCE_CLOSING_SLIDES references file(s) missing from slides/: {missing_audience_files}", file=sys.stderr)
     else:
         print("All audience-specific Closing slides referenced in deck.js exist on disk. OK.")
+
+    topic_map = load_audience_topic_file_map()
+    if not topic_map:
+        print("WARNING: could not read AUDIENCE_TOPIC_SLIDES map from scripts/deck.js", file=sys.stderr)
+        return
+    all_topic_files = [f for files in topic_map.values() for f in files]
+    missing_topic_files = {a: [f for f in files if not (SLIDES_DIR / f).exists()] for a, files in topic_map.items()}
+    missing_topic_files = {a: f for a, f in missing_topic_files.items() if f}
+    print(f"deck.js declares {len(all_topic_files)} audience-specific topic slide(s) across {len(topic_map)} audience(s): {sorted(topic_map)}")
+    if missing_topic_files:
+        print(f"WARNING: AUDIENCE_TOPIC_SLIDES references file(s) missing from slides/: {missing_topic_files}", file=sys.stderr)
+    else:
+        print("All audience-specific topic slides referenced in deck.js exist on disk. OK.")
 
 
 @app.route("/")
