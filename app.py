@@ -690,7 +690,13 @@ def _sanitize_item_shared(item: dict) -> dict:
         "prompt": item.get("prompt"),
         "options": sanitized_opts,
     }
-    for field in ("topic", "persona", "category", "caseTitle", "caseScenario", "kind",
+    # "category" (fault-finding only, e.g. "Attachment Check") is deliberately excluded here -
+    # it names exactly what to scrutinize before the participant has judged anything themselves,
+    # which turns the compare-and-judge exercise into a lookup. The standalone facilitator
+    # console (live-event/modules/fault-finding.js) still shows it on its own screen, since
+    # that's the facilitator's reference, not a participant view - this only affects what
+    # reaches the phone via this shared/sanitized path.
+    for field in ("topic", "persona", "caseTitle", "caseScenario", "kind",
                   "weakPassword", "weakRequirement", "deck", "maxSlots", "maxChars", "difficulty"):
         if item.get(field) is not None:
             safe[field] = item[field]
@@ -2787,7 +2793,11 @@ function renderFaultFinding(item){
       + '<div class="ff-tap-hint">'+(picked===letter?'✓ Your answer':'Tap if this one is fake')+'</div>'
       + '</button>';
   };
-  // Parity with console: show persona · category like fault-finding.js:96-97
+  // Deliberately NOT full parity with the facilitator console (fault-finding.js:96-97), which
+  // shows persona · category on its own screen - item.category is stripped out before it ever
+  // reaches the phone (see _sanitize_item_shared), since it would name exactly what to check
+  // before the participant has judged anything themselves. Only persona (context, not a hint)
+  // is shown here.
   const ffTag = [item.persona, item.category].filter(Boolean).join(' · ');
   // Console's own ff-compare-reveal: two rows, What's Wrong + Why It's Suspicious - kept
   // separate (not blended into one paragraph) and only populated once item.fact arrives,
