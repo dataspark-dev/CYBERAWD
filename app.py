@@ -4002,7 +4002,7 @@ async function ensureControlCatch(){
   if(els.ccArena) els.ccArena.innerHTML = '';
   ccUpdateHud();
   try{
-    const r = await fetch('/live-event/content/control-catch/general.json', {cache:'no-store'});
+    const r = await fetch('/api/session/'+ROOM_CODE+'/control-catch/content', {cache:'no-store'});
     ccContent = await r.json();
   }catch(e){
     ccContent = {bubbles: []};
@@ -5778,6 +5778,24 @@ def admin_passphrase_progress(code):
         "participantCount": len(sess.get("participants", {})),
         "totalCount": total_rounds,
     })
+
+
+@app.route("/api/session/<code>/control-catch/content", methods=["GET"])
+def session_control_catch_content(code):
+    """Participant-facing: the bubble pool for the room's CURRENT audience (see
+    _resolve_module_content_file). Unlike crossword's equivalent static content/crossword/
+    general.json fetch (crossword has no per-audience content, so hardcoding general there is
+    harmless), control-catch DOES have real per-audience bubble pools - a hardcoded general.json
+    fetch here would silently serve every audience the same general pool regardless of what was
+    actually launched. Room-scoped and audience-aware for exactly that reason; public/
+    unauthenticated like every other participant-facing GET, no rate limit needed for a plain
+    content read."""
+    code = code.strip().upper()
+    sess = SESSIONS.get(code)
+    if not sess:
+        return jsonify({"error": "room not found"}), 404
+    content = _read_module_json("control-catch", sess.get("activeAudience") or GENERAL_AUDIENCE) or {"bubbles": []}
+    return jsonify(content)
 
 
 @app.route("/api/session/<code>/control-catch/progress", methods=["POST"])
