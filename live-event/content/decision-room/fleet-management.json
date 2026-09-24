@@ -5,7 +5,8 @@
     "discussionPrompts": [
       "Ask what the team's actual process is when a laptop goes missing — does everyone know to report immediately rather than search for it first?",
       "For the permit sign-off case, ask why an unreachable supervisor plus urgency is the pattern to catch, not a reason to proceed.",
-      "For the ransomware case, ask if everyone actually knows how to disconnect their own machine from the network quickly."
+      "For the ransomware case, ask if everyone actually knows how to disconnect their own machine from the network quickly.",
+      "For the new crew-change and weather-routing cases, ask why replying to the sender to ask for confirmation doesn't actually verify anything."
     ],
     "commonWrongAnswer": "People most often get the permit sign-off and charter redirect cases wrong, treating a senior title or a claimed emergency as enough reason to skip the normal process. The habit to build is the same one every case points to: verify through your own known channel — your own PSC liaison, port agent, or the agreed charter-desk process — before you skip a step, redirect anything, or pay a fee."
   },
@@ -174,6 +175,72 @@
         }
       ],
       "debrief": "An instruction to redirect the vessel based on an email alone, with no signed addendum, is the red flag. STOP before acting on it. VERIFY through the agreed charter-desk process. REPORT the email regardless of the outcome."
+    },
+    {
+      "id": "dr-fleet-crew-change-fraud",
+      "persona": "Operations",
+      "title": "The Crew Change Rebooking Fee",
+      "scenario": "An email claiming to be from your manning agency contact says the crew's flight was cancelled, and a rebooking fee must be paid today to a newly provided account to keep the crew change on schedule.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Pay the rebooking fee today to the account provided, since the crew change date is fixed",
+              "outcome": "consequence",
+              "feedback": "Paying a fee to a newly provided account on a message alone is exactly the advance-fee pattern this scam relies on — a fixed date is the pressure, not a reason to skip verification."
+            },
+            {
+              "id": "b",
+              "text": "Ask the sender for proof of the flight cancellation before paying",
+              "outcome": "consequence",
+              "feedback": "A fake sender can produce a convincing-looking cancellation notice — that doesn't confirm the request or the new account are genuine."
+            },
+            {
+              "id": "c",
+              "text": "Contact the manning agency directly through their known contact to confirm before paying anything",
+              "outcome": "good",
+              "feedback": "Correct. Manning agencies invoice through the agreed process — verifying directly with your known contact, not the email itself, is what actually confirms whether anything changed."
+            }
+          ]
+        }
+      ],
+      "debrief": "A cancelled flight paired with a new payment account is a classic advance-fee scam. STOP before paying. VERIFY with the manning agency's known contact. REPORT the email regardless of what you find."
+    },
+    {
+      "id": "dr-fleet-weather-routing",
+      "persona": "Operations",
+      "title": "The Urgent Routing Change",
+      "scenario": "An email that looks like it's from your weather-routing service arrives with an attachment recommending an immediate, costly course change to avoid bad weather — but it didn't come through the routing portal you normally use.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Open the attachment and action the course change immediately, since weather routing can't wait",
+              "outcome": "consequence",
+              "feedback": "Opening an unexpected attachment and acting on a routing change from outside your normal process is exactly the gap this kind of scam is built to exploit."
+            },
+            {
+              "id": "b",
+              "text": "Reply to the email asking the routing service to confirm the recommendation",
+              "outcome": "consequence",
+              "feedback": "A fake sender can simply confirm whatever you ask — this doesn't verify the message came through your actual routing provider."
+            },
+            {
+              "id": "c",
+              "text": "Check the recommendation directly through your routing provider's own portal before changing course",
+              "outcome": "good",
+              "feedback": "Correct. A genuine routing change is always available through the provider's own portal — confirming there, not through the email or its attachment, is what actually verifies it."
+            }
+          ]
+        }
+      ],
+      "debrief": "An urgent routing change that bypasses the portal you normally use is the red flag, regardless of how convincing the weather claim sounds. STOP before changing course. VERIFY through your routing provider's own portal. REPORT the email regardless of what you find."
     }
   ]
 }

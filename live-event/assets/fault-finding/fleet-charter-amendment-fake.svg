@@ -2,11 +2,11 @@
   <rect width="1600" height="900" fill="#0f172a"/>
   <rect x="220" y="120" width="1160" height="660" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
   <rect x="220" y="120" width="1160" height="70" rx="12" fill="#f1f5f9"/>
-  <text x="250" y="164" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: Charterer's Operations Desk &lt;ops@bluewave-charter-ops.net&gt;</text>
-  <text x="250" y="235" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: URGENT — Redirect Vessel to New Discharge Port, Confirm Now</text>
-  <text x="250" y="300" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Due to a commercial emergency, redirect the vessel's</text>
-  <text x="250" y="332" font-family="Barlow, sans-serif" font-size="18" fill="#374151">discharge port and cargo instructions immediately as</text>
-  <text x="250" y="364" font-family="Barlow, sans-serif" font-size="18" fill="#374151">described below — no addendum needed, act on this email.</text>
+  <text x="250" y="164" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: Charterer's Operations Desk &lt;ops@bluewave-charterer.com&gt;</text>
+  <text x="250" y="235" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: Discharge Port Update — Confirmation Needed</text>
+  <text x="250" y="300" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Please update the vessel's discharge port and cargo</text>
+  <text x="250" y="332" font-family="Barlow, sans-serif" font-size="18" fill="#374151">instructions as described below, at your earliest</text>
+  <text x="250" y="364" font-family="Barlow, sans-serif" font-size="18" fill="#374151">convenience.</text>
   <text x="250" y="700" font-family="Barlow, sans-serif" font-size="18" font-weight="700" fill="#1e293b">Charterer's Operations Desk — Bluewave Charterers</text>
-  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">BLUEWAVE CHARTERERS — URGENT REDIRECT REQUEST</text>
+  <text x="800" y="845" font-family="Space Mono, monospace" font-size="16" fill="#67e8f9" text-anchor="middle" letter-spacing="2">BLUEWAVE CHARTERERS — AMENDMENT REQUEST</text>
 </svg>

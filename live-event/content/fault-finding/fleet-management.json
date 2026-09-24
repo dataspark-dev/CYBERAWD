@@ -19,8 +19,8 @@
       "realImage": "../assets/fault-finding/fleet-permit-bypass-real.svg",
       "fakeImage": "../assets/fault-finding/fleet-permit-bypass-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email comes from a different domain (synergymarine-hse.net vs synergymarinegroup.com). It asks Ops to skip a required safety sign-off \"just this once\", and promises to \"backfill the paperwork later\" — never a legitimate safety process.",
-      "whyItsSuspicious": "An unreachable supervisor plus a request to skip a safety sign-off is the same social-engineering pattern as a fake-boss payment scam, just aimed at a safety process instead of money. A real permit-to-work process has no \"just this once\" exception, no matter who is claimed to be asking."
+      "whatIsWrong": "The fake email comes from hse@synergymarinegr0up.com — the letter \"o\" has been replaced with a zero, which looks almost identical in most fonts. It asks Ops to skip a required safety sign-off \"just this once\" and promises to \"backfill the paperwork later\" — never a legitimate safety process.",
+      "whyItsSuspicious": "This is a homoglyph attack — a single swapped character that's easy to miss when reading fast, especially with an unreachable supervisor and urgency competing for your attention. An unreachable supervisor plus a request to skip a safety sign-off is the same social-engineering pattern as a fake-boss payment scam, just aimed at a safety process instead of money. A real permit-to-work process has no \"just this once\" exception, no matter who is claimed to be asking — and the domain, read letter by letter, is still the check that catches it."
     },
     {
       "id": "compare-fleet-drydock-invoice",
@@ -31,8 +31,8 @@
       "realImage": "../assets/fault-finding/fleet-drydock-invoice-real.svg",
       "fakeImage": "../assets/fault-finding/fleet-drydock-invoice-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email comes from a different domain (fleet-drydockservices.net vs fleetdrydock-services.com). It asks to change payment details based on the email alone, with an artificial deadline tied to the vessel's departure from the yard.",
-      "whyItsSuspicious": "Real dry-dock and vendor payments only change through a verified update to the vendor master file, never a one-off email instruction. A schedule-based deadline like \"before the vessel departs\" is a classic pressure tactic used to make you skip that check."
+      "whatIsWrong": "The fake email comes from accounts@fleetdrydock-servlces.com — the \"i\" in \"services\" has been replaced with a lowercase \"l\", which reads almost identically at normal size. It asks to redirect payment to updated bank details based on the email alone.",
+      "whyItsSuspicious": "An \"i\" and a lowercase \"l\" look nearly identical in many fonts, which is exactly why this substitution is used on a routine-sounding invoice update. Real dry-dock and vendor payments only change through a verified update to the vendor master file, never a one-off email instruction — checking the domain letter by letter, not just recognising the vendor's name, is what actually catches this."
     },
     {
       "id": "compare-fleet-tracking-alert",
@@ -43,8 +43,8 @@
       "realImage": "../assets/fault-finding/fleet-tracking-alert-real.svg",
       "fakeImage": "../assets/fault-finding/fleet-tracking-alert-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake alert comes from a different domain (synergy-fleettrack.net vs synergymarinegroup.com). It invents an impossible 5-minute deadline tied to a scary claim of lost vessel-position data, with a direct login link instead of pointing to the dashboard you already use.",
-      "whyItsSuspicious": "A genuine fleet-tracking alert gives you time and points you to the dashboard you already have bookmarked — it never asks for your username and password through a link, and losing tracking data is not fixed by \"re-logging in\" through an email link anyway. The scary operational claim is designed to make you skip that check."
+      "whatIsWrong": "The fake alert comes from alerts@synergymarinegroup.cm — the domain is missing the final \"o\" in \".com\", a single-character drop that's easy to miss when a 5-minute deadline is competing for your attention. It asks you to re-verify your session through a link instead of the dashboard you already use.",
+      "whyItsSuspicious": "A single missing letter at the very end of a domain is designed to be overlooked, especially under a short deadline. Your own monitoring tool never asks for your credentials through a link in an alert email — it gives you time and directs you to the URL you already use. Admin and tracking credentials are a high-value target precisely because they open more than a normal account, so always re-verify by opening the console yourself, never by clicking the link in the alert."
     },
     {
       "id": "compare-fleet-psc-detention",
@@ -55,8 +55,8 @@
       "realImage": "../assets/fault-finding/fleet-psc-detention-real.svg",
       "fakeImage": "../assets/fault-finding/fleet-psc-detention-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake notice comes from an external, generic-sounding domain (port-stateauthority.net) rather than your own internal PSC liaison or a documented official channel. It asks for a direct fee payment via email, which real Port State Control processes never do, with a detention threat attached.",
-      "whyItsSuspicious": "Real Port State Control deficiencies and any associated fees go through your own company's agent and documented official channels, verified against the actual inspection report — never a payment request that arrives cold by email with a detention threat. Verify any such notice with your own PSC liaison and port agent before any payment is considered."
+      "whatIsWrong": "The fake notice comes from an external, generic-sounding domain (port-stateauthority.net) rather than your own internal PSC liaison or a documented official channel. It asks for a direct fee payment via email to \"keep the vessel's clearance on schedule\", with no reference to your own inspection record.",
+      "whyItsSuspicious": "Real Port State Control deficiencies and any associated fees go through your own company's agent and documented official channels, verified against the actual inspection report — never a payment request that arrives cold by email from an address with no connection to your own PSC process. Verify any such notice with your own PSC liaison and port agent before any payment is considered, regardless of how calm or official it sounds."
     },
     {
       "id": "compare-fleet-charter-amendment",
@@ -67,8 +67,8 @@
       "realImage": "../assets/fault-finding/fleet-charter-amendment-real.svg",
       "fakeImage": "../assets/fault-finding/fleet-charter-amendment-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email comes from a different domain (bluewave-charter-ops.net vs bluewave-charterers.com). It asks for a major operational change — redirecting the vessel — based on the email alone, with no signed addendum, citing an invented commercial emergency.",
-      "whyItsSuspicious": "A genuine charter-party amendment as significant as redirecting a vessel always comes with a signed addendum through the agreed charter-desk process — never a same-email instruction to act immediately. This is the same fake-authority pressure pattern as any other Business Email Compromise attempt, just aimed at operational instructions instead of a payment."
+      "whatIsWrong": "The fake email comes from ops@bluewave-charterer.com — missing the final \"s\" in \"charterers\", easy to miss against the familiar company name around it. It asks for a major operational change — redirecting the vessel — based on the email alone, with no signed addendum.",
+      "whyItsSuspicious": "A single dropped letter blends into a name you already recognise, which is exactly why it's used here. A genuine charter-party amendment as significant as redirecting a vessel always comes with a signed addendum through the agreed charter-desk process — never a same-email instruction, however calmly worded. This is the same fake-authority pressure pattern as any other Business Email Compromise attempt, just aimed at operational instructions instead of a payment."
     }
   ]
 }

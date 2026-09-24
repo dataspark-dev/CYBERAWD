@@ -3,11 +3,12 @@
   "rememberThis": "This month gave these tricks a name — keep using them. STOP before you skip a sign-off or approve a change, VERIFY through your own known channel, then REPORT.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask which two terms are easiest to mix up — FAKE INTERNAL TOOL ALERT and AUTHORITY IMPERSONATION both use a scary-sounding message, but the source they copy is different.",
+      "Ask which two terms are easiest to mix up — FAKE INTERNAL TOOL ALERT and AUTHORITY IMPERSONATION both attach a deadline or a fee to an otherwise calm, official-looking notice, but the source they copy is different.",
       "Ask for a real example of an internal alert or vendor invoice that matches one of these terms.",
-      "Ask someone to explain SAFETY SIGN-OFF BYPASS in their own words, without using the term itself."
+      "Ask someone to explain SAFETY SIGN-OFF BYPASS in their own words, without using the term itself.",
+      "Ask which two terms are easiest to mix up now — INSURANCE CLAIM ADVANCE-FEE FRAUD and VENDOR BANK-DETAIL CHANGE both involve a payment-related ask, but one is tied to a pending claim and the other to an existing vendor invoice."
     ],
-    "commonWrongAnswer": "People most often mix up FAKE INTERNAL TOOL ALERT and AUTHORITY IMPERSONATION. Both use urgency and a scary-sounding claim, so people pick one when the riddle points to the other. The difference: a fake tool alert copies your own company's system; authority impersonation copies an outside official body like a port authority."
+    "commonWrongAnswer": "People most often mix up FAKE INTERNAL TOOL ALERT and AUTHORITY IMPERSONATION. Both look calm and routine on the surface, so people pick one when the riddle points to the other. The difference: a fake tool alert copies your own company's system; authority impersonation copies an outside official body like a port authority."
   },
   "riddles": [
     {
@@ -16,43 +17,43 @@
       "answer": "SAFETY SIGN-OFF BYPASS",
       "options": [
         "SAFETY SIGN-OFF BYPASS",
-        "AUTHORITY IMPERSONATION",
-        "URGENCY TRAP"
+        "BUSINESS EMAIL COMPROMISE",
+        "AUTHORITY IMPERSONATION"
       ]
     },
     {
       "id": "vendor-bank-detail-change-fleet",
-      "riddle": "I am a dry-dock invoice that says the bank details changed, and I want payment before the vessel departs. What trick am I?",
+      "riddle": "I am a dry-dock invoice with updated bank details, and I ask you to use them for this payment and every one after. What trick am I?",
       "answer": "VENDOR BANK-DETAIL CHANGE",
       "options": [
         "VENDOR BANK-DETAIL CHANGE",
-        "AUTHORITY IMPERSONATION",
-        "FAKE INTERNAL TOOL ALERT"
+        "INSURANCE CLAIM ADVANCE-FEE FRAUD",
+        "AUTHORITY IMPERSONATION"
       ]
     },
     {
       "id": "fake-internal-tool-alert",
-      "riddle": "I look exactly like your fleet-tracking tool's own alert, but I give you only 5 minutes to re-login through my link. What trick am I?",
+      "riddle": "I look exactly like your fleet-tracking tool's own alert, and I ask you to verify your session through my link within 5 minutes. What trick am I?",
       "answer": "FAKE INTERNAL TOOL ALERT",
       "options": [
         "FAKE INTERNAL TOOL ALERT",
-        "AUTHORITY IMPERSONATION",
+        "FAKE WEATHER ROUTING ADVISORY",
         "VENDOR BANK-DETAIL CHANGE"
       ]
     },
     {
       "id": "authority-impersonation",
-      "riddle": "I claim to be a port authority demanding an urgent fee to avoid detention, but I didn't come through your own PSC liaison. What trick am I?",
+      "riddle": "I claim to be a port authority asking you to settle a deficiency fee to keep clearance on schedule, but I didn't come through your own PSC liaison. What trick am I?",
       "answer": "AUTHORITY IMPERSONATION",
       "options": [
         "AUTHORITY IMPERSONATION",
-        "FAKE INTERNAL TOOL ALERT",
-        "SAFETY SIGN-OFF BYPASS"
+        "INSURANCE CLAIM ADVANCE-FEE FRAUD",
+        "FAKE INTERNAL TOOL ALERT"
       ]
     },
     {
       "id": "business-email-compromise-fleet",
-      "riddle": "I claim a commercial emergency and ask you to redirect the vessel's cargo, with no signed addendum. What trick am I?",
+      "riddle": "I ask you to update the vessel's discharge port and cargo instructions, with no signed addendum. What trick am I?",
       "answer": "BUSINESS EMAIL COMPROMISE",
       "options": [
         "BUSINESS EMAIL COMPROMISE",
@@ -66,8 +67,38 @@
       "answer": "STOP VERIFY REPORT",
       "options": [
         "STOP VERIFY REPORT",
-        "AUTHORITY IMPERSONATION",
-        "VENDOR BANK-DETAIL CHANGE"
+        "CREW CHANGE REBOOKING FRAUD",
+        "AUTHORITY IMPERSONATION"
+      ]
+    },
+    {
+      "id": "crew-change-rebooking-fraud",
+      "riddle": "I claim your crew's flight was cancelled and ask for a rebooking fee paid to a new account before the change date. What trick am I?",
+      "answer": "CREW CHANGE REBOOKING FRAUD",
+      "options": [
+        "CREW CHANGE REBOOKING FRAUD",
+        "VENDOR BANK-DETAIL CHANGE",
+        "INSURANCE CLAIM ADVANCE-FEE FRAUD"
+      ]
+    },
+    {
+      "id": "insurance-claim-advance-fee-fraud",
+      "riddle": "I claim to be your P&I Club or claims handler and ask for an upfront processing fee before releasing a pending claim payout. What trick am I?",
+      "answer": "INSURANCE CLAIM ADVANCE-FEE FRAUD",
+      "options": [
+        "INSURANCE CLAIM ADVANCE-FEE FRAUD",
+        "VENDOR BANK-DETAIL CHANGE",
+        "AUTHORITY IMPERSONATION"
+      ]
+    },
+    {
+      "id": "fake-weather-routing-advisory",
+      "riddle": "I look like your weather-routing service's own advisory, but I arrive as an urgent email attachment instead of through the portal, recommending a costly course change. What trick am I?",
+      "answer": "FAKE WEATHER ROUTING ADVISORY",
+      "options": [
+        "FAKE WEATHER ROUTING ADVISORY",
+        "FAKE INTERNAL TOOL ALERT",
+        "AUTHORITY IMPERSONATION"
       ]
     }
   ]

@@ -5,7 +5,8 @@
     "discussionPrompts": [
       "Ask if anyone has ever let a safety step slide because the person asking sounded senior or the schedule was tight.",
       "For the vendor-invoice myth, ask what the team's actual process is for a dry-dock or vendor bank-detail change — is it always followed under time pressure?",
-      "Ask how the group would tell a genuine fleet-tracking alert from a fake one, without clicking anything in the alert itself."
+      "Ask how the group would tell a genuine fleet-tracking alert from a fake one, without clicking anything in the alert itself.",
+      "For the crew-change and insurance-claim myths, ask why the advance-fee request itself is the giveaway, regardless of how convincing the surrounding story is."
     ],
     "commonWrongAnswer": "People most often get the safety sign-off myth wrong. \"Just this once\" feels like a reasonable exception when a senior person or an unreachable supervisor is involved, so many people say it's fine to proceed. But a real permit-to-work process has no exception for who is asking."
   },
@@ -44,6 +45,27 @@
       "myth": "An urgent email from the charterer's desk asking to redirect the vessel or cargo should be actioned immediately to avoid a commercial problem.",
       "fact": "A change as significant as redirecting a vessel always requires a signed addendum through the agreed charter-desk process — an email alone, however urgent, is never enough on its own.",
       "detail": "Verify directly with the charterer through the agreed process before acting on any redirect instruction, no matter how time-sensitive it's framed."
+    },
+    {
+      "id": "mf-fleet-06",
+      "topic": "Crew Change Logistics",
+      "myth": "If a manning agency contact emails saying a crew's flight was cancelled and a rebooking fee must be paid immediately to a new account, paying quickly keeps the crew change on schedule.",
+      "fact": "A flight-cancellation claim paired with a new payment account is a classic advance-fee pattern — real manning agencies invoice through the agreed process, and a fixed change date is designed to get the fee paid before it's checked.",
+      "detail": "Verify any crew-change rebooking request directly with the manning agency's known contact before paying anything, regardless of how close the change date is."
+    },
+    {
+      "id": "mf-fleet-07",
+      "topic": "Insurance Claims",
+      "myth": "An email from the P&I Club or a claims handler asking for a processing or assessment fee before releasing a claim payout should be paid to avoid delaying the settlement.",
+      "fact": "Genuine P&I Clubs and claims handlers deduct any fees from the settlement itself — they never ask for a separate upfront payment by email to release a claim, which is a classic advance-fee pattern aimed at a real, pending claim.",
+      "detail": "Confirm any claims-related fee request directly with your P&I correspondent or claims handler through the known contact on file before paying anything."
+    },
+    {
+      "id": "mf-fleet-08",
+      "topic": "Weather Routing",
+      "myth": "A routing advisory that looks like it's from your weather-routing service should be actioned immediately, since a delay could put the vessel in worse conditions.",
+      "fact": "A routing change that arrives as an urgent email attachment, rather than through your routing provider's own portal, needs verifying before it changes the vessel's course — a fake advisory can be used to justify a costly or unsafe deviation.",
+      "detail": "Confirm any unusual or urgent routing change directly through your weather-routing provider's own portal before acting on it, especially if it arrived as an email attachment rather than through the process you normally use."
     }
   ]
 }
