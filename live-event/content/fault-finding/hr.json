@@ -44,8 +44,8 @@
       "realImage": "../assets/fault-finding/hr-password-reset-real.svg",
       "fakeImage": "../assets/fault-finding/hr-password-reset-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email comes from payroll-systems@synergymarinegroup.co — the address is missing the final \"m\" in \".com\", which is very easy to miss, especially on a phone screen. It asks for both your password AND bank details through a link, and invents a 24-hour deadline tied to your pay being delayed.",
-      "whyItsSuspicious": "A dropped letter at the very end of a domain is one of the easiest changes to miss — most people stop reading a familiar-looking address after the first few words. Check the full domain to the very last character, not just the part that looks right. A genuine system migration is announced through the portal itself and known internal channels, never by asking you to re-enter your password and bank details through an emailed link."
+      "whatIsWrong": "The fake email comes from payroll-systems@synergymarinegroup.co — the address is missing the final \"m\" in \".com\", which is very easy to miss, especially on a phone screen. It asks you to sign in through a link instead of the portal you already use, with an invented migration deadline tied to a service interruption.",
+      "whyItsSuspicious": "A dropped letter at the very end of a domain is one of the easiest changes to miss — most people stop reading a familiar-looking address after the first few words. The link itself looks harmless (\"sign in to continue\"), which is exactly the point — the real danger is the page it actually leads to, not the button text. A genuine system migration is announced through the portal itself and known internal channels; sign in by typing the address you already know, never by clicking a link in an email."
     },
     {
       "id": "compare-hr-reference-check",
@@ -68,8 +68,8 @@
       "realImage": "../assets/fault-finding/hr-policy-bankdetails-real.svg",
       "fakeImage": "../assets/fault-finding/hr-policy-bankdetails-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email comes from hr-payroll@synergymarinegroup.net — everything before the domain is identical to the real address, only the final \".net\" instead of \".com\" is different. It asks you to reply with your bank account number and IFSC/SWIFT code directly in an email, instead of using the portal, with an invented threat of \"payment failure\".",
-      "whyItsSuspicious": "A changed top-level domain (.net instead of .com) is one of the subtlest possible tells, since the rest of the address matches exactly — checking the full address, including the ending, matters every time, not just the part that looks familiar. Real HR Payroll processes only ever point you to update your own bank details yourself inside the portal — they never ask you to email your account number and IFSC/SWIFT code back to them."
+      "whatIsWrong": "The fake email comes from hr-payroll@synergymarinegroup.net — everything before the domain is identical to the real address, only the final \".net\" instead of \".com\" is different. Its subject line stays fairly generic (\"Payroll Details Confirmation Needed\"), but the body asks you to reply with your bank account number and IFSC/SWIFT code directly, with an invented threat of \"payment failure\".",
+      "whyItsSuspicious": "A changed top-level domain (.net instead of .com) is one of the subtlest possible tells, since the rest of the address matches exactly — checking the full address, including the ending, matters every time, not just the part that looks familiar. Real HR Payroll processes only ever point you to update your own bank details yourself inside the portal — they never ask you to email your account number and IFSC/SWIFT code back to them, however routine the subject line sounds."
     },
     {
       "id": "compare-hr-spear-phishing",
@@ -80,8 +80,8 @@
       "realImage": "../assets/fault-finding/hr-spear-phishing-real.svg",
       "fakeImage": "../assets/fault-finding/hr-spear-phishing-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email comes from r.fernandes@synergymaarinegroup.com — the letter \"a\" is doubled in \"marine\", which is easy to read past at normal speed. It uses the recipient's real first name and a genuine recent event (a transfer request) to feel personal, then pivots straight to a bank-detail request via a link.",
-      "whyItsSuspicious": "A doubled letter is a small enough change that most people's eyes correct for it automatically while reading — which is exactly why it works. Personalising an email with your real name and a real recent event is called spear-phishing; attackers gather these details from a previous breach, LinkedIn, or a prior compromised account, specifically to lower your guard. A message being personal is not proof it's genuine; the sender's exact domain, read slowly, is still the only real check."
+      "whatIsWrong": "The fake email comes from r.fernandes@synergymaarinegroup.com — the letter \"a\" is doubled in \"marine\", which is easy to read past at normal speed. It uses the recipient's real first name and a genuine recent event (a transfer request) to feel personal, then asks you to click through to \"review and confirm a couple of details\" without saying exactly what for.",
+      "whyItsSuspicious": "A doubled letter is a small enough change that most people's eyes correct for it automatically while reading — which is exactly why it works. Notice the ask itself is deliberately vague (\"a couple of details\") — a real attacker rarely announces exactly what they're after up front, since a vague, low-effort-sounding click is easier to get than an alarming one. Personalising an email with your real name and a real recent event is called spear-phishing; a message being personal is not proof it's genuine, and neither is a button that sounds harmless — the sender's exact domain, read slowly, is still the only real check."
     },
     {
       "id": "compare-hr-fake-sso-portal",
