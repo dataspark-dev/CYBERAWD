@@ -6,7 +6,7 @@
     "discussionPrompts": [
       "Ask the group to compare the password they built with how they make their own passwords. Is there anything that makes them think differently now?",
       "Ask why length matters more than adding one symbol. Can anyone explain it in their own words after watching the strength meter move?",
-      "Ask if anyone has reused a \"strong\" password on more than one account — for example, the same one for the crew portal and personal email — and why that removes the strength.",
+      "Ask if anyone has reused a \"strong\" password on more than one account — for example, the same one for the crew portal, the fleet tracking system, or a personal email account — and why that removes the strength.",
       "For each Choose round, ask why the wrong options still look strong at a glance. What is the actual rule each one breaks — is it too short, does it use a name or place, or is it just a common word with a symbol?"
     ],
     "commonWrongAnswer": "The most common mistake is stopping as soon as the meter turns green. People add just one symbol or number instead of making the password longer. In the Choose rounds, people often pick the option with a symbol in it without checking length or personal information first."
