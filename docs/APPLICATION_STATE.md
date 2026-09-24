@@ -1,37 +1,46 @@
 # Application State — Synergy Cyber Security Awareness Month
 
-Reference document for the live-event application: the standalone presentation console plus
-the admin/phone-sync live-poll system built on top of it. Last verified end-to-end: 2026-09-08.
+Reference document for the live-event application: the standalone presentation console, the
+admin/phone-sync live-poll system built on top of it, the 6-audience content-variant system
+layered over both of those, and the main slide deck's own audience-aware Closing/topic slides.
+Last verified end-to-end: 2026-09-24 (full 42-combination launch matrix + deck-loading +
+multi-switch + restart-persistence regression, all passing — see §1a-§1c).
 
-This is a living reference — if a future change alters routes, modules, or config, update this
-file in the same change.
+This is a living reference — if a future change alters routes, modules, content structure, or
+config, update this file in the same change.
 
 ---
 
-## 1. The 8 modules
+## 1. The 8 modules (general/default content)
 
-There are two separate front ends sharing the same `content/*.json` files:
+There are two separate front ends sharing the same content files:
 
 - **Standalone console** (`live-event/index.html` + `live-event/modules/*.js`) — runs on one
-  screen (the facilitator's laptop/projector), self-contained, no login, no participants.
+  screen (the facilitator's laptop/projector), self-contained, no login, no participants. Always
+  reads each module's `general.json` variant directly — it has no audience concept.
 - **Admin/phone-sync system** (`admin/dashboard.html` + the embedded `/join/<code>` page in
   `app.py`) — the facilitator drives an activity from the admin dashboard; participants follow
-  along and answer on their own phones.
+  along and answer on their own phones. Audience-aware — see §1a.
 
 **7 of the 8 modules are phone-synced** (launchable from the admin dashboard's picker, backed by
 `GET /api/admin/modules`). **1 is facilitator-only** — it runs on the console but is never
 pushed to phones.
 
-| # | Module | Phone-synced? | Items | Teaches |
+Content moved from flat `content/<module>.json` to `content/<module>/<audience>.json` (2026-09).
+The counts and behavior below are for `general.json` — the fallback shown when no audience is
+selected, and the only variant that exists at all for Pass-Phrase and Crossword. See §1a for the
+6 audience-specific variants that now exist for the other 5 modules.
+
+| # | Module | Phone-synced? | Items (general) | Teaches |
 |---|---|---|---|---|
 | 1 | Fault Finding | ✅ (5 of 8 console items — see note) | 5 | Spot the tell between a real and a spoofed email/portal (domain spoofing, urgency framing, malicious attachments, link mismatches, lookalike login pages). |
-| 2 | Live Simulation | ❌ facilitator-only | — | Walks one attack chain end-to-end (LinkedIn recon → phishing → fraudulent wire transfer) as a narrated, linked sequence — not a per-item quiz. |
+| 2 | Live Simulation | ❌ facilitator-only | — | Walks one attack chain end-to-end (LinkedIn recon → phishing → fraudulent wire transfer) as a narrated, linked sequence — not a per-item quiz. Out of scope for the audience-variant system (§1a) — console-only, never referenced by `app.py`/`MODULE_DEFS`, stays a single flat `content/live-simulation.json`. |
 | 3 | Myth vs Fact | ✅ | 10 | Busts common phishing/password/social-engineering misconceptions as a True/False poll (half the items show the myth, half show the fact restated — see §7 below). |
 | 4 | Decision Room | ✅ | 10 (10 cases, each exactly one scenario → one decision → one debrief) | Incident-response scenarios — pick a response, see the consequence and the debrief, across HR/Recruitment, HR/Payroll, Finance/Accounts, Offshore Crew, and Operations personas. Merged with the former standalone "Closing Quiz"/Rapid Fire module (2026-09-08), then flattened and trimmed from 34 items/16 cases down to 10 for live facilitation (2026-09-08) — see the two notes below. |
 | 5 | Clue Quest | ✅ | 9 | Riddle → guess-the-term recall game covering terminology from earlier modules. |
-| 6 | Pass-Phrase | ✅ | 5 | Build a strong password from a rebalanced 15-chunk themed deck (scarce premium: 2-3 upper/symbol/number chunks) into a 15-char password row (chunk-aware cap, slot mechanics preserved), watching a live strength meter. Console: drag-and-drop + facilitator-only ceiling hint + once-per-round shuffle + tier-pulse animation. Phone: tap-to-place (tap deck tile, then tap slot) + same shuffle/pulse — same mechanic, touch-appropriate; see §5 for deck relation and §5a for quality ranking. |
-| 7 | Crossword | ✅ (self-paced) | 1 grid (11 clues / 73 letters) | Vocabulary recall, fill-in grid — no per-item push, participants (and the console) work the same 16×10 grid at their own pace. |
-| 8 | Control Catch | ✅ (self-paced) | 1 game (75s round) | Falling-bubble reflex game — tap the good security habits as they fall, let the bad ones pass; 3 lives, a personal score never shown to or compared with other participants. |
+| 6 | Pass-Phrase | ✅ | 5 | Build a strong password from a rebalanced 15-chunk themed deck (scarce premium: 2-3 upper/symbol/number chunks) into a 15-char password row (chunk-aware cap, slot mechanics preserved), watching a live strength meter. Console: drag-and-drop + facilitator-only ceiling hint + once-per-round shuffle + tier-pulse animation. Phone: tap-to-place (tap deck tile, then tap slot) + same shuffle/pulse — same mechanic, touch-appropriate; see §5 for deck relation and §5a for quality ranking. General-only for every audience — see §1a. |
+| 7 | Crossword | ✅ (self-paced) | 1 grid (11 clues / 73 letters) | Vocabulary recall, fill-in grid — no per-item push, participants (and the console) work the same 16×10 grid at their own pace. General-only for every audience — see §1a. |
+| 8 | Control Catch | ✅ (self-paced) | 1 game (75s round), 28-bubble pool | Falling-bubble reflex game — tap the good security habits as they fall, let the bad ones pass; 3 lives, a personal score never shown to or compared with other participants. |
 
 **Note on Defense Budget:** removed entirely (2026-09-07) — was facilitator-only, never
 phone-synced, never referenced in `app.py` or `GET /api/admin/modules`. Deleted
@@ -79,11 +88,110 @@ HTML/content and no references anywhere (`modules/scoreboard.js`, `attack-sim.js
 `quiz.js`, `deepfake.js`) plus `live-event/simulation.js` and `live-event/training.css`, all
 leftovers from an earlier, abandoned `window.SimulationModules`/`window.TrainingState` prototype.
 
-**Note on Fault Finding's 5-of-8 split:** `content/fault-finding.json` has 8 items; the console
-shows all 8. Only the 5 `"type": "compare"` items (genuine real-vs-fake judgment tasks) are
-pushed to phones — the other 3 (`smishing-text`, `fake-it-popup`, `mfa-fatigue`) are single-image
-reference cards with nothing to compare/choose between, so they stay console-only. See
-`_load_module_sequence` in `app.py`.
+**Note on Fault Finding's 5-of-8 split:** `content/fault-finding/general.json` has 8 items; the
+console shows all 8. Only the 5 `"type": "compare"` items (genuine real-vs-fake judgment tasks)
+are pushed to phones — the other 3 (`smishing-text`, `fake-it-popup`, `mfa-fatigue`) are
+single-image reference cards with nothing to compare/choose between, so they stay console-only.
+See `_load_module_sequence` in `app.py`. This split is per-audience too: e.g.
+`fault-finding/it-support.json`'s 5 items are all `"type": "compare"`, so its phone-synced count
+equals its raw count — the 5-of-8 gap is specific to `general.json`'s content, not a rule that
+always holds.
+
+---
+
+## 1a. Audience-variant content system (2026-09)
+
+Admin picks a team (**audience**) before picking a module. Launch then loads that team's own
+pre-built content variant instead of the shared general one — a **switch/reload mechanism, not a
+CMS**: there is no edit capability anywhere in `admin/dashboard.html` (three `<input>`s total —
+username, password, room code — and zero routes in `app.py` write to any `content/**/*.json` file;
+the only disk-write in the whole file persists `SESSIONS`, never content).
+
+**The 6 canonical audiences:** Accounts, HR, Fleet Management, Vessel Operations, IT Support,
+Development — `AUDIENCE_DEFS` in `app.py`, mirrored in `admin/dashboard.html`'s audience tabs.
+Existing personas already embedded in some modules' content map onto these: Finance/Accounts →
+Accounts, HR/Recruitment + HR/Payroll → HR, Operations → Fleet Management, Offshore Crew →
+Vessel Operations. IT Support and Development had no existing content and were authored from
+scratch across all 5 audience-capable modules.
+
+**Storage convention:** `content/<module>/<audience>.json` (was flat `content/<module>.json`
+before this pass). `_resolve_module_content_file(module_id, audience)` in `app.py` is the single
+place this resolves: if `content/<module>/<audience>.json` exists, use it; otherwise fall back to
+`content/<module>/general.json` and report `usedFallback: true`. `_load_module_sequence` and
+`_get_modules_with_counts` both take an `audience` parameter and thread it straight through — no
+other backend mechanism needed, content authoring alone is what extended coverage module by
+module.
+
+**Coverage today** — full parity across `fault-finding`, `myth-vs-fact`, `decision-room`,
+`clue-quest`, and `control-catch` (all 6 audiences have a real file for all 5); `pass-phrase` and
+`crossword` remain `general.json`-only for every audience (deliberate — no persona content ever
+existed to split for either, and neither module's mechanic lends itself to a themed variant the
+way the other 5 do). Per-audience item counts as of the last full regression:
+
+| Module | Accounts | HR | Fleet Mgmt | Vessel Ops | IT Support | Development |
+|---|---|---|---|---|---|---|
+| Fault Finding (compare items) | 5 | 5 | 5 | 5 | 5 | 5 |
+| Myth vs Fact | 6 | 6 | 5 | 5 | 6 | 6 |
+| Decision Room | 5 | 5 | 5 | 5 | 5 | 5 |
+| Clue Quest | 6 | 6 | 6 | 6 | 6 | 6 |
+| Control Catch (bubble pool) | 24 | 24 | 24 | 24 | 24 | 24 |
+| Pass-Phrase | general (10) | general | general | general | general | general |
+| Crossword | general (1 grid) | general | general | general | general | general |
+
+**Admin flow:** login → audience tabs (`admin/dashboard.html`'s `renderAudienceTabs()`) → module
+picker (`GET /api/admin/modules?audience=<id>`, counts computed live from disk every request, no
+hardcoding) → **Launch** (`POST /api/admin/session/<code>/launch` with `{module, audience}`) →
+lobby → Start. Switching audience mid-event and relaunching a different module into the **same**
+room is fully supported and does not touch `participants`/`responses`/`submissions` — verified via
+a live 42-launch matrix (6 audiences × 7 modules) plus a 3-step audience+module switch sequence in
+one room with 2 joined participants, both passing with zero content bleed (checked item-by-item
+against each audience's actual file, not just labels) and participants intact throughout.
+
+**Endpoints added:** `GET /api/admin/audiences` (static list of the 6 + `isNew` flags for
+audiences with no content yet — none currently flagged, all 6 have content in every
+audience-capable module); `?audience=` accepted by `GET /api/admin/modules` and
+`GET /api/admin/modules/<id>/facilitator-notes`; `{audience}` accepted by the launch route.
+`GET /api/session/<code>/state` now also returns `activeAudience`.
+
+---
+
+## 1b. Deck audience-swap (main slide deck, 2026-09)
+
+Separate from the admin/phone system above: the main 19-slide deck (`index.html` +
+`scripts/deck.js` + `slides/slide-NN.html`) is a fully static, client-rendered page — no backend
+rendering, `app.py` only serves the files and validates them at startup (`check_deck_alignment()`).
+Audience-awareness here is entirely client-side, driven by a `?audience=` URL query param (e.g.
+`index.html?audience=hr`), read once in `deck.js` and cached in `CURRENT_AUDIENCE`, resolved by
+`resolveCurrentAudience()`.
+
+- **Closing slide swap** (`AUDIENCE_CLOSING_SLIDES` map) — one `slide-19-<audience>.html` per
+  audience, each with its own `whyThisMatters`/`rememberThis`-derived lead/recap-chips/final-call.
+  Swapped in place at the existing slide-19 position. No match (missing/unrecognized/no param) →
+  the original shared `slide-19.html` shows, same as before this system existed.
+- **Topic-slide insertion** (`AUDIENCE_TOPIC_SLIDES` map, IT Support/Development only) — 3 new
+  slides each (`slide-it-{fundamentals,vault,rotation}.html` /
+  `slide-dev-{fundamentals,pipeline,trust}.html`), a fundamentals → growing-practice →
+  mature-practice progression on key/credential management (IT Support) and secure development
+  practice (Development). **Inserted**, not swapped — right after `slide-13.html` (end of
+  Workplace & Login Security) and before `slide-14.html` (See Something, Say Something), only
+  when the audience matches. Every other audience keeps the original 19-slide sequence, unchanged
+  length. `deck.js`'s `buildDeck()` forwards `?audience=` into every slide's own iframe `src` (an
+  iframe doesn't inherit the parent page's query string on its own), which is what lets
+  `slide-13.html`'s own inline script make its "Next" bridge text audience-aware too — it names the
+  actual next slide for IT Support/Development instead of always saying "See Something, Say
+  Something".
+- **Validation** — `check_deck_alignment()` runs 3 checks at startup, each printing its own
+  declared-count + WARNING-on-missing: the base `SLIDES` array (19 slides), `AUDIENCE_CLOSING_SLIDES`
+  (6 files), `AUDIENCE_TOPIC_SLIDES` (6 files across 2 audiences). All three verified to actually
+  catch a deliberately-removed file (tested by temporarily deleting one of each kind and confirming
+  the WARNING fires, then restoring it) — not just verified to print a clean bill of health when
+  nothing is missing.
+- **Admin dashboard link stays in sync** — the same `selectedAudience` state that drives module
+  launches also drives an "Open Slide Deck for This Audience" link (`href` updates live on every
+  audience-tab click, no separate regenerate step) plus a small staleness indicator
+  (`renderDeckAudienceIndicator()`) that warns if a deck tab was already opened for a *different*
+  audience than the one now selected — a plain `<a target="_blank">` always opens a fresh tab, so
+  an earlier tab isn't remotely reloadable; the indicator is the honest substitute for that.
 
 ---
 
@@ -92,9 +200,10 @@ reference cards with nothing to compare/choose between, so they stay console-onl
 ### Standalone console (now admin-login-gated — see note below)
 Open **`/live-event/index.html`** on the presentation machine, logged in as admin. Click a
 module card, run it, press the browser back button (or the console's own nav) to return to the
-menu. It still touches nothing in the admin/session system functionally — it reads
-`content/*.json` directly and keeps zero server-side session state of its own — but the page
-itself now requires the same admin session cookie as `/admin`.
+menu. It still touches nothing in the admin/session system functionally — it reads each module's
+`content/<module>/general.json` directly (no audience concept — see §1a) and keeps zero
+server-side session state of its own — but the page itself now requires the same admin session
+cookie as `/admin`.
 
 > **Access-model change:** earlier passes of this project explicitly verified and documented the
 > standalone console as having "zero dependency on the admin/session system," including no
@@ -103,7 +212,7 @@ itself now requires the same admin session cookie as `/admin`.
 > (see `live_event_index`/`live_event` in `app.py`). This is a deliberate access-control decision
 > for this event, not a regression of the earlier no-auth verification — that verification was
 > accurate for its time. Gating is scoped to the HTML pages only: `console.css`, `console.js`,
-> `content/*.json`, and `assets/*` under the same `/live-event/` path stay public, because the
+> `content/**/*.json`, and `assets/*` under the same `/live-event/` path stay public, because the
 > phone-synced `/join/<code>` page also depends on them (console.css's own `@import` chain,
 > fault-finding's real email images) and participants are never admin-authenticated — gating the
 > whole path would have silently broken every participant's phone view along with the console.
@@ -116,12 +225,20 @@ itself now requires the same admin session cookie as `/admin`.
    Render or a custom domain).
 3. Participants scan the QR (or type the join URL) → land on `/join/<CODE>` → enter a display
    name → they're in the room, waiting for the host.
-4. Facilitator picks a module in the picker grid → **Launch** (creates a lobby) → **Start**
+4. Facilitator picks an **audience** tab (Accounts / HR / Fleet Management / Vessel Operations /
+   IT Support / Development — or leaves it on General) then a module in the picker grid →
+   **Launch** (creates a lobby, loads that audience's content variant — see §1a) → **Start**
    (pushes item 1) → **Next** through the sequence → **Complete** → **Choose Next Activity**
-   (returns to the picker without re-scanning) → repeat for the next module. Same room code,
-   same participants, for the whole event.
+   (returns to the picker without re-scanning) → repeat for the next module, same or different
+   audience. Same room code, same participants, for the whole event — switching audience
+   mid-event and relaunching is fully supported (verified: participants/responses untouched).
 5. **Reset This Room** (admin dashboard) wipes participants/responses so the *same* room code
    can be handed to a *different* group later in the day.
+6. **"Open Slide Deck for This Audience"** (next to the audience tabs) opens the main 19-slide
+   deck (§1b) with its Closing slide (and, for IT Support/Development, 3 extra topic slides)
+   already set to whatever audience is currently selected — a separate, unauthenticated static
+   page from the admin/phone system, kept in sync by the same audience selection, not a second
+   thing to set.
 
 ---
 
@@ -149,9 +266,11 @@ itself now requires the same admin session cookie as `/admin`.
 `SESSIONS` (the in-memory room/participant/response store) mirrors to a single JSON file,
 `data/sessions.json`, written atomically (temp file + `os.replace`) after every state-mutating
 route and reloaded at process startup. A Render dyno sleep, redeploy, or crash mid-event now
-resumes the same room code, same participants, same mid-activity state — verified by forcibly
-killing and restarting the process mid-crossword and confirming full recovery, repeated after a
-full 7-module run.
+resumes the same room code, same participants, same mid-activity state, **same `activeAudience`**
+— verified repeatedly, most recently (2026-09-24) by killing and restarting the process mid-way
+through a 3-step audience+module switch sequence (Accounts → IT Support → Development) and
+confirming `activeModule`, `activeAudience`, and both joined participants came back byte-for-byte
+identical to the pre-restart snapshot.
 
 `GET /health` → `{"ok": true, "sessionsLoaded": <n>}` — public, unauthenticated. The app does
 **not** self-ping; if you're on a Render tier that sleeps on idle, point an external uptime
@@ -204,7 +323,8 @@ quality-based, not just completion time.
 procedurally generates a fresh random `weakPassword` + 15-chunk deck (scarce premium pool,
 cap 15) on every render via `generateWeakPassword()`/`generateDeck()` — never the same
 twice, even for the same round. The phone instead reads a **fixed** `weakPassword` + `deck`
-per round from `content/pass-phrase.json`, generated **once** by
+per round from `content/pass-phrase/general.json` (the only variant that exists — see §1a),
+generated **once** by
 `scripts/gen_passphrase_content.py` (which calls the Python ports of those same functions,
 `_pp_generate_weak_password`/`_pp_generate_deck` in `app.py`, using the same scarce-pool
 + chunk-aware 15-char cap logic) so the deck stays fixed for the whole activity, like every
@@ -235,15 +355,29 @@ trade-offs, not bugs waiting to be found again**:
   modules' content files ever produced the same generated ID, responses could in principle bleed
   across an activity boundary. Not currently possible given how IDs are generated today, but not
   structurally prevented either.
-- **Admin session timeout is a flat 12 hours,** no idle timeout, no CSRF token (relies on the
-  session cookie + same-origin fetches from the dashboard's own JS). Deliberately long-lived so a
-  facilitator is never logged out mid-event; revisit if this tool is ever exposed beyond a single
-  trusted operator per event.
-- **Fault Finding's persona rotation has a small gap:** 4 of its 5 phone-synced items carry a
-  `persona` tag (HR/Recruitment, Finance/Accounts, HR/Payroll, Offshore Crew); the 5th
-  (`compare-login-portal`) has none. Decision Room's persona rotation (all 10 cases) covers all
-  five named personas — HR/Recruitment ×2, HR/Payroll ×1, Offshore Crew ×2, Finance/Accounts ×2,
-  Operations ×3. Not fixed here — it's a content-authoring call, not a code bug.
+- **Admin session has a 12h absolute lifetime plus an idle timeout** (`ADMIN_IDLE_TIMEOUT`), and
+  every mutating admin request now requires a per-login `X-CSRF-Token` header
+  (`/api/admin/login`/`/api/admin/check` issue `csrfToken`, checked against the session's stored
+  token) — this note previously said no CSRF token existed; that was true for an earlier pass and
+  has since been fixed. GET/HEAD requests are exempt.
+- **Fault Finding's `general.json` persona rotation has a small gap:** 4 of its 5 phone-synced
+  items carry a `persona` tag (HR/Recruitment, Finance/Accounts, HR/Payroll, Offshore Crew); the
+  5th (`compare-login-portal`) has none. Decision Room's `general.json` rotation (all 10 cases)
+  covers all five named personas — HR/Recruitment ×2, HR/Payroll ×1, Offshore Crew ×2,
+  Finance/Accounts ×2, Operations ×3. Not fixed here — it's a content-authoring call, not a code
+  bug. Not applicable to the 6 audience-specific variants (§1a) — each of those is filtered/
+  authored to a single persona/audience by construction, so there's no rotation gap to have.
+- **Item IDs are decision-room-composite, not just the case's own `id`.** `_load_module_sequence`
+  builds each Decision Room sequence item's id as `f"{case_id}_{decision_id}"` (e.g.
+  `it-vendor-impersonation-call_d1`), not the case's raw `id` field alone — verified during the
+  final regression pass by cross-checking every launched module's actual returned item ids against
+  each audience file's raw content, not just trusting the app's own counts. Relevant if anything
+  ever needs to look up a Decision Room item by id directly from a content file.
+- **Pass-Phrase and Crossword stay `general.json`-only for every audience** (§1a) — a deliberate
+  scope boundary, not an oversight: no per-persona content ever existed for either module to split,
+  and their mechanics (a themed deck; a single crossword grid) don't lend themselves to a
+  team-specific variant the way the other 5 modules' scam scenarios do. `usedFallback: true` for
+  every non-general audience on these two is expected, not a bug.
 ---
 
 ## 7. Before your next live event — checklist
@@ -261,3 +395,8 @@ trade-offs, not bugs waiting to be found again**:
 - [ ] If you want to inspect `data/sessions.json` after an event (attendance, response counts),
       remember it's gitignored — it lives only on the Render instance's disk (or wherever the
       process ran), not in the repo.
+- [ ] If you know the group's team/audience ahead of time, confirm the right tab is selected
+      before Launch — check the picker's item counts against §1a's table if a count looks off
+      (`usedFallback: true` for Pass-Phrase/Crossword on any non-General audience is expected, not
+      a bug; for the other 5 modules it means that audience's content file is missing and Launch
+      is quietly serving General instead).
