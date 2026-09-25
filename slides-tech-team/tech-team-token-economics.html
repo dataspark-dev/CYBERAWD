@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Token Economics & Denial-of-Wallet — Technology Team — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+    .info-box.danger { border-left-color: var(--red); background: rgba(239,68,68,0.06); }
+    .info-box.danger i { color: var(--red); }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Technology Team — Financial & Resource Defense</div>
+      <h1>TOKEN ECONOMICS &amp; <span>DENIAL-OF-WALLET</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">An AI feature without resource limits is a billing incident waiting to happen.</p>
+
+      <div class="reveal-stagger card-grid cols-3" style="margin-top:32px;">
+        <div class="pillar-card v-blue" style="text-align:center;">
+          <div style="font-family:'Times New Roman',Times,serif; font-size:56px; font-weight:900; color:var(--blue); margin-bottom:8px;">Cap</div>
+          <h3>Hard Context Limits</h3>
+          <p>Restrict the maximum token payload length allowed on any single request.</p>
+        </div>
+        <div class="pillar-card v-blue" style="text-align:center;">
+          <div style="font-family:'Times New Roman',Times,serif; font-size:56px; font-weight:900; color:var(--blue); margin-bottom:8px;">Rate</div>
+          <h3>Tenant Quotas</h3>
+          <p>Enforce hourly request ceilings per authenticated user or service.</p>
+        </div>
+        <div class="pillar-card v-blue" style="text-align:center;">
+          <div style="font-family:'Times New Roman',Times,serif; font-size:56px; font-weight:900; color:var(--blue); margin-bottom:8px;">Alert</div>
+          <h3>Circuit Breakers</h3>
+          <p>Auto-kill on any billing anomaly that crosses a threshold — don't wait for a human to notice.</p>
+        </div>
+      </div>
+
+      <div class="callout-bar" style="margin-top:48px;">
+        <i class="fas fa-coins"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[CONTAIN COST]</strong> <strong>GOLDEN RULE:</strong> Token limits, per-user quotas, and automatic circuit breakers are the same discipline as rate-limiting any other API — an AI endpoint is not exempt just because the cost model is newer.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> RAG &amp; Vector Store Security <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

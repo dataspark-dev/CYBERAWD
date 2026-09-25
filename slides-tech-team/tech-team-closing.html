@@ -120,74 +120,67 @@
       <div class="subhead">Synergy Marine Group &times; AFT — Closing: Technology Team</div>
       <h1>THANK<br><span>YOU</span></h1>
       <div class="rule"></div>
-      <p class="lead">You keep everything else running — which makes you a target too. Attackers copy your tickets, vendor calls, PR comments, and CI alerts because they know you're trained to move through them fast.</p>
+      <p class="lead">This playbook connects the CIA triad through developer hygiene to the AI systems your team is already building — security is a daily habit, not a one-time review.</p>
 
       <div class="close-chip-wrap reveal-stagger">
         <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-ticket"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Fake Escalation Ticket</div>
-          <div class="cc-note">A ticket number and internal jargon are not proof — check the real queue and the sender's exact domain.</div>
-        </div>
-        <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-headset"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Vendor Impersonation Call</div>
-          <div class="cc-note">Verify any urgent vendor call on a number from your own approved contact list, never one the caller gives you.</div>
+          <div class="cc-icon"><i class="fas fa-shield-halved"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">CIA Triad</div>
+          <div class="cc-note">Confidentiality, integrity, and availability — every control in this playbook maps back to one of these three.</div>
         </div>
         <div class="close-chip">
           <div class="cc-icon"><i class="fas fa-key"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Credential-Reset Social Engineering</div>
-          <div class="cc-note">A caller who refuses standard verification, however senior they sound, does not get a reset.</div>
+          <div class="cc-label">Enterprise Hygiene</div>
+          <div class="cc-note">Hardware MFA, least privilege, zero trust, automated patching — six baseline controls, applied everywhere.</div>
         </div>
         <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-box-open"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Fake Dependency Request</div>
-          <div class="cc-note">A plausible package name is not a safety check — verify publish history and maintainer reputation yourself.</div>
-        </div>
-        <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-code-pull-request"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Phishing via PR Comment</div>
-          <div class="cc-note">GitHub never asks you to "re-authorize" through a link in a comment — open github.com yourself instead.</div>
-        </div>
-        <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-diagram-project"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">CI/CD Credential Phishing</div>
-          <div class="cc-note">Your CI system authenticates through your session — it never asks you to retype credentials by email.</div>
-        </div>
-        <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-shield-halved"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Hygiene &amp; Data Handling</div>
-          <div class="cc-note">Hardware MFA, least privilege, zero trust, and the right handling for each data classification tier — six baseline controls, applied everywhere.</div>
+          <div class="cc-icon"><i class="fas fa-phone-volume"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Phishing &amp; Verification</div>
+          <div class="cc-note">Urgency is the tell. Verify unusual requests through a channel you already trust, never one the requester supplies.</div>
         </div>
         <div class="close-chip">
           <div class="cc-icon"><i class="fas fa-desktop"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Endpoint &amp; Zero Trust Network</div>
+          <div class="cc-label">Endpoint &amp; Network</div>
           <div class="cc-note">Patch automatically, encrypt every disk, run as standard user by default, and trust no network location by itself.</div>
         </div>
         <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-key"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">AppSec &amp; Secrets</div>
-          <div class="cc-note">Validate every input server-side, authorize every request, and keep every secret in a vault, never in source.</div>
+          <div class="cc-icon"><i class="fas fa-layer-group"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Data Classification</div>
+          <div class="cc-note">Handling follows classification, not convenience — four tiers, each with its own requirement.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-vault"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Secrets Architecture</div>
+          <div class="cc-note">Every secret in a vault, short-lived and scoped — never in source, a frontend, or an unencrypted .env file.</div>
         </div>
         <div class="close-chip">
           <div class="cc-icon"><i class="fas fa-diagram-project"></i><i class="fas fa-circle-check cc-badge"></i></div>
           <div class="cc-label">Git Lifecycle Defense</div>
-          <div class="cc-note">Scan for secrets before every commit, require signed commits and peer review, and revoke — don't just delete — a leak.</div>
+          <div class="cc-note">Defense at every stage — pre-commit, pull request, and instant revocation on any leak.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-code"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">AppSec Essentials</div>
+          <div class="cc-note">Validate every input server-side, authorize every request, sanitize every query.</div>
         </div>
         <div class="close-chip">
           <div class="cc-icon"><i class="fas fa-robot"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">AI Security</div>
-          <div class="cc-note">Secrets, PII, and incident details never go into a public AI prompt; AI-generated code and packages are treated as untrusted until verified.</div>
+          <div class="cc-label">AI Security Architecture</div>
+          <div class="cc-note">Treat AI output as untrusted, sanitize what it reads, gate every prompt through the same four checkpoints.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-coins"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Resource &amp; Data Defense</div>
+          <div class="cc-note">Token limits, tenant quotas, RAG access control, and strict telemetry/masking separation.</div>
         </div>
         <div class="close-chip">
           <div class="cc-icon"><i class="fas fa-flag-checkered"></i><i class="fas fa-circle-check cc-badge"></i></div>
           <div class="cc-label">Golden Rules</div>
-          <div class="cc-note">Hardware MFA everywhere, zero secrets in source/chat/tickets, AI output treated as untrusted, least privilege on every request.</div>
+          <div class="cc-note">MFA everywhere, zero secrets in source, AI output untrusted, least privilege by default.</div>
         </div>
       </div>
 
-      <div class="games-note"><i class="fas fa-trophy"></i> Keep practicing: live awareness games (4 rotating stations, ~30–45 min, team scoring) continue this training in person.</div>
-
-      <div class="final-call">A ticket number, a familiar package name, or a routine-looking alert is not proof: STOP → VERIFY through a channel you already trust → REPORT. Every single time.</div>
+      <div class="final-call">A hardcoded key, an unverified request, or an untrusted AI output is not proof of safety: STOP → VERIFY through a channel you already trust → REPORT. Every single time.</div>
     </div>
   </div>
 

@@ -241,6 +241,72 @@
         }
       ],
       "debrief": "A same-day approval request for a bulk data export is the pattern to catch, regardless of how calm or routine the email sounds. STOP before approving anything from the email itself. VERIFY through the compliance system and the team directly. REPORT the email regardless of what you find."
+    },
+    {
+      "id": "it-shared-folder-left-open",
+      "persona": "IT Support",
+      "title": "The Shared Folder Left Open",
+      "scenario": "A routine access review turns up a cloud-storage folder set to \"anyone with the link\" instead of the access controls its actual data classification tier requires. Nothing suspicious has happened yet — it was just never locked down properly.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Leave it — nothing bad has happened yet, and locking it down might break someone's workflow",
+              "outcome": "consequence",
+              "feedback": "A folder open to anyone with the link is a breach waiting to happen, not a hypothetical one — the fact that nothing has surfaced yet doesn't mean nothing has been accessed."
+            },
+            {
+              "id": "b",
+              "text": "Send the folder owner a heads-up email and let them decide",
+              "outcome": "consequence",
+              "feedback": "A heads-up is a good habit, but it delays fixing an active exposure — the access should be restricted immediately, not queued behind someone else's inbox."
+            },
+            {
+              "id": "c",
+              "text": "Restrict access immediately to match its data classification tier, then check who has accessed it while it was open",
+              "outcome": "good",
+              "feedback": "Correct. Handling follows classification, not convenience — fix the exposure first, then audit what happened while it was open."
+            }
+          ]
+        }
+      ],
+      "debrief": "A misconfigured sharing setting is one of the most common ways Confidential or Restricted data leaks — not a sophisticated attack, just a setting nobody checked. STOP treating it as low priority because nothing obvious happened. VERIFY the classification tier and audit access. REPORT it so the same setting gets checked elsewhere."
+    },
+    {
+      "id": "it-ai-bot-retrieving-too-much",
+      "persona": "IT Support",
+      "title": "The AI Support Bot Retrieving Too Much",
+      "scenario": "An internal AI helpdesk bot, built on a RAG (retrieval-augmented) system over the ticket archive, appears to surface details from a Restricted-tier ticket in response to a general staff question. It's not clear if this is a one-off or a pattern.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Assume the model filtered it correctly — LLMs are generally good at handling sensitive context appropriately",
+              "outcome": "consequence",
+              "feedback": "Never rely on the model itself to filter out sensitive data it already retrieved — if it retrieved it, it can repeat it. Filtering has to happen before retrieval, not be hoped for after."
+            },
+            {
+              "id": "b",
+              "text": "Manually spot-check a handful of other responses to see if it happens again",
+              "outcome": "consequence",
+              "feedback": "Spot-checking might catch this instance, but it doesn't fix the underlying gap — the bot will keep retrieving whatever it has permission to reach until that's addressed."
+            },
+            {
+              "id": "c",
+              "text": "Take the bot offline until document-level access permissions are verified and enforced before retrieval, not after",
+              "outcome": "good",
+              "feedback": "Correct. Pre-retrieval authorization — checking permissions before the vector search runs — is the actual fix. A RAG system is only as secure as the access control on what it retrieves."
+            }
+          ]
+        }
+      ],
+      "debrief": "A RAG system surfacing data outside its requester's permissions is an access-control gap, not a content problem. STOP trusting the model to self-censor. VERIFY that retrieval itself is permission-gated. REPORT it and pull the system offline until it's fixed."
     }
   ]
 }

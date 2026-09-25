@@ -6,7 +6,8 @@
       "Ask which two terms are easiest to mix up — PR-COMMENT PHISHING and FAKE VULNERABILITY ALERT can both look like routine GitHub notifications, but the ask is different.",
       "Ask for a real example of a dependency or notification that matches one of these terms.",
       "Ask someone to explain FAKE RECRUITER OUTREACH in their own words, without using the term itself.",
-      "Ask which two terms are easiest to mix up now — FAKE AI EXTENSION SIDELOAD and SECRETS MIGRATION REQUEST both arrive from a name that sounds like your own tooling team, but one asks you to install something and the other asks you to send something."
+      "Ask which two terms are easiest to mix up now — FAKE AI EXTENSION SIDELOAD and SECRETS MIGRATION REQUEST both arrive from a name that sounds like your own tooling team, but one asks you to install something and the other asks you to send something.",
+      "Ask which two terms are easiest to mix up now — SECRETS ARCHITECTURE and GIT LIFECYCLE DEFENSE are related but different: one is about where a credential lives, the other is about the process that catches one that leaked anyway."
     ],
     "commonWrongAnswer": "People most often mix up PR-COMMENT PHISHING and FAKE VULNERABILITY ALERT. Both can look like routine GitHub activity, so people pick one when the riddle points to the other. The difference: PR-comment phishing hides in a fake review comment on your own pull request; a fake vulnerability alert copies GitHub's own security-notification format."
   },
@@ -89,6 +90,46 @@
         "SECRETS MIGRATION REQUEST",
         "CI/CD CREDENTIAL PHISHING",
         "FAKE AI EXTENSION SIDELOAD"
+      ]
+    },
+    {
+      "id": "secrets-architecture-standard",
+      "riddle": "I say a credential belongs in a vault, short-lived and scoped — never hardcoded in source, a frontend bundle, or an unencrypted .env file. What standard am I?",
+      "answer": "SECRETS ARCHITECTURE",
+      "options": [
+        "SECRETS ARCHITECTURE",
+        "GIT LIFECYCLE DEFENSE",
+        "BROKEN ACCESS CONTROL"
+      ]
+    },
+    {
+      "id": "git-lifecycle-defense-riddle",
+      "riddle": "I'm a three-stage defense: a local hook scan before commit, peer review and a signed commit at the pull request, and instant revocation the moment a leak reaches main. What am I?",
+      "answer": "GIT LIFECYCLE DEFENSE",
+      "options": [
+        "GIT LIFECYCLE DEFENSE",
+        "SECRETS ARCHITECTURE",
+        "TOKEN ECONOMICS"
+      ]
+    },
+    {
+      "id": "broken-access-control-riddle",
+      "riddle": "I'm the vulnerability class where the backend checks you're logged in, but forgets to check you're actually allowed to see this specific resource. What am I?",
+      "answer": "BROKEN ACCESS CONTROL",
+      "options": [
+        "BROKEN ACCESS CONTROL",
+        "SECRETS ARCHITECTURE",
+        "FAKE AI EXTENSION SIDELOAD"
+      ]
+    },
+    {
+      "id": "token-economics-riddle",
+      "riddle": "I'm the discipline that stops a single AI feature from becoming a billing incident — a hard context cap, a per-user rate quota, and a circuit breaker, together. What am I?",
+      "answer": "TOKEN ECONOMICS",
+      "options": [
+        "TOKEN ECONOMICS",
+        "GIT LIFECYCLE DEFENSE",
+        "SECRETS MIGRATION REQUEST"
       ]
     }
   ]

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enterprise Security Hygiene — Technology Team — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Technology Team — Foundational Controls</div>
+      <h1>ENTERPRISE SECURITY <span>HYGIENE</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">The six foundational controls guiding every security decision and system design in this playbook.</p>
+
+      <div class="two-col" style="margin-top:8px;">
+        <div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-key"></i></div><div><h4>Hardware MFA Enforcement <span class="tell-tag">Control</span></h4><p>Mandatory FIDO2 security keys across all developer and admin portals.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-diagram-project"></i></div><div><h4>Zero Trust Architecture <span class="tell-tag">Control</span></h4><p>Continuous explicit verification for every internal and external microservice.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-ban"></i></div><div><h4>Zero Credential Reuse <span class="tell-tag">Control</span></h4><p>Strict isolation between corporate credentials and personal accounts.</p></div></div>
+        </div>
+        <div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-user-lock"></i></div><div><h4>Strict Least Privilege (RBAC) <span class="tell-tag">Control</span></h4><p>Scoped access policies with just-in-time administrative elevation.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-arrows-rotate"></i></div><div><h4>Automated Patch Pipelines <span class="tell-tag">Control</span></h4><p>Continuous vulnerability scanning and automated OS dependency updates.</p></div></div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-triangle-exclamation"></i></div><div><h4>Exposure Revocation <span class="tell-tag">Control</span></h4><p>Exposed passwords are treated as instantly breached and rotated.</p></div></div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Hardware MFA (FIDO2) on every privileged account</span>
+        <span class="impact-chip"><i class="fas fa-user-lock" style="color:var(--cyan);"></i> Least privilege, reviewed regularly</span>
+        <span class="impact-chip"><i class="fas fa-arrows-rotate" style="color:var(--cyan);"></i> Rotate instantly on any suspected exposure</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[HYGIENE]</strong> <strong>GOLDEN RULE:</strong> Hardware MFA, least privilege, zero trust, automated patching, zero reuse, and instant exposure revocation — six controls, applied everywhere, all the time.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Phishing &amp; Verification Protocols <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

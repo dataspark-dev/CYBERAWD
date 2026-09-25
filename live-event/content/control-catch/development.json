@@ -174,6 +174,53 @@
       "good": false,
       "trick": true,
       "note": "A familiar name on an urgent deploy request is exactly what this trick relies on — the domain, read in full, is still the real check."
+    },
+    {
+      "id": "fetched-runtime-secrets-from-vault",
+      "text": "Fetched Runtime Secrets From The Vault, Not Source",
+      "good": true
+    },
+    {
+      "id": "required-signed-commit-before-merge",
+      "text": "Required A Signed Commit Before Merge",
+      "good": true
+    },
+    {
+      "id": "validated-input-on-backend-not-just-frontend",
+      "text": "Validated Input On The Backend, Not Just The Frontend",
+      "good": true
+    },
+    {
+      "id": "set-rate-limit-before-shipping-ai-endpoint",
+      "text": "Set A Rate Limit Before Shipping A New AI Endpoint",
+      "good": true
+    },
+    {
+      "id": "hardcoded-api-key-into-repository",
+      "text": "Hardcoded An API Key Into The Repository",
+      "good": false
+    },
+    {
+      "id": "committed-unencrypted-env-file",
+      "text": "Committed An Unencrypted .env File",
+      "good": false
+    },
+    {
+      "id": "trusted-client-side-validation-alone",
+      "text": "Trusted Client-Side Validation Alone",
+      "good": false
+    },
+    {
+      "id": "shipped-ai-feature-with-no-token-limit",
+      "text": "Shipped An AI Feature With No Token Or Cost Limit",
+      "good": false
+    },
+    {
+      "id": "used-https-for-public-api-only",
+      "text": "Used HTTPS For The Public-Facing API Only",
+      "good": false,
+      "trick": true,
+      "note": "Encrypting external traffic is necessary but not sufficient — zero trust means TLS on internal service-to-service traffic too, not just what's internet-facing."
     }
   ]
 }

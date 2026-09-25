@@ -241,6 +241,72 @@
         }
       ],
       "debrief": "A request to send secrets in cleartext by email is the red flag, regardless of how routine the surrounding migration request sounds. STOP before replying with anything from your .env file. VERIFY through the vault UI and DevOps directly. REPORT the email so others don't reply either."
+    },
+    {
+      "id": "dev-hotfix-skips-review",
+      "persona": "Development",
+      "title": "The Hotfix That Skips Review",
+      "scenario": "A teammate wants to merge a \"tiny\" one-line hotfix directly to production under deadline pressure, without the usual peer review or a signed commit — \"it's too small to matter, and we're already late.\"",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Allow it — it's a one-line change and the deadline is real",
+              "outcome": "consequence",
+              "feedback": "Size is not the risk factor here — a one-line change to the wrong line can be just as damaging as a large one, and skipping review \"just this once\" is exactly how that gap gets exploited."
+            },
+            {
+              "id": "b",
+              "text": "Let it merge now and review it after the fact",
+              "outcome": "consequence",
+              "feedback": "Reviewing after merge means the change is already live in production before anyone else has verified it — the whole point of review is to catch problems before they ship, not after."
+            },
+            {
+              "id": "c",
+              "text": "Hold the merge for peer review and a signed commit, regardless of size or deadline",
+              "outcome": "good",
+              "feedback": "Correct. Git lifecycle defense applies at every stage regardless of how small the change looks — peer review and signed commits are branch guardrails, not optional steps for urgent changes."
+            }
+          ]
+        }
+      ],
+      "debrief": "\"Too small to matter\" and \"too urgent to wait\" are the same pressure pattern that skips verification anywhere else — just aimed at code review instead of a payment or a reset. STOP before merging without review. VERIFY through the normal process, every time. REPORT pressure to skip it as a pattern worth flagging."
+    },
+    {
+      "id": "dev-ai-feature-without-limits",
+      "persona": "Development",
+      "title": "The New AI Feature Without Limits",
+      "scenario": "A new AI-powered feature is ready to ship. It has no hard context/token limit, no per-user rate quota, and no circuit breaker for billing anomalies — the plan is to \"add that later once we see real usage.\"",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Ship it now — limits can be added later once real usage patterns are known",
+              "outcome": "consequence",
+              "feedback": "An AI endpoint without limits is a denial-of-wallet incident waiting to happen — a single misbehaving client or automated abuse can generate a large bill before anyone notices."
+            },
+            {
+              "id": "b",
+              "text": "Ship it with basic usage monitoring, but no hard limits yet",
+              "outcome": "consequence",
+              "feedback": "Monitoring tells you about a cost spike after it's already happened — it doesn't prevent it. A circuit breaker needs to be able to act automatically, not just alert."
+            },
+            {
+              "id": "c",
+              "text": "Require hard context limits, per-user rate quotas, and an automatic circuit breaker before shipping",
+              "outcome": "good",
+              "feedback": "Correct. Token limits, tenant quotas, and circuit breakers are the same discipline as rate-limiting any other API — an AI endpoint is not exempt just because the cost model is newer."
+            }
+          ]
+        }
+      ],
+      "debrief": "Resource limits on an AI feature are a launch requirement, not a follow-up task. STOP before shipping without them. VERIFY that cap, rate, and alert controls are all in place. REPORT any AI feature already live without them."
     }
   ]
 }

@@ -174,6 +174,53 @@
       "good": true,
       "trick": true,
       "note": "A genuine IAM summary is already logged and needs no click-through confirmation — being asked to \"confirm\" it afterward is the actual thing to check."
+    },
+    {
+      "id": "verified-data-classification-before-sharing",
+      "text": "Verified Data Classification Before Sharing A File",
+      "good": true
+    },
+    {
+      "id": "applied-zero-trust-verification-to-internal-request",
+      "text": "Applied Zero Trust Verification To An Internal Request",
+      "good": true
+    },
+    {
+      "id": "patched-on-schedule-not-when-reminded",
+      "text": "Patched On Schedule, Not When Reminded",
+      "good": true
+    },
+    {
+      "id": "redacted-secrets-before-pasting-into-ai-tool",
+      "text": "Redacted Secrets Before Pasting Into An AI Tool",
+      "good": true
+    },
+    {
+      "id": "assumed-internal-network-traffic-was-safe",
+      "text": "Assumed Internal Network Traffic Was Automatically Safe",
+      "good": false
+    },
+    {
+      "id": "left-exposed-credential-unrotated",
+      "text": "Left An Exposed Credential Un-Rotated After Discovery",
+      "good": false
+    },
+    {
+      "id": "exposed-database-port-to-internet",
+      "text": "Exposed A Database Port Directly To The Internet",
+      "good": false
+    },
+    {
+      "id": "let-ai-tool-read-unredacted-customer-data",
+      "text": "Let An AI Tool Read Unredacted Customer Data",
+      "good": false
+    },
+    {
+      "id": "rotated-password-on-normal-schedule",
+      "text": "Rotated A Password On The Normal Schedule",
+      "good": false,
+      "trick": true,
+      "note": "Scheduled rotation is good hygiene, but an exposed credential can't wait for the next cycle — exposure means instant rotation, not queued rotation."
     }
   ]
 }

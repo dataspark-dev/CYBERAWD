@@ -1,23 +1,25 @@
 """
-Export the combined "Technology Team" deck (IT Support + IT Admin + Development,
-smart-merged, no duplicates) to a Synergy-branded .pptx file.
+Export the combined "Technology Team" deck (IT Support + IT Admin + Development)
+to a Synergy-branded .pptx file.
 
-This is a third, standalone deck alongside the existing separate IT Support and
-Development PPTX exports (export_audience_slides.py) - it does not replace
-them. It reuses the shared general slides (Opening, Why Cybersecurity Matters
-Now, When Attackers Use AI Too, See Something Say Something) unchanged, uses 7
-new merged slides in slides-tech-team/ for the sections where IT's and Dev's
-own reframed content differed (Threat Landscape, Deepfake, Phishing, Pasting
-Data Into AI, Shadow AI, Desk Perimeter, Login Perimeter), then runs IT
-Support's 6 deep-dive topic slides followed by Development's 6 deep-dive topic
-slides (kept separate - they're genuinely different technical domains), then
-a merged Closing slide with chips from both. Two of the original files needed
-a one-line "Next" bridge-text fix for this sequence (slide-14's bridge
-originally pointed at GDPR, and slide-it-golden-rules' bridge originally
-pointed at "See Something, Say Something" - both wrong once Dev's section
-or the merged Closing slide comes next instead) - rather than edit those
-production files, patched copies live in slides-tech-team/ instead
-(slide-14-bridge-fix.html, it-golden-rules-bridge-fix.html).
+Restructured to closely mirror the "Cybersecurity Hygiene & AI Systems Security"
+reference playbook (Cybersecurity PPT.pdf) instead of the general awareness-month
+deck's flow: one continuous technical/architecture narrative (CIA Triad ->
+Enterprise Hygiene -> Phishing & Verification -> Endpoint/Network -> Data
+Classification -> Secrets/Git/AppSec -> AI Security Architecture -> Golden
+Rules), not scenario-based awareness content. The general deck's Deepfake,
+Phishing Evolution, Pasting-Data-Into-AI, Shadow AI, Desk/Login Perimeter, and
+See-Something-Say-Something slides are deliberately NOT included here - this
+is a distinct, standalone deck alongside the existing separate IT Support and
+Development PPTX exports (export_audience_slides.py) and the original
+scenario-based Technology Team cut; it does not replace either.
+
+Reuses 9 existing slides/ files as-is or via a one-line bridge-text patch
+(since their surrounding sequence changed) - patched copies live in
+slides-tech-team/ prefixed tt2-* rather than editing the production files.
+The other ~12 slides are new, built specifically for this reference-aligned
+flow, following the same Synergy tell-card/hero visual house style as
+everything else in slides-tech-team/.
 
 Renders every slide directly via file:// URLs (no Flask server needed - all
 of these are static pages with no fetch() calls), same capture approach as
@@ -54,36 +56,39 @@ from export_slides import (
 )
 
 ROOT = Path(__file__).resolve().parent
-SLIDES_DIR = ROOT / "slides"
 TECH_TEAM_DIR = ROOT / "slides-tech-team"
 OUTPUT_FILE = "Synergy_Cyber_Security_Awareness_Month_Technology_Team.pptx"
 TEMP_DIR = ROOT / "temp_slides_tech_team"
 
-# (folder, filename) pairs, in final presentation order.
+# (folder, filename) pairs, in final presentation order - mirrors the reference
+# playbook's own page order almost 1:1. All slides now live in slides-tech-team/
+# as dedicated files (no more direct reuse of slides/*.html): the original IT
+# Support/Development audience versions carried extra cards, stale progress-
+# tracks, and Fault-Finding/Decision-Room callbacks specific to their own
+# 6-slide mini-course context, none of which apply to this reference-aligned
+# flow - each was rebuilt here to match the reference playbook's own item
+# count and wording exactly, still in the shared Synergy tell-card house style.
 SLIDE_SEQUENCE = [
-    (SLIDES_DIR, "slide-01.html"),
-    (SLIDES_DIR, "slide-02.html"),
-    (TECH_TEAM_DIR, "tech-team-threat-landscape.html"),
-    (TECH_TEAM_DIR, "tech-team-deepfake.html"),
-    (TECH_TEAM_DIR, "tech-team-phishing.html"),
-    (TECH_TEAM_DIR, "tech-team-ai-data-paste.html"),
-    (TECH_TEAM_DIR, "tech-team-shadow-ai.html"),
-    (SLIDES_DIR, "slide-11.html"),
-    (TECH_TEAM_DIR, "tech-team-desk-perimeter.html"),
-    (TECH_TEAM_DIR, "tech-team-login-perimeter.html"),
-    (SLIDES_DIR, "slide-it-hygiene.html"),
-    (SLIDES_DIR, "slide-it-data-classification.html"),
-    (SLIDES_DIR, "slide-it-endpoint.html"),
-    (SLIDES_DIR, "slide-it-network.html"),
-    (SLIDES_DIR, "slide-it-ai-leakage.html"),
-    (TECH_TEAM_DIR, "it-golden-rules-bridge-fix.html"),
-    (SLIDES_DIR, "slide-dev-appsec.html"),
-    (SLIDES_DIR, "slide-dev-secrets.html"),
-    (SLIDES_DIR, "slide-dev-git-lifecycle.html"),
-    (SLIDES_DIR, "slide-dev-ai-audit.html"),
-    (SLIDES_DIR, "slide-dev-prompt-injection.html"),
-    (SLIDES_DIR, "slide-dev-golden-rules.html"),
-    (TECH_TEAM_DIR, "slide-14-bridge-fix.html"),
+    (TECH_TEAM_DIR, "tech-team-opening.html"),
+    (TECH_TEAM_DIR, "tech-team-cia-triad.html"),
+    (TECH_TEAM_DIR, "tech-team-enterprise-hygiene.html"),
+    (TECH_TEAM_DIR, "tech-team-phishing-verification.html"),
+    (TECH_TEAM_DIR, "tech-team-device-hardening.html"),
+    (TECH_TEAM_DIR, "tech-team-zero-trust-network.html"),
+    (TECH_TEAM_DIR, "tech-team-data-classification.html"),
+    (TECH_TEAM_DIR, "tech-team-secrets-architecture.html"),
+    (TECH_TEAM_DIR, "tech-team-git-lifecycle.html"),
+    (TECH_TEAM_DIR, "tech-team-appsec.html"),
+    (TECH_TEAM_DIR, "tech-team-dual-ai-perspectives.html"),
+    (TECH_TEAM_DIR, "tech-team-ai-paradigm-shifts.html"),
+    (TECH_TEAM_DIR, "tech-team-ai-code-audit.html"),
+    (TECH_TEAM_DIR, "tech-team-prompt-masking.html"),
+    (TECH_TEAM_DIR, "tech-team-prompt-injection.html"),
+    (TECH_TEAM_DIR, "tech-team-ai-gateway-pipeline.html"),
+    (TECH_TEAM_DIR, "tech-team-token-economics.html"),
+    (TECH_TEAM_DIR, "tech-team-rag-security.html"),
+    (TECH_TEAM_DIR, "tech-team-telemetry-masking.html"),
+    (TECH_TEAM_DIR, "tech-team-golden-rules.html"),
     (TECH_TEAM_DIR, "tech-team-closing.html"),
 ]
 

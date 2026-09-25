@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Data Classification Matrix — Technology Team — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Technology Team — Data Protection Framework</div>
+      <h1>DATA CLASSIFICATION <span>MATRIX</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Every ticket, file, and request falls into one of four tiers — knowing which one changes how it should be handled.</p>
+
+      <table style="width:100%; margin-top:32px; border-collapse:collapse; border:1px solid var(--glass-border); border-radius:var(--r); overflow:hidden; font-family:'Barlow',sans-serif; font-size:20px;">
+        <thead>
+          <tr style="background:var(--glass-bg);">
+            <th style="padding:16px 20px; text-align:left; font-family:'Times New Roman',Times,serif; color:var(--navy);">Tier</th>
+            <th style="padding:16px 20px; text-align:center; font-family:'Times New Roman',Times,serif; color:var(--navy);">Examples</th>
+            <th style="padding:16px 20px; text-align:center; font-family:'Times New Roman',Times,serif; color:var(--navy);">Handling Requirement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:16px 20px; font-weight:700; color:#059669;">Public</td><td style="padding:16px 20px; text-align:center; color:var(--body-text);">Marketing content, open APIs</td><td style="padding:16px 20px; text-align:center; color:var(--body-text);">Safe for public web distribution</td></tr>
+          <tr><td style="padding:16px 20px; font-weight:700; color:#2563eb;">Internal</td><td style="padding:16px 20px; text-align:center; color:var(--body-text);">Internal wikis, employee lists</td><td style="padding:16px 20px; text-align:center; color:var(--body-text);">Restricted to authenticated staff</td></tr>
+          <tr><td style="padding:16px 20px; font-weight:700; color:#d97706;">Confidential</td><td style="padding:16px 20px; text-align:center; color:var(--body-text);">Source code, customer PII</td><td style="padding:16px 20px; text-align:center; color:var(--body-text);">Encrypted at rest and in transit</td></tr>
+          <tr><td style="padding:16px 20px; font-weight:700; color:#dc2626;">Restricted</td><td style="padding:16px 20px; text-align:center; color:var(--body-text);">API keys, private keys, database dumps</td><td style="padding:16px 20px; text-align:center; color:var(--body-text);">Strict Vault access; zero external pasting</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout-bar" style="margin-top:40px;">
+        <i class="fas fa-layer-group"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[DATA CLASSIFICATION]</strong> <strong>GOLDEN RULE:</strong> Handling follows classification, not convenience — when in doubt, classify one tier higher, not lower.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Secrets Architecture Standards <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

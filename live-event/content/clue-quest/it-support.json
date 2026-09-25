@@ -6,7 +6,8 @@
       "Ask which two terms are easiest to mix up — FAKE ESCALATION TICKET and CREDENTIAL-RESET SOCIAL ENGINEERING can both involve urgency from a caller, but the goal is different.",
       "Ask for a real example of a ticket or alert that matches one of these terms.",
       "Ask someone to explain OTP RELAY ATTACK in their own words, without using the term itself.",
-      "Ask which two terms are easiest to mix up now — FAKE MDM ENROLLMENT and DLP EXCEPTION RUSH both arrive looking calm and routine, but one asks to install something and the other asks to approve something."
+      "Ask which two terms are easiest to mix up now — FAKE MDM ENROLLMENT and DLP EXCEPTION RUSH both arrive looking calm and routine, but one asks to install something and the other asks to approve something.",
+      "Ask which two terms are easiest to mix up now — CONFIDENTIALITY and DATA CLASSIFICATION are related but different: one is the property being protected, the other is the system for deciding how much protection something needs."
     ],
     "commonWrongAnswer": "People most often mix up FAKE ESCALATION TICKET and CREDENTIAL-RESET SOCIAL ENGINEERING. Both can involve a senior name and urgency, so people pick one when the riddle points to the other. The difference: a fake escalation ticket asks you to skip change-approval or install something; credential-reset social engineering asks you to reset or reveal an account credential directly."
   },
@@ -89,6 +90,46 @@
         "DLP EXCEPTION RUSH",
         "FAKE ESCALATION TICKET",
         "FAKE MDM ENROLLMENT"
+      ]
+    },
+    {
+      "id": "confidentiality-principle",
+      "riddle": "I'm one of three foundational properties: only authorized entities can access sensitive data under me. What principle am I?",
+      "answer": "CONFIDENTIALITY",
+      "options": [
+        "CONFIDENTIALITY",
+        "ZERO TRUST ARCHITECTURE",
+        "DATA CLASSIFICATION"
+      ]
+    },
+    {
+      "id": "zero-trust-architecture",
+      "riddle": "I say no device or network segment is trusted by default, even inside the perimeter — every request gets verified regardless of where it comes from. What am I?",
+      "answer": "ZERO TRUST ARCHITECTURE",
+      "options": [
+        "ZERO TRUST ARCHITECTURE",
+        "CONFIDENTIALITY",
+        "DLP EXCEPTION RUSH"
+      ]
+    },
+    {
+      "id": "data-classification-tiers",
+      "riddle": "I'm the four-tier system that decides whether something stays Public, Internal, Confidential, or Restricted — and how it has to be handled at each level. What am I?",
+      "answer": "DATA CLASSIFICATION",
+      "options": [
+        "DATA CLASSIFICATION",
+        "ZERO TRUST ARCHITECTURE",
+        "FAKE MDM ENROLLMENT"
+      ]
+    },
+    {
+      "id": "rag-data-leakage",
+      "riddle": "I'm the AI risk where a retrieval system serves up content the requester was never authorized to see, because permission was never checked before the search ran. What am I?",
+      "answer": "RAG DATA LEAKAGE",
+      "options": [
+        "RAG DATA LEAKAGE",
+        "DLP EXCEPTION RUSH",
+        "CONFIDENTIALITY"
       ]
     }
   ]
