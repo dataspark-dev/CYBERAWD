@@ -175,6 +175,72 @@
         }
       ],
       "debrief": "An app asking for more access than it needs, delivered through a routine-looking PR comment, is a known supply-chain attack vector. STOP before authorizing any elevated permissions. VERIFY the app's publisher and install history independently. REPORT the comment so others don't grant it either."
+    },
+    {
+      "id": "dev-ai-extension-sideload",
+      "persona": "Development",
+      "title": "The AI Extension Update Outside the Marketplace",
+      "scenario": "A notice from what looks like the Developer Tools Team says an update to the team's approved AI coding assistant is ready, but \"marketplace sync is delayed today\" — so it asks you to install the update directly from a link instead of the official marketplace listing.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Install it from the link — it's the same update, just arriving a different way",
+              "outcome": "consequence",
+              "feedback": "An extension installed outside the marketplace bypasses the review and verification that the marketplace listing provides — the delivery method is the actual risk, not just the content."
+            },
+            {
+              "id": "b",
+              "text": "Ask in team chat if anyone else got the same notice first",
+              "outcome": "consequence",
+              "feedback": "Other people receiving the same notice doesn't confirm it's genuine — the same fake notice can be sent to the whole team at once."
+            },
+            {
+              "id": "c",
+              "text": "Skip the link and check the official marketplace listing directly for the update instead",
+              "outcome": "good",
+              "feedback": "Correct. A genuine extension update is never blocked from reaching its own marketplace listing — checking there directly, instead of a link claiming to bypass it, is what actually confirms whether an update exists."
+            }
+          ]
+        }
+      ],
+      "debrief": "Any reason given to install a coding extension outside the marketplace \"just this once\" is the actual signal to stop. STOP before installing from a link. VERIFY through the official marketplace listing yourself. REPORT the notice so others don't install it either."
+    },
+    {
+      "id": "dev-secrets-migration-request",
+      "persona": "Development",
+      "title": "The Vault Migration Asking for Secrets by Email",
+      "scenario": "An email that looks like it's from DevOps says this quarter's vault migration needs your service's secrets rotated by Friday — but instead of pointing you to the vault UI, it asks you to reply with your service's current .env values so \"we can migrate them for you.\"",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Reply with the .env values — it saves time and the deadline is real",
+              "outcome": "consequence",
+              "feedback": "Sending secrets in cleartext by email is exactly what this trick is designed to extract — a real deadline doesn't make that any safer to do."
+            },
+            {
+              "id": "b",
+              "text": "Reply asking DevOps to confirm the request is legitimate first",
+              "outcome": "consequence",
+              "feedback": "A fake sender can simply reply confirming themselves — this doesn't verify anything, and you're still being asked to send secrets by email either way."
+            },
+            {
+              "id": "c",
+              "text": "Do not send anything by email — rotate the secrets yourself through the vault UI, and confirm the request with DevOps through a known channel",
+              "outcome": "good",
+              "feedback": "Correct. A genuine vault migration only ever asks you to act inside the vault UI yourself — being asked to send secrets in cleartext, for any reason, is the actual signal to stop."
+            }
+          ]
+        }
+      ],
+      "debrief": "A request to send secrets in cleartext by email is the red flag, regardless of how routine the surrounding migration request sounds. STOP before replying with anything from your .env file. VERIFY through the vault UI and DevOps directly. REPORT the email so others don't reply either."
     }
   ]
 }

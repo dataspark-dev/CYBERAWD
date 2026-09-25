@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Desk Is Part of the Perimeter — Technology Team — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .sim-static { display: flex; gap: 14px; align-items: center; padding: 16px 20px; border-radius: var(--r); background: rgba(0,26,77,0.05); border: 1px solid rgba(0,26,77,0.12); }
+    .sim-static i { font-size: 30px; color: var(--navy); flex-shrink: 0; }
+    .sim-static h4 { font-family: 'Times New Roman', Times, serif; font-size: 16px; color: var(--navy); margin-bottom: 3px; }
+    .sim-static p { font-size: 14px; line-height: 1.45; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+    .info-box.danger { border-left-color: var(--red); background: rgba(239,68,68,0.06); }
+    .info-box.danger i { color: var(--red); }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .checklist-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; align-items: stretch; }
+    .cl-item { height: 100%; }
+    .slide .cl-item { padding: 18px 20px; margin-bottom: 0; }
+    .slide .cl-item h4 { font-size: 26px; margin-bottom: 4px; }
+    .slide .cl-item p { font-size: 20px; line-height: 1.45; }
+    .cl-item .cl-icon { width: 46px; height: 46px; font-size: 19px; }
+
+    .ai-flow-scene { padding: 22px 40px 20px; }
+    .ai-flow-row .flow-node { width: 170px; }
+    .ai-flow-row .fn-icon { width: 44px; height: 44px; font-size: 18px; }
+    .flow-branches { margin-top: 20px; gap: 18px; }
+    .flow-branch { max-width: 100%; flex: 1 1 260px; padding: 16px 18px; opacity: 1; transform: none; }
+    .flow-branch .fb-icon { font-size: 22px; margin-bottom: 8px; }
+    .flow-branch h5 { font-size: 26px !important; margin-bottom: 5px !important; }
+    .flow-branch p { font-size: 20px !important; line-height: 1.45 !important; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Technology Team — Everyday Defence</div>
+      <h1>YOUR DESK IS PART OF THE <span>PERIMETER</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">An unlocked workstation often has an active admin session, terminal, or SSH agent already signed in — four things worth noticing here specifically, plus what should happen the moment you walk away.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-terminal"></i></div><div><h4>Active Admin Session or Terminal to Prod <span class="tell-tag">Risk</span></h4><p>An open admin console or a terminal with an authenticated session to production is a bigger prize than a normal desktop login — lock it every time, even for a moment.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-desktop"></i></div><div><h4>Screen Locked Every Time <span class="tell-tag">Good Practice</span></h4><p>Lock your screen (Win+L / Cmd+Ctrl+Q) every time you step away, whether you're mid-incident, mid-deploy, or just grabbing coffee.</p></div></div>
+        </div>
+
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-hard-drive"></i></div><div><h4>Unknown USB Drive <span class="tell-tag">Risk</span></h4><p>Never plug in a USB stick you don't own or haven't checked — on these machines it can also reach an active SSH agent, admin session, or cloud credential cache.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-key"></i></div><div><h4>Sessions Not Left Forwarded/Idle <span class="tell-tag">Good Practice</span></h4><p>An SSH agent with forwarding enabled, or an admin session, left active on a machine you've stepped away from can be used by anyone with access to it — lock the screen, and don't forward agents to machines you don't fully trust.</p></div></div>
+          <div class="info-box warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>Locking takes 2 seconds — leaving a workstation unlocked with an active session is an open invitation, the same as leaving the credential itself lying around.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-lock" style="color:var(--cyan);"></i> Lock your screen every time, even mid-incident or mid-deploy</span>
+        <span class="impact-chip"><i class="fas fa-terminal" style="color:var(--cyan);"></i> Treat an open terminal or admin console like an open vault</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Don't forward sessions or agents to machines you don't fully trust</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[LOCK IT]</strong> <strong>GOLDEN RULE:</strong> If you can see it, so can anyone walking past — an active session is worth exactly as much as the credential itself, so lock it every time.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Your Login Is Part of the Perimeter <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Do's &amp; Don'ts — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .visual-compare { max-width: 100% !important; gap: 30px; width: 100%; margin: 0 auto; align-items: stretch; }
+    .visual-col { padding: 22px 24px; border-radius: var(--r-lg); display: flex; flex-direction: column; }
+    .visual-col.do-col { background: rgba(16, 185, 129, 0.08); border: 1.5px solid rgba(16, 185, 129, 0.3); }
+    .visual-col.dont-col { background: rgba(239, 68, 68, 0.06); border: 1.5px solid rgba(239, 68, 68, 0.25); }
+    .visual-col-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+    .visual-col-head i { font-size: 26px; }
+    .visual-col-head span { font-size: 22px; letter-spacing: 0.5px; font-family: 'Times New Roman', Times, serif; font-weight: 800; }
+    .visual-col.do-col .visual-col-head i,
+    .visual-col.do-col .visual-col-head span { color: var(--green-dark); }
+    .visual-col.dont-col .visual-col-head i,
+    .visual-col.dont-col .visual-col-head span { color: var(--red-dark); }
+
+    .static-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; align-items: stretch; }
+    .static-tile { display: flex; gap: 10px; padding: 12px 14px; background: var(--white); border-radius: var(--r); box-shadow: var(--shadow-sm); }
+    .static-tile i:first-child { font-size: 20px; margin-top: 2px; flex-shrink: 0; }
+    .visual-col.do-col .static-tile i:first-child { color: var(--green-dark); }
+    .visual-col.dont-col .static-tile i:first-child { color: var(--red); }
+    .static-tile strong { display: block; font-family: 'Times New Roman', Times, serif; font-size: 26px; color: var(--navy); margin-bottom: 2px; }
+    .static-tile p { font-size: 20px; line-height: 1.4; }
+    .visual-col.do-col .static-tile p { color: var(--green-darker); }
+    .visual-col.dont-col .static-tile p { color: var(--red-darker); }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Quick Reference</div>
+      <h1>DO'S &amp; <span>DON'TS</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">No long lists — just the habits that stop nearly every attack. Every habit traces back to STOP → VERIFY → REPORT.</p>
+
+      <div class="visual-compare">
+        <div class="visual-col do-col">
+          <div class="visual-col-head"><i class="fas fa-circle-check"></i><span>DO</span></div>
+          <div class="static-grid reveal-stagger">
+            <div class="static-tile"><i class="fas fa-lock"></i><div><strong>Lock Your Screen</strong><p>The second you step away, even for a minute.</p></div></div>
+            <div class="static-tile"><i class="fas fa-shield-halved"></i><div><strong>Verify Requests</strong><p>Call back on a number you already have, not one they just gave you.</p></div></div>
+            <div class="static-tile"><i class="fas fa-key"></i><div><strong>Use MFA</strong><p>With MFA on, a stolen password alone can't get in.</p></div></div>
+            <div class="static-tile"><i class="fas fa-bullhorn"></i><div><strong>Report Fast</strong><p>Reporting something that turns out to be nothing is still the right call.</p></div></div>
+            <div class="static-tile"><i class="fas fa-plug"></i><div><strong>Use Approved USB Drives</strong><p>Unknown drives can install malware the moment they're plugged in.</p></div></div>
+            <div class="static-tile"><i class="fas fa-database"></i><div><strong>Keep Data in Approved Systems</strong><p>Approved tools have been checked for exactly this kind of risk.</p></div></div>
+          </div>
+        </div>
+        <div class="visual-col dont-col">
+          <div class="visual-col-head"><i class="fas fa-circle-xmark"></i><span>DON'T</span></div>
+          <div class="static-grid reveal-stagger">
+            <div class="static-tile"><i class="fas fa-user-secret"></i><div><strong>Reuse Passwords</strong><p>One leaked site can unlock every other account that uses that password.</p></div></div>
+            <div class="static-tile"><i class="fas fa-link-slash"></i><div><strong>Click Unknown Links</strong><p>Go directly to the app or use a saved bookmark instead.</p></div></div>
+            <div class="static-tile"><i class="fas fa-triangle-exclamation"></i><div><strong>Plug In Unknown USB</strong><p>Treat any USB drive you didn't buy or verify as unsafe.</p></div></div>
+            <div class="static-tile"><i class="fas fa-robot"></i><div><strong>Paste Into Public AI</strong><p>That text can leave your control the moment you hit send.</p></div></div>
+            <div class="static-tile"><i class="fas fa-door-open"></i><div><strong>Leave Desk Unlocked</strong><p>An unlocked screen is an open door, even if you're gone for a minute.</p></div></div>
+            <div class="static-tile"><i class="fas fa-comment-slash"></i><div><strong>Stay Silent</strong><p>Silence is exactly what the attacker is counting on.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> True or False <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

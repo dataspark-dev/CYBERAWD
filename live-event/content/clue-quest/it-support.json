@@ -5,7 +5,8 @@
     "discussionPrompts": [
       "Ask which two terms are easiest to mix up — FAKE ESCALATION TICKET and CREDENTIAL-RESET SOCIAL ENGINEERING can both involve urgency from a caller, but the goal is different.",
       "Ask for a real example of a ticket or alert that matches one of these terms.",
-      "Ask someone to explain OTP RELAY ATTACK in their own words, without using the term itself."
+      "Ask someone to explain OTP RELAY ATTACK in their own words, without using the term itself.",
+      "Ask which two terms are easiest to mix up now — FAKE MDM ENROLLMENT and DLP EXCEPTION RUSH both arrive looking calm and routine, but one asks to install something and the other asks to approve something."
     ],
     "commonWrongAnswer": "People most often mix up FAKE ESCALATION TICKET and CREDENTIAL-RESET SOCIAL ENGINEERING. Both can involve a senior name and urgency, so people pick one when the riddle points to the other. The difference: a fake escalation ticket asks you to skip change-approval or install something; credential-reset social engineering asks you to reset or reveal an account credential directly."
   },
@@ -46,8 +47,8 @@
       "answer": "FAKE TOOL ALERT",
       "options": [
         "FAKE TOOL ALERT",
-        "CREDENTIAL-RESET SOCIAL ENGINEERING",
-        "FAKE ESCALATION TICKET"
+        "FAKE MDM ENROLLMENT",
+        "CREDENTIAL-RESET SOCIAL ENGINEERING"
       ]
     },
     {
@@ -66,8 +67,28 @@
       "answer": "STOP VERIFY REPORT",
       "options": [
         "STOP VERIFY REPORT",
-        "OTP RELAY ATTACK",
-        "FAKE ESCALATION TICKET"
+        "DLP EXCEPTION RUSH",
+        "OTP RELAY ATTACK"
+      ]
+    },
+    {
+      "id": "fake-mdm-enrollment",
+      "riddle": "I look like a routine device-enrollment prompt, but the profile I'm asking you to install also requests full remote-control permissions. What trick am I?",
+      "answer": "FAKE MDM ENROLLMENT",
+      "options": [
+        "FAKE MDM ENROLLMENT",
+        "FAKE TOOL ALERT",
+        "DLP EXCEPTION RUSH"
+      ]
+    },
+    {
+      "id": "dlp-exception-rush",
+      "riddle": "I read like calm, routine compliance mail, but I ask you to approve a bulk data export today instead of going through the logged exception workflow. What trick am I?",
+      "answer": "DLP EXCEPTION RUSH",
+      "options": [
+        "DLP EXCEPTION RUSH",
+        "FAKE ESCALATION TICKET",
+        "FAKE MDM ENROLLMENT"
       ]
     }
   ]

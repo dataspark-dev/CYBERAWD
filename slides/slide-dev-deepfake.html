@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepfake Attacks — Development — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+    .info-box.danger { border-left-color: var(--red); background: rgba(239,68,68,0.06); }
+    .info-box.danger i { color: var(--red); }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Development — Identity &amp; Trust</div>
+      <h1>A CLONED VOICE ON A <span>CODE-REVIEW CALL</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">A 10-second clip can clone a colleague's voice and face for a live call — increasingly aimed at engineering leadership approving a merge, deploy, or access grant, not just finance approving a wire.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-video"></i></div><div><h4>Urgency to Merge or Deploy Now <span class="tell-tag">Risk</span></h4><p>A cloned “engineering lead” pushing to bypass review and merge or deploy immediately is the exact pressure this attack is built to create.</p></div></div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-user-secret"></i></div><div><h4>Fake Emergency Access Request <span class="tell-tag">Risk</span></h4><p>A synthetic voice or video call requesting emergency credentials or access “to unblock the release” — recognising the face or voice is no longer proof.</p></div></div>
+        </div>
+
+        <div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-phone-volume"></i></div><div><h4>Verify Via a Second Channel <span class="tell-tag">Good Practice</span></h4><p>Confirm any unusual request — a merge, a deploy, a credential — through a channel outside the call itself, before acting.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-hourglass-half"></i></div><div><h4>Pause Before Authorising <span class="tell-tag">Good Practice</span></h4><p>A request that can't wait 5 minutes for verification is exactly the kind that most needs it.</p></div></div>
+          <div class="info-box danger">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div><strong>Widely reported case, 2024:</strong> A finance employee authorised a US$25M transfer on a video call where every other participant was an AI-generated fake senior leader. The same tactic is increasingly aimed at engineering leadership approving a deploy or an access grant instead of a wire transfer.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify via a 2nd channel, never in the same call</span>
+        <span class="impact-chip"><i class="fas fa-hourglass-half" style="color:var(--cyan);"></i> Pause before merging, deploying, or sharing access</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report suspicious video/voice calls</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[VERIFY]</strong> <strong>GOLDEN RULE:</strong> Recognising a face or voice is not verification — confirm any request to merge, deploy, or share access through a separate, trusted channel, every time.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Phishing Targets Your Toolchain <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

@@ -137,6 +137,43 @@
       "good": false,
       "trick": true,
       "note": "A tool's look and branding are easy to copy — a genuine alert never asks for your password through a link, however authentic it looks."
+    },
+    {
+      "id": "checked-mdm-profile-permissions-against-policy",
+      "text": "Checked MDM Profile Permissions Against Policy",
+      "good": true
+    },
+    {
+      "id": "confirmed-dlp-exception-in-system-of-record",
+      "text": "Confirmed DLP Exception In System Of Record",
+      "good": true
+    },
+    {
+      "id": "verified-remote-tool-name-letter-by-letter",
+      "text": "Verified Remote Tool Name Letter By Letter",
+      "good": true
+    },
+    {
+      "id": "installed-mdm-profile-without-reading-permissions",
+      "text": "Installed MDM Profile Without Reading Permissions",
+      "good": false
+    },
+    {
+      "id": "approved-dlp-exception-from-email-alone",
+      "text": "Approved DLP Exception From Email Alone",
+      "good": false
+    },
+    {
+      "id": "installed-remote-tool-with-similar-name",
+      "text": "Installed Remote Tool With Similar Name",
+      "good": false
+    },
+    {
+      "id": "confirmed-cloud-iam-change-was-already-logged",
+      "text": "Confirmed Cloud IAM Change Was Already Logged",
+      "good": true,
+      "trick": true,
+      "note": "A genuine IAM summary is already logged and needs no click-through confirmation — being asked to \"confirm\" it afterward is the actual thing to check."
     }
   ]
 }

@@ -137,6 +137,43 @@
       "good": false,
       "trick": true,
       "note": "A plausible download count is easy to fake or reach quickly with a freshly-popular-looking package — check the maintainer's actual history instead."
+    },
+    {
+      "id": "checked-official-marketplace-for-extension-update",
+      "text": "Checked Official Marketplace For Extension Update",
+      "good": true
+    },
+    {
+      "id": "rotated-secrets-via-vault-ui-not-email",
+      "text": "Rotated Secrets Via Vault UI, Not Email",
+      "good": true
+    },
+    {
+      "id": "required-signed-addendum-before-emergency-deploy",
+      "text": "Required Signed Process Before Emergency Deploy",
+      "good": true
+    },
+    {
+      "id": "installed-ai-extension-from-link-outside-marketplace",
+      "text": "Installed AI Extension From Link Outside Marketplace",
+      "good": false
+    },
+    {
+      "id": "replied-with-env-values-by-email",
+      "text": "Replied With .env Values By Email",
+      "good": false
+    },
+    {
+      "id": "pushed-emergency-deploy-bypassing-review",
+      "text": "Pushed Emergency Deploy Bypassing Review",
+      "good": false
+    },
+    {
+      "id": "recognised-managers-name-on-deploy-request",
+      "text": "Recognised Manager's Name On Deploy Request",
+      "good": false,
+      "trick": true,
+      "note": "A familiar name on an urgent deploy request is exactly what this trick relies on — the domain, read in full, is still the real check."
     }
   ]
 }

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Threat Landscape — Technology Team — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .sim-static { display: flex; gap: 14px; align-items: center; padding: 16px 20px; border-radius: var(--r); background: rgba(0,26,77,0.05); border: 1px solid rgba(0,26,77,0.12); }
+    .sim-static i { font-size: 30px; color: var(--navy); flex-shrink: 0; }
+    .sim-static h4 { font-family: 'Times New Roman', Times, serif; font-size: 16px; color: var(--navy); margin-bottom: 3px; }
+    .sim-static p { font-size: 14px; line-height: 1.45; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+    .info-box.danger { border-left-color: var(--red); background: rgba(239,68,68,0.06); }
+    .info-box.danger i { color: var(--red); }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .checklist-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; align-items: stretch; }
+    .cl-item { height: 100%; }
+    .slide .cl-item { padding: 18px 20px; margin-bottom: 0; }
+    .slide .cl-item h4 { font-size: 26px; margin-bottom: 4px; }
+    .slide .cl-item p { font-size: 20px; line-height: 1.45; }
+    .cl-item .cl-icon { width: 46px; height: 46px; font-size: 19px; }
+
+    .ai-flow-scene { padding: 22px 40px 20px; }
+    .ai-flow-row .flow-node { width: 170px; }
+    .ai-flow-row .fn-icon { width: 44px; height: 44px; font-size: 18px; }
+    .flow-branches { margin-top: 20px; gap: 18px; }
+    .flow-branch { max-width: 100%; flex: 1 1 260px; padding: 16px 18px; opacity: 1; transform: none; }
+    .flow-branch .fb-icon { font-size: 22px; margin-bottom: 8px; }
+    .flow-branch h5 { font-size: 26px !important; margin-bottom: 5px !important; }
+    .flow-branch p { font-size: 20px !important; line-height: 1.45 !important; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Technology Team — 2026 Threat Landscape</div>
+      <h1>THE THREATS THAT TARGET <span>YOUR SYSTEMS</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">The same four forces are reshaping attacks everywhere — here's what each one looks like across IT and Engineering.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-lock"></i></div><div><h4>Ransomware via Endpoint or CI/CD <span class="tell-tag">Risk</span></h4><p>A single unpatched endpoint, exposed remote-access port, or compromised deploy credential is often the entire foothold — attackers don't need much once one of these already has standing access.</p></div></div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-masks-theater"></i></div><div><h4>Social Engineering via Help Desk or Dev Channels <span class="tell-tag">Risk</span></h4><p>A confident caller, a cloned voice, a fake escalation ticket, a fake PR comment or CI alert — IT and Engineering are targeted because a reset, an override, or a merge is exactly what attackers need.</p></div></div>
+        </div>
+
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-user-shield"></i></div><div><h4>Privileged Access &amp; Secrets Sprawl <span class="tell-tag">Risk</span></h4><p>Standing admin rights, a leaked API key, an overscoped service account, a shared credential — most incidents start as convenience or an honest mistake, not a targeted breach.</p></div></div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-cloud"></i></div><div><h4>Cloud, Endpoint &amp; Supply-Chain Risk <span class="tell-tag">Risk</span></h4><p>A misconfigured firewall rule, an unpatched endpoint, a malicious package, a poisoned vendor update — usually a mistake or a compromised third party, and it can sit unnoticed for months.</p></div></div>
+          <div class="info-box warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>Most misconfigurations, supply-chain compromises, and vendor-update issues are found months after the fact — anything that behaves oddly right after a patch, package update, or deploy is worth reporting immediately.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Hardware MFA + least privilege on every privileged account and CI/CD credential</span>
+        <span class="impact-chip"><i class="fas fa-download" style="color:var(--cyan);"></i> Patch on a schedule and check dependencies before merging</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report anything odd right after a patch, update, or deploy</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[REPORT]</strong> <strong>GOLDEN RULE:</strong> You can't audit every vendor update or every dependency's code — but if a system or build behaves oddly right after one installs, treat it as suspicious and report it. Most compromises like this are found months later, which is exactly why reporting early limits the damage.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Deepfake Attacks: Verify Before You Act <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

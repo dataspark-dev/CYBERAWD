@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modern Threat Landscape — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+
+    /* Reclaim vertical space redundant with the flex gap on .slide-main.compact,
+       and trim .slide-main's own bottom padding locally — neither touches font
+       size or content, both are whitespace already duplicated elsewhere. */
+    .slide .section-lead { margin-bottom: 0; }
+    .slide-main.compact { padding-top: 6px; padding-bottom: 14px; }
+    .slide .callout-bar { padding-top: 10px; padding-bottom: 10px; }
+    .slide-bridge { padding-top: 8px; }
+
+    .sc-flow-scene { padding: 10px 28px 8px; flex-shrink: 0; }
+    .sc-flow-row .flow-node { width: 260px; }
+    .sc-flow-row .fn-icon { width: 44px; height: 44px; font-size: 18px; }
+    .sc-flow-captions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .sc-flow-cap {
+      max-width: 260px;
+      justify-self: center;
+      text-align: center;
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: rgba(255,255,255,0.68);
+    }
+    .sc-flow-cap strong { color: #fff; display: block; margin-bottom: 2px; font-family: 'Times New Roman', Times, serif; font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">2026 Threat Landscape</div>
+      <h1>MODERN THREAT <span>LANDSCAPE</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">Four threats are shaping how attackers operate this year — plus one you can't fully control: your own vendors.</p>
+
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-lock"></i></div>
+          <h3>Ransomware</h3>
+          <p>They copy your files first, then lock them. A backup restores access — the stolen copy is still theirs.</p>
+          <!-- FACILITATOR: "double extortion". Rental models (Ransomware-as-a-Service — gangs rent the malware for a cut) are why volume keeps climbing. -->
+        </div>
+        <div class="pillar-card v-purple">
+          <div class="icon-wrap"><i class="fas fa-masks-theater"></i></div>
+          <h3>Social Engineering</h3>
+          <p>Targets people, not systems — and drives most attacks in this deck.</p>
+          <!-- FACILITATOR: AI makes it cheap to clone voices and personalise at scale, so the old tells are disappearing. Covered in depth on the deepfake and phishing slides. -->
+        </div>
+        <div class="pillar-card v-blue">
+          <div class="icon-wrap"><i class="fas fa-user-group"></i></div>
+          <h3>Insider Threats</h3>
+          <p>Most start as honest mistakes — a misdirected record, a reused password, leftover access.</p>
+          <!-- FACILITATOR: insiders bypass external defences by design. Reporting quickly and without blame is what limits the damage — reinforced on the "See Something, Say Something" slide. -->
+        </div>
+        <div class="pillar-card v-amber">
+          <div class="icon-wrap"><i class="fas fa-cloud"></i></div>
+          <h3>Cloud Risks</h3>
+          <p>Usually just a shared folder left open by mistake — and it can sit unnoticed for months.</p>
+          <!-- FACILITATOR: e.g. employee records visible to anyone with the link. Ask people to double-check permissions whenever they share. -->
+        </div>
+      </div>
+
+      <div class="mono-tag" style="display:block;">The Threat You Don't Control — Supply Chain &amp; Third-Party Risk</div>
+      <div class="flow-scene sc-flow-scene">
+        <div class="flow-row sc-flow-row">
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-box-open"></i></div><div class="fn-label">Vendor Update</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-bug"></i></div><div class="fn-label">Code Inserted</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-download"></i></div><div class="fn-label">Installed</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-door-open"></i></div><div class="fn-label">Hidden Backdoor</div></div>
+        </div>
+        <div class="sc-flow-captions">
+          <div class="sc-flow-cap"><strong>1 &middot; Vendor Update</strong>A software vendor we trust — operations, payroll, or core business systems — sends a routine update to thousands of customers, including us.</div>
+          <div class="sc-flow-cap"><strong>2 &middot; Code Inserted</strong>Attackers have already breached the vendor's build pipeline and hidden malicious code inside that update before it was signed.</div>
+          <div class="sc-flow-cap"><strong>3 &middot; Installed Automatically</strong>The tampered update installs through our usual update process — no phishing email required.</div>
+          <div class="sc-flow-cap"><strong>4 &middot; Hidden Backdoor</strong>Attackers now have a hidden way back in, all through a vendor we already trusted. Report anything odd right after an update.</div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">What this means for you:</span>
+        <span class="impact-chip"><i class="fas fa-database" style="color:var(--cyan);"></i> Back up critical data, test the restore</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Verify unusual requests via a 2nd channel</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report mistakes immediately — no blame</span>
+        <span class="impact-chip"><i class="fas fa-lock" style="color:var(--cyan);"></i> Double-check sharing &amp; permissions</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[REPORT]</strong> <strong>GOLDEN RULE:</strong> You can't check every vendor's code — but if something behaves oddly right after an update, treat it as suspicious and report it. Most supply-chain breaches are found months later — that's why they spread so far, and reporting early limits the damage.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Deepfake Attacks: The Concept <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

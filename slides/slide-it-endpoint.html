@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Endpoint Protection Standards — IT Support — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .progress-track { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+    .progress-track .pt-step { font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--glass-border); color: var(--muted, #64748b); white-space: nowrap; }
+    .progress-track .pt-step.active { background: var(--accent, var(--cyan)); color: #fff; border-color: transparent; }
+    .progress-track i { color: var(--glass-border); font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">IT Support — Deep Dive: Endpoint</div>
+      <h1>EVERY ENDPOINT IS A <span>FRONT DOOR</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <div class="progress-track">
+        <span class="pt-step">Hygiene</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">Data Handling</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step active">Endpoint</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">Network</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">AI Leakage</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">Golden Rules</span>
+      </div>
+      <p class="section-lead">The device in someone's hands is as much a target as any server — protect it with the same discipline.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-download"></i></div><div><h4>Automated OS Patching <span class="tell-tag">Good Practice</span></h4><p>Operating system patches apply on a managed schedule across the fleet — no device left running a known-vulnerable version because an update was postponed.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-hard-drive"></i></div><div><h4>Full-Disk Encryption <span class="tell-tag">Good Practice</span></h4><p>Every endpoint's disk is encrypted by default — a lost or stolen device without encryption is a full data breach, not just a lost asset.</p></div></div>
+        </div>
+
+        <div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-user"></i></div><div><h4>Least-Privilege Execution (Standard User By Default) <span class="tell-tag">Good Practice</span></h4><p>Every user runs as a standard account day to day — no local admin rights sitting active and unused, waiting to be exploited by anything that runs in that session.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-user-shield"></i></div><div><h4>Gated Admin Elevation <span class="tell-tag">Good Practice</span></h4><p>Admin rights are requested and granted per task, logged, and time-limited — not a permanent toggle left on.</p></div></div>
+          <div class="info-box warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div><strong>This connects directly to this month's activities:</strong> the vendor-impersonation and credential-reset scenarios in Fault Finding and Decision Room target exactly this layer — an endpoint with standing admin rights is a much bigger prize than one without.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-download" style="color:var(--cyan);"></i> OS patches apply automatically, fleet-wide</span>
+        <span class="impact-chip"><i class="fas fa-hard-drive" style="color:var(--cyan);"></i> Full-disk encryption on every endpoint, no exceptions</span>
+        <span class="impact-chip"><i class="fas fa-user-shield" style="color:var(--cyan);"></i> Standard user by default, admin elevation gated and logged</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-desktop"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[ENDPOINT]</strong> <strong>GOLDEN RULE:</strong> Patch automatically, encrypt everything, and run as standard user by default — admin rights are a gate you open per task, not a door left unlocked.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Zero Trust Network Boundaries <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

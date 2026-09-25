@@ -5,7 +5,8 @@
     "discussionPrompts": [
       "Ask how many people on the team check the sending domain on a ticket-notification email versus just trusting the ticket number and subject line.",
       "For the system alert card, ask what a genuine urgent alert from your own monitoring tools actually looks like — does it ever ask you to re-enter your password through a link?",
-      "Ask what your team's real process is for a request to bypass change-approval 'just this once' — who is actually allowed to authorise that, and how would you check?"
+      "Ask what your team's real process is for a request to bypass change-approval 'just this once' — who is actually allowed to authorise that, and how would you check?",
+      "Ask which of today's new cards felt hardest to catch — the MDM profile, the cloud IAM alert, the remote-support tool name, or the DLP exception — and why a calm, routine-sounding message can be harder to question than an urgent one."
     ],
     "commonWrongAnswer": "People most often miss the escalation-ticket card because the ticket number and internal jargon look right, and the request to help fast feels like the job. The habit to build is the same one used everywhere else: check the exact sending domain, and treat any request to skip verification or install an unapproved tool as the actual red flag, not the urgency itself."
   },
@@ -18,7 +19,6 @@
       "title": "Real vs Fake Escalation Ticket Notification",
       "realImage": "../assets/fault-finding/it-escalation-ticket-real.svg",
       "fakeImage": "../assets/fault-finding/it-escalation-ticket-fake.svg",
-      "placeholder": true,
       "whatIsWrong": "The fake ticket comes from helpdesk@synergymarine-support.com — a different domain from the real helpdesk@synergymarinegroup.com. Its ticket number format is also broken (#48213-A instead of IT-48213), and it asks you to install an unapproved remote-access tool, grant admin access, and skip the normal change-approval step because a director supposedly escalated it directly.",
       "whyItsSuspicious": "Genuine escalations keep the same ticket-ID format you already use and never ask you to bypass change-approval or install a tool you were not already trained on, no matter who is named as asking. A named senior title attached to urgency is exactly the pressure this trick relies on — verify by calling the requester back on a known internal extension, or checking the ticket in the console directly, before installing anything or granting access."
     },
@@ -30,7 +30,6 @@
       "title": "Real vs Fake Admin Console Alert",
       "realImage": "../assets/fault-finding/it-system-alert-real.svg",
       "fakeImage": "../assets/fault-finding/it-system-alert-fake.svg",
-      "placeholder": true,
       "whatIsWrong": "The fake alert comes from alerts@synergymarine-monitor.net, not your real monitoring tool's synergymarinegroup.com address. It invents a 5-minute countdown (the real one gives you 24 hours) and puts a \"Re-authenticate now\" button that sends your admin username and password to a lookalike domain, instead of pointing you to the console you already have bookmarked.",
       "whyItsSuspicious": "Your own monitoring tool never asks for your password through a link in an alert email — it gives you time and directs you to the URL you already use. Admin credentials are a high-value target precisely because they open more than a normal account, so attackers copy the exact look of your own tools and add panic to make you skip that check. Always re-authenticate by opening the console yourself, never by clicking the link in the alert."
     },
@@ -42,7 +41,6 @@
       "title": "Real vs Fake Vendor Patch Email",
       "realImage": "../assets/fault-finding/it-vendor-patch-email-real.svg",
       "fakeImage": "../assets/fault-finding/it-vendor-patch-email-fake.svg",
-      "placeholder": true,
       "whatIsWrong": "The fake email comes from a different domain (sailorlink-support.net vs sailorlink-comms.com). It asks you to download and run a patch directly, and explicitly tells you to skip your own IT verification steps because it \"comes directly from\" the vendor.",
       "whyItsSuspicious": "Real vendor patches always go through your own vetted deployment process, never a direct download link in an unsolicited email — and no genuine vendor ever tells you to skip your own team's verification steps. An outage threat is the pressure lever designed to make you act before checking."
     },
@@ -54,21 +52,63 @@
       "title": "Real vs Fake Employee Reset Request",
       "realImage": "../assets/fault-finding/it-credential-reset-email-real.svg",
       "fakeImage": "../assets/fault-finding/it-credential-reset-email-fake.svg",
-      "placeholder": true,
       "whatIsWrong": "The fake email comes from a different domain (synergymarine-mail.com vs synergymarinegroup.com — not the employee's real company address). It explicitly asks to skip standard identity verification, and asks for the new password to be emailed directly instead of through the secure reset channel.",
       "whyItsSuspicious": "A genuine employee's request always comes from their real company address and goes through the ticket or self-service process. An explicit request to skip verification is the same social-engineering pattern whether it arrives by phone or by email — the channel changes, the red flag doesn't."
     },
     {
       "id": "compare-it-pam-vault-alert",
       "type": "compare",
-      "category": "Fake Internal Tool Alert",
+      "category": "Fake Credential Vault Alert",
       "persona": "IT Support",
       "title": "Real vs Fake Credential Vault Alert",
       "realImage": "../assets/fault-finding/it-pam-vault-alert-real.svg",
       "fakeImage": "../assets/fault-finding/it-pam-vault-alert-fake.svg",
-      "placeholder": true,
       "whatIsWrong": "The fake alert comes from a different domain (synergy-vaultaccess.net vs synergymarinegroup.com). It invents a 5-minute deadline and a device-flag story, then asks you to re-enter your master vault password through a link instead of the vault console you already use.",
       "whyItsSuspicious": "A credential vault holding privileged access is one of the highest-value targets in the whole environment — a genuine vault alert gives you time and points you back to its own console, never a link asking for your master password. The device-flag story is designed to make the urgency feel technical and credible."
+    },
+    {
+      "id": "compare-it-mdm-enrollment",
+      "type": "compare",
+      "category": "Fake MDM Enrollment Request",
+      "persona": "IT Support",
+      "title": "Real vs Fake Device Enrollment Notice",
+      "realImage": "../assets/fault-finding/it-mdm-enrollment-real.svg",
+      "fakeImage": "../assets/fault-finding/it-mdm-enrollment-fake.svg",
+      "whatIsWrong": "The fake notice comes from mdm@synergymarinegroup.co — missing the final \"m\" in \".com\", easy to miss on a phone screen. It asks you to install an \"updated profile\" that also enables remote-control access, when the real quarterly check never requests new permissions at all.",
+      "whyItsSuspicious": "A dropped letter at the very end of a domain is one of the easiest changes to miss, especially when the email otherwise looks like routine, expected compliance mail. A genuine compliance re-check confirms your existing profile — it never bundles in a new permission grant. Read the full domain to its last character, and treat any new permission request inside a \"routine\" notice as the actual thing to verify."
+    },
+    {
+      "id": "compare-it-cloud-console-alert",
+      "type": "compare",
+      "category": "Fake Cloud Console Alert",
+      "persona": "IT Support",
+      "title": "Real vs Fake Cloud IAM Alert",
+      "realImage": "../assets/fault-finding/it-cloud-console-alert-real.svg",
+      "fakeImage": "../assets/fault-finding/it-cloud-console-alert-fake.svg",
+      "whatIsWrong": "The fake alert comes from alerts@synergymarinegroup.cm — the domain is missing the final \"o\" in \".com\", a single-character drop that's easy to miss in a calm, routine-sounding message. It asks you to \"confirm\" a change through a link, where the real summary is informational only and needs no click-through action.",
+      "whyItsSuspicious": "A single missing letter at the very end of a domain is designed to be overlooked, especially in a message that otherwise reads exactly like the routine summary you already expect. Genuine IAM summaries are informational; being asked to \"confirm\" anything through a link is the actual signal to stop and check the address in full, not the tone of the message."
+    },
+    {
+      "id": "compare-it-remote-support-tool",
+      "type": "compare",
+      "category": "Fake Remote-Support Tool Install",
+      "persona": "IT Support",
+      "title": "Real vs Fake Remote Session Notice",
+      "realImage": "../assets/fault-finding/it-remote-support-tool-real.svg",
+      "fakeImage": "../assets/fault-finding/it-remote-support-tool-fake.svg",
+      "whatIsWrong": "The fake notice comes from support@synergymarinegroup.net — the TLD is \".net\" instead of \".com\", with everything else about the address identical. It asks you to install \"SecureAsslst\" — a lowercase \"l\" in place of the \"i\" in the real approved tool's name, SecureAssist — instead of using the tool already installed on your device.",
+      "whyItsSuspicious": "A changed top-level domain is one of the subtlest possible tells, since the rest of the address matches exactly — and the tool name uses the same trick, a single swapped letter that reads almost identically at a glance. A genuine remote session always uses the tool already on your device; being asked to install anything new for a \"scheduled\" session is the actual red flag, not the ticket number attached to it."
+    },
+    {
+      "id": "compare-it-dlp-exception",
+      "type": "compare",
+      "category": "Fake DLP Exception Approval",
+      "persona": "IT Support",
+      "title": "Real vs Fake DLP Exception Request",
+      "realImage": "../assets/fault-finding/it-dlp-exception-real.svg",
+      "fakeImage": "../assets/fault-finding/it-dlp-exception-fake.svg",
+      "whatIsWrong": "The fake email comes from compliance@synergymarinegr0up.com — the letter \"o\" has been replaced with a zero, which looks almost identical in most fonts. It asks you to personally approve a one-time bulk export of data today, where the real process only ever notifies you of an exception already logged through the standard workflow.",
+      "whyItsSuspicious": "This is a homoglyph attack — a single swapped character that's easy to miss when the surrounding message already sounds like routine compliance mail. A genuine DLP exception is logged and reviewed through the standard workflow, never approved on the spot from an email — the ask to personally green-light an export today is the actual signal, not the calm, business-as-usual tone around it."
     }
   ]
 }

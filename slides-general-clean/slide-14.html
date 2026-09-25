@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>See Something, Say Something — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .callout-bar.stop-verify-report {
+      justify-content: center;
+      align-items: center;
+      gap: 22px;
+      padding: 18px 28px;
+      margin: 0;
+      background: var(--navy);
+      border-left-color: var(--cyan);
+      border-radius: var(--r);
+    }
+    .callout-bar.stop-verify-report .mono-tag { font-size: 20px; letter-spacing: 3px; font-weight: 800; }
+    .callout-bar.stop-verify-report i { font-size: 18px; color: var(--cyan-light); }
+    .callout-bar.stop-verify-report .stop-tag { color: var(--scene-red-accent); }
+    .callout-bar.stop-verify-report .verify-tag { color: var(--scene-amber-accent); }
+    .callout-bar.stop-verify-report .report-tag { color: var(--scene-green-accent); }
+
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+
+    .slide .info-box { padding: 16px 20px; margin: 0; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Speak Up</div>
+      <h1>SEE SOMETHING, <span>SAY SOMETHING</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead full-width">Every warning sign we've covered comes down to three simple steps — and four places you can act on them.</p>
+
+      <div class="callout-bar stop-verify-report">
+        <span class="mono-tag stop-tag">STOP</span>
+        <i class="fas fa-arrow-right"></i>
+        <span class="mono-tag verify-tag">VERIFY</span>
+        <i class="fas fa-arrow-right"></i>
+        <span class="mono-tag report-tag">REPORT</span>
+      </div>
+
+      <div class="reveal-stagger card-grid cols-4 gap-lg">
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(6,182,212,0.1);color:var(--cyan-dark);"><i class="fas fa-headset"></i></div>
+          <h3>IT Service Desk</h3>
+          <p>First stop for anything technical — suspicious email, account issue, or unfamiliar device. Reach it 24/7 via the Staff Portal or phone.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(0,98,255,0.1);color:var(--blue);"><i class="fas fa-flag"></i></div>
+          <h3>Report-Phish Button</h3>
+          <p>Fastest for email: one click flags the message for review and removes it. No forwarding needed.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(239,68,68,0.1);color:var(--red);"><i class="fas fa-shield-halved"></i></div>
+          <h3>Security Hotline</h3>
+          <p>For urgent or sensitive cases — breach, lost device, or a payment that now feels wrong. Fastest when you need attention now.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap" style="background:rgba(124,58,237,0.1);color:var(--purple);"><i class="fas fa-user-group"></i></div>
+          <h3>Your Line Manager</h3>
+          <p>If unsure who to contact, your manager is a safe default — on board, the Master or DPA (Designated Person Ashore). Wrong channel first is still better than late or never.</p>
+        </div>
+      </div>
+
+      <div class="info-box success">
+        <i class="fas fa-circle-check"></i>
+        <div>Reporting quickly – even if it turns out to be nothing – is always the right thing to do. No blame, ever.</div>
+      </div>
+
+      <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.05);">
+        <i class="fas fa-clock" style="color:var(--navy);"></i>
+        <div><strong>GDPR:</strong> A data breach involving employee or customer information must be reported within strict deadlines — the sooner you flag something odd, the more of that window we keep.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> GDPR — EU Data Protection <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

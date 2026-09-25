@@ -1272,46 +1272,69 @@ def load_deck_file_list():
 AUDIENCE_CLOSING_ENTRY_RE = re.compile(r"['\"](?P<audience>[^'\"]+)['\"]\s*:\s*['\"](?P<file>[^'\"]+)['\"]")
 
 
-def load_audience_closing_file_map():
-    """Extract the {audience: file} pairs from deck.js's AUDIENCE_CLOSING_SLIDES map.
+def _load_audience_swap_file_map_named(map_name):
+    """Extract the {audience: file} pairs from deck.js's given flat AUDIENCE_*_SLIDES map.
 
     These files are never listed in SLIDES (they're swapped in client-side by
-    applyAudienceClosingSlide() based on ?audience=, see scripts/deck.js), so
-    check_deck_alignment()'s SLIDES-only check would never notice one going missing -
-    this is the separate check for that map, same "declared vs actually on disk" idea.
+    applyAudienceClosingSlide()/applyAudienceDeskSlide()/applyAudienceLoginSlide() based on
+    ?audience=, see scripts/deck.js), so check_deck_alignment()'s SLIDES-only check would never
+    notice one going missing - this is the separate check for that map, same "declared vs
+    actually on disk" idea. Shared by AUDIENCE_CLOSING_SLIDES, AUDIENCE_DESK_SLIDES and
+    AUDIENCE_LOGIN_SLIDES below, which all have the identical flat {audience: 'file'} shape.
     """
     if not DECK_JS.exists():
         return {}
     text = DECK_JS.read_text(encoding="utf-8")
-    match = re.search(r"AUDIENCE_CLOSING_SLIDES\s*=\s*\{(.*?)\}\s*;", text, re.DOTALL)
+    match = re.search(re.escape(map_name) + r"\s*=\s*\{(.*?)\}\s*;", text, re.DOTALL)
     if not match:
         return {}
     return dict(AUDIENCE_CLOSING_ENTRY_RE.findall(match.group(1)))
 
 
+def load_audience_closing_file_map():
+    return _load_audience_swap_file_map_named("AUDIENCE_CLOSING_SLIDES")
+
+
+def load_audience_desk_file_map():
+    return _load_audience_swap_file_map_named("AUDIENCE_DESK_SLIDES")
+
+
+def load_audience_login_file_map():
+    return _load_audience_swap_file_map_named("AUDIENCE_LOGIN_SLIDES")
+
+
+def load_audience_ai_paste_file_map():
+    return _load_audience_swap_file_map_named("AUDIENCE_AI_PASTE_SLIDES")
+
+
+def load_audience_shadow_ai_file_map():
+    return _load_audience_swap_file_map_named("AUDIENCE_SHADOW_AI_SLIDES")
+
+
 AUDIENCE_TOPIC_KEY_RE = re.compile(r"['\"](?P<audience>[^'\"]+)['\"]\s*:\s*\[")
 
 
-def load_audience_topic_file_map():
-    """Extract {audience: [files...]} from deck.js's AUDIENCE_TOPIC_SLIDES map.
+def _load_audience_topic_file_map_named(map_name):
+    """Extract {audience: [files...]} from deck.js's given AUDIENCE_*_SLIDES map by name.
 
-    Same "declared vs actually on disk" idea as load_audience_closing_file_map(), but for the
-    topic slides applyAudienceTopicSlides() *inserts* into the deck (see scripts/deck.js) rather
-    than swaps in place - also never listed in SLIDES, so the base check above would never
-    notice one going missing either. Each audience's own array is bracket-counted (not matched
-    with a single regex) since the arrays contain nested {..} objects a lazy regex can't safely
-    skip over.
+    Same "declared vs actually on disk" idea as load_audience_closing_file_map(), but for topic
+    slides applyAudienceTopicSlides()/applyAudienceEarlyTopicSlides() *insert* into the deck (see
+    scripts/deck.js) rather than swap in place - also never listed in SLIDES, so the base check
+    above would never notice one going missing either. Each audience's own array is
+    bracket-counted (not matched with a single regex) since the arrays contain nested {..}
+    objects a lazy regex can't safely skip over. Shared by both AUDIENCE_TOPIC_SLIDES and
+    AUDIENCE_EARLY_TOPIC_SLIDES below, which have identical shapes at two different anchors.
     """
     if not DECK_JS.exists():
         return {}
     text = DECK_JS.read_text(encoding="utf-8")
-    outer = re.search(r"AUDIENCE_TOPIC_SLIDES\s*=\s*\{", text)
+    outer = re.search(re.escape(map_name) + r"\s*=\s*\{", text)
     if not outer:
         return {}
     result = {}
     for key_match in AUDIENCE_TOPIC_KEY_RE.finditer(text, outer.end()):
-        # Stop scanning once we've moved past the AUDIENCE_TOPIC_SLIDES object's own closing
-        # brace - a later '...': [ elsewhere in the file must not be picked up as an audience.
+        # Stop scanning once we've moved past this map's own closing brace - a later
+        # '...': [ elsewhere in the file must not be picked up as an audience.
         depth = 1
         i = outer.end()
         while depth > 0 and i < len(text):
@@ -1333,6 +1356,41 @@ def load_audience_topic_file_map():
             j += 1
         body = text[array_start:j - 1]
         result[key_match.group("audience")] = SLIDE_ENTRY_RE.findall(body)
+    return result
+
+
+def load_audience_topic_file_map():
+    return _load_audience_topic_file_map_named("AUDIENCE_TOPIC_SLIDES")
+
+
+def load_audience_early_topic_file_map():
+    return _load_audience_topic_file_map_named("AUDIENCE_EARLY_TOPIC_SLIDES")
+
+
+AUDIENCE_SKIP_ENTRY_RE = re.compile(r"['\"](?P<audience>[^'\"]+)['\"]\s*:\s*\[(?P<body>[^\]]*)\]")
+SKIP_FILE_ENTRY_RE = re.compile(r"['\"](?P<file>[^'\"]+)['\"]")
+
+
+def load_audience_skip_file_map():
+    """Extract {audience: [files...]} from deck.js's AUDIENCE_SKIP_SLIDES map.
+
+    Same "declared vs actually on disk" idea as load_audience_topic_file_map(), but for base
+    slides applyAudienceSkipSlides() *removes* from the deck for a given audience (see
+    scripts/deck.js) rather than inserts. Unlike the topic map, each audience's array here is a
+    flat list of filename strings with no nested {..} objects, so a single non-nested-bracket
+    regex per audience is enough - no bracket-counting needed.
+    """
+    if not DECK_JS.exists():
+        return {}
+    text = DECK_JS.read_text(encoding="utf-8")
+    outer = re.search(r"AUDIENCE_SKIP_SLIDES\s*=\s*\{", text)
+    if not outer:
+        return {}
+    close = text.find("};", outer.end())
+    body_text = text[outer.end(): close if close != -1 else len(text)]
+    result = {}
+    for m in AUDIENCE_SKIP_ENTRY_RE.finditer(body_text):
+        result[m.group("audience")] = SKIP_FILE_ENTRY_RE.findall(m.group("body"))
     return result
 
 
@@ -1359,6 +1417,50 @@ def check_deck_alignment():
     else:
         print("All audience-specific Closing slides referenced in deck.js exist on disk. OK.")
 
+    desk_map = load_audience_desk_file_map()
+    if not desk_map:
+        print("WARNING: could not read AUDIENCE_DESK_SLIDES map from scripts/deck.js", file=sys.stderr)
+        return
+    missing_desk_files = {a: f for a, f in desk_map.items() if not (SLIDES_DIR / f).exists()}
+    print(f"deck.js declares {len(desk_map)} audience-specific Desk Perimeter slide(s): {sorted(desk_map)}")
+    if missing_desk_files:
+        print(f"WARNING: AUDIENCE_DESK_SLIDES references file(s) missing from slides/: {missing_desk_files}", file=sys.stderr)
+    else:
+        print("All audience-specific Desk Perimeter slides referenced in deck.js exist on disk. OK.")
+
+    login_map = load_audience_login_file_map()
+    if not login_map:
+        print("WARNING: could not read AUDIENCE_LOGIN_SLIDES map from scripts/deck.js", file=sys.stderr)
+        return
+    missing_login_files = {a: f for a, f in login_map.items() if not (SLIDES_DIR / f).exists()}
+    print(f"deck.js declares {len(login_map)} audience-specific Login Perimeter slide(s): {sorted(login_map)}")
+    if missing_login_files:
+        print(f"WARNING: AUDIENCE_LOGIN_SLIDES references file(s) missing from slides/: {missing_login_files}", file=sys.stderr)
+    else:
+        print("All audience-specific Login Perimeter slides referenced in deck.js exist on disk. OK.")
+
+    ai_paste_map = load_audience_ai_paste_file_map()
+    if not ai_paste_map:
+        print("WARNING: could not read AUDIENCE_AI_PASTE_SLIDES map from scripts/deck.js", file=sys.stderr)
+        return
+    missing_ai_paste_files = {a: f for a, f in ai_paste_map.items() if not (SLIDES_DIR / f).exists()}
+    print(f"deck.js declares {len(ai_paste_map)} audience-specific Pasting-Data-Into-AI slide(s): {sorted(ai_paste_map)}")
+    if missing_ai_paste_files:
+        print(f"WARNING: AUDIENCE_AI_PASTE_SLIDES references file(s) missing from slides/: {missing_ai_paste_files}", file=sys.stderr)
+    else:
+        print("All audience-specific Pasting-Data-Into-AI slides referenced in deck.js exist on disk. OK.")
+
+    shadow_ai_map = load_audience_shadow_ai_file_map()
+    if not shadow_ai_map:
+        print("WARNING: could not read AUDIENCE_SHADOW_AI_SLIDES map from scripts/deck.js", file=sys.stderr)
+        return
+    missing_shadow_ai_files = {a: f for a, f in shadow_ai_map.items() if not (SLIDES_DIR / f).exists()}
+    print(f"deck.js declares {len(shadow_ai_map)} audience-specific Shadow AI slide(s): {sorted(shadow_ai_map)}")
+    if missing_shadow_ai_files:
+        print(f"WARNING: AUDIENCE_SHADOW_AI_SLIDES references file(s) missing from slides/: {missing_shadow_ai_files}", file=sys.stderr)
+    else:
+        print("All audience-specific Shadow AI slides referenced in deck.js exist on disk. OK.")
+
     topic_map = load_audience_topic_file_map()
     if not topic_map:
         print("WARNING: could not read AUDIENCE_TOPIC_SLIDES map from scripts/deck.js", file=sys.stderr)
@@ -1371,6 +1473,32 @@ def check_deck_alignment():
         print(f"WARNING: AUDIENCE_TOPIC_SLIDES references file(s) missing from slides/: {missing_topic_files}", file=sys.stderr)
     else:
         print("All audience-specific topic slides referenced in deck.js exist on disk. OK.")
+
+    early_topic_map = load_audience_early_topic_file_map()
+    if not early_topic_map:
+        print("WARNING: could not read AUDIENCE_EARLY_TOPIC_SLIDES map from scripts/deck.js", file=sys.stderr)
+        return
+    all_early_topic_files = [f for files in early_topic_map.values() for f in files]
+    missing_early_topic_files = {a: [f for f in files if not (SLIDES_DIR / f).exists()] for a, files in early_topic_map.items()}
+    missing_early_topic_files = {a: f for a, f in missing_early_topic_files.items() if f}
+    print(f"deck.js declares {len(all_early_topic_files)} audience-specific early topic slide(s) across {len(early_topic_map)} audience(s): {sorted(early_topic_map)}")
+    if missing_early_topic_files:
+        print(f"WARNING: AUDIENCE_EARLY_TOPIC_SLIDES references file(s) missing from slides/: {missing_early_topic_files}", file=sys.stderr)
+    else:
+        print("All audience-specific early topic slides referenced in deck.js exist on disk. OK.")
+
+    skip_map = load_audience_skip_file_map()
+    if not skip_map:
+        print("WARNING: could not read AUDIENCE_SKIP_SLIDES map from scripts/deck.js", file=sys.stderr)
+        return
+    all_skip_files = [f for files in skip_map.values() for f in files]
+    missing_skip_files = {a: [f for f in files if not (SLIDES_DIR / f).exists()] for a, files in skip_map.items()}
+    missing_skip_files = {a: f for a, f in missing_skip_files.items() if f}
+    print(f"deck.js declares {len(all_skip_files)} audience-specific skipped slide(s) across {len(skip_map)} audience(s): {sorted(skip_map)}")
+    if missing_skip_files:
+        print(f"WARNING: AUDIENCE_SKIP_SLIDES references file(s) missing from slides/: {missing_skip_files}", file=sys.stderr)
+    else:
+        print("All audience-specific skipped slides referenced in deck.js exist on disk. OK.")
 
 
 @app.route("/")

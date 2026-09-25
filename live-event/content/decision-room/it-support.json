@@ -175,6 +175,72 @@
         }
       ],
       "debrief": "This is a classic OTP-relay attack — attackers who already have a password trigger a real reset code, then pose as IT Security to get it relayed back to them. STOP before replying with any code. VERIFY through a known internal channel. REPORT the number so others are warned."
+    },
+    {
+      "id": "it-mdm-profile-overreach",
+      "persona": "IT Support",
+      "title": "The MDM Profile That Asks For More",
+      "scenario": "A device-enrollment prompt appears on a managed laptop asking to install an \"updated compliance profile\" for the quarterly check. Reading the fine print, the profile also requests full remote-control permissions, described as helping \"support assist you faster next time.\"",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Install it — it's from the MDM system and the quarterly check is routine",
+              "outcome": "consequence",
+              "feedback": "A familiar-looking MDM prompt is not the same as a profile that only requests what it claims to — installing it grants the extra permission along with the routine check."
+            },
+            {
+              "id": "b",
+              "text": "Ask a colleague if they got the same prompt before deciding",
+              "outcome": "consequence",
+              "feedback": "A colleague seeing the same prompt doesn't confirm it's genuine — a fake profile can be pushed to more than one device at once."
+            },
+            {
+              "id": "c",
+              "text": "Do not install it — check the actual profile requested against policy via the endpoint management console, and confirm with the Endpoint Management Team directly",
+              "outcome": "good",
+              "feedback": "Correct. A genuine quarterly check never bundles in a new permission grant — verifying what's actually being requested against policy, through the console you already trust, is what catches this."
+            }
+          ]
+        }
+      ],
+      "debrief": "A permission request riding along with a routine-sounding compliance check is the red flag, not the MDM branding around it. STOP before installing any profile that requests more than it claims to need. VERIFY against policy through the console you already trust. REPORT it so the profile can be blocked for others."
+    },
+    {
+      "id": "it-dlp-exception-rush",
+      "persona": "IT Support",
+      "title": "The DLP Exception They Want Approved Now",
+      "scenario": "An email that looks like it's from the Compliance Team asks you to approve a one-time data-loss-prevention exception today, covering a bulk export of Restricted-tier data for a \"business-critical handover.\" It reads calmly and routinely, with no dramatic language.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Approve it — the handover sounds business-critical and the email reads like routine compliance mail",
+              "outcome": "consequence",
+              "feedback": "A calm, routine-sounding tone is not verification — approving a bulk export of Restricted-tier data on the strength of an email alone skips the actual exception workflow."
+            },
+            {
+              "id": "b",
+              "text": "Reply asking for more details about the handover before approving",
+              "outcome": "consequence",
+              "feedback": "A fake sender can supply whatever details you ask for — this doesn't confirm the request came through the real compliance workflow."
+            },
+            {
+              "id": "c",
+              "text": "Do not approve it from the email — check the exception log in the compliance system yourself and confirm with the Compliance Team through a known channel",
+              "outcome": "good",
+              "feedback": "Correct. A genuine DLP exception is logged and reviewed through the standard workflow, never approved on the spot from an email — checking the system of record and the team directly is what actually confirms it."
+            }
+          ]
+        }
+      ],
+      "debrief": "A same-day approval request for a bulk data export is the pattern to catch, regardless of how calm or routine the email sounds. STOP before approving anything from the email itself. VERIFY through the compliance system and the team directly. REPORT the email regardless of what you find."
     }
   ]
 }

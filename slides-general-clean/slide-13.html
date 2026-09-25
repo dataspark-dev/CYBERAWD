@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Security — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .sim-static { display: flex; gap: 14px; align-items: center; padding: 14px 18px; border-radius: var(--r); background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.18); }
+    .sim-static i { font-size: 28px; color: var(--red); flex-shrink: 0; }
+    .sim-static h4 { font-family: 'Times New Roman', Times, serif; font-size: 15px; color: var(--navy); margin-bottom: 3px; }
+    .sim-static p { font-size: 13.5px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+    .info-box.danger { border-left-color: var(--red); background: rgba(239,68,68,0.06); }
+    .info-box.danger i { color: var(--red); }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Everyday Defence</div>
+      <h1>YOUR LOGIN IS PART OF THE <span>PERIMETER</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">What a well-protected account looks like — and what attackers hope you never fix.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-key"></i></div><div><h4>Same Password, Reused <span class="tell-tag">Risk</span></h4><p>Using the same password on multiple sites means one leak unlocks all your accounts.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-mobile-screen-button"></i></div><div><h4>MFA Turned On <span class="tell-tag">Good Practice</span></h4><p>MFA stops a stolen password from getting in.</p></div></div>
+          <div class="tell-card risk"><div class="tc-icon"><i class="fas fa-clock-rotate-left"></i></div><div><h4>Unrecognised Sign-In Ignored <span class="tell-tag">Risk</span></h4><p>Dismissing a login alert from an unknown device or location is a mistake. Report it.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-shield-halved"></i></div><div><h4>Password Manager In Use <span class="tell-tag">Good Practice</span></h4><p>Creates and stores unique, strong passwords for every account.</p></div></div>
+        </div>
+
+        <div>
+          <div class="sim-static">
+            <i class="fas fa-ban"></i>
+            <div><h4>MFA Push-Bombing</h4><p>A flood of approval requests you didn't trigger is an attack, not a glitch. Tap Deny, not Approve, and report it to IT immediately.</p></div>
+          </div>
+
+          <div class="info-box danger">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div><strong>If a prompt looks wrong, deny and report.</strong><br>
+            <strong>MFA fatigue:</strong> requests you didn't trigger — tap Deny, never Approve.<br>
+            <strong>Genuine vs fake:</strong> genuine matches your device and location; fake comes from an unfamiliar one, demanding immediate approval.<br>
+            <strong>Sign-in alert you don't recognise:</strong> change the password and report it.<br>
+            <strong>Same rule everywhere:</strong> the Staff Portal and any shared terminal need the same password + MFA discipline — no exceptions at a shift handover.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Use a password manager for every account</span>
+        <span class="impact-chip"><i class="fas fa-mobile-screen-button" style="color:var(--cyan);"></i> Turn on the second check (MFA) everywhere it's offered</span>
+        <span class="impact-chip"><i class="fas fa-flag" style="color:var(--cyan);"></i> Report sign-in alerts you don't recognise</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[SECURE IT]</strong> <strong>GOLDEN RULE:</strong> Use a unique password for every account, plus MFA – together they block almost every account takeover attempt, even one that started with someone else's breach. Attackers don't even need to guess it — an unrelated leak elsewhere is often enough, which is exactly what a unique password blocks.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> See Something, Say Something <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

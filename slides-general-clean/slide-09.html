@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pasting Data Into Public AI — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .ai-flow-scene { padding: 22px 40px 20px; }
+    .ai-flow-row .flow-node { width: 170px; }
+    .ai-flow-row .fn-icon { width: 44px; height: 44px; font-size: 18px; }
+    .flow-branches { margin-top: 20px; gap: 18px; }
+    /* main.css ships .flow-branch at opacity:0 until runFlowSequence() adds
+       .visible — that JS mechanic was removed with the Replay Simulation button,
+       so pin these permanently visible or the three consequence cards render blank. */
+    .flow-branch { max-width: 100%; flex: 1 1 260px; padding: 16px 18px; opacity: 1; transform: none; }
+    .flow-branch .fb-icon { font-size: 22px; margin-bottom: 8px; }
+    .flow-branch h5 { font-size: 26px !important; margin-bottom: 5px !important; }
+    .flow-branch p { font-size: 20px !important; line-height: 1.45 !important; }
+
+    .two-col { gap: 18px; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Artificial Intelligence</div>
+      <h1>PASTING DATA INTO <span>PUBLIC AI</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Paste an employee list, contract, or payroll sheet into a public chatbot and it leaves your control immediately.</p>
+
+      <div class="flow-scene ai-flow-scene">
+        <div class="flow-row ai-flow-row">
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-user"></i></div><div class="fn-label">You</div></div>
+          <div class="flow-track"></div>
+          <div class="flow-node"><div class="fn-icon"><i class="fas fa-robot"></i></div><div class="fn-label">Public AI Chatbot</div></div>
+        </div>
+        <div class="flow-branches">
+          <div class="flow-branch">
+            <div class="fb-icon"><i class="fas fa-database"></i></div>
+            <h5>Model Training Data</h5>
+            <p>Your text may train future responses — not just be read and forgotten.</p>
+          </div>
+          <div class="flow-branch">
+            <div class="fb-icon"><i class="fas fa-server"></i></div>
+            <h5>Third-Party Servers</h5>
+            <p>Stored under another company's retention rules and jurisdiction.</p>
+          </div>
+          <div class="flow-branch">
+            <div class="fb-icon"><i class="fas fa-triangle-exclamation"></i></div>
+            <h5>Potential Leak</h5>
+            <p>Providers have exposed one user's history to another. Assume it could resurface.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="info-box danger">
+          <i class="fas fa-ban"></i>
+          <div>Never paste employee records, payroll details, contracts, financial data, source code with real credentials, or passwords into a public chatbot — at the office or remote.</div>
+        </div>
+        <div class="info-box success">
+          <i class="fas fa-circle-check"></i>
+          <div>Use only company-approved AI tools — they're reviewed for exactly this risk.</div>
+        </div>
+      </div>
+
+      <div class="info-box" style="border-left-color:var(--navy); background:rgba(0,26,77,0.06);">
+        <i class="fas fa-file-shield" style="color:var(--navy);"></i>
+        <div><strong>GDPR:</strong> Employee and customer personal data must stay inside approved, contracted systems — pasting it into a public AI tool can itself be a data protection breach.</div>
+      </div>
+      <!-- FACILITATOR (trimmed from the GDPR box, Phase E): sensitive data here means employee
+           records, contracts, financial data, customer info and operational data. -->
+
+      <div class="action-row">
+        <span class="mono-tag">Before you paste:</span>
+        <span class="impact-chip"><i class="fas fa-list-check" style="color:var(--cyan);"></i> Check the approved list first</span>
+        <span class="impact-chip"><i class="fas fa-eraser" style="color:var(--cyan);"></i> Remove names, numbers &amp; IDs</span>
+        <span class="impact-chip"><i class="fas fa-circle-question" style="color:var(--cyan);"></i> If unsure, don't paste</span>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Shadow AI — The Unapproved Tools <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepfakes: Who's Targeted — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .card-grid { align-items: stretch; }
+    .scenario-card { height: 100%; display: flex; flex-direction: column; margin-bottom: 0; }
+    .scenario-top { flex: 1; }
+    .sc-verdict { margin-top: 6px; font-weight: 700; color: var(--navy); }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Identity &amp; Trust</div>
+      <h1>DEEPFAKES: <span>WHO'S TARGETED</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger relaxed">
+      <p class="section-lead">The same deepfake trick works on more than a finance call — here's who else attackers are cloning, and why it works.</p>
+
+      <div class="reveal-stagger card-grid cols-4">
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon lg"><i class="fas fa-user-tie"></i></div>
+            <div class="sc-content">
+              <h4>Fake Recruiter Interview</h4>
+              <p>A polished "hiring manager" asks for a deposit or bank details to "process relocation."</p>
+              <p class="sc-verdict">Verify through official channels, never a link in the invite.</p>
+              <!-- FACILITATOR: AI-generated recruiters have been used to steal personal and banking data outright. -->
+            </div>
+          </div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon lg"><i class="fas fa-truck-field"></i></div>
+            <div class="sc-content">
+              <h4>Vendor Bank-Change Call</h4>
+              <p>A long-standing supplier calls — voice matches — to confirm a new bank account.</p>
+              <p class="sc-verdict">Confirm bank changes on the number already on file, not the one in the call.</p>
+              <!-- FACILITATOR: a single recorded call is enough to clone a vendor's voice. -->
+            </div>
+          </div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon lg"><i class="fas fa-handshake"></i></div>
+            <div class="sc-content">
+              <h4>Fake Client Renewal Call</h4>
+              <p>A cloned voice matching a client's exec asks for an emergency discount or a redirected invoice, "before the renewal deadline."</p>
+              <p class="sc-verdict">Confirm any pricing or invoice change through your official account process, not the call.</p>
+              <!-- FACILITATOR: this fraud targets whoever can approve a discount or redirect a payment, not just Finance. -->
+            </div>
+          </div>
+        </div>
+        <div class="scenario-card">
+          <div class="scenario-top">
+            <div class="sc-icon lg"><i class="fas fa-headset"></i></div>
+            <div class="sc-content">
+              <h4>IT Support "Callback"</h4>
+              <p>Someone sounding like IT asks you to read back your MFA code to "fix a login issue."</p>
+              <p class="sc-verdict">Real IT never needs your MFA code.</p>
+              <!-- FACILITATOR: reading the code aloud bypasses the login screen entirely. -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Same rule, every role:</span>
+        <span class="impact-chip"><i class="fas fa-building-user" style="color:var(--cyan);"></i> Use official channels, never a link</span>
+        <span class="impact-chip"><i class="fas fa-university" style="color:var(--cyan);"></i> Check bank changes on file</span>
+        <span class="impact-chip"><i class="fas fa-handshake" style="color:var(--cyan);"></i> Confirm through your official process</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Never share codes</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[VERIFY — EVERY ROLE]</strong> <strong>GOLDEN RULE:</strong> If a call asks you to move money, share login details, or break a normal process — hang up and confirm on a separate, trusted number before you act. Office or remote, it's not just finance. Attackers count on a familiar face and voice — the same trick works on any role because it targets urgency and trust, not technology.</div>
+        <div class="key-principle"><div class="kp-val">2nd</div><div class="kp-label">Channel to Verify</div></div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Phishing Has Evolved <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

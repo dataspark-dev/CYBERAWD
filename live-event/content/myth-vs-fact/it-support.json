@@ -51,6 +51,20 @@
       "myth": "Installing a remote-access tool to help a caller quickly is fine, since IT installs and removes tools like this all the time.",
       "fact": "Installing remote access for an unverified caller gives them the same access you have. The fact that this is routine for IT is exactly why the trick blends in so easily.",
       "detail": "Treat any request to install a remote-access tool for an inbound caller the same as any other high-privilege action: verify who is actually asking, through a channel you already trust, before you install anything."
+    },
+    {
+      "id": "mf-it-07",
+      "topic": "MDM Enrollment",
+      "myth": "A device-enrollment prompt that looks like it's from our own MDM system is safe to install without reading the details.",
+      "fact": "A genuine compliance check only ever confirms your existing profile — it never bundles in a new permission grant. Reading exactly what a profile requests, not just recognising the MDM branding, is the actual check.",
+      "detail": "Compare any new profile's requested permissions against what the routine check normally needs, and confirm with Endpoint Management directly if it asks for anything more."
+    },
+    {
+      "id": "mf-it-08",
+      "topic": "DLP Exceptions",
+      "myth": "A calm, routine-sounding email asking you to approve a data-export exception today is fine, since it doesn't feel like a scam email.",
+      "fact": "A genuine DLP exception is logged and reviewed through the standard workflow, never approved on the spot from an email. A calm tone is not a safety check — the same-day approval ask is the actual signal.",
+      "detail": "Check the exception log in the compliance system yourself and confirm with the Compliance Team through a known channel before approving anything, regardless of how routine the email sounds."
     }
   ]
 }

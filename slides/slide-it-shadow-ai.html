@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shadow AI — IT Support — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .checklist-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; align-items: stretch; }
+    .cl-item { height: 100%; }
+    .slide .cl-item { padding: 18px 20px; margin-bottom: 0; }
+    .slide .cl-item h4 { font-size: 26px; margin-bottom: 4px; }
+    .slide .cl-item p { font-size: 20px; line-height: 1.45; }
+    .cl-item .cl-icon { width: 46px; height: 46px; font-size: 19px; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">IT Support — Artificial Intelligence</div>
+      <h1>SHADOW AI — THE <span>UNAPPROVED TOOLS</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger relaxed">
+      <p class="section-lead"><strong>Shadow AI</strong> — any AI tool used for work that hasn't been reviewed or approved. Chatbots aren't the only one, and IT's own tools aren't exempt.</p>
+
+      <div class="checklist-grid reveal-stagger">
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-puzzle-piece"></i></div><div><h4>Browser AI Extensions</h4><p>Free “AI assistant” add-ons read every page you open — including admin consoles and ticketing systems. If it isn't approved, remove it.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-user-secret"></i></div><div><h4>Personal AI Accounts</h4><p>A personal account instead of the company one sits outside our data agreements — no protection, no oversight.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-microphone-lines"></i></div><div><h4>AI Meeting Note-Takers</h4><p>Bots that auto-transcribe send everything said — including change-approval and incident-review calls — to a third-party server.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-magnifying-glass-chart"></i></div><div><h4>Unapproved AI Diagnostic/Scanning Tools</h4><p>A free “AI-powered” network scanner, log analyser, or config-checker can send your infrastructure details and credentials to a third-party server outside the approved system.</p></div></div>
+        <div class="cl-item icon-lg"><div class="cl-icon"><i class="fas fa-headset"></i></div><div><h4>Unapproved AI Ticketing Plugins</h4><p>An AI plugin bolted onto your ticketing system can read and summarise every ticket, including ones with customer or credential data, and send it outside the approved system.</p></div></div>
+      </div>
+
+      <div class="info-box warning">
+        <i class="fas fa-triangle-exclamation"></i>
+        <div>Not sure whether a tool is approved? Ask before using it with company, customer, or credential data — asking is always safe.</div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">If you spot one:</span>
+        <span class="impact-chip"><i class="fas fa-pause" style="color:var(--cyan);"></i> Stop using it on company or customer data</span>
+        <span class="impact-chip"><i class="fas fa-comment-dots" style="color:var(--cyan);"></i> Asking is safe — unchecked use isn't</span>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> When Attackers Use AI Too <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

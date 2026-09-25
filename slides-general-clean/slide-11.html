@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>When Attackers Use AI Too — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .card-grid { align-items: stretch; }
+    .pillar-card { height: 100%; display: flex; flex-direction: column; }
+    .cmp-row-label { font-family: 'Times New Roman', Times, serif; font-size: 13px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--faint); margin: 6px 0 8px; display: flex; align-items: center; gap: 8px; }
+    .cmp-row-label.after { color: var(--red-dark); }
+    .cmp-row-label i { font-size: 12px; }
+
+    .slide .pillar-card { padding: 22px 20px; }
+    .slide .icon-wrap { width: 56px; height: 56px; font-size: 26px; margin-bottom: 8px; }
+
+    .two-col { gap: 18px; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Artificial Intelligence</div>
+      <h1>WHEN ATTACKERS USE <span>AI TOO</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">Every AI tool that helps you can also help an attacker. Here's the same four attack types, before and after AI.</p>
+
+      <div class="cmp-row-label"><i class="fas fa-user-ninja"></i> Before AI</div>
+      <div class="card-grid cols-4">
+        <div class="pillar-card">
+          <div class="icon-wrap"><i class="fas fa-spell-check"></i></div>
+          <h3>Generic Lures</h3>
+          <p>Mass emails with poor writing, sent to thousands of addresses, hoping a few will click.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap"><i class="fas fa-microphone"></i></div>
+          <h3>One Voice, One Script</h3>
+          <p>A caller stuck with their own accent and a fixed script that doesn't adapt.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap"><i class="fas fa-bug"></i></div>
+          <h3>Hand-Written Malware</h3>
+          <p>Code written manually — slower to make and easier for security tools to detect.</p>
+        </div>
+        <div class="pillar-card">
+          <div class="icon-wrap"><i class="fas fa-file-lines"></i></div>
+          <h3>Manually Forged Paperwork</h3>
+          <p>Hand-crafted fake IDs, invoices, or approval forms — time-consuming and often has visible errors.</p>
+        </div>
+      </div>
+
+      <div class="cmp-row-label after"><i class="fas fa-robot"></i> With AI</div>
+      <div class="card-grid cols-4">
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-wand-magic-sparkles"></i></div>
+          <h3>Personalised at Scale</h3>
+          <p>Flawless, tailored messages generated instantly for each target, using real names and projects.</p>
+        </div>
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-user-secret"></i></div>
+          <h3>Any Voice, Any Accent</h3>
+          <p>A cloned voice — including yours or a colleague's — generated on demand for a live call.</p>
+        </div>
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-virus"></i></div>
+          <h3>Self-Mutating Malware</h3>
+          <p>AI rewrites malicious code automatically so each copy looks different to detection tools.</p>
+        </div>
+        <div class="pillar-card v-red">
+          <div class="icon-wrap"><i class="fas fa-file-circle-exclamation"></i></div>
+          <h3>AI-Generated Fake Documents</h3>
+          <p>Forged IDs, invoices, or approval forms generated instantly with AI image tools — no visible errors.</p>
+        </div>
+      </div>
+
+      <!-- FACILITATOR NOTE (cut from slide, Phase E): a "Right Call vs Risky Call"
+           worked example lived here — a flawless AI-written vendor message asking for a
+           payment approval; the right move is calling back on the number already on file.
+           Cut as redundant: the [VERIFY - EVERY ROLE] and [STOP - EVERY CHANNEL] golden
+           rules already make the verify-on-a-second-channel point earlier in the deck. -->
+
+      <div class="callout-bar" style="border-left-color:var(--red);">
+        <i class="fas fa-triangle-exclamation" style="color:var(--scene-red-accent);"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[STAY ALERT]</strong> <strong>WHY IT MATTERS:</strong> Old tells are disappearing. Pausing, checking on a second, trusted channel, and reporting matter more than ever.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Your Desk Is Part of the Perimeter <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

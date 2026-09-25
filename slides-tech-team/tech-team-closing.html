@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Closing: Technology Team — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .close-chip {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 12px;
+      padding: 14px 16px;
+      width: 260px;
+    }
+
+    .cc-icon {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: var(--cyan-light);
+      margin-bottom: 8px;
+    }
+    .cc-badge {
+      position: absolute;
+      top: -8px;
+      right: -12px;
+      font-size: 14px;
+      color: var(--green);
+      background: var(--navy);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--navy);
+    }
+
+    .cc-label {
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      letter-spacing: 0.8px;
+      color: var(--white);
+      margin-bottom: 5px;
+    }
+    .cc-note {
+      font-size: 11.5px;
+      line-height: 1.4;
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .slide.slide-dark { align-items: center; justify-content: center; }
+    .opening-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(6, 182, 212, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(6, 182, 212, 0.06) 1px, transparent 1px);
+      background-size: 36px 36px;
+      animation: driftGrid 12s linear infinite;
+    }
+    @keyframes driftGrid { from { background-position: 0 0; } to { background-position: 72px 72px; } }
+    .orbit-ring {
+      position: absolute; top: 50%; left: 50%; width: 900px; height: 900px; margin: -450px 0 0 -450px;
+      border: 1px solid rgba(6, 182, 212, 0.12); border-radius: 50%; animation: orbitSpin 40s linear infinite;
+    }
+    .orbit-ring.r2 {
+      width: 1160px; height: 1160px; margin: -580px 0 0 -580px; border-color: rgba(0, 98, 255, 0.08);
+      animation-duration: 60s; animation-direction: reverse;
+    }
+    .orbit-dot { position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 14px var(--cyan); }
+    @keyframes orbitSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .op-title { position: relative; z-index: 2; text-align: center; max-width: 1800px; margin: 0 auto; padding-top: 6px; }
+    .op-title h1 { font-family: 'Times New Roman', Times, serif; font-weight: 900; font-size: 88px; line-height: 1.0; letter-spacing: -0.7px; color: var(--white); margin-bottom: 12px; }
+    .op-title h1 span { color: var(--cyan); }
+    .op-title .subhead { font-family: 'Times New Roman', Times, serif; font-size: 16px; letter-spacing: 2px; color: var(--cyan-light); text-transform: uppercase; margin-bottom: 12px; }
+    .op-title .rule { width: 150px; height: 4px; background: var(--grad-cyan); margin: 0 auto 18px; }
+    .op-title .lead { font-size: 17px; color: rgba(255, 255, 255, 0.65); line-height: 1.45; max-width: 1500px; margin: 0 auto 20px; }
+    .close-chip-wrap { display: flex; justify-content: center; gap: 14px; margin-bottom: 18px; flex-wrap: wrap; }
+    .games-note {
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.72);
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 8px;
+      padding: 8px 18px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .games-note i { color: var(--cyan-light); }
+    .op-title .final-call { font-family: 'Times New Roman', Times, serif; font-size: 16px; color: rgba(255, 255, 255, .6); letter-spacing: 0.6px; }
+  </style>
+</head>
+<body>
+  <div class="slide slide-dark accent-awareness">
+    <div class="opening-grid"></div>
+    <div class="orbit-ring"><span class="orbit-dot"></span></div>
+    <div class="orbit-ring r2"><span class="orbit-dot"></span></div>
+
+    <div class="close-header" style="position:absolute;top:40px;left:64px;right:64px;display:flex;align-items:center;justify-content:space-between;z-index:2;">
+      <img src="../assets/SYN3.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT3.png" alt="AFT"/>
+    </div>
+
+    <div class="op-title">
+      <div class="subhead">Synergy Marine Group &times; AFT — Closing: Technology Team</div>
+      <h1>THANK<br><span>YOU</span></h1>
+      <div class="rule"></div>
+      <p class="lead">You keep everything else running — which makes you a target too. Attackers copy your tickets, vendor calls, PR comments, and CI alerts because they know you're trained to move through them fast.</p>
+
+      <div class="close-chip-wrap reveal-stagger">
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-ticket"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Fake Escalation Ticket</div>
+          <div class="cc-note">A ticket number and internal jargon are not proof — check the real queue and the sender's exact domain.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-headset"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Vendor Impersonation Call</div>
+          <div class="cc-note">Verify any urgent vendor call on a number from your own approved contact list, never one the caller gives you.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-key"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Credential-Reset Social Engineering</div>
+          <div class="cc-note">A caller who refuses standard verification, however senior they sound, does not get a reset.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-box-open"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Fake Dependency Request</div>
+          <div class="cc-note">A plausible package name is not a safety check — verify publish history and maintainer reputation yourself.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-code-pull-request"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Phishing via PR Comment</div>
+          <div class="cc-note">GitHub never asks you to "re-authorize" through a link in a comment — open github.com yourself instead.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-diagram-project"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">CI/CD Credential Phishing</div>
+          <div class="cc-note">Your CI system authenticates through your session — it never asks you to retype credentials by email.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-shield-halved"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Hygiene &amp; Data Handling</div>
+          <div class="cc-note">Hardware MFA, least privilege, zero trust, and the right handling for each data classification tier — six baseline controls, applied everywhere.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-desktop"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Endpoint &amp; Zero Trust Network</div>
+          <div class="cc-note">Patch automatically, encrypt every disk, run as standard user by default, and trust no network location by itself.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-key"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">AppSec &amp; Secrets</div>
+          <div class="cc-note">Validate every input server-side, authorize every request, and keep every secret in a vault, never in source.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-diagram-project"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Git Lifecycle Defense</div>
+          <div class="cc-note">Scan for secrets before every commit, require signed commits and peer review, and revoke — don't just delete — a leak.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-robot"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">AI Security</div>
+          <div class="cc-note">Secrets, PII, and incident details never go into a public AI prompt; AI-generated code and packages are treated as untrusted until verified.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-flag-checkered"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Golden Rules</div>
+          <div class="cc-note">Hardware MFA everywhere, zero secrets in source/chat/tickets, AI output treated as untrusted, least privilege on every request.</div>
+        </div>
+      </div>
+
+      <div class="games-note"><i class="fas fa-trophy"></i> Keep practicing: live awareness games (4 rotating stations, ~30–45 min, team scoring) continue this training in person.</div>
+
+      <div class="final-call">A ticket number, a familiar package name, or a routine-looking alert is not proof: STOP → VERIFY through a channel you already trust → REPORT. Every single time.</div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Enterprise Security Hygiene — IT Support — Synergy Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .two-col { gap: 24px; align-items: stretch; }
+    .two-col > div { display: flex; flex-direction: column; gap: 11px; }
+
+    .tell-card { display: flex; gap: 12px; padding: 13px 16px; border-radius: var(--r); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .tell-card .tc-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .tell-card.risk .tc-icon { background: rgba(239,68,68,0.1); color: var(--red); }
+    .tell-card.good .tc-icon { background: rgba(16,185,129,0.1); color: var(--green-dark); }
+    .tell-card h4 { font-family: 'Times New Roman', Times, serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 2px; display:flex; align-items:center; gap:8px; }
+    .tell-tag { font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: 800; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; text-transform: uppercase; }
+    .tell-card.risk .tell-tag { background: rgba(239,68,68,0.12); color: var(--red-dark); }
+    .tell-card.good .tell-tag { background: rgba(16,185,129,0.12); color: var(--green-dark); }
+    .tell-card p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+
+    .slide .info-box { padding: 12px 16px; }
+
+    .action-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+    .progress-track { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+    .progress-track .pt-step { font-family: 'Times New Roman', Times, serif; font-size: 12px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--glass-border); color: var(--muted, #64748b); white-space: nowrap; }
+    .progress-track .pt-step.active { background: var(--accent, var(--cyan)); color: #fff; border-color: transparent; }
+    .progress-track i { color: var(--glass-border); font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+      <img src="../assets/SYN.png" alt="Synergy Marine Group"/>
+      <img src="../assets/AFT.png" alt="AFT"/>
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">IT Support — Foundations</div>
+      <h1>HYGIENE IS THE <span>FIRST DEFENSE</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <div class="progress-track">
+        <span class="pt-step active">Hygiene</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">Data Handling</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">Endpoint</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">Network</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">AI Leakage</span>
+        <i class="fas fa-chevron-right"></i>
+        <span class="pt-step">Golden Rules</span>
+      </div>
+      <p class="section-lead">Six baseline controls account for most of what separates a resilient IT environment from a breached one.</p>
+
+      <div class="two-col">
+        <div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-key"></i></div><div><h4>Hardware MFA (FIDO2) <span class="tell-tag">Good Practice</span></h4><p>A physical security key can't be phished the way a one-time code can — deploy FIDO2 hardware keys for every privileged account.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-user-lock"></i></div><div><h4>Least Privilege / RBAC <span class="tell-tag">Good Practice</span></h4><p>Every role gets exactly the access it needs to do its job, nothing more — access is granted by role, reviewed regularly, and revoked the moment it's no longer needed.</p></div></div>
+        </div>
+
+        <div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-diagram-project"></i></div><div><h4>Zero Trust Architecture <span class="tell-tag">Good Practice</span></h4><p>No device or network segment is trusted by default, even inside the perimeter — every request is verified regardless of where it originates.</p></div></div>
+          <div class="tell-card good"><div class="tc-icon"><i class="fas fa-download"></i></div><div><h4>Automated Patch Pipelines <span class="tell-tag">Good Practice</span></h4><p>Patches roll out on a schedule, not when someone remembers — a known vulnerability with a patch available is the easiest breach to prevent and the hardest to excuse.</p></div></div>
+          <div class="info-box warning">
+            <i class="fas fa-triangle-exclamation"></i>
+            <div>Zero credential reuse and exposure-based instant rotation close the loop: no password is reused across systems, and any credential suspected of exposure is rotated immediately, not queued for the next scheduled cycle.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Starting today:</span>
+        <span class="impact-chip"><i class="fas fa-key" style="color:var(--cyan);"></i> Hardware MFA (FIDO2) on every privileged account</span>
+        <span class="impact-chip"><i class="fas fa-user-lock" style="color:var(--cyan);"></i> Least privilege, reviewed regularly</span>
+        <span class="impact-chip"><i class="fas fa-rotate" style="color:var(--cyan);"></i> Rotate instantly on any suspected exposure — never reuse a credential</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[HYGIENE]</strong> <strong>GOLDEN RULE:</strong> Hardware MFA, least privilege, zero trust, automated patching, zero reuse, instant rotation on exposure — six controls, applied everywhere, all the time.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Data Classification &amp; Handling <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

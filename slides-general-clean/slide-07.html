@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phishing Has Evolved — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mail-compare { display: flex; gap: 24px; align-items: stretch; justify-content: center; }
+    .mail-col { flex: 1; max-width: 860px; display: flex; flex-direction: column; align-items: center; }
+    .mail-era { font-family: 'Times New Roman', Times, serif; font-size: 16px; font-weight: 800; letter-spacing: 2px; color: var(--faint); margin-bottom: 8px; text-transform: uppercase; }
+    .mail-stage { width: 100%; border-radius: 8px; padding: 22px; display: flex; align-items: center; justify-content: center; }
+    .mail-stage.legacy-bg { background: linear-gradient(160deg, var(--scene-red-tint-1), var(--scene-red-tint-2)); }
+    .mail-stage.modern-bg { background: linear-gradient(160deg, var(--scene-sky-tint-1), var(--scene-sky-tint-2)); }
+
+    .mail-mock { width: 100%; background: var(--white); border-radius: 8px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12); overflow: hidden; }
+    .mail-mock.legacy { border: 2px dashed var(--scene-red-accent); }
+    .mail-mock.modern { border: 1px solid var(--line); }
+    .mail-mock .mm-bar { padding: 11px 20px; font-family: 'Times New Roman', Times, serif; font-size: 14px; font-weight: 800; display: flex; align-items: center; gap: 8px; border-bottom: 2px solid; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mail-mock.legacy .mm-bar { background: var(--scene-red-tint-1); color: var(--red-dark); border-color: var(--scene-red-tint-border); }
+    .mail-mock.modern .mm-bar { background: var(--scene-sky-tint-1); color: var(--scene-sky-tint-text); border-color: var(--scene-sky-tint-border); }
+    .mail-mock .mm-fields { padding: 12px 20px 0; }
+    .mail-mock .mm-subj { font-size: 18px; font-weight: 800; color: var(--navy); line-height: 1.3; }
+    .mail-mock.legacy .mm-subj { color: var(--scene-red-tint-text); text-transform: uppercase; font-family: Arial, sans-serif; letter-spacing: .3px; }
+    .mail-mock .mm-body { padding: 9px 20px 18px; font-size: 16px; line-height: 1.55; color: var(--body-text); }
+    .mail-mock .mm-body strong { color: var(--navy); }
+    .mail-mock.legacy .mm-body { font-family: Arial, sans-serif; }
+    .mail-mock .mm-greet { display: block; margin-bottom: 5px; }
+    .mail-mock .mm-btn { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; padding: 9px 18px; border-radius: 4px; font-weight: 800; font-size: 12px; color: var(--white); border: none; }
+    .mail-mock.modern .mm-btn { background: var(--navy); letter-spacing: .2px; font-family: 'Times New Roman', Times, serif; }
+    .mail-mock.legacy .mm-btn { background: var(--red-2); text-transform: uppercase; font-family: Arial, sans-serif; letter-spacing: 0.8px; border-radius: 2px; }
+
+    .tell-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .tell-flag { display: flex; gap: 10px; background: rgba(239,68,68,0.05); border: 1px solid rgba(239,68,68,0.2); border-radius: 8px; padding: 12px 14px; }
+    .tell-flag i { color: var(--red); font-size: 15px; margin-top: 2px; flex-shrink: 0; }
+    .tell-flag strong { display: block; font-family: 'Times New Roman', Times, serif; font-size: 26px; color: var(--navy); margin-bottom: 2px; }
+    .tell-flag p { font-size: 20px; line-height: 1.45; color: var(--body-text); }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Email, SMS &amp; Voice</div>
+      <h1>PHISHING HAS <span>EVOLVED</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">Phishing today looks nothing like the old scams. Same trick, sharper disguise — here's what changed, and the tells that still give it away.</p>
+
+      <div class="mail-compare">
+        <div class="mail-col">
+          <div class="mail-era">2015</div>
+          <div class="mail-stage legacy-bg">
+            <div class="mail-mock legacy">
+              <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: security@paypa1-verify.net</div>
+              <div class="mm-fields"><div class="mm-subj">URGENT!!! Your Account Has Been LIMITED</div></div>
+              <div class="mm-body">
+                <span class="mm-greet">Dear Customer,</span>
+                Your Account Has Been Limited, Click Now To Restore Access Immediate Before Suspend Permanent!!!
+                <div><button class="mm-btn" type="button">!! CLICK HERE NOW !!</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mail-col">
+          <div class="mail-era">2026</div>
+          <div class="mail-stage modern-bg">
+            <div class="mail-mock modern">
+              <div class="mm-bar"><i class="fas fa-envelope-open-text"></i>&nbsp;From: Meera Iyer — IT Service Desk &lt;it.support@acmec<strong style="color:var(--red);">0</strong>rp.com&gt;</div>
+              <div class="mm-fields"><div class="mm-subj">Project Atlas — Staff Portal Access Confirmation</div></div>
+              <div class="mm-body">
+                <span class="mm-greet">Hi Alex,</span>
+                Please confirm your Staff Portal credentials before <strong>5:00&nbsp;PM today</strong> — access closes once tomorrow's audit opens.
+                <div><button class="mm-btn" type="button">Confirm My Access&nbsp;<i class="fas fa-arrow-right"></i></button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tell-list">
+        <div class="tell-flag"><i class="fas fa-magnifying-glass"></i><div><strong>Look-Alike Domains</strong><p>A "0" swapped for "o" in acmecorp.com looks genuine at a glance. Filters often miss it because the domain is valid — go directly to the app instead of trusting the sender line.</p></div></div>
+        <div class="tell-flag"><i class="fas fa-stopwatch"></i><div><strong>Artificial Deadline</strong><p>Short, urgent time limits are designed to make you act without thinking.</p></div></div>
+        <div class="tell-flag"><i class="fas fa-link"></i><div><strong>The Link You're Asked to Click</strong><p>Never click links in emails like this. Go directly to the portal using a saved bookmark or the official app.</p></div></div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Before you click:</span>
+        <span class="impact-chip"><i class="fas fa-magnifying-glass" style="color:var(--cyan);"></i> Check the sender address</span>
+        <span class="impact-chip"><i class="fas fa-stopwatch" style="color:var(--cyan);"></i> Treat urgency as a warning sign</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[STOP + VERIFY]</strong> <strong>GOLDEN RULE:</strong> Good grammar no longer means safe. Go directly to the official app — don't click links. Fake addresses are often hard to spot, even for careful readers — going direct removes that risk completely.</div>
+        <div class="key-principle"><div class="kp-val" style="font-weight:900;">0</div><div class="kp-label">Clicks From Email</div></div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Phishing Goes Multi-Channel <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

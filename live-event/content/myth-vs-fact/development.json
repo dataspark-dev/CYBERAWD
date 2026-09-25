@@ -51,6 +51,20 @@
       "myth": "Only production credentials are worth protecting — dev and test tokens are low risk.",
       "fact": "Dev and test tokens often reach the same pipelines and repositories as production ones, and are frequently reused or left unrotated for longer, making them just as valuable a target.",
       "detail": "Treat any CI, package-registry, or Git access token the same way regardless of which environment it's labelled for — a leaked \"low risk\" token is still a way into your systems."
+    },
+    {
+      "id": "mf-dev-07",
+      "topic": "AI Coding Extensions",
+      "myth": "If an update notice for an approved AI coding extension says the marketplace is delayed, it's fine to install from the link it provides instead.",
+      "fact": "A genuine extension update is never blocked from reaching its own marketplace listing. Any reason given to install outside the marketplace \"just this once\" is the actual signal to stop, not a reasonable workaround.",
+      "detail": "Always check the official marketplace listing directly for an update yourself, rather than a link that claims to bypass it."
+    },
+    {
+      "id": "mf-dev-08",
+      "topic": "Secrets Migration",
+      "myth": "Replying to a DevOps email with your service's current .env values is fine during a migration, since it saves everyone time.",
+      "fact": "A genuine vault migration only ever asks you to act inside the vault UI yourself. Being asked to send secrets in cleartext by email, for any reason, is the actual signal to stop, regardless of the deadline attached.",
+      "detail": "Rotate secrets yourself through the vault UI, and confirm any migration request with DevOps through a known channel before doing anything else."
     }
   ]
 }

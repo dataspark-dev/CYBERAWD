@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Phishing Beyond Email — Every Channel — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .action-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .slide-main { gap: 14px; }
+    .slide .callout-bar { padding-top: 12px; padding-bottom: 12px; }
+
+    .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .channel-card { display: flex; flex-direction: column; border-radius: var(--r-lg); overflow: hidden; background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+    .channel-head { font-family: 'Times New Roman', Times, serif; font-size: 12.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 9px 14px; color: #fff; background: var(--navy); display: flex; align-items: center; gap: 8px; }
+
+    .phone-frame { background: linear-gradient(160deg, var(--navy-4), var(--navy)); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 15px; }
+    .sms-sender { font-family: 'Times New Roman', Times, serif; font-size: 13px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 8px; text-align: center; }
+    .sms-bubble { background: var(--msg-bubble-bg); color: var(--msg-bubble-text); padding: 11px 14px; border-radius: 12px 12px 12px 4px; font-size: 16px; line-height: 1.5; }
+
+    .call-frame { background: linear-gradient(160deg, var(--scene-red-dark-2), var(--scene-red-dark-1)); min-height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; padding: 15px; }
+    .call-avatar-sm { width: 60px; height: 60px; border-radius: 50%; background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.18); display: flex; align-items: center; justify-content: center; }
+    .call-avatar-sm i { font-size: 26px !important; }
+    .call-id { font-family: 'Times New Roman', Times, serif; color: var(--white); font-size: 17px; letter-spacing: .3px; }
+    .call-sub { font-family: 'Times New Roman', Times, serif; color: rgba(255,255,255,0.5); font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; }
+    .call-caption2 { padding: 10px 14px; background: var(--white); font-size: 16px; color: var(--body-text); border-top: 1px solid var(--line); line-height: 1.45; }
+
+    .channel-tells { padding: 10px 14px 10px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .channel-tell { display: flex; gap: 8px; }
+    .channel-tell i { color: var(--red); font-size: 12px; margin-top: 3px; flex-shrink: 0; }
+    .channel-tell strong { display: block; font-family: 'Times New Roman', Times, serif; font-size: 26px; color: var(--navy); margin-bottom: 1px; }
+    .channel-tell p { font-size: 20px; line-height: 1.4; color: var(--body-text); }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Email, SMS &amp; Voice</div>
+      <h1>PHISHING GOES <span>MULTI-CHANNEL</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger">
+      <p class="section-lead">Email isn't the only way in — the same trick lands by text, voice and chat.</p>
+      <!-- FACILITATOR NOTE (Phase E): tell descriptions were trimmed ~40%. Fuller wording if needed:
+           smishing - short links hide the real address and "your account will be delayed" is the pressure;
+           vishing - caller ID is trivially spoofed, and "stay on the line" exists purely to stop you
+           hanging up and calling a number you already trust;
+           work chat - a genuine payment request would be visible in the shared team channel. -->
+
+      <div class="channel-grid">
+        <div class="channel-card">
+          <div class="channel-head"><i class="fas fa-comment-sms"></i> Smishing (SMS)</div>
+          <div class="phone-frame">
+            <div class="sms-sender">Text Message &middot; Staff Portal — +91 98xxx</div>
+            <div class="sms-bubble">Staff Portal: Your schedule link has changed. Confirm your shift sign-off dates here: bit.ly/ScheduleUpdate-Portal or your account will be delayed. — HR Ops</div>
+          </div>
+          <div class="channel-tells">
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Short link hides the real address</strong><p>The Staff Portal never sends this as a bit.ly link.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Fake urgency</strong><p>Pressure to tap before you check.</p></div></div>
+          </div>
+          <!-- FACILITATOR (moved off-slide, Part 1 alignment pass): a 3rd smishing
+               tell lived here — "Told not to check" (real HR Ops never says "don't
+               call"). Cut as the most overlapping of the 8 tells with "Fake urgency"
+               (both teach the same pressure-to-not-verify pattern); mention verbally
+               if time allows. -->
+        </div>
+
+        <div class="channel-card">
+          <div class="channel-head"><i class="fas fa-phone"></i> Vishing (Voice)</div>
+          <div class="call-frame">
+            <div class="call-avatar-sm"><i class="fas fa-headset" style="color:var(--scene-red-accent);"></i></div>
+            <div class="call-id">"IT Service Desk — Staff Portal"</div>
+            <div class="call-sub">Incoming Call — Mobile Phone</div>
+          </div>
+          <div class="call-caption2">"Hi, this is IT Support about your Staff Portal — please confirm your password and the code from your phone so we can fix your account access."</div>
+          <div class="channel-tells">
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Caller name can be faked</strong><p>Display name can say "IT Service Desk" on any number.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Asking for your password or code</strong><p>Real IT never asks for your password or code.</p></div></div>
+          </div>
+          <!-- FACILITATOR (moved off-slide, Part 1 alignment pass): a 3rd vishing
+               tell lived here — "Stay on the line" (stops you calling back on a
+               trusted number). Cut as the most overlapping with the urgency/pressure
+               pattern already taught by Smishing's "Fake urgency"; mention verbally
+               if time allows. This also brings all 3 channels to a symmetric 2 tells
+               each, which was needed to actually reduce the card-grid's governing
+               row height — cutting only the Smishing tell left Vishing (still 3
+               tells) setting the row height via grid stretch, so it alone changed
+               nothing. -->
+        </div>
+
+        <div class="channel-card">
+          <div class="channel-head"><i class="fas fa-comments"></i> Work Chat (Teams/WhatsApp)</div>
+          <div class="phone-frame">
+            <div class="sms-sender">Teams Chat &middot; "Priya Sharma" (Finance)</div>
+            <div class="sms-bubble">Hi, this is Priya from Finance — can you approve this payment via the new link before the call? Don't mention it in the group chat yet.</div>
+          </div>
+          <div class="channel-tells">
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Private message bypasses the team channel</strong><p>A real request would be in the shared channel.</p></div></div>
+            <div class="channel-tell"><i class="fas fa-flag"></i><div><strong>Urgency and secrecy together</strong><p>Legitimate requests don't need silence.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <span class="mono-tag">Across every channel:</span>
+        <span class="impact-chip"><i class="fas fa-link-slash" style="color:var(--cyan);"></i> Don't tap links in unexpected texts</span>
+        <span class="impact-chip"><i class="fas fa-phone-volume" style="color:var(--cyan);"></i> Hang up, call a number you already have saved</span>
+        <span class="impact-chip"><i class="fas fa-users" style="color:var(--cyan);"></i> Use the visible team channel, not a DM</span>
+      </div>
+
+      <div class="callout-bar">
+        <i class="fas fa-shield-halved"></i>
+        <div class="callout-text"><strong style="color:var(--cyan);">[STOP — EVERY CHANNEL]</strong> <strong>GOLDEN RULE:</strong> Same tells on every channel — urgency, faked identity, pressure to act. Hang up, close the chat, use a number you already have. Attackers switch channels to lower your guard, but the tells stay the same.</div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Pasting Data Into Public AI <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

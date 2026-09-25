@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>True or False — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .tf-list { display: flex; flex-direction: column; gap: 12px; }
+    .tf-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      background: var(--white);
+      border-radius: var(--r);
+      box-shadow: var(--shadow-sm);
+      padding: 14px 22px;
+    }
+    .tf-num {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--paper-2);
+      color: var(--navy);
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 800;
+      font-size: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tf-topic {
+      flex-shrink: 0;
+      width: 168px;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .tf-statement { flex: 1; font-size: 21px; line-height: 1.35; color: var(--navy); }
+    /* TRUE and FALSE are shown as equal, neutral options for every statement, with
+       no visual cue at all as to which is correct - the room has to actually answer.
+       TRUE is always the first column and FALSE always the second, so the two
+       options line up into clean columns down the whole list. The answer lives with
+       the facilitator, not on the slide. */
+    .tf-options { flex-shrink: 0; display: flex; gap: 10px; }
+    .tf-opt {
+      width: 92px;
+      text-align: center;
+      font-family: 'Times New Roman', Times, serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 1px;
+      border-radius: 999px;
+      padding: 8px 0;
+      background: var(--paper-2);
+      color: var(--muted);
+      border: 1.5px solid var(--line);
+    }
+  </style>
+</head>
+<body>
+  <div class="slide accent-defense">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Quick Recap</div>
+      <h1>TRUE OR <span>FALSE</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger compact">
+      <p class="section-lead">One statement from every topic we covered. Read it, decide TRUE or FALSE, then check the answer.</p>
+
+      <div class="tf-list reveal-stagger">
+        <div class="tf-row">
+          <div class="tf-num">1</div>
+          <div class="tf-topic">Threat Landscape</div>
+          <div class="tf-statement">Ransomware and phishing are only a risk for large companies, not individuals.</div>
+          <div class="tf-options">
+            <div class="tf-opt">TRUE</div>
+            <div class="tf-opt">FALSE</div>
+          </div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">2</div>
+          <div class="tf-topic">Deepfakes</div>
+          <div class="tf-statement">Seeing and hearing someone on a video call is enough to prove it is really them.</div>
+          <div class="tf-options">
+            <div class="tf-opt">TRUE</div>
+            <div class="tf-opt">FALSE</div>
+          </div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">3</div>
+          <div class="tf-topic">Phishing</div>
+          <div class="tf-statement">A phishing message can have perfect grammar and a correct logo, and still be fake.</div>
+          <div class="tf-options">
+            <div class="tf-opt">TRUE</div>
+            <div class="tf-opt">FALSE</div>
+          </div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">4</div>
+          <div class="tf-topic">AI &amp; Chatbots</div>
+          <div class="tf-statement">It is safe to paste employee, company data, or source code into a public AI chatbot to save time.</div>
+          <div class="tf-options">
+            <div class="tf-opt">TRUE</div>
+            <div class="tf-opt">FALSE</div>
+          </div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">5</div>
+          <div class="tf-topic">Workplace &amp; Login</div>
+          <div class="tf-statement">Turning on MFA can stop an attacker even if they already have your password.</div>
+          <div class="tf-options">
+            <div class="tf-opt">TRUE</div>
+            <div class="tf-opt">FALSE</div>
+          </div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">6</div>
+          <div class="tf-topic">Legal &amp; Compliance</div>
+          <div class="tf-statement">GDPR and DPDPA both expect a data breach to be reported within a set number of hours.</div>
+          <div class="tf-options">
+            <div class="tf-opt">TRUE</div>
+            <div class="tf-opt">FALSE</div>
+          </div>
+        </div>
+        <div class="tf-row">
+          <div class="tf-num">7</div>
+          <div class="tf-topic">Do's &amp; Don'ts</div>
+          <div class="tf-statement">If a request feels urgent and unusual, it is always better to verify before you act.</div>
+          <div class="tf-options">
+            <div class="tf-opt">TRUE</div>
+            <div class="tf-opt">FALSE</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Closing <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

@@ -139,14 +139,24 @@
           <div class="cc-note">Your CI system authenticates through your session — it never asks you to retype credentials by email.</div>
         </div>
         <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-diagram-project"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Pipeline Integrity</div>
-          <div class="cc-note">Deploy credentials scoped to least privilege, and pipeline config reviewed like code — the build system is part of your attack surface too.</div>
+          <div class="cc-icon"><i class="fas fa-shield-halved"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">AppSec &amp; Secrets</div>
+          <div class="cc-note">Validate every input server-side, authorize every request, and keep every secret in a vault — never in source, a frontend bundle, or an unencrypted .env file.</div>
         </div>
         <div class="close-chip">
-          <div class="cc-icon"><i class="fas fa-shield-halved"></i><i class="fas fa-circle-check cc-badge"></i></div>
-          <div class="cc-label">Verified Trust</div>
-          <div class="cc-note">Signed commits, signed build artifacts, and regularly reviewed access — nothing in the chain is trusted just because it's familiar.</div>
+          <div class="cc-icon"><i class="fas fa-diagram-project"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Git Lifecycle Defense</div>
+          <div class="cc-note">Scan for secrets before every commit, require signed commits and peer review on every PR, and revoke — don't just delete — the moment a leak reaches main.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-robot"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">AI Code Audit &amp; Prompt Injection</div>
+          <div class="cc-note">Treat AI-generated code as untrusted, verify packages before installing, and treat any external content your AI feature reads as untrusted input too.</div>
+        </div>
+        <div class="close-chip">
+          <div class="cc-icon"><i class="fas fa-flag-checkered"></i><i class="fas fa-circle-check cc-badge"></i></div>
+          <div class="cc-label">Golden Rules</div>
+          <div class="cc-note">Zero secrets in source, AI output treated as untrusted, least privilege by default, and MFA/passkeys everywhere.</div>
         </div>
       </div>
 

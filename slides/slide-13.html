@@ -88,32 +88,10 @@
         <div class="callout-text"><strong style="color:var(--cyan);">[SECURE IT]</strong> <strong>GOLDEN RULE:</strong> Use a unique password for every account, plus MFA – together they block almost every account takeover attempt, even one that started with someone else's breach. Attackers don't even need to guess it — an unrelated leak elsewhere is often enough, which is exactly what a unique password blocks.</div>
       </div>
 
-      <div class="slide-bridge"><strong>Next</strong> <span id="bridgeNext">See Something, Say Something</span> <i class="fas fa-arrow-right"></i></div>
+      <div class="slide-bridge"><strong>Next</strong> See Something, Say Something <i class="fas fa-arrow-right"></i></div>
     </div>
   </div>
 
   <script src="../scripts/main.js"></script>
-  <script>
-    // Audience-aware "Next" bridge - same client-side ?audience= pattern as the deck's own
-    // Closing-slide swap and topic-slide insertion (see scripts/deck.js), scoped to just this
-    // one text element. deck.js's buildDeck() forwards ?audience= into this slide's own iframe
-    // src, so location.search here matches whatever the presenter picked. No match (including
-    // no ?audience= at all) leaves the default "See Something, Say Something" text untouched -
-    // that is still the real next slide for every other audience.
-    (function () {
-      var BRIDGE_TEXT_BY_AUDIENCE = {
-        'it-support': 'Privileged Credentials — Foundations',
-        'development': 'Secure Coding — Foundations'
-      };
-      try {
-        var audience = new URLSearchParams(location.search).get('audience') || '';
-        var text = BRIDGE_TEXT_BY_AUDIENCE[audience];
-        if (text) {
-          var el = document.getElementById('bridgeNext');
-          if (el) el.textContent = text;
-        }
-      } catch (_) { /* ignore - default text already in the markup */ }
-    })();
-  </script>
 </body>
 </html>

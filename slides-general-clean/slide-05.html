@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Deepfakes: Spot the Signs — Cyber Security Awareness Month</title>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <link href="../styles/main.css" rel="stylesheet"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { width: 1920px; height: 1080px; overflow: hidden; }
+
+    .tell-compare { gap: 28px; align-items: stretch; }
+    .tell-col {
+      display: flex;
+      flex-direction: column;
+      border-radius: var(--r-lg);
+      padding: 22px 28px;
+    }
+    .tell-col.real { background: rgba(16, 185, 129, 0.07); border: 1.5px solid rgba(16, 185, 129, 0.28); }
+    .tell-col.fake { background: rgba(239, 68, 68, 0.06); border: 1.5px solid rgba(239, 68, 68, 0.25); }
+    .tell-col-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .tell-col-head i { font-size: 26px; }
+    .tell-col.real .tell-col-head i,
+    .tell-col.real .tell-col-head span { color: var(--green-dark); }
+    .tell-col.fake .tell-col-head i,
+    .tell-col.fake .tell-col-head span { color: var(--red-dark); }
+    .tell-col-head span { font-family: 'Times New Roman', Times, serif; font-size: 20px; font-weight: 800; letter-spacing: 0.4px; }
+    .tell-item { display: flex; gap: 14px; margin-bottom: 18px; }
+    .tell-item i { font-size: 16px; margin-top: 3px; flex-shrink: 0; }
+    .tell-col.real .tell-item i { color: var(--green-dark); }
+    .tell-col.fake .tell-item i { color: var(--red-dark); }
+    .tell-item strong { display: block; font-family: 'Times New Roman', Times, serif; font-size: 26px; color: var(--navy); margin-bottom: 2px; }
+    .tell-item p { font-size: 20px; color: var(--body-text); line-height: 1.5; }
+    .tell-caption { margin-top: auto; padding-top: 16px; font-size: 16px; font-style: italic; color: var(--muted); border-top: 1px dashed var(--line); }
+
+    .think-prompt {
+      text-align: center;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--navy);
+      background: rgba(0, 98, 255, 0.05);
+      border: 1px solid rgba(0, 98, 255, 0.15);
+      border-radius: 6px;
+      padding: 12px 22px;
+      margin: 0 auto;
+      max-width: 1200px;
+    }
+    .think-prompt i { color: var(--blue); margin-right: 8px; }
+  </style>
+</head>
+<body>
+  <div class="slide accent-threat">
+    <div class="grid-bg on-light"></div>
+    <div class="slide-header">
+    </div>
+    <div class="slide-titleblock">
+      <div class="slide-eyebrow">Identity &amp; Trust</div>
+      <h1>DEEPFAKES: <span>SPOT THE SIGNS</span></h1>
+    </div>
+    <div class="slide-main reveal-stagger relaxed">
+      <p class="section-lead">The US$25M call wasn't a one-off — it just made headlines. Here's what gives a deepfake away on a live call.</p>
+
+      <div class="think-prompt"><i class="fas fa-circle-question"></i>What would you check before trusting an unexpected call like this?</div>
+
+      <div class="two-col tell-compare">
+        <div class="tell-col real">
+          <div class="tell-col-head"><i class="fas fa-circle-check"></i><span>Real Call — Genuine Signs</span></div>
+          <div class="tell-item"><i class="fas fa-check"></i><div><strong>Natural blinking &amp; movement</strong><p>The person blinks and moves their head in a normal, human way.</p></div></div>
+          <div class="tell-item"><i class="fas fa-check"></i><div><strong>Perfect lip-sync</strong><p>Mouth movements match the audio exactly, even with fast speech.</p></div></div>
+          <div class="tell-item"><i class="fas fa-check"></i><div><strong>Consistent lighting</strong><p>Lighting changes naturally as the person moves and the background shifts.</p></div></div>
+          <div class="tell-caption">"Can you route this through the usual approval process? I know it's tight, but let's not skip steps."</div>
+        </div>
+        <div class="tell-col fake">
+          <div class="tell-col-head"><i class="fas fa-user-secret"></i><span>Deepfake Call — Warning Signs</span></div>
+          <div class="tell-item"><i class="fas fa-triangle-exclamation"></i><div><strong>Unnatural blinking</strong><p>Very long gaps without blinking — a common sign of a deepfake.</p></div></div>
+          <div class="tell-item"><i class="fas fa-triangle-exclamation"></i><div><strong>Lip-sync mismatch</strong><p>Mouth shapes lag behind the audio, especially with hard consonant sounds.</p></div></div>
+          <div class="tell-item"><i class="fas fa-triangle-exclamation"></i><div><strong>Flat, even lighting</strong><p>The face lighting barely changes, even when the background moves.</p></div></div>
+          <div class="tell-caption">"Pay this invoice by 5pm, don't loop in finance yet — I'll explain later."</div>
+        </div>
+      </div>
+
+      <div class="slide-bridge"><strong>Next</strong> Deepfakes: Who's Targeted <i class="fas fa-arrow-right"></i></div>
+    </div>
+  </div>
+
+  <script src="../scripts/main.js"></script>
+</body>
+</html>

@@ -5,7 +5,8 @@
     "discussionPrompts": [
       "Ask which two terms are easiest to mix up — PR-COMMENT PHISHING and FAKE VULNERABILITY ALERT can both look like routine GitHub notifications, but the ask is different.",
       "Ask for a real example of a dependency or notification that matches one of these terms.",
-      "Ask someone to explain FAKE RECRUITER OUTREACH in their own words, without using the term itself."
+      "Ask someone to explain FAKE RECRUITER OUTREACH in their own words, without using the term itself.",
+      "Ask which two terms are easiest to mix up now — FAKE AI EXTENSION SIDELOAD and SECRETS MIGRATION REQUEST both arrive from a name that sounds like your own tooling team, but one asks you to install something and the other asks you to send something."
     ],
     "commonWrongAnswer": "People most often mix up PR-COMMENT PHISHING and FAKE VULNERABILITY ALERT. Both can look like routine GitHub activity, so people pick one when the riddle points to the other. The difference: PR-comment phishing hides in a fake review comment on your own pull request; a fake vulnerability alert copies GitHub's own security-notification format."
   },
@@ -56,8 +57,8 @@
       "answer": "FAKE VULNERABILITY ALERT",
       "options": [
         "FAKE VULNERABILITY ALERT",
-        "CI/CD CREDENTIAL PHISHING",
-        "FAKE RECRUITER OUTREACH"
+        "FAKE AI EXTENSION SIDELOAD",
+        "CI/CD CREDENTIAL PHISHING"
       ]
     },
     {
@@ -66,8 +67,28 @@
       "answer": "STOP VERIFY REPORT",
       "options": [
         "STOP VERIFY REPORT",
+        "SECRETS MIGRATION REQUEST",
+        "FAKE DEPENDENCY REQUEST"
+      ]
+    },
+    {
+      "id": "fake-ai-extension-sideload",
+      "riddle": "I say the marketplace sync is delayed today, so install my AI coding-assistant update from this link instead. What trick am I?",
+      "answer": "FAKE AI EXTENSION SIDELOAD",
+      "options": [
+        "FAKE AI EXTENSION SIDELOAD",
         "FAKE VULNERABILITY ALERT",
         "FAKE DEPENDENCY REQUEST"
+      ]
+    },
+    {
+      "id": "secrets-migration-request",
+      "riddle": "I claim to be DevOps running this quarter's vault migration, and I ask you to reply with your service's current .env values so \"we can migrate them for you.\" What trick am I?",
+      "answer": "SECRETS MIGRATION REQUEST",
+      "options": [
+        "SECRETS MIGRATION REQUEST",
+        "CI/CD CREDENTIAL PHISHING",
+        "FAKE AI EXTENSION SIDELOAD"
       ]
     }
   ]
