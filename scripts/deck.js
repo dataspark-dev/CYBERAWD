@@ -32,12 +32,12 @@ const SLIDES = [
 // index.html?audience=hr) swaps ONLY the final Closing slide's file below, before the deck is
 // built - every other slide, and the deck for anyone opening it with no ?audience= param (or an
 // unrecognised one), is completely unaffected and still shows the shared general slide-19.html.
+// 'technology-team' is NOT listed here - it uses AUDIENCE_FULL_DECK_OVERRIDE below instead (its
+// own dedicated closing slide is already the last entry in that full sequence).
 const AUDIENCE_CLOSING_SLIDES = {
   'accounts': 'slide-19-accounts.html',
   'hr': 'slide-19-hr.html',
   'fleet-management': 'slide-19-fleet-management.html',
-  'it-support': 'slide-19-it-support.html',
-  'development': 'slide-19-development.html',
   'vessel-operations': 'slide-19-vessel-operations.html',
 };
 
@@ -64,21 +64,14 @@ function applyAudienceClosingSlide() {
 // slide above (not insert, since these replace an existing slide 1-for-1 rather than adding
 // ground), but matched by title instead of group since slide-12 and slide-13 share the same
 // group ('Workplace & Login Security') and title is the only field that disambiguates them.
-// IT Support and Development get their own reframed version of each - IT's toward privileged/
-// admin account and server-room hygiene, Development's toward SSH keys, active terminal
-// sessions, and git/cloud console logins - instead of the generic personal-account version.
 // Every other audience (or no ?audience=) keeps the shared slide-12.html/slide-13.html
 // unaffected. Applied after applyAudienceTopicSlides() below (see call order in
 // DOMContentLoaded) - that function still needs to find the real 'slide-13.html' by filename to
-// know where to insert, so the swap here must happen after that lookup, not before it.
-const AUDIENCE_DESK_SLIDES = {
-  'it-support': 'slide-it-desk-perimeter.html',
-  'development': 'slide-dev-desk-perimeter.html',
-};
-const AUDIENCE_LOGIN_SLIDES = {
-  'it-support': 'slide-it-login-perimeter.html',
-  'development': 'slide-dev-login-perimeter.html',
-};
+// know where to insert, so the swap here must happen after that lookup, not before it. Currently
+// empty - no audience uses this swap point; kept as the established pattern for a future
+// audience that needs a reframed Desk/Login slide without a full custom deck override.
+const AUDIENCE_DESK_SLIDES = {};
+const AUDIENCE_LOGIN_SLIDES = {};
 
 function applyAudienceDeskSlide() {
   const file = AUDIENCE_DESK_SLIDES[CURRENT_AUDIENCE];
@@ -103,14 +96,8 @@ function applyAudienceLoginSlide() {
 // scanners) - instead of the generic crew-record/browser-extension version. Neither slide-09 nor
 // slide-10 is ever used as an insertion anchor by another function, so unlike Desk/Login there's
 // no ordering constraint on when these two run relative to the other apply* calls.
-const AUDIENCE_AI_PASTE_SLIDES = {
-  'it-support': 'slide-it-ai-data-paste.html',
-  'development': 'slide-dev-ai-data-paste.html',
-};
-const AUDIENCE_SHADOW_AI_SLIDES = {
-  'it-support': 'slide-it-shadow-ai.html',
-  'development': 'slide-dev-shadow-ai.html',
-};
+const AUDIENCE_AI_PASTE_SLIDES = {};
+const AUDIENCE_SHADOW_AI_SLIDES = {};
 
 function applyAudienceAiPasteSlide() {
   const file = AUDIENCE_AI_PASTE_SLIDES[CURRENT_AUDIENCE];
@@ -126,39 +113,13 @@ function applyAudienceShadowAiSlide() {
   if (s) s.file = file;
 }
 
-// Audience-specific topic slides (secure development practice / IT security practice), inserted
-// into the deck rather than swapped in place - unlike the Closing and Desk/Login slides above,
-// these don't replace anything that already exists for other audiences, they add extra ground
-// only IT Support/Development need. Inserted right after 'slide-13.html' (the last Workplace &
-// Login Security slide, before it gets swapped to its own reframed version by
-// applyAudienceLoginSlide() above) and before 'slide-14.html' (See Something, Say Something):
-// general login/workplace hygiene naturally leads into each technical audience's own deeper
-// practice before the shared reporting-culture message resumes. For every other audience (or no
-// ?audience=), SLIDES is left at its original 19 entries - no regression. Each new Login
-// Perimeter slide's own "Next" bridge text is hardcoded directly to whichever of these six is
-// first, since that slide is now already audience-specific (no shared inline script needed the
-// way slide-13.html used to carry one). Each sequence follows the same logical flow:
-// foundational principles -> day-to-day hygiene controls -> the audience-specific deep-dive
-// (secrets/CI-CD for Dev, endpoint/network for IT) -> AI-security material -> golden rules,
-// immediately before slide-14/Closing.
-const AUDIENCE_TOPIC_SLIDES = {
-  'it-support': [
-    { file: 'slide-it-hygiene.html', title: 'Enterprise Security Hygiene', group: 'Secure IT Practice' },
-    { file: 'slide-it-data-classification.html', title: 'Data Classification & Handling', group: 'Secure IT Practice' },
-    { file: 'slide-it-endpoint.html', title: 'Endpoint Protection Standards', group: 'Secure IT Practice' },
-    { file: 'slide-it-network.html', title: 'Zero Trust Network Boundaries', group: 'Secure IT Practice' },
-    { file: 'slide-it-ai-leakage.html', title: 'AI Data Leakage & Observability', group: 'Secure IT Practice' },
-    { file: 'slide-it-golden-rules.html', title: 'Golden Rules for IT Support', group: 'Secure IT Practice' },
-  ],
-  'development': [
-    { file: 'slide-dev-appsec.html', title: 'AppSec Essentials', group: 'Secure Development Practice' },
-    { file: 'slide-dev-secrets.html', title: 'Secrets Architecture Standards', group: 'Secure Development Practice' },
-    { file: 'slide-dev-git-lifecycle.html', title: 'Git Lifecycle Defense', group: 'Secure Development Practice' },
-    { file: 'slide-dev-ai-audit.html', title: 'AI-Generated Code Audit Protocol', group: 'Secure Development Practice' },
-    { file: 'slide-dev-prompt-injection.html', title: 'Prompt Injection & AI Tool Risk', group: 'Secure Development Practice' },
-    { file: 'slide-dev-golden-rules.html', title: 'Golden Rules for Developers', group: 'Secure Development Practice' },
-  ],
-};
+// Audience-specific topic slides, inserted into the deck rather than swapped in place - unlike
+// the Closing and Desk/Login slides above, these don't replace anything that already exists for
+// other audiences, they add extra ground. Currently empty - IT Support and Development were
+// merged into 'technology-team' (see AUDIENCE_FULL_DECK_OVERRIDE below), whose flow is a fully
+// custom sequence rather than an insert on top of the general deck. Kept as the established
+// pattern for a future audience that needs inserted ground without a full custom override.
+const AUDIENCE_TOPIC_SLIDES = {};
 
 function applyAudienceTopicSlides() {
   const topics = AUDIENCE_TOPIC_SLIDES[CURRENT_AUDIENCE];
@@ -169,21 +130,10 @@ function applyAudienceTopicSlides() {
 }
 
 // Audience-specific slide skipping - the companion to AUDIENCE_TOPIC_SLIDES above, but removing
-// base slides entirely instead of inserting extra ones. IT Support and Development skip the
-// generic Legal & Compliance / Do's & Don'ts / True-or-False slides (slide-15 through slide-18):
-// those are basic, non-technical judgment checks already covered more rigorously by this
-// audience's own live-event activity modules (Fault Finding, Decision Room, etc). slide-14 (See
-// Something, Say Something) is kept for every audience - reporting culture applies universally
-// regardless of technical depth. Same "audience id -> list of base slide filenames" pattern as
-// every other audience map here; every other audience (or no ?audience=) is unaffected.
-// slide-03 through slide-08 (Modern Threat Landscape, Deepfake Attacks x3, Phishing Evolution
-// x2) are also skipped for these two audiences - not because the topics don't apply, but because
-// the generic versions are replaced by the reframed, consolidated AUDIENCE_EARLY_TOPIC_SLIDES
-// below (6 generic slides -> 3 reframed slides per audience) rather than shown twice.
-const AUDIENCE_SKIP_SLIDES = {
-  'it-support': ['slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-15.html', 'slide-16.html', 'slide-17.html', 'slide-18.html'],
-  'development': ['slide-03.html', 'slide-04.html', 'slide-05.html', 'slide-06.html', 'slide-07.html', 'slide-08.html', 'slide-15.html', 'slide-16.html', 'slide-17.html', 'slide-18.html'],
-};
+// base slides entirely instead of inserting extra ones. Currently empty for the same reason as
+// AUDIENCE_TOPIC_SLIDES above - kept as the established pattern for a future audience that needs
+// to skip specific base slides without a full custom override.
+const AUDIENCE_SKIP_SLIDES = {};
 
 function applyAudienceSkipSlides() {
   const skip = AUDIENCE_SKIP_SLIDES[CURRENT_AUDIENCE];
@@ -195,27 +145,8 @@ function applyAudienceSkipSlides() {
 }
 
 // Companion to AUDIENCE_TOPIC_SLIDES, but anchored after 'slide-02.html' instead of
-// 'slide-13.html' - same insert-not-swap pattern, just a second insertion point earlier in the
-// deck. Replaces the 6 generic slides skipped above (slide-03..08) with 3 reframed, consolidated
-// slides per audience: Modern Threat Landscape (reworded toward each audience's own attack
-// surface), a single Deepfake slide (consolidating the general deck's 3 into 1, retargeted at
-// vendor/executive-impersonation calls this audience actually receives), and a single Phishing
-// slide (consolidating the general deck's 2 into 1, retargeted at this audience's own toolchain/
-// ticketing channels). Applied before applyAudienceSkipSlides() and applyAudienceTopicSlides()
-// in the init sequence below, though order relative to those two doesn't actually matter here -
-// this anchors on slide-02, which neither of the other two functions ever touches or removes.
-const AUDIENCE_EARLY_TOPIC_SLIDES = {
-  'it-support': [
-    { file: 'slide-it-threat-landscape.html', title: 'Modern Threat Landscape', group: 'Threat Landscape' },
-    { file: 'slide-it-deepfake.html', title: 'Deepfake Attacks', group: 'Deepfake Attacks' },
-    { file: 'slide-it-phishing.html', title: 'Phishing Evolution', group: 'Phishing Evolution' },
-  ],
-  'development': [
-    { file: 'slide-dev-threat-landscape.html', title: 'Modern Threat Landscape', group: 'Threat Landscape' },
-    { file: 'slide-dev-deepfake.html', title: 'Deepfake Attacks', group: 'Deepfake Attacks' },
-    { file: 'slide-dev-phishing.html', title: 'Phishing Evolution', group: 'Phishing Evolution' },
-  ],
-};
+// 'slide-13.html'. Currently empty for the same reason as the two maps above.
+const AUDIENCE_EARLY_TOPIC_SLIDES = {};
 
 function applyAudienceEarlyTopicSlides() {
   const topics = AUDIENCE_EARLY_TOPIC_SLIDES[CURRENT_AUDIENCE];
@@ -223,6 +154,51 @@ function applyAudienceEarlyTopicSlides() {
   const afterIndex = SLIDES.findIndex(s => s.file === 'slide-02.html');
   if (afterIndex === -1) return;
   SLIDES.splice(afterIndex + 1, 0, ...topics);
+}
+
+// Full custom deck override - unlike every map above (which skip/insert/swap on top of the
+// shared 19-slide general deck), 'technology-team' has an entirely custom flow that mirrors the
+// "Cybersecurity Hygiene & AI Systems Security" reference playbook's own page order (CIA Triad ->
+// Enterprise Hygiene -> ... -> Golden Rules -> Closing) and shares almost none of the general
+// deck's structure (no Opening/Why-Matters-Now/Threat-Landscape/Deepfake framing, no Legal &
+// Compliance, no generic Closing). Rather than skip all 19 base slides and insert all 21 of its
+// own (which the other maps could technically do, but only by fighting an abstraction built for
+// "mostly the same as general, with a few swaps"), this audience replaces SLIDES outright. When
+// present for CURRENT_AUDIENCE, applyAudienceFullDeckOverride() runs first and every other
+// apply* function above becomes a no-op for it (each already bails out when its own map has no
+// entry for the audience, so no extra guarding is needed here).
+const AUDIENCE_FULL_DECK_OVERRIDE = {
+  'technology-team': [
+    { file: 'slide-techteam-opening.html', title: 'Opening', group: 'Welcome' },
+    { file: 'slide-techteam-cia-triad.html', title: 'The CIA Triad Principles', group: 'Foundational Security Model' },
+    { file: 'slide-techteam-enterprise-hygiene.html', title: 'Enterprise Security Hygiene', group: 'Foundational Controls' },
+    { file: 'slide-techteam-phishing-verification.html', title: 'Phishing & Verification Protocols', group: 'Human Attack Surface' },
+    { file: 'slide-techteam-device-hardening.html', title: 'Device Hardening Standards', group: 'Endpoint Protection' },
+    { file: 'slide-techteam-zero-trust-network.html', title: 'Zero Trust Network Security', group: 'Infrastructure Boundaries' },
+    { file: 'slide-techteam-data-classification.html', title: 'Data Classification Matrix', group: 'Data Protection Framework' },
+    { file: 'slide-techteam-secrets-architecture.html', title: 'Secrets Architecture Standards', group: 'Developer Security' },
+    { file: 'slide-techteam-git-lifecycle.html', title: 'Git Lifecycle Defense', group: 'CI/CD & Source Control' },
+    { file: 'slide-techteam-appsec.html', title: 'AppSec Essentials', group: 'AppSec Essentials' },
+    { file: 'slide-techteam-dual-ai-perspectives.html', title: 'Dual AI Security Perspectives', group: 'AI Security Spectrum' },
+    { file: 'slide-techteam-ai-paradigm-shifts.html', title: 'AI & LLM Paradigm Shifts', group: 'New Attack Surfaces' },
+    { file: 'slide-techteam-ai-code-audit.html', title: 'AI-Generated Code Audit Protocol', group: 'Developer AI Workflow' },
+    { file: 'slide-techteam-prompt-masking.html', title: 'Prompt Masking Standards', group: 'Data Leakage Prevention' },
+    { file: 'slide-techteam-prompt-injection.html', title: 'Prompt Injection Vectors', group: 'OWASP Top 10 for LLMs' },
+    { file: 'slide-techteam-ai-gateway-pipeline.html', title: 'Secure AI Gateway Pipeline', group: 'Architecture Design' },
+    { file: 'slide-techteam-token-economics.html', title: 'Token Economics & Denial-of-Wallet', group: 'Financial & Resource Defense' },
+    { file: 'slide-techteam-rag-security.html', title: 'RAG & Vector Store Security', group: 'Knowledge Base Defense' },
+    { file: 'slide-techteam-telemetry-masking.html', title: 'Telemetry vs. Data Masking', group: 'Auditability & Observability' },
+    { file: 'slide-techteam-golden-rules.html', title: 'The 4 Golden Rules', group: 'Core Takeaways' },
+    { file: 'slide-techteam-closing.html', title: 'Closing', group: 'Closing' },
+  ],
+};
+
+function applyAudienceFullDeckOverride() {
+  const override = AUDIENCE_FULL_DECK_OVERRIDE[CURRENT_AUDIENCE];
+  if (!override || !override.length) return false;
+  SLIDES.length = 0;
+  SLIDES.push(...override.map(s => ({ ...s })));
+  return true;
 }
 
 let currentIndex = 0;
@@ -394,8 +370,11 @@ window.addEventListener('resize', () => {
 
 window.addEventListener('DOMContentLoaded', () => {
   CURRENT_AUDIENCE = resolveCurrentAudience();
-  // All six apply* calls run before SLIDES.length is read for the hash calculation below - most
-  // of them change the array's length (removing/inserting, not just swapping), so the
+  // Full override runs first and, if it applies (currently only 'technology-team'), replaces
+  // SLIDES outright - every apply* call below is then a guaranteed no-op for that audience, since
+  // each already bails out when its own map has no entry, so skipping them explicitly isn't
+  // needed. All the apply* calls run before SLIDES.length is read for the hash calculation below
+  // - most of them change the array's length (removing/inserting, not just swapping), so the
   // hash-based deep link needs to be computed against the final array, not the base 19. Skip
   // runs first so it only ever removes base slides (slide-02/slide-13 themselves are never
   // skipped, so neither insertion anchor below is affected regardless of order), then both
@@ -403,6 +382,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // (applyAudienceTopicSlides() finds its insertion point by that filename, so the Desk/Login
   // swap below - which changes slide-13's file, not its position - must come after, not before),
   // then the Desk/Login slides are swapped, then the Closing slide is swapped.
+  applyAudienceFullDeckOverride();
   applyAudienceSkipSlides();
   applyAudienceEarlyTopicSlides();
   applyAudienceTopicSlides();

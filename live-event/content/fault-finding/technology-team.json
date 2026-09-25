@@ -1,0 +1,129 @@
+{
+  "whyThisMatters": "Technology Team is not just the people who keep tickets, tools, and deployments moving — you are a high-value target precisely because your accounts, your pipelines, and your registries open more doors than most. Attackers spend extra effort making tickets, vendor calls, system alerts, PR comments, and CI notifications look like the routine ones you handle every day. Today you will build the habit of checking the actual sending domain and channel before you act, install, merge, or grant access — no matter how routine the request already looks.",
+  "rememberThis": "A ticket number, a familiar tool's look, a caller who knows the jargon, or a notification styled exactly like GitHub/your CI system is not proof by itself. STOP and check the actual sending domain before you install anything, grant access, re-enter a password, or merge a change — VERIFY through a number, console, or site you already trust, then REPORT anything that pushed you to skip that step.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask how many people on the team check the sending domain on a ticket-notification email versus just trusting the ticket number and subject line.",
+      "For the system alert card, ask what a genuine urgent alert from your own monitoring tools actually looks like — does it ever ask you to re-enter your password through a link?",
+      "Ask what your team's real process is for a request to bypass change-approval 'just this once' — who is actually allowed to authorise that, and how would you check?",
+      "Ask which of today's new cards felt hardest to catch — the MDM profile, the cloud IAM alert, the remote-support tool name, or the DLP exception — and why a calm, routine-sounding message can be harder to question than an urgent one.",
+      "Ask how many people actually check the sending domain on a GitHub or CI notification versus recognising the layout and clicking straight through.",
+      "For the CI/CD alert card, ask what the team's real deploy-credential process is — does anything ever legitimately ask you to retype your Git username and token by email?",
+      "Ask if anyone has been asked to add a dependency, review a PR, or open a file from someone they didn't already know on the team — what made them pause, or what would have?",
+      "Ask which of today's new cards felt hardest to catch — the AI extension update, the vault migration request, the cloud IAM alert, or the release-timing email — and why a calm, routine-sounding message can be harder to question than an urgent one."
+    ],
+    "commonWrongAnswer": "The most common mistake is trusting a request because it's wrapped in familiar packaging — a ticket number, internal jargon, a GitHub notification's exact layout, a CI alert's usual style. People also under-verify anything that appears to come from their own tooling (helpdesk systems, GitHub, CI, package registries) because it feels like it can't be faked, when it's one of the easiest things to imitate. The habit that closes the gap either way: check the actual sending domain letter by letter, and treat any request to skip verification, install something unapproved, or re-authenticate through a link as the real red flag — not the urgency or the routine-looking layout around it."
+  },
+  "items": [
+    {
+      "id": "compare-it-escalation-ticket",
+      "type": "compare",
+      "category": "Fake Escalation Ticket",
+      "persona": "Technology Team",
+      "title": "Real vs Fake Escalation Ticket Notification",
+      "realImage": "../assets/fault-finding/it-escalation-ticket-real.svg",
+      "fakeImage": "../assets/fault-finding/it-escalation-ticket-fake.svg",
+      "whatIsWrong": "The fake ticket comes from helpdesk@synergymarine-support.com — a different domain from the real helpdesk@synergymarinegroup.com. Its ticket number format is also broken (#48213-A instead of IT-48213), and it asks you to install an unapproved remote-access tool, grant admin access, and skip the normal change-approval step because a director supposedly escalated it directly.",
+      "whyItsSuspicious": "Genuine escalations keep the same ticket-ID format you already use and never ask you to bypass change-approval or install a tool you were not already trained on, no matter who is named as asking. A named senior title attached to urgency is exactly the pressure this trick relies on — verify by calling the requester back on a known internal extension, or checking the ticket in the console directly, before installing anything or granting access."
+    },
+    {
+      "id": "compare-it-credential-reset-email",
+      "type": "compare",
+      "category": "Credential-Reset Social Engineering",
+      "persona": "Technology Team",
+      "title": "Real vs Fake Employee Reset Request",
+      "realImage": "../assets/fault-finding/it-credential-reset-email-real.svg",
+      "fakeImage": "../assets/fault-finding/it-credential-reset-email-fake.svg",
+      "whatIsWrong": "The fake email comes from a different domain (synergymarine-mail.com vs synergymarinegroup.com — not the employee's real company address). It explicitly asks to skip standard identity verification, and asks for the new password to be emailed directly instead of through the secure reset channel.",
+      "whyItsSuspicious": "A genuine employee's request always comes from their real company address and goes through the ticket or self-service process. An explicit request to skip verification is the same social-engineering pattern whether it arrives by phone or by email — the channel changes, the red flag doesn't."
+    },
+    {
+      "id": "compare-it-mdm-enrollment",
+      "type": "compare",
+      "category": "Fake MDM Enrollment Request",
+      "persona": "Technology Team",
+      "title": "Real vs Fake Device Enrollment Notice",
+      "realImage": "../assets/fault-finding/it-mdm-enrollment-real.svg",
+      "fakeImage": "../assets/fault-finding/it-mdm-enrollment-fake.svg",
+      "whatIsWrong": "The fake notice comes from mdm@synergymarinegroup.co — missing the final \"m\" in \".com\", easy to miss on a phone screen. It asks you to install an \"updated profile\" that also enables remote-control access, when the real quarterly check never requests new permissions at all.",
+      "whyItsSuspicious": "A dropped letter at the very end of a domain is one of the easiest changes to miss, especially when the email otherwise looks like routine, expected compliance mail. A genuine compliance re-check confirms your existing profile — it never bundles in a new permission grant. Read the full domain to its last character, and treat any new permission request inside a \"routine\" notice as the actual thing to verify."
+    },
+    {
+      "id": "compare-it-remote-support-tool",
+      "type": "compare",
+      "category": "Fake Remote-Support Tool Install",
+      "persona": "Technology Team",
+      "title": "Real vs Fake Remote Session Notice",
+      "realImage": "../assets/fault-finding/it-remote-support-tool-real.svg",
+      "fakeImage": "../assets/fault-finding/it-remote-support-tool-fake.svg",
+      "whatIsWrong": "The fake notice comes from support@synergymarinegroup.net — the TLD is \".net\" instead of \".com\", with everything else about the address identical. It asks you to install \"SecureAsslst\" — a lowercase \"l\" in place of the \"i\" in the real approved tool's name, SecureAssist — instead of using the tool already installed on your device.",
+      "whyItsSuspicious": "A changed top-level domain is one of the subtlest possible tells, since the rest of the address matches exactly — and the tool name uses the same trick, a single swapped letter that reads almost identically at a glance. A genuine remote session always uses the tool already on your device; being asked to install anything new for a \"scheduled\" session is the actual red flag, not the ticket number attached to it."
+    },
+    {
+      "id": "compare-it-dlp-exception",
+      "type": "compare",
+      "category": "Fake DLP Exception Approval",
+      "persona": "Technology Team",
+      "title": "Real vs Fake DLP Exception Request",
+      "realImage": "../assets/fault-finding/it-dlp-exception-real.svg",
+      "fakeImage": "../assets/fault-finding/it-dlp-exception-fake.svg",
+      "whatIsWrong": "The fake email comes from compliance@synergymarinegr0up.com — the letter \"o\" has been replaced with a zero, which looks almost identical in most fonts. It asks you to personally approve a one-time bulk export of data today, where the real process only ever notifies you of an exception already logged through the standard workflow.",
+      "whyItsSuspicious": "This is a homoglyph attack — a single swapped character that's easy to miss when the surrounding message already sounds like routine compliance mail. A genuine DLP exception is logged and reviewed through the standard workflow, never approved on the spot from an email — the ask to personally green-light an export today is the actual signal, not the calm, business-as-usual tone around it."
+    },
+    {
+      "id": "compare-dev-pr-comment",
+      "type": "compare",
+      "category": "Phishing via Code-Review Comment",
+      "persona": "Technology Team",
+      "title": "Real vs Fake GitHub PR Notification",
+      "realImage": "../assets/fault-finding/dev-pr-comment-real.svg",
+      "fakeImage": "../assets/fault-finding/dev-pr-comment-fake.svg",
+      "whatIsWrong": "The fake notification comes from notifications@github-mail.com, not the real notifications@github.com. Instead of a normal review comment, it claims your GitHub token has expired mid-review and pushes a \"Re-authorize Token\" button that leads to a login page on the fake domain, with a 15-minute deadline to create urgency.",
+      "whyItsSuspicious": "GitHub notifications are so routine that a fake one blends in easily — the giveaway is always the actual sending domain, not the layout. GitHub never asks you to \"re-authorize\" your account through a link in a notification email. If a PR or CI notification asks you to log in anywhere, close it and open github.com yourself instead."
+    },
+    {
+      "id": "compare-dev-cicd-alert",
+      "type": "compare",
+      "category": "CI/CD Credential Phishing",
+      "persona": "Technology Team",
+      "title": "Real vs Fake CI/CD Build Alert",
+      "realImage": "../assets/fault-finding/dev-cicd-alert-real.svg",
+      "fakeImage": "../assets/fault-finding/dev-cicd-alert-fake.svg",
+      "whatIsWrong": "The fake alert comes from ci-alerts@synergy-cicd-status.com, not your real CI system's synergymarinegroup.com address. It invents a failed build and a countdown to an automatic production rollback, then asks you to re-enter your Git username and CI access token on the fake domain to stop it.",
+      "whyItsSuspicious": "CI/CD credentials often unlock your production deploy pipeline, which makes them a high-value target. Your real CI system authenticates you through the session you already have — it never asks you to retype your username and access token in response to an alert email. Verify any build failure by opening the CI dashboard yourself, never through a link in the alert."
+    },
+    {
+      "id": "compare-dev-fake-contributor-invite",
+      "type": "compare",
+      "category": "Fake Recruiter / Contributor Outreach",
+      "persona": "Technology Team",
+      "title": "Real vs Fake Contributor Invite Email",
+      "realImage": "../assets/fault-finding/dev-fake-contributor-invite-real.svg",
+      "fakeImage": "../assets/fault-finding/dev-fake-contributor-invite-fake.svg",
+      "whatIsWrong": "The fake email's domain uses a lowercase \"l\" instead of \"i\" (opennav-foundatlon.org vs opennav-foundation.org) — a classic look-alike typosquat. It also asks you to run an unfamiliar setup script immediately, unlike the real outreach which just sends a PDF guide to read at your own pace.",
+      "whyItsSuspicious": "A typosquatted domain is easy to miss at a glance, and being \"selected\" plays on flattery and urgency together. Running an unknown setup script from unsolicited outreach is a known way to deliver malware — verify the organisation independently, and never run a script from an unsolicited invite."
+    },
+    {
+      "id": "compare-dev-ai-extension",
+      "type": "compare",
+      "category": "Fake AI Coding Extension Install",
+      "persona": "Technology Team",
+      "title": "Real vs Fake AI Extension Update Notice",
+      "realImage": "../assets/fault-finding/dev-ai-extension-real.svg",
+      "fakeImage": "../assets/fault-finding/dev-ai-extension-fake.svg",
+      "whatIsWrong": "The fake notice comes from devtools@synergymarinegroup.co — missing the final \"m\" in \".com\". It asks you to install the update directly from a link instead of the official marketplace, citing a \"delayed sync\" as the reason to skip the marketplace this one time.",
+      "whyItsSuspicious": "A dropped letter at the very end of a domain is easy to miss, especially in a message that otherwise matches the tone of routine dev-tools mail. Any reason given to install an extension outside the marketplace \"just this once\" is the actual signal — a genuine update is never blocked from reaching the marketplace listing itself."
+    },
+    {
+      "id": "compare-dev-secrets-migration",
+      "type": "compare",
+      "category": "Fake Secrets-Migration Request",
+      "persona": "Technology Team",
+      "title": "Real vs Fake Vault Migration Email",
+      "realImage": "../assets/fault-finding/dev-secrets-migration-real.svg",
+      "fakeImage": "../assets/fault-finding/dev-secrets-migration-fake.svg",
+      "whatIsWrong": "The fake email comes from devops@synergymarinegroup.net — everything before the domain is identical to the real address, only the final \".net\" instead of \".com\" is different. It asks you to reply with your service's current .env values directly in an email, instead of rotating them yourself through the vault UI.",
+      "whyItsSuspicious": "A changed top-level domain is one of the subtlest possible tells, since the rest of the address matches exactly. A genuine vault migration only ever asks you to act inside the vault UI yourself — being asked to send secrets in cleartext by reply, for any reason, is the actual signal to stop, regardless of how routine the surrounding request sounds."
+    }
+  ]
+}

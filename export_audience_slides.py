@@ -55,24 +55,34 @@ from export_slides import (
 ROOT = Path(__file__).resolve().parent
 
 # Audience id -> output filename. Matches the display names used elsewhere
-# (admin dashboard's audience picker, app.py's AUDIENCE_DEFS).
+# (admin dashboard's audience picker, app.py's AUDIENCE_DEFS). IT Support and Development were
+# merged into 'technology-team' - see AUDIENCE_FULL_DECK_OVERRIDE in scripts/deck.js.
 AUDIENCE_OUTPUT_NAMES = {
-    "it-support": "Synergy_Cyber_Security_Awareness_Month_IT_Support.pptx",
-    "development": "Synergy_Cyber_Security_Awareness_Month_Development.pptx",
+    "technology-team": "Synergy_Cyber_Security_Awareness_Month_Technology_Team.pptx",
 }
 
 
 def resolve_audience_slides(audience):
     """Reproduce scripts/deck.js's buildDeck() slide resolution in Python.
 
-    Order mirrors the DOMContentLoaded call sequence in scripts/deck.js exactly:
-    skip -> early topic insert (anchored after slide-02.html) -> topic insert
-    (anchored after slide-13.html) -> Desk/Login/AI-paste/Shadow-AI swaps (each
-    matched by the known original base filename, since none of those four are
-    ever touched by skip or either insert) -> Closing swap. Every map is loaded
-    straight from app.py, so this can never drift from what check_deck_alignment()
-    already validates against scripts/deck.js at startup.
+    Checks AUDIENCE_FULL_DECK_OVERRIDE first - if present for this audience, that fully replaces
+    the sequence (mirrors applyAudienceFullDeckOverride() running first in deck.js), skipping
+    every other map entirely, the same way the live deck does. Otherwise, order mirrors the
+    DOMContentLoaded call sequence in scripts/deck.js exactly: skip -> early topic insert
+    (anchored after slide-02.html) -> topic insert (anchored after slide-13.html) ->
+    Desk/Login/AI-paste/Shadow-AI swaps (each matched by the known original base filename, since
+    none of those four are ever touched by skip or either insert) -> Closing swap. Every map is
+    loaded straight from app.py, so this can never drift from what check_deck_alignment() already
+    validates against scripts/deck.js at startup.
     """
+    override = app_module.load_audience_full_override_file_map().get(audience, [])
+    if override:
+        missing = [f for f in override if not (ROOT / "slides" / f).exists()]
+        if missing:
+            print(f"ERROR: full-override sequence for '{audience}' references file(s) missing from slides/: {missing}", file=sys.stderr)
+            sys.exit(1)
+        return list(override)
+
     slides = app_module.load_deck_file_list()
     if not slides:
         print("ERROR: could not read SLIDES array from scripts/deck.js", file=sys.stderr)

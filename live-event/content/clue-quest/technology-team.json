@@ -1,0 +1,116 @@
+{
+  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own — whether it shows up in a ticket, a vendor call, a system alert, a dependency, a PR comment, or a CI notification. Today's riddles cover the full range of patterns aimed at Technology Team.",
+  "rememberThis": "This month gave these tricks a name — keep using them. STOP before you install, grant access, reset, merge, or run anything, VERIFY through a channel you already trust, then REPORT.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask which two terms are easiest to mix up across the combined set now — a fake escalation ticket and PR-comment phishing both hide inside a routine-looking notification, but the goal is different.",
+      "Ask for a real example of a ticket, alert, or notification that matches one of these terms.",
+      "Ask someone to explain OTP RELAY ATTACK or BROKEN ACCESS CONTROL in their own words, without using the term itself.",
+      "Ask which two terms are easiest to mix up now — CONFIDENTIALITY and DATA CLASSIFICATION are related but different: one is the property being protected, the other is the system for deciding how much protection something needs.",
+      "Ask which two terms are easiest to mix up now — SECRETS ARCHITECTURE and GIT LIFECYCLE DEFENSE are related but different: one is about where a credential lives, the other is about the process that catches one that leaked anyway."
+    ],
+    "commonWrongAnswer": "People most often mix up categories that share a delivery channel — a fake escalation ticket and PR-comment phishing both arrive as a routine-looking notification; a fake tool alert and a fake vulnerability alert both copy an internal system's exact style. The difference is always in the specific ask: install something, skip a check, merge something, or hand over a credential."
+  },
+  "riddles": [
+    {
+      "id": "stop-verify-report",
+      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT Service Desk. What is this rule called?",
+      "answer": "STOP VERIFY REPORT",
+      "options": [
+        "STOP VERIFY REPORT",
+        "ZERO TRUST ARCHITECTURE",
+        "DATA CLASSIFICATION"
+      ]
+    },
+    {
+      "id": "fake-escalation-ticket",
+      "riddle": "I look like a real support ticket, but my sender domain has an extra word, and I ask you to skip change-approval to fix me fast. What trick am I?",
+      "answer": "FAKE ESCALATION TICKET",
+      "options": [
+        "FAKE ESCALATION TICKET",
+        "CI/CD CREDENTIAL PHISHING",
+        "OTP RELAY ATTACK"
+      ]
+    },
+    {
+      "id": "otp-relay-attack",
+      "riddle": "I text you right after you process a reset, asking you to read back the one-time code you just received to \"verify the action\". What trick am I?",
+      "answer": "OTP RELAY ATTACK",
+      "options": [
+        "OTP RELAY ATTACK",
+        "FAKE ESCALATION TICKET",
+        "CI/CD CREDENTIAL PHISHING"
+      ]
+    },
+    {
+      "id": "fake-recruiter-outreach",
+      "riddle": "I am an unsolicited message inviting you to a coding challenge, and I ask you to run my setup script right away to get started. What trick am I?",
+      "answer": "FAKE RECRUITER OUTREACH",
+      "options": [
+        "FAKE RECRUITER OUTREACH",
+        "FAKE ESCALATION TICKET",
+        "CI/CD CREDENTIAL PHISHING"
+      ]
+    },
+    {
+      "id": "cicd-credential-phishing",
+      "riddle": "I claim your build failed and your deploy credentials expired, and I want you to retype your Git token through my link within 10 minutes. What trick am I?",
+      "answer": "CI/CD CREDENTIAL PHISHING",
+      "options": [
+        "CI/CD CREDENTIAL PHISHING",
+        "OTP RELAY ATTACK",
+        "SECRETS ARCHITECTURE"
+      ]
+    },
+    {
+      "id": "zero-trust-architecture",
+      "riddle": "I say no device or network segment is trusted by default, even inside the perimeter — every request gets verified regardless of where it comes from. What am I?",
+      "answer": "ZERO TRUST ARCHITECTURE",
+      "options": [
+        "ZERO TRUST ARCHITECTURE",
+        "DATA CLASSIFICATION",
+        "SECRETS ARCHITECTURE"
+      ]
+    },
+    {
+      "id": "data-classification-tiers",
+      "riddle": "I'm the four-tier system that decides whether something stays Public, Internal, Confidential, or Restricted — and how it has to be handled at each level. What am I?",
+      "answer": "DATA CLASSIFICATION",
+      "options": [
+        "DATA CLASSIFICATION",
+        "ZERO TRUST ARCHITECTURE",
+        "SECRETS ARCHITECTURE"
+      ]
+    },
+    {
+      "id": "secrets-architecture-standard",
+      "riddle": "I say a credential belongs in a vault, short-lived and scoped — never hardcoded in source, a frontend bundle, or an unencrypted .env file. What standard am I?",
+      "answer": "SECRETS ARCHITECTURE",
+      "options": [
+        "SECRETS ARCHITECTURE",
+        "GIT LIFECYCLE DEFENSE",
+        "ZERO TRUST ARCHITECTURE"
+      ]
+    },
+    {
+      "id": "git-lifecycle-defense-riddle",
+      "riddle": "I'm a three-stage defense: a local hook scan before commit, peer review and a signed commit at the pull request, and instant revocation the moment a leak reaches main. What am I?",
+      "answer": "GIT LIFECYCLE DEFENSE",
+      "options": [
+        "GIT LIFECYCLE DEFENSE",
+        "SECRETS ARCHITECTURE",
+        "TOKEN ECONOMICS"
+      ]
+    },
+    {
+      "id": "token-economics-riddle",
+      "riddle": "I'm the discipline that stops a single AI feature from becoming a billing incident — a hard context cap, a per-user rate quota, and a circuit breaker, together. What am I?",
+      "answer": "TOKEN ECONOMICS",
+      "options": [
+        "TOKEN ECONOMICS",
+        "GIT LIFECYCLE DEFENSE",
+        "DATA CLASSIFICATION"
+      ]
+    }
+  ]
+}

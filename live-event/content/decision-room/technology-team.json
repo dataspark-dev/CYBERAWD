@@ -1,0 +1,349 @@
+{
+  "whyThisMatters": "Attackers targeting Technology Team don't trick you the way they trick everyone else — they impersonate the people and systems you're trained to trust and act on quickly: a locked-out colleague, an urgent vendor, an escalated ticket, a routine PR comment, a CI alert, a recruiter's message. The habit that helps you is knowing your next step before you need it, especially when a request already sounds like a normal part of the job — whether that's helping someone fast or shipping code fast.",
+  "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. A caller who sounds official, a ticket number that looks right, a familiar tool's alert, or a package/PR/CI notification that looks routine is not proof by itself — verify through a channel you already trust before you reset, install, merge, or grant access.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask what the team's actual identity-verification step is for a password reset request — and whether everyone always follows it, even under pressure.",
+      "For the vendor-call case, ask how you would verify a caller claiming to be from a known vendor without using any contact detail the caller themselves gave you.",
+      "Ask how it felt to decide under time pressure in each case — was it harder to pause when the caller sounded confident or senior?",
+      "Ask the group to name their own trusted way to verify an internal chat message asking them to bypass a normal step.",
+      "Ask how the team currently decides whether to add a new dependency — is there an actual review step, or does it come down to whoever is merging that day?",
+      "For the recruiter-outreach case, ask if anyone has run a coding challenge or take-home project from an unsolicited message — what would make them pause next time?",
+      "Ask what 'verify' would even look like for a CI/CD credential request — is there a real internal process people can name?",
+      "Ask the group to describe the last dependency or PR they merged without a second look — what made it feel safe?"
+    ],
+    "commonWrongAnswer": "The most common mistake is treating a request as legitimate because it uses the right jargon, references a plausible ticket or PR, or claims urgency from someone senior or time-pressured. People also tend to under-verify anything that feels like it's coming from inside their own tooling or workflow, because it's harder to imagine that specific thing being faked — even though that familiarity is exactly what makes it convincing."
+  },
+  "cases": [
+    {
+      "id": "it-vendor-impersonation-call",
+      "persona": "Technology Team",
+      "title": "The Urgent Vendor Support Call",
+      "scenario": "The help desk phone rings. The caller says they are from the ship's VSAT (satellite communications) vendor's support team, following up on a \"critical security patch\" that needs to be installed today. They ask you to open a remote-access session on the bridge navigation-support terminal right now so they can \"push the fix\" before it causes an outage.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Open the remote-access session — a real outage would be worse than losing a few minutes",
+              "outcome": "consequence",
+              "feedback": "Opening remote access to a caller you have not verified is exactly how attackers get in — a claimed outage risk is not proof of who is calling."
+            },
+            {
+              "id": "b",
+              "text": "Ask the caller for their vendor ticket or reference number, then decide based on their answer",
+              "outcome": "consequence",
+              "feedback": "A caller impersonating the vendor can invent any reference number that sounds plausible — this does not verify anything on its own."
+            },
+            {
+              "id": "c",
+              "text": "End the call and verify by calling the vendor back on the number in your own approved vendor contact list, not one the caller gave you",
+              "outcome": "good",
+              "feedback": "Correct. Calling back on a number you already had — never one supplied during the call — is the only real check. If it is genuine, the vendor's real support line will confirm it."
+            }
+          ]
+        }
+      ],
+      "debrief": "A caller claiming to be a known vendor with an urgent patch is a classic pattern. STOP before opening any remote-access session. VERIFY by calling back on a number from your own approved contact list, never one the caller provides. REPORT the call either way so the pattern is logged."
+    },
+    {
+      "id": "it-credential-reset-social-engineering",
+      "persona": "Technology Team",
+      "title": "The Locked-Out Caller Who Won't Verify",
+      "scenario": "Someone calls the help desk sounding stressed, saying they are the Chief Officer on MV Horizon and are locked out of the crew portal right before a critical rotation deadline. When you ask the standard identity-verification questions, they say there is no time for that and demand you reset the password immediately and read it back over the phone.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The caller is refusing standard verification and pushing you to skip it. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Reset it anyway and read the new password over the phone — a rotation deadline is a real business risk",
+              "outcome": "consequence",
+              "feedback": "Reading a new password aloud to an unverified caller hands over the account directly — urgency is exactly the pressure this scam is built on."
+            },
+            {
+              "id": "b",
+              "text": "Reset the password but send it to the employee's registered email instead of reading it aloud",
+              "outcome": "consequence",
+              "feedback": "This still skips the identity check itself — if the caller is not who they claim, they may also control that inbox, or you have still reset an account without confirming who asked."
+            },
+            {
+              "id": "c",
+              "text": "Decline to proceed without standard verification, and offer to call the person back on their registered number instead",
+              "outcome": "good",
+              "feedback": "Correct. A genuine Chief Officer will understand the check or can be reached on the registered number already on file. Refusing to skip verification, no matter how senior the caller sounds, is the whole point of the process."
+            }
+          ]
+        }
+      ],
+      "debrief": "Urgency plus a refusal to verify is the clearest warning sign in credential-reset social engineering. STOP before resetting anything. VERIFY using contact details already on file, never ones the caller supplies. REPORT the attempt so the pattern is flagged for the rest of the team."
+    },
+    {
+      "id": "it-otp-relay-social-engineering",
+      "persona": "Technology Team",
+      "title": "The \"Verify Your Own Action\" Text",
+      "scenario": "You just processed a password-reset ticket. Minutes later, a text arrives from a number that isn't in your contacts: \"This is IT Security — we're verifying the admin action you just performed. Reply with the 6-digit code you just received to confirm it's really you.\"",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The message references an action you really did just take. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Reply with the code, since it matches the action you just performed",
+              "outcome": "consequence",
+              "feedback": "Relaying a one-time code to an unverified sender hands over exactly what makes that code useless as a security check — the fact that it matches your real action is what makes this trick convincing, not what makes it safe."
+            },
+            {
+              "id": "b",
+              "text": "Ask the sender to prove they're really IT Security before replying",
+              "outcome": "consequence",
+              "feedback": "Engaging with the unverified number at all, even to ask questions, keeps you inside a conversation designed to extract the code — an attacker can simply answer with something plausible."
+            },
+            {
+              "id": "c",
+              "text": "Do not reply with the code — verify by contacting IT Security through a known internal channel instead",
+              "outcome": "good",
+              "feedback": "Correct. A one-time code is never meant to be read back to anyone, including someone claiming to be IT Security — verifying independently through a channel you already trust confirms whether anything is actually wrong."
+            }
+          ]
+        }
+      ],
+      "debrief": "This is a classic OTP-relay attack — attackers who already have a password trigger a real reset code, then pose as IT Security to get it relayed back to them. STOP before replying with any code. VERIFY through a known internal channel. REPORT the number so others are warned."
+    },
+    {
+      "id": "it-shared-folder-left-open",
+      "persona": "Technology Team",
+      "title": "The Shared Folder Left Open",
+      "scenario": "A routine access review turns up a cloud-storage folder set to \"anyone with the link\" instead of the access controls its actual data classification tier requires. Nothing suspicious has happened yet — it was just never locked down properly.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Leave it — nothing bad has happened yet, and locking it down might break someone's workflow",
+              "outcome": "consequence",
+              "feedback": "A folder open to anyone with the link is a breach waiting to happen, not a hypothetical one — the fact that nothing has surfaced yet doesn't mean nothing has been accessed."
+            },
+            {
+              "id": "b",
+              "text": "Send the folder owner a heads-up email and let them decide",
+              "outcome": "consequence",
+              "feedback": "A heads-up is a good habit, but it delays fixing an active exposure — the access should be restricted immediately, not queued behind someone else's inbox."
+            },
+            {
+              "id": "c",
+              "text": "Restrict access immediately to match its data classification tier, then check who has accessed it while it was open",
+              "outcome": "good",
+              "feedback": "Correct. Handling follows classification, not convenience — fix the exposure first, then audit what happened while it was open."
+            }
+          ]
+        }
+      ],
+      "debrief": "A misconfigured sharing setting is one of the most common ways Confidential or Restricted data leaks — not a sophisticated attack, just a setting nobody checked. STOP treating it as low priority because nothing obvious happened. VERIFY the classification tier and audit access. REPORT it so the same setting gets checked elsewhere."
+    },
+    {
+      "id": "it-ai-bot-retrieving-too-much",
+      "persona": "Technology Team",
+      "title": "The AI Support Bot Retrieving Too Much",
+      "scenario": "An internal AI helpdesk bot, built on a RAG (retrieval-augmented) system over the ticket archive, appears to surface details from a Restricted-tier ticket in response to a general staff question. It's not clear if this is a one-off or a pattern.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Assume the model filtered it correctly — LLMs are generally good at handling sensitive context appropriately",
+              "outcome": "consequence",
+              "feedback": "Never rely on the model itself to filter out sensitive data it already retrieved — if it retrieved it, it can repeat it. Filtering has to happen before retrieval, not be hoped for after."
+            },
+            {
+              "id": "b",
+              "text": "Manually spot-check a handful of other responses to see if it happens again",
+              "outcome": "consequence",
+              "feedback": "Spot-checking might catch this instance, but it doesn't fix the underlying gap — the bot will keep retrieving whatever it has permission to reach until that's addressed."
+            },
+            {
+              "id": "c",
+              "text": "Take the bot offline until document-level access permissions are verified and enforced before retrieval, not after",
+              "outcome": "good",
+              "feedback": "Correct. Pre-retrieval authorization — checking permissions before the vector search runs — is the actual fix. A RAG system is only as secure as the access control on what it retrieves."
+            }
+          ]
+        }
+      ],
+      "debrief": "A RAG system surfacing data outside its requester's permissions is an access-control gap, not a content problem. STOP trusting the model to self-censor. VERIFY that retrieval itself is permission-gated. REPORT it and pull the system offline until it's fixed."
+    },
+    {
+      "id": "dev-fake-recruiter-outreach",
+      "persona": "Technology Team",
+      "title": "The Recruiter With a Coding Challenge",
+      "scenario": "You get a LinkedIn message from someone claiming to be a recruiter for a well-known shipping-tech company, inviting you to a paid \"take-home coding challenge\" hosted in a private GitHub repo. The instructions say to clone the repo and run the included setup script to \"install the test harness\" before starting.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The opportunity looks appealing and the ask seems standard for a take-home test. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Clone the repo and run the setup script as instructed — take-home tests usually need setup",
+              "outcome": "consequence",
+              "feedback": "Running an unfamiliar setup script from an unsolicited outreach is exactly how this kind of lure delivers malware onto your machine — a real challenge doesn't need to run first."
+            },
+            {
+              "id": "b",
+              "text": "Clone the repo and read the code first before running anything",
+              "outcome": "consequence",
+              "feedback": "This is safer than running it blind, but obfuscated or staged malicious code can still slip past a quick read — the safer move is not running unknown code on your main machine at all."
+            },
+            {
+              "id": "c",
+              "text": "Verify the recruiter and company independently first, and if you proceed, only open the challenge in an isolated environment, never running the setup script on your main machine",
+              "outcome": "good",
+              "feedback": "Correct. Verifying the recruiter through the company's real careers page or LinkedIn presence first, and isolating anything you do run, protects your main machine even if the outreach turns out to be fake."
+            }
+          ]
+        }
+      ],
+      "debrief": "Unsolicited recruiter outreach with a script to run is a known way to deliver malware to developers specifically. STOP before running any setup script from an outreach you didn't seek out. VERIFY the recruiter and company independently. REPORT it if anything doesn't check out."
+    },
+    {
+      "id": "dev-fake-github-app-permission-request",
+      "persona": "Technology Team",
+      "title": "The Bot Comment Asking for More Permissions",
+      "scenario": "An automated-looking comment appears on your PR from a GitHub App named \"ci-helper-bot\": \"To fix this failing check, please grant ci-helper-bot admin access to this repository by clicking Authorize below.\" The app has a generic icon and only a handful of installs.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Grant admin access, since it's just a bot trying to help fix the check",
+              "outcome": "consequence",
+              "feedback": "Granting admin access to an unfamiliar app is exactly the kind of over-broad permission grant this scam relies on — a check-fixing bot has no legitimate reason to need admin rights."
+            },
+            {
+              "id": "b",
+              "text": "Ask a teammate in chat if they've seen this app before",
+              "outcome": "consequence",
+              "feedback": "A teammate not recognising it doesn't confirm anything either way — it doesn't replace actually checking the app's publisher and install history."
+            },
+            {
+              "id": "c",
+              "text": "Do not grant elevated permissions — check the app's publisher and install count independently first, and report the comment",
+              "outcome": "good",
+              "feedback": "Correct. An app requesting far more access than its stated job needs, via an automated-looking PR comment, is a known supply-chain attack pattern — verifying the publisher first, and reporting the comment, protects the whole repository."
+            }
+          ]
+        }
+      ],
+      "debrief": "An app asking for more access than it needs, delivered through a routine-looking PR comment, is a known supply-chain attack vector. STOP before authorizing any elevated permissions. VERIFY the app's publisher and install history independently. REPORT the comment so others don't grant it either."
+    },
+    {
+      "id": "dev-hotfix-skips-review",
+      "persona": "Technology Team",
+      "title": "The Hotfix That Skips Review",
+      "scenario": "A teammate wants to merge a \"tiny\" one-line hotfix directly to production under deadline pressure, without the usual peer review or a signed commit — \"it's too small to matter, and we're already late.\"",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Allow it — it's a one-line change and the deadline is real",
+              "outcome": "consequence",
+              "feedback": "Size is not the risk factor here — a one-line change to the wrong line can be just as damaging as a large one, and skipping review \"just this once\" is exactly how that gap gets exploited."
+            },
+            {
+              "id": "b",
+              "text": "Let it merge now and review it after the fact",
+              "outcome": "consequence",
+              "feedback": "Reviewing after merge means the change is already live in production before anyone else has verified it — the whole point of review is to catch problems before they ship, not after."
+            },
+            {
+              "id": "c",
+              "text": "Hold the merge for peer review and a signed commit, regardless of size or deadline",
+              "outcome": "good",
+              "feedback": "Correct. Git lifecycle defense applies at every stage regardless of how small the change looks — peer review and signed commits are branch guardrails, not optional steps for urgent changes."
+            }
+          ]
+        }
+      ],
+      "debrief": "\"Too small to matter\" and \"too urgent to wait\" are the same pressure pattern that skips verification anywhere else — just aimed at code review instead of a payment or a reset. STOP before merging without review. VERIFY through the normal process, every time. REPORT pressure to skip it as a pattern worth flagging."
+    },
+    {
+      "id": "dev-ai-feature-without-limits",
+      "persona": "Technology Team",
+      "title": "The New AI Feature Without Limits",
+      "scenario": "A new AI-powered feature is ready to ship. It has no hard context/token limit, no per-user rate quota, and no circuit breaker for billing anomalies — the plan is to \"add that later once we see real usage.\"",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Ship it now — limits can be added later once real usage patterns are known",
+              "outcome": "consequence",
+              "feedback": "An AI endpoint without limits is a denial-of-wallet incident waiting to happen — a single misbehaving client or automated abuse can generate a large bill before anyone notices."
+            },
+            {
+              "id": "b",
+              "text": "Ship it with basic usage monitoring, but no hard limits yet",
+              "outcome": "consequence",
+              "feedback": "Monitoring tells you about a cost spike after it's already happened — it doesn't prevent it. A circuit breaker needs to be able to act automatically, not just alert."
+            },
+            {
+              "id": "c",
+              "text": "Require hard context limits, per-user rate quotas, and an automatic circuit breaker before shipping",
+              "outcome": "good",
+              "feedback": "Correct. Token limits, tenant quotas, and circuit breakers are the same discipline as rate-limiting any other API — an AI endpoint is not exempt just because the cost model is newer."
+            }
+          ]
+        }
+      ],
+      "debrief": "Resource limits on an AI feature are a launch requirement, not a follow-up task. STOP before shipping without them. VERIFY that cap, rate, and alert controls are all in place. REPORT any AI feature already live without them."
+    },
+    {
+      "id": "dev-cicd-credential-phishing",
+      "persona": "Technology Team",
+      "title": "The CI System Asking for Your Token Again",
+      "scenario": "You get an email that looks like your CI/CD system, saying your deployment credentials have expired and you must re-enter your Git username and access token within 10 minutes or the last production deploy will be rolled back automatically.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "The deadline is short and touches production. What do you do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Re-enter your credentials quickly at the link given, to avoid a rollback",
+              "outcome": "consequence",
+              "feedback": "Typing your Git username and access token into a link from an email is exactly how CI/CD credential phishing works — a real system never asks for this by email."
+            },
+            {
+              "id": "b",
+              "text": "Forward the email to a teammate to ask if they got one too",
+              "outcome": "consequence",
+              "feedback": "This spreads the phishing link further and doesn't verify anything — a fake alert can be sent to your whole team at once."
+            },
+            {
+              "id": "c",
+              "text": "Ignore the link, open the CI dashboard directly yourself to check for any real issue, and report the email",
+              "outcome": "good",
+              "feedback": "Correct. Your CI system authenticates you through the session you already have — opening the dashboard yourself confirms whether anything is actually wrong, without ever typing credentials into the email's link."
+            }
+          ]
+        }
+      ],
+      "debrief": "CI/CD credentials often unlock your production pipeline, which makes them a high-value target — the pattern here is identical to any other credential-phishing email, just aimed at your deploy process. STOP before re-entering anything through a link. VERIFY by opening the CI dashboard yourself. REPORT the email so the pattern is flagged."
+    }
+  ]
+}

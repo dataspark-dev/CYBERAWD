@@ -1,0 +1,87 @@
+{
+  "whyThisMatters": "A lot of what feels true about tickets, calls, alerts, packages, PR comments, and CI notifications is only partly right — and Technology Team is targeted precisely because attackers expect you to trust the routine parts of the job, whichever side of it you're on. A few minutes here will clear up what really matters when a caller, a ticket, a dependency, or an alert already looks familiar.",
+  "rememberThis": "This month's reminder: familiar packaging is not proof. A ticket number, a caller who knows the jargon, a plausible package name, or an alert styled like your own tool or CI system can all be faked — check the actual channel and domain every time, no matter how routine the request looks.",
+  "facilitatorNotes": {
+    "discussionPrompts": [
+      "Ask if anyone has ever skipped part of the identity-verification process because the caller sounded senior or in a hurry. What made it hard to insist on the full check?",
+      "For the remote-access myth, ask how the team currently decides when it's okay to install a remote-access tool for someone calling in.",
+      "Ask honestly: does being on the IT team make people feel less likely to be targeted — and is that feeling actually true?",
+      "Ask how the team currently decides whether a new dependency is safe to add — is there an actual check, or does familiarity with the name do the deciding?",
+      "For the CI/CD myth, ask if anyone can name the team's real process for a deployment-credential problem — is emailing credentials ever really part of it?",
+      "Ask if anyone has run a setup script from an unsolicited recruiter or contributor message. What would make them pause next time?"
+    ],
+    "commonWrongAnswer": "People most often get the caller-ID or plausible-package-name myths wrong — a display name or a package that looks right feels like real proof, so many people say it's safe to trust. But both can be faked as easily as an email sender name, and the real check is always the same: verify through a channel or a history you already had before this specific request, not what's displayed on screen."
+  },
+  "items": [
+    {
+      "id": "mf-it-01",
+      "topic": "Vendor Impersonation",
+      "myth": "I can always tell a spoofed caller ID or a faked support email just by looking at it.",
+      "fact": "Caller ID and display names can both be faked convincingly. The real check is calling back on a number you already had before the call, or checking the actual email domain letter by letter — not what is displayed on screen.",
+      "detail": "A vendor-impersonation call often uses a caller ID that looks exactly like the real support line. Treat every unexpected support call the same way you'd treat an unexpected email: verify through a channel you already trust, never one the caller supplies."
+    },
+    {
+      "id": "mf-it-03",
+      "topic": "Credential-Reset Social Engineering",
+      "myth": "MFA or password-reset requests over the phone are fine as long as the caller can answer a couple of internal-sounding questions.",
+      "fact": "Attackers gather internal jargon and details from breached data, public sources, or earlier calls. Sounding convincing is not the same as passing your team's actual identity-verification process.",
+      "detail": "The verification steps exist for exactly this reason — follow the same process every time, regardless of how urgent or senior the caller sounds. A genuine requester will not mind the check."
+    },
+    {
+      "id": "mf-it-04",
+      "topic": "Targeting IT",
+      "myth": "IT staff are less likely to be targeted, because we already know the tricks.",
+      "fact": "Attackers specifically target IT and admin accounts because they open more doors than a normal account. Training does not remove the pressure tactics — it means the habit matters even more for this team.",
+      "detail": "Admin credentials, remote-access tools, and escalation privileges make IT Support a higher-value target, not a lower-risk one. The same STOP, VERIFY, REPORT habit applies here, not an exception to it."
+    },
+    {
+      "id": "mf-it-07",
+      "topic": "MDM Enrollment",
+      "myth": "A device-enrollment prompt that looks like it's from our own MDM system is safe to install without reading the details.",
+      "fact": "A genuine compliance check only ever confirms your existing profile — it never bundles in a new permission grant. Reading exactly what a profile requests, not just recognising the MDM branding, is the actual check.",
+      "detail": "Compare any new profile's requested permissions against what the routine check normally needs, and confirm with Endpoint Management directly if it asks for anything more."
+    },
+    {
+      "id": "mf-it-08",
+      "topic": "DLP Exceptions",
+      "myth": "A calm, routine-sounding email asking you to approve a data-export exception today is fine, since it doesn't feel like a scam email.",
+      "fact": "A genuine DLP exception is logged and reviewed through the standard workflow, never approved on the spot from an email. A calm tone is not a safety check — the same-day approval ask is the actual signal.",
+      "detail": "Check the exception log in the compliance system yourself and confirm with the Compliance Team through a known channel before approving anything, regardless of how routine the email sounds."
+    },
+    {
+      "id": "mf-dev-01",
+      "topic": "Fake Dependency Requests",
+      "myth": "A plausible package name and a reasonable download count mean it's safe to add as a dependency.",
+      "fact": "Attackers publish typosquatted or freshly-popular-looking packages specifically to pass a quick glance. The real check is the maintainer's history, how long the package has existed, and whether an established alternative already does the job.",
+      "detail": "A new package proposed under time pressure — \"this fixes it faster, can we merge today\" — is exactly when to slow down and check the package itself, not just the code in the PR that calls it."
+    },
+    {
+      "id": "mf-dev-04",
+      "topic": "Fake Recruiter Outreach",
+      "myth": "An unsolicited recruiter message with a private repo and a coding challenge is a normal, harmless part of job hunting.",
+      "fact": "This is a known way to deliver malware directly to developers, who are used to cloning repos and running setup scripts without much thought. Verify the recruiter and company independently before doing either.",
+      "detail": "If you do proceed, open the challenge in an isolated environment rather than running the setup script on your main machine — the same caution you'd use for any code from a source you can't yet vouch for."
+    },
+    {
+      "id": "mf-dev-06",
+      "topic": "Credential Hygiene",
+      "myth": "Only production credentials are worth protecting — dev and test tokens are low risk.",
+      "fact": "Dev and test tokens often reach the same pipelines and repositories as production ones, and are frequently reused or left unrotated for longer, making them just as valuable a target.",
+      "detail": "Treat any CI, package-registry, or Git access token the same way regardless of which environment it's labelled for — a leaked \"low risk\" token is still a way into your systems."
+    },
+    {
+      "id": "mf-dev-07",
+      "topic": "AI Coding Extensions",
+      "myth": "If an update notice for an approved AI coding extension says the marketplace is delayed, it's fine to install from the link it provides instead.",
+      "fact": "A genuine extension update is never blocked from reaching its own marketplace listing. Any reason given to install outside the marketplace \"just this once\" is the actual signal to stop, not a reasonable workaround.",
+      "detail": "Always check the official marketplace listing directly for an update yourself, rather than a link that claims to bypass it."
+    },
+    {
+      "id": "mf-dev-08",
+      "topic": "Secrets Migration",
+      "myth": "Replying to a DevOps email with your service's current .env values is fine during a migration, since it saves everyone time.",
+      "fact": "A genuine vault migration only ever asks you to act inside the vault UI yourself. Being asked to send secrets in cleartext by email, for any reason, is the actual signal to stop, regardless of the deadline attached.",
+      "detail": "Rotate secrets yourself through the vault UI, and confirm any migration request with DevOps through a known channel before doing anything else."
+    }
+  ]
+}
