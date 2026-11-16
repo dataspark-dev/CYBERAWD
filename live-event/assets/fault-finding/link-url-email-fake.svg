@@ -13,12 +13,12 @@
     <text x="16" y="31" font-family="Space Mono, monospace" font-size="14" fill="#0c4a6e">https://portal.acmecorp.com/staff/schedule-confirm</text>
   </g>
   <g transform="translate(260,505)">
-    <rect x="0" y="0" width="640" height="38" rx="6" fill="#eff6ff" stroke="#0ea5e9"/>
-    <text x="12" y="24" font-family="Space Mono, monospace" font-size="12" fill="#0c4a6e">Actual target on hover: https://portal-acmecorp-secure.net/staff/verify?id=42</text>
+    <rect x="0" y="0" width="760" height="38" rx="6" fill="#eff6ff" stroke="#0ea5e9"/>
+    <text x="12" y="24" font-family="Space Mono, monospace" font-size="12" fill="#0c4a6e">Actual target on hover: https://portal.acmecorp.com.staff-verify.net/schedule-confirm?id=42</text>
   </g>
   <g transform="translate(260,555)">
     <rect x="0" y="0" width="440" height="38" rx="6" fill="#eff6ff" stroke="#0ea5e9"/>
-    <text x="12" y="24" font-family="Space Mono, monospace" font-size="12" fill="#0c4a6e">Alt. link: http://bit.ly/AcmeSchedule-Confirm</text>
+    <text x="12" y="24" font-family="Space Mono, monospace" font-size="12" fill="#0c4a6e">Address bar after click: https://  (padlock shown, certificate valid)</text>
   </g>
   <text x="260" y="625" font-family="Barlow, sans-serif" font-size="14" fill="#64748b">Sent to all staff — confirm when you have a moment</text>
   <text x="800" y="850" font-family="Space Mono, monospace" font-size="14" fill="#67e8f9" text-anchor="middle" letter-spacing="2">STAFF — SCHEDULE CONFIRMATION</text>

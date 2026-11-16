@@ -3,11 +3,11 @@
   "rememberThis": "One habit: pause for ten seconds before you click or tap. Stop, Verify through a channel you already trust (a known phone number or a saved bookmark), then Report anything suspicious to IT.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask which detail people noticed first: the sender address, the urgent wording, or the attachment name? Would they check the same thing on their phone?",
+      "Ask which detail people noticed first: the sender domain, the Reply-To, the attachment type or the link? Would they check the same thing on their phone?",
       "For the link card, ask how many people hover over (or press and hold) a link before they click. What makes that hard when you are busy?",
       "Ask if anyone has seen a text, a pop-up or a flood of approval requests like the last three cards. What did they do?"
     ],
-    "commonWrongAnswer": "People often judge by which email looks neater. Real and fake look almost identical. The habit to build is to check the exact sender address and the web address letter by letter, not the logo or the body text."
+    "commonWrongAnswer": "People often trust a message because it fits an ongoing thread or has a padlock and a familiar name. Real and fake look almost identical. Build the habit of checking the exact sender domain, the real link destination and the file type, then Stop, Verify, Report."
   },
   "items": [
     {
@@ -19,8 +19,8 @@
       "realImage": "../assets/fault-finding/it-notice-real.svg",
       "fakeImage": "../assets/fault-finding/it-notice-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email comes from hr@acmecorp-careers.com. The real one comes from hr@acmecorp.com. The sender domain (the part after the @) is different: the fake adds \"-careers\". The logo, subject and body look almost identical.",
-      "whyItsSuspicious": "Anyone can copy a logo and wording, but they cannot send from your company's real domain. A small change in the domain is easy to miss when you are in a hurry, so read it letter by letter. The real domain is exactly acmecorp.com, with no hyphens or extra words. What to do: Stop, do not reply or open the attachment. Verify by calling HR on a number you already know. Report it to IT."
+      "whatIsWrong": "Both emails say \"HR Recruitment\" and look the same. The real sender is hr@acmecorp.com. The fake sender is hr@acmecorp.co: the last letter of the domain is missing. The fake also has a Reply-To address on a different domain (mailbox-hr.net), so your reply would go to a stranger. The fake's attachment is an .html file you are asked to open and sign in to, while the real one is a PDF.",
+      "whyItsSuspicious": "The display name (\"HR Recruitment\") is just text anyone can type. Only the domain after the @ tells you who really sent it, and it must match exactly: acmecorp.com, not acmecorp.co. Mail systems can also flag a sender that fails SPF or DKIM checks, which is the mail server saying \"this sender cannot prove it owns this domain\", but you cannot count on that warning being shown. An unexpected .html attachment that asks you to sign in is a way to steal your password. Stop: do not open it or reply. Verify: call HR on a number you already know. Report: send it to IT. That is Stop-Verify-Report."
     },
     {
       "id": "compare-urgency-context",
@@ -31,8 +31,8 @@
       "realImage": "../assets/fault-finding/urgency-email-real.svg",
       "fakeImage": "../assets/fault-finding/urgency-email-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email says \"URGENT — Bank Detail Change — Action Required TODAY\" and warns that you will miss this month's payment run. It tells you to skip the normal approval steps and not to call back. The real email is calm: the payment is scheduled for 28 Nov, no immediate action is needed, and any bank change is checked by calling a known number.",
-      "whyItsSuspicious": "Pressure is the tell. Attackers use deadlines and fear so you act before you think. A real supplier bank change never asks you to skip approval or avoid a call-back, even if the email looks right. What to do: Stop and do not pay. Verify by calling the supplier on a number already in your records, not one in the email. Report it to Finance and IT."
+      "whatIsWrong": "Both emails look like part of the same supplier payment thread, and neither shouts. The real one confirms the 28 Nov payment and says to follow the normal approval chain and call a known number for any bank change. The fake sender is finance@acme-corp.com (a hyphen added). It quietly asks you to pay a new account, skip the ticket, and reply instead of calling because \"phones are down\". It also mentions a 15:00 cut-off.",
+      "whyItsSuspicious": "A familiar thread and a calm tone do not make a message safe. Attackers join real conversations so the request feels normal. Two tells matter: the sender domain is not exactly acmecorp.com, and the message asks you to skip a control (approval or call-back). A bank-detail change should always be confirmed by phone. Stop: do not pay or reply. Verify: call the supplier on a number already in your records. Report: tell Finance and IT. That is Stop-Verify-Report."
     },
     {
       "id": "compare-attachment-based",
@@ -43,8 +43,8 @@
       "realImage": "../assets/fault-finding/attachment-email-real.svg",
       "fakeImage": "../assets/fault-finding/attachment-email-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake email has attachments you did not expect. Payslip_March.pdf.exe ends in .exe, which means it is a program, not a PDF. Documents.zip is a generic archive with the password \"1234\" in the email. It also asks you to click \"Enable Content\". The real email has clearly named files: Payslip_Feb2025_SamLee.pdf and Team_Schedule_Feb-Apr.xlsx.",
-      "whyItsSuspicious": "Attachments are a common way to install malware. Ask: did I expect this file, and does its name and type match? A payslip should be a PDF. A double ending like .pdf.exe, a password-protected ZIP, or a request to \"Enable Content\" or macros are warning signs. What to do: Stop and do not open it. Verify with HR Payroll on a known number or through the HR portal. Report the email to IT."
+      "whatIsWrong": "Both emails are from hr-payroll@acmecorp.com and both say \"Hi Sam\". The real one sends Payslip_Feb2025_SamLee.pdf and Team_Schedule_Feb-Apr.xlsx, as you requested. The fake one sends Payslip_Mar2025_SamLee.html (a web page, not a document) and Team_Schedule_Mar-May.zip, and says to sign in to view the payslip. Nobody asked for these, and the real payslip is in the HR portal.",
+      "whyItsSuspicious": "A file's ending shows what it really is. A payslip should be a PDF. An .html file opens a fake login page in your browser, and a .zip, .iso or .html can also hide programs. A sender address that looks right is not proof, because real accounts can be hacked. Ask: did I expect this, and does the file type fit? Stop: do not open it. Verify: check your payslip in the HR portal using your own bookmark. Report: send the email to IT. That is Stop-Verify-Report."
     },
     {
       "id": "compare-link-url",
@@ -55,8 +55,8 @@
       "realImage": "../assets/fault-finding/link-url-email-real.svg",
       "fakeImage": "../assets/fault-finding/link-url-email-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "Both emails show the same blue link text. In the fake, hovering over the link (or pressing and holding on a phone) shows the link preview, the real destination: https://portal-acmecorp-secure.net/staff/verify?id=42, plus a short link, http://bit.ly/AcmeSchedule-Confirm. The real email's link truly goes to portal.acmecorp.com. Both messages use the same name, so the name does not prove anything.",
-      "whyItsSuspicious": "The text you see can say anything. Only the real destination matters. The fake domain is portal-acmecorp-secure.net, not acmecorp.com. Short links like bit.ly also hide where you will land. What to do: Stop before clicking and check the link preview. Verify by opening the portal from a bookmark you saved yourself. Report the email to IT if the preview does not match."
+      "whatIsWrong": "The link text looks the same in both emails: https://portal.acmecorp.com/staff/schedule-confirm. In the fake, hovering (or pressing and holding on a phone) shows the real destination: https://portal.acmecorp.com.staff-verify.net/schedule-confirm?id=42. The owner of a web address is the part just before the first single slash, so the registrable domain here is staff-verify.net. \"portal.acmecorp.com\" is only a prefix added in front. The fake page even shows an HTTPS padlock.",
+      "whyItsSuspicious": "The text of a link can say anything. Words before the real domain are just decoration. A padlock only means the connection is encrypted, not that the site is honest: criminals get padlocks too. Stop: hover or press and hold before you click. Verify: open the portal from your own bookmark. Report: send the email to IT if the preview does not match. That is Stop-Verify-Report."
     },
     {
       "id": "compare-login-portal",
@@ -66,8 +66,8 @@
       "realImage": "../assets/fault-finding/login-portal-real.svg",
       "fakeImage": "../assets/fault-finding/login-portal-fake.svg",
       "placeholder": true,
-      "whatIsWrong": "The fake login page shows the address \"portal.acrnecorp.com\" in the browser. The letters \"rn\" together look like an \"m\", so it reads as acmecorp at a glance. The real address is \"portal.acmecorp.com\". The login screens are otherwise identical.",
-      "whyItsSuspicious": "Attackers can copy the look of a login page exactly, but not the real web address. A lookalike login page steals your password the moment you sign in. Check the address bar letter by letter before you type. What to do: Stop and do not enter your password. Verify by opening the portal from your own bookmark. Report the link to IT, and change your password if you already typed it."
+      "whatIsWrong": "The fake page's address bar reads \"portal.acrnecorp.com\". The letters \"r\" and \"n\" side by side look like an \"m\", so it passes for acmecorp at a glance. The real address is \"portal.acmecorp.com\". Both show a padlock, and the design, logo and wording are identical.",
+      "whyItsSuspicious": "A page can be copied perfectly, but its address cannot be the real one. The padlock only means the connection is encrypted, and attackers get padlocks for their own domains. Read the address letter by letter, or better, reach login pages from a bookmark rather than a link in a message. Stop: do not type your password. Verify: open the portal from your own bookmark. Report: send the link to IT, and change your password at once if you already typed it. That is Stop-Verify-Report."
     },
     {
       "id": "smishing-text",
@@ -77,8 +77,8 @@
       "title": "Fake Delivery Text Message",
       "imagePath": "../assets/fault-finding/smishing-text.svg",
       "placeholder": true,
-      "whatIsWrong": "A text message from \"QuickParcel\" says: \"Your package could not be delivered. Verify your address within 2 hours to avoid return: bit.ly/quickparcel-verify-4x9\". It comes from an unknown sender and uses a short link and a 2-hour deadline.",
-      "whyItsSuspicious": "This is smishing: phishing by text message. The tells are the unexpected message, the short link that hides the real address, and the deadline that pushes you to act now. Phones show less detail, so it is easier to fall for. What to do: Stop and do not tap the link. Verify by checking the courier's real app or website, typed in yourself. Report the text (forward it to your IT team or mobile provider) and delete it."
+      "whatIsWrong": "A text from \"FastShip Delivery\" says: \"Your parcel is on hold: a 1.99 redelivery fee is due. Pay within 24 hours to avoid return: fastship.delivery-fee.co/p/4x9\". It begins with a courier name, but the link's real domain is delivery-fee.co, not the courier's own site. You were not expecting a parcel, and the small fee makes it feel harmless.",
+      "whyItsSuspicious": "This is smishing: phishing by text message. The name at the top is easy to fake. Look at the registrable domain in the link, the part just before the first slash: here it is delivery-fee.co, and \"fastship\" is only a prefix. A small payment request is a way to collect your card details. Phones hide detail, so it is easier to fall for. Stop: do not tap the link. Verify: open the courier's real app or website, typed in yourself. Report: forward the text to your IT team or mobile provider, then delete it. That is Stop-Verify-Report."
     },
     {
       "id": "fake-it-popup",
@@ -88,8 +88,8 @@
       "title": "Fake IT Support Pop-Up",
       "imagePath": "../assets/fault-finding/fake-it-popup.svg",
       "placeholder": true,
-      "whatIsWrong": "A box pops up saying \"Your PC has a critical error. Enter your password to allow IT to fix it remotely\" with a SUBMIT PASSWORD button.",
-      "whyItsSuspicious": "Real IT staff never ask for your password in a pop-up. This box is a trick to steal your login, dressed up as a system warning. What to do: Stop, close the box and type nothing. Verify by contacting the IT helpdesk through the number or ticket system you normally use. Report it, and on a shared computer tell the next user not to use it until IT has checked."
+      "whatIsWrong": "A box titled \"Windows Security — Session Verification\" says \"Your session must be verified to finish a security update. Re-enter your password to continue\", with a VERIFY button. It looks calm and shows a plausible IT Service Desk reference number. It appeared while you were working, and you had not asked for anything.",
+      "whyItsSuspicious": "Real system and IT tools do not ask for your password in a pop-up. A ticket number and polite wording are easy to add. This box is a trick to steal your login. The tell: you started nothing that needs a password. Stop: close it and type nothing. Verify: contact the IT helpdesk through the number or ticket system you normally use. Report: tell IT, and on a shared computer warn the next user. That is Stop-Verify-Report."
     },
     {
       "id": "mfa-fatigue",
@@ -99,8 +99,8 @@
       "title": "Repeated Login Approval Requests",
       "imagePath": "../assets/fault-finding/mfa-fatigue.svg",
       "placeholder": true,
-      "whatIsWrong": "Your phone shows many \"Approve sign-in?\" requests in under a minute that you did not start. These come from MFA (multi-factor authentication: the extra approval step after your password, like a code or an Approve button).",
-      "whyItsSuspicious": "Many requests means someone already has your password and hopes you will tap Approve just to make it stop. This is called MFA fatigue. Even one unexpected request is a warning. What to do: Stop and tap Deny, never Approve. Verify nothing is wrong by changing your password from a device you trust. Report it to the IT helpdesk right away."
+      "whatIsWrong": "Your phone shows \"Approve sign-in?\" requests for Acme Mail and Acme VPN, arriving every few minutes over half an hour, from Lagos, NG, a place you are not in. You did not start any of them. MFA (multi-factor authentication) is the extra approval step after your password, such as a code or an Approve button.",
+      "whyItsSuspicious": "Someone already has your password and hopes you will tap Approve to make the requests stop, or by mistake. This is called MFA fatigue. A slow drip is easier to miss than a flood. An approval you did not start is always a warning, even if only one arrives. Stop: tap Deny, never Approve. Verify: change your password from a device you trust. Report: tell the IT helpdesk right away. That is Stop-Verify-Report."
     }
   ]
 }

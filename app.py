@@ -110,6 +110,7 @@ SESSIONS: dict = {}
 # no custom encoder.
 DATA_DIR = ROOT / "data"
 SESSIONS_FILE = DATA_DIR / "sessions.json"
+PARTICIPANTS_FILE = DATA_DIR / "participants.jsonl"  # permanent append-only join log (survives lab resets)
 
 
 def _save_sessions_to_disk():
@@ -2319,6 +2320,10 @@ img,svg{max-width:100%}
       <div style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#065f46;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-bullseye"></i> Your Result</div>
       <div id="submittedScoreText" style="margin-top:6px;font-size:var(--fs-badge);font-weight:700;color:#0f172a"></div>
     </div>
+    <div id="submittedTakeaways" class="hidden" style="margin-top:14px; text-align:left; background:white; border:1px solid #6ee7b7; border-radius:12px; padding:14px">
+      <div style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#065f46;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-list-check"></i> Your 3 takeaways</div>
+      <ol style="margin:6px 0 0;padding-left:20px;font-size:var(--fs-badge);font-weight:700;color:#0f172a;line-height:1.5"><li>STOP before you act.</li><li>VERIFY through a channel you already trust.</li><li>REPORT it, even if you are unsure.</li></ol>
+    </div>
     <div id="submittedRememberWrap" class="hidden" style="margin-top:14px; text-align:left; background:white; border:1px solid #6ee7b7; border-radius:12px; padding:14px">
       <div style="font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;color:#065f46;text-transform:uppercase;letter-spacing:1px"><i class="fa-solid fa-thumbtack"></i> Remember This</div>
       <div id="submittedRememberText" style="margin-top:6px;font-size:var(--fs-badge);font-weight:700;color:#0f172a"></div>
@@ -2719,6 +2724,7 @@ function showSubmittedFor(module, submittedAt){
   if(els.submittedAtLine && submittedAt){
     try{ els.submittedAtLine.textContent = 'Submitted at ' + new Date(submittedAt).toLocaleTimeString(); }catch(e){ els.submittedAtLine.textContent = ''; }
   }
+  { const tk = document.getElementById('submittedTakeaways'); if(tk) tk.classList.toggle('hidden', module==='pass-phrase' || module==='crossword'); }
   if(els.submittedRememberWrap && els.submittedRememberText){
     if(lastRememberThis){
       els.submittedRememberText.textContent = lastRememberThis;
@@ -2898,7 +2904,7 @@ function initActivity(module, items){
 
 function updateActivityChrome(){
   const total = actItems.length;
-  els.actProgress.textContent = (actIndex+1) + ' / ' + total;
+  els.actProgress.textContent = (actModuleLoaded==='pass-phrase' ? '' : 'Item ') + (actIndex+1) + (actModuleLoaded==='pass-phrase' ? ' / ' : ' of ') + total;
   els.actPrevBtn.disabled = actIndex<=0;
   els.actNextBtn.disabled = actIndex>=total-1;
   els.actDots.innerHTML = actItems.map((it,i)=>{
@@ -3040,8 +3046,8 @@ function renderFaultFinding(item){
   // _sanitize_item_for_participant) - same hybrid timing as the badge-now/detail-later split
   // this module has always had.
   const reveal = (item.fact || item.whatIsWrong) ? ('<div class="ff-compare-reveal show">'
-      + (item.whatIsWrong ? '<div class="ff-r-row"><i class="fa-solid fa-circle-exclamation"></i><div><div class="ff-r-label">What’s Wrong</div><div class="ff-r-text">'+esc(item.whatIsWrong)+'</div></div></div>' : '')
-      + (item.fact ? '<div class="ff-r-row"><i class="fa-solid fa-lightbulb"></i><div><div class="ff-r-label">Why It’s Suspicious</div><div class="ff-r-text">'+esc(item.fact)+'</div></div></div>' : '')
+      + (item.whatIsWrong ? '<div class="ff-r-row"><i class="fa-solid fa-circle-exclamation"></i><div><div class="ff-r-label">What Is Wrong</div><div class="ff-r-text">'+esc(item.whatIsWrong)+'</div></div></div>' : '')
+      + (item.fact ? '<div class="ff-r-row"><i class="fa-solid fa-lightbulb"></i><div><div class="ff-r-label">Why It Is Suspicious</div><div class="ff-r-text">'+esc(item.fact)+'</div></div></div>' : '')
       + '</div>') : '';
   const badge = item.myAnswerCorrect!=null
     ? (item.myAnswerCorrect
@@ -3070,7 +3076,7 @@ function renderCorrectFeedback(item){
     // into its fact string (one line per option's verdict+reason) - a no-op for every other
     // module, whose fact strings never contain a line break.
     const factLabel = item.kind==='choose' ? 'Why each option passed or failed:' : 'Details - Identification & Recommendation:';
-    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:var(--fs-badge);line-height:1.5;color:#0c4a6e;text-align:left;white-space:pre-line"><strong>'+factLabel+'</strong><br>'+esc(item.fact)+'</div>';
+    html += '<div style="margin-top:10px;background:#f0f9ff;border-left:3px solid #0ea5e9;padding:10px 12px;border-radius:6px;font-size:var(--fs-badge);line-height:1.5;color:#0c4a6e;text-align:left;white-space:pre-line"><strong>'+factLabel+'</strong><br>'+esc(item.fact)+(item.kind==='choose' ? '' : '<div style="margin-top:8px;padding-top:6px;border-top:1px dashed #0ea5e9;font-family:Space Mono,monospace;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;opacity:0.85">Stop - Verify - Report</div>')+'</div>';
   } else if(item.myAnswerCorrect==null && !item.fact){
     return '';
   }
@@ -3109,10 +3115,9 @@ function renderDecisionRoom(item){
   // index in actItems - no more multi-decision-per-case bookkeeping needed.
   const caseNum = actItems.indexOf(item) + 1;
   const caseTotal = actItems.length || 10;
-  const caseProgress = `Case ${caseNum}/${caseTotal}`;
+  const caseProgress = `Item ${caseNum} of ${caseTotal}`;
   if(item.persona || item.caseTitle){
     html += '<div class="ff-title-bar">';
-    html += "<div style=\\\"font-family:'Space Mono',monospace;font-size:var(--fs-badge);font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#64748b;margin-bottom:6px;\\\">"+esc(caseProgress)+"</div>";
     if(item.persona) html += '<div class="dr-persona-tag">'+esc(item.persona)+'</div>';
     if(item.caseTitle) html += '<h2 style="margin:8px 0 4px;font-size:var(--fs-body);color:var(--navy,#001a4d)">'+esc(item.caseTitle)+'</h2>';
     if(item.caseScenario) html += '<div class="dr-scenario-context">'+esc(item.caseScenario)+'</div>';
@@ -4489,6 +4494,65 @@ function stopPolling(){ if(pollTimer){ clearInterval(pollTimer); pollTimer=null;
     return Response(html, mimetype="text/html")
 
 
+_PARTICIPANTS_LOCK = __import__("threading").Lock()
+
+
+def _log_participant(code, pid, meta):
+    """Append one join record to data/participants.jsonl. Never raises - a logging failure
+    must not stop someone joining. Lab resets do NOT touch this file."""
+    try:
+        rec = {"roomCode": code, "participantId": pid, **meta}
+        with _PARTICIPANTS_LOCK:
+            DATA_DIR.mkdir(parents=True, exist_ok=True)
+            with open(PARTICIPANTS_FILE, "a", encoding="utf-8") as fh:
+                fh.write(json.dumps(rec, ensure_ascii=False) + chr(10))
+    except Exception as exc:  # noqa: BLE001
+        print(f"WARNING: failed to log participant: {exc}")
+
+
+def _read_participant_log(room=None):
+    rows = []
+    try:
+        with open(PARTICIPANTS_FILE, "r", encoding="utf-8") as fh:
+            for line in fh:
+                try:
+                    r = json.loads(line)
+                except ValueError:
+                    continue
+                if isinstance(r, dict) and (not room or r.get("roomCode") == room):
+                    rows.append(r)
+    except FileNotFoundError:
+        pass
+    return rows
+
+
+@app.route("/api/admin/participants", methods=["GET"])
+@admin_required
+def admin_all_participants():
+    """Admin-only: every participant who ever joined any lab (permanent log).
+
+    ?room=CODE filters one lab; ?format=csv downloads a spreadsheet (default JSON)."""
+    import csv
+    room = (request.args.get("room") or "").strip().upper() or None
+    rows = _read_participant_log(room)
+    if (request.args.get("format") or "").lower() != "csv":
+        return jsonify({"participants": rows, "total": len(rows)})
+
+    def safe(v):  # neutralise spreadsheet formula injection
+        v = str(v or "")
+        return "'" + v if v[:1] in ("=", "+", "-", "@", chr(9), chr(13), chr(10)) else v
+
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["Lab code", "Name", "Contact number", "Role / occupation", "Email", "Company", "Joined at (UTC)"])
+    for r in rows:
+        w.writerow([r.get("roomCode", ""), safe(r.get("name")), r.get("contact", ""), safe(r.get("role")),
+                    safe(r.get("email")), safe(r.get("company")), r.get("joinedAt", "")])
+    fname = f"participants-{room}.csv" if room else "participants-all.csv"
+    return Response(buf.getvalue(), mimetype="text/csv",
+                    headers={"Content-Disposition": f"attachment; filename={fname}"})
+
+
 @app.route("/api/session/<code>/join", methods=["POST"])
 @limiter.limit("30/minute")
 @persist_after
@@ -4532,6 +4596,7 @@ def session_join(code):
         "name": name, "contact": contact, "role": role, "email": email, "company": company,
         "joinedAt": datetime.now(timezone.utc).isoformat(),
     }
+    _log_participant(code, pid, sess["participantMeta"][pid])
     return jsonify({"participantId": pid, "roomCode": code, "name": name})
 
 

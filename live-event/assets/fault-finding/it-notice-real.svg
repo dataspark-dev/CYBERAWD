@@ -3,11 +3,12 @@
   <rect x="220" y="130" width="1160" height="640" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
   <rect x="220" y="130" width="1160" height="70" rx="12" fill="#f1f5f9"/>
   <text x="250" y="174" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: HR Recruitment &lt;hr@acmecorp.com&gt;</text>
+  <text x="250" y="194" font-family="Space Mono, monospace" font-size="12" fill="#64748b">Reply-To: hr@acmecorp.com</text>
   <text x="250" y="245" font-family="Barlow, sans-serif" font-size="19" fill="#374151">Subject: Job Offer — Marketing Analyst | Hiring Drive 2025</text>
   <text x="250" y="315" font-family="Barlow, sans-serif" font-size="19" fill="#1e293b">Dear Candidate,</text>
   <text x="250" y="353" font-family="Barlow, sans-serif" font-size="19" fill="#374151">Congratulations — you have been selected for the Marketing Analyst</text>
   <text x="250" y="385" font-family="Barlow, sans-serif" font-size="19" fill="#374151">position. Please find your provisional</text>
-  <text x="250" y="417" font-family="Barlow, sans-serif" font-size="19" fill="#374151">offer letter and onboarding checklist attached. Kindly review and</text>
+  <text x="250" y="417" font-family="Barlow, sans-serif" font-size="19" fill="#374151">offer letter and onboarding checklist attached (PDF). Kindly review and</text>
   <text x="250" y="449" font-family="Barlow, sans-serif" font-size="19" fill="#374151">confirm acceptance via the HR portal by 28 Nov.</text>
   <text x="250" y="505" font-family="Barlow, sans-serif" font-size="19" fill="#374151">For queries, call HR on the number you already know.</text>
   <text x="250" y="560" font-family="Barlow, sans-serif" font-size="19" fill="#374151">Warm regards,</text>

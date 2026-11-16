@@ -1,85 +1,86 @@
 {
-  "whyThisMatters": "A lot of what feels true about security is old advice or only half right. A few minutes here will clear up the common myths, so you can protect yourself and your team with confidence.",
-  "rememberThis": "Old security advice can be wrong. If a rule sounds too easy or too comfortable (\"I'm too small to target\", \"the padlock means safe\"), check it again before you trust it.",
+  "whyThisMatters": "Most security myths survive because they are half true. They sound sensible to smart people, which is exactly why they are dangerous. Spotting where each one breaks down is what separates a habit from a guess.",
+  "rememberThis": "A control that works in one situation is not a guarantee in all of them. The padlock, MFA, a VPN and a strong password each solve one specific problem. Ask what exactly it protects, and what it leaves open.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask who has heard \"nobody would want my data\" at work. What could an attacker actually do with one ordinary email account?",
-      "Ask the group which myth they believed until today. Where did they first hear it?",
-      "For the MFA and antivirus myths, ask: what is one extra layer you already use (a phone prompt, a lock on your screen) and what would happen if it failed?",
-      "Ask honestly: would you report something you were not sure about? What would make it easier?"
+      "Ask who would have said TRUE to the padlock or MFA myths before today. What did the padlock or the phone prompt actually prove, and what did it leave open?",
+      "Ask: if an attacker had your email password right now, what is the first thing they could do without ever touching your laptop?",
+      "For the password manager myth, ask the group to compare the two failure modes: one strong vault with MFA versus the same password reused on twenty sites. Which is easier for an attacker to exploit?",
+      "Ask whether anyone has ever 'deleted' a file and later found it in a recycle bin, backup or sync folder. What does that say about where the data really lives?",
+      "Ask how you would know if your account had been quietly accessed for a week. What signals would you actually see?"
     ],
-    "commonWrongAnswer": "People most often get mf-05 wrong. \"Strong password\" sounds like a lifelong safe state, so many say TRUE. It is false: a strong password that appears in a data breach is already known to attackers and must be changed straight away."
+    "commonWrongAnswer": "People most often get mf-02 wrong. MFA is such a strong control that 'MFA means safe' feels almost true, and it is the closest myth to reality. The correction is that MFA defeats password theft but not approval fatigue, adversary-in-the-middle phishing or stolen session tokens. People also commonly accept mf-01 because the padlock is taught as a safety signal."
   },
   "items": [
     {
       "id": "mf-01",
-      "topic": "Basics",
-      "myth": "I have nothing worth stealing, so attackers will not bother with me.",
-      "fact": "Attackers target everyone. Your account, your contacts and your access to work systems are all valuable, even if you feel ordinary.",
-      "detail": "Criminals mostly use automated tools that send millions of messages and see who answers. A hacked email account can be used to scam your colleagues, reset other passwords or reach company files. You are often the easiest way in, not the final target."
+      "topic": "Web and HTTPS",
+      "myth": "If a website shows the padlock and starts with HTTPS, it is a trustworthy site.",
+      "fact": "HTTPS only proves that your connection to that domain is encrypted and that the domain holds a certificate. It says nothing about who owns the domain or whether they are honest. Free certificates are available to anyone, including phishing sites.",
+      "detail": "Why: encryption protects the road, not the destination. A lookalike domain such as acme-payroll-login.com can have a perfectly valid certificate. Check the domain name itself, and go to sensitive sites from a bookmark or typed address rather than a link."
     },
     {
       "id": "mf-02",
-      "topic": "Devices",
-      "myth": "Antivirus software alone keeps me fully protected.",
-      "fact": "Antivirus is one useful layer, not a complete shield. It cannot stop you from handing over a password or approving a fake request.",
-      "detail": "Antivirus mainly spots known bad files. It cannot tell if an email is a scam or if a caller is lying. Keep it on, keep devices updated (patching means installing fixes for known security holes), and stay alert."
+      "topic": "MFA",
+      "myth": "With multi-factor authentication switched on, my account cannot be taken over.",
+      "fact": "MFA blocks the common case of a stolen password being used alone, but determined attackers work around it. They flood you with prompts until you approve one, or they relay your login through a fake page and steal the session afterwards.",
+      "detail": "Why: MFA fatigue relies on a tired person tapping Approve. Adversary-in-the-middle (AiTM) phishing proxies the real login page and captures your session token, which is already past the MFA step. Deny prompts you did not start, report them, and prefer phishing-resistant methods such as passkeys or security keys."
     },
     {
       "id": "mf-03",
-      "topic": "Phishing",
-      "myth": "Phishing, meaning fake messages that trick you into clicking or sharing details, always has bad spelling and grammar.",
-      "fact": "Many fake messages now look clean and professional. Attackers use AI tools to write them perfectly, so good spelling proves nothing.",
-      "detail": "Look at what the message asks instead. Is it unexpected? Does it create pressure to act fast? Is the sender address slightly off? Those clues are far more reliable than typos."
+      "topic": "Passwords",
+      "myth": "A password manager puts all my passwords in one place, so it is a single point of failure and riskier than remembering them myself.",
+      "fact": "The real comparison is not one vault versus perfect memory. It is one well-protected vault versus the passwords people reuse and weaken when they have to remember them. For most people the vault is far safer.",
+      "detail": "Why: reused passwords fall to credential stuffing, where a leak on one site is tried automatically on others. A vault is encrypted with a key derived from your master password, and sites should only store a salted hash of what you give them. Protect the vault with a long master passphrase and MFA."
     },
     {
       "id": "mf-04",
-      "topic": "Wi-Fi",
-      "myth": "Public Wi-Fi is fine if the website shows a padlock.",
-      "fact": "The padlock only means the connection to that site is encrypted (scrambled). It does not make the Wi-Fi network trustworthy or the site honest.",
-      "detail": "A fake hotspot named like the cafe's can sit between you and the internet, and scam sites can have padlocks too. On public Wi-Fi, use a VPN (a tool that creates a private, encrypted tunnel for your traffic) or your phone's hotspot for work."
+      "topic": "Data handling",
+      "myth": "Once I delete a file and empty the recycle bin, the data is gone.",
+      "fact": "Deleting usually removes the pointer to the file, not the content itself. Copies often remain in backups, cloud sync, email attachments and on the disk until it is overwritten.",
+      "detail": "Why: file systems mark space as free rather than erasing it, and sync and backup tools deliberately keep versions. For sensitive data, use the approved secure-disposal or wipe process, and remember that a file you emailed or shared is not under your control any more."
     },
     {
       "id": "mf-05",
-      "topic": "Passwords",
-      "myth": "If my password is strong, I never need to change it, even after a data breach.",
-      "fact": "A strong password that has leaked is no longer safe. If a service you use is breached, change that password straight away.",
-      "detail": "A breach means attackers now hold your actual password, however strong it was. Change it, never reuse it elsewhere, and use a password manager (an app that creates and stores a unique password for every account)."
+      "topic": "Privacy",
+      "myth": "Private or incognito browsing hides what I do from my employer.",
+      "fact": "Incognito only stops your own browser saving history and cookies on that device. Your employer's network, proxy and monitoring tools, the websites you visit and your internet provider can all still see the traffic.",
+      "detail": "Why: privacy mode is about local storage, not network visibility. Traffic on a work network or device passes through systems the company controls. Assume work devices and connections are monitored within policy, and keep personal activity off them."
     },
     {
       "id": "mf-06",
-      "topic": "Passwords",
-      "myth": "Reusing one good password everywhere is fine, because it is easy to remember and strong.",
-      "fact": "One leak exposes every account that shares it. Attackers try stolen passwords on many other sites automatically.",
-      "detail": "This is called credential stuffing. Use a different password for every account. A password manager remembers them all so you only need to remember one."
+      "topic": "Detection",
+      "myth": "If my account or laptop were hacked, I would notice.",
+      "fact": "Attackers are usually quiet. Many compromises go unnoticed for weeks because the goal is access, not disruption, and nothing visibly breaks.",
+      "detail": "Why: a mailbox rule that silently forwards copies of your email, or a stolen session token, produces no warning on your screen. Look at the signals you can see, such as unexpected sign-in alerts, unfamiliar devices in your account, or colleagues replying to emails you never sent, and report them."
     },
     {
       "id": "mf-07",
-      "topic": "MFA",
-      "myth": "Multi-factor authentication (MFA, a second proof of identity such as a phone prompt or code) makes me unhackable.",
-      "fact": "MFA blocks most account attacks, but it is not magic. Attackers can trick people into approving prompts or reading out codes.",
-      "detail": "Never approve a prompt you did not start, and never read out a code to a caller. If prompts keep arriving, someone has your password: deny them and report it."
+      "topic": "Phishing",
+      "myth": "Phishing emails are easy to spot because they are full of spelling mistakes and awkward grammar.",
+      "fact": "Modern phishing is often flawless, written with AI tools, and tailored to your role. Targeted messages quote real projects and use a real colleague's writing style.",
+      "detail": "Why: attackers copy genuine messages and research targets, a technique called spear phishing. Judge the request, not the prose. Is it unexpected, urgent, asking for credentials, money or a change to normal process? Verify through a separate channel."
     },
     {
       "id": "mf-08",
-      "topic": "Social engineering",
-      "myth": "Only careless or untrained people fall for social engineering, which means tricking people instead of hacking machines.",
-      "fact": "Well-made pressure tactics fool careful, experienced people too. Urgency and authority work on everyone.",
-      "detail": "Attackers research their targets and pick a busy moment. The safe habit is not being smarter than the scammer. It is pausing and checking through a second, trusted channel."
+      "topic": "Targeting",
+      "myth": "Only large, famous companies get attacked. A mid-sized business like ours is too small to be worth it.",
+      "fact": "Most attacks are automated and indiscriminate. Smaller organisations are often chosen because they have fewer defences, and they can also be a route to bigger partners.",
+      "detail": "Why: scanners probe the whole internet for unpatched systems, and exploits are often used within days of a fix being published. That gap is the patching window. Attackers also run stolen passwords against every company in credential-stuffing waves. Size is not what they select on; weakness is."
     },
     {
       "id": "mf-09",
-      "topic": "Reporting",
-      "myth": "If I click something I should not have, reporting it will get me in trouble.",
-      "fact": "Reporting quickly is what protects you and the company. Most organisations care far more about speed than blame.",
-      "detail": "Early reports let IT cut off an attack before it spreads. Hiding a mistake lets it grow, and that is what causes real damage."
+      "topic": "Networks",
+      "myth": "A VPN makes me anonymous and safe on any website.",
+      "fact": "A VPN encrypts traffic between your device and the VPN server and hides your location from the local network. It does not stop phishing, malware or the sites you log in to from knowing who you are.",
+      "detail": "Why: the VPN provider can see your traffic instead of the cafe, and once you sign in to an account you are identified anyway. A malicious download or fake login page works just as well through a tunnel. A VPN fixes one risk, untrusted networks, and nothing else."
     },
     {
       "id": "mf-10",
-      "topic": "Reporting",
-      "myth": "If I am not sure something is harmful, it is not worth reporting.",
-      "fact": "Being unsure is exactly when to report. A two-minute check from IT costs little; a missed attack can cost a lot.",
-      "detail": "Your report may be the missing piece that shows others received the same message. Report first, let the experts decide."
+      "topic": "Social engineering",
+      "myth": "If a caller knows my name, my manager and what project I am on, they must be genuine.",
+      "fact": "Knowing those details proves only that the caller did some research. Public profiles, old emails and leaked data make that information easy to collect.",
+      "detail": "Why: this is pretexting, building a believable story from real facts to earn trust. The defence is process, not instinct. Hang up and call back on a number you already hold, and never read out codes or passwords because someone sounds informed."
     }
   ]
 }

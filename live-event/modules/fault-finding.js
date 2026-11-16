@@ -127,7 +127,7 @@
     const isLast = index === items.length - 1;
     els.nextBtn.innerHTML = isLast
       ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start'
-      : '<i class="fa-solid fa-forward"></i> Next Item';
+      : '<i class="fa-solid fa-forward"></i> Next';
 
     revealed = false;
     if (els.rememberCardSingle) els.rememberCardSingle.classList.add('le-hidden');

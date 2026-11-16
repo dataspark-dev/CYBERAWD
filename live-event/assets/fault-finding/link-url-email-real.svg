@@ -14,6 +14,6 @@
     <text x="16" y="31" font-family="Space Mono, monospace" font-size="14" fill="#0c4a6e">https://portal.acmecorp.com/staff/schedule-confirm</text>
   </g>
   <text x="260" y="565" font-family="Barlow, sans-serif" font-size="14" fill="#64748b">Displayed text and actual link destination both use the official staff portal.</text>
-  <text x="260" y="605" font-family="Barlow, sans-serif" font-size="16" fill="#374151">Safe to tap when ready — no expiry pressure.</text>
+  <text x="260" y="605" font-family="Barlow, sans-serif" font-size="16" fill="#374151">Prefer not to click? Open the portal from your own bookmark instead.</text>
   <text x="800" y="850" font-family="Space Mono, monospace" font-size="14" fill="#67e8f9" text-anchor="middle" letter-spacing="2">STAFF — SCHEDULE CONFIRMATION</text>
 </svg>

@@ -1,89 +1,88 @@
 {
-  "whyThisMatters": "In a real incident, most people freeze or try to fix it alone. The habit that helps is knowing your next step before you need it, whether you work in an office, at home or on the move.",
-  "rememberThis": "The one line to take away: STOP, VERIFY, REPORT. Use this order every time, no matter how the situation looks.",
+  "whyThisMatters": "Real incidents rarely look like a test. They arrive with a plausible reason, a deadline and a real business cost for saying no. The goal here is to practise a response that is safe and still keeps work moving.",
+  "rememberThis": "STOP, VERIFY, REPORT. Pause before acting, confirm through a channel you already trust (never the one the request arrived on), and tell the right team. A good answer protects the company and keeps the business running.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the group what they would do in the first few seconds of each scenario, before showing the good answer.",
-      "For the phone-call case, ask if anyone knows a trusted number by heart to call back on, or would have to look it up under pressure.",
-      "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
-      "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
-      "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
-      "Ask the group to name their own trusted way to check an urgent request, such as a known phone number or a manager."
+      "For each case, ask the group to vote before revealing the answer. Notice how often two options split the room.",
+      "Ask: what did the best answer cost in time? Compare that with what the fastest answer could have cost.",
+      "For the CEO and vendor cases, ask what a trusted verification channel looks like in your team. Is the number on file actually kept somewhere you can reach it quickly?",
+      "For the 2am MFA prompt, ask why 'deny and go back to sleep' feels complete, and what is missing from it.",
+      "Ask whether anyone would feel comfortable challenging a senior person or a real client for a quick check. What would make that easier?"
     ],
-    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting, such as changing a password or deleting a message. It feels helpful but can destroy evidence IT needs. People also often fail the video-call case by approving the payment because the face and voice matched."
+    "commonWrongAnswer": "The most common mistake is choosing a half-measure that feels responsible, such as replying to the same thread, asking a colleague who sees the same fake, or fixing it alone and telling no one. A second, independent channel and a report are what actually break an attack. People also overcorrect by refusing everything, which fails the business-continuity half of the answer."
   },
   "cases": [
     {
       "id": "phishing-link-clicked",
-      "persona": "Office / Admin",
-      "title": "You Clicked a Link in an Email",
-      "scenario": "You are catching up on email. You click a link in a message called \"Re: Your document is ready to view\". The page that opens looks odd and a login box appears. Phishing means a fake message designed to trick you into clicking or giving away details.",
+      "persona": "Any Employee",
+      "title": "The 2am Approval Prompt",
+      "scenario": "At 2am your phone buzzes with a sign-in approval request for your work account. You had a late deployment last week and sometimes work odd hours, so it might be a delayed session. Ten minutes later it buzzes again. You did not start any sign-in. MFA fatigue means an attacker repeats prompts hoping you will approve one just to make it stop.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "The page asks you to log in again. What do you do first?",
+          "prompt": "A second prompt has just arrived and you are half asleep. What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Type your work password to see if it is real",
+              "text": "Approve it once so the prompts stop, since it is probably a delayed login from last week",
               "outcome": "consequence",
-              "feedback": "Never type a password on a page you doubt. Even a quick test can hand your login to attackers."
+              "feedback": "If it is an attacker who already has your password, you have just let them in. A prompt you did not start is never a delayed login. Approving to stop the noise is exactly what the attack depends on."
             },
             {
               "id": "b",
-              "text": "Close the tab, type nothing, and tell the IT helpdesk right away",
-              "outcome": "good",
-              "feedback": "Right choice. Typing nothing stops the attack, and a fast report lets IT check your account before any damage is done."
+              "text": "Deny it and go back to sleep, and mention it to IT if it happens again",
+              "outcome": "consequence",
+              "feedback": "Denying is correct, but waiting is not. Repeated prompts mean someone already has your password. Until it is reset and checked, the attacker can keep trying or use the same password elsewhere."
             },
             {
               "id": "c",
-              "text": "Take a screenshot and ask a colleague what they think before doing anything else",
-              "outcome": "consequence",
-              "feedback": "Asking colleagues first only wastes time. The key step is telling IT fast."
+              "text": "Deny the prompt, do not approve anything, and report it to IT or security straight away so your password can be reset and your account checked",
+              "outcome": "good",
+              "feedback": "Right. Denying stops this attempt. Reporting now lets IT reset the credential and review sign-ins before the attacker moves to a different method. A short after-hours report costs far less than a compromised account."
             }
           ]
         }
       ],
-      "debrief": "Clicking is easy to do and common. STOP before you type anything. VERIFY by going to the real site yourself if you are unsure. REPORT to the IT helpdesk straight away. Every minute counts."
+      "debrief": "STOP: never approve a prompt you did not start, however tired you are. VERIFY: the prompts themselves prove someone has your password. REPORT: use the security or IT out-of-hours channel, since a password reset and sign-in review is the fix. Being embarrassed about waking someone is the attacker's best friend."
     },
     {
       "id": "svr-1",
       "persona": "Finance Team",
-      "title": "The Invoice With New Bank Details",
-      "scenario": "An email arrives from a supplier you know: \"Please note our bank details have changed. Pay this week's invoice to the new account below.\" The invoice looks real and the logo is correct. This trick is called business email compromise, where attackers pose as a supplier to redirect payments.",
+      "title": "The Supplier Changes Bank Details Mid-Thread",
+      "scenario": "You are paying a regular supplier's invoice due tomorrow. In the middle of an ongoing email thread you have used for months, their accounts contact writes: \"Our bank has changed because of an audit. Please use the new account for this payment. The updated details are attached.\" The reply is in the same thread, from the same name, and the supplier is genuinely waiting on this payment. Business email compromise often hijacks a real thread or a lookalike address.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What do you do?",
+          "prompt": "The payment is due tomorrow and the supplier is important. What is the best step?",
           "options": [
             {
               "id": "a",
-              "text": "Pay it using the new details, since the invoice looks normal",
+              "text": "Pay the new account, since it is the same thread and the contact is familiar",
               "outcome": "consequence",
-              "feedback": "A convincing invoice proves nothing. Paying the wrong account usually means the money is gone."
+              "feedback": "Being in an old thread proves nothing. Attackers who control a mailbox or a lookalike domain reply into real threads. Payment to a wrong account is hard to recover."
             },
             {
               "id": "b",
-              "text": "Do not pay yet. Call the supplier on a number you already have on file, and report the email to IT",
-              "outcome": "good",
-              "feedback": "Right call. Checking by a trusted second channel defeats the scam, and reporting helps protect your colleagues."
+              "text": "Reply in the thread asking them to confirm the new details are correct",
+              "outcome": "consequence",
+              "feedback": "You are asking the possible attacker to verify themselves. They will confirm. This looks careful but checks nothing."
             },
             {
               "id": "c",
-              "text": "Reply to the email asking if the new details are correct",
-              "outcome": "consequence",
-              "feedback": "Replying goes to the sender, who may be the attacker. They will simply say yes."
+              "text": "Call the supplier on the number already in your vendor records, confirm the change with a known contact, follow your bank-detail change procedure, and report the email to IT. If it cannot be confirmed in time, pay the old account or agree a short delay",
+              "outcome": "good",
+              "feedback": "Right. A call to a number you already hold is an independent channel the attacker cannot control. Following the change procedure and keeping the old details avoids a missed payment while the check completes."
             }
           ]
         }
       ],
-      "debrief": "STOP before you act. VERIFY through a channel you already trust, never the one the sender gave you. REPORT it to the IT helpdesk."
+      "debrief": "Bank detail changes are a classic high-value fraud. STOP before changing any payee. VERIFY by phone on a number from your own records, not from the email, and use your formal change process. REPORT the message to IT so the thread and the supplier mailbox can be investigated. A short delay almost never harms a supplier; a lost payment does."
     },
     {
       "id": "unknown-usb-drive",
       "persona": "Any Employee",
-      "title": "You Found a USB Stick",
-      "scenario": "You find a small USB stick (a thumb drive) on the floor near the meeting rooms. It has no label and no owner in sight. You are curious what is on it.",
+      "title": "A Colleague's Account Sends Odd Links",
+      "scenario": "A colleague you work with closely messages you on chat: \"Hey, can you check this doc for me quickly? Need your sign-off before the client call.\" It contains a link you do not recognise, and the wording is a little unlike how they normally write. They are normally responsive and you really are expecting some sign-off today. A compromised account can be used to send believable messages from a trusted person.",
       "decisions": [
         {
           "id": "d1",
@@ -91,257 +90,257 @@
           "options": [
             {
               "id": "a",
-              "text": "Plug it into your computer to see who owns it",
+              "text": "Open the link in a private window so it cannot affect your normal session",
               "outcome": "consequence",
-              "feedback": "Never plug in a found device. It can install harmful software the moment it connects."
+              "feedback": "A private window does not stop a fake sign-in page from taking your login, or a download from running. It only changes what your browser remembers."
             },
             {
               "id": "b",
-              "text": "Do not plug it in. Hand it to the IT helpdesk or security and report where you found it",
-              "outcome": "good",
-              "feedback": "Right. IT can inspect it safely, and the location may show someone left it there on purpose."
+              "text": "Ask them in the same chat whether it is really them",
+              "outcome": "consequence",
+              "feedback": "If their account is compromised, the attacker is the one answering. You will get a convincing yes. The check has to go through a channel the attacker does not control."
             },
             {
               "id": "c",
-              "text": "Plug it into an old shared computer that is not important",
-              "outcome": "consequence",
-              "feedback": "Any connected computer can be harmed and then spread the problem across the network."
+              "text": "Do not click. Contact the colleague by phone or in person to confirm, and report the message to IT or the security mailbox. If they did not send it, tell them their account may be compromised",
+              "outcome": "good",
+              "feedback": "Right. A call or face-to-face check uses a separate channel, and the report lets IT block the link and protect other recipients. You also help your colleague recover their account quickly, and the sign-off still happens once confirmed."
             }
           ]
         }
       ],
-      "debrief": "Attackers leave devices as bait. STOP, do not plug it in. VERIFY nothing yourself, because only IT can check it safely. REPORT it to IT or security."
+      "debrief": "A trusted sender is not proof when accounts are compromised. STOP before clicking. VERIFY by a different channel than the one the message came in on. REPORT it, because the same message has probably gone to others, and your colleague needs to know."
     },
     {
       "id": "q1-cfo-video-call",
       "persona": "Finance Team",
-      "title": "The Urgent Call From a Senior Leader",
-      "scenario": "You join a video call. A senior leader appears and asks you to send an urgent payment today and to keep it confidential. The face and voice seem right. Deepfakes are fake audio or video made with AI that can copy a real person.",
+      "title": "The Urgent Wire Request From the CEO",
+      "scenario": "You receive a message that appears to be from the CEO: \"I am in a confidential acquisition meeting and cannot take calls. I need a same-day wire to a new advisory firm to secure the deal. Details to follow, please do not discuss it with anyone.\" The reason is plausible, because the company really has been discussing acquisitions. The writing style and signature look right. Pretexting means building a believable story to justify an unusual request.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "The leader pushes you to act before the end of the day. What do you do?",
+          "prompt": "The CEO is unreachable by call and the deadline is today. What is the best response?",
           "options": [
             {
               "id": "a",
-              "text": "Approve the payment, because it is clearly them",
+              "text": "Prepare the payment but hold it for approval, asking the CEO by message to confirm they really want it",
               "outcome": "consequence",
-              "feedback": "Voice and video can now be faked. Looking right is not proof."
+              "feedback": "Messaging the same channel only reaches whoever is behind it. A prepared payment under secrecy pressure also invites a mistake later in the day."
             },
             {
               "id": "b",
-              "text": "Ask them to send the details by email and do it from there",
+              "text": "Pay it. A genuine confidential deal justifies breaking normal process, and refusing could damage the acquisition",
               "outcome": "consequence",
-              "feedback": "Email can also be faked, and this does not independently check the request."
+              "feedback": "Secrecy plus urgency plus a new payee is the standard shape of CEO fraud. Real deals still use the normal payment controls, and an authentic executive will back you for following them."
             },
             {
               "id": "c",
-              "text": "Pause, then confirm by calling them on a number you already trust, and follow the normal payment process",
+              "text": "Pause, verify through a different route such as the CEO's executive assistant or a number on file, and follow the normal dual-approval process. Report the request to IT or security",
               "outcome": "good",
-              "feedback": "Right. A second trusted channel, plus normal approvals, defeats the pressure. A real leader will not mind."
-            },
-            {
-              "id": "d",
-              "text": "Ask a teammate whether it looks genuine, then pay",
-              "outcome": "consequence",
-              "feedback": "Your teammate sees the same fake. Check with the person directly through a trusted route."
+              "feedback": "Right. The EA or a known number is an independent route. Dual approval protects both you and the company, and if the request is real it will survive a ten-minute check. If not, you have stopped the loss."
             }
           ]
         }
       ],
-      "debrief": "Urgency and secrecy are warning signs. STOP, even if it is a senior person. VERIFY on a known number. REPORT the attempt to IT or security so others are warned."
+      "debrief": "Authority, urgency and secrecy together are the strongest manipulation pattern. STOP regardless of seniority. VERIFY on a channel you choose, such as the assistant, a switchboard number or a face-to-face check, and use normal approvals. REPORT the attempt so finance and IT can watch for follow-ups."
     },
     {
       "id": "stolen-laptop",
-      "persona": "Sales / Travel",
-      "title": "Your Work Laptop Is Missing",
-      "scenario": "After a business trip you realise your work laptop is not in your bag. You may have left it in a taxi. It holds customer files and you are logged in to your work accounts.",
+      "persona": "IT / Operations",
+      "title": "A Contractor Needs an Account Today",
+      "scenario": "A contractor starts today and the project lead emails you: \"Please set up an admin account for Jordan right now. He is on a tight deadline and the client demo is this afternoon. I will sort out the paperwork later.\" The project lead is real and the demo is on the calendar. Least privilege means giving people only the access they need, for only as long as they need it.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What do you do?",
+          "prompt": "The demo is hours away. What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Wait a day or two in case it turns up",
+              "text": "Create the admin account now and chase the paperwork later, to avoid blocking the project",
               "outcome": "consequence",
-              "feedback": "Every hour matters. A lost laptop can be accessed quickly if it is not locked or wiped."
+              "feedback": "Unapproved, over-powerful access is how a small mistake becomes a big breach. 'Paperwork later' often means never, and nobody has confirmed the request or the person."
             },
             {
               "id": "b",
-              "text": "Report it to the IT helpdesk straight away so they can lock or wipe it and reset your access",
+              "text": "Refuse until the full onboarding process completes, however long it takes",
+              "outcome": "consequence",
+              "feedback": "The instinct to protect access is right, but a flat refusal ignores the business need. People then share logins or find workarounds, which is worse."
+            },
+            {
+              "id": "c",
+              "text": "Confirm the request with the project lead by phone or ticket, give a standard least-privilege account with an end date for the specific systems needed, and complete the formal approval in parallel",
               "outcome": "good",
-              "feedback": "Right. A quick report lets IT remotely lock the device and protect company and customer data."
+              "feedback": "Right. A quick independent confirmation, a time-limited account with only the needed rights, and approval done alongside keeps the demo on track and limits the damage if anything is wrong."
             }
           ]
         }
       ],
-      "debrief": "Lost devices are common and reportable. STOP, do not just hope. VERIFY what was on it if you can, such as files and accounts. REPORT to IT at once, and do not worry about blame."
+      "debrief": "Speed and security are not opposites if access is scoped. STOP before granting broad rights on an email alone. VERIFY with the requester through a trusted channel and the approver on record. REPORT the exception through your normal ticketing so it is visible and expires."
     },
     {
       "id": "q2-candidate-attachment",
       "persona": "Marketing / Any Role",
-      "title": "Pasting Data Into an AI Tool",
-      "scenario": "You want a quick summary of a customer list and a contract. A free public AI chatbot would do it in seconds, but the files contain names, emails and prices. Data you paste into some AI tools can be stored or used to train them.",
+      "title": "Pasting Customer Data Into an AI Tool",
+      "scenario": "Your manager wants a quick analysis of 200 customer complaints before a meeting in an hour. The company's approved AI tool is slow and limited. A free public chatbot would do it in seconds if you paste the whole spreadsheet, which has names, emails and account numbers. Data entered into some public tools can be stored and reviewed, or used to train models.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What do you do?",
+          "prompt": "You have an hour. What is the best approach?",
           "options": [
             {
               "id": "a",
-              "text": "Paste everything into the public AI tool to save time",
+              "text": "Paste it all into the public tool. It is faster, and the customers will never know",
               "outcome": "consequence",
-              "feedback": "Pasting private data into a public tool means you lose control of it. It may be stored outside the company."
+              "feedback": "You lose control of personal data the moment it is pasted. It may breach customer commitments and data-protection rules, regardless of whether anyone finds out."
             },
             {
               "id": "b",
-              "text": "Remove the names only, then paste the rest",
+              "text": "Strip out names and emails and paste the rest into the public tool",
               "outcome": "consequence",
-              "feedback": "Details like prices and context can still identify the customer or the deal."
+              "feedback": "Account numbers, dates and free-text complaints can still identify people. Partial redaction feels safe but is not a guarantee, and it is not policy-approved."
             },
             {
               "id": "c",
-              "text": "Use only the AI tool your company has approved, or ask IT first, and share only what policy allows",
+              "text": "Use the approved tool even though it is slower, share only the columns you need, and if time is short ask IT or your manager about a faster approved route or a smaller sample",
               "outcome": "good",
-              "feedback": "Right. Approved tools have agreed data protections. Asking first keeps customer information safe."
-            },
-            {
-              "id": "d",
-              "text": "Use your personal phone so it is not on the work computer",
-              "outcome": "consequence",
-              "feedback": "The data still leaves the company. A different device does not make it safe."
+              "feedback": "Right. Approved tools have contractual data protections. Minimising the data and asking for a faster route keeps the work moving without exposing customers."
             }
           ]
         }
       ],
-      "debrief": "Treat AI tools like a stranger who may remember. STOP before pasting. VERIFY the tool is approved and the data is allowed. REPORT to IT if you already pasted something you should not have."
+      "debrief": "Treat public AI tools as outside the company. STOP before pasting anything non-public. VERIFY the tool is approved and the data is allowed to go there. REPORT to IT promptly if you have already pasted something, so the exposure can be assessed and not guessed."
     },
     {
       "id": "suspected-data-breach",
       "persona": "Any Employee",
-      "title": "A Colleague Asks to Borrow Your Login",
-      "scenario": "A new colleague has not received system access yet. They ask to use your username and password for the day so they can get started. They seem friendly and say everyone does it.",
+      "title": "You Entered Your Password, Then Doubted It",
+      "scenario": "Ten minutes ago you signed in to a document-sharing page from an email. It looked like the usual one. Now, while preparing for a client presentation at 3pm, you notice the web address was slightly different and you are not sure it was genuine. Reporting means telling IT you may have made a mistake, and a password reset could lock you out just before the meeting.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What do you do?",
+          "prompt": "The presentation is in two hours. What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Share your password this once to help them",
+              "text": "Keep going and only mention it after the presentation, so it does not disrupt you",
               "outcome": "consequence",
-              "feedback": "Shared passwords mean no one can tell who did what. If something goes wrong, you are the one on record."
+              "feedback": "Attackers use stolen credentials within minutes. Two hours of delay is a long head start, and the presentation files may be the target."
             },
             {
               "id": "b",
-              "text": "Politely refuse and ask your manager or the IT helpdesk to speed up their access",
+              "text": "Change your password yourself and say nothing, to avoid a fuss",
+              "outcome": "consequence",
+              "feedback": "Changing the password helps, but without a report IT cannot check for mail rules, active sessions or forwarded data. The attacker may already have a session that a password change does not end."
+            },
+            {
+              "id": "c",
+              "text": "Report it to IT now, say exactly what you entered and when, and ask them to reset your credentials and review sign-ins. Tell them about the 3pm meeting so they can prioritise getting you access back",
               "outcome": "good",
-              "feedback": "Right. Everyone should have their own login. IT can often fast-track a new starter quickly."
+              "feedback": "Right. A fast, honest report lets IT end sessions and reset access quickly, and your deadline helps them prioritise. Being open early nearly always costs less than a late discovery."
             }
           ]
         }
       ],
-      "debrief": "Passwords are personal. STOP before sharing. VERIFY by asking the manager or IT for proper access. REPORT if anyone pressures you into sharing. If you already shared it, change it and tell IT."
+      "debrief": "Doubt after the fact is a signal, not an embarrassment. STOP using the account for sensitive work. VERIFY nothing yourself by hunting for evidence. REPORT immediately with specifics, because IT can fix most of this fast. Blame is rare; delay is what causes the damage."
     },
     {
       "id": "q3-teams-bypass-permit",
       "persona": "Office / Reception",
-      "title": "The Person Behind You at the Door",
-      "scenario": "You badge in at a secure office door. A person you do not recognise follows closely, carrying coffee. They say, \"Sorry, forgot my pass, can you hold the door?\" This is called tailgating, following someone through a secure door without a badge.",
+      "title": "The Engineer With an Appointment",
+      "scenario": "You badge in at a secure door during the morning rush. A friendly person in a polo shirt carrying a toolbag says: \"I'm from the air conditioning contractor, we have a booking for the server room corridor. Can you let me through? I'm already late.\" They know the floor and mention the facilities manager's first name. A queue is building behind them. Tailgating means following an authorised person through a secure door.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What do you do?",
+          "prompt": "People are waiting and the visitor seems genuine. What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Hold the door, since they look friendly and carry coffee",
+              "text": "Let them through, since they know the facilities manager's name and the booking sounds real",
               "outcome": "consequence",
-              "feedback": "Looking normal is exactly how tailgaters get in. Kindness here can open the building to anyone."
+              "feedback": "A name and a toolbag are easy to acquire. Plausible detail is how pretexting works, and a stranger in a server corridor is a serious exposure."
             },
             {
               "id": "b",
-              "text": "Politely say you cannot let them in, and direct them to reception or call security",
+              "text": "Politely escort them to reception, where the booking can be checked with facilities, and let your colleagues go in. Report the attempt if the booking does not exist",
               "outcome": "good",
-              "feedback": "Right. Reception can check who they are. Polite and firm is a good habit, and nobody genuine will mind."
+              "feedback": "Right. Reception can confirm the appointment against the visitor log and issue a badge and an escort. A genuine contractor loses a few minutes, and a fake one is stopped and reported."
             },
             {
               "id": "c",
-              "text": "Let them in and ask for their name after",
+              "text": "Let them through but ask them to wait at the end of the corridor until you phone facilities",
               "outcome": "consequence",
-              "feedback": "A name is easy to make up and they are already inside."
-            },
-            {
-              "id": "d",
-              "text": "Say nothing and let them in, assuming someone else will check",
-              "outcome": "consequence",
-              "feedback": "Everyone assuming someone else will check is how gaps appear."
+              "feedback": "They are already inside, unescorted and unchecked. Verification must happen before access, not after it."
             }
           ]
         }
       ],
-      "debrief": "Physical security matters as much as digital. STOP before holding the door. VERIFY through reception or security. REPORT a stranger inside the building."
+      "debrief": "Physical access is real access. STOP at the door, however busy. VERIFY the visit through reception or facilities using the booking system, not the visitor's own story. REPORT any unrecognised person who cannot be verified. A polite process is easy for genuine visitors to accept."
     },
     {
       "id": "vishing-call",
       "persona": "Any Employee",
-      "title": "A Call From \"IT Support\"",
-      "scenario": "Your phone rings. The caller says they are from IT support and your account is under attack. To fix it, they need the six-digit code that was just sent to your phone. Vishing is voice phishing, a scam done by phone.",
+      "title": "IT Support Calls About Your Ticket",
+      "scenario": "Yesterday you raised a ticket because your laptop was slow. Today a caller says: \"Hi, this is the IT service desk, I'm following up on your ticket about the slow laptop. To fix it I need you to approve the sign-in request I'm sending and install a quick remote-support tool.\" The caller knows your ticket subject, which is the thing that makes it convincing. Vishing is voice phishing carried out by phone.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What do you do?",
+          "prompt": "The call matches something you really did. What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Read out the code, since they are trying to help",
+              "text": "Approve the prompt and install the tool, since they clearly know about your ticket",
               "outcome": "consequence",
-              "feedback": "That code is the key to your account. Real IT staff never need to ask you for it."
+              "feedback": "Knowing the ticket subject only shows they have seen ticket data or guessed a common problem. Approving the prompt and installing remote software gives them full control of your laptop."
             },
             {
               "id": "b",
-              "text": "Say no, hang up, and call the IT helpdesk on the official number to check and report it",
+              "text": "Politely end the call, then contact the service desk through the official portal or the number published internally and ask whether they called. Report the call",
               "outcome": "good",
-              "feedback": "Right. Hanging up and calling a number you already trust beats any caller pressure."
-            }
-          ]
-        }
-      ],
-      "debrief": "Never share a code or password by phone. STOP when someone creates panic. VERIFY by calling back on an official number you find yourself. REPORT it to IT."
-    },
-    {
-      "id": "ransomware-lockout",
-      "persona": "Remote Worker",
-      "title": "Working From a Cafe",
-      "scenario": "You are working from a cafe and need to send a confidential file. The cafe Wi-Fi is open with no password, and you see two similar names: \"CafeFreeWiFi\" and \"Cafe_Guest\". Open Wi-Fi can be copied by attackers to watch what you send.",
-      "decisions": [
-        {
-          "id": "d1",
-          "prompt": "What do you do?",
-          "options": [
-            {
-              "id": "a",
-              "text": "Connect to the strongest signal and send the file",
-              "outcome": "consequence",
-              "feedback": "You cannot tell which network is real. A fake one can capture your traffic."
-            },
-            {
-              "id": "b",
-              "text": "Use your phone hotspot or the company VPN, and keep confidential work for a safer place",
-              "outcome": "good",
-              "feedback": "Right. A VPN or your own hotspot keeps your traffic private. Waiting is safer than guessing."
+              "feedback": "Right. You choose the channel, so the caller cannot control it. The real service desk can see their own ticket history and will happily confirm. Reporting helps IT block the number and warn others."
             },
             {
               "id": "c",
-              "text": "Send the file, since the website has a padlock",
+              "text": "Ask the caller to prove who they are by reading you your ticket number, then proceed if it matches",
               "outcome": "consequence",
-              "feedback": "The padlock does not protect you from a fake network or a copied login page."
+              "feedback": "Anything the caller reads out is something they could have obtained. Asking them to prove themselves keeps you on their channel instead of moving to yours."
             }
           ]
         }
       ],
-      "debrief": "Remote work still needs the same habits. STOP before joining unknown Wi-Fi. VERIFY by using a VPN or hotspot. REPORT anything odd, such as unexpected login prompts, to IT."
+      "debrief": "A caller who knows something true is not necessarily genuine. STOP before approving prompts or installing software for anyone who called you. VERIFY by calling back on a number you find yourself. REPORT it. Real IT will not mind a call-back."
+    },
+    {
+      "id": "ransomware-lockout",
+      "persona": "Office / Any Role",
+      "title": "Files Are Suddenly Locked",
+      "scenario": "You are finishing an end-of-month report when files on your laptop and the shared drive start showing odd extensions and will not open. A message appears demanding payment to restore them and gives a short countdown. A team deadline is due in two hours and the report is nearly finished. Ransomware encrypts files and demands payment to unlock them, and it can spread across a network.",
+      "decisions": [
+        {
+          "id": "d1",
+          "prompt": "What is the best immediate action?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Switch the laptop off immediately and wait quietly to see whether it goes away",
+              "outcome": "consequence",
+              "feedback": "Powering off may destroy evidence that helps IT, and doing nothing leaves the shared drive exposed. The key problem is the network connection and the lack of a report."
+            },
+            {
+              "id": "b",
+              "text": "Disconnect from Wi-Fi and the network cable so it cannot spread, leave the machine on, do not touch the ransom message, and call IT or security right away",
+              "outcome": "good",
+              "feedback": "Right. Disconnecting contains the spread while leaving the machine on keeps useful evidence in memory. A fast call lets IT isolate the shared drive and restore from backups. Do not pay or contact the attacker."
+            },
+            {
+              "id": "c",
+              "text": "Try to save what you can onto a USB drive so you meet the deadline, then call IT",
+              "outcome": "consequence",
+              "feedback": "Copying files to a USB drive can carry the infection to other machines and it delays reporting. The deadline is important, but IT can usually restore files from backup."
+            }
+          ]
+        }
+      ],
+      "debrief": "Containment comes before recovery. STOP working on the affected machine. VERIFY nothing by experimenting. Disconnect it from the network and keep it on. REPORT immediately, and never pay or negotiate on your own. IT will handle restoring files from backups, which protects the deadline better than improvising."
     }
   ]
 }

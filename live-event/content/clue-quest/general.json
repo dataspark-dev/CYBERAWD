@@ -1,18 +1,19 @@
 {
-  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own. That holds whether you are at your desk or in a hurry on your phone.",
+  "whyThisMatters": "Attackers rarely announce themselves. Each trick below is defined by what it does to your judgement, not by its label. If you can describe the behaviour, you can spot it in a real inbox, text or login prompt, even when the wording is new.",
   "rememberThis": "Today gave these tricks a name — keep using them. If you can name the trick, you can spot it next time: STOP, VERIFY through a channel you already trust, then REPORT.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask someone to explain one of these terms in their own words before you show the answer. Could they explain it to a colleague who missed today, without using jargon?",
-      "Ask which two terms are easiest to mix up and why. The fake link (the address shown in an email) and the fake portal (the whole login page being copied) are the most confused — both involve a wrong destination, but they are different checks.",
-      "Ask for a real example from their own inbox or phone that matches one of these terms — for example, an HR email with an extra word in the address."
+      "Before revealing an answer, ask the group which single detail in the riddle gave it away. Was it the channel (email versus SMS), the destination (a link versus a whole page) or the pressure (a deadline)?",
+      "Ask which two tricks are easiest to confuse and why. FAKE LINK is a mismatch between displayed text and the real destination; FAKE PORTAL is a whole copied page on a lookalike address; DOMAIN SPOOFING is the sender's address itself. Each needs a different check.",
+      "Ask how an attacker could chain two of these together, for example SMISHING that leads to a FAKE PORTAL, and then MFA FATIGUE once the password is stolen. Where could a person break the chain?",
+      "Ask for a real example from a work inbox or phone that matches one of these, and what the person did next."
     ],
     "commonWrongAnswer": "People most often mix up FAKE LINK and FAKE PORTAL. Both involve a wrong destination, so people pick one when the riddle points to the other. The difference: a fake link is the clickable address inside a message; a fake portal is the entire login page that looks real but sits at a fake address."
   },
   "riddles": [
     {
       "id": "domain-spoofing",
-      "riddle": "You get an email that looks like it is from HR — hr@acme-corp-careers.com. But your real HR address is hr@acmecorp.com. I just added one extra word with a hyphen to a name that looks right. What trick am I?",
+      "riddle": "A message arrives with the right display name and logo, and the address looks almost identical to your HR team's - one extra word and a hyphen in the part after the @. Nothing is hacked; the attacker simply registered a lookalike name. What trick am I?",
       "answer": "DOMAIN SPOOFING",
       "options": [
         "DOMAIN SPOOFING",
@@ -22,7 +23,7 @@
     },
     {
       "id": "urgency-trap",
-      "riddle": "I am a message that says \"ACT NOW or your account will be locked!\" and \"Do not call your manager — just click here!\" I want you to hurry so you do not stop and check. What trick am I?",
+      "riddle": "I never argue that my request is true. I just shrink your time: a lock-out threat, a deadline, and a hint that asking a colleague would only slow things down. The less you pause, the better I work. What trick am I?",
       "answer": "URGENCY TRAP",
       "options": [
         "URGENCY TRAP",
@@ -32,7 +33,7 @@
     },
     {
       "id": "malicious-attachment",
-      "riddle": "You think I am your payslip as a PDF. But my file name ends with .pdf.exe — the last part is .exe, not .pdf. I also ask you to click \"Enable Content\" to see me. What trick am I?",
+      "riddle": "A payslip arrives as a file called Payslip.pdf.exe. Your computer hides the last part, so it looks like a document - but opening it, and agreeing to 'Enable Content', hands control to code you never saw. What trick am I?",
       "answer": "MALICIOUS ATTACHMENT",
       "options": [
         "MALICIOUS ATTACHMENT",
@@ -42,7 +43,7 @@
     },
     {
       "id": "fake-link",
-      "riddle": "In an email you see the staff portal address portal.acmecorp.com written in blue. But when you press and hold the link (or hover on a computer), it actually goes to a different place with \"-secure\" in the name. What trick am I?",
+      "riddle": "The words on screen read portal.acmecorp.com, and they look right. But the clickable text and the real destination are two different things: press and hold (or hover) and the true address appears, with something extra tacked on. What trick am I?",
       "answer": "FAKE LINK",
       "options": [
         "FAKE LINK",
@@ -52,7 +53,7 @@
     },
     {
       "id": "fake-portal",
-      "riddle": "I look exactly like the real staff portal login page where you check your payslips. But my address at the top has one letter wrong — acmecorb.com instead of acmecorp.com. What trick am I?",
+      "riddle": "You land on a page that is a pixel-perfect copy of the staff login - logo, colours, even the payslip menu. The only giveaway sits in the address bar, where one letter has been swapped. Whatever you type here goes straight to someone else. What trick am I?",
       "answer": "FAKE PORTAL",
       "options": [
         "FAKE PORTAL",
@@ -62,7 +63,7 @@
     },
     {
       "id": "smishing",
-      "riddle": "I am a fake text message (SMS) on your phone. I say \"Your staff portal link has changed — tap here to confirm your details.\" I use a short link like bit.ly to hide where I really go. What trick am I?",
+      "riddle": "I arrive on your phone, not in your inbox, where it is harder to inspect senders. I claim your staff access has changed, and I hide the real destination behind a shortened web address. What trick am I?",
       "answer": "SMISHING",
       "options": [
         "SMISHING",
@@ -72,7 +73,7 @@
     },
     {
       "id": "fake-popup",
-      "riddle": "A small box pops up on your screen and says \"Type your password here to fix the error.\" Whether you are at your desk or on a shared computer, the real IT Service Desk never asks for your password this way. What trick am I?",
+      "riddle": "A box appears mid-task claiming there is an error and asks you to type your password 'to fix it'. A genuine support team can reset or repair things without ever asking you to type your secret into a window that appeared by itself. What trick am I?",
       "answer": "FAKE IT POP-UP",
       "options": [
         "FAKE IT POP-UP",
@@ -82,7 +83,7 @@
     },
     {
       "id": "mfa-fatigue",
-      "riddle": "I send your phone many \"Approve this login?\" messages — the second check after your password — again and again. I hope you get tired and tap Approve just to make me stop. What trick am I?",
+      "riddle": "The attacker already has your password, so they trigger login after login. Your phone buzzes with 'Approve this sign-in?' at midnight, again and again, hoping annoyance beats judgement and you tap Approve just to get some peace. What trick am I?",
       "answer": "MFA FATIGUE",
       "options": [
         "MFA FATIGUE",
@@ -92,7 +93,7 @@
     },
     {
       "id": "stop-verify-report",
-      "riddle": "I am the three-step habit: 1. STOP before you act, 2. VERIFY using a number or portal you already trust, 3. REPORT to the IT Service Desk. What is this rule called?",
+      "riddle": "I am not an attack but a habit with three beats: pause before acting, confirm through a phone number or portal you already trust (never the one in the message), then tell the Service Desk so others are protected. What am I called?",
       "answer": "STOP VERIFY REPORT",
       "options": [
         "STOP VERIFY REPORT",

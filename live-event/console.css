@@ -3289,3 +3289,38 @@ body {
 .le-shell .le-module-card, .le-shell .mf-card, .le-shell .dr-option, .le-shell .ff-compare-panel { border-radius: 16px; border-color: #e2e8f0; }
 .le-shell .le-module-card { box-shadow: 0 4px 16px rgba(15,23,42,0.06); }
 .le-shell .le-topbar .le-brand-text { letter-spacing: 0.3px; }
+
+/* --- Template alignment (lab + console share these): one "Stop - Verify - Report" takeaway line
+   under every immediate-feedback panel, a 3-point takeaway list on every Remember This card, and
+   long-text wrapping that holds at 320px. Generated content keeps phone and console identical. --- */
+.ff-compare-reveal.show, .mf-fact-wrap.show { max-height: 720px; }
+.dr-feedback.show { max-height: 480px; }
+.ff-compare-reveal.show::after, .ff-reveal-overlay.show::after, .mf-fact-wrap.show::after,
+.dr-feedback.show::after, .cq-feedback.show::after {
+  content: "Stop - Verify - Report";
+  display: block;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed currentColor;
+  font-family: 'Space Mono', monospace;
+  font-size: var(--fs-badge);
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.ff-compare-reveal.show::after, .ff-reveal-overlay.show::after { color: #a5f3fc; }
+.le-remember-card:not(#campaignCloseCard):not(.le-rc-plain) .le-remember-text::after {
+  content: "Your 3 takeaways:\A 1. STOP before you act.\A 2. VERIFY through a channel you already trust.\A 3. REPORT it, even if you are unsure.";
+  display: block;
+  white-space: pre-line;
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--cyan);
+  font-size: var(--fs-badge);
+  font-weight: 700;
+  line-height: 1.5;
+}
+.le-shell .mf-myth, .le-shell .mf-fact, .le-shell .mf-detail, .le-shell .dr-feedback, .le-shell .dr-scenario-context,
+.le-shell .dr-debrief-panel .ff-r-text, .le-shell .cq-feedback, .le-shell .cq-riddle-text, .le-shell .dr-opt-text,
+.le-shell .le-remember-text { overflow-wrap: anywhere; }

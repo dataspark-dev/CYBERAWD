@@ -7,10 +7,10 @@
 
   <g transform="translate(624,250)">
     <rect x="0" y="0" width="352" height="150" rx="14" fill="#fff" stroke="#d1d5db"/>
-    <text x="16" y="34" font-family="Barlow, sans-serif" font-size="18" fill="#111827">Your package could not be</text>
-    <text x="16" y="60" font-family="Barlow, sans-serif" font-size="18" fill="#111827">delivered. Verify your address</text>
-    <text x="16" y="86" font-family="Barlow, sans-serif" font-size="18" fill="#111827">within 2 hours to avoid return:</text>
-    <text x="16" y="120" font-family="Space Mono, monospace" font-size="16" fill="#0062ff" text-decoration="underline">bit.ly/quickparcel-verify-4x9</text>
+    <text x="16" y="34" font-family="Barlow, sans-serif" font-size="18" fill="#111827">Your parcel is on hold: a</text>
+    <text x="16" y="60" font-family="Barlow, sans-serif" font-size="18" fill="#111827">1.99 redelivery fee is due.</text>
+    <text x="16" y="86" font-family="Barlow, sans-serif" font-size="18" fill="#111827">Pay within 24 hours to avoid return:</text>
+    <text x="16" y="120" font-family="Space Mono, monospace" font-size="16" fill="#0062ff" text-decoration="underline">fastship.delivery-fee.co/p/4x9</text>
   </g>
 
   <text x="800" y="450" font-family="Space Mono, monospace" font-size="15" fill="#6b7280" text-anchor="middle">Today 9:14 AM</text>

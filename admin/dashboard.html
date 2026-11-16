@@ -471,6 +471,26 @@
           </div>
         </div>
 
+        <!-- Participant directory - permanent log of everyone who joined any lab (admin-only) -->
+        <div id="participantDirectory" class="adm-card" style="margin-top:18px;">
+          <div class="adm-section-title"><i class="fa-solid fa-address-book"></i> Participant Directory <span id="dirCount" class="adm-badge" aria-live="polite">0</span></div>
+          <div class="adm-note">Everyone who has joined any lab, saved permanently. Resetting a lab does not delete this list. Admin-only.</div>
+          <div class="adm-row" style="gap:8px; flex-wrap:wrap; margin:10px 0;">
+            <input id="dirSearch" class="adm-input" type="search" placeholder="Search name, company, role, email, phone or lab code" aria-label="Search participants" style="flex:1 1 220px; min-width:0;"/>
+            <button id="dirRefreshBtn" class="le-btn ghost" type="button"><i class="fa-solid fa-rotate"></i> Refresh</button>
+            <button id="dirCsvBtn" class="le-btn ghost" type="button"><i class="fa-solid fa-file-csv"></i> Download CSV</button>
+          </div>
+          <div id="dirMsg" class="adm-note" role="status" aria-live="polite"></div>
+          <div style="overflow-x:auto; -webkit-overflow-scrolling:touch; max-height:420px; overflow-y:auto;">
+            <table id="dirTable" style="width:100%; border-collapse:collapse; font-size:var(--fs-badge);">
+              <thead><tr style="text-align:left; position:sticky; top:0; background:var(--paper-2);">
+                <th style="padding:8px">Name</th><th style="padding:8px">Contact</th><th style="padding:8px">Role</th><th style="padding:8px">Email</th><th style="padding:8px">Company</th><th style="padding:8px">Lab</th><th style="padding:8px">Joined</th>
+              </tr></thead>
+              <tbody id="dirBody"></tbody>
+            </table>
+          </div>
+        </div>
+
         <div class="adm-note" style="text-align:center; margin-top:10px;">Live Simulation runs from the facilitator console, not here.</div>
 
       </div>
@@ -605,6 +625,31 @@
       return n + (s[(v-20)%10] || s[v] || s[0]);
     }
 
+    // ---- Participant directory (permanent log, admin-only) ----
+    let dirRows = [];
+    function renderDirectory(){
+      const q = (document.getElementById('dirSearch').value || '').trim().toLowerCase();
+      const rows = !q ? dirRows : dirRows.filter(r => [r.name,r.contact,r.role,r.email,r.company,r.roomCode].some(v => String(v||'').toLowerCase().includes(q)));
+      document.getElementById('dirCount').textContent = rows.length + (q ? ' of ' + dirRows.length : '');
+      const cell = 'padding:8px; border-top:1px solid var(--line); word-break:break-word;';
+      document.getElementById('dirBody').innerHTML = rows.length ? rows.slice().reverse().map(r => {
+        const t = r.joinedAt ? new Date(r.joinedAt).toLocaleString() : '';
+        return '<tr><td style="'+cell+'">'+esc(r.name||'')+'</td><td style="'+cell+'">'+esc(r.contact||'')+'</td><td style="'+cell+'">'+esc(r.role||'')+'</td><td style="'+cell+'">'+esc(r.email||'')+'</td><td style="'+cell+'">'+esc(r.company||'')+'</td><td style="'+cell+'">'+esc(r.roomCode||'')+'</td><td style="'+cell+'">'+esc(t)+'</td></tr>';
+      }).join('') : '<tr><td colspan="7" style="padding:12px" class="adm-note">No participants found.</td></tr>';
+    }
+    async function loadDirectory(){
+      const msg = document.getElementById('dirMsg');
+      try{
+        const j = await api('/api/admin/participants');
+        dirRows = j.participants || [];
+        msg.textContent = '';
+        renderDirectory();
+      }catch(e){ msg.textContent = 'Could not load participants: ' + e.message; }
+    }
+    document.getElementById('dirSearch').addEventListener('input', renderDirectory);
+    document.getElementById('dirRefreshBtn').addEventListener('click', loadDirectory);
+    document.getElementById('dirCsvBtn').addEventListener('click', ()=>{ window.location.href = '/api/admin/participants?format=csv'; });
+
     async function api(path, opts={}){
       opts.headers = opts.headers || {};
       opts.credentials = 'same-origin';
@@ -653,7 +698,7 @@
           ok=true;
         }
         if(loginRes && loginRes.csrfToken) csrfToken = loginRes.csrfToken;
-        if(ok){ els.loginMsg.textContent = 'Logged in'; els.loginPass.value = ''; showLoggedIn(true); loadAudiences(); loadModules(); }
+        if(ok){ els.loginMsg.textContent = 'Logged in'; els.loginPass.value = ''; showLoggedIn(true); loadAudiences(); loadModules(); loadDirectory(); }
       } catch(e){
         els.loginMsg.textContent = 'Login failed: ' + e.message;
       }
@@ -1512,7 +1557,7 @@
       const stored = localStorage.getItem('admin_currentCode') || '';
       const initial = urlCode || stored || '';
       if(initial) { els.roomInput.value = initial.toUpperCase(); if(ok) await setCurrentCode(initial); }
-      loadAudiences();
+      loadAudiences(); loadDirectory();
       loadModules();
       if(!ok) els.loginUser.focus(); else els.loginPass.focus();
     })();

@@ -59,7 +59,7 @@
       btn.addEventListener('click', () => {
         if (done) {
           done = false;
-          els.btnRow.innerHTML = '<button class="le-btn primary lg" id="nextBtn" type="button" disabled><i class="fa-solid fa-forward"></i> Next Case</button>';
+          els.btnRow.innerHTML = '<button class="le-btn primary lg" id="nextBtn" type="button" disabled><i class="fa-solid fa-forward"></i> Next</button>';
           els.nextBtn = document.getElementById('nextBtn');
           els.nextBtn.addEventListener('click', next);
         }
@@ -76,7 +76,7 @@
     els.nextBtn.classList.toggle('pulse-highlight', ready);
     els.nextBtn.innerHTML = isLastCase
       ? '<i class="fa-solid fa-flag-checkered"></i> Finish'
-      : '<i class="fa-solid fa-forward"></i> Next Case';
+      : '<i class="fa-solid fa-forward"></i> Next';
   }
 
   // One screen per case: prompt + options always visible; once answered (or the timer expires
@@ -197,7 +197,7 @@
     chosenId = null;
     expiredNoPick = false;
 
-    els.counter.textContent = `Case ${caseIndex + 1} of ${cases.length}`;
+    els.counter.textContent = `Item ${caseIndex + 1} of ${cases.length}`;
     els.persona.textContent = c.persona;
     els.title.textContent = c.title;
     els.scenario.textContent = c.scenario;

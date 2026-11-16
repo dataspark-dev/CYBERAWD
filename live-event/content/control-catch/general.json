@@ -1,123 +1,124 @@
 {
-  "whyThisMatters": "Real security moments are fast — at your desk or on the move. You do not get time to research if a link, a login, or a habit is safe. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
-  "rememberThis": "The habit to carry forward: fast instinct is good, but some things only sound safe — a short password with a symbol, old virus protection, a public charging cable. When you are not sure, slow down and check before you trust the label.",
+  "whyThisMatters": "Real security decisions are quick and the wrong option often sounds reasonable. Several bubbles here are habits people genuinely defend, such as one strong password everywhere or approving a prompt to make it stop. This game trains the reflex to judge the habit, not the label.",
+  "rememberThis": "Sounding secure is not the same as being secure. Ask three quick questions: Is it unique per account? Did I start this request myself? Am I verifying through a channel the sender does not control? If any answer is no, slow down.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the group which bubble tricked them. Most people get at least one of the 6 trick bubbles wrong on their first try.",
-      "Ask why \"SMS Code Received\" still counts as good, even though a code from an app is stronger than a text. What does \"better than nothing\" mean here — especially where a text may be all you have?",
-      "Ask why a short password with symbols still looks strong to most people, and why that idea is wrong — long beats clever."
+      "Ask which bubble people almost tapped wrongly. 'Reuse one strong password everywhere' is a favourite: one breach elsewhere lets attackers replay that password on other sites (credential stuffing).",
+      "Ask why approving an MFA prompt you did not start is bad even though MFA is good. The attacker already has the password and is hoping for fatigue; an unexpected prompt means the password is compromised and should be reported and changed.",
+      "Ask why SMS codes still count as good while a short password with symbols does not. Which attack does each stop, and which does it not?",
+      "Ask why 'Click Unsubscribe' in unknown spam is risky. It confirms your address is live and the link can lead to a tracking or fake page."
     ],
-    "commonWrongAnswer": "The most common mistake is tapping anything that sounds like security — like \"second check after password\" (also called MFA, Multi-Factor Authentication), virus protection, or password — without checking if it is actually strong, current, or real. The 6 trick bubbles are there to catch that habit."
+    "commonWrongAnswer": "The most common mistake is tapping anything that sounds like security, or avoiding anything that sounds like a hassle, without asking what the habit really protects against. The 6 trick bubbles plus borderline habits such as Unsubscribe in spam, MFA prompts and cafe Wi-Fi banking catch that reflex."
   },
   "bubbles": [
     {
       "id": "mfa-enabled",
-      "text": "Second-Step Login On",
+      "text": "Turn on MFA for email and banking",
       "good": true
     },
     {
       "id": "verified-sender",
-      "text": "Checked Sender Address",
+      "text": "Check the full sender address",
       "good": true
     },
     {
       "id": "reported-phishing",
-      "text": "Reported a Fake Message",
+      "text": "Forward phish to security as attachment",
       "good": true
     },
     {
       "id": "encrypted-backup",
-      "text": "Backup Is Encrypted",
+      "text": "Keep an offline, tested backup",
       "good": true
     },
     {
       "id": "software-updated",
-      "text": "Software Updated",
+      "text": "Install updates within days of release",
       "good": true
     },
     {
       "id": "password-manager",
-      "text": "Used Password Manager",
+      "text": "Password manager, unique passwords",
       "good": true
     },
     {
       "id": "locked-screen",
-      "text": "Locked Screen When Away",
+      "text": "Lock your screen every time you leave",
       "good": true
     },
     {
       "id": "vpn-public-wifi",
-      "text": "Secure Connection On Public Wi-Fi",
+      "text": "Use company VPN on cafe Wi-Fi",
       "good": true
     },
     {
-      "id": "unique-password",
-      "text": "Different Password Per Site",
+      "id": "callback-known-number",
+      "text": "Call back on a number you already have",
       "good": true
     },
     {
       "id": "checked-url",
-      "text": "Checked Link Before Tapping",
+      "text": "Hover to see a link's real address",
       "good": true
     },
     {
-      "id": "antivirus-active",
-      "text": "Virus Protection Up To Date",
+      "id": "verify-bank-change",
+      "text": "Phone-verify any bank detail change",
       "good": true
     },
     {
       "id": "reused-password",
-      "text": "Reused Same Password",
+      "text": "Reuse one strong password everywhere",
       "good": false
     },
     {
       "id": "clicked-unknown-link",
-      "text": "Tapped Unknown Link",
+      "text": "Click Unsubscribe in unknown spam",
+      "good": false
+    },
+    {
+      "id": "approved-mfa-prompt",
+      "text": "Approve an MFA prompt you did not start",
       "good": false
     },
     {
       "id": "disabled-antivirus",
-      "text": "Turned Off Virus Protection",
+      "text": "Pause antivirus to run a tool faster",
       "good": false
     },
     {
       "id": "shared-password",
-      "text": "Shared Your Password",
+      "text": "Share your login so a colleague can cover",
       "good": false
     },
     {
       "id": "ignored-update",
-      "text": "Ignored Update Prompt",
+      "text": "Postpone updates for months",
       "good": false
     },
     {
-      "id": "sticky-note-password",
-      "text": "Password On Sticky Note",
+      "id": "cafe-banking",
+      "text": "Cafe Wi-Fi, then banking without VPN",
       "good": false
     },
     {
       "id": "cracked-software",
-      "text": "Used Cracked / Pirated Software",
+      "text": "Use a free cracked licence key",
       "good": false
     },
     {
       "id": "unlocked-laptop",
-      "text": "Left Laptop Unlocked",
+      "text": "Leave laptop unlocked for a quick coffee",
       "good": false
     },
     {
       "id": "opened-attachment",
-      "text": "Opened Unknown Attachment",
+      "text": "Enable macros to view an invoice",
       "good": false
     },
     {
       "id": "skipped-mfa",
-      "text": "Skipped Second-Step Setup",
-      "good": false
-    },
-    {
-      "id": "trusted-unknown-caller",
-      "text": "Trusted Unknown Caller",
+      "text": "Delay MFA setup because it is a hassle",
       "good": false
     },
     {

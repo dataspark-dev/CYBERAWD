@@ -26,6 +26,16 @@ config, update this file in the same change.
   in `data/sessions.json`. Never returned by participant-facing endpoints.
 - **Admin export:** `GET /api/admin/session/<code>/participants.csv` (admin-only) and a
   "Download participant details (CSV)" button in the Participants panel.
+- **Permanent participant log:** every join is also appended to `data/participants.jsonl`
+  (lab code + details + time). "Reset This Lab" does not delete it. Admin-only fetch:
+  `GET /api/admin/participants` (JSON, `?format=csv`, `?room=<CODE>`) and the **Participant
+  Directory** section on the admin dashboard (search + CSV). See `docs/DEPLOYMENT.md`.
+- **Content difficulty:** Fault Finding, Myth vs Fact, Decision Room, Clue Quest and Control
+  Catch were raised to moderate/moderate+ (subtler fakes, plausible myths, trade-off decisions,
+  indirect clues, borderline habits). Counts/schema unchanged. Crossword, Pass-Phrase and Live
+  Simulation were deliberately left as they were.
+- **Template alignment:** those five activities share one flow on lab and console ("Item X of N",
+  Next, What Is Wrong / Why It Is Suspicious, Stop-Verify-Report line, 3 takeaways).
 
 ---
 

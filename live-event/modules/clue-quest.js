@@ -52,7 +52,7 @@
   function renderRiddle() {
     const r = riddles[index];
     if (!r) return;
-    els.counter.textContent = `Riddle ${index + 1} of ${riddles.length}`;
+    els.counter.textContent = `Item ${index + 1} of ${riddles.length}`;
     els.riddleText.textContent = r.riddle;
     els.answerReveal.textContent = r.answer;
     els.answerReveal.classList.remove('show');
@@ -65,7 +65,7 @@
     const isLast = index === riddles.length - 1;
     els.nextBtn.innerHTML = isLast
       ? '<i class="fa-solid fa-rotate"></i> Restart - Back to Start'
-      : '<i class="fa-solid fa-forward"></i> Next Riddle';
+      : '<i class="fa-solid fa-forward"></i> Next';
     els.nextBtn.classList.remove('pulse-highlight');
 
     revealed = false;

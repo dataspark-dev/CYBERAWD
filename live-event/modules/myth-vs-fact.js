@@ -44,7 +44,7 @@
   function renderItem() {
     const item = items[index];
     if (!item) return;
-    els.counter.textContent = `Myth ${index + 1} of ${items.length}`;
+    els.counter.textContent = `Item ${index + 1} of ${items.length}`;
     els.topic.textContent = item.topic;
     // Topic tint — matches console.css .mf-topic-tag.topic-*
     els.topic.className = 'mf-topic-tag';
@@ -64,7 +64,7 @@
     const isLast = index === items.length - 1;
     els.nextBtn.innerHTML = isLast
       ? '<i class="fa-solid fa-flag-checkered"></i> Finish'
-      : '<i class="fa-solid fa-forward"></i> Next Myth';
+      : '<i class="fa-solid fa-forward"></i> Next';
 
     renderDots();
   }
