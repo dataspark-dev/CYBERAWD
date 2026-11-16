@@ -1,10 +1,10 @@
 {
-  "whyThisMatters": "Real security moments are fast — at your desk or on board. You do not get time to research if a link, a login, or a habit is safe. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
-  "rememberThis": "This month's habit to carry forward: fast instinct is good, but some things only sound safe — a short password with a symbol, old virus protection, a public charging cable. When you are not sure, slow down and check before you trust the label.",
+  "whyThisMatters": "Real security moments are fast — at your desk or on the move. You do not get time to research if a link, a login, or a habit is safe. This game trains your reflex for good habits, and helps you catch things that only sound safe.",
+  "rememberThis": "The habit to carry forward: fast instinct is good, but some things only sound safe — a short password with a symbol, old virus protection, a public charging cable. When you are not sure, slow down and check before you trust the label.",
   "facilitatorNotes": {
     "discussionPrompts": [
       "Ask the group which bubble tricked them. Most people get at least one of the 6 trick bubbles wrong on their first try.",
-      "Ask why \"SMS Code Received\" still counts as good, even though a code from an app is stronger than a text. What does \"better than nothing\" mean here — especially offshore where a text may be all you have?",
+      "Ask why \"SMS Code Received\" still counts as good, even though a code from an app is stronger than a text. What does \"better than nothing\" mean here — especially where a text may be all you have?",
       "Ask why a short password with symbols still looks strong to most people, and why that idea is wrong — long beats clever."
     ],
     "commonWrongAnswer": "The most common mistake is tapping anything that sounds like security — like \"second check after password\" (also called MFA, Multi-Factor Authentication), virus protection, or password — without checking if it is actually strong, current, or real. The 6 trick bubbles are there to catch that habit."
@@ -153,7 +153,7 @@
       "text": "Urgent Request From Senior Leader",
       "good": false,
       "trick": true,
-      "note": "A senior title plus urgency is the classic trick. \"The captain said...\" or \"The director needs this now...\" is not proof a request is real. It is designed to make you skip your normal checks — such as calling back on a number you already trust."
+      "note": "A senior title plus urgency is the classic trick. \"The boss said...\" or \"The director needs this now...\" is not proof a request is real. It is designed to make you skip your normal checks — such as calling back on a number you already trust."
     },
     {
       "id": "antivirus-installed-last-year",

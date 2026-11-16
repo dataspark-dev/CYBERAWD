@@ -1,5 +1,5 @@
 /* Live Simulation - Social-Engineering Virtual Environment
-   4 persona-based attack-chain scenarios + OSINT → Teams/SMS → Portal → CSO Fraud flow
+   4 persona-based attack-chain scenarios + OSINT → Phishing Email → Chat/SMS → Fake Payment (BEC) flow
    Facilitator-driven, keyboard-first, self-contained - no scoring, restartable */
 (function () {
   // How long the "typing..." bubble lingers before the actual message replaces it. Was 520ms  - 
@@ -56,7 +56,7 @@
 
   function channelLabel(channel) {
     const map = {
-      linkedin: 'LinkedIn',
+      linkedin: 'Networking Site',
       osint: 'OSINT Tool',
       email: 'Email',
       attachment: 'Attachment',
@@ -78,9 +78,10 @@
       || a.includes('gmail.com')
       || a.includes('bit.ly')
       || a.includes('amazonses.com')
-      || a.includes('synergymarine-group')
-      || a.includes('portal-synergymarine')
-      || a.includes('horizon-provisions')
+      || a.includes('acme-corp-')
+      || a.includes('portal-acmecorp')
+      || a.includes('brightlinesupplies-secure')
+      || a.includes('freemail')
       || a.includes('-secure')
       || a.includes('secure.net')
       || a.includes('spoof');
@@ -101,23 +102,23 @@
     if (ch === 'linkedin') {
       artifactHtml = `
         <div class="ls-linkedin-card">
-          <img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%23e2e8f0'/%3E%3Ctext x='24' y='30' text-anchor='middle' font-size='18' font-family='Barlow'%3ERK%3C/text%3E%3C/svg%3E" />
+          <img alt="" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%23e2e8f0'/%3E%3Ctext x='24' y='30' text-anchor='middle' font-size='18' font-family='Barlow'%3EMP%3C/text%3E%3C/svg%3E" />
           <div>
-            <div class="ls-linkedin-name">Rajesh Kumar · 3/O - MV Horizon</div>
-            <div class="ls-linkedin-role">Synergy Marine Group · India · 500+ connections · Joined 2021</div>
-            <div style="font-size:11px;color:#0ea5e9;margin-top:4px;"><i class="fa-brands fa-linkedin"></i> Public profile · Vessel: MV Horizon · Location: Singapore</div>
+            <div class="ls-linkedin-name">Maya Patel · Accounts Payable Analyst</div>
+            <div class="ls-linkedin-role">Acme Corp · United Kingdom · 500+ connections · Joined 2021</div>
+            <div style="font-size:11px;color:#0ea5e9;margin-top:4px;"><i class="fa-brands fa-linkedin"></i> Public profile · Employer: Acme Corp · Location: London</div>
           </div>
         </div>`;
     } else if (ch === 'osint') {
-      artifactHtml = `<div class="ls-artifact"><i class="fa-solid fa-wand-magic-sparkles"></i> Predicted 18 addresses - try rajesh.kumar@synergymarinegroup.com - <b>Valid format 92%</b></div>`;
+      artifactHtml = `<div class="ls-artifact"><i class="fa-solid fa-wand-magic-sparkles"></i> Predicted 18 addresses - try maya.patel@acmecorp.com - <b>Valid format 92%</b></div>`;
     } else if (ch === 'attachment') {
       const isMalicious = (beat.meta && beat.meta.includes('.exe')) || beat.text.includes('.exe') || beat.address?.includes('Application');
-      if (beat.text.includes('Payslip_March.pdf.exe') || isMalicious) {
+      if (beat.text.includes('Invoice_1042.pdf.exe') || isMalicious) {
         artifactHtml = `
           <div class="ls-attachment-card malicious" data-malicious="true">
             <div class="ls-att-icon exe">EXE</div>
             <div>
-              <div class="ls-att-name">Payslip_March.pdf.exe</div>
+              <div class="ls-att-name">Invoice_1042.pdf.exe</div>
               <div class="ls-att-meta">1.1 MB · Application · Double extension - <b>.exe is real type</b></div>
             </div>
             <i class="fa-solid fa-triangle-exclamation" style="margin-left:auto;color:#ef4444"></i>
@@ -134,32 +135,32 @@
         artifactHtml = `
           <div class="ls-attachment-card">
             <div class="ls-att-icon pdf">PDF</div>
-            <div><div class="ls-att-name">Payslip_Feb2025_RajKumar.pdf</div><div class="ls-att-meta">480 KB · PDF - Expected</div></div>
+            <div><div class="ls-att-name">Invoice_1042_Feb2025.pdf</div><div class="ls-att-meta">480 KB · PDF - Expected</div></div>
             <i class="fa-solid fa-check" style="margin-left:auto;color:#16a34a"></i>
           </div>
           <div class="ls-attachment-card" style="margin-top:8px">
             <div class="ls-att-icon xls">XLS</div>
-            <div><div class="ls-att-name">Rotation_Roster_MV-Horizon_Feb-Apr.xlsx</div><div class="ls-att-meta">210 KB · Spreadsheet - Expected</div></div>
+            <div><div class="ls-att-name">Delivery_Schedule_Feb-Apr.xlsx</div><div class="ls-att-meta">210 KB · Spreadsheet - Expected</div></div>
             <i class="fa-solid fa-check" style="margin-left:auto;color:#16a34a"></i>
           </div>`;
       }
-    } else if (ch === 'email' && beat.text.includes('portal.synergymarinegroup.com')) {
+    } else if (ch === 'email' && beat.text.includes('portal.acmecorp.com')) {
       if (beat.meta && beat.meta.includes('Display:')) {
-        const display = 'https://portal.synergymarinegroup.com/crew/rotation-confirm';
-        const href = 'https://portal-synergymarine-group-secure.net/crew/verify?id=42';
+        const display = 'https://portal.acmecorp.com/staff/confirm';
+        const href = 'https://portal-acmecorp-secure.net/staff/verify?id=42';
         artifactHtml = `
           <div class="ls-link-preview" data-href="${esc(href)}" role="button" tabindex="0" aria-label="Link preview - click to reveal destination">
             <i class="fa-solid fa-link" style="color:#2563eb"></i>
             <span class="ls-link-text">${esc(display)}</span>
             <span class="ls-ext-badge">CLICK TO INSPECT</span>
-            <div class="ls-link-tooltip malicious">Actual href: ${esc(href)} · Also: bit.ly/CrewRotation-Horizon - <b>Display ≠ destination</b></div>
+            <div class="ls-link-tooltip malicious">Actual href: ${esc(href)} · Also: bit.ly/Acme-Portal-Verify - <b>Display ≠ destination</b></div>
           </div>
           <div class="ls-artifact"><i class="fa-solid fa-arrow-pointer"></i> Click or tap the blue link - real destination is lookalike with “-secure.net”</div>`;
       } else if (beat.sender && beat.sender.address.includes('portal')) {
         artifactHtml = `
           <div class="ls-link-preview" style="border-color:#bbf7d0;background:#f0fdf4">
             <i class="fa-solid fa-link" style="color:#16a34a"></i>
-            <span class="ls-link-text" style="color:#14532d">https://portal.synergymarinegroup.com/crew/rotation-confirm - matches display ✓</span>
+            <span class="ls-link-text" style="color:#14532d">https://portal.acmecorp.com/staff/confirm - matches display ✓</span>
           </div>`;
       }
     } else if (ch === 'portal') {
@@ -392,7 +393,7 @@
           <span class="ls-timeline-arrow">→</span>
           <span class="ls-timeline-step"><i class="fa-solid fa-paperclip"></i> Day 4 - Attachment</span>
           <span class="ls-timeline-arrow">→</span>
-          <span class="ls-timeline-step"><i class="fa-brands fa-microsoft"></i> Day 5 - Teams/SMS</span>
+          <span class="ls-timeline-step"><i class="fa-brands fa-microsoft"></i> Day 5 - Chat/SMS</span>
           <span class="ls-timeline-arrow">→</span>
           <span class="ls-timeline-step is-critical"><i class="fa-solid fa-building-columns"></i> Day 6 - Wire</span>
         </div>
@@ -497,17 +498,17 @@
     const att = e.target.closest('.ls-attachment-card.malicious');
     if (att) {
       e.preventDefault();
-      showOverlay('Execution Blocked - Simulation', 'In a real system, double-clicking Payslip_March.pdf.exe would have launched an EXE, not a PDF. Windows hides the true .exe extension by default - the PDF icon is fake. This is why HR/Payroll must verify file type and expectation before enabling macros.');
+      showOverlay('Execution Blocked - Simulation', 'In a real system, double-clicking Invoice_1042.pdf.exe would have launched an EXE, not a PDF. Windows hides the true .exe extension by default - the PDF icon is fake. This is why Finance must verify file type and expectation before enabling macros.');
     }
     const link = e.target.closest('.ls-link-preview[data-href]');
     if (link) {
       e.preventDefault();
-      showOverlay('Link Destination Revealed', 'Displayed: portal.synergymarinegroup.com - Actual href: ' + link.dataset.href + ' - Always hover/long-press on mobile. The blue text can be any string; the href is what the browser follows.');
+      showOverlay('Link Destination Revealed', 'Displayed: portal.acmecorp.com - Actual href: ' + link.dataset.href + ' - Always hover/long-press on mobile. The blue text can be any string; the href is what the browser follows.');
     } else {
       const linkPlain = e.target.closest('.ls-link-preview');
       if (linkPlain && linkPlain.dataset.href) {
         e.preventDefault();
-        showOverlay('Link Destination Revealed', 'Displayed: portal.synergymarinegroup.com - Actual href: ' + linkPlain.dataset.href + ' - Always hover/long-press on mobile.');
+        showOverlay('Link Destination Revealed', 'Displayed: portal.acmecorp.com - Actual href: ' + linkPlain.dataset.href + ' - Always hover/long-press on mobile.');
       }
     }
   });

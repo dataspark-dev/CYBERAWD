@@ -1,18 +1,18 @@
 {
-  "whyThisMatters": "These are not just buzzwords for the IT team. Knowing what phishing (a fake message that tries to trick you), MFA (the second check after your password), or ransomware (harmful software that locks your files for payment) really mean helps you spot the real thing — whether you are at your desk in Finance or on the bridge.",
-  "rememberThis": "You do not need a full glossary after this month. You need just enough of these words to spot the real thing when it shows up, and to use the same words your colleagues use when you report it.",
+  "whyThisMatters": "These are not just buzzwords for the IT team. Knowing what phishing (a fake message that tries to trick you), MFA (the second check after your password), or ransomware (harmful software that locks your files for payment) really mean helps you spot the real thing — whether you are at your desk in Finance or working from home.",
+  "rememberThis": "You do not need a full glossary after today. You need just enough of these words to spot the real thing when it shows up, and to use the same words your colleagues use when you report it.",
   "facilitatorNotes": {
     "discussionPrompts": [
       "Ask which word people knew the meaning of but forgot the exact term for. Gaps in words are worth saying out loud — for example, knowing \"the extra check after your password\" but not recalling \"MFA\".",
       "Ask if anyone can explain the difference between harmful software in general (also called malware), ransomware (which locks files for payment), and pretexting (making up a false story) without looking at the clues.",
-      "Ask which of these words show up in their daily work — for example, a Crewing email, a crew portal login, or a finance approval — and which ones are just good to know."
+      "Ask which of these words show up in their daily work — for example, an HR email, a portal login, or a finance approval — and which ones are just good to know."
     ],
-    "commonWrongAnswer": "People most often cannot recall PRETEXTING or mix it up with phishing. Phishing is the fake message itself; pretexting is the made-up story that makes the message believable — like pretending to be IT support or your vessel manager."
+    "commonWrongAnswer": "People most often cannot recall PRETEXTING or mix it up with phishing. Phishing is the fake message itself; pretexting is the made-up story that makes the message believable — like pretending to be IT support or your manager."
   },
   "wordlist": [
     {
       "answer": "PHISHING",
-      "clue": "A fake crewing or finance message that tries to trick you into clicking a link or sharing your password"
+      "clue": "A fake email or text, often pretending to be HR or Finance, that tries to trick you into clicking a link or sharing your password"
     },
     {
       "answer": "MALWARE",
@@ -32,11 +32,11 @@
     },
     {
       "answer": "SPOOFING",
-      "clue": "Faking a sender address or caller ID so a message looks like it is from Crewing, Finance, or someone you trust"
+      "clue": "Faking a sender address or caller ID so a message looks like it is from HR, Finance, or someone you trust"
     },
     {
       "answer": "BREACH",
-      "clue": "What happens when private data — like crew allotment or payroll files — is exposed or stolen. A data ___"
+      "clue": "What happens when private data — like customer records or payroll files — is exposed or stolen. A data ___"
     },
     {
       "answer": "BACKUP",
@@ -48,7 +48,7 @@
     },
     {
       "answer": "PRETEXTING",
-      "clue": "A trick where the attacker makes up a false story — like \"I am IT support calling about your crew portal\" — to earn your trust"
+      "clue": "A trick where the attacker makes up a false story — like \"I am IT support calling about your staff portal\" — to earn your trust"
     },
     {
       "answer": "ENCRYPTION",
@@ -77,7 +77,7 @@
       },
       {
         "answer": "PRETEXTING",
-        "clue": "A trick where the attacker makes up a false story — like \"I am IT support calling about your crew portal\" — to earn your trust",
+        "clue": "A trick where the attacker makes up a false story — like \"I am IT support calling about your staff portal\" — to earn your trust",
         "row": 2,
         "col": 9,
         "direction": "down",
@@ -109,7 +109,7 @@
       },
       {
         "answer": "BREACH",
-        "clue": "What happens when private data — like crew allotment or payroll files — is exposed or stolen. A data ___",
+        "clue": "What happens when private data — like customer records or payroll files — is exposed or stolen. A data ___",
         "row": 8,
         "col": 0,
         "direction": "down",
@@ -125,7 +125,7 @@
       },
       {
         "answer": "PHISHING",
-        "clue": "A fake crewing or finance message that tries to trick you into clicking a link or sharing your password",
+        "clue": "A fake email or text, often pretending to be HR or Finance, that tries to trick you into clicking a link or sharing your password",
         "row": 8,
         "col": 7,
         "direction": "down",
@@ -141,7 +141,7 @@
       },
       {
         "answer": "SPOOFING",
-        "clue": "Faking a sender address or caller ID so a message looks like it is from Crewing, Finance, or someone you trust",
+        "clue": "Faking a sender address or caller ID so a message looks like it is from HR, Finance, or someone you trust",
         "row": 13,
         "col": 2,
         "direction": "across",

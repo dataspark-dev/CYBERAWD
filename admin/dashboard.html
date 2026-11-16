@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard - Synergy Cyber Security Awareness Month</title>
+  <title>Admin Dashboard - Cyber Security Awareness Program</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Space+Mono:wght@400;700&family=Barlow:wght@300;400;600;700;800&display=swap" rel="stylesheet"/>
@@ -35,7 +35,7 @@
     .adm-login-btn:hover{box-shadow:0 4px 16px rgba(14,123,229,0.24)}
     .adm-login-foot{margin-top:16px;padding-top:12px;border-top:1px solid #f1f5f9;display:flex;align-items:center;justify-content:space-between;gap:10px;font-family:'Space Mono',monospace;font-size:11px;color:#94a3b8}
     .adm-login-foot img{height:14px;width:auto;opacity:0.95}
-    /* SVG Icons — consistent sizing, alignment, Synergy palette */
+    /* SVG Icons — consistent sizing, alignment, neutral palette */
     .adm-login-eyebrow i, .adm-section-title i, .adm-input-wrap i, .le-topbar i, .adm-login-foot i{ display:inline-flex; align-items:center; justify-content:center; line-height:1; vertical-align:middle; }
     .adm-login-eyebrow i{font-size:12px; color:var(--cyan-dark)}
     .adm-section-title i{font-size:14px; color:var(--cyan-dark)}
@@ -184,6 +184,67 @@
       .adm-mod-btn .adm-mod-label{font-size:13px}
       .adm-mod-btn .adm-mod-desc{font-size:11px}
     }
+    /* ---- UX/responsive refinements (appended; override earlier rules) ---- */
+    .adm-note{color:#475569}
+    .adm-input::placeholder{color:#64748b}
+    .adm-lab-bar{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between;align-items:center;margin-top:12px}
+    .adm-lab-main,.adm-lab-side{min-width:0}
+    .adm-lab-main .adm-input{flex:0 1 160px;min-width:110px}
+    .le-btn.adm-danger{background:#fff;color:#b91c1c;border-color:#fca5a5}
+    .le-btn.adm-danger:hover{background:#fef2f2;border-color:#b91c1c}
+    .adm-launcher-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+    .adm-mod-btn .adm-mod-id,.adm-mod-btn .adm-mod-count{display:none}
+    .adm-mod-btn .adm-mod-label{font-size:15px}
+    .adm-mod-btn .adm-mod-desc{font-size:13px}
+    .adm-mod-btn{min-height:96px}
+    .adm-mod-btn.selected::after{content:"\2713";position:absolute;top:10px;right:12px;color:var(--cyan-dark);font-weight:900}
+    .le-btn.adm-cta{font-size:15px;padding-left:clamp(24px,3vw,44px);padding-right:clamp(24px,3vw,44px);min-height:48px}
+    .adm-qr-top{grid-template-columns:minmax(0,260px) minmax(0,1fr)}
+    .adm-qr-top>div{min-width:0}
+    #qrSection .adm-badge{text-transform:none;letter-spacing:0;white-space:normal;overflow-wrap:anywhere;max-width:100%;border-radius:12px;text-align:center}
+    .adm-roomcode{overflow-wrap:anywhere}
+    .adm-part-panel{align-self:start}
+    .adm-part-list{max-height:min(360px,50vh);overflow:auto}
+    .adm-part-list li{overflow-wrap:anywhere;word-break:break-word}
+    .adm-live-row>*{min-width:0}
+    .adm-cw-name{min-width:0}
+    .adm-note{overflow-wrap:anywhere}
+    .adm-section-title{flex-wrap:wrap}
+    @media (max-width:768px){ .adm-cw-name{flex:1 1 100%} }
+    :focus-visible{outline:3px solid #0369a1;outline-offset:2px}
+    .adm-input:focus-visible{outline:none}
+    @media (max-width:1024px){
+      .le-btn{min-height:44px;justify-content:center}
+      .adm-input{min-height:44px}
+      .adm-input-wrap .adm-eye{width:44px;height:44px;right:2px}
+      .adm-live-row{grid-template-columns:1fr}
+    }
+    @media (max-width:768px){
+      .adm-lab-bar{flex-direction:column;align-items:stretch}
+      .adm-lab-main{flex-wrap:nowrap}
+      .adm-lab-main .adm-input{flex:1 1 0}
+      .adm-lab-side{border-top:1px dashed var(--line);padding-top:12px;justify-content:space-between}
+      .adm-lab-side .le-btn{flex:1 1 0}
+      .adm-sticky-actions{position:sticky;bottom:0;z-index:20;background:#fff;padding:10px 0 calc(10px + env(safe-area-inset-bottom));box-shadow:0 -10px 14px -10px rgba(15,23,42,.18)}
+      .adm-sticky-actions .le-btn.adm-cta{flex:1 1 100%}
+      #exportParticipantsBtn{width:100%}
+      #runningSelfPacedControls .le-btn{flex:1 1 100%}
+      #runningSelfPacedControls select{max-width:none!important;flex:1 1 100%!important}
+    }
+    @media (max-width:480px){
+      .adm-lab-main .le-btn{padding-left:14px;padding-right:14px}
+      .adm-qr-top{grid-template-columns:minmax(0,1fr)}
+      .adm-roomcode{text-align:center}
+      .adm-qr-top .adm-row .le-btn{flex:1 1 100%}
+      .adm-login-brand .adm-login-div{display:none}
+      .le-topbar .le-brand-text small{display:none}
+      .adm-card{padding:16px 14px}
+    }
+    @media (max-width:360px){
+      .le-btn{padding-left:12px;padding-right:12px;letter-spacing:.4px}
+      .adm-lab-side{flex-direction:column}
+      .adm-lab-side .le-btn{flex:1 1 100%}
+    }
   </style>
 </head>
 <body data-home="/live-event/index.html">
@@ -191,15 +252,9 @@
     <div class="le-grid-bg"></div>
 
     <header class="le-topbar">
-      <a class="le-brand" href="/live-event/index.html">
-        <img src="/assets/SYN.png" alt="Synergy Marine Group"/>
-        <div class="le-brand-div"></div>
-        <img src="/assets/AFT.png" alt="AFT"/>
-      </a>
-      <div class="le-brand-div"></div>
       <div class="le-brand-text">
         ADMIN DASHBOARD
-        <small><span class="le-dot" style="display:inline-block;"></span> Synergy Cyber Security Awareness Month - Facilitator Control</small>
+        <small><span class="le-dot" style="display:inline-block;"></span> Cyber Security Awareness Program - Facilitator Control</small>
       </div>
       <div class="le-topbar-right">
         <a class="le-home-link" href="/live-event/index.html"><i class="fa-solid fa-arrow-left"></i> Console</a>
@@ -210,37 +265,32 @@
 
       <!-- LOGIN - refined -->
       <div id="loginPanel" class="adm-login-card">
-        <div class="adm-login-brand" aria-hidden="true">
-          <img src="/assets/SYN.png" alt="Synergy Marine Group"/>
-          <div class="adm-login-div"></div>
-          <img src="/assets/AFT.png" alt="AFT"/>
-        </div>
-        <div class="adm-login-eyebrow"><i class="fa-solid fa-shield-halved"></i> Synergy · Facilitator Access</div>
+        <div class="adm-login-eyebrow"><i class="fa-solid fa-shield-halved"></i> Facilitator Access</div>
         <h2><i class="fa-solid fa-lock"></i> Admin Login</h2>
-        <p>Secure access to session controls, QR and live results. Credentials are per-event and encrypted.</p>
+        <p>Sign in to run a lab, show the join QR and see live results.</p>
         <div style="display:grid; gap:12px; text-align:left;">
           <div>
             <label class="adm-login-label" for="loginUser">Username</label>
             <div class="adm-input-wrap">
               <i class="fa-solid fa-user"></i>
-              <input id="loginUser" class="adm-input" type="text" placeholder="Username — e.g. admin" autocomplete="username" value="admin" aria-label="Username"/>
+              <input id="loginUser" class="adm-input" type="text" placeholder="Username" autocomplete="username" value="admin" aria-label="Username"/>
             </div>
           </div>
           <div>
             <label class="adm-login-label" for="loginPass">Password</label>
             <div class="adm-input-wrap">
               <i class="fa-solid fa-key"></i>
-              <input id="loginPass" class="adm-input" type="password" placeholder="Password — ADMIN_PASSWORD" autocomplete="current-password" aria-label="Password"/>
+              <input id="loginPass" class="adm-input" type="password" placeholder="Password" autocomplete="current-password" aria-label="Password"/>
               <button type="button" class="adm-eye" id="togglePass" aria-label="Show password" title="Show password"><i class="fa-solid fa-eye"></i></button>
             </div>
           </div>
-          <button id="loginBtn" class="le-btn primary adm-login-btn" type="button" style="width:100%; justify-content:center;"><i class="fa-solid fa-right-to-bracket"></i> Login — Enter Dashboard</button>
-          <div id="loginMsg" class="adm-note" style="text-align:center; min-height:18px;"></div>
-          <div style="display:flex;align-items:center;gap:8px;justify-content:center;color:#94a3b8;font-size:11px;font-family:'Space Mono',monospace"><i class="fa-solid fa-circle-info"></i> Need help? Contact Synergy Marine Group · Cyber Month</div>
+          <button id="loginBtn" class="le-btn primary adm-login-btn" type="button" style="width:100%; justify-content:center;"><i class="fa-solid fa-right-to-bracket"></i> Log in</button>
+          <div id="loginMsg" class="adm-note" role="alert" aria-live="assertive" style="text-align:center; min-height:18px;"></div>
+          <div style="display:flex;align-items:center;gap:8px;justify-content:center;color:#64748b;font-size:11px;font-family:'Space Mono',monospace"><i class="fa-solid fa-circle-info"></i> Need help? Ask your program administrator</div>
         </div>
         <div class="adm-login-foot">
-          <span style="display:inline-flex;align-items:center;gap:6px"><i class="fa-solid fa-lock"></i> Encrypted session</span>
-          <span>Synergy Marine Group</span>
+          <span style="display:inline-flex;align-items:center;gap:6px"><i class="fa-solid fa-lock"></i> Secure session</span>
+          <span>Cyber Security Awareness Program</span>
         </div>
       </div>
 
@@ -250,16 +300,19 @@
         <!-- Session controls -->
         <div class="adm-card">
           <div class="adm-section-title"><i class="fa-solid fa-satellite-dish"></i> Lab</div>
-          <div class="adm-row" style="margin-top:12px;">
-            <button id="createSessionBtn" class="le-btn primary" type="button"><i class="fa-solid fa-plus"></i> New Lab</button>
-            <span class="adm-note">Creates a fresh lab code and QR. No restart needed.</span>
-            <input id="roomInput" class="adm-input" style="max-width:160px;" placeholder="LAB CODE" maxlength="12"/>
-            <button id="loadSessionBtn" class="le-btn" type="button"><i class="fa-solid fa-arrow-right"></i> Load</button>
-            <button id="resetSessionBtn" class="le-btn amber" type="button" title="Clear participants/responses/activeModule for same lab"><i class="fa-solid fa-rotate"></i> Reset This Lab</button>
-            <button id="logoutBtn" class="le-btn ghost" type="button"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+          <div class="adm-lab-bar">
+            <div class="adm-row adm-lab-main">
+              <button id="createSessionBtn" class="le-btn primary" type="button"><i class="fa-solid fa-plus"></i> New Lab</button>
+              <input id="roomInput" class="adm-input" style="max-width:160px;" placeholder="LAB CODE" aria-label="Lab code" maxlength="12"/>
+              <button id="loadSessionBtn" class="le-btn" type="button"><i class="fa-solid fa-arrow-right"></i> Load</button>
+            </div>
+            <div class="adm-row adm-lab-side">
+              <button id="resetSessionBtn" class="le-btn adm-danger" type="button" title="Clear participants and responses for this lab code"><i class="fa-solid fa-rotate"></i> Reset This Lab</button>
+              <button id="logoutBtn" class="le-btn ghost" type="button"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+            </div>
           </div>
-          <div id="sessionMsg" class="adm-note"></div>
-          <div class="adm-note" style="margin-top:6px"><strong>New Lab</strong> creates a fresh 6-character code and QR. Old labs stay. <strong>Reset This Lab</strong> clears the same code for the next group. No restart needed.</div>
+          <div id="sessionMsg" class="adm-note" role="status" aria-live="polite"></div>
+          <div class="adm-note" style="margin-top:6px"><strong>New Lab</strong> makes a fresh code and QR; old labs stay. <strong>Reset This Lab</strong> clears everyone from this code so you can reuse it.</div>
         </div>
 
         <!-- QR + Lab Code - prominently at the top -->
@@ -277,49 +330,45 @@
               <div class="adm-row" style="margin-top:10px;">
                 <button id="copyLinkBtn" class="le-btn" type="button"><i class="fa-solid fa-link"></i> Copy Join Link</button>
                 <a id="openJoinLink" class="le-btn ghost" target="_blank" rel="noopener"><i class="fa-solid fa-external-link"></i> Open Join Page</a>
-                <span class="adm-note" id="copyMsg"></span>
+                <span class="adm-note" id="copyMsg" role="status" aria-live="polite"></span>
               </div>
-              <div class="adm-note" style="margin-top:10px;">QR is built from the current host address. It works on any domain automatically.</div>
+              <div class="adm-note" style="margin-top:10px;">The QR uses this page's address, so it works on any network.</div>
             </div>
           </div>
         </div>
 
         <!-- Module picker - whole-activity flow -->
         <div id="pickerSection" class="adm-card" style="margin-top:18px;">
-          <div class="adm-section-title"><i class="fa-solid fa-users"></i> Audience</div>
-          <div class="adm-note">Pick which team's content variant to load. This only switches which pre-built file loads - it does not edit content. Modules with no variant authored yet for a team fall back to the shared General content.</div>
-          <div id="audienceTabs" class="adm-row" style="flex-wrap:wrap; gap:8px; margin:10px 0 10px;"></div>
-          <div class="adm-row" style="margin-bottom:6px;">
-            <a id="openDeckLink" class="le-btn ghost" target="_blank" rel="noopener"><i class="fa-solid fa-display"></i> Open Slide Deck for This Audience</a>
-            <span class="adm-note">Opens the main deck with its Closing slide set to the audience picked above (General shows the shared Closing slide).</span>
+          <div id="audienceTabs" style="display:none"></div>
+          <div class="adm-row" style="margin-bottom:14px;">
+            <a id="openDeckLink" class="le-btn ghost" target="_blank" rel="noopener"><i class="fa-solid fa-display"></i> Open Slide Deck</a>
           </div>
-          <div id="deckAudienceIndicator" class="adm-note" style="margin-bottom:18px;"></div>
-          <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose Activity - 7 modules (all items pre-loaded)</div>
-          <div class="adm-note">Counts come live from the content files. Select a module, then press <strong>Launch</strong> to create the lobby. The same lab and participants stay joined between activities.</div>
+          <div id="deckAudienceIndicator" style="display:none"></div>
+          <div class="adm-section-title"><i class="fa-solid fa-rocket"></i> Choose an activity</div>
+          <div class="adm-note">Pick an activity, then press <strong>Launch</strong> to open the lobby. Everyone stays joined between activities.</div>
           <div id="pickerGrid" class="adm-launcher-grid"></div>
-          <div class="adm-row" style="margin-top:14px;">
-            <button id="launchBtn" class="le-btn primary" type="button" disabled><i class="fa-solid fa-paper-plane"></i> Launch - create lobby</button>
-            <span id="pickerMsg" class="adm-note"></span>
+          <div class="adm-row adm-sticky-actions" style="margin-top:14px;">
+            <button id="launchBtn" class="le-btn primary adm-cta" type="button" disabled><i class="fa-solid fa-paper-plane"></i> Launch</button>
+            <span id="pickerMsg" class="adm-note" role="status" aria-live="polite"></span>
           </div>
-          <div id="pickerSelected" class="adm-note" style="margin-top:8px"></div>
+          <div id="pickerSelected" class="adm-note" role="status" aria-live="polite" style="margin-top:8px"></div>
         </div>
 
         <!-- Lobby - waiting for host to start -->
         <div id="lobbySection" class="adm-card adm-hidden" style="margin-top:18px;">
           <div class="adm-section-title"><i class="fa-solid fa-hourglass-half"></i> Lobby - <span id="lobbyModuleName"> - </span> <span class="adm-badge">lobby</span></div>
           <div class="adm-lobby-box">
-            <p style="margin:0 0 8px; font-weight:700; color:#0c4a6e">Waiting for host to start. Participants see "You are in - waiting for host to start <span id="lobbyModuleName2"> - </span>" with live count.</p>
+            <p style="margin:0 0 8px; font-weight:700; color:#0c4a6e">Waiting for you to start. Participants see "You are in - waiting for host to start <span id="lobbyModuleName2"> - </span>".</p>
             <div class="adm-row">
               <span id="lobbyCount" class="badge">0 joined</span>
               <span id="lobbyModuleBadge" class="badge"> - </span>
               <span id="lobbyItemCount" class="badge"> - </span>
             </div>
             <ul id="lobbyNames" class="adm-part-list"></ul>
-            <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
-              <button id="startBtn" class="le-btn primary" type="button" disabled><i class="fa-solid fa-play"></i> Start - push item 1</button>
-              <span id="lobbyMsg" class="adm-note" style="align-self:center">You need at least 1 participant to press Start</span>
+            <div class="adm-sticky-actions" style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap">
+              <button id="startBtn" class="le-btn primary adm-cta" type="button" disabled><i class="fa-solid fa-play"></i> Start</button>
+              <span id="lobbyMsg" class="adm-note" role="status" aria-live="polite" style="align-self:center">You need at least 1 participant to press Start</span>
             </div>
-            <div class="adm-note" style="margin-top:8px">Participants who scan the QR in the lobby see a name box, then "You are in - waiting for host to start [Module Name]" with live joined count.</div>
           </div>
         </div>
 
@@ -333,18 +382,18 @@
 
           <!-- Self-paced modules (all but crossword): item picker + direct complete trigger -->
           <div id="runningSelfPacedControls" class="adm-row adm-hidden" style="margin-top:12px; align-items:center;">
-            <label class="adm-note" style="margin:0; white-space:nowrap;">Viewing item:</label>
+            <label for="itemPicker" class="adm-note" style="margin:0; white-space:nowrap;">Viewing item:</label>
             <select id="itemPicker" class="adm-input" style="max-width:320px; flex:1;"></select>
             <button id="markCompleteBtn" class="le-btn amber" type="button"><i class="fa-solid fa-flag-checkered"></i> Mark Complete</button>
           </div>
 
           <!-- Crossword only: unchanged single Next-to-complete control -->
-          <div id="runningCrosswordControls" class="adm-row adm-hidden" style="margin-top:12px;">
-            <button id="nextBtn" class="le-btn primary" type="button"><i class="fa-solid fa-forward"></i> Next</button>
+          <div id="runningCrosswordControls" class="adm-row adm-sticky-actions adm-hidden" style="margin-top:12px;">
+            <button id="nextBtn" class="le-btn primary adm-cta" type="button"><i class="fa-solid fa-forward"></i> Next</button>
           </div>
 
           <div id="runningPrompt" style="font-weight:800; color:var(--navy); margin-top:10px; font-size:var(--fs-badge);"> - </div>
-          <div class="adm-row" style="margin-top:8px;"><span id="runningMsg" class="adm-note"></span></div>
+          <div class="adm-row" style="margin-top:8px;"><span id="runningMsg" class="adm-note" role="status" aria-live="polite"></span></div>
           <div class="adm-note" id="runningHint" style="margin-top:6px"> - </div>
 
           <!-- Facilitator Notes - admin-only talking points (discussion prompts + the most
@@ -365,8 +414,8 @@
             <div style="font-family:'Orbitron',sans-serif; font-weight:900; font-size:var(--fs-body); color:#065f46">Activity Complete</div>
             <div id="completeModuleName" style="font-weight:700; margin-top:4px"> - </div>
             <div id="completeStats" class="adm-note" style="margin-top:8px"> - </div>
-            <button id="chooseNextBtn" class="le-btn primary" type="button" style="margin-top:14px"><i class="fa-solid fa-list"></i> Choose Next Activity - same lab, no re-scan</button>
-            <div class="adm-note" style="margin-top:8px">Same lab/participants stay joined - activeModule/state reset to lobby for next pick - no QR re-scan between activities in one event.</div>
+            <button id="chooseNextBtn" class="le-btn primary" type="button" style="margin-top:14px"><i class="fa-solid fa-list"></i> Choose Next Activity</button>
+            <div class="adm-note" style="margin-top:8px">Everyone stays joined, so there is no need to scan the QR again.</div>
           </div>
 
           <!-- Fastest Overall - admin-only, never sent to participants (see GET /module-summary
@@ -383,8 +432,8 @@
         <!-- Live results + participants row (visible when running) -->
         <div id="liveRow" class="adm-live-row adm-hidden" style="margin-top:18px;">
           <div id="resultsPanel" class="adm-card">
-            <div class="adm-section-title"><i class="fa-solid fa-chart-simple"></i> Live Results <span class="adm-badge" style="margin-left:6px; font-size:var(--fs-badge);">polls 1.5s</span></div>
-            <div id="resultsStandardNote" class="adm-note">Shows live poll results. Bars for each option. Updates every 1.5 seconds.</div>
+            <div class="adm-section-title"><i class="fa-solid fa-chart-simple"></i> Live Results <span class="adm-badge" style="margin-left:6px; font-size:var(--fs-badge);">live</span></div>
+            <div id="resultsStandardNote" class="adm-note">Live answers, updated every couple of seconds.</div>
             <div id="resultsPrompt" style="font-weight:800; color:var(--navy); margin-top:10px; font-size:var(--fs-badge);">No active item</div>
             <div id="resultsBars" class="adm-bars"></div>
             <div id="correctnessWrap" class="adm-hidden" style="margin-top:10px;">
@@ -411,17 +460,18 @@
               <div id="revealedFactText" style="font-size:var(--fs-badge); color:#78350f; line-height:1.5;"></div>
             </div>
             <button id="revealBtn" class="le-btn amber adm-hidden" type="button" style="margin-top:14px;"><i class="fa-solid fa-eye"></i> Reveal</button>
-            <div id="revealMsg" class="adm-note"></div>
+            <div id="revealMsg" class="adm-note" role="status" aria-live="polite"></div>
           </div>
 
-          <div id="participantsPanel" class="adm-card">
-            <div class="adm-section-title"><i class="fa-solid fa-users"></i> Participants <span id="participantCountBadge" class="adm-badge">0 joined</span></div>
-            <div class="adm-note">Shows count and names. Updates every 1.5 seconds.</div>
+          <div id="participantsPanel" class="adm-card adm-part-panel">
+            <div class="adm-section-title"><i class="fa-solid fa-users"></i> Participants <span id="participantCountBadge" class="adm-badge" aria-live="polite">0 joined</span></div>
+            <div class="adm-note">Names update live. Contact details are only in the CSV.</div>
+            <button id="exportParticipantsBtn" class="le-btn ghost" type="button" style="margin:6px 0 10px"><i class="fa-solid fa-file-csv"></i> Download participant details (CSV)</button>
             <ul id="participantList" class="adm-part-list"></ul>
           </div>
         </div>
 
-        <div class="adm-note" style="text-align:center; margin-top:10px;">Live Simulation is only on the facilitator console. It is not in this picker.</div>
+        <div class="adm-note" style="text-align:center; margin-top:10px;">Live Simulation runs from the facilitator console, not here.</div>
 
       </div>
 
@@ -673,6 +723,11 @@
       if(!code){ els.sessionMsg.textContent = 'Enter a lab code'; return; }
       await setCurrentCode(code);
     });
+    document.getElementById('exportParticipantsBtn').addEventListener('click', ()=>{
+      const code = (currentCode || els.roomInput.value.trim()).toUpperCase();
+      if(!code){ els.sessionMsg.textContent = 'Load or create a session first'; return; }
+      window.location.href = '/api/admin/session/' + encodeURIComponent(code) + '/participants.csv';
+    });
     els.resetSessionBtn.addEventListener('click', async ()=>{
       const code = (currentCode || els.roomInput.value.trim()).toUpperCase();
       if(!code){ els.sessionMsg.textContent = 'Load or create a session first, then Reset'; return; }
@@ -800,7 +855,7 @@
         const mod = modulesCache.find(x=>x.id===selectedModule);
         els.pickerSelected.textContent = 'Selected: ' + (mod?mod.displayName:selectedModule) + ' for ' + audienceLabel(selectedAudience) + ' - ' + (mod?mod.itemCount:'?') + ' items' + (mod&&mod.usedFallback?' (falling back to General content)':'') + ' - press Launch to create lobby';
       } else {
-        els.pickerSelected.textContent = 'Pick an audience and a module, then press Launch';
+        els.pickerSelected.textContent = 'Pick a module, then press Launch';
       }
     }
     els.launchBtn.addEventListener('click', async ()=>{

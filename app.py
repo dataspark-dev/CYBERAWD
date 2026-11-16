@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Synergy Cyber Security Awareness Month - presentation server.
+Cyber Security Awareness Program - presentation server.
 
 Serves the static viewer (index.html, scripts, styles, assets, slides)
 over Flask. Validates that every slide listed in deck.js actually exists
@@ -69,7 +69,7 @@ ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD") or os.environ.get("ADMIN_PASS"
 # FLASK_SECRET_KEY is the canonical name; SECRET_KEY kept as fallback for older deploys.
 app.secret_key = os.environ.get("FLASK_SECRET_KEY") or os.environ.get("SECRET_KEY") or "change-this-to-a-random-string"
 # Admin login session: permanent cookie so facilitator isn't logged out mid-event.
-# Flask default is 31 days; we set explicit 12h to be safe for a live Synergy Cyber Security Awareness Month
+# Flask default is 31 days; we set explicit 12h to be safe for a live Cyber Security Awareness Program
 # session while still expiring reasonably. With `session.permanent=True` in login,
 # this lifetime controls expiry. 12h >> typical 2-4h event, so no mid-event logout.
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(hours=12)
@@ -189,13 +189,7 @@ CONTENT_DIR = LIVE_EVENT_DIR / "content"
 # under content/<module>/{it-support,development}.json (harmless, just unreferenced) and their
 # old slide-it-*/slide-dev-*.html files remain for export_audience_slides.py's historical
 # per-audience exports, but neither audience is selectable here anymore.
-AUDIENCE_DEFS = [
-    {"id": "accounts", "displayName": "Accounts"},
-    {"id": "hr", "displayName": "HR"},
-    {"id": "fleet-management", "displayName": "Fleet Management"},
-    {"id": "technology-team", "displayName": "Technology Team"},
-    {"id": "vessel-operations", "displayName": "Vessel Operations"},
-]
+AUDIENCE_DEFS = []  # General audience only - team-specific variants retired; files remain on disk, unreferenced.
 AUDIENCE_IDS = {a["id"] for a in AUDIENCE_DEFS}
 GENERAL_AUDIENCE = "general"
 
@@ -414,7 +408,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
         if module_id == "pass-phrase-choose":
             # "Choose the compliant one" phase, one per round, immediately BEFORE that round's
             # own build phase (see _load_module_sequence) - 4 candidate passwords, exactly one
-            # actually meeting Synergy's stated policy (content/pass-phrase/<audience>.json's top-level
+            # actually meeting the stated policy (content/pass-phrase/<audience>.json's top-level
             # "policy" string). Modeled as a plain MC item (options + correctOptionId) so it
             # rides the exact same generic correctness/reveal/admin infrastructure every other
             # MC module (fault-finding, myth-vs-fact, clue-quest) already uses - nothing
@@ -435,7 +429,7 @@ def _normalize_module_item(module_id: str, raw, idx: int = 0):
             out = {
                 "id": str(base_id) + "_choose",
                 "kind": "choose",
-                "prompt": "Which of these actually meets Synergy's password policy?",
+                "prompt": "Which of these actually meets the organisation's password policy?",
                 "options": norm_opts,
                 "fact": "\n".join(fact_lines),
                 "revealed": False,
@@ -815,15 +809,15 @@ PP_MAX_CHARS = 15  # chunk-aware cap: total characters reached, not tile count
 PP_NAMES = ["Rahul", "Priya", "Amit", "Neha", "Arjun", "Sneha", "Vikram", "Ananya", "Rohan", "Isha", "Karan", "Meera"]
 PP_PLACES = ["Mumbai", "Delhi", "Chennai", "Kolkata", "Goa", "Pune", "Jaipur", "Kochi", "Hyderabad"]
 PP_YEARS = ["1998", "1999", "2000", "2001", "2002", "2003", "1995", "1990", "1992"]
-PP_PHRASE_WORDS = ["Ocean", "Voyage", "Anchor", "Harbor", "Bridge", "Compass", "Horizon", "Voyager", "Marina", "Delta"]
+PP_PHRASE_WORDS = ["Cloud", "Garden", "Silver", "Meadow", "Bridge", "Lantern", "Morning", "Rainbow", "Pencil", "Maple"]
 PP_UPPER_POOL = [chr(c) for c in range(65, 91)]
 PP_LOWER_POOL = [chr(c) for c in range(97, 123)]
 PP_NUM_POOL = [chr(c) for c in range(48, 58)]
 PP_SYM_POOL = list("!@#$%^&*-_+=?~<>")
 PP_CHUNK_TWO_POOL = ["Ka","Ri","Th","On","An","Re","Co","Ma","Be","Su","Un","Ex","Mi","Tr","Ch","Sh","Pr","St","Li","En","Or","Al","El","Ar","on","th","an","er","in"]
-# 3-char fragments, loosely themed to the event (Syn=Synergy, Sec=Security, Cyb=Cyber...) so
+# 3-char fragments, loosely themed to the event (Sec=Security, Cyb=Cyber...) so
 # they read as "recognizable" the same way the 2-char pool's "Ka"/"Th" syllables do.
-PP_CHUNK_THREE_POOL = ["Syn","Sec","Net","Cyb","Log","Key","Byt","Cod","Def","Hak","Bot","Vpn","Pwd","Enc","Fir","Wal","Loc","Saf","Gua","Shi"]
+PP_CHUNK_THREE_POOL = ["Pat","Sec","Net","Cyb","Log","Key","Byt","Cod","Def","Hak","Bot","Vpn","Pwd","Enc","Fir","Wal","Loc","Saf","Gua","Shi"]
 
 
 def _pp_generate_weak_password(difficulty: str) -> str:
@@ -1689,7 +1683,7 @@ def session_create():
         "roomCode": code,
         "createdAt": now,
         "participants": {},  # id -> name
-        "participantMeta": {},  # id -> {name, joinedAt}
+        "participantMeta": {},  # id -> {name, contact, role, email, company, joinedAt}
         "activeModule": None,
         "state": None,  # lobby|running|complete
         "moduleSequence": [],
@@ -1763,9 +1757,9 @@ def join_page(code):
     if not sess:
         html_bad = """<!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/><title>Lab __ROOM_CODE__ not found - Synergy</title>
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/><title>Lab __ROOM_CODE__ not found</title>
 <style>body{font-family:system-ui,-apple-system,Barlow,sans-serif;background:#f8fafc;color:#0f172a;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:16px} .card{background:white;border:1px solid #e2e8f0;border-radius:16px;padding:24px;max-width:420px;width:100%;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08)} h1{font-size:1.25rem;margin:0 0 8px} p{color:#64748b;margin:0 0 16px;line-height:1.5} a{color:#0891b2;text-decoration:none;font-weight:700} .room{font-family:monospace;background:#e0f2fe;color:#0c4a6e;padding:4px 8px;border-radius:6px;letter-spacing:1px}</style>
-</head><body><div class="card"><h1>Lab <span class="room">__ROOM_CODE__</span> not found</h1><p>This lab code doesn't exist or has been closed. Check the code or ask the host for a new QR.</p><p><a href="/">- Go home</a></p><p style="font-size:12px;color:#94a3b8;margin-top:12px">Synergy Cyber Security Awareness Month</p></div></body></html>"""
+</head><body><div class="card"><h1>Lab <span class="room">__ROOM_CODE__</span> not found</h1><p>This lab code doesn't exist or has been closed. Check the code or ask the host for a new QR.</p><p><a href="/">- Go home</a></p><p style="font-size:12px;color:#94a3b8;margin-top:12px">Cyber Security Awareness Program</p></div></body></html>"""
         html_bad = html_bad.replace("__ROOM_CODE__", code)
         return Response(html_bad, status=404, mimetype="text/html")
     html_template = """<!doctype html>
@@ -1773,7 +1767,7 @@ def join_page(code):
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes"/>
-<title>Join Lab __ROOM_CODE__ - Synergy Cyber Security Awareness Month</title>
+<title>Join Lab __ROOM_CODE__ - Cyber Security Awareness Program</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Barlow:wght@300;400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
 <!-- Reuses the same component classes as the facilitator console (mf-card, dr-option,
@@ -1907,7 +1901,7 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;ba
 /* Reused console text classes (.cq-riddle-text, .dr-prompt, .mf-myth, etc.)
    were never built to wrap an unbroken long token - a desktop-width console line has plenty
    of room, but content that includes something like an email address with no hyphen (e.g.
-   clue-quest's "hr@synergymarinegroup.com") has nowhere to break on a 375px phone and pushes
+   clue-quest's long sample email address) has nowhere to break on a 375px phone and pushes
    the whole card past the viewport edge. Force-wrap anywhere inside the mounted template. */
 #actMount, #actMount *{overflow-wrap:anywhere}
 /* Clue-quest's countdown reuses console's .le-timer/.lt-digits as-is (same amber/red threshold
@@ -2143,19 +2137,79 @@ button.pp-tile, button.pp-deck-tile{
 @media (prefers-reduced-motion: reduce){
   .card, .btn, .option-btn, .cc-bubble{transition:none !important; animation:none !important}
 }
+
+/* ---- Participant UX pass: contrast, focus, safe-area, sticky join action, small screens ---- */
+.sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.fl{display:block;font-family:'Space Mono',monospace;font-size:12px;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;color:#334155;margin:14px 0 6px}
+.fl .req{color:#b91c1c;font-size:14px}
+.fl .opt{color:#64748b;text-transform:none;font-weight:600;letter-spacing:0}
+.input{font-size:16px;min-height:48px;scroll-margin-bottom:110px;scroll-margin-top:72px}
+.input::placeholder{color:#64748b}
+.input:focus-visible,.btn:focus-visible,.option-btn:focus-visible,.cw-hint-btn:focus-visible,.cw-clue-list li:focus-visible,button:focus-visible{outline:3px solid #0E7BE5;outline-offset:2px}
+.input:focus{outline:2px solid transparent}
+.btn{background:#0e7490;min-height:48px}
+.btn:hover{background:#155e75}
+.btn.secondary{background:white}
+.btn.secondary:hover{background:#f8fafc}
+.btn.mi{background:var(--mi-gradient)}
+.btn[style*="#10b981"]{background:#10b981}
+.btn[style*="#06b6d4"]{background:#0e7490 !important}
+.err{margin:0 0 10px;font-weight:600;line-height:1.4;overflow-wrap:anywhere}
+.ok{margin:0 0 10px}
+.join-actions{position:sticky;bottom:0;z-index:5;margin:14px -4px 0;padding:10px 4px calc(10px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(255,255,255,0),#fff 14px)}
+#joinScreen{overflow:visible}
+#joinScreen::before{border-radius:16px 16px 0 0}
+.join-foot,.join-foot span{color:#64748b}
+.join-foot span,.join-card p{overflow-wrap:anywhere}
+.flow-strip li{font-size:12px;line-height:1.3;overflow-wrap:anywhere}
+.header .le-brand-text{white-space:normal}
+.header .count{color:#475569}
+#cwProgressHint{color:#64748b !important}
+.ff-compare-panel .ff-tap-hint{color:#0e7490}
+.cw-hint-btn{color:#0e7490;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center}
+.cw-clue-list li{min-height:44px;display:flex;align-items:center;gap:6px}
+.cc-mute-btn{width:44px;height:44px}
+.cc-arena{height:min(62dvh,520px)}
+.reconnect{bottom:calc(16px + env(safe-area-inset-bottom));max-width:calc(100vw - 24px);text-align:center;line-height:1.3}
+.main{padding-bottom:calc(20px + env(safe-area-inset-bottom));padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+img,svg{max-width:100%}
+#activityScreen,#submittedScreen,#completeScreen,#waitingScreen,#crosswordScreen,#controlCatchScreen{overflow-wrap:anywhere}
+.act-nav{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(255,255,255,0),#fff 12px);padding:10px 0 calc(4px + env(safe-area-inset-bottom));z-index:4}
+@media (max-width:400px){
+  .header .le-brand-text{flex:1 1 auto;min-width:0}
+  .header .le-brand-text small{max-width:none;white-space:normal}
+  .header .le-topbar-right{margin-left:auto;flex-wrap:nowrap}
+  .flow-strip{flex-wrap:wrap}
+  .flow-strip li{flex:1 1 calc(50% - 6px) !important}
+}
+@media (min-width:768px){ .main{max-width:600px} }
+@media (max-height:480px) and (orientation:landscape){
+  .main{max-width:720px;padding-top:10px}
+  .cc-arena{height:min(70dvh,320px)}
+  #actMount{min-height:0}
+  .join-actions{position:static;background:none}
+}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+}
+@media (forced-colors:active){ .input:focus{outline:2px solid Highlight} }
+@media (max-width:430px){
+  .pp-deck{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+  button.pp-deck-tile,button.pp-tile{width:100%;min-width:0 !important;max-width:64px;height:48px;font-size:16px}
+  .pp-slot-empty{width:44px;height:44px}
+  .cc-hud{gap:6px}
+  .cc-hud-stat{min-width:0;padding:8px 4px}
+  .cc-hud-value{font-size:16px;white-space:nowrap;overflow-wrap:normal}
+  .cc-hud-label{font-size:10px}
+  .act-topline .badge{white-space:normal}
+}
 </style>
 </head>
 <body>
 <header class="header le-topbar">
-  <div class="le-brand">
-    <img src="/assets/SYN.png" alt="Synergy Marine Group"/>
-    <div class="le-brand-div"></div>
-    <img src="/assets/AFT.png" alt="AFT"/>
-  </div>
-  <div class="le-brand-div"></div>
   <div class="le-brand-text">
-    SYNERGY CYBER
-    <small><span class="le-dot" style="display:inline-block;"></span> Synergy Cyber Security Awareness Month</small>
+    CYBER SECURITY
+    <small><span class="le-dot" style="display:inline-block;"></span> Awareness Program</small>
   </div>
   <div class="le-topbar-right">
     <span class="room">LAB __ROOM_CODE__</span>
@@ -2163,22 +2217,38 @@ button.pp-tile, button.pp-deck-tile{
   </div>
 </header>
 <main class="main">
-  <!-- Join - UX refined: hierarchy, helper, Synergy alignment, accessible label -->
+  <!-- Join - UX refined: hierarchy, helper, event-flow strip, accessible label -->
   <div id="joinScreen" class="card join-card">
-    <div class="join-eyebrow"><i class="fa-solid fa-shield-halved"></i> Synergy · Secure Session</div>
+    <div class="join-eyebrow"><i class="fa-solid fa-shield-halved"></i> Secure Session</div>
     <h1>Join session</h1>
-    <p class="lead">Enter your name to join <strong style="color:#0f172a">Lab __ROOM_CODE__</strong></p>
-    <p style="color:#64748b;font-size:var(--fs-badge);margin:0 0 14px">The host will see your name in the live participant list. Use the name you want shown on screen.</p>
-    <label for="nameInput" style="display:block;font-family:'Space Mono',monospace;font-size:11px;font-weight:800;letter-spacing:0.8px;text-transform:uppercase;color:#334155;margin:0 0 6px">Your name</label>
-    <input id="nameInput" class="input" placeholder="e.g. Alex, Priya — 2–40 characters" autocomplete="name" maxlength="40" aria-label="Your name"/>
-    <button id="joinBtn" class="btn" style="margin-top:14px"><i class="fa-solid fa-right-to-bracket"></i> Join session</button>
-    <div id="joinOk" class="ok hidden"></div>
-    <div id="joinErr" class="err hidden"></div>
+    <p class="lead">Enter your details to join <strong style="color:#0f172a">Lab __ROOM_CODE__</strong></p>
+    <p id="joinHint" style="color:#475569;font-size:var(--fs-badge);margin:0 0 14px">Fields marked * are required. The host will see your name in the live participant list.</p>
+    <label for="nameInput" class="fl">Full name <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
+    <input id="nameInput" type="text" class="input" placeholder="Your full name" autocomplete="name" autocapitalize="words" enterkeyhint="next" required aria-required="true" aria-describedby="joinHint joinErr" maxlength="40"/>
+    <label for="contactInput" class="fl">Contact number <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
+    <input id="contactInput" type="tel" inputmode="tel" class="input" placeholder="e.g. +91 98765 43210" autocomplete="tel" enterkeyhint="next" required aria-required="true" aria-describedby="joinHint joinErr" maxlength="20"/>
+    <label for="roleInput" class="fl">Role / occupation <span class="opt">(optional)</span></label>
+    <input id="roleInput" type="text" class="input" placeholder="e.g. Accountant, Engineer" autocomplete="organization-title" autocapitalize="words" enterkeyhint="next" maxlength="60"/>
+    <label for="emailInput" class="fl">Email ID <span class="opt">(optional)</span></label>
+    <input id="emailInput" type="email" inputmode="email" class="input" placeholder="name@company.com" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-describedby="joinErr" maxlength="100"/>
+    <label for="companyInput" class="fl">Company <span class="opt">(optional)</span></label>
+    <input id="companyInput" type="text" class="input" placeholder="Your company" autocomplete="organization" autocapitalize="words" enterkeyhint="go" maxlength="80"/>
+    <ol class="flow-strip" aria-label="How this session works" style="list-style:none;display:flex;gap:6px;padding:0;margin:14px 0 0;font-size:11px;color:#475569;text-align:center">
+      <li style="flex:1;background:#f1f5f9;border-radius:8px;padding:6px 4px"><strong style="display:block;color:#0f172a">1 Join</strong>Enter your details</li>
+      <li style="flex:1;background:#f1f5f9;border-radius:8px;padding:6px 4px"><strong style="display:block;color:#0f172a">2 Wait</strong>Host starts the activity</li>
+      <li style="flex:1;background:#f1f5f9;border-radius:8px;padding:6px 4px"><strong style="display:block;color:#0f172a">3 Play</strong>Answer on your phone</li>
+      <li style="flex:1;background:#f1f5f9;border-radius:8px;padding:6px 4px"><strong style="display:block;color:#0f172a">4 Learn</strong>See the takeaway</li>
+    </ol>
+    <div class="join-actions">
+      <div id="joinOk" class="ok hidden" role="status" aria-live="polite"></div>
+      <div id="joinErr" class="err hidden" role="alert" aria-live="assertive"></div>
+      <button id="joinBtn" class="btn" type="button"><i class="fa-solid fa-right-to-bracket"></i> Join session</button>
+    </div>
     <div class="join-foot">
       <span><i class="fa-solid fa-users"></i> Lab __ROOM_CODE__</span>
-      <span>Synergy Marine Group</span>
+      <span>Cyber Security Awareness Program</span>
     </div>
-    <p style="margin-top:10px;font-size:11px;color:#94a3b8;text-align:center"><i class="fa-solid fa-lock"></i> Synergy Cyber Security Awareness Month · Encrypted & monitored</p>
+    <p style="margin-top:10px;font-size:11px;color:#94a3b8;text-align:center"><i class="fa-solid fa-lock"></i> Cyber Security Awareness Program · Encrypted & monitored</p>
   </div>
   <!-- Waiting - lobby shows chosen module name - refined UX -->
   <div id="waitingScreen" class="card hidden" style="text-align:center">
@@ -2193,7 +2263,7 @@ button.pp-tile, button.pp-deck-tile{
     <div id="waitingNames" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;justify-content:center"></div>
     <div class="join-foot" style="margin-top:16px">
       <span style="color:#64748b"><i class="fa-solid fa-satellite-dish"></i> Live sync 1.5s</span>
-      <span>Synergy Marine Group</span>
+      <span>Cyber Security Awareness Program</span>
     </div>
   </div>
   <!-- Participant intro - mirrors console's le-intro-screen (whyThisMatters) -->
@@ -2204,7 +2274,7 @@ button.pp-tile, button.pp-deck-tile{
          hidden/empty for every other module, see showParticipantIntro's 3rd param. -->
     <p id="introPolicy" class="hidden" style="margin:0 0 16px;padding:10px 12px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;font-size:var(--fs-badge);line-height:1.5;color:#78350f;text-align:left"></p>
     <button id="introStartBtn" class="btn" style="width:100%;background:#06b6d4;color:white" type="button"><i class="fa-solid fa-play"></i> Start</button>
-    <p style="margin-top:10px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8">Synergy Cyber Security Awareness Month</p>
+    <p style="margin-top:10px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#94a3b8">Cyber Security Awareness Program</p>
   </div>
   <!-- Self-paced activity - real per-module template mounted into #actMount, participant
        pages through the full item list at their own pace (their own Prev/Next below). -->
@@ -2330,7 +2400,7 @@ button.pp-tile, button.pp-deck-tile{
     <button id="retryBtn" class="btn secondary">Retry</button>
   </div>
 </main>
-<div id="reconnectBanner" class="reconnect hidden">Reconnecting...</div>
+<div id="reconnectBanner" class="reconnect hidden" role="status" aria-live="polite">Reconnecting&hellip; your answers are safe</div>
 <script>
 const ROOM_CODE = "__ROOM_CODE__";
 const STORAGE_PID = 'participantId_' + ROOM_CODE;
@@ -2498,12 +2568,20 @@ function esc(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt
 
 async function doJoin(){
   const name = els.nameInput.value.trim();
-  if(!name){ showErr('Please enter your name'); return; }
+  if(!name){ showErr('Please enter your name'); els.nameInput.focus(); return; }
   if(name.length<1 || name.length>40){ showErr('Name must be 1-40 characters'); return; }
+  const contact = document.getElementById('contactInput').value.trim();
+  const role = document.getElementById('roleInput').value.trim();
+  const email = document.getElementById('emailInput').value.trim();
+  const company = document.getElementById('companyInput').value.trim();
+  if(!/^[+]?[0-9][0-9 ()-]{5,18}[0-9]$/.test(contact)){ showErr('Please enter a valid contact number, for example 98765 43210'); document.getElementById('contactInput').focus(); return; }
+  if(email && !/^[^@ ]+@[^@ ]+[.][^@ ]+$/.test(email)){ showErr('Please enter a valid email ID, for example name@company.com'); document.getElementById('emailInput').focus(); return; }
   els.joinBtn.disabled = true;
+  const joinLbl = els.joinBtn.innerHTML;
+  els.joinBtn.textContent = 'Connecting...';
   hideErr();
   try{
-    const r = await fetch('/api/session/' + ROOM_CODE + '/join', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name})});
+    const r = await fetch('/api/session/' + ROOM_CODE + '/join', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name, contact, role, email, company})});
     const j = await r.json().catch(()=>({}));
     if(!r.ok){
       if(j.error === 'room not found') throw new Error('This session has ended or the lab code is wrong. Please check with the host or ask for a new QR.');
@@ -2517,6 +2595,7 @@ async function doJoin(){
   }catch(e){
     showErr(e.message || 'Join failed - check connection');
   }finally{
+    els.joinBtn.innerHTML = joinLbl;
     els.joinBtn.disabled = false;
   }
 }
@@ -4432,12 +4511,27 @@ def session_join(code):
     if not name or not str(name).strip():
         return jsonify({"error": "name required"}), 400
     name = str(name).strip()[:40]
+    # Participant details: name + contact number required; role, email, company optional.
+    def _field(key, limit):
+        v = data.get(key) if isinstance(data, dict) else None
+        return str(v).strip()[:limit] if v else ""
+    contact = _field("contact", 20)
+    role = _field("role", 60)
+    email = _field("email", 100)
+    company = _field("company", 80)
+    if not re.fullmatch(r"\+?[0-9][0-9 ()\-]{5,18}[0-9]", contact):
+        return jsonify({"error": "valid contact number required"}), 400
+    if email and not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+        return jsonify({"error": "invalid email"}), 400
     pid = _gen_id("p_")
     # Ensure uniqueness (very low collision)
     while pid in sess["participants"]:
         pid = _gen_id("p_")
     sess["participants"][pid] = name
-    sess["participantMeta"][pid] = {"name": name, "joinedAt": datetime.now(timezone.utc).isoformat()}
+    sess["participantMeta"][pid] = {
+        "name": name, "contact": contact, "role": role, "email": email, "company": company,
+        "joinedAt": datetime.now(timezone.utc).isoformat(),
+    }
     return jsonify({"participantId": pid, "roomCode": code, "name": name})
 
 
@@ -5009,6 +5103,32 @@ def session_state(code):
         "rememberThis": remember,
         "policyStatement": policy_statement,
     })
+
+
+@app.route("/api/admin/session/<code>/participants.csv", methods=["GET"])
+@admin_required
+def admin_participants_csv(code):
+    """Admin-only download of participant details (name, contact, role, email, company).
+
+    Never exposed via the participant-facing /state - contact details are PII."""
+    import csv
+    code = code.strip().upper()
+    sess = SESSIONS.get(code)
+    if not sess:
+        return jsonify({"error": "room not found"}), 404
+
+    def safe(v):  # neutralise spreadsheet formula injection in free-text cells
+        v = str(v or "")
+        return "'" + v if v[:1] in ("=", "+", "-", "@", "\t", "\r", "\n") else v
+
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(["Name", "Contact number", "Role / occupation", "Email", "Company", "Joined at (UTC)"])
+    for m in sess["participantMeta"].values():
+        w.writerow([safe(m.get("name")), m.get("contact", ""), safe(m.get("role")),
+                    safe(m.get("email")), safe(m.get("company")), m.get("joinedAt", "")])
+    return Response(buf.getvalue(), mimetype="text/csv",
+                    headers={"Content-Disposition": f"attachment; filename=participants-{code}.csv"})
 
 
 @app.route("/api/admin/session/<code>/results", methods=["GET"])
@@ -6076,7 +6196,7 @@ def admin_reset(code):
     """Clear participants/responses/activeModule so same room code can be reused for next group.
 
     Keeps the room code itself and creates a fresh timestamp; wipes everything
-    that would leak between Synergy Cyber Security Awareness Month events without requiring a
+    that would leak between Cyber Security Awareness Program events without requiring a
     server restart. Participants must re-join after reset (old participantIds
     become unknown, join page handles this with a clear re-join prompt).
     """

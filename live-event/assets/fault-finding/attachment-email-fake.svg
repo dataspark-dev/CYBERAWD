@@ -2,7 +2,7 @@
   <rect width="1600" height="900" fill="#0f172a"/>
   <rect x="230" y="130" width="1140" height="640" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="2"/>
   <rect x="230" y="130" width="1140" height="70" rx="12" fill="#f1f5f9"/>
-  <text x="260" y="174" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: HR Payroll &lt;hr-payroll@synergymarinegroup.com&gt;</text>
+  <text x="260" y="174" font-family="Space Mono, monospace" font-size="16" fill="#111827">From: HR Payroll &lt;hr-payroll@acmecorp.com&gt;</text>
   <text x="260" y="245" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Subject: Updated Payslip — Please Review Immediately</text>
   <text x="260" y="315" font-family="Barlow, sans-serif" font-size="18" fill="#1e293b">Hi,</text>
   <text x="260" y="353" font-family="Barlow, sans-serif" font-size="18" fill="#374151">Please find your updated payslip attached. Enable macros and</text>
@@ -25,5 +25,5 @@
     <rect x="0" y="0" width="360" height="34" rx="6" fill="#f1f5f9" stroke="#cbd5e1"/>
     <text x="10" y="23" font-family="Barlow, sans-serif" font-size="12" fill="#374151">Enable Content / Enter password to view files</text>
   </g>
-  <text x="800" y="850" font-family="Space Mono, monospace" font-size="15" fill="#67e8f9" text-anchor="middle" letter-spacing="2">HR / PAYROLL — PAYSLIP &amp; ROSTER</text>
+  <text x="800" y="850" font-family="Space Mono, monospace" font-size="15" fill="#67e8f9" text-anchor="middle" letter-spacing="2">HR / PAYROLL — PAYSLIP &amp; SCHEDULE</text>
 </svg>

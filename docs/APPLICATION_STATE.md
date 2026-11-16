@@ -1,4 +1,4 @@
-# Application State — Synergy Cyber Security Awareness Month
+# Application State — Cyber Security Awareness Program
 
 Reference document for the live-event application: the standalone presentation console, the
 admin/phone-sync live-poll system built on top of it, the 6-audience content-variant system
@@ -8,6 +8,24 @@ multi-switch + restart-persistence regression, all passing — see §1a-§1c).
 
 This is a living reference — if a future change alters routes, modules, content structure, or
 config, update this file in the same change.
+
+---
+
+## 0. Changes of 2026-11-16 (supersede conflicting text below)
+
+- **Neutral branding:** Synergy name and SYN logo removed from the join page, admin dashboard,
+  console, deck pages/titles and export filenames (`Cyber_Security_Awareness_Program_*`). The AFT
+  logo remains. Scenario content (fake/real `synergymarinegroup` domains, "Synergy Crew" wording in
+  some slides and lab JSON) is deliberately untouched - it is lesson content.
+- **General audience only:** `AUDIENCE_DEFS` is empty; the admin audience tabs are hidden and
+  launching a non-general audience returns 400. Per-team content files stay on disk, unused.
+  Sections 1a/1b below describe the retired audience system.
+- **Participant details on join:** `POST /api/session/<code>/join` takes `name`* and `contact`*
+  (required; contact validated 7-20 chars digits/+/space/()/-), plus optional `role`, `email`
+  (format-checked), `company`. Stored in `sess["participantMeta"][pid]` with `joinedAt`, persisted
+  in `data/sessions.json`. Never returned by participant-facing endpoints.
+- **Admin export:** `GET /api/admin/session/<code>/participants.csv` (admin-only) and a
+  "Download participant details (CSV)" button in the Participants panel.
 
 ---
 

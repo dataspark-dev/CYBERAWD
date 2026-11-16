@@ -2,9 +2,9 @@
    Rebalanced 15-chunk decks (was 20) with scarce premium pool: only 2-3 upper/symbol/number
    chunks per deck so Very Strong takes genuine choice. Rounds provide difficulty; weak
    sample + deck (1-char singles, 2-char pairs like "Ka","Th", 3-char fragments like
-   "Syn","Sec") are either static content (content/pass-phrase.json) or generated at
+   "Pat","Sec") are either static content (content/pass-phrase.json) or generated at
    runtime weighted by difficulty. Capped by total character count (PP_MAX_CHARS = 15)
-   not tile count - a "Syn" tile counts as 3 toward the 15-char cap. Deck (15) still
+   not tile count - a "Pat" tile counts as 3 toward the 15-char cap. Deck (15) still
    offers real choice but no surplus. Strength meter only + facilitator hint + shuffle. */
 (function () {
   const TIMER_SECONDS = 45;
@@ -40,13 +40,13 @@
   const NAMES = ["Rahul","Priya","Amit","Neha","Arjun","Sneha","Vikram","Ananya","Rohan","Isha","Karan","Meera"];
   const PLACES = ["Mumbai","Delhi","Chennai","Kolkata","Goa","Pune","Jaipur","Kochi","Hyderabad"];
   const YEARS = ["1998","1999","2000","2001","2002","2003","1995","1990","1992"];
-  const PHRASE_WORDS = ["Ocean","Voyage","Anchor","Harbor","Bridge","Compass","Horizon","Voyager","Marina","Delta"];
+  const PHRASE_WORDS = ["Cloud","Garden","Silver","Meadow","Bridge","Lantern","Morning","Rainbow","Pencil","Maple"];
   const UPPER_POOL = (function(){ var a=[]; for(var i=65;i<=90;i++) a.push(String.fromCharCode(i)); return a; })();
   const LOWER_POOL = (function(){ var a=[]; for(var i=97;i<=122;i++) a.push(String.fromCharCode(i)); return a; })();
   const NUM_POOL = (function(){ var a=[]; for(var i=48;i<=57;i++) a.push(String.fromCharCode(i)); return a; })();
   const SYM_POOL = ['!','@','#','$','%','^','&','*','-','_','+','=','?','~','<','>'];
   const CHUNK_TWO_POOL = ["Ka","Ri","Th","On","An","Re","Co","Ma","Be","Su","Un","Ex","Mi","Tr","Ch","Sh","Pr","St","Li","En","Or","Al","El","Ar","on","th","an","er","in"];
-  const CHUNK_THREE_POOL = ["Syn","Sec","Net","Cyb","Log","Key","Byt","Cod","Def","Hak","Bot","Vpn","Pwd","Enc","Fir","Wal","Loc","Saf","Gua","Shi"];
+  const CHUNK_THREE_POOL = ["Pat","Sec","Net","Cyb","Log","Key","Byt","Cod","Def","Hak","Bot","Vpn","Pwd","Enc","Fir","Wal","Loc","Saf","Gua","Shi"];
 
   function pickRandom(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
   function shuffled(arr){
@@ -437,7 +437,7 @@
     tile.dataset.source='deck';
     tile.dataset.idx=String(idx);
     tile.innerHTML='<span class="pp-tile-letter">'+LiveEvent.escapeHtml(ch)+'</span>';
-    // Chunk tiles may be 2-char like "Ka" or 3-char like "Syn" - slightly wider but still
+    // Chunk tiles may be 2-char like "Ka" or 3-char like "Pat" - slightly wider but still
     // touch-friendly; each length gets its own width/font-size step (see console.css).
     var chLen = String(ch).length;
     if(chLen>=3) tile.classList.add('chunk-tile3');

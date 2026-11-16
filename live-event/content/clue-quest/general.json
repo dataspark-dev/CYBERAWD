@@ -1,18 +1,18 @@
 {
-  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own. That holds whether you are at your desk or on the bridge with limited time.",
-  "rememberThis": "This month gave these tricks a name — keep using them. If you can name the trick, you can spot it next time: STOP, VERIFY through a channel you already trust, then REPORT.",
+  "whyThisMatters": "If you can name the trick out loud together, you will spot it faster on your own. That holds whether you are at your desk or in a hurry on your phone.",
+  "rememberThis": "Today gave these tricks a name — keep using them. If you can name the trick, you can spot it next time: STOP, VERIFY through a channel you already trust, then REPORT.",
   "facilitatorNotes": {
     "discussionPrompts": [
       "Ask someone to explain one of these terms in their own words before you show the answer. Could they explain it to a colleague who missed today, without using jargon?",
       "Ask which two terms are easiest to mix up and why. The fake link (the address shown in an email) and the fake portal (the whole login page being copied) are the most confused — both involve a wrong destination, but they are different checks.",
-      "Ask for a real example from their own inbox or phone that matches one of these terms — for example, a crewing email with an extra word in the address."
+      "Ask for a real example from their own inbox or phone that matches one of these terms — for example, an HR email with an extra word in the address."
     ],
     "commonWrongAnswer": "People most often mix up FAKE LINK and FAKE PORTAL. Both involve a wrong destination, so people pick one when the riddle points to the other. The difference: a fake link is the clickable address inside a message; a fake portal is the entire login page that looks real but sits at a fake address."
   },
   "riddles": [
     {
       "id": "domain-spoofing",
-      "riddle": "You get an email that looks like it is from Crewing — hr@synergymarine-group-careers.com. But your real Crewing address is hr@synergymarinegroup.com. I just added one extra word with a hyphen. What trick am I?",
+      "riddle": "You get an email that looks like it is from HR — hr@acme-corp-careers.com. But your real HR address is hr@acmecorp.com. I just added one extra word with a hyphen to a name that looks right. What trick am I?",
       "answer": "DOMAIN SPOOFING",
       "options": [
         "DOMAIN SPOOFING",
@@ -22,7 +22,7 @@
     },
     {
       "id": "urgency-trap",
-      "riddle": "I am a message that says \"ACT NOW or your allotment will be delayed!\" and \"Do not call your vessel manager — just click here!\" I want you to hurry so you do not stop and check. What trick am I?",
+      "riddle": "I am a message that says \"ACT NOW or your account will be locked!\" and \"Do not call your manager — just click here!\" I want you to hurry so you do not stop and check. What trick am I?",
       "answer": "URGENCY TRAP",
       "options": [
         "URGENCY TRAP",
@@ -32,7 +32,7 @@
     },
     {
       "id": "malicious-attachment",
-      "riddle": "You think I am your crew payslip as a PDF. But my file name ends with .pdf.exe — the last part is .exe, not .pdf. I also ask you to click \"Enable Content\" to see me. What trick am I?",
+      "riddle": "You think I am your payslip as a PDF. But my file name ends with .pdf.exe — the last part is .exe, not .pdf. I also ask you to click \"Enable Content\" to see me. What trick am I?",
       "answer": "MALICIOUS ATTACHMENT",
       "options": [
         "MALICIOUS ATTACHMENT",
@@ -42,7 +42,7 @@
     },
     {
       "id": "fake-link",
-      "riddle": "In your rotation email you see the crew portal address portal.synergymarinegroup.com written in blue. But when you press and hold the link (or hover on a computer), it actually goes to a different place with \"-secure\" in the name. What trick am I?",
+      "riddle": "In an email you see the staff portal address portal.acmecorp.com written in blue. But when you press and hold the link (or hover on a computer), it actually goes to a different place with \"-secure\" in the name. What trick am I?",
       "answer": "FAKE LINK",
       "options": [
         "FAKE LINK",
@@ -52,7 +52,7 @@
     },
     {
       "id": "fake-portal",
-      "riddle": "I look exactly like the real crew portal login page where you check your rotation and payslips. But my address at the top has one extra letter — synergymanne instead of synergymarine. What trick am I?",
+      "riddle": "I look exactly like the real staff portal login page where you check your payslips. But my address at the top has one letter wrong — acmecorb.com instead of acmecorp.com. What trick am I?",
       "answer": "FAKE PORTAL",
       "options": [
         "FAKE PORTAL",
@@ -62,7 +62,7 @@
     },
     {
       "id": "smishing",
-      "riddle": "I am a fake text message (SMS) on your phone. I say \"Your crew rotation portal link has changed — tap here to confirm your sign-off dates for MV Horizon.\" I use a short link like bit.ly to hide where I really go. What trick am I?",
+      "riddle": "I am a fake text message (SMS) on your phone. I say \"Your staff portal link has changed — tap here to confirm your details.\" I use a short link like bit.ly to hide where I really go. What trick am I?",
       "answer": "SMISHING",
       "options": [
         "SMISHING",
@@ -72,7 +72,7 @@
     },
     {
       "id": "fake-popup",
-      "riddle": "A small box pops up on your screen and says \"Type your password here to fix the error.\" Whether you are at your desk or on a shared computer on board, the real IT Service Desk never asks for your password this way. What trick am I?",
+      "riddle": "A small box pops up on your screen and says \"Type your password here to fix the error.\" Whether you are at your desk or on a shared computer, the real IT Service Desk never asks for your password this way. What trick am I?",
       "answer": "FAKE IT POP-UP",
       "options": [
         "FAKE IT POP-UP",

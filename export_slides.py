@@ -42,7 +42,7 @@ DECK_JS         = ROOT / "scripts" / "deck.js"
 # point this at a plain `python -m http.server <port>` run from the repo
 # root, since the slides are static files either way.
 SERVER_BASE     = os.environ.get("EXPORT_BASE_URL", "http://localhost:5000")
-OUTPUT_FILE     = "Synergy_Cyber_Security_Awareness_Month.pptx"
+OUTPUT_FILE     = "Cyber_Security_Awareness_Program.pptx"
 
 # Canvas size in CSS pixels — matches body/html in every slides/slide-NN.html
 VIEWPORT_WIDTH  = 1920

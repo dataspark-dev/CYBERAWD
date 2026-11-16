@@ -1,56 +1,56 @@
 {
-  "whyThisMatters": "In the first minute of a real incident, most people freeze or try to fix it alone. The habit that helps you is knowing your next step before you need it — whether that incident happens at your desk or on board.",
-  "rememberThis": "The one line to take from this whole month: STOP, VERIFY, REPORT. Use this order every time, no matter what the situation looks like.",
+  "whyThisMatters": "In a real incident, most people freeze or try to fix it alone. The habit that helps is knowing your next step before you need it, whether you work in an office, at home or on the move.",
+  "rememberThis": "The one line to take away: STOP, VERIFY, REPORT. Use this order every time, no matter how the situation looks.",
   "facilitatorNotes": {
     "discussionPrompts": [
-      "Ask the group what they would do in the first few seconds of each scenario. Ask before you show the good answer.",
-      "For the phone-call case, ask if anyone has a trusted number they know by heart to call back on — or would they need to look it up under pressure?",
+      "Ask the group what they would do in the first few seconds of each scenario, before showing the good answer.",
+      "For the phone-call case, ask if anyone knows a trusted number by heart to call back on, or would have to look it up under pressure.",
       "Ask why \"wait and see if anything goes wrong\" feels tempting, even though it is the wrong choice in every case here.",
       "Ask how it felt to decide under time pressure. Was it harder to pause when the clock was running?",
       "For the video-call case, ask if anyone would feel okay ending a call with a senior leader to go and check.",
-      "Ask the group to name their own trusted way to check an urgent request. Do this for each role here: Finance, HR, Operations, and Offshore."
+      "Ask the group to name their own trusted way to check an urgent request, such as a known phone number or a manager."
     ],
-    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting. People change their own password, restart a locked computer, or move a leaked folder. It feels helpful, but it often destroys evidence that the IT Service Desk needs. People also most often get the video-call case wrong, choosing \"approve the payment\" because the face and voice matched — a live call feels harder to fake than an email."
+    "commonWrongAnswer": "The most common mistake is trying to fix it yourself before reporting, such as changing a password or deleting a message. It feels helpful but can destroy evidence IT needs. People also often fail the video-call case by approving the payment because the face and voice matched."
   },
   "cases": [
     {
       "id": "phishing-link-clicked",
-      "persona": "HR / Recruitment",
-      "title": "You Clicked a Link in a Seafarer Follow-Up",
-      "scenario": "You work in Crewing. You are checking emails from seafarers and manning agents. You click a link in what looked like a normal follow-up — \"Re: Application — 2nd Engineer, MV Horizon\". After you click, the page looks wrong and a login box pops up.",
+      "persona": "Office / Admin",
+      "title": "You Clicked a Link in an Email",
+      "scenario": "You are catching up on email. You click a link in a message called \"Re: Your document is ready to view\". The page that opens looks odd and a login box appears. Phishing means a fake message designed to trick you into clicking or giving away details.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "The page that opened looks strange. It asks you to log in again. What do you do first?",
+          "prompt": "The page asks you to log in again. What do you do first?",
           "options": [
             {
               "id": "a",
               "text": "Type your work password to see if it is real",
               "outcome": "consequence",
-              "feedback": "Do not type your password on a strange page. Even a quick test can give away your login to attackers."
+              "feedback": "Never type a password on a page you doubt. Even a quick test can hand your login to attackers."
             },
             {
               "id": "b",
-              "text": "Close the tab without typing anything and leave the device alone",
+              "text": "Close the tab, type nothing, and tell the IT helpdesk right away",
               "outcome": "good",
-              "feedback": "Right choice. Not typing anything stops the attack. Leaving the device as it is keeps what the IT Service Desk needs to see."
+              "feedback": "Right choice. Typing nothing stops the attack, and a fast report lets IT check your account before any damage is done."
             },
             {
               "id": "c",
-              "text": "Take a screenshot to show a crewing colleague before you do anything else",
+              "text": "Take a screenshot and ask a colleague what they think before doing anything else",
               "outcome": "consequence",
-              "feedback": "Sharing it with colleagues first slows you down. The most important step is to tell the IT Service Desk fast, not to ask others first."
+              "feedback": "Asking colleagues first only wastes time. The key step is telling IT fast."
             }
           ]
         }
       ],
-      "debrief": "Whether it is a link, an attachment, or anything unexpected, the steps are the same. STOP before you do more. Do not touch the device more than you need to. REPORT right away with details. Every minute you wait is a minute the IT Service Desk does not have."
+      "debrief": "Clicking is easy to do and common. STOP before you type anything. VERIFY by going to the real site yourself if you are unsure. REPORT to the IT helpdesk straight away. Every minute counts."
     },
     {
       "id": "svr-1",
-      "persona": "HR / Payroll",
-      "title": "The Payroll Details Text",
-      "scenario": "You get a text that looks like it is from HR Payroll: \"Synergy HR — click here to update your bank details for this month's allotment. Action needed today or your pay will be delayed.\" It includes a link you have never seen before.",
+      "persona": "Finance Team",
+      "title": "The Invoice With New Bank Details",
+      "scenario": "An email arrives from a supplier you know: \"Please note our bank details have changed. Pay this week's invoice to the new account below.\" The invoice looks real and the logo is correct. This trick is called business email compromise, where attackers pose as a supplier to redirect payments.",
       "decisions": [
         {
           "id": "d1",
@@ -58,290 +58,290 @@
           "options": [
             {
               "id": "a",
-              "text": "Tap the link and update your details quickly so your pay is not delayed",
+              "text": "Pay it using the new details, since the invoice looks normal",
               "outcome": "consequence",
-              "feedback": "Tapping an unknown link to \"update\" bank details is exactly how these texts steal your login — no real payroll deadline is worth that risk."
+              "feedback": "A convincing invoice proves nothing. Paying the wrong account usually means the money is gone."
             },
             {
               "id": "b",
-              "text": "Do not tap the link — open the official crew/HR portal from your bookmark and report the text to the IT Service Desk",
+              "text": "Do not pay yet. Call the supplier on a number you already have on file, and report the email to IT",
               "outcome": "good",
-              "feedback": "Right call. Going straight to a place you already trust removes the attacker's link completely, and reporting it helps flag the pattern for others."
+              "feedback": "Right call. Checking by a trusted second channel defeats the scam, and reporting helps protect your colleagues."
             },
             {
               "id": "c",
-              "text": "Reply to the text asking if it is really from HR",
+              "text": "Reply to the email asking if the new details are correct",
               "outcome": "consequence",
-              "feedback": "Replying only confirms your number is active — it does not prove anything, because a fake text will simply say yes."
+              "feedback": "Replying goes to the sender, who may be the attacker. They will simply say yes."
             }
           ]
         }
       ],
-      "debrief": "STOP — do not tap the link. VERIFY by opening the official HR or crew portal yourself (from a bookmark you already have) or by calling HR on a number you already know. REPORT the text to the IT Service Desk."
+      "debrief": "STOP before you act. VERIFY through a channel you already trust, never the one the sender gave you. REPORT it to the IT helpdesk."
     },
     {
       "id": "unknown-usb-drive",
-      "persona": "Offshore Crew",
-      "title": "You Found an Unknown USB Stick",
-      "scenario": "You are on board MV Horizon and you find a small USB stick — a thumb drive — taped to a shared computer on the bridge. It has no label and no clear owner.",
+      "persona": "Any Employee",
+      "title": "You Found a USB Stick",
+      "scenario": "You find a small USB stick (a thumb drive) on the floor near the meeting rooms. It has no label and no owner in sight. You are curious what is on it.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "No one says it is theirs and you are curious. What do you do?",
+          "prompt": "What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Plug it into the shared computer to check what is on it",
+              "text": "Plug it into your computer to see who owns it",
               "outcome": "consequence",
-              "feedback": "An unknown stick can install harmful software the moment you plug it in. Plugging it in just to look is how it gets in."
+              "feedback": "Never plug in a found device. It can install harmful software the moment it connects."
             },
             {
               "id": "b",
-              "text": "Leave it unplugged and tell the IT Service Desk — do not try to find the owner yourself",
+              "text": "Do not plug it in. Hand it to the IT helpdesk or security and report where you found it",
               "outcome": "good",
-              "feedback": "Correct. Not plugging it in removes the risk. It is not your job to find out who owns it — let the IT Service Desk handle it safely."
+              "feedback": "Right. IT can inspect it safely, and the location may show someone left it there on purpose."
             },
             {
               "id": "c",
-              "text": "Ask around the crew mess if anyone is missing a USB stick",
+              "text": "Plug it into an old shared computer that is not important",
               "outcome": "consequence",
-              "feedback": "This feels helpful, but it wastes time. Word can also reach the person who left it there before the IT Service Desk sees it."
+              "feedback": "Any connected computer can be harmed and then spread the problem across the network."
             }
           ]
         }
       ],
-      "debrief": "An unknown USB stick is an easy way for harmful software to get into a system. STOP before you plug anything in. REPORT it directly to the IT Service Desk so it is checked properly — do not leave it in a drawer or pass it around."
+      "debrief": "Attackers leave devices as bait. STOP, do not plug it in. VERIFY nothing yourself, because only IT can check it safely. REPORT it to IT or security."
     },
     {
       "id": "q1-cfo-video-call",
-      "persona": "Finance / Accounts",
-      "title": "The Video Call From a Senior Leader",
-      "scenario": "You are on a video call with someone who looks and sounds exactly like a senior finance leader. Their picture freezes for a second and the lighting looks a little off, but they speak with full confidence. They ask you to approve an unusual vendor payment — USD 48,500 for provisions — right now, before the call ends.",
+      "persona": "Finance Team",
+      "title": "The Urgent Call From a Senior Leader",
+      "scenario": "You join a video call. A senior leader appears and asks you to send an urgent payment today and to keep it confidential. The face and voice seem right. Deepfakes are fake audio or video made with AI that can copy a real person.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What do you check first?",
+          "prompt": "The leader pushes you to act before the end of the day. What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Approve the payment — the face and voice matched, so it must really be them",
+              "text": "Approve the payment, because it is clearly them",
               "outcome": "consequence",
-              "feedback": "A real-looking face and voice on a call is not proof of who someone is — both can now be faked. Approving because it “looked right” is exactly the mistake this kind of scam counts on."
+              "feedback": "Voice and video can now be faked. Looking right is not proof."
             },
             {
               "id": "b",
-              "text": "Quietly stall by saying you will do it after the call, hoping they forget",
+              "text": "Ask them to send the details by email and do it from there",
               "outcome": "consequence",
-              "feedback": "Stalling doesn’t solve anything. If it really is the leader, you’ve delayed a legitimate payment for no reason; if it’s a scam, hoping they “forget” means you never verified or reported it. Staying quiet isn’t the same as checking."
+              "feedback": "Email can also be faked, and this does not independently check the request."
             },
             {
               "id": "c",
-              "text": "End the call and check the request by contacting that leader on a number or channel you already know is real",
+              "text": "Pause, then confirm by calling them on a number you already trust, and follow the normal payment process",
               "outcome": "good",
-              "feedback": "Correct. A real-looking face and voice is not proof. An unusual, urgent payment is exactly when to STOP and VERIFY using a number or channel you already had before this call. Then REPORT anything strange."
+              "feedback": "Right. A second trusted channel, plus normal approvals, defeats the pressure. A real leader will not mind."
             },
             {
               "id": "d",
-              "text": "Ask a colleague in chat if they got the same request, then decide",
+              "text": "Ask a teammate whether it looks genuine, then pay",
               "outcome": "consequence",
-              "feedback": "Asking a colleague doesn’t verify anything — they weren’t on the call either, and a scammer counts on you feeling reassured just because someone else is unsure too. The only real check is a channel you already trust for that specific leader."
+              "feedback": "Your teammate sees the same fake. Check with the person directly through a trusted route."
             }
           ]
         }
       ],
-      "debrief": "A convincing face and voice is not proof of identity — treat an unusual, urgent request the same on video as you would over email: STOP, VERIFY through a number or channel you already had before this call, then REPORT."
+      "debrief": "Urgency and secrecy are warning signs. STOP, even if it is a senior person. VERIFY on a known number. REPORT the attempt to IT or security so others are warned."
     },
     {
       "id": "stolen-laptop",
-      "persona": "Operations",
-      "title": "Your Work Laptop Went Missing",
-      "scenario": "You just finished a vessel visit at the port. You travelled back on the launch, and when you get to the jetty you realise your work laptop is gone — it was in your bag during the transfer.",
+      "persona": "Sales / Travel",
+      "title": "Your Work Laptop Is Missing",
+      "scenario": "After a business trip you realise your work laptop is not in your bag. You may have left it in a taxi. It holds customer files and you are logged in to your work accounts.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "You just noticed it is gone. What do you do first?",
+          "prompt": "What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Go back to the jetty and the launch to search for it yourself",
+              "text": "Wait a day or two in case it turns up",
               "outcome": "consequence",
-              "feedback": "Every minute you spend searching is a minute the IT Service Desk is not locking your accounts or wiping the device. Speed matters more than searching."
+              "feedback": "Every hour matters. A lost laptop can be accessed quickly if it is not locked or wiped."
             },
             {
               "id": "b",
-              "text": "Report it to the IT Service Desk and your manager immediately",
+              "text": "Report it to the IT helpdesk straight away so they can lock or wipe it and reset your access",
               "outcome": "good",
-              "feedback": "Correct. Fast reporting lets the IT Service Desk act while there is still time to lock things."
+              "feedback": "Right. A quick report lets IT remotely lock the device and protect company and customer data."
             }
           ]
         }
       ],
-      "debrief": "A missing device with company access is a race against time. STOP trying to find it yourself. REPORT right away to the IT Service Desk and your manager with what you know. Check that the next steps happened, like locking the device remotely and changing your password."
+      "debrief": "Lost devices are common and reportable. STOP, do not just hope. VERIFY what was on it if you can, such as files and accounts. REPORT to IT at once, and do not worry about blame."
     },
     {
       "id": "q2-candidate-attachment",
-      "persona": "HR / Recruitment",
-      "title": "The Seafarer CV Attachment",
-      "scenario": "A message looks like it is from your usual crewing portal. It forwards a seafarer CV as an attachment — \"2nd Engineer, MV Horizon — available immediately.\" But the sender address is spelled a little differently than normal (a missing letter or added word). It says the candidate needs an answer \"within the hour\" or they will take another offer.",
+      "persona": "Marketing / Any Role",
+      "title": "Pasting Data Into an AI Tool",
+      "scenario": "You want a quick summary of a customer list and a contract. A free public AI chatbot would do it in seconds, but the files contain names, emails and prices. Data you paste into some AI tools can be stored or used to train them.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What should you do?",
+          "prompt": "What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Open the attachment quickly so you do not lose a strong candidate",
+              "text": "Paste everything into the public AI tool to save time",
               "outcome": "consequence",
-              "feedback": "Opening an unexpected attachment from a slightly-off sender address is exactly how malware gets in — no candidate is worth that risk, and a genuine crewing agent won’t disappear over a short delay."
+              "feedback": "Pasting private data into a public tool means you lose control of it. It may be stored outside the company."
             },
             {
               "id": "b",
-              "text": "Reply to the sender asking for more information",
+              "text": "Remove the names only, then paste the rest",
               "outcome": "consequence",
-              "feedback": "Replying only confirms your address is active — it doesn’t verify anything, and a fake sender will happily reply back with more convincing details."
+              "feedback": "Details like prices and context can still identify the customer or the deal."
             },
             {
               "id": "c",
-              "text": "STOP before opening anything, VERIFY the sender's exact email address and the crewing portal directly, then REPORT if it does not check out",
+              "text": "Use only the AI tool your company has approved, or ask IT first, and share only what policy allows",
               "outcome": "good",
-              "feedback": "Correct. A small spelling change in the sender address plus fake urgency is a classic trap. Attackers know Crewing often gets CVs from strangers. STOP, VERIFY, REPORT applies to a seafarer file just like any other email."
+              "feedback": "Right. Approved tools have agreed data protections. Asking first keeps customer information safe."
             },
             {
               "id": "d",
-              "text": "Forward it to a crewing colleague and let them decide",
+              "text": "Use your personal phone so it is not on the work computer",
               "outcome": "consequence",
-              "feedback": "Forwarding it just passes the risk to someone else and wastes the time the urgency is counting on. The fix is to verify the sender yourself, not hand off the decision."
+              "feedback": "The data still leaves the company. A different device does not make it safe."
             }
           ]
         }
       ],
-      "debrief": "A misspelled sender address plus made-up urgency is a classic lure — the Crewing inbox gets CVs from strangers every day, so STOP, VERIFY, REPORT applies here just like anywhere else."
+      "debrief": "Treat AI tools like a stranger who may remember. STOP before pasting. VERIFY the tool is approved and the data is allowed. REPORT to IT if you already pasted something you should not have."
     },
     {
       "id": "suspected-data-breach",
-      "persona": "Finance / Accounts",
-      "title": "You Suspect a Data Leak",
-      "scenario": "You are in the shared drive. You notice that crew allotment and payroll files — which should only be visible to HR and Finance — are now in a folder anyone in the company can open.",
+      "persona": "Any Employee",
+      "title": "A Colleague Asks to Borrow Your Login",
+      "scenario": "A new colleague has not received system access yet. They ask to use your username and password for the day so they can get started. They seem friendly and say everyone does it.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "You just spotted this. What do you do first?",
+          "prompt": "What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Message a few colleagues to see if they have noticed it too",
+              "text": "Share your password this once to help them",
               "outcome": "consequence",
-              "feedback": "Telling others, even inside the company, can spread sensitive details before the IT Service Desk has checked what happened."
+              "feedback": "Shared passwords mean no one can tell who did what. If something goes wrong, you are the one on record."
             },
             {
               "id": "b",
-              "text": "Do not tell colleagues widely and do not touch the files — report it to the IT Service Desk right away",
+              "text": "Politely refuse and ask your manager or the IT helpdesk to speed up their access",
               "outcome": "good",
-              "feedback": "Correct. Not talking about it widely and not touching the files keeps the evidence safe for the IT Service Desk."
+              "feedback": "Right. Everyone should have their own login. IT can often fast-track a new starter quickly."
             }
           ]
         }
       ],
-      "debrief": "A possible data leak is like a scene you should not touch. STOP before you talk about it more widely or try to fix it yourself. Note what you saw without changing anything. REPORT right away so the trained team can take over."
+      "debrief": "Passwords are personal. STOP before sharing. VERIFY by asking the manager or IT for proper access. REPORT if anyone pressures you into sharing. If you already shared it, change it and tell IT."
     },
     {
       "id": "q3-teams-bypass-permit",
-      "persona": "Operations",
-      "title": "Skip the Permit Sign-Off?",
-      "scenario": "You get a Teams message — Teams is the work chat app — from someone you do not recognise. No photo, no chat history. They say the site supervisor cannot be reached. They ask you to skip the permit-to-work sign-off — the signed safety approval before hot work or enclosed-space entry — \"just this once\" so the schedule does not slip.",
+      "persona": "Office / Reception",
+      "title": "The Person Behind You at the Door",
+      "scenario": "You badge in at a secure office door. A person you do not recognise follows closely, carrying coffee. They say, \"Sorry, forgot my pass, can you hold the door?\" This is called tailgating, following someone through a secure door without a badge.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What is the warning sign here?",
+          "prompt": "What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "It is fine — schedules matter, and you can sort out the paperwork later",
+              "text": "Hold the door, since they look friendly and carry coffee",
               "outcome": "consequence",
-              "feedback": "Treating a safety sign-off as paperwork you can “sort out later” is exactly the mistake this message is engineered to cause — the permit exists precisely for situations like this."
+              "feedback": "Looking normal is exactly how tailgaters get in. Kindness here can open the building to anyone."
             },
             {
               "id": "b",
-              "text": "Someone you cannot verify is pressuring you to skip a safety approval, using urgency and \"the boss is unreachable\" as the excuse",
+              "text": "Politely say you cannot let them in, and direct them to reception or call security",
               "outcome": "good",
-              "feedback": "Correct. An unknown sender, time pressure, and a request to skip a safety check are the warning signs. Skipping a required safety approval because an urgent, unreachable person said so is the red flag — the same trick as a fake-boss email asking for a wire transfer, just aimed at a safety step instead of money."
+              "feedback": "Right. Reception can check who they are. Polite and firm is a good habit, and nobody genuine will mind."
             },
             {
               "id": "c",
-              "text": "It is a normal, routine reminder about the schedule",
+              "text": "Let them in and ask for their name after",
               "outcome": "consequence",
-              "feedback": "This is not routine — an unrecognised sender asking you to bypass a signed safety approval is never a normal reminder, no matter how it is phrased."
+              "feedback": "A name is easy to make up and they are already inside."
             },
             {
               "id": "d",
-              "text": "It is expected — supervisors often message from other accounts",
+              "text": "Say nothing and let them in, assuming someone else will check",
               "outcome": "consequence",
-              "feedback": "Real supervisors don’t ask you to bypass safety sign-offs from an unrecognised account with no history — that pattern is the red flag, not something to wave away as normal account-switching."
+              "feedback": "Everyone assuming someone else will check is how gaps appear."
             }
           ]
         }
       ],
-      "debrief": "An unverified sender plus time pressure plus a request to skip a normal check is the same pattern as a fake-boss scam — just aimed at a safety process instead of a payment."
+      "debrief": "Physical security matters as much as digital. STOP before holding the door. VERIFY through reception or security. REPORT a stranger inside the building."
     },
     {
       "id": "vishing-call",
-      "persona": "Offshore Crew",
-      "title": "You Got a Suspicious Phone Call on Board",
-      "scenario": "The ship's phone rings on the bridge. Someone says they are from head-office IT support. They say there is a problem with your crew portal account and ask you to confirm your password and a code from your phone right now.",
+      "persona": "Any Employee",
+      "title": "A Call From \"IT Support\"",
+      "scenario": "Your phone rings. The caller says they are from IT support and your account is under attack. To fix it, they need the six-digit code that was just sent to your phone. Vishing is voice phishing, a scam done by phone.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "The caller wants you to say your password and a code right now. What do you do?",
+          "prompt": "What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Give a partial answer to seem cooperative without giving everything",
+              "text": "Read out the code, since they are trying to help",
               "outcome": "consequence",
-              "feedback": "Even a small hint can be enough. The caller only needs one true detail to build the rest."
+              "feedback": "That code is the key to your account. Real IT staff never need to ask you for it."
             },
             {
               "id": "b",
-              "text": "Do not give out any passwords, codes, or personal details — offer to call back on a trusted number instead",
+              "text": "Say no, hang up, and call the IT helpdesk on the official number to check and report it",
               "outcome": "good",
-              "feedback": "Correct. The real IT Service Desk will never ask you to say your password on a call they made to you."
+              "feedback": "Right. Hanging up and calling a number you already trust beats any caller pressure."
             }
           ]
         }
       ],
-      "debrief": "Urgency on a call is a trick, not a real deadline. STOP before you share anything. Hang up and call back on a number you already trust — for example, the IT Service Desk number in the crew portal or your handbook. REPORT the attempt so others can be warned."
+      "debrief": "Never share a code or password by phone. STOP when someone creates panic. VERIFY by calling back on an official number you find yourself. REPORT it to IT."
     },
     {
       "id": "ransomware-lockout",
-      "persona": "Operations",
-      "title": "Your Screen Just Locked",
-      "scenario": "A message covers your office computer screen. It says your files are locked and you must pay to get them back. A countdown timer is running. This is ransomware — harmful software that locks your files until you pay.",
+      "persona": "Remote Worker",
+      "title": "Working From a Cafe",
+      "scenario": "You are working from a cafe and need to send a confidential file. The cafe Wi-Fi is open with no password, and you see two similar names: \"CafeFreeWiFi\" and \"Cafe_Guest\". Open Wi-Fi can be copied by attackers to watch what you send.",
       "decisions": [
         {
           "id": "d1",
-          "prompt": "What do you do first?",
+          "prompt": "What do you do?",
           "options": [
             {
               "id": "a",
-              "text": "Try to pay quickly before the timer runs out",
+              "text": "Connect to the strongest signal and send the file",
               "outcome": "consequence",
-              "feedback": "Paying does not guarantee you get your files back. It also funds the next attack. And you skip reporting, which is what the IT Service Desk needs most."
+              "feedback": "You cannot tell which network is real. A fake one can capture your traffic."
             },
             {
               "id": "b",
-              "text": "Disconnect the computer from the network right away (unplug the cable or turn off Wi-Fi) and leave it alone",
+              "text": "Use your phone hotspot or the company VPN, and keep confidential work for a safer place",
               "outcome": "good",
-              "feedback": "Right idea. Disconnecting quickly can stop it from spreading to other computers before the IT Service Desk steps in."
+              "feedback": "Right. A VPN or your own hotspot keeps your traffic private. Waiting is safer than guessing."
             },
             {
               "id": "c",
-              "text": "Post about it in the team chat to warn others",
+              "text": "Send the file, since the website has a padlock",
               "outcome": "consequence",
-              "feedback": "This is understandable, but it is not the fastest way to contain it. It can also cause panic before the IT Service Desk knows how far it has spread."
+              "feedback": "The padlock does not protect you from a fake network or a copied login page."
             }
           ]
         }
       ],
-      "debrief": "Ransomware — harmful software that locks your files for payment — wants you to panic and pay. STOP by disconnecting the computer from the network right away (unplug the cable or turn off Wi-Fi). Do not try to pay or fix it yourself. REPORT fast to the IT Service Desk so they can stop it from reaching other systems."
+      "debrief": "Remote work still needs the same habits. STOP before joining unknown Wi-Fi. VERIFY by using a VPN or hotspot. REPORT anything odd, such as unexpected login prompts, to IT."
     }
   ]
 }

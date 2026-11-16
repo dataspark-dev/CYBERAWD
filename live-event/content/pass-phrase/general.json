@@ -1,12 +1,12 @@
 {
-  "whyThisMatters": "A password made from your name or birth year can be guessed in seconds. What slows an attacker is length and mixing different types of characters — not being clever with one symbol. The same rule applies whether you are logging in from an office desk or a shared computer on board.",
-  "policy": "Synergy's password policy: 12 or more characters, with big letters, small letters, numbers and a symbol, and no personal information — no names, birth dates, city names, or anything tied to you. For example, \"Rahul1998\" is not allowed, even with a symbol added.",
-  "rememberThis": "Awareness Month's password rule, now built by you: 12+ characters, big and small letters, numbers, a symbol, nothing personal. That is Synergy's rule.",
+  "whyThisMatters": "A password made from your name or birth year can be guessed in seconds. What slows an attacker is length and mixing different types of characters — not being clever with one symbol. The same rule applies whether you are logging in from an office desk or a shared computer.",
+  "policy": "Acme Corp password policy: at least 12 characters, a mix of word fragments, big and small letters, numbers and symbols, no reuse across accounts, and no personal information — no names, birth dates, city names, or anything tied to you. For example, \"Rahul1998\" is not allowed, even with a symbol added.",
+  "rememberThis": "The password rule, now built by you: 12+ characters, big and small letters, numbers, a symbol, nothing personal, never reused. That is the policy.",
   "facilitatorNotes": {
     "discussionPrompts": [
       "Ask the group to compare the password they built with how they make their own passwords. Is there anything that makes them think differently now?",
       "Ask why length matters more than adding one symbol. Can anyone explain it in their own words after watching the strength meter move?",
-      "Ask if anyone has reused a \"strong\" password on more than one account — for example, the same one for the crew portal, the fleet tracking system, or a personal email account — and why that removes the strength.",
+      "Ask if anyone has reused a \"strong\" password on more than one account — for example, the same one for a work portal, a shopping site, or a personal email account — and why that removes the strength.",
       "For each Choose round, ask why the wrong options still look strong at a glance. What is the actual rule each one breaks — is it too short, does it use a name or place, or is it just a common word with a symbol?"
     ],
     "commonWrongAnswer": "The most common mistake is stopping as soon as the meter turns green. People add just one symbol or number instead of making the password longer. In the Choose rounds, people often pick the option with a symbol in it without checking length or personal information first."

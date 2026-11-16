@@ -31,11 +31,13 @@ body {
   background: var(--le-bg);
   color: var(--le-text);
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
 }
 
 .le-shell {
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -64,7 +66,7 @@ body {
 .le-module-card .mc-icon { transition: transform var(--dur-base) var(--ease-standard), background var(--dur-base) var(--ease-standard); }
 .le-module-card:hover .mc-icon, .le-module-card:focus-visible .mc-icon { transform: scale(1.08); }
 
-/* ---------- SVG Icons — refined: consistent 1em, alignment, Synergy palette, hover ---------- */
+/* ---------- SVG Icons — refined: consistent 1em, alignment, neutral palette, hover ---------- */
 .fa-solid, .fa-regular, .fa-brands { --fa-display: inline-flex; }
 .le-module-card .mc-icon i, .le-btn i, .le-topbar i, .le-keyhint i, .adm-section-title i, .adm-login-eyebrow i, .join-eyebrow i {
   display: inline-flex;
@@ -770,6 +772,7 @@ body {
   flex: 1 1 auto;
   min-height: 0;
   max-height: calc(100vh - 220px);
+  max-height: calc(100dvh - 220px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1297,7 +1300,7 @@ body {
   margin-bottom: 8px;
   /* word-break: break-all is applied mobile-only, further down - see the
      "Global long-text safety" section. Unconditional break-all here forced
-     mid-word splits in long addresses (e.g. "synergymarinegroup.co" / "m.")
+     mid-word splits in long addresses (e.g. "acmecorp-support.co" / "m.")
      even where the line had room to wrap the whole token instead. */
 }
 .ls-artifact {
@@ -2979,7 +2982,7 @@ body {
    so normal English words (e.g. "allotment", "provisions") still break at
    word boundaries, not mid-word. Mobile-only (max-width below): on desktop
    there is always room to wrap the whole address to the next line, and
-   break-all was splitting mid-domain (e.g. "synergymarinegroup.co" / "m.")
+   break-all was splitting mid-domain (e.g. "acmecorp-support.co" / "m.")
    even with plenty of width to spare - exactly the address text this
    module asks participants to read letter-by-letter. */
 @media (max-width: 480px) {
@@ -3253,3 +3256,36 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .le-module-card, .le-btn, .pp-tile, .cc-bubble { transition: none !important; animation: none !important; }
 }
+
+/* --- Console polish: visible keyboard focus, safe-area bottom (scoped to .le-shell) --- */
+.le-shell a:focus-visible,
+.le-shell button:focus-visible,
+.le-shell input:focus-visible,
+.le-shell [tabindex]:focus-visible {
+  outline: 3px solid #0E7BE5;
+  outline-offset: 2px;
+}
+.le-shell .le-keyhints { padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+.le-shell .ff-r-text, .le-shell .ff-image-frame, .le-shell h2, .le-shell h3 { overflow-wrap: anywhere; }
+
+/* --- Projector legibility (>=1280px): lift 10-12px chrome labels, 18px for presented copy --- */
+@media (min-width: 1280px) {
+  body .le-shell :is(.hh-eyebrow, .le-flow-arc-label, .le-flow-arc-steps, .mc-tag, .le-home-link, .le-module-tag,
+    .le-item-counter, .ff-category-tag, .ff-compare-label, .ff-r-label, .mf-topic-tag, .mf-myth-label, .mf-fact-label,
+    .dr-persona-tag, .lt-label, .cq-opt-num, .pp-theme-eyebrow, .cw-status, .cw-clue-num, .cw-hint-btn, .cc-console-label,
+    .ls-virtual-badge, .ls-sim-subtitle, .lst-vector, .lst-persona, .lst-num, .ls-meta-persona, .ls-meta-vector,
+    .ls-meta-channel, .le-keyhint, .le-keyhint kbd, .le-brand-text small) { font-size: 15px; }
+  body .le-shell :is(.le-module-card p, .dr-intro, .ls-scenario-desc, .lst-title, .cw-clue-list li) { font-size: 18px; line-height: 1.5; }
+}
+@media (min-width: 1700px) {
+  body .le-shell :is(.hh-eyebrow, .mc-tag, .le-keyhint, .le-keyhint kbd, .lt-label, .le-item-counter) { font-size: 16px; }
+}
+
+/* --- Lab alignment: same tokens as the participant phone page (all scoped to .le-shell) --- */
+.le-shell .le-btn { min-height: 48px; font-size: 14px; border-radius: 12px; border: 1.5px solid #cbd5e1; justify-content: center; }
+.le-shell .le-btn.primary { background: #0e7490; border-color: #0e7490; color: #fff; }
+.le-shell .le-btn.primary:hover { background: #155e75; border-color: #155e75; }
+.le-shell .le-btn.primary i, .le-shell .le-btn.red i { color: #fff; }
+.le-shell .le-module-card, .le-shell .mf-card, .le-shell .dr-option, .le-shell .ff-compare-panel { border-radius: 16px; border-color: #e2e8f0; }
+.le-shell .le-module-card { box-shadow: 0 4px 16px rgba(15,23,42,0.06); }
+.le-shell .le-topbar .le-brand-text { letter-spacing: 0.3px; }

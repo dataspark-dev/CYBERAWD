@@ -58,7 +58,7 @@ ROOT = Path(__file__).resolve().parent
 # (admin dashboard's audience picker, app.py's AUDIENCE_DEFS). IT Support and Development were
 # merged into 'technology-team' - see AUDIENCE_FULL_DECK_OVERRIDE in scripts/deck.js.
 AUDIENCE_OUTPUT_NAMES = {
-    "technology-team": "Synergy_Cyber_Security_Awareness_Month_Technology_Team.pptx",
+    "technology-team": "Cyber_Security_Awareness_Program_Technology_Team.pptx",
 }
 
 
