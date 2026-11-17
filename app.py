@@ -1751,6 +1751,13 @@ def session_qr(code):
     return Response(png_bytes, mimetype="image/png", headers={"Cache-Control": "no-store"})
 
 
+PUBLIC_EMAIL_DOMAINS = frozenset("""gmail.com googlemail.com yahoo.com yahoo.in yahoo.co.in yahoo.co.uk ymail.com rocketmail.com
+outlook.com hotmail.com hotmail.co.uk live.com msn.com aol.com icloud.com me.com mac.com proton.me protonmail.com pm.me
+zoho.com zohomail.in mail.com gmx.com gmx.net yandex.com yandex.ru rediffmail.com rediff.com inbox.com fastmail.com
+tutanota.com tuta.io hey.com qq.com 163.com 126.com sina.com naver.com mailinator.com guerrillamail.com 10minutemail.com
+temp-mail.org yopmail.com sharklasers.com trashmail.com""".split())
+
+
 @app.route("/join/<code>", methods=["GET"])
 def join_page(code):
     code = code.strip().upper()
@@ -2136,14 +2143,16 @@ button.pp-tile, button.pp-deck-tile{
   .cc-arena{height:min(58vh, 460px)}
 }
 @media (prefers-reduced-motion: reduce){
-  .card, .btn, .option-btn, .cc-bubble{transition:none !important; animation:none !important}
+  .card, .btn, .option-btn{transition:none !important; animation:none !important}
+  /* Control Catch: the fall IS the game - keep its `top` transition (duration is set inline by JS),
+     only drop the decorative wobble/pop. */
+  .cc-bubble{animation:none !important}
 }
 
 /* ---- Participant UX pass: contrast, focus, safe-area, sticky join action, small screens ---- */
 .sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 .fl{display:block;font-family:'Space Mono',monospace;font-size:12px;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;color:#334155;margin:14px 0 6px}
 .fl .req{color:#b91c1c;font-size:14px}
-.fl .opt{color:#64748b;text-transform:none;font-weight:600;letter-spacing:0}
 .input{font-size:16px;min-height:48px;scroll-margin-bottom:110px;scroll-margin-top:72px}
 .input::placeholder{color:#64748b}
 .input:focus-visible,.btn:focus-visible,.option-btn:focus-visible,.cw-hint-btn:focus-visible,.cw-clue-list li:focus-visible,button:focus-visible{outline:3px solid #0E7BE5;outline-offset:2px}
@@ -2191,7 +2200,8 @@ img,svg{max-width:100%}
   .join-actions{position:static;background:none}
 }
 @media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  *:not(.cc-bubble),*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .cc-bubble{animation:none !important}
 }
 @media (forced-colors:active){ .input:focus{outline:2px solid Highlight} }
 @media (max-width:430px){
@@ -2223,16 +2233,16 @@ img,svg{max-width:100%}
     <div class="join-eyebrow"><i class="fa-solid fa-shield-halved"></i> Secure Session</div>
     <h1>Join session</h1>
     <p class="lead">Enter your details to join <strong style="color:#0f172a">Lab __ROOM_CODE__</strong></p>
-    <p id="joinHint" style="color:#475569;font-size:var(--fs-badge);margin:0 0 14px">Fields marked * are required. The host will see your name in the live participant list.</p>
+    <p id="joinHint" style="color:#475569;font-size:var(--fs-badge);margin:0 0 14px">Fields marked * are required. Use your company email (personal Gmail, Yahoo, Outlook etc. are not accepted). The host will see your name in the live participant list.</p>
     <label for="nameInput" class="fl">Full name <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
     <input id="nameInput" type="text" class="input" placeholder="Your full name" autocomplete="name" autocapitalize="words" enterkeyhint="next" required aria-required="true" aria-describedby="joinHint joinErr" maxlength="40"/>
     <label for="contactInput" class="fl">Contact number <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
     <input id="contactInput" type="tel" inputmode="tel" class="input" placeholder="e.g. +91 98765 43210" autocomplete="tel" enterkeyhint="next" required aria-required="true" aria-describedby="joinHint joinErr" maxlength="20"/>
-    <label for="roleInput" class="fl">Role / occupation <span class="opt">(optional)</span></label>
+    <label for="roleInput" class="fl">Role / occupation</label>
     <input id="roleInput" type="text" class="input" placeholder="e.g. Accountant, Engineer" autocomplete="organization-title" autocapitalize="words" enterkeyhint="next" maxlength="60"/>
-    <label for="emailInput" class="fl">Email ID <span class="opt">(optional)</span></label>
-    <input id="emailInput" type="email" inputmode="email" class="input" placeholder="name@company.com" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" aria-describedby="joinErr" maxlength="100"/>
-    <label for="companyInput" class="fl">Company <span class="opt">(optional)</span></label>
+    <label for="emailInput" class="fl">Company email ID <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
+    <input id="emailInput" type="email" inputmode="email" class="input" placeholder="name@company.com" autocomplete="email" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="next" required aria-required="true" aria-describedby="joinHint joinErr" maxlength="100"/>
+    <label for="companyInput" class="fl">Company</label>
     <input id="companyInput" type="text" class="input" placeholder="Your company" autocomplete="organization" autocapitalize="words" enterkeyhint="go" maxlength="80"/>
     <ol class="flow-strip" aria-label="How this session works" style="list-style:none;display:flex;gap:6px;padding:0;margin:14px 0 0;font-size:11px;color:#475569;text-align:center">
       <li style="flex:1;background:#f1f5f9;border-radius:8px;padding:6px 4px"><strong style="display:block;color:#0f172a">1 Join</strong>Enter your details</li>
@@ -2571,6 +2581,7 @@ function updateHeaderCount(n){
 }
 function esc(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+const PUBLIC_MAIL = new Set(__PUBLIC_MAIL_JSON__);
 async function doJoin(){
   const name = els.nameInput.value.trim();
   if(!name){ showErr('Please enter your name'); els.nameInput.focus(); return; }
@@ -2580,7 +2591,8 @@ async function doJoin(){
   const email = document.getElementById('emailInput').value.trim();
   const company = document.getElementById('companyInput').value.trim();
   if(!/^[+]?[0-9][0-9 ()-]{5,18}[0-9]$/.test(contact)){ showErr('Please enter a valid contact number, for example 98765 43210'); document.getElementById('contactInput').focus(); return; }
-  if(email && !/^[^@ ]+@[^@ ]+[.][^@ ]+$/.test(email)){ showErr('Please enter a valid email ID, for example name@company.com'); document.getElementById('emailInput').focus(); return; }
+  if(!/^[^@ ]+@[^@ ]+[.][^@ ]+$/.test(email)){ showErr('Please enter a valid company email ID, for example name@company.com'); document.getElementById('emailInput').focus(); return; }
+  if(PUBLIC_MAIL.has(email.split('@').pop().toLowerCase())){ showErr('Personal email (Gmail, Yahoo, Outlook etc.) is not accepted. Please use your company email ID.'); document.getElementById('emailInput').focus(); return; }
   els.joinBtn.disabled = true;
   const joinLbl = els.joinBtn.innerHTML;
   els.joinBtn.textContent = 'Connecting...';
@@ -4171,6 +4183,13 @@ function ccSpawnBubble(){
       el.style.top = '104%';
     });
   });
+  // Safety net: transitionend can be skipped (hidden tab, reduced motion) - always clean up.
+  setTimeout(()=>{
+    if(el.dataset.resolved==='1') return;
+    el.dataset.resolved = '1';
+    el.remove();
+    ccBubbles = ccBubbles.filter(b=>b.el!==el);
+  }, fallMs + 400);
   ccBubbles.push({el, bubble});
 }
 
@@ -4490,7 +4509,7 @@ function stopPolling(){ if(pollTimer){ clearInterval(pollTimer); pollTimer=null;
 </script>
 </body>
 </html>"""
-    html = html_template.replace("__ROOM_CODE__", code)
+    html = html_template.replace("__ROOM_CODE__", code).replace("__PUBLIC_MAIL_JSON__", json.dumps(sorted(PUBLIC_EMAIL_DOMAINS)))
     return Response(html, mimetype="text/html")
 
 
@@ -4575,7 +4594,7 @@ def session_join(code):
     if not name or not str(name).strip():
         return jsonify({"error": "name required"}), 400
     name = str(name).strip()[:40]
-    # Participant details: name + contact number required; role, email, company optional.
+    # Participant details: name + contact number required; email required (company domains only); role, company optional.
     def _field(key, limit):
         v = data.get(key) if isinstance(data, dict) else None
         return str(v).strip()[:limit] if v else ""
@@ -4585,8 +4604,10 @@ def session_join(code):
     company = _field("company", 80)
     if not re.fullmatch(r"\+?[0-9][0-9 ()\-]{5,18}[0-9]", contact):
         return jsonify({"error": "valid contact number required"}), 400
-    if email and not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
-        return jsonify({"error": "invalid email"}), 400
+    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+        return jsonify({"error": "valid company email required"}), 400
+    if email.rsplit("@", 1)[1].lower() in PUBLIC_EMAIL_DOMAINS:
+        return jsonify({"error": "company email required"}), 400
     pid = _gen_id("p_")
     # Ensure uniqueness (very low collision)
     while pid in sess["participants"]:

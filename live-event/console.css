@@ -3254,7 +3254,9 @@ body {
   .le-main { padding: 10px 8px; padding-left: max(8px, env(safe-area-inset-left)); padding-right: max(8px, env(safe-area-inset-right)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .le-module-card, .le-btn, .pp-tile, .cc-bubble { transition: none !important; animation: none !important; }
+  .le-module-card, .le-btn, .pp-tile { transition: none !important; animation: none !important; }
+  /* Control Catch: keep the falling `top` transition (gameplay); drop only wobble/pop animation. */
+  .cc-bubble { animation: none !important; }
 }
 
 /* --- Console polish: visible keyboard focus, safe-area bottom (scoped to .le-shell) --- */

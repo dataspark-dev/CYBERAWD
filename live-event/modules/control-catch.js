@@ -278,6 +278,13 @@
         el.style.top = '104%';
       });
     });
+    // Safety net: transitionend can be skipped (hidden tab, reduced motion) - always clean up.
+    setTimeout(() => {
+      if (el.dataset.resolved === '1') return;
+      el.dataset.resolved = '1';
+      el.remove();
+      bubbles = bubbles.filter(b => b.el !== el);
+    }, fallMs + 400);
     bubbles.push({ el, bubble });
   }
 
