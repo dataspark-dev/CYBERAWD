@@ -14,154 +14,170 @@
     {
       "id": "mfa-enabled",
       "text": "Turn on MFA for email and banking",
-      "good": true
+      "good": true,
+      "why": "A stolen password alone can't open your account when MFA is on."
     },
     {
       "id": "verified-sender",
       "text": "Check the full sender address",
-      "good": true
+      "good": true,
+      "why": "Fake senders often hide behind a familiar name but have a different address."
     },
     {
       "id": "reported-phishing",
       "text": "Forward phish to security as attachment",
-      "good": true
+      "good": true,
+      "why": "Sending it as an attachment gives security the details needed to block it."
     },
     {
       "id": "encrypted-backup",
       "text": "Keep an offline, tested backup",
-      "good": true
+      "good": true,
+      "why": "A tested offline backup lets you recover if ransomware locks your files."
     },
     {
       "id": "software-updated",
       "text": "Install updates within days of release",
-      "good": true
+      "good": true,
+      "why": "Updates fix security holes that criminals actively use to break in."
     },
     {
       "id": "password-manager",
-      "text": "Password manager, unique passwords",
-      "good": true
+      "text": "Use a password manager, unique passwords",
+      "good": true,
+      "why": "Unique passwords mean one leaked password can't unlock your other accounts."
     },
     {
       "id": "locked-screen",
       "text": "Lock your screen every time you leave",
-      "good": true
+      "good": true,
+      "why": "A locked screen stops anyone passing by from using your account or data."
     },
     {
       "id": "vpn-public-wifi",
       "text": "Use company VPN on cafe Wi-Fi",
-      "good": true
+      "good": true,
+      "why": "A VPN stops others on public Wi-Fi from spying on what you send."
     },
     {
       "id": "callback-known-number",
       "text": "Call back on a number you already have",
-      "good": true
+      "good": true,
+      "why": "A number you already have reaches the real person, not an impostor."
     },
     {
       "id": "checked-url",
       "text": "Hover to see a link's real address",
-      "good": true
+      "good": true,
+      "why": "Hovering reveals if a link really goes where it claims before you click."
     },
     {
       "id": "verify-bank-change",
       "text": "Phone-verify any bank detail change",
-      "good": true
+      "good": true,
+      "why": "A phone check exposes fake bank-change requests before money is sent."
     },
     {
       "id": "reused-password",
       "text": "Reuse one strong password everywhere",
-      "good": false
+      "good": false,
+      "why": "One leaked password would then open every account that uses it."
     },
     {
       "id": "clicked-unknown-link",
       "text": "Click Unsubscribe in unknown spam",
-      "good": false
+      "good": false,
+      "why": "Unsubscribe links in spam confirm your address is live and can lead to malware."
     },
     {
       "id": "approved-mfa-prompt",
       "text": "Approve an MFA prompt you did not start",
-      "good": false
+      "good": false,
+      "why": "An unexpected prompt means an attacker has your password and wants your approval."
     },
     {
       "id": "disabled-antivirus",
       "text": "Pause antivirus to run a tool faster",
-      "good": false
+      "good": false,
+      "why": "Pausing antivirus lets malware run unchecked while protection is off."
     },
     {
       "id": "shared-password",
-      "text": "Share your login so a colleague can cover",
-      "good": false
+      "text": "Share your login to get cover",
+      "good": false,
+      "why": "Shared logins hide who did what and let anyone with the password in."
     },
     {
       "id": "ignored-update",
       "text": "Postpone updates for months",
-      "good": false
+      "good": false,
+      "why": "Delayed updates leave known security holes open for attackers to use."
     },
     {
       "id": "cafe-banking",
       "text": "Cafe Wi-Fi, then banking without VPN",
-      "good": false
+      "good": false,
+      "why": "Others on public Wi-Fi may be able to spy on your banking details."
     },
     {
       "id": "cracked-software",
       "text": "Use a free cracked licence key",
-      "good": false
+      "good": false,
+      "why": "Cracked software often comes with hidden malware that steals data."
     },
     {
       "id": "unlocked-laptop",
       "text": "Leave laptop unlocked for a quick coffee",
-      "good": false
+      "good": false,
+      "why": "An unlocked laptop gives anyone nearby instant access to your account."
     },
     {
       "id": "opened-attachment",
       "text": "Enable macros to view an invoice",
-      "good": false
+      "good": false,
+      "why": "Enabling macros can run hidden malware that infects your computer."
     },
     {
       "id": "skipped-mfa",
       "text": "Delay MFA setup because it is a hassle",
-      "good": false
+      "good": false,
+      "why": "Without MFA, a stolen password is all an attacker needs to get in."
     },
     {
       "id": "sms-code-received",
-      "text": "SMS Code Received",
+      "text": "Never share a code texted to you",
       "good": true,
-      "trick": true,
-      "note": "This is still a real second check after your password (MFA — Multi-Factor Authentication). A text code is weaker than an app code because attackers can sometimes redirect your phone number to their own device and read the code. But it is far better than only a password. \"Better than nothing\" is a real upgrade, especially where signal is limited."
+      "why": "Codes sent to your phone are a lock key; sharing one lets attackers in."
     },
     {
       "id": "long-passphrase-no-symbols",
-      "text": "Long Passphrase (No Symbols)",
+      "text": "Use a long passphrase",
       "good": true,
-      "trick": true,
-      "note": "A long random phrase without symbols can still be stronger than a short \"complex\" password. Length matters more than adding symbols — a 16-character phrase beats an 8-character puzzle."
+      "why": "Length makes a password hard to guess, even without symbols."
     },
     {
       "id": "8char-password-symbols",
-      "text": "Short Password + Symbols",
+      "text": "Use a short password with symbols",
       "good": false,
-      "trick": true,
-      "note": "Symbols do not save a short password. Length matters more than looking complex. An 8-character password can be guessed quickly, no matter how clever it looks."
+      "why": "A short password is quick for computers to guess, even with symbols."
     },
     {
       "id": "public-charging-cable",
-      "text": "Public Charging Cable",
+      "text": "Use a public charging cable",
       "good": false,
-      "trick": true,
-      "note": "A public USB port or cable at an airport or hotel can do more than charge — it can push harmful software or copy data through the same link that charges your phone. Use your own charger."
+      "why": "Public cables or ports can be rigged to install malware or steal data."
     },
     {
       "id": "urgent-ceo-request",
-      "text": "Urgent Request From Senior Leader",
+      "text": "Obey an urgent leader's request",
       "good": false,
-      "trick": true,
-      "note": "A senior title plus urgency is the classic trick. \"The boss said...\" or \"The director needs this now...\" is not proof a request is real. It is designed to make you skip your normal checks — such as calling back on a number you already trust."
+      "why": "Criminals pose as leaders and add urgency so you skip the checks."
     },
     {
       "id": "antivirus-installed-last-year",
-      "text": "Old, Unpatched Virus Protection",
+      "text": "Rely on old, unupdated antivirus",
       "good": false,
-      "trick": true,
-      "note": "Virus protection (antivirus) that was installed last year and never updated does not help much against new threats. \"Installed\" is not the same as \"up to date\" — updates are what catch new harmful software."
+      "why": "Out-of-date protection misses new threats, so it gives false comfort."
     }
   ]
 }

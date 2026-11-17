@@ -19,7 +19,7 @@
       "id": "round-1",
       "label": "Round 1 - Easy",
       "difficulty": "easy",
-      "hint": "Weak: rahul1998 / mumbai123 - rebuild longer with big letters + a symbol + a phrase",
+      "hint": "Weak: priya92 - rebuild it longer with capital letters + a symbol + a phrase",
       "weakPassword": "priya92",
       "violates": "uses your name and birth year — not allowed",
       "choices": [
@@ -50,7 +50,7 @@
       "id": "round-2",
       "label": "Round 2 - Easy",
       "difficulty": "easy",
-      "hint": "Weak: priya2001 - add length + symbols, no month/year",
+      "hint": "Weak: pune979 - add length + symbols, avoid place names and number patterns",
       "weakPassword": "pune979",
       "violates": "uses a place and number pattern — too guessable",
       "choices": [
@@ -81,7 +81,7 @@
       "id": "round-3",
       "label": "Round 3 - Medium",
       "difficulty": "medium",
-      "hint": "Weak: RahulMumbai98 - still uses name + place, break the personal pattern",
+      "hint": "Weak: meeraHyderabad95 - still uses name + place, break the personal pattern",
       "weakPassword": "meeraHyderabad95",
       "violates": "uses name + city + year — personal information not allowed",
       "choices": [
@@ -112,7 +112,7 @@
       "id": "round-4",
       "label": "Round 4 - Hard",
       "difficulty": "hard",
-      "hint": "Weak: Rahul_Mumbai1998 - looks mixed but still guessable, need 12+ random characters",
+      "hint": "Weak: Karan-Kolkata2002 - looks mixed but still guessable, need 12+ random characters",
       "weakPassword": "Karan-Kolkata2002",
       "violates": "uses name + city + year — personal, even with a symbol",
       "choices": [
@@ -143,7 +143,7 @@
       "id": "round-5",
       "label": "Round 5 - Hard",
       "difficulty": "hard",
-      "hint": "Weak: Priya#Goa2001! - personal data even with symbols is still not allowed",
+      "hint": "Weak: Amit#Goa92 - personal data even with symbols is still not allowed",
       "weakPassword": "Amit#Goa92",
       "violates": "uses name + city + year — a symbol does not cancel out personal data",
       "choices": [

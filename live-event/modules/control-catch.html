@@ -42,13 +42,15 @@
             <button class="cc-mute-btn" id="ccMuteBtn" type="button" aria-label="Unmute sound"><i class="fa-solid fa-volume-xmark"></i></button>
           </div>
 
-          <div class="cc-console-hint" id="ccHint">Tap GOOD bubbles (good habits). Let BAD ones fall. Do not tap those. You have 3 lives.</div>
+          <div class="cc-console-hint" id="ccHint"><strong>How to play (90 seconds):</strong> tap bubbles that are GOOD security habits. Let BAD habits fall past - tapping one costs a life (you have 3). Missing a good bubble costs nothing.</div>
+          <div class="cc-console-why" id="ccWhy" role="status" aria-live="polite"></div>
 
           <div class="cc-console-arena" id="ccArena"></div>
 
           <div class="cc-console-gameover le-hidden" id="ccGameOverWrap">
             <div class="cc-console-gameover-title">GAME OVER</div>
             <div id="ccGameOverStats" class="cc-console-gameover-stats"> - </div>
+            <div id="ccReviewList" class="cc-console-review le-hidden"></div>
           </div>
 
           <div class="le-remember-card le-hidden" id="rememberCard">

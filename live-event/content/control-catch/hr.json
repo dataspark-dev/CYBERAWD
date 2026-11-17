@@ -12,131 +12,147 @@
   "bubbles": [
     {
       "id": "checked-sender-domain",
-      "text": "Checked Sender Domain",
-      "good": true
+      "text": "Check the sender's email domain",
+      "good": true,
+      "why": "Look-alike domains are how fraudsters pose as staff, agents and candidates."
     },
     {
       "id": "verified-bank-change-via-portal",
-      "text": "Verified Bank Change Via Portal",
-      "good": true
+      "text": "Confirm bank changes in the portal",
+      "good": true,
+      "why": "The portal checks identity, so fake bank-change requests are caught."
     },
     {
       "id": "reported-suspicious-attachment",
-      "text": "Reported Suspicious Attachment",
-      "good": true
+      "text": "Report suspicious attachments",
+      "good": true,
+      "why": "Reporting lets security remove the malicious file before anyone opens it."
     },
     {
       "id": "confirmed-candidate-through-known-agent",
-      "text": "Confirmed Candidate Through Known Agent",
-      "good": true
+      "text": "Confirm candidates via a known agent",
+      "good": true,
+      "why": "Checking with a trusted agent exposes impostors posing as job candidates."
     },
     {
       "id": "used-crew-portal-for-bank-updates",
-      "text": "Used Crew Portal For Bank Updates",
-      "good": true
+      "text": "Use the crew portal for bank updates",
+      "good": true,
+      "why": "The portal verifies identity, so payroll can't be redirected by a fake email."
     },
     {
       "id": "checked-attachment-file-type",
-      "text": "Checked Attachment File Type",
-      "good": true
+      "text": "Check an attachment's file type",
+      "good": true,
+      "why": "Files disguised as documents can hide programs that infect your computer."
     },
     {
       "id": "called-back-on-known-hr-number",
-      "text": "Called Back On Known HR Number",
-      "good": true
+      "text": "Call back on a known HR number",
+      "good": true,
+      "why": "A saved number reaches the real person, not whoever sent the message."
     },
     {
       "id": "flagged-mismatched-domain",
-      "text": "Flagged Mismatched Domain",
-      "good": true
+      "text": "Flag a mismatched email domain",
+      "good": true,
+      "why": "A domain that doesn't match the sender's company often means a phishing attempt."
     },
     {
       "id": "held-reference-form-to-verify",
-      "text": "Held Reference Form To Verify",
-      "good": true
+      "text": "Hold reference forms until verified",
+      "good": true,
+      "why": "Fake reference forms can carry malware or steal a candidate's details."
     },
     {
       "id": "escalated-unusual-payroll-request",
-      "text": "Escalated Unusual Payroll Request",
-      "good": true
+      "text": "Escalate unusual payroll requests",
+      "good": true,
+      "why": "Payroll fraud relies on one person acting quickly; escalating stops it."
     },
     {
       "id": "opened-attachment-needing-enable-content",
-      "text": "Opened Attachment Needing Enable Content",
-      "good": false
+      "text": "Click Enable Content on a file",
+      "good": false,
+      "why": "Enabling content lets hidden macros run and install malware on your PC."
     },
     {
       "id": "replied-with-bank-details-by-email",
-      "text": "Replied With Bank Details By Email",
-      "good": false
+      "text": "Email bank details in reply",
+      "good": false,
+      "why": "Replies can reach a scammer and expose bank details used in payroll fraud."
     },
     {
       "id": "skipped-verification-for-deadline",
-      "text": "Skipped Verification For Deadline",
-      "good": false
+      "text": "Skip checks because of a deadline",
+      "good": false,
+      "why": "Scammers invent deadlines so you skip the checks that would expose them."
     },
     {
       "id": "tapped-link-in-payroll-text",
-      "text": "Tapped Link In Payroll Text",
-      "good": false
+      "text": "Tap a link in a payroll text",
+      "good": false,
+      "why": "Fake payroll texts lead to sites that steal your login or bank details."
     },
     {
       "id": "ignored-domain-mismatch",
-      "text": "Ignored Domain Mismatch",
-      "good": false
+      "text": "Ignore a mismatched email domain",
+      "good": false,
+      "why": "A domain that doesn't match is a classic sign the sender is an impostor."
     },
     {
       "id": "shared-candidate-details-unverified",
-      "text": "Shared Candidate Details Unverified",
-      "good": false
+      "text": "Share candidate data unverified",
+      "good": false,
+      "why": "Personal data sent to an impostor can be used for identity theft."
     },
     {
       "id": "trusted-urgent-recruitment-request",
-      "text": "Trusted Urgent Recruitment Request",
-      "good": false
+      "text": "Trust an urgent recruitment request",
+      "good": false,
+      "why": "Urgent hiring requests are a common pretext for stealing data or money."
     },
     {
       "id": "enabled-macros-on-reference-form",
-      "text": "Enabled Macros On Reference Form",
-      "good": false
+      "text": "Enable macros on a reference form",
+      "good": false,
+      "why": "Macros in a document can quietly install malware once you enable them."
     },
     {
       "id": "updated-bank-details-by-email",
-      "text": "Updated Bank Details By Email",
-      "good": false
+      "text": "Change bank details on an email alone",
+      "good": false,
+      "why": "Emails are easily faked, so fraudsters use them to redirect salary payments."
     },
     {
       "id": "skipped-standard-hr-process",
-      "text": "Skipped Standard HR Process",
-      "good": false
+      "text": "Skip the standard HR process",
+      "good": false,
+      "why": "The process exists to catch fraud; skipping it removes your protection."
     },
     {
       "id": "recognised-the-agents-name",
-      "text": "Recognised The Agent's Name",
+      "text": "Verify an agent whose name you know",
       "good": true,
-      "trick": true,
-      "note": "Recognising an agent's name is a reasonable first signal, but it isn't proof by itself — the exact sending domain is what actually confirms who sent it, since a familiar name can still come from a spoofed address."
+      "why": "A familiar name is easily copied; it doesn't prove the message is real."
     },
     {
       "id": "candidate-starts-soon-checked-anyway",
-      "text": "Candidate Starts Soon, Checked Anyway",
+      "text": "Verify even when a start date is near",
       "good": true,
-      "trick": true,
-      "note": "Checking despite time pressure is exactly the right habit — it's included here as a trick because it's the one people most often skip under a tight deadline, not because it's wrong."
+      "why": "Rushing a new starter is a pressure tactic, so checking anyway protects you."
     },
     {
       "id": "called-the-number-in-the-text",
-      "text": "Called The Number In The Text",
+      "text": "Call the number given in a text",
       "good": false,
-      "trick": true,
-      "note": "A number given inside a suspicious text may connect you straight to the attacker — only a number you already had counts as a real check."
+      "why": "The number in a scam text connects you to the scammer, not the real company."
     },
     {
       "id": "assumed-portal-migration-was-real",
-      "text": "Assumed Portal Migration Was Real",
+      "text": "Believe a portal move notice",
       "good": false,
-      "trick": true,
-      "note": "A migration notice that asks for your password and bank details together through a link is exactly the pattern to distrust, however official it sounds."
+      "why": "Fake 'portal migration' notices are used to steal staff logins."
     }
   ]
 }

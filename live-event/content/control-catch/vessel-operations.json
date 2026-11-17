@@ -12,131 +12,147 @@
   "bubbles": [
     {
       "id": "pressed-and-held-link-before-tapping",
-      "text": "Pressed And Held Link Before Tapping",
-      "good": true
+      "text": "Press and hold a link to preview it",
+      "good": true,
+      "why": "Previewing the real address shows if a link goes somewhere fake."
     },
     {
       "id": "reported-unknown-usb-stick",
-      "text": "Reported Unknown USB Stick",
-      "good": true
+      "text": "Report unknown USB sticks",
+      "good": true,
+      "why": "Unknown USB sticks can carry malware, so security should handle them."
     },
     {
       "id": "hung-up-and-called-back-on-known-number",
-      "text": "Hung Up And Called Back On Known Number",
-      "good": true
+      "text": "Hang up and call a known number",
+      "good": true,
+      "why": "Calling a trusted number reaches the real person, not the impostor."
     },
     {
       "id": "used-known-secure-agent-portal",
-      "text": "Used Known Secure Agent Portal",
-      "good": true
+      "text": "Use the known secure agent portal",
+      "good": true,
+      "why": "The official portal is protected; a link sent to you may be a fake."
     },
     {
       "id": "verified-fund-request-by-known-number",
-      "text": "Verified Fund Request By Known Number",
-      "good": true
+      "text": "Verify fund requests on a known number",
+      "good": true,
+      "why": "A trusted number exposes fake money requests before funds are sent."
     },
     {
       "id": "checked-sender-domain-on-rotation-email",
-      "text": "Checked Sender Domain On Rotation Email",
-      "good": true
+      "text": "Check the sender on rotation emails",
+      "good": true,
+      "why": "Fake crew-change emails use look-alike domains to steal details or money."
     },
     {
       "id": "left-unknown-device-unplugged",
-      "text": "Left Unknown Device Unplugged",
-      "good": true
+      "text": "Leave unknown devices unplugged",
+      "good": true,
+      "why": "Unknown devices can install malware the moment you plug them in."
     },
     {
       "id": "opened-crew-portal-from-bookmark",
-      "text": "Opened Crew Portal From Bookmark",
-      "good": true
+      "text": "Open the crew portal from a bookmark",
+      "good": true,
+      "why": "A bookmark takes you to the real site, not a look-alike that steals logins."
     },
     {
       "id": "reported-suspicious-text-message",
-      "text": "Reported Suspicious Text Message",
-      "good": true
+      "text": "Report suspicious text messages",
+      "good": true,
+      "why": "Reporting helps warn the rest of the crew before someone falls for it."
     },
     {
       "id": "escalated-unverified-urgent-request",
-      "text": "Escalated Unverified Urgent Request",
-      "good": true
+      "text": "Escalate urgent unverified requests",
+      "good": true,
+      "why": "Scammers rely on speed; passing it on gets the request properly checked."
     },
     {
       "id": "tapped-rotation-link-without-checking",
-      "text": "Tapped Rotation Link Without Checking",
-      "good": false
+      "text": "Tap a rotation link unchecked",
+      "good": false,
+      "why": "Fake crew-change links lead to sites that steal your login or details."
     },
     {
       "id": "plugged-in-unknown-usb-stick",
-      "text": "Plugged In Unknown USB Stick",
-      "good": false
+      "text": "Plug in an unknown USB stick",
+      "good": false,
+      "why": "A found USB stick can install malware on the ship's systems."
     },
     {
       "id": "gave-password-over-phone-call",
-      "text": "Gave Password Over Phone Call",
-      "good": false
+      "text": "Give your password over the phone",
+      "good": false,
+      "why": "Real IT staff never ask for passwords; callers who do are after your account."
     },
     {
       "id": "emailed-passport-scan-directly",
-      "text": "Emailed Passport Scan Directly",
-      "good": false
+      "text": "Email a passport scan to a contact",
+      "good": false,
+      "why": "Passport scans in email can be stolen and used for identity theft."
     },
     {
       "id": "bought-gift-cards-for-port-dues",
-      "text": "Bought Gift Cards For Port Dues",
-      "good": false
+      "text": "Buy gift cards to pay port dues",
+      "good": false,
+      "why": "Gift card payments are untraceable and are a favourite scam request."
     },
     {
       "id": "signed-sea-renewal-under-deadline-pressure",
-      "text": "Signed SEA Renewal Under Deadline Pressure",
-      "good": false
+      "text": "Sign a renewal under deadline pressure",
+      "good": false,
+      "why": "Pressure to sign quickly is a tactic to stop you reading what you agree to."
     },
     {
       "id": "trusted-caller-who-sounded-official",
-      "text": "Trusted Caller Who Sounded Official",
-      "good": false
+      "text": "Trust a caller who sounds official",
+      "good": false,
+      "why": "Criminals sound convincing; sounding official doesn't prove who is calling."
     },
     {
       "id": "ignored-domain-mismatch-on-crew-portal",
-      "text": "Ignored Domain Mismatch On Crew Portal",
-      "good": false
+      "text": "Ignore a wrong crew portal address",
+      "good": false,
+      "why": "A web address that doesn't match is a sign of a fake login page."
     },
     {
       "id": "shared-verification-code-with-caller",
-      "text": "Shared Verification Code With Caller",
-      "good": false
+      "text": "Share a verification code on a call",
+      "good": false,
+      "why": "Verification codes let attackers into your account if you share them."
     },
     {
       "id": "skipped-checking-link-destination",
-      "text": "Skipped Checking Link Destination",
-      "good": false
+      "text": "Skip checking where a link goes",
+      "good": false,
+      "why": "Unchecked links can lead to fake sites that steal your details."
     },
     {
       "id": "checked-vessel-name-was-correct",
-      "text": "Checked Vessel Name Was Correct",
+      "text": "Verify the sender, not just vessel name",
       "good": true,
-      "trick": true,
-      "note": "Correct vessel or rotation details are a reasonable first check, but not proof of identity by themselves — this information isn't always private, and attackers use it specifically to sound credible."
+      "why": "Scammers research real vessel names, so a correct name proves nothing."
     },
     {
       "id": "slower-to-respond-with-limited-signal",
-      "text": "Slower To Respond With Limited Signal",
+      "text": "Take time to verify, even offshore",
       "good": true,
-      "trick": true,
-      "note": "Taking longer to respond because of limited connectivity is a genuine safety net, not a delay to feel bad about — it gives you more time to notice something's wrong before you act."
+      "why": "Limited signal is no reason to rush; scammers exploit it to hurry you."
     },
     {
       "id": "recognised-callers-voice-as-familiar",
-      "text": "Recognised Caller's Voice As Familiar",
+      "text": "Trust a voice that sounds familiar",
       "good": false,
-      "trick": true,
-      "note": "A voice sounding familiar or confident is not proof of identity — the real check is calling back on a number you already have, not how the caller sounds."
+      "why": "Voices can be copied, so sounding familiar doesn't prove who is calling."
     },
     {
       "id": "called-the-number-in-the-text",
-      "text": "Called The Number In The Text",
+      "text": "Call the number given in a text",
       "good": false,
-      "trick": true,
-      "note": "A number given inside a suspicious text may connect straight to the attacker — only a number you already had counts."
+      "why": "The number in a scam text connects you to the scammer, not the real company."
     }
   ]
 }

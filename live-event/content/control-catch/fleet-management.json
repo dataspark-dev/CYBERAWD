@@ -12,131 +12,147 @@
   "bubbles": [
     {
       "id": "followed-permit-to-work-process",
-      "text": "Followed Permit-To-Work Process",
-      "good": true
+      "text": "Follow the permit-to-work process",
+      "good": true,
+      "why": "Permits make sure risky work is approved by the right people, not an impostor."
     },
     {
       "id": "verified-vendor-bank-change-by-callback",
-      "text": "Verified Vendor Bank Change By Callback",
-      "good": true
+      "text": "Call back to confirm bank changes",
+      "good": true,
+      "why": "A call to a known number exposes fake bank-change requests before money moves."
     },
     {
       "id": "checked-tracking-alert-via-console",
-      "text": "Checked Tracking Alert Via Console",
-      "good": true
+      "text": "Check tracking alerts in the console",
+      "good": true,
+      "why": "The real console shows true alerts; a fake link can steal your login."
     },
     {
       "id": "verified-psc-notice-with-liaison",
-      "text": "Verified PSC Notice With Liaison",
-      "good": true
+      "text": "Verify port notices with the liaison",
+      "good": true,
+      "why": "A known contact can confirm a notice is real before you pay or act on it."
     },
     {
       "id": "required-signed-charter-addendum",
-      "text": "Required Signed Charter Addendum",
-      "good": true
+      "text": "Require a signed charter addendum",
+      "good": true,
+      "why": "A signed addendum proves a change is genuine and stops fake route orders."
     },
     {
       "id": "reported-suspicious-system-alert",
-      "text": "Reported Suspicious System Alert",
-      "good": true
+      "text": "Report suspicious system alerts",
+      "good": true,
+      "why": "Reporting lets the IT team investigate before the alert tricks anyone else."
     },
     {
       "id": "checked-sender-domain-on-invoice",
-      "text": "Checked Sender Domain On Invoice",
-      "good": true
+      "text": "Check the invoice sender's domain",
+      "good": true,
+      "why": "Look-alike domains are how fraudsters send fake invoices that look genuine."
     },
     {
       "id": "escalated-unverified-redirect-request",
-      "text": "Escalated Unverified Redirect Request",
-      "good": true
+      "text": "Escalate unverified redirect requests",
+      "good": true,
+      "why": "Redirect orders are a known scam; a second check stops a vessel being misdirected."
     },
     {
       "id": "confirmed-vendor-through-known-contact",
-      "text": "Confirmed Vendor Through Known Contact",
-      "good": true
+      "text": "Confirm vendors via a known contact",
+      "good": true,
+      "why": "A saved contact reaches the real vendor, not an impostor using a new number."
     },
     {
       "id": "held-payment-to-verify-bank-change",
-      "text": "Held Payment To Verify Bank Change",
-      "good": true
+      "text": "Hold payment until bank change checked",
+      "good": true,
+      "why": "Stopping to verify costs little; a payment to a fraudster is rarely recovered."
     },
     {
       "id": "skipped-permit-for-urgency",
-      "text": "Skipped Permit For Urgency",
-      "good": false
+      "text": "Skip the permit when it's urgent",
+      "good": false,
+      "why": "Scammers use urgency so you bypass the permit that would expose them."
     },
     {
       "id": "updated-vendor-bank-details-by-email",
-      "text": "Updated Vendor Bank Details By Email",
-      "good": false
+      "text": "Change vendor bank details by email",
+      "good": false,
+      "why": "Emails are easily faked, so fraudsters use them to redirect payments."
     },
     {
       "id": "clicked-tracking-alert-link",
-      "text": "Clicked Tracking Alert Link",
-      "good": false
+      "text": "Click a tracking alert link",
+      "good": false,
+      "why": "Fake alert links lead to look-alike sites that steal your login."
     },
     {
       "id": "paid-port-authority-fee-by-email-link",
-      "text": "Paid Port Authority Fee By Email Link",
-      "good": false
+      "text": "Pay a port fee via an email link",
+      "good": false,
+      "why": "Fake fee emails send your money straight to criminals."
     },
     {
       "id": "redirected-vessel-without-addendum",
-      "text": "Redirected Vessel Without Addendum",
-      "good": false
+      "text": "Redirect a vessel without an addendum",
+      "good": false,
+      "why": "Without a signed addendum, a fake order could send a ship somewhere it shouldn't go."
     },
     {
       "id": "ignored-domain-mismatch-on-invoice",
-      "text": "Ignored Domain Mismatch On Invoice",
-      "good": false
+      "text": "Ignore a mismatched invoice domain",
+      "good": false,
+      "why": "A domain that doesn't match is a classic sign the invoice is fake."
     },
     {
       "id": "trusted-unverified-chat-request",
-      "text": "Trusted Unverified Chat Request",
-      "good": false
+      "text": "Trust an unverified chat request",
+      "good": false,
+      "why": "Anyone can pose as a colleague in chat; an unchecked request may be fraud."
     },
     {
       "id": "skipped-change-approval-step",
-      "text": "Skipped Change-Approval Step",
-      "good": false
+      "text": "Skip the change-approval step",
+      "good": false,
+      "why": "Approval steps catch fraudulent changes; skipping one lets them through."
     },
     {
       "id": "assumed-senior-title-was-proof",
-      "text": "Assumed Senior Title Was Proof",
-      "good": false
+      "text": "Treat a senior title as proof",
+      "good": false,
+      "why": "Criminals copy executive titles because people tend to obey them."
     },
     {
       "id": "bypassed-safety-sign-off-for-schedule",
-      "text": "Bypassed Safety Sign-Off For Schedule",
-      "good": false
+      "text": "Bypass safety sign-off to save time",
+      "good": false,
+      "why": "Sign-off protects crew and ship; a faked rush request can cause real harm."
     },
     {
       "id": "two-person-permit-sign-off",
-      "text": "Two-Person Permit Sign-Off",
+      "text": "Use two-person permit sign-off",
       "good": true,
-      "trick": true,
-      "note": "A second sign-off is a genuinely strong control, but only if that person actually checks the permit rather than approving because a colleague already did."
+      "why": "Two people checking makes it much harder for one tricked person to approve fraud."
     },
     {
       "id": "checked-po-on-dry-dock-invoice",
-      "text": "Checked PO On Dry-Dock Invoice",
+      "text": "Check the PO on dry-dock invoices",
       "good": true,
-      "trick": true,
-      "note": "Matching the PO confirms the invoice is for a real job, but it doesn't by itself prove new bank details are genuine — that still needs a callback."
+      "why": "A missing or wrong PO number quickly reveals a fake invoice."
     },
     {
       "id": "called-the-number-on-the-notice",
-      "text": "Called The Number On The Notice",
+      "text": "Call the number printed on a notice",
       "good": false,
-      "trick": true,
-      "note": "A number printed on a suspicious notice may not belong to the real authority — verify through your own known liaison or agent instead."
+      "why": "A scam notice's number connects you to the scammer, not the real authority."
     },
     {
       "id": "assumed-alert-was-real-because-it-looked-right",
-      "text": "Assumed Alert Was Real Because It Looked Right",
+      "text": "Trust an alert that looks right",
       "good": false,
-      "trick": true,
-      "note": "An internal tool's look and colours are easy to copy — a genuine alert never asks for your password through a link, however authentic it looks."
+      "why": "Scam alerts copy real logos and layouts, so looks alone prove nothing."
     }
   ]
 }

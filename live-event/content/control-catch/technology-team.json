@@ -13,132 +13,153 @@
   "bubbles": [
     {
       "id": "checked-ticket-in-real-queue",
-      "text": "Checked Ticket In Real Queue",
-      "good": true
+      "text": "Check the ticket in the real queue",
+      "good": true,
+      "why": "If a ticket isn't in the real queue, the request is likely a scam."
     },
     {
       "id": "trusted-ticket-number-alone",
-      "text": "Trusted Ticket Number Alone",
-      "good": false
+      "text": "Trust a ticket number alone",
+      "good": false,
+      "why": "Attackers can guess or quote ticket numbers; it doesn't prove who is calling."
     },
     {
       "id": "verified-caller-on-approved-contact-list",
-      "text": "Verified Caller On Approved Contact List",
-      "good": true
+      "text": "Verify callers on the approved list",
+      "good": true,
+      "why": "Checking the approved list exposes impostors pretending to be staff."
     },
     {
       "id": "opened-remote-access-for-unverified-caller",
-      "text": "Opened Remote Access For Unverified Caller",
-      "good": false
+      "text": "Give remote access to a caller",
+      "good": false,
+      "why": "Remote access lets an attacker take control of your computer and data."
     },
     {
       "id": "refused-to-skip-identity-verification",
-      "text": "Refused To Skip Identity Verification",
-      "good": true
+      "text": "Refuse to skip identity checks",
+      "good": true,
+      "why": "Identity checks stop attackers who pressure you into helping them."
     },
     {
       "id": "reset-password-without-verification",
-      "text": "Reset Password Without Verification",
-      "good": false
+      "text": "Reset a password without checking ID",
+      "good": false,
+      "why": "Unverified resets let attackers take over someone else's account."
     },
     {
       "id": "read-back-one-time-code-to-caller",
-      "text": "Read Back One-Time Code To Caller",
-      "good": false
+      "text": "Read a one-time code to a caller",
+      "good": false,
+      "why": "One-time codes are the last lock on an account; sharing one opens it."
     },
     {
       "id": "checked-mdm-profile-permissions-against-policy",
-      "text": "Checked MDM Profile Permissions Against Policy",
-      "good": true
+      "text": "Check MDM profile permissions",
+      "good": true,
+      "why": "Reviewing permissions shows if a profile would give someone control of the device."
     },
     {
       "id": "installed-mdm-profile-without-reading-permissions",
-      "text": "Installed MDM Profile Without Reading Permissions",
-      "good": false
+      "text": "Install an MDM profile unread",
+      "good": false,
+      "why": "A rogue profile can give attackers control over your device and data."
     },
     {
       "id": "confirmed-dlp-exception-in-system-of-record",
-      "text": "Confirmed DLP Exception In System Of Record",
-      "good": true
+      "text": "Confirm DLP exceptions in the system",
+      "good": true,
+      "why": "The official record proves an exception is real, not just claimed in an email."
     },
     {
       "id": "approved-dlp-exception-from-email-alone",
-      "text": "Approved DLP Exception From Email Alone",
-      "good": false
+      "text": "Approve a DLP exception by email",
+      "good": false,
+      "why": "Emails are easily faked, so approving this way can leak sensitive data."
     },
     {
       "id": "opened-github-directly-instead-of-link",
-      "text": "Opened GitHub Directly Instead Of Link",
-      "good": true
+      "text": "Open GitHub directly, not via links",
+      "good": true,
+      "why": "Typing the address avoids fake login pages that steal your account."
     },
     {
       "id": "clicked-re-authorize-link-in-pr-comment",
-      "text": "Clicked Re-Authorize Link In PR Comment",
-      "good": false
+      "text": "Click a re-authorize link in a PR",
+      "good": false,
+      "why": "Fake re-authorize links hand attackers access to your code account."
     },
     {
       "id": "checked-ci-dashboard-directly",
-      "text": "Checked CI Dashboard Directly",
-      "good": true
+      "text": "Check the CI dashboard directly",
+      "good": true,
+      "why": "Going straight to the dashboard avoids fake build alerts that steal logins."
     },
     {
       "id": "re-entered-git-token-via-email-link",
-      "text": "Re-Entered Git Token Via Email Link",
-      "good": false
+      "text": "Re-enter a Git token from an email link",
+      "good": false,
+      "why": "A token typed into a fake page lets attackers access your code."
     },
     {
       "id": "verified-recruiter-independently",
-      "text": "Verified Recruiter Independently",
-      "good": true
+      "text": "Verify recruiters independently",
+      "good": true,
+      "why": "Fake recruiters use job offers to get you to run harmful code or share data."
     },
     {
       "id": "ran-setup-script-from-unsolicited-outreach",
-      "text": "Ran Setup Script From Unsolicited Outreach",
-      "good": false
+      "text": "Run a script from a stranger's message",
+      "good": false,
+      "why": "Unrequested scripts can install malware that steals credentials and files."
     },
     {
       "id": "checked-app-publisher-before-authorizing",
-      "text": "Checked App Publisher Before Authorizing",
-      "good": true
+      "text": "Check an app's publisher first",
+      "good": true,
+      "why": "Rogue apps pose as real ones to gain access to your accounts."
     },
     {
       "id": "granted-admin-access-to-unknown-app",
-      "text": "Granted Admin Access To Unknown App",
-      "good": false
+      "text": "Give admin access to an unknown app",
+      "good": false,
+      "why": "An unknown app with admin rights can read or change all your company data."
     },
     {
       "id": "checked-official-marketplace-for-extension-update",
-      "text": "Checked Official Marketplace For Extension Update",
-      "good": true
+      "text": "Update extensions via the marketplace",
+      "good": true,
+      "why": "Genuine updates come from the official store; fake ones can carry malware."
     },
     {
       "id": "installed-ai-extension-from-link-outside-marketplace",
-      "text": "Installed AI Extension From Link Outside Marketplace",
-      "good": false
+      "text": "Install an extension from a link",
+      "good": false,
+      "why": "Extensions from outside the marketplace can secretly steal data."
     },
     {
       "id": "rotated-secrets-via-vault-ui-not-email",
-      "text": "Rotated Secrets Via Vault UI, Not Email",
-      "good": true
+      "text": "Rotate secrets in the vault, not email",
+      "good": true,
+      "why": "Emailed secrets can be read by anyone who gets into the mailbox."
     },
     {
       "id": "replied-with-env-values-by-email",
-      "text": "Replied With .env Values By Email",
-      "good": false
+      "text": "Email .env values in reply",
+      "good": false,
+      "why": "Environment files hold keys and passwords that attackers can reuse."
     },
     {
       "id": "asked-caller-for-ticket-reference-number",
-      "text": "Asked Caller For Ticket Reference Number",
+      "text": "Count a ticket number as verification",
       "good": false,
-      "trick": true,
-      "note": "An attacker can invent any reference number that sounds plausible — asking for one feels like a check but doesn't verify anything on its own."
+      "why": "A caller can quote or invent a ticket number, so it doesn't prove identity."
     },
     {
       "id": "rotated-password-on-normal-schedule",
-      "text": "Rotated A Password On The Normal Schedule",
+      "text": "Treat a routine reset as proof",
       "good": false,
-      "trick": true,
-      "note": "Scheduled rotation is good hygiene, but an exposed credential can't wait for the next cycle — exposure means instant rotation, not queued rotation."
+      "why": "A reset request that looks routine can still be an attacker's setup."
     }
   ]
 }

@@ -740,6 +740,8 @@ def _sanitize_item_for_participant(item: dict | None, active_module: str | None 
         is_submitted
         or (active_module == "clue-quest" and my_answer is not None)
         or (active_module == "pass-phrase" and item.get("kind") == "choose" and my_answer is not None)
+        # Fault-finding: a wrong answer must explain itself right away, not only after Submit.
+        or (active_module == "fault-finding" and my_answer is not None)
     ) and item.get("fact"):
         safe["fact"] = str(item.get("fact"))
         safe["revealed"] = True
@@ -2077,6 +2079,14 @@ button.pp-tile, button.pp-deck-tile{
   animation: cc-wobble 2.6s ease-in-out infinite;
 }
 .cc-hud-value.cc-lives-low{color:#fca5a5}
+.cc-hint strong{color:#0f172a}
+.cc-why{min-height:44px;margin:0 0 8px;padding:8px 12px;border-radius:10px;font-size:var(--fs-badge);line-height:1.4;text-align:left;border:1px solid transparent;color:#475569}
+.cc-why.good{background:#ecfdf5;border-color:#6ee7b7;color:#065f46}
+.cc-why.bad{background:#fef2f2;border-color:#fca5a5;color:#991b1b}
+.cc-review{margin-top:10px;text-align:left;font-size:var(--fs-badge);color:#7f1d1d}
+.cc-review h4{margin:0 0 6px;font-size:var(--fs-badge);color:#991b1b}
+.cc-review li{margin:0 0 6px;overflow-wrap:anywhere}
+.cc-takeaway{margin-top:10px;padding:10px 12px;border-radius:10px;background:#fff;border:1px solid #6ee7b7;text-align:left;font-size:var(--fs-badge);color:#065f46;line-height:1.45}
 .cc-mute-btn{width:38px;height:38px;font-size:var(--fs-body)}
 
 /* ==============================================================
@@ -2384,11 +2394,14 @@ img,svg{max-width:100%}
       <div class="cc-hud-stat"><span class="cc-hud-label">Time</span><span id="ccTimeVal" class="cc-hud-value">0:00</span></div>
       <button class="cc-mute-btn" id="ccMuteBtn" type="button" aria-label="Unmute sound"><i class="fa-solid fa-volume-xmark"></i></button>
     </div>
-    <div id="ccIntroHint" class="cc-hint">Tap the GOOD bubbles (real security habits). Let the BAD ones fall. Do not tap those. You have 3 lives. Watch the clock.</div>
+    <div id="ccIntroHint" class="cc-hint"><strong>How to play (90 seconds):</strong> tap bubbles that are GOOD security habits. Let BAD habits fall past - tapping one costs a life (you have 3). Missing a good bubble costs nothing.</div>
+    <div id="ccWhy" class="cc-why" role="status" aria-live="polite"></div>
     <div id="ccArena" class="cc-arena"></div>
     <div id="ccGameOverWrap" class="hidden" style="margin-top:14px;padding:14px;border-radius:12px;background:#ecfdf5;border:1px solid #6ee7b7;text-align:center">
       <div style="font-weight:800;color:#065f46;font-family:'Orbitron',sans-serif;letter-spacing:0.5px">GAME OVER - YOUR RESULT</div>
       <div id="ccGameOverStats" style="margin-top:8px;font-family:'Space Mono',monospace;font-size:var(--fs-badge);color:#065f46"> - </div>
+      <div id="ccReviewList" class="cc-review hidden"></div>
+      <div id="ccTakeaway" class="cc-takeaway hidden"></div>
       <div style="margin-top:8px;font-size:var(--fs-badge);color:#065f46">This is your own result. It is not shared or compared with others.</div>
       <button id="ccSubmitBtn" class="btn" style="background:#10b981;color:#052e16;width:100%;margin-top:12px" type="button"><i class="fa-solid fa-paper-plane"></i> Done - Submit My Score</button>
       <div id="ccSubmitMsg" class="adm-note" style="margin-top:6px"></div>
@@ -2403,6 +2416,7 @@ img,svg{max-width:100%}
     <div style="font-size:var(--fs-heading)">🎉</div>
     <h2>Activity Complete</h2>
     <p>Great work! Please wait for the host to choose the next activity. Same lab, no new QR needed.</p>
+    <div id="completeRemember" class="cc-takeaway hidden" style="text-align:left;margin:0 0 12px"></div>
     <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap">
       <span id="completeCount" class="badge">0 joined</span>
       <span id="completeModule" class="badge"> - </span>
@@ -2525,6 +2539,9 @@ const els = {
   ccTimeVal: document.getElementById('ccTimeVal'),
   ccMuteBtn: document.getElementById('ccMuteBtn'),
   ccIntroHint: document.getElementById('ccIntroHint'),
+  ccWhy: document.getElementById('ccWhy'),
+  ccReviewList: document.getElementById('ccReviewList'),
+  ccTakeaway: document.getElementById('ccTakeaway'),
   ccArena: document.getElementById('ccArena'),
   ccGameOverWrap: document.getElementById('ccGameOverWrap'),
   ccGameOverStats: document.getElementById('ccGameOverStats'),
@@ -2579,8 +2596,20 @@ function updateHeaderCount(n){
   if(els.completeCount) els.completeCount.textContent = n + ' joined';
   if(els.submittedCount) els.submittedCount.textContent = n + ' joined';
 }
+// Decision Room: the authored correct option is always B/C and usually the longest, so show each
+// participant a stable (seeded by participant + case) shuffled order. Feedback is keyed by option
+// id, so only the displayed letters change.
+function drOrderedOptions(item){
+  const seed = String(participantId||'') + '|' + String(item.id||item.caseId||'');
+  const h = (str)=>{ let x = 2166136261; for(let i=0;i<str.length;i++){ x ^= str.charCodeAt(i); x = Math.imul(x, 16777619); } return x>>>0; };
+  return (item.options||[]).slice().sort((a,b)=> h(seed+a.id) - h(seed+b.id));
+}
 function esc(s){ return String(s).replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
+// Keyboard / screen-reader support for Clue Quest's tap tiles (they are divs, not buttons).
+if(els.actMount) els.actMount.addEventListener('keydown', function(e){
+  if((e.key==='Enter' || e.key===' ') && e.target && e.target.matches && e.target.matches('.cq-option[data-answer-opt]')){ e.preventDefault(); e.target.click(); }
+});
 const PUBLIC_MAIL = new Set(__PUBLIC_MAIL_JSON__);
 async function doJoin(){
   const name = els.nameInput.value.trim();
@@ -2639,6 +2668,7 @@ async function submitAnswer(item, optionId){
   if(j.isCorrect!=null) item.myAnswerCorrect = j.isCorrect; // per-item feedback only - never a tally
   if(j.correctOptionId!=null) item.correctOptionId = j.correctOptionId; // revealed only now that this item is answered
   if(j.fact!=null){ item.fact = j.fact; item.revealed = !!j.revealed; } // clue-quest's immediate reveal - see session_respond
+  if(j.whatIsWrong!=null) item.whatIsWrong = j.whatIsWrong; // fault-finding's immediate explanation
   if(j.myOutcome!=null) item.myOutcome = j.myOutcome; // decision-room's immediate outcome+feedback - see session_respond
   if(j.myFeedback!=null) item.myFeedback = j.myFeedback;
   if(j.myDebrief!=null) item.myDebrief = j.myDebrief; // decision-room's case debrief, same reveal timing as myOutcome/myFeedback
@@ -3110,7 +3140,7 @@ function renderMythVsFact(item){
     : '';
   return '<div class="mf-card">'
     + (item.topic ? '<div class="mf-topic-tag">'+esc(item.topic)+'</div>' : '')
-    + '<div class="mf-myth-label" style="margin-top:10px">Myth</div>'
+    + '<div class="mf-myth-label" style="margin-top:10px">'+(picked!=null?'Myth':'Is this statement true or false?')+'</div>'
     + '<div class="mf-myth'+(picked!=null?' busted':'')+'">'+esc(item.prompt||'')+'</div>'
     + factWrap
     + '</div>'
@@ -3137,7 +3167,7 @@ function renderDecisionRoom(item){
   }
   const picked = item.myAnswer;
   html += '<div class="dr-scene"><div class="dr-prompt" style="margin:14px 0;color:var(--navy,#001a4d);font-weight:700">'+esc(item.prompt||'')+'</div>';
-  html += '<div class="dr-options">' + (item.options||[]).map((opt,idx)=>{
+  html += '<div class="dr-options">' + drOrderedOptions(item).map((opt,idx)=>{
     const letter = String.fromCharCode(65+idx);
     const sel = picked!=null && String(picked)===String(opt.id);
     // Once the chosen option's outcome is known, defer to console's real good/consequence
@@ -3203,7 +3233,9 @@ function renderClueQuest(item){
   const picked = item.myAnswer;
   const answered = picked!=null;
   const timedOut = !!item._cqTimedOut;
-  const locked = answered || timedOut;
+  // Time-up no longer locks the riddle: the server only reveals the answer + explanation after a
+  // pick, so locking meant a timed-out learner learned nothing. They can still choose and see why.
+  const locked = answered;
   // Shuffle once per riddle and cache on the item - recomputing on every render (which
   // renderActivityItem does right after a tap, to reflect the new answer state) made the
   // options visibly reorder under the participant's thumb the instant they picked one.
@@ -3213,10 +3245,10 @@ function renderClueQuest(item){
   let feedbackHtml = '';
   if(answered && correctId!=null){
     feedbackHtml = item.myAnswerCorrect
-      ? '<div class="cq-feedback show correct">✓ Correct - '+esc(item.fact||'')+'</div>'
-      : '<div class="cq-feedback show incorrect">✗ Not quite - correct is '+esc(item.fact||'')+'</div>';
+      ? '<div class="cq-feedback show correct" role="status">✓ Correct - '+esc(item.fact||'')+'</div>'
+      : '<div class="cq-feedback show incorrect" role="status">✗ Not quite - correct is '+esc(item.fact||'')+'</div>';
   } else if(timedOut){
-    feedbackHtml = '<div class="cq-feedback show timeout">Time up - no answer locked in this round</div>';
+    feedbackHtml = '<div class="cq-feedback show timeout" role="status">Time is up - you can still choose an answer to see the explanation.</div>';
   }
   const showTimer = !answered && !timedOut;
   return '<div class="cq-riddle-card"><div class="cq-riddle-text">'+esc(item.prompt||'')+'</div>'
@@ -3229,7 +3261,7 @@ function renderClueQuest(item){
         const cls = ['cq-option']; if(sel) cls.push('picked');
         if(locked && correctId!=null){ if(isCorrectOpt) cls.push('correct'); else if(sel) cls.push('incorrect'); }
         const tapAttr = locked ? '' : ' data-answer-opt="'+esc(opt.id)+'"';
-        return '<div class="'+cls.join(' ')+'"'+tapAttr+'><span class="cq-opt-num">'+(idx+1)+'</span>'+esc(opt.text)+'</div>';
+        return '<div class="'+cls.join(' ')+'"'+tapAttr+(locked?' aria-disabled="true"':' role="button" tabindex="0"')+'><span class="cq-opt-num">'+(idx+1)+'</span>'+esc(opt.text)+'</div>';
       }).join('') + '</div>'
     + feedbackHtml;
 }
@@ -3830,6 +3862,9 @@ function cwShowWrapUp(){
   }
 }
 function cwReveal(){
+  if(cwRevealed) return;
+  if(!window.confirm('Reveal all answers? This ends the puzzle and your revealed answers will not count as your own correct answers.')) return;
+  cwFrozenCorrect=computeCwProgress().correct;   // only what the learner solved themselves
   cwRevealed=true;
   cwCells.forEach(cell=>{
     cell.input.value=cell.solution;
@@ -3843,6 +3878,7 @@ function cwReveal(){
   scheduleCwProgress();
   setTimeout(sendCwProgress, 200);
 }
+let cwFrozenCorrect=0;
 function computeCwProgress(){
   const total=cwWords.length||0;
   if(!total) return {filled:0,total:0,correct:0};
@@ -3867,7 +3903,7 @@ function computeCwProgress(){
     }
     if(ok) correct++;
   }
-  return {filled,total,correct};
+  return {filled,total,correct: cwRevealed ? cwFrozenCorrect : correct};
 }
 async function sendCwProgress(){
   if(cwIsSubmitted) return;
@@ -3938,6 +3974,8 @@ let ccContent = null;
 let ccBubbles = [];       // [{el, bubble}] currently on screen
 let ccScore = 0;          // good bubbles popped - this participant's own score, never synced from anyone else
 let ccBadPops = 0;
+let ccWrongTaps = new Map();   // id -> bubble for BAD bubbles the participant tapped (shown on game over)
+let ccWhyTimer = null;
 let ccLives = 3;
 let ccGameOver = false;
 let ccStartTs = 0;
@@ -4113,6 +4151,14 @@ function ccSpawnBurstRing(el, good){
   setTimeout(()=>ring.remove(), CC_RING_REMOVE_MS);
 }
 
+function ccShowWhy(bubble){
+  if(!els.ccWhy || !bubble.why) return;
+  els.ccWhy.className = 'cc-why ' + (bubble.good ? 'good' : 'bad');
+  els.ccWhy.textContent = (bubble.good ? 'Good catch: ' : 'Not quite - that is a bad habit: ') + bubble.text + '. ' + bubble.why;
+  if(ccWhyTimer) clearTimeout(ccWhyTimer);
+  ccWhyTimer = setTimeout(()=>{ if(els.ccWhy){ els.ccWhy.className = 'cc-why'; els.ccWhy.textContent = ''; } }, 4500);
+}
+
 function ccPopBubble(el, bubble){
   if(ccGameOver) return;
   if(el.dataset.resolved==='1') return;
@@ -4130,8 +4176,10 @@ function ccPopBubble(el, bubble){
   } else {
     ccBadPops++;
     ccLives = Math.max(0, ccLives-1);
+    ccWrongTaps.set(bubble.id, bubble);
     el.classList.add('cc-pop-bad');
   }
+  ccShowWhy(bubble);
   ccUpdateHud();
   scheduleCcProgress();
   setTimeout(()=>{ el.remove(); ccBubbles = ccBubbles.filter(b=>b.el!==el); }, CC_POP_REMOVE_MS);
@@ -4222,6 +4270,22 @@ function ccEndGame(){
   if(els.ccGameOverStats){
     els.ccGameOverStats.textContent = ccScore + ' good caught · ' + ccBadPops + ' bad popped · ' + ccLives + '/3 lives left · survived ' + ccFormatClock(survivedMs);
   }
+  if(els.ccReviewList){
+    els.ccReviewList.textContent = '';
+    if(ccWrongTaps.size){
+      const h = document.createElement('h4'); h.textContent = 'Habits to rethink (you tapped these):';
+      const ul = document.createElement('ul'); ul.style.paddingLeft = '18px'; ul.style.margin = '0';
+      ccWrongTaps.forEach(b=>{ const li = document.createElement('li'); li.textContent = b.text + (b.why ? ' - ' + b.why : ''); ul.appendChild(li); });
+      els.ccReviewList.append(h, ul);
+      els.ccReviewList.classList.remove('hidden');
+    } else { els.ccReviewList.classList.add('hidden'); }
+  }
+  if(els.ccTakeaway){
+    const t = ccContent && ccContent.rememberThis;
+    els.ccTakeaway.textContent = t ? 'Remember: ' + t : '';
+    els.ccTakeaway.classList.toggle('hidden', !t);
+  }
+  if(els.ccWhy){ els.ccWhy.className = 'cc-why'; els.ccWhy.textContent = ''; }
   if(els.ccGameOverWrap) els.ccGameOverWrap.classList.remove('hidden');
   if(els.ccIntroHint) els.ccIntroHint.classList.add('hidden');
   sendCcProgress(true);
@@ -4264,7 +4328,7 @@ function ccStopGame(){
 async function ensureControlCatch(){
   if(ccInitialized) return;
   ccInitialized = true;
-  ccScore = 0; ccBadPops = 0; ccLives = 3; ccGameOver = false; ccFinalResult = null;
+  ccScore = 0; ccBadPops = 0; ccLives = 3; ccGameOver = false; ccFinalResult = null; ccWrongTaps = new Map();
   ccBubbles = []; ccLastSentProgress = null; ccScoredIds = new Set();
   if(els.ccGameOverWrap) els.ccGameOverWrap.classList.add('hidden');
   if(els.ccIntroHint) els.ccIntroHint.classList.remove('hidden');
@@ -4456,6 +4520,8 @@ async function fetchState(){
       ccStopGame();
       showScreen('complete');
       if(els.completeModule) els.completeModule.textContent = displayName;
+      const _cr = document.getElementById('completeRemember');
+      if(_cr){ _cr.textContent = lastRememberThis ? 'Remember: ' + lastRememberThis : ''; _cr.classList.toggle('hidden', !lastRememberThis); }
       return;
     }
     // Idle - host has returned to the picker after completion, next activity not chosen yet.
@@ -4961,6 +5027,13 @@ def session_respond(code):
     if sess.get("activeModule") == "clue-quest" and target_item.get("fact"):
         resp["fact"] = str(target_item.get("fact"))
         resp["revealed"] = True
+    # Fault-finding explains "what is wrong / why suspicious" the instant the answer lands
+    # (matching the carve-out in _sanitize_item_for_participant).
+    if sess.get("activeModule") == "fault-finding" and target_item.get("fact"):
+        resp["fact"] = str(target_item.get("fact"))
+        resp["revealed"] = True
+        if target_item.get("whatIsWrong"):
+            resp["whatIsWrong"] = str(target_item.get("whatIsWrong"))
     # Pass-phrase's Choose phase reveals all 4 options' verdict+reason the instant the tap
     # lands, same "the tap itself waits on this" reasoning as clue-quest above - see the
     # matching carve-out in _sanitize_item_for_participant.

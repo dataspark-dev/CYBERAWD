@@ -43,11 +43,15 @@
   // bad terms retired too, the pool would run dry well before a 90s round ends. Reset fresh
   // every startRound() call so a new round always has the full 28-term pool again.
   let scoredIds = new Set();
+  let wrongTaps = new Map();   // BAD bubbles the player tapped - listed with reasons on game over
+  let whyTimer = null;
 
   const els = {
     scoreVal: document.getElementById('ccScoreVal'),
     livesVal: document.getElementById('ccLivesVal'),
     hint: document.getElementById('ccHint'),
+    why: document.getElementById('ccWhy'),
+    reviewList: document.getElementById('ccReviewList'),
     arena: document.getElementById('ccArena'),
     gameOverWrap: document.getElementById('ccGameOverWrap'),
     gameOverStats: document.getElementById('ccGameOverStats'),
@@ -216,6 +220,14 @@
     setTimeout(() => ring.remove(), CC_RING_REMOVE_MS);
   }
 
+  function showWhy(bubble) {
+    if (!els.why || !bubble.why) return;
+    els.why.className = 'cc-console-why ' + (bubble.good ? 'good' : 'bad');
+    els.why.textContent = (bubble.good ? 'Good catch: ' : 'Not quite - that is a bad habit: ') + bubble.text + '. ' + bubble.why;
+    if (whyTimer) clearTimeout(whyTimer);
+    whyTimer = setTimeout(() => { if (els.why) { els.why.className = 'cc-console-why'; els.why.textContent = ''; } }, 5000);
+  }
+
   function popBubble(el, bubble) {
     if (gameOver) return;
     if (el.dataset.resolved === '1') return;
@@ -233,8 +245,10 @@
     } else {
       badPops++;
       lives = Math.max(0, lives - 1);
+      wrongTaps.set(bubble.id, bubble);
       el.classList.add('cc-pop-bad');
     }
+    showWhy(bubble);
     updateHud();
     setTimeout(() => { el.remove(); bubbles = bubbles.filter(b => b.el !== el); }, CC_POP_REMOVE_MS);
     if (lives <= 0) endGame();
@@ -314,6 +328,17 @@
     if (els.gameOverStats) {
       els.gameOverStats.textContent = score + ' good caught' + (totalGood ? ' (' + pct + '% of ' + totalGood + ' types)' : '') + ' · ' + badPops + ' bad popped · ' + lives + '/3 lives left · survived ' + formatClock(survivedMs);
     }
+    if (els.reviewList) {
+      els.reviewList.textContent = '';
+      if (wrongTaps.size) {
+        const h = document.createElement('div'); h.className = 'cc-console-review-title'; h.textContent = 'Habits to rethink (tapped by mistake):';
+        const ul = document.createElement('ul');
+        wrongTaps.forEach((b) => { const li = document.createElement('li'); li.textContent = b.text + (b.why ? ' - ' + b.why : ''); ul.appendChild(li); });
+        els.reviewList.append(h, ul);
+        els.reviewList.classList.remove('le-hidden');
+      } else { els.reviewList.classList.add('le-hidden'); }
+    }
+    if (els.why) { els.why.className = 'cc-console-why'; els.why.textContent = ''; }
     if (els.gameOverWrap) els.gameOverWrap.classList.remove('le-hidden');
     if (els.hint) els.hint.classList.add('le-hidden');
     if (els.restartBtn) els.restartBtn.classList.add('pulse-highlight');
@@ -330,6 +355,7 @@
     els.arena.innerHTML = '';
     bubbles = [];
     scoredIds = new Set();
+    wrongTaps = new Map();
     score = 0; badPops = 0; lives = 3; gameOver = false;
     if (els.gameOverWrap) els.gameOverWrap.classList.add('le-hidden');
     if (els.hint) els.hint.classList.remove('le-hidden');
