@@ -2247,7 +2247,7 @@ img,svg{max-width:100%}
     <label for="nameInput" class="fl">Full name <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
     <input id="nameInput" type="text" class="input" placeholder="Your full name" autocomplete="name" autocapitalize="words" enterkeyhint="next" required aria-required="true" aria-describedby="joinHint joinErr" maxlength="40"/>
     <label for="contactInput" class="fl">Contact number <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
-    <input id="contactInput" type="tel" inputmode="tel" class="input" placeholder="e.g. +91 98765 43210" autocomplete="tel" enterkeyhint="next" required aria-required="true" aria-describedby="joinHint joinErr" maxlength="20"/>
+    <input id="contactInput" type="tel" inputmode="tel" class="input" placeholder="e.g. +91 94280 61537" autocomplete="tel" enterkeyhint="next" required aria-required="true" aria-describedby="joinHint joinErr" maxlength="20"/>
     <label for="roleInput" class="fl">Role / occupation</label>
     <input id="roleInput" type="text" class="input" placeholder="e.g. Accountant, Engineer" autocomplete="organization-title" autocapitalize="words" enterkeyhint="next" maxlength="60"/>
     <label for="emailInput" class="fl">Company email ID <span class="req" aria-hidden="true">*</span><span class="sr"> (required)</span></label>
@@ -2619,7 +2619,7 @@ async function doJoin(){
   const role = document.getElementById('roleInput').value.trim();
   const email = document.getElementById('emailInput').value.trim();
   const company = document.getElementById('companyInput').value.trim();
-  if(!/^[+]?[0-9][0-9 ()-]{5,18}[0-9]$/.test(contact)){ showErr('Please enter a valid contact number, for example 98765 43210'); document.getElementById('contactInput').focus(); return; }
+  if(!/^[+]?[0-9][0-9 ()-]{5,18}[0-9]$/.test(contact)){ showErr('Please enter a valid contact number, for example 94280 61537'); document.getElementById('contactInput').focus(); return; }
   if(!/^[^@ ]+@[^@ ]+[.][^@ ]+$/.test(email)){ showErr('Please enter a valid company email ID, for example name@company.com'); document.getElementById('emailInput').focus(); return; }
   if(PUBLIC_MAIL.has(email.split('@').pop().toLowerCase())){ showErr('Personal email (Gmail, Yahoo, Outlook etc.) is not accepted. Please use your company email ID.'); document.getElementById('emailInput').focus(); return; }
   els.joinBtn.disabled = true;
@@ -2631,7 +2631,7 @@ async function doJoin(){
     const j = await r.json().catch(()=>({}));
     if(!r.ok){
       if(j.error === 'room not found') throw new Error('This session has ended or the lab code is wrong. Please check with the host or ask for a new QR.');
-      throw new Error('Could not join - please try again.');
+      throw new Error(j.message || 'Could not join - please try again.');
     }
     participantId = j.participantId;
     participantName = name;
@@ -4597,6 +4597,7 @@ def _log_participant(code, pid, meta):
 
 def _read_participant_log(room=None):
     rows = []
+    seen = set()   # one row per person per lab (same email, else same phone)
     try:
         with open(PARTICIPANTS_FILE, "r", encoding="utf-8") as fh:
             for line in fh:
@@ -4605,6 +4606,10 @@ def _read_participant_log(room=None):
                 except ValueError:
                     continue
                 if isinstance(r, dict) and (not room or r.get("roomCode") == room):
+                    key = (r.get("roomCode"), (r.get("email") or "").lower() or _norm_phone(r.get("contact")))
+                    if key[1] and key in seen:
+                        continue
+                    seen.add(key)
                     rows.append(r)
     except FileNotFoundError:
         pass
@@ -4638,6 +4643,62 @@ def admin_all_participants():
                     headers={"Content-Disposition": f"attachment; filename={fname}"})
 
 
+# --- Participant detail validation + duplicate handling -------------------------------------
+_JOIN_LOCK = __import__("threading").Lock()   # check-then-create must be atomic (4 gunicorn threads)
+_JUNK_WORDS = {"asdf", "asdfgh", "qwerty", "qwe", "test", "testing", "abc", "abcd", "xyz", "xxx", "none", "na", "nil",
+               "unknown", "admin", "user", "name", "demo", "sample", "dummy", "fake", "temp", "nobody", "noname"}
+_RESERVED_EMAIL_DOMAINS = {"example.com", "example.org", "example.net", "test.com", "domain.com", "email.com",
+                           "company.com", "yourcompany.com", "mycompany.com", "localhost", "acme.com"}
+
+
+def _norm_phone(contact):
+    """Digits only, compared on the last 10 so '+91 94280 61537' == '98765-43210'."""
+    d = re.sub(r"\D", "", contact or "")
+    return d[-10:] if len(d) > 10 else d
+
+
+def _longest_digit_run(digits):
+    """Longest run of consecutive ascending (1234567) or descending (7654321) digits."""
+    best = run_up = run_dn = 1
+    for a, b in zip(digits, digits[1:]):
+        run_up = run_up + 1 if int(b) - int(a) == 1 else 1
+        run_dn = run_dn + 1 if int(a) - int(b) == 1 else 1
+        best = max(best, run_up, run_dn)
+    return best
+
+
+def _looks_like_junk(text):
+    t = re.sub(r"[^a-z]", "", (text or "").lower())
+    return t in _JUNK_WORDS or bool(re.search(r"(.){3,}", t)) or (len(t) >= 4 and not re.search(r"[aeiouy]", t))
+
+
+def _validate_participant(name, contact, role, email, company):
+    """Return (clean_dict, None) or (None, (code, human message)). Server-side source of truth."""
+    name = re.sub(r"\s+", " ", name or "").strip()
+    letters = re.sub(r"[^A-Za-zÀ-ɏऀ-෿]", "", name)
+    if not re.fullmatch(r"[^\W\d_]+(?:[ .'\-][^\W\d_]+)*\.?", name) or len(letters) < 2:
+        return None, ("invalid name", "Please enter your real name using letters only (no numbers or symbols).")
+    if _looks_like_junk(name):
+        return None, ("invalid name", "That doesn't look like a real name. Please enter your full name.")
+    digits = re.sub(r"\D", "", contact or "")
+    if not re.fullmatch(r"\+?[0-9][0-9 ()\-]{5,18}[0-9]", contact or "") or not 8 <= len(digits) <= 15:
+        return None, ("invalid contact", "Please enter a valid contact number, for example +91 94280 61537.")
+    if len(set(digits)) <= 2 or _longest_digit_run(digits) >= 7:
+        return None, ("invalid contact", "That contact number doesn't look real. Please enter your own number.")
+    email = (email or "").strip().lower()
+    if not re.fullmatch(r"[a-z0-9._%+\-]+@[a-z0-9\-]+(?:\.[a-z0-9\-]+)*\.[a-z]{2,}", email):
+        return None, ("invalid email", "Please enter a valid company email ID, for example name@company.com.")
+    local, domain = email.rsplit("@", 1)
+    if domain in PUBLIC_EMAIL_DOMAINS:
+        return None, ("company email required", "Personal email (Gmail, Yahoo, Outlook etc.) is not accepted. Please use your company email ID.")
+    if domain in _RESERVED_EMAIL_DOMAINS or len(local) < 2 or _looks_like_junk(local) and len(local) < 5:
+        return None, ("invalid email", "That email looks like a placeholder. Please use your own company email ID.")
+    for label, val in (("role", role), ("company", company)):
+        if val and (len(re.sub(r"[^A-Za-zÀ-ɏ]", "", val)) < 2 or _looks_like_junk(val)):
+            return None, ("invalid " + label, "Please enter a valid " + ("role / occupation" if label == "role" else "company name") + " or leave it blank.")
+    return {"name": name, "contact": contact.strip(), "role": role, "email": email, "company": company}, None
+
+
 @app.route("/api/session/<code>/join", methods=["POST"])
 @limiter.limit("30/minute")
 @persist_after
@@ -4668,22 +4729,30 @@ def session_join(code):
     role = _field("role", 60)
     email = _field("email", 100)
     company = _field("company", 80)
-    if not re.fullmatch(r"\+?[0-9][0-9 ()\-]{5,18}[0-9]", contact):
-        return jsonify({"error": "valid contact number required"}), 400
-    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
-        return jsonify({"error": "valid company email required"}), 400
-    if email.rsplit("@", 1)[1].lower() in PUBLIC_EMAIL_DOMAINS:
-        return jsonify({"error": "company email required"}), 400
-    pid = _gen_id("p_")
-    # Ensure uniqueness (very low collision)
-    while pid in sess["participants"]:
+    clean, err = _validate_participant(name, contact, role, email, company)
+    if err:
+        return jsonify({"error": err[0], "message": err[1]}), 400
+    name, contact, role, email, company = clean["name"], clean["contact"], clean["role"], clean["email"], clean["company"]
+    with _JOIN_LOCK:   # atomic check-then-create: simultaneous taps can never both create an entry
+        meta_all = sess["participantMeta"]
+        same_email = [q for q, m in meta_all.items() if (m.get("email") or "").lower() == email]
+        same_phone = [q for q, m in meta_all.items() if _norm_phone(m.get("contact")) == _norm_phone(contact)]
+        both = [q for q in same_email if q in same_phone]
+        if both:   # same person coming back: resume their own entry, record nothing new
+            existing = both[0]
+            return jsonify({"participantId": existing, "roomCode": code, "name": sess["participants"].get(existing, name), "rejoined": True})
+        if same_email or same_phone:
+            return jsonify({"error": "already registered",
+                            "message": "This email or contact number is already registered in this lab with different details. Please use the same email and number you joined with."}), 409
         pid = _gen_id("p_")
-    sess["participants"][pid] = name
-    sess["participantMeta"][pid] = {
-        "name": name, "contact": contact, "role": role, "email": email, "company": company,
-        "joinedAt": datetime.now(timezone.utc).isoformat(),
-    }
-    _log_participant(code, pid, sess["participantMeta"][pid])
+        while pid in sess["participants"]:
+            pid = _gen_id("p_")
+        sess["participants"][pid] = name
+        sess["participantMeta"][pid] = {
+            "name": name, "contact": contact, "role": role, "email": email, "company": company,
+            "joinedAt": datetime.now(timezone.utc).isoformat(),
+        }
+        _log_participant(code, pid, sess["participantMeta"][pid])
     return jsonify({"participantId": pid, "roomCode": code, "name": name})
 
 
